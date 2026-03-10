@@ -35,8 +35,7 @@ class QuantumOptimizedPrism(QCAlgorithm):
     
         assert self.volatility_low < self.volatility_high 
     
-        self.SetStartDate(2020, 1, 1)
-        self.SetCash(2000)
+        self.SetStartDate(2015, 1, 1)
         
         self.sym = self.AddEquity("TQQQ", Resolution.Minute).Symbol
         
