@@ -1,0 +1,53 @@
+// © dave322942780
+
+//@version=5
+strategy("Reversion", overlay=true, currency='USD', max_boxes_count=500, default_qty_value=100000, default_qty_type = strategy.cash)
+
+
+// AUDNZD, AUDCAD, NZDCAD, EURGBP, EURCAD, EURAUD
+qty = input.float(0.15)
+rsiBound = input.int(35)
+profit = input.int(50)
+loss = input.int(200)
+positionOpen = input.int(1000)
+closeAll = input.int(1640)
+tradeSess = not na(time('', input.session('1400-1600')))
+
+var magicNumber = 000003
+var multi = 100000
+rsi = ta.rsi(close, 14) // request.security(syminfo.tickerid, '5', ta.rsi(close, 14))
+new_day = strategy.closedtrades == 0 or dayofmonth(strategy.closedtrades.exit_time(strategy.closedtrades - 1)) != dayofmonth
+if tradeSess and rsi < rsiBound and strategy.position_size == 0 and new_day
+    alert(str.format("Long {0} P={1} TP={2} SL={3} Q={4} M={5}", syminfo.ticker, str.tostring(close), str.tostring(profit), str.tostring(loss), str.tostring(qty), str.tostring(magicNumber)))
+    strategy.entry('long', strategy.long, qty=qty * multi)
+    strategy.exit('exit_long', 'long', loss=loss, profit=profit)
+else if tradeSess and rsi > 100 - rsiBound and strategy.position_size == 0 and new_day
+    alert(str.format("Short {0} P={1} TP={2} SL={3} Q={4} M={5}", syminfo.ticker, str.tostring(close), str.tostring(profit), str.tostring(loss), str.tostring(qty), str.tostring(magicNumber)))
+    strategy.entry('short', strategy.short, qty=qty * multi)
+    strategy.exit('exit_short', 'short', loss=loss, profit=profit)
+
+
+
+minutesPassed = (bar_index - strategy.opentrades.entry_bar_index(strategy.opentrades - 1)) * timeframe.multiplier
+if strategy.position_size != 0 and minutesPassed > positionOpen
+    alert(str.format("Close {0} M={1}", syminfo.ticker, str.tostring(magicNumber)))
+    strategy.close_all()
+
+eod = (hour >= (math.floor(closeAll / 100)) and (minute >= closeAll % 30)) or hour > (math.floor(closeAll / 100))
+// bgcolor(not eod[1] and eod ? color.white : na)
+if not eod[1] and eod
+    alert(str.format("Close {0} M={1}", syminfo.ticker, str.tostring(magicNumber)))
+    strategy.close_all()
+
+if ta.change(strategy.opentrades)[1] > 0
+    alert(str.format("Cancel {0} M={1}", syminfo.ticker, str.tostring(magicNumber)))
+
+size = strategy.position_size
+if size[2] != 0 and size[1] == 0
+    last = strategy.closedtrades - 1
+    left = strategy.closedtrades.entry_bar_index(last)
+    right = strategy.closedtrades.exit_bar_index(last)
+    price = strategy.closedtrades.entry_price(last)
+    price2 = strategy.closedtrades.exit_price(last)
+    win = strategy.closedtrades.profit(last) > 0
+    box.new(left, price, right, price2, bgcolor=color.new(win ? color.green : color.red, 80), border_width=0)

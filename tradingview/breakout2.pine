@@ -1,0 +1,66 @@
+// © dave322942780
+
+//@version=5
+strategy("Breakout2", overlay=true, max_boxes_count = 500)
+inRange(t) => not na(time('', t))
+
+ticker = input.string('NASUSD')
+qty = input.float(0.01)
+premarket = inRange(input.session("0830-0930"))
+closeAll = 1530
+orderSess = inRange(input.session("0930-1300"))
+loss = input.int(250)
+premarketRange = input.int(100)
+
+var magicNumber = 000001
+
+var hi = 0.
+var lo = 0.
+var bar = 0
+var withinBound = false
+var done = true
+if not premarket[1] and premarket
+    hi := high
+    lo := low
+    bar := 1
+    done := false
+else if premarket
+    hi := math.max(high, hi)
+    lo := math.min(low, lo)
+    bar := bar + 1
+else if premarket[1] and not premarket
+    withinBound := hi - lo < premarketRange
+    box.new(bar_index - bar, hi, bar_index, lo, bgcolor=color.new(color.white, 80), border_color = withinBound ? color.orange : color.white )
+
+
+if orderSess and close > hi and not done and withinBound
+    done := true
+    alert(str.format("Long {0} P={1} SL={2} Q={3} M={4}", ticker, str.tostring(close), str.tostring(loss), str.tostring(qty), str.tostring(magicNumber)))
+    strategy.entry('long', strategy.long, qty=qty * 10)
+    strategy.exit('exit_l', 'long', loss=loss)
+else if orderSess and close < lo
+    done := true
+
+
+eod = (hour >= (math.floor(closeAll / 100)) and (minute >= closeAll % 30)) or hour > (math.floor(closeAll / 100))
+// bgcolor(not eod[1] and eod ? color.white : na)
+if not eod[1] and eod
+    alert(str.format("Close {0} M={1}", ticker, str.tostring(magicNumber)))
+    strategy.close_all()
+
+if ta.change(strategy.opentrades)[1] > 0
+    alert(str.format("Cancel {0} M={1}", ticker, str.tostring(magicNumber)))
+
+
+// ================================================================
+
+
+size = strategy.position_size
+if size[2] != 0 and size[1] == 0
+    last = strategy.closedtrades - 1
+    left = strategy.closedtrades.entry_bar_index(last)
+    right = strategy.closedtrades.exit_bar_index(last)
+    price = strategy.closedtrades.entry_price(last)
+    price2 = strategy.closedtrades.exit_price(last)
+    win = strategy.closedtrades.profit(last) > 0
+    box.new(left, price, right, price2, bgcolor=color.new(win ? color.green : color.red, 80), border_width=0)

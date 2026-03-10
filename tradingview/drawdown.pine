@@ -1,0 +1,219 @@
+//@version=5
+indicator("Drawdown", overlay=true)
+
+chart = input.bool(true)
+show_drawdown = input.bool(false)
+show_days = input.bool(true)
+years = input.int(10)
+
+
+
+var start_time = timestamp(year(timenow)-years, month(timenow), dayofmonth(timenow))
+var labelColor = color.gray
+var labelTextCol = color.white
+var col = color(na)
+
+
+
+
+// // Debug
+// var lbl = label.new(0, 0, '')
+// lbl.set_xy(bar_index, close)
+
+
+
+// =====================================================================================
+
+var ath = high
+ath := time >= start_time ? math.max(high, ath) : -1
+
+
+var begin = time(na)
+
+var do_plot = false
+var max_dd = -1.
+dd = (ath - low) / ath * 100.
+
+var last_ath = bar_index
+if ath == high
+    last_ath := bar_index
+
+if dd >= 5 and not do_plot
+    do_plot := time >= start_time
+    begin := last_ath
+
+
+if do_plot
+    max_dd := math.max(max_dd, dd)
+
+// =====================================================================================
+
+var keys = array.new_string()
+var values = array.new_int()
+
+getIndex(key) =>
+    keys.indexof(key)
+
+setKeyValue(key, value) =>
+    index = getIndex(key)
+    if index == -1
+        keys.push(key)
+        values.push(value)
+    else
+        values.set(index, value)
+
+getValue(key) =>
+    index = getIndex(key)
+    if index == -1
+        na
+    else
+        values.get(index)
+
+if barstate.isfirst
+    for i = 1 to 20
+        setKeyValue(str.tostring(i * 5) + '-' + str.tostring(i * 5 + 5), 0)
+
+get_range(cur_dd) =>
+    lower = math.floor(cur_dd) - (math.floor(cur_dd) % 5)
+    str.tostring(lower) + "-" + str.tostring(lower + 5)
+
+
+incr(cur_dd) =>
+    if cur_dd >= 5
+        lower = math.floor(cur_dd) - (math.floor(cur_dd) % 5)
+        key = str.tostring(lower) + "-" + str.tostring(lower + 5)
+        setKeyValue(key, getValue(key) + 1)
+    0.
+
+dd_duration = str.tostring(bar_index - begin) + '.' + timeframe.period
+if ath == high and do_plot
+    if show_drawdown
+        label.new(math.floor((begin + bar_index) / 2), ath[1],
+         str.tostring(math.round(max_dd)) + "%" + (show_days ? ", " + dd_duration : ""),
+         color = color.orange, textcolor = color.white, size=size.normal)
+        line.new(begin, ath[1], bar_index, ath[1], color = color.orange, width = 2)
+    do_plot := false
+    if max_dd > 5
+        key = get_range(max_dd)
+        setKeyValue(key, getValue(key) + 1)
+    max_dd := -1
+
+
+
+// =====================================================================================
+
+var num_yrs = 10
+var table t2 = table.new(chart ? position.top_right : position.middle_left, num_yrs + 1, 10,
+ bgcolor = color.white, border_color = color.black, border_width = 2)
+
+set_label(tbl, x, y, txt) =>
+    tbl.cell(x, y, txt, bgcolor = labelColor, text_color = labelTextCol)
+
+set_label(t2, 0, 0, '')
+set_label(t2, 0, 1, 'Annual gain')
+set_label(t2, 0, 2, 'Total gain')
+set_label(t2, 0, 3, 'Compound gain')
+
+
+var t_days = 252
+
+yrs = array.new_float()
+consistency = 0
+for i=1 to num_yrs
+    nth_price = close[i * t_days]
+    yrs.push((close - nth_price) / nth_price * 100)
+
+perc_str(perc) =>
+    str.format(perc >= 0 or na(perc) ? "{0,number,#,###}%" : "({0,number,#,###})%", perc)
+
+
+gain_score = 0
+for i=0 to num_yrs - 1
+    t2.cell(i + 1, 0, 'Year ' + str.tostring(i + 1), bgcolor = labelColor, text_color = labelTextCol)
+
+    year_gain = (close[i * t_days] - close[(i + 1) * t_days]) / close[(i + 1) * t_days] * 100
+    col := year_gain >= 0 or na(year_gain) ? color.green : color.red
+    t2.cell(i + 1, 1, perc_str(year_gain),
+     text_color = col, bgcolor = year_gain < 5 ? color.new(color.orange, 80) : color.white)
+    if year_gain >= 5
+        consistency += 1
+
+    gain = yrs.get(i)
+    col := gain >= 0 or na(gain) ? color.green : color.red
+    t2.cell(i + 1, 2, perc_str(gain), text_color = col)
+
+    compound = (math.pow((1 + gain / 100.0), (1 / (i + 1))) - 1) * 100
+    if compound >= 20
+        t2.cell(i + 1, 3, perc_str(compound), text_color = col, bgcolor=color.new(color.green, 80))
+        gain_score := gain_score + 1
+    else
+        t2.cell(i + 1, 3, perc_str(compound), text_color = col)
+
+
+// =====================================================================================
+
+var offset = 10
+var table t = table.new(chart ? position.middle_left : position.middle_right, 2,
+ keys.size() + offset, bgcolor = color.white, border_color = color.black, border_width = 2)
+
+
+set_label(t, 0, offset - 1, 'Drawdown(%)')
+set_label(t, 1, offset - 1, 'Count(#)')
+
+var first = true
+first := true
+
+
+
+addRow(idx, key, val, col=color.white) =>
+    t.cell(0, idx, key, bgcolor = color.aqua, text_color = labelTextCol)
+    t.cell(1, idx, str.tostring(val), bgcolor=col)
+
+var max_dd_all = ''
+for i = 0 to keys.size() - 1
+    col := color.white
+
+    count = values.get(i)
+    if keys.get(i) == get_range(max_dd)
+        count := count + 1
+
+    if count > 0
+        t.cell(0, i + offset, keys.get(i) + '%', bgcolor = col)
+        t.cell(1, i + offset, str.tostring(count), bgcolor = col)
+        max_dd_all := keys.get(i)
+    else
+        t.clear(0, i + offset, 1, i + offset)
+
+
+
+addRow(0, 'Ticker', syminfo.ticker)
+market_cap = request.financial(syminfo.tickerid, "TOTAL_SHARES_OUTSTANDING", "FQ") * close
+var B = 1000000000
+var M = B / 1000
+if not na(market_cap)
+    market_cap_str = market_cap > B * 10 ? str.format("{0,number,#,###}B", market_cap/B) : str.format("{0,number,#,###}M", market_cap/M)
+    addRow(1, 'Market Cap($)', market_cap_str)
+
+addRow(2, 'Pullback (%)', str.tostring(math.round((ath - close) / ath * 100., 2)) + '%')
+// addRow(4, 'Drawdown (dur)', dd_duration)
+addRow(3, 'Cur DD (%)', max_dd != -1 ? str.tostring(math.round(max_dd, 2)) + '%' : '-')
+addRow(4, 'Gain Score',  str.format('{0} / {1}', gain_score, num_yrs), color.orange)
+addRow(5, 'Consistency', str.format('{0} / {1}', consistency, num_yrs), color.orange)
+addRow(6, 'Max DD (%)', max_dd_all + '%', color.orange)
+
+// =====================================================================================
+
+if not chart
+    var table t3 = table.new(position.bottom_right, num_yrs + 1, 10, bgcolor = color.white, border_color = color.black, border_width = 2)
+    set_label(t3, 0, 0, '')
+    set_label(t3, 0, 1, 'Date Begin')
+    set_label(t3, 0, 2, 'Date End')
+    set_label(t3, 0, 3, 'Price Begin')
+    set_label(t3, 0, 4, 'Price End')
+    for i=0 to num_yrs - 1
+        t3.cell(i + 1, 0, 'Year ' + str.tostring(i + 1), bgcolor = labelColor, text_color = labelTextCol)
+        t3.cell(i + 1, 1, str.format_time(time[t_days * (i + 1)], "MM/dd/yy"))
+        t3.cell(i + 1, 2, str.format_time(time[t_days * i], "MM/dd/yy"))
+        t3.cell(i + 1, 3, str.format('${0}', close[t_days * (i + 1)]))
+        t3.cell(i + 1, 4, str.format('${0}', close[t_days * i]))
+
