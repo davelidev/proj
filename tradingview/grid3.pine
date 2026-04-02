@@ -1,0 +1,44 @@
+//@version=5
+strategy("Grid3", overlay=true, pyramiding=14, currency="USD", initial_capital=1000)
+inSess(sess) => not na(time('', sess))
+
+qty = input.float(0.01)
+gap = input.float(0.005)
+sizes = input.string("1,2,4,8,12,18")
+numDups = input.int(3)
+
+var magicNumber = 63643
+var multi = 100000
+
+parseStringToIntArray(s, numDups) =>
+    array<float> nums = array.new_float()
+    int start = 0
+    for i = 0 to str.length(s)
+        if i == str.length(s) or str.substring(s, i, i + 1) == ","
+            for j=1 to numDups
+                array.push(nums, str.tonumber(str.substring(s, start, i)))
+            start := i + 1
+    nums
+
+var load = parseStringToIntArray(sizes, numDups)
+var numGrid = load.size()
+
+rsi = ta.rsi(close, 14)
+
+var start = 0.
+if strategy.opentrades == 0
+    if rsi < 30
+        start := close
+        for i=1 to load.size()
+            strategy.entry("Enter Long " + str.tostring(i), strategy.long, limit=start - gap * (i - 1), qty = qty * load.get(i - 1) * multi)
+
+if strategy.opentrades > 0
+    profit = 0.
+    for i=0 to strategy.opentrades
+        profit += strategy.opentrades.profit(i)
+    if profit >= qty * gap * multi
+        strategy.cancel_all()
+        strategy.close_all()
+
+
+

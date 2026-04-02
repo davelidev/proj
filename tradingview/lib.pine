@@ -1,0 +1,35 @@
+//@version=5
+library("lib", true)
+
+export multiFloat(float a, float b) => [a, b]
+export multiFloat(float a, float b, float c) => [a, b, c]
+export multiFloat(float a, float b, float c, float d) => [a, b, c, d]
+export multiFloat(float a, float b, float c, float d, float e) => [a, b, c, d, e]
+export multiFloat(float a, float b, float c, float d, float e, float f) => [a, b, c, d, e, f]
+export multiStr(string a, string b) => [a, b]
+export multiStr(string a, string b, string c) => [a, b, c]
+export multiStr(string a, string b, string c, string d) => [a, b, c, d]
+export multiStr(string a, string b, string c, string d, string e) => [a, b, c, d, e]
+export multiStr(string a, string b, string c, string d, string e, string f) => [a, b, c, d, e, f]
+export multiBool(bool a, bool b) => [a, b]
+export multiBool(bool a, bool b, bool c) => [a, b, c]
+export multiBool(bool a, bool b, bool c, bool d) => [a, b, c, d]
+export multiBool(bool a, bool b, bool c, bool d, bool e) => [a, b, c, d, e]
+export multiBool(bool a, bool b, bool c, bool d, bool e, bool f) => [a, b, c, d, e, f]
+export multiInt(int a, int b) => [a, b]
+export multiInt(int a, int b, int c) => [a, b, c]
+export multiInt(int a, int b, int c, int d) => [a, b, c, d]
+export multiInt(int a, int b, int c, int d, int e) => [a, b, c, d, e]
+export multiInt(int a, int b, int c, int d, int e, int f) => [a, b, c, d, e, f]
+export multiColor(color a, color b) => [a, b]
+export multiColor(color a, color b, color c) => [a, b, c]
+export multiColor(color a, color b, color c, color d) => [a, b, c, d]
+export multiColor(color a, color b, color c, color d, color e) => [a, b, c, d, e]
+export multiColor(color a, color b, color c, color d, color e, color f) => [a, b, c, d, e, f]
+export inRange(string sess) => not na(time(timeframe.period, sess))
+export switchOn(bool ch) => not ch[1] and ch
+export switchOff(bool ch) => ch[1] and not ch
+export nna(bool x) => not na(x)
+export newday() => dayofweek != dayofweek[1]
+export reset(bool val, bool prev) => dayofweek != dayofweek[1] ? val : prev
+export resetInt(int val, int prev) => dayofweek != dayofweek[1] ? val : prev

@@ -1,0 +1,45 @@
+//@version=5
+indicator("Sessions", overlay=true, max_lines_count = 500)
+
+
+showNewYorkSB = input.bool(true)
+showLondonSB = input.bool(false)
+
+marketInterval = showNewYorkSB ? "0930-1600" : "0300-1200"
+
+
+inSess(sess) =>
+    not na(time(timeframe.period, sess, "America/New_York"))
+
+drawline(hr, min, col) =>
+    var line last = na
+    b4 = (hour * 100 + minute) < ((hr - 2) * 100 + min)
+    b42 = (hour * 100 + minute) >= (hr * 100 + min)
+    if b4[1] and not b4
+        x = timestamp(year, month, dayofmonth, hr, min)
+        last := line.new(x, close, x, close + 1, extend = extend.both, color=col, xloc=xloc.bar_time)
+        na
+    else if not b42[1] and b42
+        last.delete()
+
+sliceInt(t, s, e) => math.round(str.tonumber(str.substring(t, s, e)))
+
+parseTimeRange(t) =>
+    [sliceInt(t, 0, 2), sliceInt(t, 2, 4), sliceInt(t, 5, 7), sliceInt(t, 7, 9)]
+
+drawSess(sess, color, isDraw) =>
+    if isDraw
+        [mh1, mm1, mh2, mm2] = parseTimeRange(sess)
+        drawline(mh1, mm1, color)
+        drawline(mh2, mm2, color)
+
+col = if inSess(marketInterval)
+    if dayofweek != 6 
+        color.new(color.white, 90)
+    else
+        color.new(color.orange, 90)
+else
+    na
+
+bgcolor(col)
+drawSess(marketInterval, color.new(color.white, 60), true)
