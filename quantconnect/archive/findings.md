@@ -1,7 +1,5 @@
 # Archived Strategies Findings
 
-This document summarizes historical, experimental, or superseded strategies located in the `quantconnect/archive/` directory.
-
 ## Summary Table
 
 | Strategy | CAGR | Max DD | Overfit Risk | Primary Reason for Archival |
