@@ -5,6 +5,7 @@ class DynamicNadionCircuit(QCAlgorithm):
 
     def initialize(self):
         self.SetStartDate(2015, 1, 1)
+        self.SetStartDate(2015, 1, 1)
         self.set_cash(100_000)
         self.universe_settings.resolution = Resolution.DAILY
         self.settings.automatic_indicator_warm_up = True
@@ -13,7 +14,7 @@ class DynamicNadionCircuit(QCAlgorithm):
         self._universe = self.add_universe(self._select)
         self.schedule.on(
             self.date_rules.week_start("SPY"),
-            self.time_rules.at(10, 0),
+            self.time_rules.at(10, 5),
             self._rebalance,
         )
     
