@@ -1,7 +1,7 @@
 from AlgorithmImports import *
 
 
-class QuantumOptimizedPrism(QCAlgorithm):
+class VolatilityBreakout(QCAlgorithm):
 
     def Initialize(self):
         self.lookback_period = int(self.GetParameter("lookback_period", 240))
@@ -74,4 +74,5 @@ class AverageIntraBarVolatility(PythonIndicator):
         self.sma.Update(input.EndTime, rang)
         self.Current.Value = self.sma.Current.Value
         
+        return self.sma.IsReady
         return self.sma.IsReady

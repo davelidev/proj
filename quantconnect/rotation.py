@@ -1,6 +1,6 @@
 from AlgorithmImports import *
 
-class TQQQForTheLongTerm(QCAlgorithm):
+class RotationStrategy(QCAlgorithm):
 
     def Initialize(self):
         self.SetStartDate(2015, 1, 1)

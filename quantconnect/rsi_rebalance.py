@@ -1,6 +1,6 @@
 from AlgorithmImports import *                                                                                        
  
-class RSI2LeveragedETFsV3(QCAlgorithm):                                                                               
+class DualRegimeRSIRotation(QCAlgorithm):                                                                               
                                                                 
     def Initialize(self):
         self.SetStartDate(2012, 1, 1)

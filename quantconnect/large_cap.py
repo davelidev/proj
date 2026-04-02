@@ -1,7 +1,7 @@
 from AlgorithmImports import *
 
 
-class DynamicNadionCircuit(QCAlgorithm):
+class LargeCapTechStrategy(QCAlgorithm):
 
     def initialize(self):
         self.SetStartDate(2015, 1, 1)
