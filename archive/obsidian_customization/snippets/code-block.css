@@ -1,0 +1,15 @@
+/* --- UNWRAP LOGIC --- */
+.callout[data-callout="code"] .callout-content {
+    overflow-x: auto !important;
+}
+
+.callout[data-callout="code"] pre,
+.callout[data-callout="code"] code,
+div[class*="block-language-embed-"] {
+    white-space: pre !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    display: block !important;
+    width: max-content !important;
+    min-width: 100% !important;
+}

@@ -1,0 +1,12 @@
+.venv/
+stock_analysis_cache/
+creds.sh
+.env
+.DS_Store
+.obsidian/
+__pycache__/
+*.py[cod]
+*$py.class
+node_modules/
+.expo/
+dist/

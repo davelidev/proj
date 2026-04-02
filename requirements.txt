@@ -1,0 +1,8 @@
+requests
+urllib3
+yfinance
+pandas
+numpy
+tabulate
+ipython
+python-dotenv
