@@ -4,10 +4,10 @@ def run_dadu_amortization_model():
     # ==========================================
     # INPUTS: Tweak these for different scenarios
     # ==========================================
-    main_house_cost = 1000000
+    main_house_cost = 800_000
     construction_cost = 350000 * 2
     property_tax_rate = 0.01
-    total_monthly_rent = 9000
+    total_monthly_rent = 8000
     
     down_payment_pct = 0.20
     interest_rate = 0.07
