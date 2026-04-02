@@ -22,6 +22,7 @@ class RSI2LeveragedETFsV3(QCAlgorithm):
             self.TimeRules.AfterMarketOpen("QQQ", 35),
             self.Rebalance,
         )
+
     def Rebalance(self):
         if not self.qqq_rsi2.IsReady:
             return
@@ -41,5 +42,3 @@ class RSI2LeveragedETFsV3(QCAlgorithm):
                 self.Liquidate(ticker)
         for ticker, weight in targets.items():
             self.SetHoldings(ticker, weight)
-    def OnData(self, data):
-        pass

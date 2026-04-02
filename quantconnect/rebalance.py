@@ -1,7 +1,4 @@
-#region imports
 from AlgorithmImports import *
-#endregion
-
 
 class Rebalance(QCAlgorithm):
     def Initialize(self):
@@ -15,7 +12,7 @@ class Rebalance(QCAlgorithm):
             self.AddEquity(t, Resolution.Minute)
 
     def OnData(self, data):
-        if self.Time.hour < 10: return
+        if self.Time.hour < 11: return
         # rebalance on start of week/month/year
         t = getattr(self.Time, self.period)
         if t == self.last: return

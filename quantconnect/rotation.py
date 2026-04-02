@@ -1,11 +1,9 @@
-# region imports
 from AlgorithmImports import *
-# endregion
 
 class TQQQForTheLongTerm(QCAlgorithm):
 
     def Initialize(self):
-        self.SetStartDate(2020, 1, 1)
+        self.SetStartDate(2015, 1, 1)
         self.SetCash(100_000)
 
         self.Schedule.On(

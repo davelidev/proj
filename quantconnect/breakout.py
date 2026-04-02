@@ -1,26 +1,5 @@
 from AlgorithmImports import *
 
-class AverageIntraBarVolatility(PythonIndicator):
-    def __init__(self, period):
-        super().__init__()
-        self.Name = "AverageIntraBarVolatility"
-        self.sma = SimpleMovingAverage(period)
-        self.WarmUpPeriod = period
-
-    @property
-    def Value(self):
-        """Gets the current value of this indicator."""
-        return self.Current.Value
-
-    def Update(self, input: BaseData) -> bool:
-        if not hasattr(input, "Open") or input.Open == 0: 
-            return False
-        
-        rang = abs((input.Open - input.Close) / input.Open) * 100
-        self.sma.Update(input.EndTime, rang)
-        self.Current.Value = self.sma.Current.Value
-        
-        return self.sma.IsReady
 
 class QuantumOptimizedPrism(QCAlgorithm):
 
@@ -54,7 +33,6 @@ class QuantumOptimizedPrism(QCAlgorithm):
             return
     
         if not self.Portfolio.Invested:
-            # --- ENTRY LOGIC ---
             # Enter on low volatility when price is near a recent high
             is_low_volatility = self.volatility.Value < self.volatility_low
             is_near_breakout = self.Securities[self.sym].Price >= self.high.Current.Value * self.breakout_threshold_pct
@@ -62,11 +40,10 @@ class QuantumOptimizedPrism(QCAlgorithm):
             if is_low_volatility and is_near_breakout:
                 self.SetHoldings(self.sym, self.holding_pct)
         else:
-            # --- EXIT LOGIC ---
-            # Exit if volatility becomes too high
             is_high_volatility = self.volatility.Value > self.volatility_high
+
+            # Exit if volatility becomes too high
             if is_high_volatility:
-                # Liquidate position and cancel the stop loss order to prevent it from firing
                 self.Liquidate(self.sym)
                 self.Transactions.CancelOpenOrders(self.sym)
 
@@ -75,3 +52,26 @@ class QuantumOptimizedPrism(QCAlgorithm):
         if orderEvent.Status == OrderStatus.Filled and orderEvent.Direction == OrderDirection.Buy:
             stop_price = orderEvent.FillPrice * (1 - self.stop_loss_pct)
             self.StopMarketOrder(orderEvent.Symbol, -orderEvent.FillQuantity, stop_price)
+
+
+class AverageIntraBarVolatility(PythonIndicator):
+    def __init__(self, period):
+        super().__init__()
+        self.Name = "AverageIntraBarVolatility"
+        self.sma = SimpleMovingAverage(period)
+        self.WarmUpPeriod = period
+
+    @property
+    def Value(self):
+        """Gets the current value of this indicator."""
+        return self.Current.Value
+
+    def Update(self, input: BaseData) -> bool:
+        if not hasattr(input, "Open") or input.Open == 0: 
+            return False
+        
+        rang = abs((input.Open - input.Close) / input.Open) * 100
+        self.sma.Update(input.EndTime, rang)
+        self.Current.Value = self.sma.Current.Value
+        
+        return self.sma.IsReady
