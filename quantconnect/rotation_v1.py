@@ -36,12 +36,18 @@ class RotationStrategy(QCAlgorithm):
 
         if bull:
             # ── BULL: SPY above 200-day MA ─────────────────────────────────
-            if rsi10["QQQ"].Current.Value < 20 or rsi10["SPY"].Current.Value < 20:
-                return "UVXY"
+            # if rsi10["QQQ"].Current.Value < 20 or rsi10["SPY"].Current.Value < 20:
+            #     # "UVXY"
+            #     # "TLT"
+            #     return "SQQQ"
+            
+            # Ride long term trend
             return "TQQQ"
 
         else:
             # ── BEAR: SPY at or below 200-day MA ──────────────────────────
+            
+            # Crash buy during long term bear market(mean reversion)
             if rsi10["QQQ"].Current.Value < 30 or rsi10["SPY"].Current.Value < 30:
                 return "TQQQ"
 
@@ -49,15 +55,18 @@ class RotationStrategy(QCAlgorithm):
                 self.sma_tqqq20.IsReady
                 and tqqq_price < self.sma_tqqq20.Current.Value)
 
+            # Ride the trend if both long and short team is slowing dropping
             if tqqq_below_20sma:
-                # alternative: ["TECS", "BSV"]
-                # Top 1 of [SQQQ, TLT] by RSI(10) — higher RSI wins
-                return max(["SQQQ", "TLT"], key=lambda t: rsi10[t].Current.Value)
-
-            # TQQQ at or above its 20-day MA
-            if rsi10["SQQQ"].Current.Value < 30:
+                # max(["SQQQ", "TLT"], key=lambda t: rsi10[t].Current.Value)
+                # max(["TECS", "BSV"], key=lambda t: rsi10[t].Current.Value)
                 return "SQQQ"
+
             return "TQQQ"
+
+            # # Mean reversion if not a sharp fall
+            # if rsi10["TQQQ"].Current.Value > 30:
+            #     return "TQQQ"
+            # return "SQQQ"
 
     def Rebalance(self):
         if self.IsWarmingUp or not self.sma_spy200.IsReady or not all(i.IsReady for i in self.rsi10.values()):

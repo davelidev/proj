@@ -3,7 +3,7 @@ from AlgorithmImports import *
 class Rebalance(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2015, 1, 1)
-        self.weights = {None: 4, 'tqqq': 6}
+        self.weights = {None:4, "TQQQ": 2, "SOXL": 2, "TECL": 2}
         self.period = 'year'
 
         self.last = None
