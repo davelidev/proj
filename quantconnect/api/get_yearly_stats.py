@@ -34,34 +34,30 @@ def extract_yearly_returns(res):
         return None
     
     rolling = res.get("backtest", {}).get("rollingWindow", {})
-    yearly_returns = {}
-    
-    # QuantConnect rollingWindow has keys like "M1_20231231"
-    # We want to find the last month of each year to get the cumulative profit for that year
-    # Actually, it's easier to just calculate it from the totalNetProfit if available 
-    # Or look at the "portfolioStatistics" in the window
-    
+    if not rolling:
+        return None
+        
     sorted_keys = sorted(rolling.keys())
     
-    # Mapping years to the last profit value seen in that year
-    years_data = {}
+    # Track equity at the end of each year
+    yearly_equity = {}
     for key in sorted_keys:
         if "_" not in key: continue
         date_str = key.split("_")[1]
         year = date_str[:4]
         
-        profit = float(rolling[key].get("portfolioStatistics", {}).get("totalNetProfit", 0))
-        years_data[year] = profit * 100 # Convert to percentage
+        equity = float(rolling[key].get("portfolioStatistics", {}).get("endEquity", 100000))
+        yearly_equity[year] = equity
 
-    # yearly_returns[year] = current_total_profit - previous_total_profit
-    # This is rough but gives a sense of yearly performance
     final_yearly = {}
-    prev_profit = 0
-    for year in sorted(years_data.keys()):
-        total_profit = years_data[year]
-        # This formula is slightly off for compounding but good for a row summary
-        final_yearly[year] = round(total_profit - prev_profit)
-        prev_profit = total_profit
+    prev_equity = float(res.get("backtest", {}).get("rollingWindow", {}).get(sorted_keys[0], {}).get("portfolioStatistics", {}).get("startEquity", 100000))
+    
+    for year in sorted(yearly_equity.keys()):
+        current_equity = yearly_equity[year]
+        # Return = (End / Start) - 1
+        year_return = (current_equity / prev_equity) - 1
+        final_yearly[year] = round(year_return * 100)
+        prev_equity = current_equity
         
     return final_yearly
 

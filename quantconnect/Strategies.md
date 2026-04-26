@@ -14,7 +14,7 @@
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| -3%  | 14%  | 10%  | 25%  | 30%  | 45%  | 55%  | 40%  | -15% | 35%  | 20%  | 10%  |
+| 🔴 -3% | 🟢 14% | 🟢 10% | 🟢 25% | 🟢 30% | 🟢 45% | 🟢 55% | 🟢 40% | 🔴 -15% | 🟢 35% | 🟢 20% | 🟢 10% |
 
 > [!code]- Click to view: vol_breakout.py
 > ```embed-python
@@ -25,17 +25,17 @@
 
 ## Tech Dip Buy (`dip_buy_tech.py`)
 
-**Core Concept:** Mean-reversion strategy targeting top 5 tech stocks when RSI(2) < 25.
+**Core Concept:** Mean-reversion strategy targeting top 5 tech stocks when RSI(2) < 25 and Price > SMA(20).
 
 *   **Total Return:** 2652.285%
-*   **CAGR / Max Drawdown:** 31.785% / -49.700%
-*   **Sharpe Ratio:** 0.879
-*   **Overfit Risk:** Low (Standard RSI mean-reversion)
+*   **CAGR / Max Drawdown:** 32.021% / -46.600%
+*   **Sharpe Ratio:** 0.899
+*   **Overfit Risk:** Low (Standard RSI mean-reversion with basic trend filter)
 *   **Yearly Returns:**
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 5%   | 12%  | 8%   | 18%  | -5%  | 28%  | 45%  | 32%  | -10% | 25%  | 15%  | 8%   |
+| 🟢 10% | ⚪ 0% | 🟢 8% | 🟢 34% | 🟢 5% | 🟢 49% | 🟢 61% | 🟢 55% | 🔴 -39% | 🟢 109% | 🟢 122% | 🟢 39% |
 
 > [!code]- Click to view: dip_buy_tech.py
 > ```embed-python
@@ -56,7 +56,7 @@
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 10%  | 5%   | 12%  | 45%  | -15% | 35%  | 40%  | 55%  | -50% | 65%  | 25%  | 10%  |
+| 🟢 10% | 🟢 5% | 🟢 12% | 🟢 45% | 🔴 -15% | 🟢 35% | 🟢 40% | 🟢 55% | 🔴 -50% | 🟢 65% | 🟢 25% | 🟢 10% |
 
 > [!code]- Click to view: leveraged_rebalance.py
 > ```embed-python
@@ -77,7 +77,7 @@
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 25%  | 15%  | 30%  | 55%  | 10%  | 85%  | 145% | 75%  | 15%  | 95%  | 65%  | 35%  |
+| 🟢 25% | 🟢 15% | 🟢 30% | 🟢 55% | 🟢 10% | 🟢 85% | 🟢 145% | 🟢 75% | 🟢 15% | 🟢 95% | 🟢 65% | 🟢 35% |
 
 > [!code]- Click to view: conservative_rotation.py
 > ```embed-python
@@ -98,7 +98,7 @@
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 12%  | 5%   | 10%  | 25%  | 5%   | 35%  | 40%  | 30%  | 15%  | 25%  | 20%  | 10%  |
+| 🟢 12% | 🟢 5% | 🟢 10% | 🟢 25% | 🟢 5% | 🟢 35% | 🟢 40% | 🟢 30% | 🟢 15% | 🟢 25% | 🟢 20% | 🟢 10% |
 
 > [!code]- Click to view: defensive_rotation.py
 > ```embed-python
@@ -119,7 +119,7 @@
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 12%  | 8%   | 15%  | 20%  | 10%  | 35%  | 85%  | 45%  | 5%   | 40%  | 30%  | 15%  |
+| 🟢 12% | 🟢 8% | 🟢 15% | 🟢 20% | 🟢 10% | 🟢 35% | 🟢 85% | 🟢 45% | 🟢 5% | 🟢 40% | 🟢 30% | 🟢 15% |
 
 > [!code]- Click to view: rsi_champion.py
 > ```embed-python
@@ -140,9 +140,32 @@
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 35%  | 20%  | 45%  | 65%  | 15%  | 95%  | 165% | 85%  | 25%  | 115% | 75%  | 45%  |
+| 🟢 35% | 🟢 20% | 🟢 45% | 🟢 65% | 🟢 15% | 🟢 95% | 🟢 165% | 🟢 85% | 🟢 25% | 🟢 115% | 🟢 75% | 🟢 45% |
 
 > [!code]- Click to view: holy_grail_refined.py
 > ```embed-python
 > PATH: "vault://QuantConnect/holy_grail_refined.py"
 > ```
+
+---
+
+## TQQQ Dynamic Compounding (`dip_buy_tqqq.py`)
+
+**Core Concept:** Dynamic leverage rotation. Maintains permanent bull exposure in TQQQ during uptrends (Price > 200 SMA) but varies exposure based on RSI: de-leverages to 20% on extreme overbought signals to protect capital, and levers up to 100% on bull dips to drive compounding. Stays in Cash during bear markets.
+
+*   **Total Return:** 2381.297%
+*   **CAGR / Max Drawdown:** 30.695% / -49.000%
+*   **Sharpe Ratio:** 0.731
+*   **Overfit Risk:** Moderate (Relies on RSI thresholds and SMA trend filter)
+*   **Yearly Returns:**
+
+| 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 39% | 🟢 4% | 🔴 -15% | 🟢 133% | 🟢 7% | 🟢 29% | 🟢 69% | 🟢 83% | 🔴 -21% | 🟢 70% | 🟢 29% | 🟢 25% |
+
+> [!code]- Click to view: dip_buy_tqqq.py
+> ```embed-python
+> PATH: "vault://QuantConnect/dip_buy_tqqq.py"
+> ```
+
+

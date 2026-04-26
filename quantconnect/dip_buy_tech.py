@@ -31,16 +31,17 @@ class LargeCapTechStrategy(QCAlgorithm):
         for security in changes.added_securities:
             security.rsi = self.rsi(security, 2)
             security.max = self.max(security, 252)
+            security.sma20 = self.sma(security, 20)
         for security in changes.removed_securities:
             self.liquidate(security)
     
     def _rebalance(self):
         for symbol in self._universe.selected:   
             security = self.securities[symbol]
-            if not security.max.is_ready:
+            if not (security.max.is_ready and security.sma20.is_ready):
                 continue                        
-            # Buy signal: price below rsi and not invested
-            if not security.invested and security.rsi.current.value < 25:
+            # Buy signal: RSI < 25 AND Price > SMA(20)
+            if not security.invested and security.rsi.current.value < 25 and security.price > security.sma20.current.value:
                 self.set_holdings(security, 1 / len(self._universe.selected))
             # Sell signal: price at or above 1yr-high and invested
             elif security.invested and security.price >= security.max.current.value:
