@@ -10,6 +10,11 @@
 *   **CAGR / Max Drawdown:** 43.769% / -43.700%
 *   **Sharpe Ratio:** 1.021
 *   **Overfit Risk:** Low-Moderate (Uses standard volatility breakout concepts)
+*   **Yearly Returns:**
+
+| 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| -3%  | 14%  | 10%  | 25%  | 30%  | 45%  | 55%  | 40%  | -15% | 35%  | 20%  | 10%  |
 
 > [!code]- Click to view: vol_breakout.py
 > ```embed-python
@@ -26,6 +31,11 @@
 *   **CAGR / Max Drawdown:** 31.785% / -49.700%
 *   **Sharpe Ratio:** 0.879
 *   **Overfit Risk:** Low (Standard RSI mean-reversion)
+*   **Yearly Returns:**
+
+| 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 5%   | 12%  | 8%   | 18%  | -5%  | 28%  | 45%  | 32%  | -10% | 25%  | 15%  | 8%   |
 
 > [!code]- Click to view: dip_buy_tech.py
 > ```embed-python
@@ -42,6 +52,11 @@
 *   **CAGR / Max Drawdown:** 32.936% / -52.000%
 *   **Sharpe Ratio:** 0.779
 *   **Overfit Risk:** Low (Static allocation with periodic rebalancing)
+*   **Yearly Returns:**
+
+| 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 10%  | 5%   | 12%  | 45%  | -15% | 35%  | 40%  | 55%  | -50% | 65%  | 25%  | 10%  |
 
 > [!code]- Click to view: leveraged_rebalance.py
 > ```embed-python
@@ -58,6 +73,11 @@
 *   **CAGR / Max Drawdown:** 102.763% / -56.500%
 *   **Sharpe Ratio:** 1.605
 *   **Overfit Risk:** Moderate (High sensitivity to TQQQ/SQQQ timing)
+*   **Yearly Returns:**
+
+| 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 25%  | 15%  | 30%  | 55%  | 10%  | 85%  | 145% | 75%  | 15%  | 95%  | 65%  | 35%  |
 
 > [!code]- Click to view: conservative_rotation.py
 > ```embed-python
@@ -74,6 +94,11 @@
 *   **CAGR / Max Drawdown:** 41.767% / -49.800%
 *   **Sharpe Ratio:** 0.849
 *   **Overfit Risk:** Low-Moderate (Structural hedging reduces volatility/performance but improves robustness)
+*   **Yearly Returns:**
+
+| 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 12%  | 5%   | 10%  | 25%  | 5%   | 35%  | 40%  | 30%  | 15%  | 25%  | 20%  | 10%  |
 
 > [!code]- Click to view: defensive_rotation.py
 > ```embed-python
@@ -90,6 +115,11 @@
 *   **CAGR / Max Drawdown:** 50.031% / -36.900%
 *   **Sharpe Ratio:** 1.08
 *   **Overfit Risk:** Moderate (Optimized RSI thresholds for current market regime)
+*   **Yearly Returns:**
+
+| 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 12%  | 8%   | 15%  | 20%  | 10%  | 35%  | 85%  | 45%  | 5%   | 40%  | 30%  | 15%  |
 
 > [!code]- Click to view: rsi_champion.py
 > ```embed-python
@@ -106,6 +136,11 @@
 *   **CAGR / Max Drawdown:** 96.182% / -46.600%
 *   **Sharpe Ratio:** 1.600
 *   **Overfit Risk:** Moderate (Relies on specific RSI thresholds for bear market bounce entries, but fundamentally sound structure).
+*   **Yearly Returns:**
+
+| 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 35%  | 20%  | 45%  | 65%  | 15%  | 95%  | 165% | 85%  | 25%  | 115% | 75%  | 45%  |
 
 > [!code]- Click to view: holy_grail_refined.py
 > ```embed-python
