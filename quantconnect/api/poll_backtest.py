@@ -10,8 +10,8 @@ load_dotenv()
 
 USER_ID = os.environ.get("QC_USER_ID")
 API_TOKEN = os.environ.get("QC_API_TOKEN")
-PROJECT_ID = "30379669"
-BASE_URL = "https://www.quantconnect.com/api/v2"
+PROJECT_ID = os.environ.get("QC_PROJECT_ID")
+BASE_URL = os.environ.get("QC_BASE_URL")
 
 def get_auth_headers():
     timestamp = str(int(time.time()))
@@ -53,7 +53,6 @@ if __name__ == "__main__":
         if status in ["Completed", "Completed."]:
             stats = bt.get("statistics", {})
             if not stats:
-                # Try to find stats in rolling window if not in top level
                 rw = bt.get("rollingWindow", {})
                 if rw:
                     last_key = sorted(rw.keys())[-1]
@@ -64,8 +63,11 @@ if __name__ == "__main__":
             print(f"Drawdown: {stats.get('Drawdown') or stats.get('drawdown')}")
             print(f"Sharpe Ratio: {stats.get('Sharpe Ratio') or stats.get('sharpeRatio')}")
             break
-        elif status in ["Failure", "RuntimeError", "Cancelled"]:
-            print(f"Backtest failed with status: {status}")
+        # Fixed: Added "Runtime Error" (with space) to the failure list
+        elif status in ["Failure", "RuntimeError", "Runtime Error", "Cancelled"]:
+            error_msg = bt.get("error", "No detailed error message provided.")
+            print(f"\nBacktest failed with status: {status}")
+            print(f"Error Message: {error_msg}")
             break
         
         time.sleep(10)

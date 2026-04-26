@@ -11,8 +11,8 @@ load_dotenv()
 
 USER_ID = os.environ.get("QC_USER_ID")
 API_TOKEN = os.environ.get("QC_API_TOKEN")
-PROJECT_ID = "30379669"
-BASE_URL = "https://www.quantconnect.com/api/v2"
+PROJECT_ID = os.environ.get("QC_PROJECT_ID")
+BASE_URL = os.environ.get("QC_BASE_URL")
 
 def get_auth_headers():
     timestamp = str(int(time.time()))

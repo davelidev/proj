@@ -3,12 +3,21 @@ from AlgorithmImports import *
 
 
 class TQQQDynamicCompounding(QCAlgorithm):
-
+    """
+    Strategy 8: TQQQ Dynamic Compounding
+    
+    Core Concept:
+    - Varies leverage based on market regime and volatility.
+    - Bull Regime (Price > 200 SMA): 
+        - 100% leverage on RSI(2) < 30 (Dip Buy).
+        - 20% leverage on RSI(10) > 80 (Profit Protection).
+    - Bear Regime (Price < 200 SMA): 
+        - 0% exposure (Cash).
+    """
     def Initialize(self):
         start_date = datetime.now() - timedelta(days=12*365)
         self.SetStartDate(start_date.year, start_date.month, start_date.day)
         self.SetCash(100_000)
-        self.SetBenchmark("QQQ")
         
         self.sym = self.AddEquity("TQQQ", Resolution.Daily).Symbol
         

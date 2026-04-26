@@ -9,12 +9,12 @@ load_dotenv()
 
 # --- Configuration ---
 # Get these from https://www.quantconnect.com/settings
-USER_ID = os.environ.get("QC_USER_ID", "YOUR_USER_ID")
-API_TOKEN = os.environ.get("QC_API_TOKEN", "YOUR_API_TOKEN")
+USER_ID = os.environ.get("QC_USER_ID")
+API_TOKEN = os.environ.get("QC_API_TOKEN")
 
 # Find the project ID in the URL of your project: e.g. quantconnect.com/terminal/process/1234567
-PROJECT_ID = "30379669"
-BASE_URL = "https://www.quantconnect.com/api/v2"
+PROJECT_ID = os.environ.get("QC_PROJECT_ID")
+BASE_URL = os.environ.get("QC_BASE_URL")
 
 def get_auth_headers():
     """Generates the required authentication headers for QuantConnect API."""

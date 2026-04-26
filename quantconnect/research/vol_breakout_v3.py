@@ -2,36 +2,40 @@ from datetime import datetime, timedelta
 from AlgorithmImports import *
 
 
-class VolatilityBreakout(QCAlgorithm):
+class VolatilityBreakoutV3(QCAlgorithm):
 
     def Initialize(self):
         self.lookback_period = int(self.GetParameter("lookback_period", 240))
         self.breakout_threshold_pct = float(self.GetParameter("breakout_threshold_pct", 0.98))
         self.volatility_low = float(self.GetParameter("volatility_low", 0.1))
         self.volatility_high = float(self.GetParameter("volatility_high", 0.15))
+        self.rsi_overbought = float(self.GetParameter("rsi_overbought", 80))
         self.holding_pct = float(self.GetParameter("holding_pct", 1))
         self.stop_loss_pct = float(self.GetParameter("stop_loss_pct", 0.01))
 
-    
         assert self.volatility_low < self.volatility_high 
     
         start_date = datetime.now() - timedelta(days=12*365)
         self.SetStartDate(start_date.year, start_date.month, start_date.day)
         
+        # Subscribe to TQQQ at Minute resolution for the core logic
         self.sym = self.AddEquity("TQQQ", Resolution.Minute).Symbol
         
-        # Custom indicator for intra-bar volatility
+        # Custom indicator for intra-bar volatility (Minute based)
         self.volatility = AverageIntraBarVolatility(self.lookback_period)
         self.RegisterIndicator(self.sym, self.volatility, Resolution.Minute)
         
-        # Indicator for the breakout high
+        # RSI for overbought exit - USING DAILY RESOLUTION for stability
+        self.rsi = self.RSI(self.sym, 10, MovingAverageType.Wilders, Resolution.Daily)
+        
+        # Indicator for the breakout high (Minute based)
         self.high = self.MAX(self.sym, self.lookback_period, Resolution.Minute)
         
         self.SetWarmUp(self.lookback_period, Resolution.Minute)
         
     def OnData(self, data):
         # Wait for indicators and trade only after the first hour
-        if self.IsWarmingUp or self.Time.hour < 10:
+        if self.IsWarmingUp or self.Time.hour < 10 or not self.rsi.IsReady:
             return
     
         if not self.Portfolio.Invested:
@@ -43,9 +47,11 @@ class VolatilityBreakout(QCAlgorithm):
                 self.SetHoldings(self.sym, self.holding_pct)
         else:
             is_high_volatility = self.volatility.Value > self.volatility_high
+            # Daily RSI check for overbought condition
+            is_overbought = self.rsi.Current.Value > self.rsi_overbought
 
-            # Exit if volatility becomes too high
-            if is_high_volatility:
+            # Exit if volatility becomes too high or price is overextended on Daily timeframe
+            if is_high_volatility or is_overbought:
                 self.Liquidate(self.sym)
                 self.Transactions.CancelOpenOrders(self.sym)
 
@@ -76,5 +82,4 @@ class AverageIntraBarVolatility(PythonIndicator):
         self.sma.Update(input.EndTime, rang)
         self.Current.Value = self.sma.Current.Value
         
-        return self.sma.IsReady
         return self.sma.IsReady

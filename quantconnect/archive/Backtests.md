@@ -39,3 +39,11 @@ The "ARKK Machine" (`a_4`) is an example of regime fitting. It captures the 2020
 
 ### 5. Evolution of Volatility Normalization
 The transition from `large_cap_breakout.py` (27% CAGR) to the production `breakout.py` highlights why simplicity (EMA gates) is often better than complex, hand-tuned breakout rules that fail during 2022-style shifts.
+
+---
+
+## Alpha Giant Champion (`alpha_giant_champion.py`)
+**Status:** Archived
+**Logic:** Uses Top 5 Market Cap leaders as signals for TQQQ breakouts.
+**Stats:** 30.12% CAGR / -56.40% MaxDD / 0.696 Sharpe
+**Yearly:** 🟢 9% | 🟢 2% | 🔴 -12% | 🟢 118% | 🔴 -23% | 🟢 50% | 🟢 105% | 🟢 88% | 🔴 -44% | 🟢 112% | 🟢 62% | 🟢 23% | 🟢 6%
