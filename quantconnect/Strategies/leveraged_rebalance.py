@@ -3,8 +3,9 @@ from AlgorithmImports import *
 
 class Rebalance(QCAlgorithm):
     def Initialize(self):
-        start_date = datetime.now() - timedelta(days=12*365)
-        self.SetStartDate(start_date.year, start_date.month, start_date.day)
+        
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
         self.weights = {None:4, "TQQQ": 2, "SOXL": 2, "TECL": 2}
         self.period = 'year'
 

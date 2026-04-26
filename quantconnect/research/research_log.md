@@ -14,13 +14,10 @@ This file tracks the testing of strategies derived from Kevin Davey's research t
 
 *   **CAGR / Max Drawdown:** 44.621% / -50.200%
 *   **Sharpe Ratio:** 0.977
-*   **Yearly Returns:**
-
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 66% | 🔴 -22% | ⚪ 0% | 🟢 54% | 🟢 13% | 🟢 16% | 🟢 184% | 🟢 95% | 🔴 -14% | 🟢 63% | 🟢 83% | 🟢 28% | 🟢 75% |
-
 
 > [!code]- Click to view: strategy_38.py
 > ```embed-python
@@ -44,13 +41,10 @@ This file tracks the testing of strategies derived from Kevin Davey's research t
   "use_soxl": "false",
   "atr_stop_mult": "2.63"
 }
-*   **Yearly Returns:**
-
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 82% | 🟢 19% | 🔴 -29% | 🟢 140% | 🔴 -8% | 🟢 112% | 🟢 144% | 🟢 76% | 🔴 -23% | 🟢 139% | 🟢 45% | 🟢 3% | 🔴 -4% |
-
 
 > [!code]- Click to view: strategy_template.py
 > ```embed-python
@@ -74,13 +68,10 @@ This file tracks the testing of strategies derived from Kevin Davey's research t
   "use_soxl": "false",
   "atr_stop_mult": "2.58"
 }
-*   **Yearly Returns:**
-
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 76% | 🟢 19% | 🔴 -29% | 🟢 128% | 🔴 -15% | 🟢 109% | 🟢 144% | 🟢 76% | 🔴 -23% | 🟢 137% | 🟢 44% | 🟢 8% | 🔴 -4% |
-
 
 > [!code]- Click to view: strategy_template.py
 > ```embed-python
@@ -95,13 +86,10 @@ This file tracks the testing of strategies derived from Kevin Davey's research t
 
 *   **CAGR / Max Drawdown:** 42.448% / -50.600%
 *   **Sharpe Ratio:** 0.920
-*   **Yearly Returns:**
-
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 86% | 🔴 -22% | ⚪ 0% | 🟢 54% | 🟢 27% | 🟢 17% | 🟢 71% | 🟢 115% | 🔴 -14% | 🟢 63% | 🟢 83% | 🟢 28% | 🟢 75% |
-
 
 > [!code]- Click to view: strategy_36.py
 > ```embed-python
@@ -116,13 +104,10 @@ This file tracks the testing of strategies derived from Kevin Davey's research t
 
 *   **CAGR / Max Drawdown:** 42.226% / -50.200%
 *   **Sharpe Ratio:** 0.917
-*   **Yearly Returns:**
-
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 86% | 🔴 -22% | ⚪ 0% | 🟢 54% | 🟢 28% | 🟢 16% | 🟢 83% | 🟢 95% | 🔴 -14% | 🟢 63% | 🟢 83% | 🟢 28% | 🟢 75% |
-
 
 > [!code]- Click to view: strategy_35.py
 > ```embed-python
@@ -146,13 +131,10 @@ This file tracks the testing of strategies derived from Kevin Davey's research t
   "use_soxl": "false",
   "atr_stop_mult": "2.69"
 }
-*   **Yearly Returns:**
-
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 71% | 🟢 5% | 🔴 -30% | 🟢 102% | 🔴 -29% | 🟢 113% | 🟢 145% | 🟢 76% | 🔴 -23% | 🟢 139% | 🟢 39% | 🟢 4% | 🟢 8% |
-
 
 > [!code]- Click to view: strategy_template.py
 > ```embed-python
@@ -167,13 +149,10 @@ This file tracks the testing of strategies derived from Kevin Davey's research t
 
 *   **CAGR / Max Drawdown:** 37.972% / -49.500%
 *   **Sharpe Ratio:** 0.880
-*   **Yearly Returns:**
-
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 85% | 🔴 -3% | 🔴 -6% | 🟢 76% | 🟢 54% | 🟢 14% | 🟢 85% | 🟢 49% | 🔴 -14% | 🟢 81% | 🟢 36% | 🟢 28% | 🟢 21% |
-
 
 > [!code]- Click to view: strategy_34.py
 > ```embed-python
@@ -188,13 +167,10 @@ This file tracks the testing of strategies derived from Kevin Davey's research t
 
 *   **CAGR / Max Drawdown:** 37.376% / -51.500%
 *   **Sharpe Ratio:** 0.827
-*   **Yearly Returns:**
-
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 66% | 🟢 5% | 🔴 -17% | 🟢 118% | 🔴 -5% | 🟢 25% | 🟢 123% | 🟢 88% | 🔴 -27% | 🟢 80% | 🟢 62% | 🟢 27% | 🟢 6% |
-
 
 > [!code]- Click to view: strategy_22.py
 > ```embed-python
@@ -209,13 +185,10 @@ This file tracks the testing of strategies derived from Kevin Davey's research t
 
 *   **CAGR / Max Drawdown:** 35.641% / -49.500%
 *   **Sharpe Ratio:** 0.834
-*   **Yearly Returns:**
-
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 86% | 🔴 -3% | 🔴 -6% | 🟢 78% | 🟢 28% | 🟢 11% | 🟢 84% | 🟢 49% | 🔴 -14% | 🟢 81% | 🟢 36% | 🟢 28% | 🟢 21% |
-
 
 > [!code]- Click to view: strategy_31.py
 > ```embed-python
@@ -230,13 +203,10 @@ This file tracks the testing of strategies derived from Kevin Davey's research t
 
 *   **CAGR / Max Drawdown:** 30.904% / -56.600%
 *   **Sharpe Ratio:** 0.726
-*   **Yearly Returns:**
-
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 85% | 🔴 -24% | 🔴 -19% | 🟢 92% | 🔴 -1% | 🟢 50% | 🟢 135% | 🟢 43% | 🔴 -25% | 🟢 42% | 🟢 87% | 🟢 10% | 🟢 7% |
-
 
 > [!code]- Click to view: strategy_16.py
 > ```embed-python
@@ -251,13 +221,10 @@ This file tracks the testing of strategies derived from Kevin Davey's research t
 
 *   **CAGR / Max Drawdown:** 30.695% / -49.000%
 *   **Sharpe Ratio:** 0.731
-*   **Yearly Returns:**
-
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 39% | 🟢 4% | 🔴 -15% | 🟢 133% | 🟢 7% | 🟢 29% | 🟢 69% | 🟢 83% | 🔴 -21% | 🟢 70% | 🟢 29% | 🟢 25% | 🔴 -6% |
-
 
 > [!code]- Click to view: dip_buy_tqqq.py
 > ```embed-python
@@ -272,13 +239,10 @@ This file tracks the testing of strategies derived from Kevin Davey's research t
 
 *   **CAGR / Max Drawdown:** 30.102% / -50.200%
 *   **Sharpe Ratio:** 0.728
-*   **Yearly Returns:**
-
 
 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 | 2026 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 69% | 🟢 8% | 🔴 -25% | 🟢 137% | 🔴 -16% | 🟢 20% | 🟢 69% | 🟢 61% | 🔴 -27% | 🟢 104% | 🟢 64% | 🟢 32% | 🔴 -18% |
-
 
 > [!code]- Click to view: cheat_code_rotator_tqqq.py
 > ```embed-python
