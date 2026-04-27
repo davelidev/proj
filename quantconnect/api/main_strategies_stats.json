@@ -1,0 +1,97 @@
+{
+    "dip_buy_tech.py": {
+        "backtestId": "e3f393e426a43cbb59d83409066569c3",
+        "Win Rate": "52%",
+        "Loss Rate": "48%",
+        "Total Orders": "71",
+        "Profit-Loss Ratio": "3.43",
+        "Net Profit": "2543.721%",
+        "CAGR": "31.352%",
+        "MaxDD": "49.100%",
+        "Sharpe": "0.883"
+    },
+    "vol_breakout.py": {
+        "backtestId": "ec2fcf972ffbb1fc91b0c9d65e296a7d",
+        "status": "Completed",
+        "CAGR": "41.733%",
+        "MaxDD": "43.600%",
+        "Sharpe": "0.983",
+        "Win Rate": "16%",
+        "Loss Rate": "84%",
+        "Total Orders": "1072",
+        "Profit-Loss Ratio": "9.98",
+        "Net Profit": "6488.045%"
+    },
+    "leveraged_rebalance.py": {
+        "backtestId": "d0994c5bf3008a753ff23e99cadae07c",
+        "status": "Completed",
+        "CAGR": "31.023%",
+        "MaxDD": "52.000%",
+        "Sharpe": "0.748",
+        "Win Rate": "100%",
+        "Loss Rate": "0%",
+        "Total Orders": "35",
+        "Profit-Loss Ratio": "0",
+        "Net Profit": "2464.755%"
+    },
+    "conservative_rotation.py": {
+        "backtestId": "bbeb35aa3fba5ba6561196dfa6adefef",
+        "status": "Completed",
+        "CAGR": "94.958%",
+        "MaxDD": "56.500%",
+        "Sharpe": "1.52",
+        "Win Rate": "54%",
+        "Loss Rate": "46%",
+        "Total Orders": "185",
+        "Profit-Loss Ratio": "4.51",
+        "Net Profit": "302879.454%"
+    },
+    "defensive_rotation.py": {
+        "backtestId": "3aaf85c2e6e38f447789bab80b8b38fe",
+        "status": "Completed",
+        "CAGR": "42.061%",
+        "MaxDD": "49.800%",
+        "Sharpe": "0.858",
+        "Win Rate": "41%",
+        "Loss Rate": "59%",
+        "Total Orders": "389",
+        "Profit-Loss Ratio": "3.40",
+        "Net Profit": "6673.328%"
+    },
+    "rsi_champion.py": {
+        "backtestId": "245ce0fe99110ccf043a21471e1bc1b8",
+        "status": "Completed",
+        "CAGR": "46.947%",
+        "MaxDD": "36.900%",
+        "Sharpe": "1.034",
+        "Win Rate": "70%",
+        "Loss Rate": "30%",
+        "Total Orders": "2037",
+        "Profit-Loss Ratio": "0.81",
+        "Net Profit": "10066.155%"
+    },
+    "dip_buy_tqqq.py": {
+        "backtestId": "6be35fc5b79d4f8e711a4af5d67973b6",
+        "status": "Completed",
+        "CAGR": "30.921%",
+        "MaxDD": "49.000%",
+        "Sharpe": "0.738",
+        "Win Rate": "68%",
+        "Loss Rate": "32%",
+        "Total Orders": "147",
+        "Profit-Loss Ratio": "1.44",
+        "Net Profit": "2440.732%"
+    },
+    "holy_grail_refined.py": {
+        "backtestId": "0d2013400be6517681961d646996b2e7",
+        "status": "Completed",
+        "CAGR": "91.985%",
+        "MaxDD": "46.600%",
+        "Sharpe": "1.548",
+        "Win Rate": "55%",
+        "Loss Rate": "45%",
+        "Total Orders": "515",
+        "Profit-Loss Ratio": "2.56",
+        "Net Profit": "251823.881%"
+    }
+}

@@ -5,7 +5,7 @@ import sys
 from run_qc_backtest import trigger_backtest, PROJECT_ID
 from poll_backtest import get_backtest_status
 
-ARCHIVE_DIR = "../archive"
+ARCHIVE_DIR = "archive"
 RESULTS_FILE = "batch_results.json"
 
 def main():

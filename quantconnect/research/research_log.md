@@ -228,7 +228,7 @@ This file tracks the testing of strategies derived from Kevin Davey's research t
 
 > [!code]- Click to view: dip_buy_tqqq.py
 > ```embed-python
-> PATH: "vault://QuantConnect/Strategies/dip_buy_tqqq.py"
+> PATH: "vault://QuantConnect/strategies/dip_buy_tqqq.py"
 > ```
 
 ---

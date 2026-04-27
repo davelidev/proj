@@ -32,18 +32,26 @@ class LargeCapTechStrategy(QCAlgorithm):
         for security in changes.added_securities:
             security.rsi = self.rsi(security, 2)
             security.max = self.max(security, 252)
-            security.sma20 = self.sma(security, 20)
+            security.sma50 = self.sma(security, 50)
         for security in changes.removed_securities:
             self.liquidate(security)
     
     def _rebalance(self):
         for symbol in self._universe.selected:   
             security = self.securities[symbol]
-            if not (security.max.is_ready and security.sma20.is_ready):
+            if not (security.max.is_ready and security.sma50.is_ready):
                 continue                        
-            # Buy signal: RSI < 25 AND Price > SMA(20)
-            if not security.invested and security.rsi.current.value < 25 and security.price > security.sma20.current.value:
-                self.set_holdings(security, 1 / len(self._universe.selected))
-            # Sell signal: price at or above 1yr-high and invested
-            elif security.invested and security.price >= security.max.current.value:
-                self.liquidate(security)
+            
+            # Buy signal: RSI(2) < 30 AND Price > SMA(50)
+            if not security.invested:
+                if security.rsi.current.value < 30 and security.price > security.sma50.current.value:
+                    self.set_holdings(security, 1 / len(self._universe.selected))
+            
+            # Sell signal: 15% hard stop OR at 1yr-high (ATH proxy)
+            else:
+                # 15% Hard Stop
+                if security.price <= security.holdings.average_price * 0.85:
+                    self.liquidate(security)
+                # Exit at ATH (1-year high)
+                elif security.price >= security.max.current.value:
+                    self.liquidate(security)

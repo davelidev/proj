@@ -25,7 +25,7 @@ strategies = [
     }
 ]
 
-log_file = "QuantConnect/research_log.md"
+log_file = "research/research_log.md"
 
 def main():
     with open(log_file, "a") as f:
@@ -33,7 +33,7 @@ def main():
         
     for strat in strategies:
         print(f"\n--- Running {strat['name']} ---")
-        bt_id = trigger_backtest(PROJECT_ID, f"QuantConnect/{strat['file']}", strat['name'])
+        bt_id = trigger_backtest(PROJECT_ID, f"research/{strat['file']}", strat['name'])
         if not bt_id:
             print("Failed to trigger backtest.")
             continue

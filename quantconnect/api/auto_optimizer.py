@@ -17,8 +17,8 @@ API_TOKEN = os.environ.get("QC_API_TOKEN")
 PROJECT_ID = os.environ.get("QC_PROJECT_ID")
 BASE_URL = os.environ.get("QC_BASE_URL")
 
-RESEARCH_LOG = "QuantConnect/research/research_log.md"
-STRATEGY_TEMPLATE = "QuantConnect/research/strategy_template_v3.py"
+RESEARCH_LOG = "research/research_log.md"
+STRATEGY_TEMPLATE = "research/strategy_template_v3.py"
 
 def get_auth_headers():
     timestamp = str(int(time.time()))
