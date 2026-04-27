@@ -29,7 +29,7 @@
 ## Strategy1
 ### Volatility Breakout (vol_breakout.py)
 
-**Description:** Captures momentum by entering trades during low volatility breakouts and exiting on high volatility spikes.
+**Description:** Captures momentum by entering trades during consolidation breakouts and exiting on volatility spikes.
 
 *   **Entry:** Price near 240-minute high (>= 98% of high) AND intra-bar volatility < 0.1.
 *   **Exit:** Intra-bar volatility > 0.15 OR 3% initial stop loss.
@@ -53,7 +53,7 @@
 ## Strategy2
 ### Tech Dip Buy (dip_buy_tech.py)
 
-**Description:** Mean-reversion strategy targeting top 5 tech stocks when RSI(2) < 30 and Price > SMA(50).
+**Description:** Mean-reversion strategy targeting top 5 tech stocks during pullbacks in an established uptrend.
 
 *   **Entry:** RSI(2) < 30 AND Price > SMA(50) on top 5 market cap tech stocks.
 *   **Exit:** 15% hard stop OR price >= 1-year high (ATH proxy).
@@ -77,7 +77,7 @@
 ## Strategy3
 ### Leveraged Rebalance (leveraged_rebalance.py)
 
-**Description:** Annual rebalancing of leveraged ETFs (TQQQ, SOXL, TECL) to harvest volatility premium.
+**Description:** Periodic rebalancing of leveraged ETFs to harvest volatility premium and maintain target risk exposure.
 
 *   **Entry:** Annual rebalance at year-start into target weights.
 *   **Exit:** N/A (Dynamic weight adjustment).
@@ -101,7 +101,7 @@
 ## Strategy4
 ### Conservative Rotation (conservative_rotation.py)
 
-**Description:** Multi-asset momentum rotation strategy switching between leveraged growth and short protection.
+**Description:** Multi-asset momentum rotation strategy switching between leveraged growth and short protection based on market regime.
 
 *   **Entry:** Default entry is TQQQ (Bullish regime).
 *   **Exit:** Rotate to SQQQ (Short) when SPY < SMA(200) AND TQQQ < SMA(20) (unless RSI < 30).
@@ -125,7 +125,7 @@
 ## Strategy5
 ### Defensive Rotation (defensive_rotation.py)
 
-**Description:** Macro rotation with multi-layered defensive gates (Bonds and Cash) for crash protection.
+**Description:** Macro rotation with multi-layered defensive gates including bonds and cash for enhanced crash protection.
 
 *   **Entry:** TQQQ in Bull Markets (SPY > SMA200).
 *   **Exit:** Rotate to BIL (RSI < 30), IEF (Bear market rally), or SQQQ (Active bear downtrend).
@@ -149,7 +149,7 @@
 ## Strategy6
 ### RSI Champion (rsi_champion.py)
 
-**Description:** Aggressive RSI-based oscillator swinging between leveraged growth and cash on extreme oversold signals.
+**Description:** Aggressive oscillator-based strategy swinging between leveraged growth and cash on extreme oversold signals.
 
 *   **Entry:** QQQ RSI(2) < 25 (Extreme daily oversold).
 *   **Exit:** Liquidate to cash when QQQ RSI(2) >= 25.
@@ -173,7 +173,7 @@
 ## Strategy7
 ### TQQQ Dynamic Compounding (dip_buy_tqqq.py)
 
-**Description:** Bull trend strategy that varies TQQQ leverage based on RSI-driven dips and exhaustion.
+**Description:** Trend-following strategy that dynamically varies leverage based on pullbacks and exhaustion levels.
 
 *   **Entry:** Bull Market (Price > SMA200) AND RSI(2) < 30 (100% leverage).
 *   **Exit:** De-leverage to 20% on RSI(10) > 80; Exit to cash if Bear Market (Price < SMA200).
@@ -197,7 +197,7 @@
 ## Strategy8
 ### Holy Grail Refined (holy_grail_refined.py)
 
-**Description:** Multi-regime rotation optimizing for crash protection and opportunistic bear-market bounces.
+**Description:** Multi-regime rotation optimizing for crash protection and opportunistic bounces during market stress.
 
 *   **Entry:** Bull Market (TQQQ > SMA200) -> Hold TQQQ; Bear Market -> Dip buy TECL/SOXL on RSI pullbacks.
 *   **Exit:** Rotate to BIL (Cash) if RSI(10) > 79 (Bull) or based on relative momentum (Bear).
