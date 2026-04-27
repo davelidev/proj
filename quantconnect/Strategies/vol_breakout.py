@@ -10,7 +10,7 @@ class VolatilityBreakout(QCAlgorithm):
         self.volatility_low = float(self.GetParameter("volatility_low", 0.1))
         self.volatility_high = float(self.GetParameter("volatility_high", 0.15))
         self.holding_pct = float(self.GetParameter("holding_pct", 1))
-        self.stop_loss_pct = float(self.GetParameter("stop_loss_pct", 0.01))
+        self.stop_loss_pct = float(self.GetParameter("stop_loss_pct", 0.03))
 
     
         assert self.volatility_low < self.volatility_high 

@@ -36,7 +36,7 @@ python3 api/get_yearly_stats.py d8015ac983b4c946e765b9cc03223bb5
 
 ## 5. Updating Documentation
 > [!IMPORTANT]
-> Do not update documentation (`Strategies.md` or `research_log.md`) unless explicitly told to do so by the user.
+> Do not update documentation (`Strategies.md` or `research_log.md`) unless explicitly told to do so by the user. When updating, ensure both the individual strategy section and the aggregated summary tables (Summary Table and Yearly Returns Grid) are updated to remain in sync.
 
 Update `strategies/Strategies.md` with the new data:
 
