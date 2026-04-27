@@ -70,4 +70,4 @@ if __name__ == "__main__":
             print(f"Error Message: {error_msg}")
             break
         
-        time.sleep(10)
+        time.sleep(2)
