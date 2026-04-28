@@ -41,7 +41,7 @@ python3 api/get_yearly_stats.py d8015ac983b4c946e765b9cc03223bb5
 Update `strategies/Strategies.md` with the new data:
 
 ### Summary Table
-Update the CAGR, MaxDD, and Sharpe columns.
+Update the CAGR, MaxDD, and Sharpe columns. **Note: Return percentages (CAGR, Yearly Returns) should be rounded to the nearest whole number (no decimals).**
 Update the yearly returns grid. Use 🟢 for positive years and 🔴 for negative years.
 
 ### Strategy Details
