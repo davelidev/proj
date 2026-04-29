@@ -23,10 +23,6 @@ class DualSignalRotation(QCAlgorithm):
 
         # Indicators
         self.rsi2 = self.RSI(self.syms["TQQQ"], 2, MovingAverageType.Wilders, Resolution.Daily)
-        self.rsi10 = {
-            t: self.RSI(self.syms[t], 10, MovingAverageType.Wilders, Resolution.Daily)
-            for t in ["SPY", "QQQ"]
-        }
         self.sma200 = self.SMA(self.syms["TQQQ"], 200, Resolution.Daily)
         self.sma20 = self.SMA(self.syms["TQQQ"], 20, Resolution.Daily)
 
@@ -59,8 +55,7 @@ class DualSignalRotation(QCAlgorithm):
         if (self.IsWarmingUp 
             or not self.sma200.IsReady 
             or not self.sma20.IsReady 
-            or not self.rsi2.IsReady
-            or not all(i.IsReady for i in self.rsi10.values())):
+            or not self.rsi2.IsReady):
             return
 
         pick = self._pick()

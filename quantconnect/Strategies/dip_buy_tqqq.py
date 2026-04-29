@@ -4,7 +4,7 @@ from AlgorithmImports import *
 
 class TQQQDynamicCompounding(QCAlgorithm):
     """
-    Strategy 8: TQQQ Dynamic Compounding
+    Strategy 7: TQQQ Dynamic Compounding
     
     Core Concept:
     - Varies leverage based on market regime and volatility.
