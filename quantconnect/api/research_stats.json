@@ -1,0 +1,90 @@
+{
+  "A21 - S38": {
+    "Win #": 119,
+    "Loss #": 93,
+    "W/L Ratio": 1.28,
+    "Profit Ratio": 2.49,
+    "Win Rate": 56.0,
+    "Total Orders": 212
+  },
+  "A22 - Iter69": {
+    "Win #": 166,
+    "Loss #": 131,
+    "W/L Ratio": 1.27,
+    "Profit Ratio": 1.47,
+    "Win Rate": 56.0,
+    "Total Orders": 297
+  },
+  "A23 - Iter60": {
+    "Win #": 113,
+    "Loss #": 75,
+    "W/L Ratio": 1.51,
+    "Profit Ratio": 2.31,
+    "Win Rate": 60.0,
+    "Total Orders": 188
+  },
+  "A24 - S36": {
+    "Win #": 78,
+    "Loss #": 69,
+    "W/L Ratio": 1.13,
+    "Profit Ratio": 2.45,
+    "Win Rate": 53.0,
+    "Total Orders": 147
+  },
+  "A25 - S35": {
+    "Win #": 81,
+    "Loss #": 66,
+    "W/L Ratio": 1.23,
+    "Profit Ratio": 2.34,
+    "Win Rate": 55.0,
+    "Total Orders": 147
+  },
+  "A26 - Iter192": {
+    "Win #": 106,
+    "Loss #": 84,
+    "W/L Ratio": 1.26,
+    "Profit Ratio": 1.88,
+    "Win Rate": 56.0,
+    "Total Orders": 190
+  },
+  "A27 - S34": {
+    "Win #": 94,
+    "Loss #": 76,
+    "W/L Ratio": 1.24,
+    "Profit Ratio": 2.21,
+    "Win Rate": 55.0,
+    "Total Orders": 170
+  },
+  "A28 - S22": {
+    "Win #": 10,
+    "Loss #": 25,
+    "W/L Ratio": 0.4,
+    "Profit Ratio": 23.67,
+    "Win Rate": 29.0,
+    "Total Orders": 35
+  },
+  "A29 - S31": {
+    "Win #": 81,
+    "Loss #": 67,
+    "W/L Ratio": 1.21,
+    "Profit Ratio": 2.32,
+    "Win Rate": 55.0,
+    "Total Orders": 148
+  },
+  "A30 - S16": {
+    "Win #": 92,
+    "Loss #": 109,
+    "W/L Ratio": 0.84,
+    "Profit Ratio": 2.41,
+    "Win Rate": 46.0,
+    "Total Orders": 201
+  },
+  "A32 - S11": {
+    "Win #": 57,
+    "Loss #": 24,
+    "W/L Ratio": 2.38,
+    "Profit Ratio": 1.45,
+    "Win Rate": 70.0,
+    "Total Orders": 81
+  }
+}
