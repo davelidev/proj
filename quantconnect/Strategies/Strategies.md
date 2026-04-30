@@ -31,11 +31,14 @@
 ## Strategy1
 ### Volatility Breakout (vol_breakout.py)
 
-**Description:** Captures momentum by entering trades during consolidation breakouts and exiting on volatility spikes.
+**Description:** Waits for TQQQ to quietly compress near a recent high, then enters expecting a breakout. Gets out as soon as volatility spikes or the stop is hit. Operates on minute bars, so it is trying to exploit intraday momentum patterns rather than daily trends.
 
-*   **Entry:** Price near 240-minute high (>= 98% of high) AND intra-bar volatility < 0.1.
-*   **Exit:** Intra-bar volatility > 0.15 OR 3% initial stop loss.
-*   **Symbols:** TQQQ
+**Overfitting Risk:** 6/10 (Medium) — 6 optimizer-tuned parameters; custom non-standard indicator; performance depends on the specific volatility regime of the 2014–2025 period.
+
+- **Entry:** Price >= 98% of 240-min high AND avg intra-bar volatility < 0.1
+- **Exit:** Avg intra-bar volatility > 0.15 OR 3% stop loss
+- **Symbols:** TQQQ
+- **Resolution:** Minute
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -55,11 +58,14 @@
 ## Strategy2
 ### Tech Dip Buy (dip_buy_tech.py)
 
-**Description:** Mean-reversion strategy targeting top 5 tech stocks during pullbacks in an established uptrend.
+**Description:** Buys the biggest tech names when they pull back hard during an uptrend, then holds until they recover to new highs or the loss gets too large. Universe rotates automatically as market caps shift, so it always targets the current leaders.
 
-*   **Entry:** RSI(2) < 30 AND Price > SMA(50) on top 5 market cap tech stocks.
-*   **Exit:** 15% hard stop OR price >= 1-year high (ATH proxy).
-*   **Symbols:** Dynamic Top 5 Tech (e.g., AAPL, MSFT, NVDA, AVGO, ORCL)
+**Overfitting Risk:** 2/10 (Very Low) — textbook parameters, dynamic universe, small trade count (71 total) is a minor concern but the logic is sound.
+
+- **Entry:** RSI(2) < 30 AND price > SMA(50); equal weight across held positions
+- **Exit:** Price <= avg cost × 0.85 (15% hard stop) OR price >= 252-day high (1-yr ATH)
+- **Symbols:** Dynamic top 5 tech by market cap (e.g. AAPL, MSFT, NVDA, AVGO, ORCL)
+- **Rebalance:** Weekly
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- |
@@ -79,11 +85,14 @@
 ## Strategy3
 ### Leveraged Rebalance (leveraged_rebalance.py)
 
-**Description:** Periodic rebalancing of leveraged ETFs to harvest volatility premium and maintain target risk exposure.
+**Description:** Holds three leveraged ETFs and cash in fixed proportions, restoring those proportions once a year. No signals, no timing decisions. Returns come almost entirely from what it holds rather than how it manages positions — TQQQ, SOXL, and TECL were among the best-performing ETFs of the backtest decade, which is a hindsight advantage.
 
-*   **Entry:** Annual rebalance at year-start into target weights.
-*   **Exit:** N/A (Dynamic weight adjustment).
-*   **Symbols:** TQQQ, SOXL, TECL (20% each), Cash (40%)
+**Overfitting Risk:** 4/10 (Low-Medium) — zero mechanical overfitting, but symbol selection is a meta-level hindsight bias that cannot be discovered without knowing the outcome.
+
+- **Entry:** Annual rebalance to target weights
+- **Exit:** N/A — weight drift only corrected annually
+- **Symbols:** TQQQ 20%, SOXL 20%, TECL 20%, Cash 40%
+- **Rebalance:** Yearly
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -103,18 +112,21 @@
 ## Strategy4
 ### Conservative Rotation (conservative_rotation.py)
 
-**Description:** Multi-asset momentum rotation strategy switching between leveraged growth and short protection based on market regime.
+**Description:** Always either long or short — never in cash. Rides TQQQ in bull markets and flips to SQQQ during sustained downtrends, but stays long during sharp crashes rather than shorting into panic. Aggressive on both sides of the market. The 1020% return in 2020 is a red flag suggesting the logic was calibrated to the specific shape of the COVID crash and recovery.
 
-*   **Entry:** Default entry is TQQQ (Bullish regime).
-*   **Exit:** Rotate to SQQQ (Short) when SPY < SMA(200) AND TQQQ < SMA(20) (unless RSI < 30).
-*   **Symbols:** TQQQ, SQQQ, SPY, QQQ
+**Overfitting Risk:** 7/10 (High) — RSI(10) crash gate on 4 tickers is highly specific; the 2020 outlier return (1020%) strongly suggests the logic was tuned to that event; never holding cash is an aggressive structural choice.
+
+- **Entry:** Default TQQQ; rotate to SQQQ when SPY < SMA(200) AND TQQQ < SMA(20) AND no crash
+- **Exit:** Rotate back to TQQQ when trend or crash conditions clear
+- **Crash Gate:** RSI(10) on QQQ or SPY < 30 → stay long TQQQ (prevents shorting sharp drops)
+- **Symbols:** TQQQ, SQQQ, SPY, QQQ
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 95%  | -57%  | 1.520  | 100 | 85 | 1.18 | 4.51 |
 
-| 14     | 15     | 16     | 17      | 18     | 19     | 20      | 21     | 22     | 23      | 24     | 25     |
-| :----- | :----- | :----- | :------ | :----- | :----- | :------ | :----- | :----- | :------ | :----- | :----- |
+| 14     | 15     | 16     | 17      | 18     | 19     | 20       | 21     | 22     | 23      | 24     | 25     |
+| :----- | :----- | :----- | :------ | :----- | :----- | :------- | :----- | :----- | :------ | :----- | :----- |
 | 🟢 49% | 🔴 -2% | 🟢 59% | 🟢 118% | 🟢 26% | 🟢 95% | 🟢 1020% | 🟢 88% | 🟢 77% | 🟢 142% | 🟢 62% | 🟢 68% |
 
 > [!code]- Click to view: conservative_rotation.py
@@ -127,11 +139,15 @@
 ## Strategy5
 ### Defensive Rotation (defensive_rotation.py)
 
-**Description:** Tactical rotation strategy using cash gates and inverse positions to protect capital during high-volatility regimes and bear markets.
+**Description:** Rotates between TQQQ, SQQQ, and cash depending on the trend and momentum regime. More conservative than S4 — defaults to cash when conditions are ambiguous rather than forcing a position. Note: the original description did not match the actual code, meaning the logic was changed without a clean rewrite. A duplicate initialization block in the code further indicates this strategy was tuned in place over time.
 
-*   **Entry:** TQQQ in Bull Markets (TQQQ > SMA200).
-*   **Exit:** Rotate to Cash (RSI < 30), Cash (Sideways/Rally), or SQQQ (Active bear downtrend).
-*   **Symbols:** TQQQ, SQQQ, SPY, QQQ
+**Overfitting Risk:** 6/10 (Medium) — duplicate init block reveals iterative tuning; RSI(10) crash gate on two indices is a specific multi-ticker filter; code-to-docstring mismatch means the logic was changed without a clean rewrite.
+
+- **Entry (Bull):** TQQQ > SMA(200) AND (price > SMA(20) OR RSI(2) < 20) → TQQQ
+- **Entry (Bear):** TQQQ ≤ SMA(200) AND (price < SMA(20) OR RSI(2) > 80) → SQQQ
+- **Cash Gate:** RSI(10) on QQQ or SPY < 30 → cash regardless of regime
+- **Default:** Cash
+- **Symbols:** TQQQ, SQQQ, SPY, QQQ
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -151,11 +167,13 @@
 ## Strategy6
 ### RSI Champion (rsi_champion.py)
 
-**Description:** Aggressive oscillator-based strategy swinging between leveraged growth and cash on extreme oversold signals.
+**Description:** Sits in cash most of the time, then rushes into a basket of leveraged tech ETFs the moment the market gets extremely oversold. Exits as soon as the signal clears. Patient and decisive — no trend filter, no regime switching, just one clean trigger. With over 2000 trades across 11 years it is the most statistically reliable strategy in the set.
 
-*   **Entry:** QQQ RSI(2) < 25 (Extreme daily oversold).
-*   **Exit:** Liquidate to cash when QQQ RSI(2) >= 25.
-*   **Symbols:** TQQQ, SOXL, TECL, QQQ
+**Overfitting Risk:** 2/10 (Very Low) — single indicator, single threshold; 2000+ trades provide strong statistical confidence; the only minor concern is the 25 threshold vs the more standard 20 or 30.
+
+- **Entry:** QQQ RSI(2) < 25 → equal-weight TQQQ / SOXL / TECL
+- **Exit:** QQQ RSI(2) >= 25 → 100% cash
+- **Symbols:** TQQQ, SOXL, TECL (signal from QQQ)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -175,11 +193,15 @@
 ## Strategy7
 ### TQQQ Dynamic Compounding (dip_buy_tqqq.py)
 
-**Description:** Buys short-term pullbacks during long-term bullish trends to capture bounces while dynamically varying leverage based on exhaustion.
+**Description:** Owns TQQQ in bull markets but adjusts position size based on momentum — loads up on dips, cuts back at peaks, and exits entirely when the trend turns bear. Tries to compound faster than a static buy-and-hold by being more aggressive when conditions are favorable and more cautious when overextended.
 
-*   **Entry:** Bull Market (Price > SMA200) AND RSI(2) < 30 (100% leverage).
-*   **Exit:** De-leverage to 20% on RSI(10) > 80; Exit to cash if Bear Market (Price < SMA200).
-*   **Symbols:** TQQQ
+**Overfitting Risk:** 4/10 (Low-Medium) — RSI thresholds (30, 80) are standard; the three allocation tiers (20%/50%/100%) and their trigger conditions are likely tuned; single-ticker focus limits parameter space.
+
+- **Entry (Bull, full):** TQQQ > SMA(200) AND RSI(2) < 30 → 100%
+- **Entry (Bull, default):** TQQQ > SMA(200), not overbought → 50%
+- **De-lever:** TQQQ > SMA(200) AND RSI(10) > 80 → 20%
+- **Exit:** TQQQ ≤ SMA(200) → 100% cash
+- **Symbols:** TQQQ
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -199,11 +221,16 @@
 ## Strategy8
 ### Holy Grail Refined (holy_grail_refined.py)
 
-**Description:** Multi-regime rotation optimizing for crash protection and opportunistic bounces during market stress.
+**Description:** Tries to profit in both bull and bear markets by rotating across five assets depending on which regime is active. The result of 18 rounds of iterative refinement on top of a prior strategy. The complexity is a liability — some of the logic (particularly the BIL comparison in bear markets) has no clear economic rationale and appears to be an artifact of repeated backtesting rather than a genuine market insight.
 
-*   **Entry:** Bull Market (TQQQ > SMA200) -> Hold TQQQ; Bear Market -> Dip buy TECL/SOXL on RSI pullbacks.
-*   **Exit:** Rotate to BIL (Cash) if RSI(10) > 79 (Bull) or based on relative momentum (Bear).
-*   **Symbols:** TQQQ, TECL, SOXL, SQQQ, BIL
+**Overfitting Risk:** 9/10 (Very High) — 18 iterations of in-sample refinement; RSI(BIL) comparison is economically meaningless; thresholds 79/31/30 indicate single-point optimizer tuning; 604% return in 2020 suggests calibration to the COVID event.
+
+- **Entry (Bull):** TQQQ > SMA(200) AND RSI(10) ≤ 79 → TQQQ
+- **Cash (Bull overbought):** RSI(10,TQQQ) > 79 → BIL
+- **Bear dip-buy:** RSI(10,TQQQ) < 31 → TECL; RSI(10,SOXL) < 30 → SOXL
+- **Bear downtrend:** TQQQ < SMA(20) → SQQQ if RSI(SQQQ) > RSI(BIL), else BIL
+- **Bear rally:** TQQQ ≥ SMA(20) → TQQQ
+- **Symbols:** TQQQ, TECL, SOXL, SQQQ, BIL
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -223,11 +250,14 @@
 ## Strategy9
 ### Dual Signal Rotation (dual_signal_rotation.py)
 
-**Description:** Combines trend-following momentum and extreme mean-reversion signals for tactical asset rotation.
+**Description:** Goes long in uptrends, short in downtrends, and hides in cash when neither signal is clear. The cleanest rotation strategy in the set — the bull and bear logic are mirror images of each other, all signals come from a single ticker, and every threshold is a round-number standard value. What you see is what you get.
 
-*   **Entry:** Bull Market (TQQQ > SMA200) AND (Price > SMA20 OR RSI(2) < 20) -> TQQQ.
-*   **Exit:** Bear Market (TQQQ < SMA200) -> SQQQ if (Price < SMA20 OR RSI(2) > 80); Else Cash.
-*   **Symbols:** TQQQ, SQQQ, SPY, QQQ
+**Overfitting Risk:** 3/10 (Low) — 3 indicators on one ticker, symmetric logic, standard thresholds; the -54% max drawdown is steep but consistent with the strategy's exposure to leveraged ETFs.
+
+- **Entry (Bull):** TQQQ > SMA(200) AND (price > SMA(20) OR RSI(2) < 20) → TQQQ
+- **Entry (Bear):** TQQQ ≤ SMA(200) AND (price < SMA(20) OR RSI(2) > 80) → SQQQ
+- **Default:** Cash
+- **Symbols:** TQQQ, SQQQ
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |

@@ -5,8 +5,8 @@ from AlgorithmImports import *
 class LargeCapTechStrategy(QCAlgorithm):
 
     def initialize(self):
-        start_date = datetime.now() - timedelta(days=12*365)
-        self.SetStartDate(start_date.year, start_date.month, start_date.day)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
         self.set_cash(100_000)
         self.universe_settings.resolution = Resolution.DAILY
         self.settings.automatic_indicator_warm_up = True

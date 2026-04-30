@@ -1,49 +1,45 @@
-# Archived Strategies Findings
+# Archived Strategy Backtests
 
-This document summarizes historical, experimental, or superseded strategies located in the `quantconnect/archive/` directory.
-## Summary Table
+| Strategy | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| a_1.py | 215% | -51% | 2.73 |
+| a_10.py | 39% | -28% | 1.33 |
+| a_11.py | 196% | -66% | 2.40 |
+| a_2.py | 158% | -56% | 2.22 |
+| a_3.py | 41% | -24% | 1.26 |
+| a_4.py | 69% | -75% | 1.19 |
+| a_5.py | 161% | -47% | 2.28 |
+| a_6.py | 54% | -24% | 1.34 |
+| a_7.py | 54% | -24% | 1.34 |
+| a_8.py | 123% | -42% | 2.19 |
+| a_9.py | 168% | -55% | 2.50 |
+| alpha_giant_champion.py | -1% | -40% | -0.26 |
+| dip_buy_top5.py | 19% | -26% | 0.74 |
+| giant_sniper_mean_rev.py | 27% | -44% | 0.83 |
+| large_cap_breakout.py | N/A | N/A | N/A |
+| large_cap_ema.py | 29% | -52% | 0.83 |
+| rotation_v1.py | 95% | -56% | 1.52 |
+| z_gold_oil_breakout.py | 26% | -36% | 0.75 |
+| z_sector_rotation_hedge.py | N/A | N/A | N/A |
 
-| Strategy | CAGR | Max DD | Overfit Risk | Primary Reason for Archival |
-| :--- | :--- | :--- | :--- | :--- |
-| **Rotation v1** | 104.1% | 56.5% | Moderate | Superseded by newer versions / Version control. |
-| **Sector Hedge** | 52.8% | 25.5% | Low-Mod | Experimental; high Sharpe but complex execution. |
-| **Gold/Oil Breakout** | 31.0% | 34.5% | Low | Specialized commodity; too narrow for general application. |
-| **Large Cap EMA** | 29.2% | 51.5% | Low | Marginal failure of the 30% CAGR target. |
-| **Large Cap Breakout** | 27.0% | 65.9% | Low | Inefficient volatility filter caused extreme 2022 DD. |
-| **Scratchpad a_11** | 213.2% | 65.6% | **High** | **Optimizer Trap:** Precise thresholds (e.g. 62.1995%). |
-| **Scratchpad a_9** | 169.7% | 55.0% | **High** | Extreme alpha; likely fitted to specific bull runs. |
-| **Scratchpad a_5** | 169.0% | 47.0% | **High** | **Optimizer Trap:** Precise volatility/DD thresholds. |
-| **Scratchpad a_2** | 162.2% | 56.5% | **High** | Prototype for high-beta rotation; high volatility. |
-| **Scratchpad a_8** | 113.4% | 41.9% | Moderate | Strong risk-adjusted returns; superseded by v1. |
-| **Scratchpad a_4** | 72.9% | 74.6% | **High** | **Regime Fitting:** Specifically tuned for ARKK bubble. |
-| **Scratchpad a_6/7** | 53.4% | 33.0% | Low-Mod | Robust SeeSaw logic; identical versions 6 and 7. |
-| **Scratchpad a_3** | 46.8% | 24.3% | Low | High-Sharpe "Frontrunner" baseline; low DD. |
-| **Scratchpad a_10** | 44.4% | 27.7% | Moderate | **Logic Overfit:** Complex "Frankenfest" indicator chain. |
-| **Scratchpad a_1** | 30.5% | 71.4% | Low | Extreme beta decay; failed risk requirements. |
-
----
-
-## Strategic Significance
-
-### 1. Identifying the "Optimizer Trap" (`a_11`, `a_5`)
-The 200%+ CAGR in `a_11` is achieved using hyper-precise thresholds like `62.1995` and `4.9226`. This is a classic example of **overfitting to historical noise**. While it looks impressive on paper, these strategies are brittle and likely to fail in live markets where price action never matches the historical minute-by-minute data exactly.
-
-### 2. High-Alpha Baselines (`rotation_v1.py`, `a_9`)
-`rotation_v1.py` and `a_9` demonstrate that macro-regime switching (TQQQ/SQQQ) is the primary driver of 100%+ alpha. These are "Moderate" risk because while the returns are extreme, the underlying concept (trend-following on SPY) is fundamentally sound.
-
-### 3. High-Sharpe and Defensive Logic (`a_3`, `a_10`, Sector Hedge)
-`a_3` and `z_sector_rotation_hedge.py` represent the "Low Overfit" path to alpha. By focusing on volatility-adjusted returns and hedging rather than pure directional betting, they maintain a CAGR > 40% with significantly lower drawdowns.
-
-### 4. Regime Fitting (`a_4`)
-The "ARKK Machine" (`a_4`) is an example of regime fitting. It captures the 2020-2021 hyper-growth phase perfectly but collapses (74% DD) when that specific market regime ends. 
-
-### 5. Evolution of Volatility Normalization
-The transition from `large_cap_breakout.py` (27% CAGR) to the production `breakout.py` highlights why simplicity (EMA gates) is often better than complex, hand-tuned breakout rules that fail during 2022-style shifts.
-
----
-
-## Alpha Giant Champion (`alpha_giant_champion.py`)
-**Status:** Archived
-**Logic:** Uses Top 5 Market Cap leaders as signals for TQQQ breakouts.
-**Stats:** 30.12% CAGR / -56.40% MaxDD / 0.696 Sharpe
-**Yearly:** 🟢 9% | 🟢 2% | 🔴 -12% | 🟢 118% | 🔴 -23% | 🟢 50% | 🟢 105% | 🟢 88% | 🔴 -44% | 🟢 112% | 🟢 62% | 🟢 23% | 🟢 6%
+| Strategy | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| a_1.py | 🟢 60% | 🟢 15% | 🟢 96% | 🟢 145% | 🟢 117% | 🟢 260% | 🟢 14219% | 🟢 194% | 🟢 246% | 🟢 147% | 🟢 99% | 🟢 94% | 
+| a_10.py | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | 🟢 4% | 🟢 228% | 🟢 4% | 🟢 118% | 🟢 244% | 🟢 95% | 
+| a_11.py | 🟢 112% | 🔴 -28% | 🟢 191% | 🟢 152% | 🟢 3% | 🟢 247% | 🟢 1145% | 🟢 720% | 🟢 141% | 🟢 687% | 🟢 149% | 🟢 134% | 
+| a_2.py | 🟢 41% | ⚪ 0% | 🟢 65% | 🟢 138% | 🟢 70% | 🟢 186% | 🟢 4720% | 🟢 163% | 🟢 186% | 🟢 195% | 🟢 75% | 🟢 76% | 
+| a_3.py | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | 🟢 60% | 🟢 216% | 🟢 156% | 🟢 196% | 🟢 62% | 
+| a_4.py | 🟢 10% | 🟢 32% | 🟢 71% | 🟢 99% | 🔴 -7% | 🔴 -15% | 🟢 45% | 🔴 -40% | 🟢 1347% | 🟢 206% | 🟢 72% | 🟢 103% | 
+| a_5.py | 🟢 53% | 🟢 7% | 🔴 -6% | 🟢 117% | 🟢 29% | 🟢 165% | 🟢 3285% | 🟢 138% | 🟢 677% | 🟢 289% | 🟢 73% | 🟢 106% | 
+| a_6.py | 🟢 1% | 🟢 3% | 🟢 6% | ⚪ 0% | 🟢 118% | 🟢 23% | 🟢 142% | 🟢 74% | 🟢 265% | 🟢 22% | 🟢 36% | 🟢 132% | 
+| a_7.py | 🟢 1% | 🟢 3% | 🟢 6% | ⚪ 0% | 🟢 118% | 🟢 23% | 🟢 142% | 🟢 74% | 🟢 265% | 🟢 22% | 🟢 36% | 🟢 132% | 
+| a_8.py | 🟢 152% | 🟢 263% | 🟢 117% | 🔴 -13% | 🟢 250% | 🟢 34% | 🟢 109% | 🟢 85% | 🟢 126% | 🟢 232% | 🟢 253% | 🟢 81% | 
+| a_9.py | 🟢 17% | 🟢 41% | 🟢 37% | 🟢 2% | 🟢 22% | 🟢 191% | 🟢 5480% | 🟢 283% | 🟢 63% | 🟢 426% | 🟢 618% | 🟢 31% | 
+| alpha_giant_champion.py | 🟢 5% | ⚪ 0% | 🔴 -5% | 🟢 2% | 🔴 -10% | 🔴 -3% | 🔴 -9% | 🟢 15% | 🟢 1% | 🟢 7% | ⚪ 0% | 🔴 -13% | 
+| dip_buy_top5.py | 🟢 18% | 🔴 -4% | 🟢 1% | 🟢 23% | 🟢 2% | 🟢 28% | 🟢 26% | 🟢 32% | 🔴 -21% | 🟢 54% | 🟢 69% | 🟢 21% | 
+| giant_sniper_mean_rev.py | 🟢 15% | 🟢 49% | 🔴 -13% | 🟢 48% | 🔴 -16% | 🟢 7% | 🟢 34% | 🟢 80% | 🔴 -10% | 🟢 43% | 🟢 40% | 🟢 94% | 
+| large_cap_breakout.py | - | - | - | - | - | - | - | - | - | - | - | - | 
+| large_cap_ema.py | 🟢 17% | 🟢 1% | 🟢 6% | 🟢 28% | 🟢 10% | 🟢 48% | 🟢 47% | 🟢 54% | 🔴 -43% | 🟢 101% | 🟢 125% | 🟢 42% | 
+| rotation_v1.py | 🟢 49% | 🔴 -2% | 🟢 59% | 🟢 118% | 🟢 26% | 🟢 95% | 🟢 1020% | 🟢 88% | 🟢 77% | 🟢 142% | 🟢 62% | 🟢 68% | 
+| z_gold_oil_breakout.py | 🔴 -15% | 🔴 -13% | 🟢 1% | 🟢 19% | 🟢 15% | 🔴 -8% | 🟢 108% | 🟢 10% | 🟢 51% | 🟢 55% | 🟢 56% | 🟢 97% | 
+| z_sector_rotation_hedge.py | - | - | - | - | - | - | - | - | - | - | - | - | 

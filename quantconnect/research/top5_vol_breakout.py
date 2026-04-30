@@ -8,8 +8,8 @@ class Top5VolBreakout(QCAlgorithm):
         self.vol_lookback = 10
         self.vol_threshold = 0.02 # 2% daily range
         
-        start_date = datetime.now() - timedelta(days=12*365)
-        self.SetStartDate(start_date.year, start_date.month, start_date.day)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
         
         # Top 5 Market Cap Universe (Updated annually in logic)

@@ -12,8 +12,8 @@ class StrategyTemplateV2(QCAlgorithm):
         self.atr_kill_mult = float(self.GetParameter("atr_kill_mult", 2.0)) # Chapter 6 logic
         self.exit_days = int(self.GetParameter("exit_days", 5)) # Tip #1 fixed exit
         
-        start_date = datetime.now() - timedelta(days=12*365)
-        self.SetStartDate(start_date.year, start_date.month, start_date.day)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
         
         # Assets

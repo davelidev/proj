@@ -6,8 +6,8 @@ from datetime import datetime, timedelta
 class VolatilitySqueezeAlpha(QCAlgorithm):
     
     def initialize(self) -> None:
-        start_date = datetime.now() - timedelta(days=12*365)
-        self.set_start_date(start_date.year, start_date.month, start_date.day)
+        self.set_start_date(2014, 1, 1)
+        self.set_end_date(2025, 12, 31)
         self.set_cash(2000)
 
         self.max_equity = 2000 

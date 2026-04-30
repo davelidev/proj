@@ -21,8 +21,8 @@ class StrategyTemplate(QCAlgorithm):
         self.use_soxl = self.GetParameter("use_soxl", "true").lower() == "true"
         self.atr_stop_mult = float(self.GetParameter("atr_stop_mult", 3.0))
         
-        start_date = datetime.now() - timedelta(days=12*365)
-        self.SetStartDate(start_date.year, start_date.month, start_date.day)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
         self.SetBenchmark("QQQ")
         
