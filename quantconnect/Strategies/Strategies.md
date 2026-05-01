@@ -1,24 +1,26 @@
 # QuantConnect Trading Strategies
 
 
-| #                  | Category  | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
-| :----------------- | :-------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
-| ✅ [1](#strategy-1) | Breakout  | 45%  | -38%  | 1.021  | 234   | 435    | 0.54      | 3.77         | 6/10    |
-| ✅ [2](#strategy-2) | Dip Buy   | 31%  | -49%  | 0.883  | 37    | 34     | 1.09      | 3.43         | 2/10    |
-| ✅ [3](#strategy-3) | Rebalance | 31%  | -52%  | 0.748  | 35    | 0      | ∞         | 0            | 4/10    |
-| ✅ [6](#strategy-6) | Dip Buy   | 47%  | -37%  | 1.034  | 1426  | 611    | 2.33      | 0.81         | 2/10    |
-| ✅ [7](#strategy-7) | Trend     | 31%  | -49%  | 0.738  | 100   | 47     | 2.13      | 1.44         | 4/10    |
-| ✅ [9](#strategy-9) | Rotation  | 38%  | -54%  | 0.818  | 219   | 229    | 0.96      | 1.98         | 3/10    |
+| #                    | Category  | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
+| :------------------- | :-------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
+| ✅ [1](#strategy-1)  | Breakout  | 45%  | -38%  | 1.021  | 234   | 435    | 0.54      | 3.77         | 6/10    |
+| ✅ [2](#strategy-2)  | Dip Buy   | 31%  | -49%  | 0.883  | 37    | 34     | 1.09      | 3.43         | 2/10    |
+| ✅ [3](#strategy-3)  | Rebalance | 31%  | -52%  | 0.748  | 35    | 0      | ∞         | 0            | 4/10    |
+| ✅ [4](#strategy-4)  | Dip Buy   | 47%  | -37%  | 1.034  | 1426  | 611    | 2.33      | 0.81         | 2/10    |
+| ✅ [5](#strategy-5)  | Trend     | 31%  | -49%  | 0.738  | 100   | 47     | 2.13      | 1.44         | 4/10    |
+| [6](#strategy-6)     | Rotation  | 38%  | -54%  | 0.818  | 219   | 229    | 0.96      | 1.98         | 3/10    |
+| ✅ [7](#strategy-7)  | Breakout  | 38%  | -50%  | 0.880  | 94    | 76     | 1.24      | 2.21         | 4/10    |
 
-| #               | 14         | 15         | 16        | 17         | 18        | 19         | 20          | 21         | 22         | 23          | 24         | 25         |
-| :-------------- | :--------- | :--------- | :-------- | :--------- | :-------- | :--------- | :---------- | :--------- | :--------- | :---------- | :--------- | :--------- |
-| ✅ [1](#strategy-1) | 🟢 53%     | 🟢 6%      | 🟢 21%    | 🟢 88%     | 🟢 19%    | 🟢 111%    | 🟢 169%     | 🟢 42%     | 🔴 -34%    | 🟢 92%      | 🟢 53%     | 🟢 20%     |
-| ✅ [2](#strategy-2) | 🟢 18%     | ⚪ 0%       | 🟢 5%     | 🟢 37%     | 🟢 6%     | 🟢 50%     | 🟢 62%      | 🟢 55%     | 🔴 -43%    | 🟢 115%     | 🟢 126%    | 🟢 39%     |
-| ✅ [3](#strategy-3) | 🟢 46%     | 🟢 1%      | 🟢 32%    | 🟢 76%     | 🔴 -15%   | 🟢 107%    | 🟢 51%      | 🟢 65%     | 🔴 -47%    | 🟢 127%     | 🟢 16%     | 🟢 24%     |
-| ✅ [6](#strategy-6) | 🟢 31%     | 🔴 -8%     | 🔴 -20%   | 🟢 50%     | 🟢 19%    | 🟢 37%     | 🟢 215%     | 🟢 142%    | 🟢 22%     | 🟢 76%      | 🟢 74%     | 🟢 51%     |
-| ✅ [7](#strategy-7) | 🟢 35%     | 🟢 4%      | 🔴 -15%   | 🟢 133%    | 🟢 7%     | 🟢 29%     | 🟢 69%      | 🟢 83%     | 🔴 -21%    | 🟢 70%      | 🟢 29%     | 🟢 25%     |
-| ✅ [9](#strategy-9) | 🟢 25%     | 🔴 -25%    | 🔴 -28%   | 🟢 99%     | 🟢 5%     | 🟢 11%     | 🟢 225%     | 🟢 82%     | 🟢 119%    | 🟢 30%      | 🟢 41%     | 🟢 25%     |
-| ✅ **AVG**     | **🟢 35%** | **🔴 -4%** | **🔴 -1%** | **🟢 80%** | **🟢 7%** | **🟢 58%** | **🟢 132%** | **🟢 78%** | **🔴 -1%** | **🟢 85%** | **🟢 56%** | **🟢 31%** |
+| #                  | 14         | 15         | 16         | 17         | 18         | 19         | 20          | 21         | 22         | 23         | 24         | 25         |
+| :----------------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :---------- | :--------- | :--------- | :--------- | :--------- | :--------- |
+| ✅ [1](#strategy-1) | 🟢 53%     | 🟢 6%      | 🟢 21%     | 🟢 88%     | 🟢 19%     | 🟢 111%    | 🟢 169%     | 🟢 42%     | 🔴 -34%    | 🟢 92%     | 🟢 53%     | 🟢 20%     |
+| ✅ [2](#strategy-2) | 🟢 18%     | ⚪ 0%       | 🟢 5%      | 🟢 37%     | 🟢 6%      | 🟢 50%     | 🟢 62%      | 🟢 55%     | 🔴 -43%    | 🟢 115%    | 🟢 126%    | 🟢 39%     |
+| ✅ [3](#strategy-3) | 🟢 46%     | 🟢 1%      | 🟢 32%     | 🟢 76%     | 🔴 -15%    | 🟢 107%    | 🟢 51%      | 🟢 65%     | 🔴 -47%    | 🟢 127%    | 🟢 16%     | 🟢 24%     |
+| ✅ [4](#strategy-4) | 🟢 31%     | 🔴 -8%     | 🔴 -20%    | 🟢 50%     | 🟢 19%     | 🟢 37%     | 🟢 215%     | 🟢 142%    | 🟢 22%     | 🟢 76%     | 🟢 74%     | 🟢 51%     |
+| ✅ [5](#strategy-5) | 🟢 35%     | 🟢 4%      | 🔴 -15%    | 🟢 133%    | 🟢 7%      | 🟢 29%     | 🟢 69%      | 🟢 83%     | 🔴 -21%    | 🟢 70%     | 🟢 29%     | 🟢 25%     |
+| [6](#strategy-6)    | 🟢 25%     | 🔴 -25%    | 🔴 -28%    | 🟢 99%     | 🟢 5%      | 🟢 11%     | 🟢 225%     | 🟢 82%     | 🟢 119%    | 🟢 30%     | 🟢 41%     | 🟢 25%     |
+| ✅ [7](#strategy-7) | 🟢 137%    | 🔴 -3%     | 🔴 -2%     | 🟢 76%     | 🟢 54%     | 🟢 14%     | 🟢 84%      | 🟢 47%     | 🔴 -14%    | 🟢 81%     | 🟢 36%     | 🟢 32%     |
+| ✅ **AVG**          | **🟢 53%** | **⚪ 0%**  | **🟢 4%**  | **🟢 77%** | **🟢 15%** | **🟢 58%** | **🟢 108%** | **🟢 72%** | **🔴 -23%**| **🟢 94%** | **🟢 56%** | **🟢 32%** |
 
 *Note: Checkmarked strategies (✅) are considered "selected" and contribute to the AVG calculations.*
 
@@ -106,7 +108,7 @@
 
 ---
 
-## Strategy-6
+## Strategy-4
 ### RSI Champion (rsi_champion.py)
 
 **Description:** Sits in cash most of the time, then rushes into a basket of leveraged tech ETFs the moment the market gets extremely oversold. Exits as soon as the signal clears. Patient and decisive — no trend filter, no regime switching, just one clean trigger. With over 2000 trades across 11 years it is the most statistically reliable strategy in the set.
@@ -132,7 +134,7 @@
 
 ---
 
-## Strategy-7
+## Strategy-5
 ### TQQQ Dynamic Compounding (dip_buy_tqqq.py)
 
 **Description:** Owns TQQQ in bull markets but adjusts position size based on momentum — loads up on dips, cuts back at peaks, and exits entirely when the trend turns bear. Tries to compound faster than a static buy-and-hold by being more aggressive when conditions are favorable and more cautious when overextended.
@@ -160,7 +162,7 @@
 
 ---
 
-## Strategy-9
+## Strategy-6
 ### Dual Signal Rotation (dual_signal_rotation.py)
 
 **Description:** Goes long in uptrends, short in downtrends, and hides in cash when neither signal is clear. The cleanest rotation strategy in the set — the bull and bear logic are mirror images of each other, all signals come from a single ticker, and every threshold is a round-number standard value. What you see is what you get.
@@ -185,3 +187,29 @@
 > PATH: "vault://QuantConnect/strategies/dual_signal_rotation.py"
 > ```
 
+---
+
+## Strategy-7
+### Expanding Breakout 20d Exit (strategy_34.py)
+
+**Description:** Enters TQQQ when today's trading range expands beyond yesterday's in a confirmed uptrend, then closes the position the moment price tags a 20-day high. Taking profit on strength avoids giving back gains on sharp reversals — the trade opens on a momentum burst and closes at the first new short-term milestone. The defining difference from the other breakout variants in this set.
+
+*Overfit 4/10 — 20-day high exit is a standard and defensible rule; fewer parameters than its S35/S36 siblings; only the expanding range trigger is non-standard; the cleanest design in the breakout series.*
+
+- **Gate:** QQQ > SMA(200)
+- **Entry:** Expanding Range AND ADX(10) > 25 → 100% TQQQ
+- **Exit:** Price >= 20-day high OR 3.0 ATR stop OR QQQ < SMA(200)
+- **Symbols:** TQQQ (signal from QQQ)
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 38% | -50% | 0.880 | 94 | 76 | 1.24 | 2.21 |
+
+| 14     | 15     | 16     | 17     | 18     | 19     | 20     | 21     | 22      | 23     | 24     | 25     |
+| :----- | :----- | :----- | :----- | :----- | :----- | :----- | :----- | :------ | :----- | :----- | :----- |
+| 🟢 85% | 🔴 -3% | 🔴 -6% | 🟢 76% | 🟢 54% | 🟢 14% | 🟢 85% | 🟢 49% | 🔴 -14% | 🟢 81% | 🟢 36% | 🟢 28% |
+
+> [!code]- Click to view: strategy_34.py
+> ```embed-python
+> PATH: "vault://QuantConnect/strategies/strategy_34.py"
+> ```
