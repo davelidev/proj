@@ -24,6 +24,7 @@ d# Archived Strategy Backtests
 | [19](#strategy-19) | Trend          | 158% | -56%  | 2.224  | 276   | 118    | 2.34      | 1.67         | 7/10    |
 | [20](#strategy-20) | Trend          | 29%  | -51%  | 0.831  | 29    | 18     | 1.61      | 2.91         | 2/10    |
 | [21](#strategy-21) | Trend          | 31%  | -49%  | 0.731  | 100   | 47     | 2.13      | 1.44         | 4/10    |
+| [22](#strategy-22) | Rotation       | 38%  | -54%  | 0.818  | 219   | 229    | 0.96      | 1.98         | 3/10    |
 
 | # | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -47,6 +48,7 @@ d# Archived Strategy Backtests
 | [19](#strategy-19) | 🟢 41% | ⚪ 0% | 🟢 65% | 🟢 138% | 🟢 70% | 🟢 186% | 🟢 4720% | 🟢 163% | 🟢 186% | 🟢 195% | 🟢 75% | 🟢 76% |
 | [20](#strategy-20) | 🟢 17% | 🟢 1% | 🟢 6% | 🟢 28% | 🟢 10% | 🟢 48% | 🟢 47% | 🟢 54% | 🔴 -43% | 🟢 101% | 🟢 125% | 🟢 42% |
 | [21](#strategy-21) | 🟢 39% | 🟢 4% | 🔴 -15% | 🟢 133% | 🟢 7% | 🟢 29% | 🟢 69% | 🟢 83% | 🔴 -21% | 🟢 70% | 🟢 29% | 🟢 25% |
+| [22](#strategy-22) | 🟢 25% | 🔴 -25% | 🔴 -28% | 🟢 99% | 🟢 5% | 🟢 11% | 🟢 225% | 🟢 82% | 🟢 119% | 🟢 30% | 🟢 41% | 🟢 25% |
 
 ---
 
@@ -635,3 +637,31 @@ d# Archived Strategy Backtests
 > ```embed-python
 > PATH: "vault://QuantConnect/strategies/dip_buy_tqqq.py"
 > ```
+
+---
+
+## Strategy-22
+### Dual Signal Rotation (dual_signal_rotation.py)
+
+**Description:** Goes long in uptrends, short in downtrends, and hides in cash when neither signal is clear. The cleanest rotation strategy in the set — the bull and bear logic are mirror images of each other, all signals come from a single ticker, and every threshold is a round-number standard value. What you see is what you get.
+
+*Overfit 3/10 — 3 indicators on one ticker with symmetric bull/bear logic and all standard thresholds (200/20/2 SMAs, RSI 20/80); the -54% max drawdown is the main real-world concern, not the logic itself.*
+
+- **Entry (Bull):** TQQQ > SMA(200) AND (price > SMA(20) OR RSI(2) < 20) → TQQQ
+- **Entry (Bear):** TQQQ ≤ SMA(200) AND (price < SMA(20) OR RSI(2) > 80) → SQQQ
+- **Default:** Cash
+- **Symbols:** TQQQ, SQQQ
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 38% | -54% | 0.818 | 219 | 229 | 0.96 | 1.98 |
+
+| 14     | 15      | 16      | 17     | 18    | 19     | 20      | 21     | 22      | 23     | 24     | 25     |
+| :----- | :------ | :------ | :----- | :---- | :----- | :------ | :----- | :------ | :----- | :----- | :----- |
+| 🟢 25% | 🔴 -25% | 🔴 -28% | 🟢 99% | 🟢 5% | 🟢 11% | 🟢 225% | 🟢 82% | 🟢 119% | 🟢 30% | 🟢 41% | 🟢 25% |
+
+> [!code]- Click to view: dual_signal_rotation.py
+> ```embed-python
+> PATH: "vault://QuantConnect/archive/dual_signal_rotation.py"
+> ```
+

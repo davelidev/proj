@@ -53,6 +53,8 @@ def main():
     compile_id = cr["compileId"]
 
     # 3. Create Backtest
+    print("Waiting for compile to register...")
+    time.sleep(5)
     print(f"Starting backtest '{name}'...")
     resp = requests.post(f"{BASE_URL}/backtests/create", headers=headers,
                          json={"projectId": PROJECT_ID, "compileId": compile_id, "backtestName": name})

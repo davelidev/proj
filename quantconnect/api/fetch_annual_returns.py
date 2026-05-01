@@ -13,55 +13,34 @@ def get_headers():
     a = base64.b64encode(f"{USER_ID}:{h}".encode()).decode()
     return {"Authorization": f"Basic {a}", "Timestamp": ts}
 
-bids = {
-    "S1": "55be8f049e538bae17672a8afcd57392",
-    "S2": "11f33db6f0d8185b32d73523a24b0caa",
-    "S3": "1e8cef5d083b1e732561194a3dc0ef50",
-    "S4": "dcaf482b6031d3c6c45b1227df68e84c",
-    "S5": "71053f9fa498111ac6fc121a6a32308d",
-    "S6": "ef41f32475fa9dcd288c0d3f9a91c441",
-    "S7": "4c16c0af188a6221c336bac4f09b1a8a",
-}
-
-years = list(range(2014, 2026))
-
-def annual_returns(rw):
+def annual_returns(bid):
+    resp = requests.get(f"{BASE_URL}/backtests/read", headers=get_headers(),
+                        params={"projectId": PROJECT_ID, "backtestId": bid})
+    rw = resp.json().get("backtest", {}).get("rollingWindow", {})
     by_year = {}
     for key, val in rw.items():
-        # skip non-M1 keys
-        if not key.startswith("M1_"):
-            continue
-        try:
-            year = int(key[3:7])
-        except ValueError:
-            continue
+        if not key.startswith("M1_"): continue
+        try: year = int(key[3:7])
+        except ValueError: continue
         by_year.setdefault(year, []).append((key, val))
     result = {}
-    for year in years:
+    for year in range(2014, 2026):
         entries = sorted(by_year.get(year, []), key=lambda x: x[0])
-        if not entries:
-            continue
+        if not entries: continue
         start_eq = float(entries[0][1]["portfolioStatistics"]["startEquity"])
         end_eq = float(entries[-1][1]["portfolioStatistics"]["endEquity"])
         if start_eq > 0:
             result[year] = round((end_eq / start_eq - 1) * 100)
     return result
 
-print(f"{'':4} | " + " | ".join(f"'{y-2000:02d}" for y in years))
-print("-" * 110)
+if len(sys.argv) < 2:
+    print("Usage: python3 api/fetch_annual_returns.py <backtest_id>")
+    sys.exit(1)
 
-for name, bid in bids.items():
-    try:
-        resp = requests.get(f"{BASE_URL}/backtests/read", headers=get_headers(),
-                            params={"projectId": PROJECT_ID, "backtestId": bid})
-        data = resp.json()
-        rw = data.get("backtest", {}).get("rollingWindow", {})
-        ar = annual_returns(rw)
-        def fmt(y):
-            v = ar.get(y)
-            return f"{v:+4}%" if v is not None else "  N/A"
-        row = " | ".join(fmt(y) for y in years)
-        print(f"{name:4} | {row}")
-    except Exception as e:
-        print(f"{name:4} | ERROR: {e}", file=sys.stderr)
-    time.sleep(0.3)
+bid = sys.argv[1]
+ar = annual_returns(bid)
+print(f"{'Year':<6} {'Return':>7}")
+print("-" * 14)
+for y, v in sorted(ar.items()):
+    emoji = "🟢" if v >= 0 else "🔴"
+    print(f"{y}   {emoji} {v:+}%")

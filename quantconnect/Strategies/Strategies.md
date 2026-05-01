@@ -8,21 +8,20 @@
 | ✅ [3](#strategy-3)  | Rebalance | 31%  | -52%  | 0.748  | 35    | 0      | ∞         | 0            | 4/10    |
 | ✅ [4](#strategy-4)  | Dip Buy   | 47%  | -37%  | 1.034  | 1426  | 611    | 2.33      | 0.81         | 2/10    |
 | ✅ [5](#strategy-5)  | Trend     | 31%  | -49%  | 0.738  | 100   | 47     | 2.13      | 1.44         | 4/10    |
-| [6](#strategy-6)     | Rotation  | 38%  | -54%  | 0.818  | 219   | 229    | 0.96      | 1.98         | 3/10    |
 | ✅ [7](#strategy-7)  | Breakout  | 38%  | -50%  | 0.880  | 94    | 76     | 1.24      | 2.21         | 4/10    |
+| ✅ **ENSEMBLE**     | **Ensemble**| **35%** | **-37%**| **0.998** | **3041**| **1944** | **1.56**     | **1.33**     | **3/10**|
 
-| #                  | 14         | 15         | 16         | 17         | 18         | 19         | 20          | 21         | 22         | 23         | 24         | 25         |
-| :----------------- | :--------- | :--------- | :--------- | :--------- | :--------- | :--------- | :---------- | :--------- | :--------- | :--------- | :--------- | :--------- |
-| ✅ [1](#strategy-1) | 🟢 53%     | 🟢 6%      | 🟢 21%     | 🟢 88%     | 🟢 19%     | 🟢 111%    | 🟢 169%     | 🟢 42%     | 🔴 -34%    | 🟢 92%     | 🟢 53%     | 🟢 20%     |
-| ✅ [2](#strategy-2) | 🟢 18%     | ⚪ 0%       | 🟢 5%      | 🟢 37%     | 🟢 6%      | 🟢 50%     | 🟢 62%      | 🟢 55%     | 🔴 -43%    | 🟢 115%    | 🟢 126%    | 🟢 39%     |
-| ✅ [3](#strategy-3) | 🟢 46%     | 🟢 1%      | 🟢 32%     | 🟢 76%     | 🔴 -15%    | 🟢 107%    | 🟢 51%      | 🟢 65%     | 🔴 -47%    | 🟢 127%    | 🟢 16%     | 🟢 24%     |
-| ✅ [4](#strategy-4) | 🟢 31%     | 🔴 -8%     | 🔴 -20%    | 🟢 50%     | 🟢 19%     | 🟢 37%     | 🟢 215%     | 🟢 142%    | 🟢 22%     | 🟢 76%     | 🟢 74%     | 🟢 51%     |
-| ✅ [5](#strategy-5) | 🟢 35%     | 🟢 4%      | 🔴 -15%    | 🟢 133%    | 🟢 7%      | 🟢 29%     | 🟢 69%      | 🟢 83%     | 🔴 -21%    | 🟢 70%     | 🟢 29%     | 🟢 25%     |
-| [6](#strategy-6)    | 🟢 25%     | 🔴 -25%    | 🔴 -28%    | 🟢 99%     | 🟢 5%      | 🟢 11%     | 🟢 225%     | 🟢 82%     | 🟢 119%    | 🟢 30%     | 🟢 41%     | 🟢 25%     |
-| ✅ [7](#strategy-7) | 🟢 137%    | 🔴 -3%     | 🔴 -2%     | 🟢 76%     | 🟢 54%     | 🟢 14%     | 🟢 84%      | 🟢 47%     | 🔴 -14%    | 🟢 81%     | 🟢 36%     | 🟢 32%     |
-| ✅ **AVG**          | **🟢 53%** | **⚪ 0%**  | **🟢 4%**  | **🟢 77%** | **🟢 15%** | **🟢 58%** | **🟢 108%** | **🟢 72%** | **🔴 -23%**| **🟢 94%** | **🟢 56%** | **🟢 32%** |
+| #                   | 14         | 15        | 16        | 17         | 18         | 19         | 20          | 21         | 22          | 23         | 24         | 25         |
+| :------------------ | :--------- | :-------- | :-------- | :--------- | :--------- | :--------- | :---------- | :--------- | :---------- | :--------- | :--------- | :--------- |
+| ✅ [1](#strategy-1)  | 🟢 53%     | 🟢 6%     | 🟢 21%    | 🟢 88%     | 🟢 19%     | 🟢 111%    | 🟢 169%     | 🟢 42%     | 🔴 -34%     | 🟢 92%     | 🟢 53%     | 🟢 20%     |
+| ✅ [2](#strategy-2)  | 🟢 18%     | ⚪ 0%      | 🟢 5%     | 🟢 37%     | 🟢 6%      | 🟢 50%     | 🟢 62%      | 🟢 55%     | 🔴 -43%     | 🟢 115%    | 🟢 126%    | 🟢 39%     |
+| ✅ [3](#strategy-3)  | 🟢 46%     | 🟢 1%     | 🟢 32%    | 🟢 76%     | 🔴 -15%    | 🟢 107%    | 🟢 51%      | 🟢 65%     | 🔴 -47%     | 🟢 127%    | 🟢 16%     | 🟢 24%     |
+| ✅ [4](#strategy-4)  | 🟢 31%     | 🔴 -8%    | 🔴 -20%   | 🟢 50%     | 🟢 19%     | 🟢 37%     | 🟢 215%     | 🟢 142%    | 🟢 22%      | 🟢 76%     | 🟢 74%     | 🟢 51%     |
+| ✅ [5](#strategy-5)  | 🟢 35%     | 🟢 4%     | 🔴 -15%   | 🟢 133%    | 🟢 7%      | 🟢 29%     | 🟢 69%      | 🟢 83%     | 🔴 -21%     | 🟢 70%     | 🟢 29%     | 🟢 25%     |
+| ✅ [7](#strategy-7)  | 🟢 137%    | 🔴 -3%    | 🔴 -6%    | 🟢 76%     | 🟢 54%     | 🟢 14%     | 🟢 85%      | 🟢 49%     | 🔴 -14%     | 🟢 81%     | 🟢 36%     | 🟢 28%     |
+| ✅ **ENSEMBLE**     | **🟢 52%** | **🟢 2%** | **🟢 5%** | **🟢 72%** | **🟢 9%** | **🟢 58%** | **🟢 82%** | **🟢 62%** | **🔴 -28%** | **🟢 77%** | **🟢 53%** | **🟢 49%** |
 
-*Note: Checkmarked strategies (✅) are considered "selected" and contribute to the AVG calculations.*
+*Note: Checkmarked strategies (✅) are considered "selected" and contribute to the ENSEMBLE calculations.*
 
 
 ---
@@ -158,33 +157,6 @@
 > [!code]- Click to view: dip_buy_tqqq.py
 > ```embed-python
 > PATH: "vault://QuantConnect/strategies/dip_buy_tqqq.py"
-> ```
-
----
-
-## Strategy-6
-### Dual Signal Rotation (dual_signal_rotation.py)
-
-**Description:** Goes long in uptrends, short in downtrends, and hides in cash when neither signal is clear. The cleanest rotation strategy in the set — the bull and bear logic are mirror images of each other, all signals come from a single ticker, and every threshold is a round-number standard value. What you see is what you get.
-
-*Overfit 3/10 — 3 indicators on one ticker with symmetric bull/bear logic and all standard thresholds (200/20/2 SMAs, RSI 20/80); the -54% max drawdown is the main real-world concern, not the logic itself.*
-
-- **Entry (Bull):** TQQQ > SMA(200) AND (price > SMA(20) OR RSI(2) < 20) → TQQQ
-- **Entry (Bear):** TQQQ ≤ SMA(200) AND (price < SMA(20) OR RSI(2) > 80) → SQQQ
-- **Default:** Cash
-- **Symbols:** TQQQ, SQQQ
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 38% | -54% | 0.818 | 219 | 229 | 0.96 | 1.98 |
-
-| 14     | 15      | 16      | 17     | 18    | 19     | 20      | 21     | 22      | 23     | 24     | 25     |
-| :----- | :------ | :------ | :----- | :---- | :----- | :------ | :----- | :------ | :----- | :----- | :----- |
-| 🟢 25% | 🔴 -25% | 🔴 -28% | 🟢 99% | 🟢 5% | 🟢 11% | 🟢 225% | 🟢 82% | 🟢 119% | 🟢 30% | 🟢 41% | 🟢 25% |
-
-> [!code]- Click to view: dual_signal_rotation.py
-> ```embed-python
-> PATH: "vault://QuantConnect/strategies/dual_signal_rotation.py"
 > ```
 
 ---
