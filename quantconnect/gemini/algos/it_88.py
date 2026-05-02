@@ -7,7 +7,7 @@ class KeltnerReversion(QCAlgorithm):
         self.SetCash(100000)
 
         self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.kc = self.KeltnerChannels(self.tqqq, 20, 2, MovingAverageType.Exponential, Resolution.Daily)
+        self.kc = self.KCH(self.tqqq, 20, 2, MovingAverageType.Exponential, Resolution.Daily)
         self.rsi = self.RSI(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
         
         self.SetWarmUp(30)

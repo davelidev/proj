@@ -12,6 +12,9 @@ class ExpandingBreakoutSub(BaseSubAlgo):
         self.max_exit      = self.algo.MAX(self.sym, 20, Resolution.Daily)
         self.trailing_stop = 0
 
+    def on_data(self, data) -> bool:
+        return self.update_targets()
+
     def update_targets(self) -> bool:
         if not self.adx.IsReady or not self.sma200.IsReady or not self.max_exit.IsReady:
             return False

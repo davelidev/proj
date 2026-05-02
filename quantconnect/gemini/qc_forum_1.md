@@ -1,6 +1,7 @@
-# QuantConnect Community Research Master Ledger (50 Iterations)
+# QuantConnect Community Research Master Ledger (1-50)
 
-This document tracks the results of the complete 50-iteration strategy scouting loop.
+This document tracks iterations 1 through 50 of the strategy scouting loop.
+**Pass Criteria:** CAGR >= 28% and MaxDD <= 58%.
 
 | # | CAGR | MaxDD | Sharpe | Win % | Orders | P/L Ratio | Status |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -15,7 +16,7 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | [9](#strategy-9) | 39.706% | -65.200% | 0.848 | 39% | 113 | 8.67 | ❌ High DD |
 | [10](#strategy-10) | 5.114% | -23.100% | 0.184 | 60% | 191 | 1.15 | ❌ Low Return |
 | [11](#strategy-11) | 14.412% | -69.700% | 0.42 | 61% | 195 | 1.19 | ❌ Fail |
-| [12](#strategy-12) | 28.206% | -74.000% | 0.648 | 58% | 586 | 1.20 | ❌ High DD |
+| [12](#strategy-12) | 28.206% | -74.000% | 0.648 | 58% | 586 | 1.20 | ❌ Fail |
 | [13](#strategy-13) | 25.876% | -64.500% | 0.624 | 42% | 227 | 2.60 | ❌ Fail |
 | [14](#strategy-14) | 9.685% | -69.800% | 0.332 | 71% | 49 | 1.29 | ❌ Fail |
 | [15](#strategy-15) | 24.645% | -48.900% | 0.615 | 30% | 129 | 7.15 | ❌ Low Return |
@@ -23,10 +24,10 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | [17](#strategy-17) | 17.903% | -51.800% | 0.5 | 34% | 135 | 4.32 | ❌ Low Return |
 | [18](#strategy-18) | 18.451% | -54.600% | 0.496 | 59% | 255 | 1.59 | ❌ Low Return |
 | [19](#strategy-19) | 20.792% | -69.800% | 0.531 | 67% | 25 | 4.83 | ❌ Fail |
-| [20](#strategy-20) | 29.467% | -61.600% | 0.681 | 61% | 151 | 2.09 | ❌ High DD |
+| [20](#strategy-20) | 29.467% | -61.600% | 0.681 | 61% | 151 | 2.09 | ❌ Fail |
 | [21](#strategy-21) | 18.636% | -51.100% | 0.622 | 65% | 1079 | 1.98 | ❌ Low Return |
 | [22](#strategy-22) | 10.261% | -86.700% | 0.351 | 66% | 362 | 0.78 | ❌ Fail |
-| [23](#strategy-23) | 28.014% | -56.400% | 0.67 | 35% | 157 | 6.85 | ✅ Pass |
+| [23](#strategy-23) | 28.014% | -56.400% | 0.67 | 35% | 157 | 6.85 | ❌ Low Return |
 | [24](#strategy-24) | 20.838% | -66.300% | 0.541 | 72% | 352 | 0.69 | ❌ Fail |
 | [25](#strategy-25) | 22.708% | -55.700% | 0.584 | 55% | 378 | 2.17 | ❌ Low Return |
 | [26](#strategy-26) | 1.298% | -48.600% | 0.033 | 37% | 104 | 2.09 | ❌ Low Return |
@@ -123,9 +124,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 1% | 🔴 -13% | 🔴 -16% | 🔴 -14% | 🔴 -1% | 🔴 -7% | 🔴 -27% | 🔴 -10% | 🟢 33% | 🔴 -38% | 🔴 -21% | 🔴 -7% |
 
-> [!code]- Click to view: strategy_1.py
+> [!code]- Click to view: it_1.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_1.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_1.py"
 > ```
 
 ## Strategy-2
@@ -139,9 +140,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 19% | 🔴 -2% | 🔴 -4% | 🟢 55% | 🔴 -2% | 🟢 15% | 🟢 2% | 🟢 51% | 🔴 -31% | 🟢 3% | 🟢 16% | 🟢 4% |
 
-> [!code]- Click to view: strategy_2.py
+> [!code]- Click to view: it_2.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_2.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_2.py"
 > ```
 
 ## Strategy-3
@@ -155,9 +156,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 56% | 🟢 1% | 🔴 -12% | 🟢 118% | 🔴 -23% | 🟢 50% | 🟢 105% | 🟢 88% | 🔴 -44% | 🟢 113% | 🟢 62% | 🟢 24% |
 
-> [!code]- Click to view: strategy_3.py
+> [!code]- Click to view: it_3.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_3.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_3.py"
 > ```
 
 ## Strategy-4
@@ -171,9 +172,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 18% | 🔴 -8% | 🟢 20% | 🟢 24% | 🟢 36% | 🟢 15% | 🟢 17% | 🔴 -33% | 🔴 -46% | 🔴 -36% | 🟢 3% | 🔴 -20% |
 
-> [!code]- Click to view: strategy_4.py
+> [!code]- Click to view: it_4.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_4.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_4.py"
 > ```
 
 ## Strategy-5
@@ -187,9 +188,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 49% | 🟢 14% | 🔴 -12% | 🟢 118% | 🔴 -27% | 🟢 107% | 🟢 11% | 🟢 20% | 🔴 -74% | 🟢 154% | 🟢 36% | 🔴 -19% |
 
-> [!code]- Click to view: strategy_5.py
+> [!code]- Click to view: it_5.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_5.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_5.py"
 > ```
 
 ## Strategy-6
@@ -203,9 +204,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 13% | 🟢 14% | 🟢 7% | 🟢 17% | 🔴 -2% | 🟢 7% | 🟢 16% | 🟢 18% | 🟢 7% | 🟢 27% | 🟢 20% | 🟢 10% |
 
-> [!code]- Click to view: strategy_6.py
+> [!code]- Click to view: it_6.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_6.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_6.py"
 > ```
 
 ## Strategy-7
@@ -219,9 +220,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🟢 30% | 🟢 12% | 🟢 51% | 🔴 -20% | 🟢 15% | 🟢 30% | 🟢 52% | 🔴 -4% | 🟢 85% | 🟢 53% | 🟢 14% |
 
-> [!code]- Click to view: strategy_7.py
+> [!code]- Click to view: it_7.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_7.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_7.py"
 > ```
 
 ## Strategy-8
@@ -235,9 +236,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🔴 -3% | 🔴 -4% | 🟢 51% | 🟢 2% | 🔴 -15% | 🟢 84% | 🟢 52% | 🔴 -19% | 🟢 49% | 🟢 53% | 🟢 19% |
 
-> [!code]- Click to view: strategy_8.py
+> [!code]- Click to view: it_8.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_8.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_8.py"
 > ```
 
 ## Strategy-9
@@ -251,9 +252,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 56% | 🔴 -1% | 🟢 8% | 🟢 118% | 🔴 -18% | 🟢 60% | 🟢 102% | 🟢 88% | 🔴 -49% | 🟢 149% | 🟢 62% | 🟢 47% |
 
-> [!code]- Click to view: strategy_9.py
+> [!code]- Click to view: it_9.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_9.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_9.py"
 > ```
 
 ## Strategy-10
@@ -267,9 +268,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 6% | 🔴 -5% | 🟢 5% | 🟢 17% | 🟢 10% | 🟢 9% | 🟢 14% | 🟢 1% | 🔴 -12% | 🟢 1% | 🟢 2% | 🟢 16% |
 
-> [!code]- Click to view: strategy_10.py
+> [!code]- Click to view: it_10.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_10.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_10.py"
 > ```
 
 ## Strategy-11
@@ -283,9 +284,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 20% | 🔴 -46% | 🟢 5% | 🟢 158% | 🟢 4% | 🟢 47% | 🟢 31% | 🟢 64% | 🔴 -54% | 🟢 22% | 🟢 25% | 🟢 26% |
 
-> [!code]- Click to view: strategy_11.py
+> [!code]- Click to view: it_11.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_11.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_11.py"
 > ```
 
 ## Strategy-12
@@ -299,9 +300,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 37% | 🔴 -46% | 🔴 -18% | 🟢 136% | 🔴 -4% | 🟢 48% | 🟢 170% | 🟢 62% | 🔴 -37% | 🟢 71% | 🟢 78% | 🟢 15% |
 
-> [!code]- Click to view: strategy_12.py
+> [!code]- Click to view: it_12.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_12.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_12.py"
 > ```
 
 ## Strategy-13
@@ -315,9 +316,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 50% | 🔴 -6% | 🔴 -17% | 🟢 92% | 🔴 -6% | 🟢 52% | 🟢 93% | 🟢 54% | 🔴 -42% | 🟢 78% | 🟢 60% | 🔴 -1% |
 
-> [!code]- Click to view: strategy_13.py
+> [!code]- Click to view: it_13.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_13.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_13.py"
 > ```
 
 ## Strategy-14
@@ -331,9 +332,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 8% | 🟢 10% | 🔴 -19% | 🟢 60% | 🔴 -28% | 🟢 128% | 🟢 24% | 🟢 30% | 🔴 -64% | 🟢 161% | 🟢 26% | 🔴 -37% |
 
-> [!code]- Click to view: strategy_14.py
+> [!code]- Click to view: it_14.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_14.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_14.py"
 > ```
 
 ## Strategy-15
@@ -347,9 +348,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 1% | 🔴 -2% | 🔴 -6% | 🟢 118% | 🔴 -1% | 🟢 48% | 🟢 91% | 🟢 15% | 🔴 -30% | 🟢 63% | 🟢 27% | 🟢 48% |
 
-> [!code]- Click to view: strategy_15.py
+> [!code]- Click to view: it_15.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_15.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_15.py"
 > ```
 
 ## Strategy-16
@@ -363,9 +364,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 46% | 🔴 -9% | 🔴 -14% | 🟢 114% | 🔴 -17% | 🟢 41% | 🟢 39% | 🟢 31% | 🔴 -33% | 🟢 78% | 🟢 36% | 🟢 6% |
 
-> [!code]- Click to view: strategy_16.py
+> [!code]- Click to view: it_16.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_16.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_16.py"
 > ```
 
 ## Strategy-17
@@ -379,9 +380,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 16% | 🔴 -29% | 🔴 -19% | 🟢 64% | 🟢 2% | 🟢 20% | 🟢 119% | 🟢 17% | 🔴 -20% | 🟢 73% | 🟢 36% | 🟢 12% |
 
-> [!code]- Click to view: strategy_17.py
+> [!code]- Click to view: it_17.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_17.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_17.py"
 > ```
 
 ## Strategy-18
@@ -395,9 +396,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 36% | 🔴 -6% | 🔴 -12% | 🟢 52% | 🟢 33% | 🟢 24% | 🟢 23% | 🟢 4% | 🔴 -11% | 🟢 119% | 🔴 -9% | 🟢 20% |
 
-> [!code]- Click to view: strategy_18.py
+> [!code]- Click to view: it_18.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_18.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_18.py"
 > ```
 
 ## Strategy-19
@@ -411,9 +412,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 56% | 🔴 -18% | 🔴 -26% | 🟢 118% | 🔴 -9% | 🟢 29% | 🟢 45% | 🟢 88% | 🔴 -41% | 🟢 92% | 🟢 62% | 🔴 -22% |
 
-> [!code]- Click to view: strategy_19.py
+> [!code]- Click to view: it_19.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_19.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_19.py"
 > ```
 
 ## Strategy-20
@@ -427,9 +428,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 1% | 🔴 -4% | ⚪ 0% | 🟢 71% | 🔴 -9% | 🟢 43% | 🟢 101% | 🟢 19% | 🔴 -7% | 🟢 73% | 🟢 37% | 🟢 95% |
 
-> [!code]- Click to view: strategy_20.py
+> [!code]- Click to view: it_20.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_20.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_20.py"
 > ```
 
 ## Strategy-21
@@ -443,9 +444,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 34% | 🟢 3% | 🟢 5% | 🟢 83% | 🔴 -3% | 🟢 48% | 🟢 43% | 🟢 24% | 🔴 -46% | 🟢 59% | 🟢 21% | 🟢 10% |
 
-> [!code]- Click to view: strategy_21.py
+> [!code]- Click to view: it_21.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_21.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_21.py"
 > ```
 
 ## Strategy-22
@@ -459,9 +460,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 5% | 🟢 11% | 🟢 21% | 🟢 47% | 🔴 -41% | 🟢 29% | 🔴 -39% | 🟢 70% | 🟢 10% | 🟢 16% | 🟢 32% | 🟢 17% |
 
-> [!code]- Click to view: strategy_22.py
+> [!code]- Click to view: it_22.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_22.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_22.py"
 > ```
 
 ## Strategy-23
@@ -475,9 +476,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 56% | 🟢 1% | 🔴 -12% | 🟢 118% | 🔴 -32% | 🟢 50% | 🟢 59% | 🟢 68% | 🔴 -44% | 🟢 113% | 🟢 58% | 🟢 24% |
 
-> [!code]- Click to view: strategy_23.py
+> [!code]- Click to view: it_23.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_23.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_23.py"
 > ```
 
 ## Strategy-24
@@ -491,9 +492,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 38% | 🟢 14% | 🔴 -1% | 🟢 36% | 🔴 -23% | 🟢 2% | 🟢 7% | 🟢 42% | 🟢 27% | 🟢 50% | 🟢 61% | 🟢 25% |
 
-> [!code]- Click to view: strategy_24.py
+> [!code]- Click to view: it_24.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_24.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_24.py"
 > ```
 
 ## Strategy-25
@@ -507,9 +508,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 51% | 🔴 -1% | 🔴 -14% | 🟢 118% | 🔴 -30% | 🟢 45% | 🟢 47% | 🟢 38% | 🔴 -42% | 🟢 94% | 🟢 50% | 🟢 19% |
 
-> [!code]- Click to view: strategy_25.py
+> [!code]- Click to view: it_25.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_25.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_25.py"
 > ```
 
 ## Strategy-26
@@ -523,9 +524,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 8% | 🔴 -22% | 🔴 -18% | 🟢 12% | 🟢 10% | 🟢 6% | 🟢 36% | 🔴 -16% | ⚪ 0% | 🟢 15% | 🔴 -7% | 🟢 5% |
 
-> [!code]- Click to view: strategy_26.py
+> [!code]- Click to view: it_26.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_26.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_26.py"
 > ```
 
 ## Strategy-27
@@ -539,9 +540,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 28% | 🔴 -8% | ⚪ 0% | 🟢 31% | 🟢 2% | 🟢 47% | 🟢 89% | 🟢 57% | 🔴 -34% | 🟢 66% | 🔴 -5% | 🔴 -17% |
 
-> [!code]- Click to view: strategy_27.py
+> [!code]- Click to view: it_27.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_27.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_27.py"
 > ```
 
 ## Strategy-28
@@ -555,9 +556,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 10% | 🟢 1% | 🔴 -10% | 🟢 46% | 🔴 -24% | 🟢 39% | 🟢 32% | 🟢 58% | 🔴 -10% | 🟢 42% | 🟢 65% | 🟢 23% |
 
-> [!code]- Click to view: strategy_28.py
+> [!code]- Click to view: it_28.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_28.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_28.py"
 > ```
 
 ## Strategy-29
@@ -571,9 +572,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🔴 -26% | 🟢 21% | 🟢 96% | 🔴 -43% | 🟢 70% | 🟢 48% | 🟢 124% | 🔴 -76% | 🟢 163% | 🟢 31% | 🔴 -11% |
 
-> [!code]- Click to view: strategy_29.py
+> [!code]- Click to view: it_29.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_29.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_29.py"
 > ```
 
 ## Strategy-30
@@ -587,9 +588,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 56% | 🔴 -4% | 🔴 -6% | 🟢 118% | 🔴 -20% | 🟢 50% | 🟢 105% | 🟢 88% | 🔴 -59% | 🟢 130% | 🟢 62% | 🟢 19% |
 
-> [!code]- Click to view: strategy_30.py
+> [!code]- Click to view: it_30.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_30.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_30.py"
 > ```
 
 ## Strategy-31
@@ -603,9 +604,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 24% | 🟢 10% | 🟢 3% | 🟢 52% | 🔴 -30% | 🔴 -7% | 🔴 -8% | 🟢 24% | 🔴 -8% | 🟢 31% | 🟢 30% | 🔴 -9% |
 
-> [!code]- Click to view: strategy_31.py
+> [!code]- Click to view: it_31.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_31.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_31.py"
 > ```
 
 ## Strategy-32
@@ -619,9 +620,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 14% | 🔴 -5% | 🔴 -24% | 🟢 118% | 🔴 -6% | 🟢 7% | 🟢 54% | 🟢 51% | 🔴 -20% | 🟢 82% | 🟢 15% | 🟢 15% |
 
-> [!code]- Click to view: strategy_32.py
+> [!code]- Click to view: it_32.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_32.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_32.py"
 > ```
 
 ## Strategy-33
@@ -635,9 +636,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 49% | 🔴 -46% | 🟢 15% | 🟢 63% | 🔴 -12% | 🟢 78% | 🟢 34% | 🟢 139% | 🔴 -34% | 🟢 56% | 🟢 22% | 🟢 46% |
 
-> [!code]- Click to view: strategy_33.py
+> [!code]- Click to view: it_33.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_33.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_33.py"
 > ```
 
 ## Strategy-34
@@ -651,9 +652,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 10% | 🔴 -15% | 🔴 -15% | 🟢 52% | 🔴 -36% | 🟢 35% | 🟢 155% | 🟢 73% | 🔴 -36% | 🟢 108% | 🟢 65% | 🟢 20% |
 
-> [!code]- Click to view: strategy_34.py
+> [!code]- Click to view: it_34.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_34.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_34.py"
 > ```
 
 ## Strategy-35
@@ -667,9 +668,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 53% | ⚪ 0% | 🔴 -22% | 🟢 118% | 🔴 -24% | 🟢 50% | 🟢 105% | 🟢 88% | 🔴 -44% | 🟢 118% | 🟢 55% | 🟢 34% |
 
-> [!code]- Click to view: strategy_35.py
+> [!code]- Click to view: it_35.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_35.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_35.py"
 > ```
 
 ## Strategy-36
@@ -683,9 +684,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 1% | 🔴 -43% | 🔴 -9% | 🟢 87% | 🔴 -17% | ⚪ 0% | 🟢 49% | 🔴 -6% | 🔴 -11% | 🟢 65% | 🔴 -4% | 🟢 5% |
 
-> [!code]- Click to view: strategy_36.py
+> [!code]- Click to view: it_36.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_36.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_36.py"
 > ```
 
 ## Strategy-37
@@ -699,9 +700,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🔴 -10% | 🔴 -5% | 🔴 -5% | 🟢 46% | 🔴 -48% | 🟢 37% | 🟢 77% | 🟢 64% | 🔴 -36% | 🟢 82% | 🟢 67% | 🟢 25% |
 
-> [!code]- Click to view: strategy_37.py
+> [!code]- Click to view: it_37.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_37.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_37.py"
 > ```
 
 ## Strategy-38
@@ -715,9 +716,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 21% | 🔴 -9% | 🔴 -3% | 🟢 90% | 🔴 -5% | 🟢 55% | 🟢 58% | 🟢 27% | 🔴 -49% | 🟢 105% | 🟢 51% | 🟢 42% |
 
-> [!code]- Click to view: strategy_38.py
+> [!code]- Click to view: it_38.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_38.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_38.py"
 > ```
 
 ## Strategy-39
@@ -731,9 +732,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 16% | 🔴 -25% | 🔴 -5% | 🟢 64% | 🔴 -1% | 🟢 49% | 🟢 73% | 🟢 8% | 🔴 -31% | 🟢 105% | 🟢 39% | 🟢 30% |
 
-> [!code]- Click to view: strategy_39.py
+> [!code]- Click to view: it_39.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_39.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_39.py"
 > ```
 
 ## Strategy-40
@@ -747,9 +748,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 108% | 🔴 -11% | 🟢 4% | 🟢 89% | 🔴 -19% | 🟢 51% | 🟢 113% | 🟢 22% | 🔴 -35% | 🟢 95% | 🟢 66% | 🟢 46% |
 
-> [!code]- Click to view: strategy_40.py
+> [!code]- Click to view: it_40.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_40.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_40.py"
 > ```
 
 ## Strategy-41
@@ -763,9 +764,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 60% | 🟢 1% | 🔴 -12% | 🟢 118% | 🔴 -23% | 🟢 50% | 🟢 136% | 🟢 77% | 🔴 -44% | 🟢 108% | 🟢 86% | 🟢 24% |
 
-> [!code]- Click to view: strategy_41.py
+> [!code]- Click to view: it_41.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_41.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_41.py"
 > ```
 
 ## Strategy-42
@@ -779,9 +780,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 76% | 🔴 -26% | 🟢 18% | 🟢 133% | 🔴 -43% | 🟢 74% | 🟢 90% | 🟢 107% | 🔴 -50% | 🟢 105% | 🟢 27% | 🟢 46% |
 
-> [!code]- Click to view: strategy_42.py
+> [!code]- Click to view: it_42.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_42.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_42.py"
 > ```
 
 ## Strategy-43
@@ -795,9 +796,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 3% | 🔴 -28% | 🔴 -16% | 🟢 41% | 🔴 -13% | 🟢 66% | 🟢 56% | 🟢 21% | 🔴 -45% | 🟢 70% | 🟢 45% | 🟢 17% |
 
-> [!code]- Click to view: strategy_43.py
+> [!code]- Click to view: it_43.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_43.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_43.py"
 > ```
 
 ## Strategy-44
@@ -811,9 +812,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🔴 -25% | 🔴 -13% | 🟢 35% | 🟢 34% | 🔴 -20% | 🔴 -31% | 🔴 -8% | 🔴 -46% | 🔴 -24% | 🟢 23% | 🔴 -26% | 🔴 -9% |
 
-> [!code]- Click to view: strategy_44.py
+> [!code]- Click to view: it_44.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_44.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_44.py"
 > ```
 
 ## Strategy-45
@@ -827,9 +828,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 48% | 🔴 -4% | ⚪ 0% | 🟢 1% | 🟢 1% | 🟢 2% | ⚪ 0% | ⚪ 0% | 🟢 1% | 🟢 5% | 🟢 5% | 🟢 4% |
 
-> [!code]- Click to view: strategy_45.py
+> [!code]- Click to view: it_45.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_45.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_45.py"
 > ```
 
 ## Strategy-46
@@ -843,9 +844,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🔴 -2% | 🔴 -32% | 🔴 -16% | 🟢 75% | 🟢 27% | 🟢 38% | 🟢 98% | 🟢 30% | 🔴 -51% | 🟢 100% | 🟢 32% | 🟢 47% |
 
-> [!code]- Click to view: strategy_46.py
+> [!code]- Click to view: it_46.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_46.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_46.py"
 > ```
 
 ## Strategy-47
@@ -859,9 +860,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 22% | 🔴 -7% | 🔴 -23% | 🟢 48% | 🟢 36% | 🟢 51% | 🟢 75% | 🟢 8% | 🔴 -14% | 🟢 92% | 🔴 -7% | 🟢 27% |
 
-> [!code]- Click to view: strategy_47.py
+> [!code]- Click to view: it_47.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_47.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_47.py"
 > ```
 
 ## Strategy-48
@@ -875,9 +876,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 55% | 🔴 -36% | 🟢 111% | 🟢 142% | 🔴 -12% | 🟢 113% | 🟢 27% | 🟢 122% | 🔴 -72% | 🟢 123% | 🔴 -33% | 🟢 53% |
 
-> [!code]- Click to view: strategy_48.py
+> [!code]- Click to view: it_48.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_48.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_48.py"
 > ```
 
 ## Strategy-49
@@ -891,9 +892,9 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 45% | 🔴 -15% | 🟢 4% | 🟢 16% | 🔴 -27% | 🔴 -13% | 🔴 -31% | 🟢 50% | 🔴 -17% | 🟢 44% | 🟢 4% | 🟢 3% |
 
-> [!code]- Click to view: strategy_49.py
+> [!code]- Click to view: it_49.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_49.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_49.py"
 > ```
 
 ## Strategy-50
@@ -907,8 +908,8 @@ This document tracks the results of the complete 50-iteration strategy scouting 
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 5% | 🔴 -13% | 🔴 -13% | 🟢 60% | 🔴 -30% | 🟢 14% | 🔴 -21% | 🟢 35% | 🔴 -24% | 🟢 55% | 🟢 63% | 🔴 -15% |
 
-> [!code]- Click to view: strategy_50.py
+> [!code]- Click to view: it_50.py
 > ```embed-python
-> PATH: "quantconnect/gemini/iteration_50.py"
+> PATH: "vault://QuantConnect/gemini/algos/it_50.py"
 > ```
 

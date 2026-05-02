@@ -1,4 +1,9 @@
 import os
+import warnings
+# Silence warnings at the earliest possible moment
+os.environ["PYTHONWARNINGS"] = "ignore"
+warnings.filterwarnings("ignore", message="urllib3 v2 only supports OpenSSL")
+
 import sys
 import time
 import requests
@@ -62,9 +67,36 @@ def main():
         
     yearly = extract_yearly(data)
     print("\nYearly Returns:")
-    for year, ret in yearly.items():
+    
+    sorted_years = sorted(yearly.keys())
+    
+    # Width calculation: Emojis are 2 cells wide, but len() sees them as 1.
+    # We manually pad to ensure perfect alignment in the terminal.
+    width = 9
+    header_parts = []
+    divider_parts = []
+    row_parts = []
+    
+    for y in sorted_years:
+        ret = yearly[y]
         emoji = "🟢" if ret > 0 else "🔴" if ret < 0 else "⚪"
-        print(f"  {year}: {emoji} {ret}%")
+        content = f"{emoji} {ret}%"
+        
+        # Header/Divider
+        header_parts.append(f"{y:<{width}}")
+        divider_parts.append("-" * width)
+        
+        # Row Content: Manual Padding
+        # "🟢 5%" -> len is 4, visual width is 5.
+        # "🟢 101%" -> len is 6, visual width is 7.
+        visual_width = len(content) + 1
+        padding = max(0, width - visual_width)
+        row_parts.append(content + (" " * padding))
+        
+    print(" | ".join(header_parts))
+    print("-+-".join(divider_parts))
+    print(" | ".join(row_parts))
+
 
 if __name__ == "__main__":
     main()

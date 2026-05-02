@@ -1,0 +1,4737 @@
+{
+  "orig_id": "5b64ddcaa5b6b376d1d38930dd88eece",
+  "sub_id": "288b8a58eee06c6bbf7b481ca8916728",
+  "orig_trades": [
+    {
+      "id": "d7905f14-3fea-485a-90dd-5c16ac36da7a",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2014-01-21T15:05:00Z",
+      "entryPrice": 19.22541533,
+      "direction": 0,
+      "quantity": 1040,
+      "exitTime": "2014-02-03T21:00:00Z",
+      "exitPrice": 18.191630908,
+      "profitLoss": -1075.14,
+      "totalFees": 10.4,
+      "mae": -1469.61,
+      "mfe": 0,
+      "duration": "13.05:55:00",
+      "endTradeDrawdown": 1469.61,
+      "isWin": false,
+      "orderIds": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "40883408-6b34-4fec-8f59-50199dca0f1f",
+      "symbols": [
+        {
+          "value": "QCOM",
+          "id": "QCOM R735QTJ8XC9X",
+          "permtick": "QCOM"
+        }
+      ],
+      "entryTime": "2014-02-24T15:05:00Z",
+      "entryPrice": 53.800408915,
+      "direction": 0,
+      "quantity": 365,
+      "exitTime": "2014-05-01T20:00:00Z",
+      "exitPrice": 56.139118044,
+      "profitLoss": 853.63,
+      "totalFees": 3.65,
+      "mae": -424.92,
+      "mfe": 1581.62,
+      "duration": "66.04:55:00",
+      "endTradeDrawdown": 968.05,
+      "isWin": true,
+      "orderIds": [
+        5,
+        8
+      ]
+    },
+    {
+      "id": "93833208-bd64-4685-9e99-082a05d09596",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2014-05-19T14:05:00Z",
+      "entryPrice": 19.55280177,
+      "direction": 0,
+      "quantity": 1072,
+      "exitTime": "2014-06-02T14:05:00Z",
+      "exitPrice": 20.68871202,
+      "profitLoss": 1217.7,
+      "totalFees": 10.72,
+      "mae": 0,
+      "mfe": 1217.7,
+      "duration": "14.00:00:00",
+      "endTradeDrawdown": 40.59,
+      "isWin": true,
+      "orderIds": [
+        9,
+        10
+      ]
+    },
+    {
+      "id": "ef29107d-2a56-48d6-bad8-ec8c14b3de85",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2014-01-06T15:05:00Z",
+      "entryPrice": 31.416127182,
+      "direction": 0,
+      "quantity": 635,
+      "exitTime": "2014-06-09T14:05:00Z",
+      "exitPrice": 35.706069504,
+      "profitLoss": 2724.11,
+      "totalFees": 6.35,
+      "mae": -943.9,
+      "mfe": 2724.11,
+      "duration": "153.23:00:00",
+      "endTradeDrawdown": 1362.83,
+      "isWin": true,
+      "orderIds": [
+        1,
+        11
+      ]
+    },
+    {
+      "id": "0a060923-e90a-4f42-b03e-441749378e23",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2014-04-07T14:05:00Z",
+      "entryPrice": 113.33456135914457,
+      "direction": 0,
+      "quantity": 179,
+      "exitTime": "2014-12-15T15:05:00Z",
+      "exitPrice": 93.54512830045265,
+      "profitLoss": -3542.31,
+      "totalFees": 2,
+      "mae": -3542.31,
+      "mfe": 634.73,
+      "duration": "252.01:00:00",
+      "endTradeDrawdown": 4177.03,
+      "isWin": false,
+      "orderIds": [
+        7,
+        14
+      ]
+    },
+    {
+      "id": "9592a4ea-09e1-410d-84b2-43118e1429b4",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2014-01-06T15:05:00Z",
+      "entryPrice": 16.74303436199678,
+      "direction": 0,
+      "quantity": 1191,
+      "exitTime": "2015-02-23T15:05:00Z",
+      "exitPrice": 28.7591269,
+      "profitLoss": 14311.17,
+      "totalFees": 11.91,
+      "mae": -1531.2,
+      "mfe": 14311.17,
+      "duration": "413.00:00:00",
+      "endTradeDrawdown": 3427.55,
+      "isWin": true,
+      "orderIds": [
+        2,
+        15
+      ]
+    },
+    {
+      "id": "e965ed23-2791-43b5-9c5a-de21cf9c4879",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2014-08-04T14:05:00Z",
+      "entryPrice": 25.55040789,
+      "direction": 0,
+      "quantity": 870,
+      "exitTime": "2015-08-03T20:00:00Z",
+      "exitPrice": 22.620338872,
+      "profitLoss": -2549.16,
+      "totalFees": 8.7,
+      "mae": -3226.37,
+      "mfe": 2918.09,
+      "duration": "364.05:55:00",
+      "endTradeDrawdown": 6144.46,
+      "isWin": false,
+      "orderIds": [
+        12,
+        18
+      ]
+    },
+    {
+      "id": "ce0d804f-e4c6-4736-a846-9579506f3b6e",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2015-03-02T15:05:00Z",
+      "entryPrice": 28.528165572,
+      "direction": 0,
+      "quantity": 838,
+      "exitTime": "2015-08-24T14:05:00Z",
+      "exitPrice": 23.691855484,
+      "profitLoss": -4052.83,
+      "totalFees": 8.38,
+      "mae": -4052.83,
+      "mfe": 862.33,
+      "duration": "174.23:00:00",
+      "endTradeDrawdown": 4915.15,
+      "isWin": false,
+      "orderIds": [
+        16,
+        19
+      ]
+    },
+    {
+      "id": "99292149-b7e7-4ed3-aca2-1a537ac11311",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2015-03-09T14:05:00Z",
+      "entryPrice": 96.06862774499906,
+      "direction": 0,
+      "quantity": 244,
+      "exitTime": "2015-11-02T21:00:00Z",
+      "exitPrice": 86.53720997310197,
+      "profitLoss": -2325.67,
+      "totalFees": 2.44,
+      "mae": -2722.42,
+      "mfe": 2501.06,
+      "duration": "238.06:55:00",
+      "endTradeDrawdown": 5223.47,
+      "isWin": false,
+      "orderIds": [
+        17,
+        21
+      ]
+    },
+    {
+      "id": "433f3217-b564-4864-910e-c01cbcb271a8",
+      "symbols": [
+        {
+          "value": "CSCO",
+          "id": "CSCO R735QTJ8XC9X",
+          "permtick": "CSCO"
+        }
+      ],
+      "entryTime": "2015-11-02T15:05:00Z",
+      "entryPrice": 20.96793189,
+      "direction": 0,
+      "quantity": 1111,
+      "exitTime": "2016-01-19T15:05:00Z",
+      "exitPrice": 17.300580014,
+      "profitLoss": -4074.43,
+      "totalFees": 11.11,
+      "mae": -4074.43,
+      "mfe": 0,
+      "duration": "78.00:00:00",
+      "endTradeDrawdown": 4074.43,
+      "isWin": false,
+      "orderIds": [
+        22,
+        23
+      ]
+    },
+    {
+      "id": "bb14291d-0673-4cfe-97fe-b05c870502d0",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2014-09-08T14:05:00Z",
+      "entryPrice": 34.667641908,
+      "direction": 0,
+      "quantity": 663,
+      "exitTime": "2016-01-19T15:05:00Z",
+      "exitPrice": 29.281434179,
+      "profitLoss": -3571.06,
+      "totalFees": 6.63,
+      "mae": -3599.5,
+      "mfe": 2830.91,
+      "duration": "498.01:00:00",
+      "endTradeDrawdown": 6430.4,
+      "isWin": false,
+      "orderIds": [
+        13,
+        24
+      ]
+    },
+    {
+      "id": "ca576d82-2d25-49f9-8171-a181033961f6",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2016-05-02T14:05:00Z",
+      "entryPrice": 91.65778015513348,
+      "direction": 0,
+      "quantity": 226,
+      "exitTime": "2016-08-01T20:00:00Z",
+      "exitPrice": 101.8891341468036,
+      "profitLoss": 2312.29,
+      "totalFees": 2.26,
+      "mae": -256.91,
+      "mfe": 2594.61,
+      "duration": "91.05:55:00",
+      "endTradeDrawdown": 1698.22,
+      "isWin": true,
+      "orderIds": [
+        27,
+        28
+      ]
+    },
+    {
+      "id": "c5d2f3b4-26f8-4d95-9ca8-f6e02786d91f",
+      "symbols": [
+        {
+          "value": "CSCO",
+          "id": "CSCO R735QTJ8XC9X",
+          "permtick": "CSCO"
+        }
+      ],
+      "entryTime": "2016-08-01T14:05:00Z",
+      "entryPrice": 22.771927057,
+      "direction": 0,
+      "quantity": 1023,
+      "exitTime": "2016-11-01T20:00:00Z",
+      "exitPrice": 23.178221066,
+      "profitLoss": 415.64,
+      "totalFees": 10.23,
+      "mae": -99.82,
+      "mfe": 1022.48,
+      "duration": "92.05:55:00",
+      "endTradeDrawdown": 1122.3,
+      "isWin": true,
+      "orderIds": [
+        29,
+        30
+      ]
+    },
+    {
+      "id": "11126dd3-b986-414e-ba46-e679574b0718",
+      "symbols": [
+        {
+          "value": "TSM",
+          "id": "TSM R735QTJ8XC9X",
+          "permtick": "TSM"
+        }
+      ],
+      "entryTime": "2016-11-07T15:05:00Z",
+      "entryPrice": 24.455332944,
+      "direction": 0,
+      "quantity": 961,
+      "exitTime": "2016-12-01T21:00:00Z",
+      "exitPrice": 23.85688895,
+      "profitLoss": -575.1,
+      "totalFees": 9.61,
+      "mae": -1313.41,
+      "mfe": 862.66,
+      "duration": "24.05:55:00",
+      "endTradeDrawdown": 2176.07,
+      "isWin": false,
+      "orderIds": [
+        31,
+        32
+      ]
+    },
+    {
+      "id": "66fe6ffe-c631-49bf-ad3e-8506dab4e104",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2016-04-25T14:05:00Z",
+      "entryPrice": 35.04825148,
+      "direction": 0,
+      "quantity": 619,
+      "exitTime": "2017-02-21T15:05:00Z",
+      "exitPrice": 36.636375618,
+      "profitLoss": 983.05,
+      "totalFees": 6.19,
+      "mae": -1323.55,
+      "mfe": 983.05,
+      "duration": "302.01:00:00",
+      "endTradeDrawdown": 1975.8,
+      "isWin": true,
+      "orderIds": [
+        26,
+        34
+      ]
+    },
+    {
+      "id": "50a1e1a6-3756-4580-b270-c6cc114df5ee",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2016-12-05T15:05:00Z",
+      "entryPrice": 103.27548044740062,
+      "direction": 0,
+      "quantity": 229,
+      "exitTime": "2017-03-01T21:00:00Z",
+      "exitPrice": 117.3491424856406,
+      "profitLoss": 3222.87,
+      "totalFees": 2.29,
+      "mae": -26.6,
+      "mfe": 3453.76,
+      "duration": "86.05:55:00",
+      "endTradeDrawdown": 645.86,
+      "isWin": true,
+      "orderIds": [
+        33,
+        35
+      ]
+    },
+    {
+      "id": "9aced8ab-6369-43a6-9364-a9b2db79ffb4",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2017-03-06T15:05:00Z",
+      "entryPrice": 37.185137307,
+      "direction": 0,
+      "quantity": 723,
+      "exitTime": "2018-01-29T15:05:00Z",
+      "exitPrice": 46.683723625,
+      "profitLoss": 6867.48,
+      "totalFees": 7.23,
+      "mae": -157.44,
+      "mfe": 6867.48,
+      "duration": "329.00:00:00",
+      "endTradeDrawdown": 3825.76,
+      "isWin": true,
+      "orderIds": [
+        36,
+        38
+      ]
+    },
+    {
+      "id": "e3684681-dba8-4bb7-ad96-bc19035c5960",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-03-10T14:05:00Z",
+      "entryPrice": 31.60875539,
+      "direction": 0,
+      "quantity": 629,
+      "exitTime": "2018-01-29T15:05:00Z",
+      "exitPrice": 86.312362454,
+      "profitLoss": 34408.57,
+      "totalFees": 6.29,
+      "mae": -104.92,
+      "mfe": 34408.57,
+      "duration": "1421.01:00:00",
+      "endTradeDrawdown": 4760.48,
+      "isWin": true,
+      "orderIds": [
+        6,
+        39
+      ]
+    },
+    {
+      "id": "b1fd7250-a94d-431e-9b50-3e250921959f",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2018-02-05T15:05:00Z",
+      "entryPrice": 44.365024935,
+      "direction": 0,
+      "quantity": 814,
+      "exitTime": "2018-03-01T21:00:00Z",
+      "exitPrice": 44.9579746,
+      "profitLoss": 482.66,
+      "totalFees": 8.14,
+      "mae": -2370.08,
+      "mfe": 749.21,
+      "duration": "24.05:55:00",
+      "endTradeDrawdown": 2370.08,
+      "isWin": true,
+      "orderIds": [
+        40,
+        42
+      ]
+    },
+    {
+      "id": "1fa3223d-034a-434c-9a2e-6beae9561e47",
+      "symbols": [
+        {
+          "value": "TSM",
+          "id": "TSM R735QTJ8XC9X",
+          "permtick": "TSM"
+        }
+      ],
+      "entryTime": "2017-06-12T14:05:00Z",
+      "entryPrice": 28.943662899,
+      "direction": 0,
+      "quantity": 980,
+      "exitTime": "2019-11-04T15:05:00Z",
+      "exitPrice": 46.5102431,
+      "profitLoss": 17215.25,
+      "totalFees": 9.8,
+      "mae": -435.89,
+      "mfe": 17215.25,
+      "duration": "875.01:00:00",
+      "endTradeDrawdown": 8932.71,
+      "isWin": true,
+      "orderIds": [
+        37,
+        44
+      ]
+    },
+    {
+      "id": "48692b6a-69c2-4469-b48d-02324ed11680",
+      "symbols": [
+        {
+          "value": "CSCO",
+          "id": "CSCO R735QTJ8XC9X",
+          "permtick": "CSCO"
+        }
+      ],
+      "entryTime": "2018-03-05T15:05:00Z",
+      "entryPrice": 34.57599688,
+      "direction": 0,
+      "quantity": 1078,
+      "exitTime": "2020-05-01T20:00:00Z",
+      "exitPrice": 35.012984328,
+      "profitLoss": 471.07,
+      "totalFees": 10.78,
+      "mae": -7519.05,
+      "mfe": 13983.65,
+      "duration": "788.04:55:00",
+      "endTradeDrawdown": 21502.71,
+      "isWin": true,
+      "orderIds": [
+        43,
+        46
+      ]
+    },
+    {
+      "id": "a518f05f-1115-401f-8f1b-98b77980cfc3",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2015-09-21T14:05:00Z",
+      "entryPrice": 22.776860654,
+      "direction": 0,
+      "quantity": 942,
+      "exitTime": "2020-08-03T20:00:00Z",
+      "exitPrice": 43.077371808,
+      "profitLoss": 19123.08,
+      "totalFees": 9.42,
+      "mae": -399.25,
+      "mfe": 35441.77,
+      "duration": "1778.05:55:00",
+      "endTradeDrawdown": 19644.76,
+      "isWin": true,
+      "orderIds": [
+        20,
+        48
+      ]
+    },
+    {
+      "id": "d2616cce-7418-4557-9c11-480c331fa69a",
+      "symbols": [
+        {
+          "value": "CRM",
+          "id": "CRM SZQUJUA9SVOL",
+          "permtick": "CRM"
+        }
+      ],
+      "entryTime": "2020-09-08T14:05:00Z",
+      "entryPrice": 251.01469476,
+      "direction": 0,
+      "quantity": 308,
+      "exitTime": "2020-10-01T20:00:00Z",
+      "exitPrice": 249.496977328,
+      "profitLoss": -467.46,
+      "totalFees": 3.08,
+      "mae": -5679.3,
+      "mfe": 0,
+      "duration": "23.05:55:00",
+      "endTradeDrawdown": 5679.3,
+      "isWin": false,
+      "orderIds": [
+        49,
+        50
+      ]
+    },
+    {
+      "id": "17399694-ffdf-4c93-8961-b84554728296",
+      "symbols": [
+        {
+          "value": "ADBE",
+          "id": "ADBE R735QTJ8XC9X",
+          "permtick": "ADBE"
+        }
+      ],
+      "entryTime": "2020-10-05T14:05:00Z",
+      "entryPrice": 478.99,
+      "direction": 0,
+      "quantity": 159,
+      "exitTime": "2021-02-01T21:00:00Z",
+      "exitPrice": 462.93,
+      "profitLoss": -2553.54,
+      "totalFees": 2,
+      "mae": -5413.95,
+      "mfe": 5615.88,
+      "duration": "119.06:55:00",
+      "endTradeDrawdown": 11029.83,
+      "isWin": false,
+      "orderIds": [
+        51,
+        52
+      ]
+    },
+    {
+      "id": "a9902e7e-8406-4793-af65-6f271958a43c",
+      "symbols": [
+        {
+          "value": "ASML",
+          "id": "ASMLF R735QTJ8XC9X",
+          "permtick": "ASML"
+        }
+      ],
+      "entryTime": "2021-05-03T14:05:00Z",
+      "entryPrice": 615.66097475,
+      "direction": 0,
+      "quantity": 151,
+      "exitTime": "2022-05-23T14:05:00Z",
+      "exitPrice": 511.934875144,
+      "profitLoss": -15662.64,
+      "totalFees": 2,
+      "mae": -18590.27,
+      "mfe": 34974.91,
+      "duration": "385.00:00:00",
+      "endTradeDrawdown": 53565.18,
+      "isWin": false,
+      "orderIds": [
+        53,
+        54
+      ]
+    },
+    {
+      "id": "de5085c5-84c6-4a72-a323-d54ec958d554",
+      "symbols": [
+        {
+          "value": "ASML",
+          "id": "ASMLF R735QTJ8XC9X",
+          "permtick": "ASML"
+        }
+      ],
+      "entryTime": "2022-08-22T14:05:00Z",
+      "entryPrice": 525.125947344,
+      "direction": 0,
+      "quantity": 189,
+      "exitTime": "2022-09-01T20:00:00Z",
+      "exitPrice": 460.455501384,
+      "profitLoss": -12222.71,
+      "totalFees": 2,
+      "mae": -13713.47,
+      "mfe": 0,
+      "duration": "10.05:55:00",
+      "endTradeDrawdown": 13713.47,
+      "isWin": false,
+      "orderIds": [
+        55,
+        56
+      ]
+    },
+    {
+      "id": "bf3fe75a-4208-4b7a-ba41-00280180b237",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2018-02-05T15:05:00Z",
+      "entryPrice": 84.220164002,
+      "direction": 0,
+      "quantity": 428,
+      "exitTime": "2022-12-05T21:00:00Z",
+      "exitPrice": 245.5551756,
+      "profitLoss": 69051.38,
+      "totalFees": 4.28,
+      "mae": -2658.89,
+      "mfe": 105720.79,
+      "duration": "1764.05:55:00",
+      "endTradeDrawdown": 52664.31,
+      "isWin": true,
+      "orderIds": [
+        41,
+        57
+      ]
+    },
+    {
+      "id": "4de9616e-a434-47bb-98f9-487feabf28b0",
+      "symbols": [
+        {
+          "value": "AVGO",
+          "id": "AVGO UEW4IOBWVPT1",
+          "permtick": "AVGO"
+        }
+      ],
+      "entryTime": "2022-12-05T15:05:00Z",
+      "entryPrice": 51.171366688,
+      "direction": 0,
+      "quantity": 1715,
+      "exitTime": "2022-12-06T21:00:00Z",
+      "exitPrice": 50.2109573465,
+      "profitLoss": -1647.1,
+      "totalFees": 17.15,
+      "mae": -2430.9,
+      "mfe": 0,
+      "duration": "1.05:55:00",
+      "endTradeDrawdown": 2430.9,
+      "isWin": false,
+      "orderIds": [
+        58,
+        59
+      ]
+    },
+    {
+      "id": "df7531ae-3c2e-46be-bf49-fec54cafa376",
+      "symbols": [
+        {
+          "value": "ASML",
+          "id": "ASMLF R735QTJ8XC9X",
+          "permtick": "ASML"
+        }
+      ],
+      "entryTime": "2022-12-19T15:05:00Z",
+      "entryPrice": 554.52807132,
+      "direction": 0,
+      "quantity": 150,
+      "exitTime": "2023-01-03T21:00:00Z",
+      "exitPrice": 541.93744928,
+      "profitLoss": -1888.59,
+      "totalFees": 2,
+      "mae": -6181.38,
+      "mfe": 961.68,
+      "duration": "15.05:55:00",
+      "endTradeDrawdown": 7143.05,
+      "isWin": false,
+      "orderIds": [
+        60,
+        62
+      ]
+    },
+    {
+      "id": "b3185815-bfbd-4105-bfe6-6e02b52f189a",
+      "symbols": [
+        {
+          "value": "ASML",
+          "id": "ASMLF R735QTJ8XC9X",
+          "permtick": "ASML"
+        }
+      ],
+      "entryTime": "2023-02-13T15:05:00Z",
+      "entryPrice": 635.124100445,
+      "direction": 0,
+      "quantity": 154,
+      "exitTime": "2023-03-01T21:00:00Z",
+      "exitPrice": 600.607643276,
+      "profitLoss": -5315.53,
+      "totalFees": 2,
+      "mae": -6169.42,
+      "mfe": 3148.79,
+      "duration": "16.05:55:00",
+      "endTradeDrawdown": 9318.2,
+      "isWin": false,
+      "orderIds": [
+        63,
+        64
+      ]
+    },
+    {
+      "id": "28356a49-89c7-4c81-a578-56b9b46e4b60",
+      "symbols": [
+        {
+          "value": "AVGO",
+          "id": "AVGO UEW4IOBWVPT1",
+          "permtick": "AVGO"
+        }
+      ],
+      "entryTime": "2023-03-13T14:05:00Z",
+      "entryPrice": 58.6616127613,
+      "direction": 0,
+      "quantity": 1648,
+      "exitTime": "2023-04-03T20:00:00Z",
+      "exitPrice": 61.40651337,
+      "profitLoss": 4523.6,
+      "totalFees": 16.48,
+      "mae": 0,
+      "mfe": 5073.14,
+      "duration": "21.05:55:00",
+      "endTradeDrawdown": 2301.1,
+      "isWin": true,
+      "orderIds": [
+        65,
+        66
+      ]
+    },
+    {
+      "id": "c966525d-467e-41e0-9561-6c139f4d8472",
+      "symbols": [
+        {
+          "value": "ASML",
+          "id": "ASMLF R735QTJ8XC9X",
+          "permtick": "ASML"
+        }
+      ],
+      "entryTime": "2023-04-10T14:05:00Z",
+      "entryPrice": 635.869199184,
+      "direction": 0,
+      "quantity": 173,
+      "exitTime": "2023-05-01T20:00:00Z",
+      "exitPrice": 616.243624,
+      "profitLoss": -3395.22,
+      "totalFees": 2,
+      "mae": -8597.94,
+      "mfe": 1520.04,
+      "duration": "21.05:55:00",
+      "endTradeDrawdown": 10117.98,
+      "isWin": false,
+      "orderIds": [
+        67,
+        68
+      ]
+    },
+    {
+      "id": "7b636f24-c344-440f-b76b-be5092820ea6",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2022-12-19T15:05:00Z",
+      "entryPrice": 238.432126657,
+      "direction": 0,
+      "quantity": 349,
+      "exitTime": "2024-01-22T15:05:00Z",
+      "exitPrice": 391.918683018,
+      "profitLoss": 53566.81,
+      "totalFees": 3.49,
+      "mae": -7610.87,
+      "mfe": 53566.81,
+      "duration": "399.00:00:00",
+      "endTradeDrawdown": 15952.35,
+      "isWin": true,
+      "orderIds": [
+        61,
+        70
+      ]
+    }
+  ],
+  "sub_trades": [
+    {
+      "id": "f366f44b-d399-4db9-b3bf-788da73f18b7",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 31.416127182,
+      "direction": 0,
+      "quantity": 8,
+      "exitTime": "2014-01-21T15:15:00Z",
+      "exitPrice": 31.908830931,
+      "profitLoss": 3.94,
+      "totalFees": 4.175,
+      "mae": -1,
+      "mfe": 5.28,
+      "duration": "15.00:00:00",
+      "endTradeDrawdown": 2.41,
+      "isWin": true,
+      "orderIds": [
+        1,
+        5
+      ]
+    },
+    {
+      "id": "51c039e9-4e98-4324-9bd8-36ed48927932",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2014-01-21T15:15:00Z",
+      "entryPrice": 19.22541533,
+      "direction": 0,
+      "quantity": 1041,
+      "exitTime": "2014-02-03T21:00:00Z",
+      "exitPrice": 18.191630908,
+      "profitLoss": -1076.17,
+      "totalFees": 10.41,
+      "mae": -1471.02,
+      "mfe": 0,
+      "duration": "13.05:45:00",
+      "endTradeDrawdown": 1471.02,
+      "isWin": false,
+      "orderIds": [
+        7,
+        8
+      ]
+    },
+    {
+      "id": "b4b48ca8-b83c-4b8a-a46b-20fafaeba1fd",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 30.553976197,
+      "direction": 0,
+      "quantity": 40,
+      "exitTime": "2014-02-24T15:15:00Z",
+      "exitPrice": 31.675475718,
+      "profitLoss": 44.86,
+      "totalFees": 4.26,
+      "mae": -63.57,
+      "mfe": 44.86,
+      "duration": "49.00:00:00",
+      "endTradeDrawdown": 67.22,
+      "isWin": true,
+      "orderIds": [
+        2,
+        9
+      ]
+    },
+    {
+      "id": "f2f0549c-bcf7-44dc-9897-5552fcaa6963",
+      "symbols": [
+        {
+          "value": "QCOM",
+          "id": "QCOM R735QTJ8XC9X",
+          "permtick": "QCOM"
+        }
+      ],
+      "entryTime": "2014-02-24T15:15:00Z",
+      "entryPrice": 53.800408915,
+      "direction": 0,
+      "quantity": 367,
+      "exitTime": "2014-05-01T20:00:00Z",
+      "exitPrice": 56.139118044,
+      "profitLoss": 858.31,
+      "totalFees": 3.67,
+      "mae": -427.25,
+      "mfe": 1590.29,
+      "duration": "66.04:45:00",
+      "endTradeDrawdown": 973.35,
+      "isWin": true,
+      "orderIds": [
+        12,
+        13
+      ]
+    },
+    {
+      "id": "fccf7f04-d573-4ef9-a303-50932f4c29f8",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 31.416127182,
+      "direction": 0,
+      "quantity": 19,
+      "exitTime": "2014-05-19T14:15:00Z",
+      "exitPrice": 34.918743552,
+      "profitLoss": 66.55,
+      "totalFees": 1,
+      "mae": -28.24,
+      "mfe": 70.69,
+      "duration": "132.23:00:00",
+      "endTradeDrawdown": 40.78,
+      "isWin": true,
+      "orderIds": [
+        1,
+        14
+      ]
+    },
+    {
+      "id": "052c876a-729e-42a7-b4d9-fed50415a073",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 16.74303436199678,
+      "direction": 0,
+      "quantity": 74,
+      "exitTime": "2014-05-19T14:15:00Z",
+      "exitPrice": 18.707204800950358,
+      "profitLoss": 145.35,
+      "totalFees": 6.955,
+      "mae": -95.14,
+      "mfe": 145.61,
+      "duration": "132.23:00:00",
+      "endTradeDrawdown": 132.67,
+      "isWin": true,
+      "orderIds": [
+        4,
+        17
+      ]
+    },
+    {
+      "id": "f3f6f11d-cb19-44b7-abf2-58b689a882af",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 16.74303436199678,
+      "direction": 0,
+      "quantity": 34,
+      "exitTime": "2014-06-02T14:15:00Z",
+      "exitPrice": 19.81834720590714,
+      "profitLoss": 104.56,
+      "totalFees": 1,
+      "mae": -43.71,
+      "mfe": 107.09,
+      "duration": "146.23:00:00",
+      "endTradeDrawdown": 60.96,
+      "isWin": true,
+      "orderIds": [
+        4,
+        21
+      ]
+    },
+    {
+      "id": "b241151c-eb66-40e4-a140-1b33575ae7d8",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2014-05-19T14:15:00Z",
+      "entryPrice": 19.55280177,
+      "direction": 0,
+      "quantity": 1086,
+      "exitTime": "2014-06-02T14:15:00Z",
+      "exitPrice": 20.68871202,
+      "profitLoss": 1233.6,
+      "totalFees": 10.86,
+      "mae": 0,
+      "mfe": 1233.6,
+      "duration": "14.00:00:00",
+      "endTradeDrawdown": 41.12,
+      "isWin": true,
+      "orderIds": [
+        18,
+        22
+      ]
+    },
+    {
+      "id": "e866d18b-8189-40c7-a4ea-e54ed71500f5",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 31.416127182,
+      "direction": 0,
+      "quantity": 608,
+      "exitTime": "2014-06-09T14:15:00Z",
+      "exitPrice": 35.706069504,
+      "profitLoss": 2608.28,
+      "totalFees": 3.1,
+      "mae": -903.77,
+      "mfe": 2608.28,
+      "duration": "153.23:00:00",
+      "endTradeDrawdown": 1304.88,
+      "isWin": true,
+      "orderIds": [
+        1,
+        23
+      ]
+    },
+    {
+      "id": "16495d23-1d22-4832-8617-ba2538890706",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2014-06-02T14:15:00Z",
+      "entryPrice": 35.195145216,
+      "direction": 0,
+      "quantity": 12,
+      "exitTime": "2014-06-09T14:15:00Z",
+      "exitPrice": 35.706069504,
+      "profitLoss": 6.13,
+      "totalFees": 1,
+      "mae": -63.19,
+      "mfe": 6.13,
+      "duration": "7.00:00:00",
+      "endTradeDrawdown": 3.22,
+      "isWin": true,
+      "orderIds": [
+        19,
+        23
+      ]
+    },
+    {
+      "id": "f7ebb1a4-d8fd-49f1-be69-7dc62e112530",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 30.553976197,
+      "direction": 0,
+      "quantity": 10,
+      "exitTime": "2014-08-04T14:15:00Z",
+      "exitPrice": 35.997586822,
+      "profitLoss": 54.44,
+      "totalFees": 1,
+      "mae": -15.89,
+      "mfe": 71.32,
+      "duration": "209.23:00:00",
+      "endTradeDrawdown": 19.68,
+      "isWin": true,
+      "orderIds": [
+        2,
+        24
+      ]
+    },
+    {
+      "id": "cf16541b-6d3c-43f5-86cd-abbce0faa5ae",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 16.74303436199678,
+      "direction": 0,
+      "quantity": 35,
+      "exitTime": "2014-08-04T14:15:00Z",
+      "exitPrice": 21.0678652195,
+      "profitLoss": 151.37,
+      "totalFees": 1,
+      "mae": -45,
+      "mfe": 173.54,
+      "duration": "209.23:00:00",
+      "endTradeDrawdown": 62.75,
+      "isWin": true,
+      "orderIds": [
+        4,
+        25
+      ]
+    },
+    {
+      "id": "4ddbfc14-540b-45a0-a35c-58d764307c37",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 30.553976197,
+      "direction": 0,
+      "quantity": 25,
+      "exitTime": "2014-09-08T14:15:00Z",
+      "exitPrice": 38.800078985,
+      "profitLoss": 206.15,
+      "totalFees": 1,
+      "mae": -39.73,
+      "mfe": 206.15,
+      "duration": "244.23:00:00",
+      "endTradeDrawdown": 49.21,
+      "isWin": true,
+      "orderIds": [
+        2,
+        28
+      ]
+    },
+    {
+      "id": "633e812c-d0c0-46a5-8e72-5063fd7281d3",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2014-09-08T14:15:00Z",
+      "entryPrice": 34.667641908,
+      "direction": 0,
+      "quantity": 33,
+      "exitTime": "2015-02-02T15:15:00Z",
+      "exitPrice": 35.393175175,
+      "profitLoss": 23.94,
+      "totalFees": 4.35,
+      "mae": -99.62,
+      "mfe": 140.9,
+      "duration": "147.01:00:00",
+      "endTradeDrawdown": 116.96,
+      "isWin": true,
+      "orderIds": [
+        27,
+        30
+      ]
+    },
+    {
+      "id": "6e45c490-a5f4-4e54-8273-a2c00dfd7016",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 109.7013662760614,
+      "direction": 0,
+      "quantity": 181,
+      "exitTime": "2015-02-02T15:15:00Z",
+      "exitPrice": 92.29288305096789,
+      "profitLoss": -3150.94,
+      "totalFees": 2.015,
+      "mae": -3356.89,
+      "mfe": 1299.43,
+      "duration": "392.00:00:00",
+      "endTradeDrawdown": 4656.31,
+      "isWin": false,
+      "orderIds": [
+        3,
+        32
+      ]
+    },
+    {
+      "id": "57dcf575-f6c5-4fac-bfe0-e4d297e2074c",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2014-02-24T15:15:00Z",
+      "entryPrice": 108.02745200416142,
+      "direction": 0,
+      "quantity": 2,
+      "exitTime": "2015-02-02T15:15:00Z",
+      "exitPrice": 92.29288305096789,
+      "profitLoss": -31.47,
+      "totalFees": 1,
+      "mae": -33.74,
+      "mfe": 17.71,
+      "duration": "343.00:00:00",
+      "endTradeDrawdown": 51.45,
+      "isWin": false,
+      "orderIds": [
+        10,
+        32
+      ]
+    },
+    {
+      "id": "e26b732b-525f-4e25-8c93-37c3aca06d84",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2014-05-19T14:15:00Z",
+      "entryPrice": 111.1946464626887,
+      "direction": 0,
+      "quantity": 8,
+      "exitTime": "2015-02-02T15:15:00Z",
+      "exitPrice": 92.29288305096789,
+      "profitLoss": -151.21,
+      "totalFees": 1,
+      "mae": -160.32,
+      "mfe": 45.49,
+      "duration": "259.01:00:00",
+      "endTradeDrawdown": 201.78,
+      "isWin": false,
+      "orderIds": [
+        16,
+        32
+      ]
+    },
+    {
+      "id": "f4fd857f-9a1e-465d-82ba-c3e621283c5e",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2014-06-02T14:15:00Z",
+      "entryPrice": 109.59562155632372,
+      "direction": 0,
+      "quantity": 8,
+      "exitTime": "2015-02-02T15:15:00Z",
+      "exitPrice": 92.29288305096789,
+      "profitLoss": -138.42,
+      "totalFees": 1,
+      "mae": -147.52,
+      "mfe": 58.28,
+      "duration": "245.01:00:00",
+      "endTradeDrawdown": 201.78,
+      "isWin": false,
+      "orderIds": [
+        20,
+        32
+      ]
+    },
+    {
+      "id": "ed4f4164-3de7-417d-ae25-b51f471aa7c5",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2014-09-08T14:15:00Z",
+      "entryPrice": 114.32776048494561,
+      "direction": 0,
+      "quantity": 4,
+      "exitTime": "2015-02-02T15:15:00Z",
+      "exitPrice": 92.29288305096789,
+      "profitLoss": -88.14,
+      "totalFees": 1,
+      "mae": -92.69,
+      "mfe": 10.21,
+      "duration": "147.01:00:00",
+      "endTradeDrawdown": 99.39,
+      "isWin": false,
+      "orderIds": [
+        29,
+        32
+      ]
+    },
+    {
+      "id": "0af08ce2-866c-4bc7-a305-082975e5f8f7",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 16.74303436199678,
+      "direction": 0,
+      "quantity": 196,
+      "exitTime": "2015-02-02T15:15:00Z",
+      "exitPrice": 25.916401232,
+      "profitLoss": 1797.98,
+      "totalFees": 1,
+      "mae": -251.99,
+      "mfe": 1877.76,
+      "duration": "392.00:00:00",
+      "endTradeDrawdown": 564.06,
+      "isWin": true,
+      "orderIds": [
+        4,
+        33
+      ]
+    },
+    {
+      "id": "ff5f288e-b33a-4f99-b992-2eadc01839bf",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 30.553976197,
+      "direction": 0,
+      "quantity": 20,
+      "exitTime": "2015-02-23T15:15:00Z",
+      "exitPrice": 37.566804918,
+      "profitLoss": 140.26,
+      "totalFees": 1,
+      "mae": -31.79,
+      "mfe": 227.46,
+      "duration": "413.00:00:00",
+      "endTradeDrawdown": 151.37,
+      "isWin": true,
+      "orderIds": [
+        2,
+        36
+      ]
+    },
+    {
+      "id": "cbde41d3-6ff4-4c43-a687-dd0b1f22e8e7",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 16.74303436199678,
+      "direction": 0,
+      "quantity": 852,
+      "exitTime": "2015-02-23T15:15:00Z",
+      "exitPrice": 28.7591269,
+      "profitLoss": 10237.71,
+      "totalFees": 4.35,
+      "mae": -1095.37,
+      "mfe": 10237.71,
+      "duration": "413.00:00:00",
+      "endTradeDrawdown": 2451.95,
+      "isWin": true,
+      "orderIds": [
+        4,
+        37
+      ]
+    },
+    {
+      "id": "1f7b2860-d218-4d17-ae9b-a75e4ec21ddf",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2014-02-24T15:15:00Z",
+      "entryPrice": 16.353505840506863,
+      "direction": 0,
+      "quantity": 18,
+      "exitTime": "2015-02-23T15:15:00Z",
+      "exitPrice": 28.7591269,
+      "profitLoss": 223.3,
+      "totalFees": 1,
+      "mae": -16.13,
+      "mfe": 223.3,
+      "duration": "364.00:00:00",
+      "endTradeDrawdown": 51.8,
+      "isWin": true,
+      "orderIds": [
+        11,
+        37
+      ]
+    },
+    {
+      "id": "8225498f-e921-46fc-a5cc-d4271b71e74f",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2014-08-04T14:15:00Z",
+      "entryPrice": 25.55040789,
+      "direction": 0,
+      "quantity": 14,
+      "exitTime": "2015-03-09T14:15:00Z",
+      "exitPrice": 25.649660151,
+      "profitLoss": 1.39,
+      "totalFees": 5.395,
+      "mae": -28.46,
+      "mfe": 46.96,
+      "duration": "217.00:00:00",
+      "endTradeDrawdown": 49.74,
+      "isWin": true,
+      "orderIds": [
+        26,
+        42
+      ]
+    },
+    {
+      "id": "476473b9-65fb-40d8-9ab2-bf21ed66e04d",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2014-08-04T14:15:00Z",
+      "entryPrice": 25.55040789,
+      "direction": 0,
+      "quantity": 865,
+      "exitTime": "2015-08-03T20:00:00Z",
+      "exitPrice": 22.620338872,
+      "profitLoss": -2534.51,
+      "totalFees": 4.55,
+      "mae": -3207.83,
+      "mfe": 2901.32,
+      "duration": "364.05:45:00",
+      "endTradeDrawdown": 6109.15,
+      "isWin": false,
+      "orderIds": [
+        26,
+        43
+      ]
+    },
+    {
+      "id": "5457edda-294c-4325-a0e9-f3fca1a069b1",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2015-02-02T15:15:00Z",
+      "entryPrice": 25.351895968,
+      "direction": 0,
+      "quantity": 11,
+      "exitTime": "2015-08-03T20:00:00Z",
+      "exitPrice": 22.620338872,
+      "profitLoss": -30.05,
+      "totalFees": 1,
+      "mae": -38.61,
+      "mfe": 39.08,
+      "duration": "182.04:45:00",
+      "endTradeDrawdown": 55.06,
+      "isWin": false,
+      "orderIds": [
+        34,
+        43
+      ]
+    },
+    {
+      "id": "aba1808f-c5bc-4f74-a02a-9e98a48a79ac",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2015-03-02T15:15:00Z",
+      "entryPrice": 25.696028925,
+      "direction": 0,
+      "quantity": 34,
+      "exitTime": "2015-08-03T20:00:00Z",
+      "exitPrice": 22.620338872,
+      "profitLoss": -104.57,
+      "totalFees": 1,
+      "mae": -131.04,
+      "mfe": 109.09,
+      "duration": "154.04:45:00",
+      "endTradeDrawdown": 169.38,
+      "isWin": false,
+      "orderIds": [
+        39,
+        43
+      ]
+    },
+    {
+      "id": "a5a9e491-f93e-49b7-8216-98b85115e2d2",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 30.553976197,
+      "direction": 0,
+      "quantity": 68,
+      "exitTime": "2015-08-24T14:15:00Z",
+      "exitPrice": 37.374754839,
+      "profitLoss": 463.81,
+      "totalFees": 1,
+      "mae": -108.08,
+      "mfe": 785.27,
+      "duration": "594.23:00:00",
+      "endTradeDrawdown": 514.65,
+      "isWin": true,
+      "orderIds": [
+        2,
+        45
+      ]
+    },
+    {
+      "id": "d9c5768e-d22c-4f82-bb11-2f8581f2db09",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2015-03-09T14:15:00Z",
+      "entryPrice": 96.06862774499906,
+      "direction": 0,
+      "quantity": 9,
+      "exitTime": "2015-08-24T14:15:00Z",
+      "exitPrice": 91.68016871527564,
+      "profitLoss": -39.5,
+      "totalFees": 2.215,
+      "mae": -39.5,
+      "mfe": 92.25,
+      "duration": "168.00:00:00",
+      "endTradeDrawdown": 131.75,
+      "isWin": false,
+      "orderIds": [
+        41,
+        46
+      ]
+    },
+    {
+      "id": "989e06c9-a936-4b38-b27a-43bef8350ad7",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2015-03-02T15:15:00Z",
+      "entryPrice": 28.528165572,
+      "direction": 0,
+      "quantity": 832,
+      "exitTime": "2015-08-24T14:15:00Z",
+      "exitPrice": 23.691855484,
+      "profitLoss": -4023.81,
+      "totalFees": 8.32,
+      "mae": -4023.81,
+      "mfe": 856.15,
+      "duration": "174.23:00:00",
+      "endTradeDrawdown": 4879.96,
+      "isWin": false,
+      "orderIds": [
+        38,
+        47
+      ]
+    },
+    {
+      "id": "16fbcda4-d288-42fc-9af4-02c1255a90dc",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 30.553976197,
+      "direction": 0,
+      "quantity": 11,
+      "exitTime": "2015-09-21T14:15:00Z",
+      "exitPrice": 37.730539596,
+      "profitLoss": 78.94,
+      "totalFees": 1,
+      "mae": -17.48,
+      "mfe": 127.03,
+      "duration": "622.23:00:00",
+      "endTradeDrawdown": 83.25,
+      "isWin": true,
+      "orderIds": [
+        2,
+        49
+      ]
+    },
+    {
+      "id": "96d6848a-a3ad-407d-b2cd-466d0855fe25",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 30.553976197,
+      "direction": 0,
+      "quantity": 60,
+      "exitTime": "2015-11-02T15:15:00Z",
+      "exitPrice": 45.679291728,
+      "profitLoss": 907.52,
+      "totalFees": 1,
+      "mae": -95.36,
+      "mfe": 991.35,
+      "duration": "665.00:00:00",
+      "endTradeDrawdown": 454.1,
+      "isWin": true,
+      "orderIds": [
+        2,
+        54
+      ]
+    },
+    {
+      "id": "a3cd602f-eee2-479f-b747-3c283f215267",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2015-09-21T14:15:00Z",
+      "entryPrice": 22.776860654,
+      "direction": 0,
+      "quantity": 67,
+      "exitTime": "2015-11-02T15:15:00Z",
+      "exitPrice": 26.575620322,
+      "profitLoss": 254.52,
+      "totalFees": 5.67,
+      "mae": -28.4,
+      "mfe": 309.21,
+      "duration": "42.01:00:00",
+      "endTradeDrawdown": 54.69,
+      "isWin": true,
+      "orderIds": [
+        51,
+        55
+      ]
+    },
+    {
+      "id": "869de9f8-9dbf-4ab6-897a-e9782ac190ad",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2015-03-09T14:15:00Z",
+      "entryPrice": 96.06862774499906,
+      "direction": 0,
+      "quantity": 234,
+      "exitTime": "2015-11-02T15:15:00Z",
+      "exitPrice": 86.29084069203975,
+      "profitLoss": -2288,
+      "totalFees": 1.195,
+      "mae": -2610.84,
+      "mfe": 2398.55,
+      "duration": "238.01:00:00",
+      "endTradeDrawdown": 5009.4,
+      "isWin": false,
+      "orderIds": [
+        41,
+        57
+      ]
+    },
+    {
+      "id": "8846e2fa-08aa-4b6a-9d0a-36670c2dfa2b",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2015-09-21T14:15:00Z",
+      "entryPrice": 89.00706201575063,
+      "direction": 0,
+      "quantity": 5,
+      "exitTime": "2015-11-02T15:15:00Z",
+      "exitPrice": 86.29084069203975,
+      "profitLoss": -13.58,
+      "totalFees": 1,
+      "mae": -20.48,
+      "mfe": 86.56,
+      "duration": "42.01:00:00",
+      "endTradeDrawdown": 44.75,
+      "isWin": false,
+      "orderIds": [
+        50,
+        57
+      ]
+    },
+    {
+      "id": "eef4fbe3-db90-4a73-adf2-33ef9c6d8254",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2014-09-08T14:15:00Z",
+      "entryPrice": 34.667641908,
+      "direction": 0,
+      "quantity": 637,
+      "exitTime": "2016-01-19T15:15:00Z",
+      "exitPrice": 29.281434179,
+      "profitLoss": -3431.01,
+      "totalFees": 3.47,
+      "mae": -3458.34,
+      "mfe": 2719.89,
+      "duration": "498.01:00:00",
+      "endTradeDrawdown": 6178.23,
+      "isWin": false,
+      "orderIds": [
+        27,
+        58
+      ]
+    },
+    {
+      "id": "242f9542-b208-407a-bdde-36bea401827e",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2015-02-23T15:15:00Z",
+      "entryPrice": 36.981601275,
+      "direction": 0,
+      "quantity": 9,
+      "exitTime": "2016-01-19T15:15:00Z",
+      "exitPrice": 29.281434179,
+      "profitLoss": -69.3,
+      "totalFees": 1,
+      "mae": -69.69,
+      "mfe": 17.6,
+      "duration": "330.00:00:00",
+      "endTradeDrawdown": 79.63,
+      "isWin": false,
+      "orderIds": [
+        35,
+        58
+      ]
+    },
+    {
+      "id": "95bc02c2-9bc0-4753-b295-47298c96214c",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2015-08-24T14:15:00Z",
+      "entryPrice": 31.990326711,
+      "direction": 0,
+      "quantity": 26,
+      "exitTime": "2016-01-19T15:15:00Z",
+      "exitPrice": 29.281434179,
+      "profitLoss": -70.43,
+      "totalFees": 1,
+      "mae": -71.55,
+      "mfe": 180.63,
+      "duration": "148.01:00:00",
+      "endTradeDrawdown": 142.16,
+      "isWin": false,
+      "orderIds": [
+        44,
+        58
+      ]
+    },
+    {
+      "id": "bd7317b2-7e04-4026-a35e-3a816eb82aeb",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2015-09-21T14:15:00Z",
+      "entryPrice": 31.105252495,
+      "direction": 0,
+      "quantity": 12,
+      "exitTime": "2016-01-19T15:15:00Z",
+      "exitPrice": 29.281434179,
+      "profitLoss": -21.89,
+      "totalFees": 1,
+      "mae": -22.4,
+      "mfe": 93.99,
+      "duration": "120.01:00:00",
+      "endTradeDrawdown": 65.61,
+      "isWin": false,
+      "orderIds": [
+        48,
+        58
+      ]
+    },
+    {
+      "id": "6184596a-6b6d-4640-809a-10b0d495c3ca",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2015-11-02T15:15:00Z",
+      "entryPrice": 33.185494136,
+      "direction": 0,
+      "quantity": 10,
+      "exitTime": "2016-01-19T15:15:00Z",
+      "exitPrice": 29.281434179,
+      "profitLoss": -39.04,
+      "totalFees": 1,
+      "mae": -39.47,
+      "mfe": 57.52,
+      "duration": "78.00:00:00",
+      "endTradeDrawdown": 54.68,
+      "isWin": false,
+      "orderIds": [
+        53,
+        58
+      ]
+    },
+    {
+      "id": "81e98694-f244-4313-9984-8e8397699875",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 30.553976197,
+      "direction": 0,
+      "quantity": 32,
+      "exitTime": "2016-01-19T15:15:00Z",
+      "exitPrice": 44.545715533,
+      "profitLoss": 447.74,
+      "totalFees": 1,
+      "mae": -50.86,
+      "mfe": 603.17,
+      "duration": "743.00:00:00",
+      "endTradeDrawdown": 242.19,
+      "isWin": true,
+      "orderIds": [
+        2,
+        59
+      ]
+    },
+    {
+      "id": "b907ec9c-4634-4710-a2dd-ddcf46a6c7fb",
+      "symbols": [
+        {
+          "value": "CSCO",
+          "id": "CSCO R735QTJ8XC9X",
+          "permtick": "CSCO"
+        }
+      ],
+      "entryTime": "2015-11-02T15:15:00Z",
+      "entryPrice": 20.96793189,
+      "direction": 0,
+      "quantity": 1099,
+      "exitTime": "2016-01-19T15:15:00Z",
+      "exitPrice": 17.300580014,
+      "profitLoss": -4030.42,
+      "totalFees": 10.99,
+      "mae": -4030.42,
+      "mfe": 0,
+      "duration": "78.00:00:00",
+      "endTradeDrawdown": 4030.42,
+      "isWin": false,
+      "orderIds": [
+        56,
+        61
+      ]
+    },
+    {
+      "id": "cd482e3c-7eea-49d7-92ce-d586bb9b10e1",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 30.553976197,
+      "direction": 0,
+      "quantity": 18,
+      "exitTime": "2016-03-28T14:15:00Z",
+      "exitPrice": 47.698793532,
+      "profitLoss": 308.61,
+      "totalFees": 1,
+      "mae": -28.61,
+      "mfe": 339.28,
+      "duration": "811.23:00:00",
+      "endTradeDrawdown": 136.23,
+      "isWin": true,
+      "orderIds": [
+        2,
+        62
+      ]
+    },
+    {
+      "id": "40698bb9-e723-41f7-bd7c-0d124df2ab35",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2015-09-21T14:15:00Z",
+      "entryPrice": 22.776860654,
+      "direction": 0,
+      "quantity": 42,
+      "exitTime": "2016-03-28T14:15:00Z",
+      "exitPrice": 25.419623204,
+      "profitLoss": 111,
+      "totalFees": 1,
+      "mae": -17.8,
+      "mfe": 219.86,
+      "duration": "189.00:00:00",
+      "endTradeDrawdown": 231.43,
+      "isWin": true,
+      "orderIds": [
+        51,
+        64
+      ]
+    },
+    {
+      "id": "3002ca6a-4e7e-495b-a2fd-fdf1fc94c9d7",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2016-04-25T14:15:00Z",
+      "entryPrice": 35.04825148,
+      "direction": 0,
+      "quantity": 14,
+      "exitTime": "2016-05-02T14:15:00Z",
+      "exitPrice": 34.324896904,
+      "profitLoss": -10.13,
+      "totalFees": 4.06,
+      "mae": -10.13,
+      "mfe": 1.81,
+      "duration": "7.00:00:00",
+      "endTradeDrawdown": 11.94,
+      "isWin": false,
+      "orderIds": [
+        65,
+        67
+      ]
+    },
+    {
+      "id": "3a7821d7-4fef-4985-99cf-a982f2976d85",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 30.553976197,
+      "direction": 0,
+      "quantity": 16,
+      "exitTime": "2016-08-01T14:15:00Z",
+      "exitPrice": 50.220939912,
+      "profitLoss": 314.67,
+      "totalFees": 1,
+      "mae": -25.43,
+      "mfe": 315.81,
+      "duration": "937.23:00:00",
+      "endTradeDrawdown": 121.09,
+      "isWin": true,
+      "orderIds": [
+        2,
+        72
+      ]
+    },
+    {
+      "id": "c35f3730-043e-438d-8071-378385e45229",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2015-09-21T14:15:00Z",
+      "entryPrice": 22.776860654,
+      "direction": 0,
+      "quantity": 37,
+      "exitTime": "2016-08-01T14:15:00Z",
+      "exitPrice": 28.035830802,
+      "profitLoss": 194.58,
+      "totalFees": 1,
+      "mae": -15.68,
+      "mfe": 219.28,
+      "duration": "315.00:00:00",
+      "endTradeDrawdown": 203.88,
+      "isWin": true,
+      "orderIds": [
+        51,
+        73
+      ]
+    },
+    {
+      "id": "26e78ef9-d527-4299-a664-c86fccc8b6e3",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2016-05-02T14:15:00Z",
+      "entryPrice": 91.65778015513348,
+      "direction": 0,
+      "quantity": 224,
+      "exitTime": "2016-08-01T14:15:00Z",
+      "exitPrice": 101.85742854120652,
+      "profitLoss": 2284.72,
+      "totalFees": 2.24,
+      "mae": -254.64,
+      "mfe": 2571.64,
+      "duration": "91.00:00:00",
+      "endTradeDrawdown": 1683.19,
+      "isWin": true,
+      "orderIds": [
+        69,
+        75
+      ]
+    },
+    {
+      "id": "6700c640-c86d-46ba-b8e8-f5b5e7ae417a",
+      "symbols": [
+        {
+          "value": "CSCO",
+          "id": "CSCO R735QTJ8XC9X",
+          "permtick": "CSCO"
+        }
+      ],
+      "entryTime": "2016-08-01T14:15:00Z",
+      "entryPrice": 22.771927057,
+      "direction": 0,
+      "quantity": 1004,
+      "exitTime": "2016-11-01T20:00:00Z",
+      "exitPrice": 23.178221066,
+      "profitLoss": 407.92,
+      "totalFees": 10.04,
+      "mae": -97.97,
+      "mfe": 1003.49,
+      "duration": "92.05:45:00",
+      "endTradeDrawdown": 1101.46,
+      "isWin": true,
+      "orderIds": [
+        74,
+        76
+      ]
+    },
+    {
+      "id": "3c40ae50-8d39-4cdb-8ec9-1448d27d281d",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 30.553976197,
+      "direction": 0,
+      "quantity": 16,
+      "exitTime": "2016-11-07T15:15:00Z",
+      "exitPrice": 52.343833989,
+      "profitLoss": 348.64,
+      "totalFees": 1,
+      "mae": -25.43,
+      "mfe": 381.3,
+      "duration": "1036.00:00:00",
+      "endTradeDrawdown": 121.09,
+      "isWin": true,
+      "orderIds": [
+        2,
+        78
+      ]
+    },
+    {
+      "id": "3abd82a3-6b99-438e-9017-b2a0eeee401f",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2016-03-28T14:15:00Z",
+      "entryPrice": 23.9020203665,
+      "direction": 0,
+      "quantity": 50,
+      "exitTime": "2016-11-07T15:15:00Z",
+      "exitPrice": 25.030985106,
+      "profitLoss": 56.45,
+      "totalFees": 5.535,
+      "mae": -167.16,
+      "mfe": 157.71,
+      "duration": "224.01:00:00",
+      "endTradeDrawdown": 239.88,
+      "isWin": true,
+      "orderIds": [
+        63,
+        79
+      ]
+    },
+    {
+      "id": "e8785b36-1afc-4573-977b-25db02ea8045",
+      "symbols": [
+        {
+          "value": "TSM",
+          "id": "TSM R735QTJ8XC9X",
+          "permtick": "TSM"
+        }
+      ],
+      "entryTime": "2016-11-07T15:15:00Z",
+      "entryPrice": 24.455332944,
+      "direction": 0,
+      "quantity": 941,
+      "exitTime": "2016-12-01T21:00:00Z",
+      "exitPrice": 23.85688895,
+      "profitLoss": -563.14,
+      "totalFees": 9.41,
+      "mae": -1286.08,
+      "mfe": 844.7,
+      "duration": "24.05:45:00",
+      "endTradeDrawdown": 2130.78,
+      "isWin": false,
+      "orderIds": [
+        81,
+        82
+      ]
+    },
+    {
+      "id": "34058131-c3fd-41f0-9b7d-6aeeeea5ddef",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2015-09-21T14:15:00Z",
+      "entryPrice": 22.776860654,
+      "direction": 0,
+      "quantity": 9,
+      "exitTime": "2016-12-05T15:15:00Z",
+      "exitPrice": 27.890697184,
+      "profitLoss": 46.02,
+      "totalFees": 1,
+      "mae": -3.81,
+      "mfe": 72.87,
+      "duration": "441.01:00:00",
+      "endTradeDrawdown": 49.59,
+      "isWin": true,
+      "orderIds": [
+        51,
+        83
+      ]
+    },
+    {
+      "id": "7eca96cd-9278-47d5-97fe-81b4856a95cc",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2016-04-25T14:15:00Z",
+      "entryPrice": 35.04825148,
+      "direction": 0,
+      "quantity": 598,
+      "exitTime": "2017-02-21T15:15:00Z",
+      "exitPrice": 36.636375618,
+      "profitLoss": 949.7,
+      "totalFees": 3.465,
+      "mae": -1278.65,
+      "mfe": 949.7,
+      "duration": "302.01:00:00",
+      "endTradeDrawdown": 1908.77,
+      "isWin": true,
+      "orderIds": [
+        65,
+        85
+      ]
+    },
+    {
+      "id": "eddf39bd-c62b-4fd4-98f1-000d2a2d0026",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2016-08-01T14:15:00Z",
+      "entryPrice": 35.471032056,
+      "direction": 0,
+      "quantity": 47,
+      "exitTime": "2017-02-21T15:15:00Z",
+      "exitPrice": 36.636375618,
+      "profitLoss": 54.77,
+      "totalFees": 1,
+      "mae": -120.37,
+      "mfe": 54.77,
+      "duration": "204.01:00:00",
+      "endTradeDrawdown": 139.05,
+      "isWin": true,
+      "orderIds": [
+        71,
+        85
+      ]
+    },
+    {
+      "id": "e0e44e53-abb4-4ffc-9750-69c9b7c570a9",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2016-11-07T15:15:00Z",
+      "entryPrice": 33.213726216,
+      "direction": 0,
+      "quantity": 48,
+      "exitTime": "2017-02-21T15:15:00Z",
+      "exitPrice": 36.636375618,
+      "profitLoss": 164.29,
+      "totalFees": 1,
+      "mae": -14.58,
+      "mfe": 164.29,
+      "duration": "106.00:00:00",
+      "endTradeDrawdown": 100.79,
+      "isWin": true,
+      "orderIds": [
+        77,
+        85
+      ]
+    },
+    {
+      "id": "c4dfac08-7fdd-4bdd-879c-238ade1aaa9c",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2016-03-28T14:15:00Z",
+      "entryPrice": 23.9020203665,
+      "direction": 0,
+      "quantity": 86,
+      "exitTime": "2017-02-21T15:15:00Z",
+      "exitPrice": 31.34816451,
+      "profitLoss": 640.37,
+      "totalFees": 1,
+      "mae": -287.51,
+      "mfe": 640.37,
+      "duration": "330.01:00:00",
+      "endTradeDrawdown": 412.59,
+      "isWin": true,
+      "orderIds": [
+        63,
+        87
+      ]
+    },
+    {
+      "id": "b8d6b119-983c-47bb-82b0-3821a6143505",
+      "symbols": [
+        {
+          "value": "IBM",
+          "id": "IBM R735QTJ8XC9X",
+          "permtick": "IBM"
+        }
+      ],
+      "entryTime": "2016-12-05T15:15:00Z",
+      "entryPrice": 103.27548044740062,
+      "direction": 0,
+      "quantity": 223,
+      "exitTime": "2017-03-01T21:00:00Z",
+      "exitPrice": 117.3491424856406,
+      "profitLoss": 3138.43,
+      "totalFees": 2.23,
+      "mae": -25.91,
+      "mfe": 3363.27,
+      "duration": "86.05:45:00",
+      "endTradeDrawdown": 628.94,
+      "isWin": true,
+      "orderIds": [
+        84,
+        89
+      ]
+    },
+    {
+      "id": "9676c7d1-c206-40cf-ab23-db2de83fe730",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2016-03-28T14:15:00Z",
+      "entryPrice": 23.9020203665,
+      "direction": 0,
+      "quantity": 23,
+      "exitTime": "2017-03-06T15:15:00Z",
+      "exitPrice": 32.285930115,
+      "profitLoss": 192.83,
+      "totalFees": 1,
+      "mae": -76.89,
+      "mfe": 192.88,
+      "duration": "343.01:00:00",
+      "endTradeDrawdown": 110.34,
+      "isWin": true,
+      "orderIds": [
+        63,
+        91
+      ]
+    },
+    {
+      "id": "ad686fae-1426-45ef-ad5c-bcb67540b98a",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2017-03-06T15:15:00Z",
+      "entryPrice": 37.185137307,
+      "direction": 0,
+      "quantity": 9,
+      "exitTime": "2017-06-12T14:15:00Z",
+      "exitPrice": 39.392383593,
+      "profitLoss": 19.87,
+      "totalFees": 4.515,
+      "mae": -1.96,
+      "mfe": 26.87,
+      "duration": "97.23:00:00",
+      "endTradeDrawdown": 12.15,
+      "isWin": true,
+      "orderIds": [
+        90,
+        93
+      ]
+    },
+    {
+      "id": "9c75eff4-de57-4acb-838f-4fac317ed064",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 30.553976197,
+      "direction": 0,
+      "quantity": 19,
+      "exitTime": "2017-06-12T14:15:00Z",
+      "exitPrice": 63.865088112,
+      "profitLoss": 632.91,
+      "totalFees": 1,
+      "mae": -30.2,
+      "mfe": 670.87,
+      "duration": "1252.23:00:00",
+      "endTradeDrawdown": 143.8,
+      "isWin": true,
+      "orderIds": [
+        2,
+        94
+      ]
+    },
+    {
+      "id": "911cda23-5119-4f4d-8408-b4450790148c",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2016-03-28T14:15:00Z",
+      "entryPrice": 23.9020203665,
+      "direction": 0,
+      "quantity": 19,
+      "exitTime": "2017-06-12T14:15:00Z",
+      "exitPrice": 34.552953747,
+      "profitLoss": 202.37,
+      "totalFees": 1,
+      "mae": -63.52,
+      "mfe": 233.74,
+      "duration": "441.00:00:00",
+      "endTradeDrawdown": 91.15,
+      "isWin": true,
+      "orderIds": [
+        63,
+        95
+      ]
+    },
+    {
+      "id": "9b2fc59a-9ba9-47df-8394-4c75f38f14a8",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2017-03-06T15:15:00Z",
+      "entryPrice": 37.185137307,
+      "direction": 0,
+      "quantity": 694,
+      "exitTime": "2018-01-29T15:15:00Z",
+      "exitPrice": 46.683723625,
+      "profitLoss": 6592.02,
+      "totalFees": 3.47,
+      "mae": -151.13,
+      "mfe": 6592.02,
+      "duration": "329.00:00:00",
+      "endTradeDrawdown": 3672.31,
+      "isWin": true,
+      "orderIds": [
+        90,
+        98
+      ]
+    },
+    {
+      "id": "851ad212-547c-46cc-bb64-5b6efd82cff4",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-06T15:15:00Z",
+      "entryPrice": 30.553976197,
+      "direction": 0,
+      "quantity": 317,
+      "exitTime": "2018-01-29T15:15:00Z",
+      "exitPrice": 86.312362454,
+      "profitLoss": 17675.41,
+      "totalFees": 2.14,
+      "mae": -503.83,
+      "mfe": 17675.41,
+      "duration": "1484.00:00:00",
+      "endTradeDrawdown": 2399.16,
+      "isWin": true,
+      "orderIds": [
+        2,
+        99
+      ]
+    },
+    {
+      "id": "ea9a4abf-e54b-4566-9cb2-4b321ec13e57",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-01-21T15:15:00Z",
+      "entryPrice": 30.115243946,
+      "direction": 0,
+      "quantity": 12,
+      "exitTime": "2018-01-29T15:15:00Z",
+      "exitPrice": 86.312362454,
+      "profitLoss": 674.37,
+      "totalFees": 1,
+      "mae": -13.81,
+      "mfe": 674.37,
+      "duration": "1469.00:00:00",
+      "endTradeDrawdown": 90.82,
+      "isWin": true,
+      "orderIds": [
+        6,
+        99
+      ]
+    },
+    {
+      "id": "04eccacc-5300-486a-8f1d-4a4977f7dd99",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2014-05-19T14:15:00Z",
+      "entryPrice": 33.452727091,
+      "direction": 0,
+      "quantity": 10,
+      "exitTime": "2018-01-29T15:15:00Z",
+      "exitPrice": 86.312362454,
+      "profitLoss": 528.6,
+      "totalFees": 1,
+      "mae": -44.88,
+      "mfe": 528.6,
+      "duration": "1351.01:00:00",
+      "endTradeDrawdown": 75.68,
+      "isWin": true,
+      "orderIds": [
+        15,
+        99
+      ]
+    },
+    {
+      "id": "4aac6343-db7c-41bd-b3d8-5e9a47ca349a",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2015-02-02T15:15:00Z",
+      "entryPrice": 34.35874156,
+      "direction": 0,
+      "quantity": 57,
+      "exitTime": "2018-01-29T15:15:00Z",
+      "exitPrice": 86.312362454,
+      "profitLoss": 2961.36,
+      "totalFees": 1,
+      "mae": -307.47,
+      "mfe": 2961.36,
+      "duration": "1092.00:00:00",
+      "endTradeDrawdown": 398.06,
+      "isWin": true,
+      "orderIds": [
+        31,
+        99
+      ]
+    },
+    {
+      "id": "b6a7b416-a02c-4c08-a034-9c4631d8f1af",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2015-03-09T14:15:00Z",
+      "entryPrice": 36.282030468,
+      "direction": 0,
+      "quantity": 7,
+      "exitTime": "2018-01-29T15:15:00Z",
+      "exitPrice": 86.312362454,
+      "profitLoss": 350.21,
+      "totalFees": 1,
+      "mae": -51.22,
+      "mfe": 350.21,
+      "duration": "1057.01:00:00",
+      "endTradeDrawdown": 48.88,
+      "isWin": true,
+      "orderIds": [
+        40,
+        99
+      ]
+    },
+    {
+      "id": "709eb25d-cb33-4b22-8360-59b4571c4aed",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2016-04-25T14:15:00Z",
+      "entryPrice": 45.560662776,
+      "direction": 0,
+      "quantity": 17,
+      "exitTime": "2018-01-29T15:15:00Z",
+      "exitPrice": 86.312362454,
+      "profitLoss": 692.78,
+      "totalFees": 1,
+      "mae": -282.13,
+      "mfe": 692.78,
+      "duration": "644.01:00:00",
+      "endTradeDrawdown": 68.84,
+      "isWin": true,
+      "orderIds": [
+        66,
+        99
+      ]
+    },
+    {
+      "id": "197bec55-674d-409a-858b-8dd8806024e6",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2017-02-21T15:15:00Z",
+      "entryPrice": 58.35383091,
+      "direction": 0,
+      "quantity": 8,
+      "exitTime": "2018-01-29T15:15:00Z",
+      "exitPrice": 86.312362454,
+      "profitLoss": 223.67,
+      "totalFees": 1,
+      "mae": -235.11,
+      "mfe": 223.67,
+      "duration": "342.00:00:00",
+      "endTradeDrawdown": 31.61,
+      "isWin": true,
+      "orderIds": [
+        86,
+        99
+      ]
+    },
+    {
+      "id": "4de4359b-18b9-4789-90c2-aeac99c04887",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2015-09-21T14:15:00Z",
+      "entryPrice": 22.776860654,
+      "direction": 0,
+      "quantity": 88,
+      "exitTime": "2018-01-29T15:15:00Z",
+      "exitPrice": 42.044729104,
+      "profitLoss": 1695.57,
+      "totalFees": 1,
+      "mae": -37.3,
+      "mfe": 1695.57,
+      "duration": "861.01:00:00",
+      "endTradeDrawdown": 484.91,
+      "isWin": true,
+      "orderIds": [
+        51,
+        101
+      ]
+    },
+    {
+      "id": "e22596e0-b292-4593-a7ed-525c9891fee1",
+      "symbols": [
+        {
+          "value": "TSM",
+          "id": "TSM R735QTJ8XC9X",
+          "permtick": "TSM"
+        }
+      ],
+      "entryTime": "2017-06-12T14:15:00Z",
+      "entryPrice": 28.943662899,
+      "direction": 0,
+      "quantity": 24,
+      "exitTime": "2018-01-29T15:15:00Z",
+      "exitPrice": 38.179532988,
+      "profitLoss": 221.66,
+      "totalFees": 5.725,
+      "mae": -10.67,
+      "mfe": 234.89,
+      "duration": "231.01:00:00",
+      "endTradeDrawdown": 86.38,
+      "isWin": true,
+      "orderIds": [
+        97,
+        102
+      ]
+    },
+    {
+      "id": "7a1596ef-f5ab-46f9-8088-aa1f2788322a",
+      "symbols": [
+        {
+          "value": "ORCL",
+          "id": "ORCL R735QTJ8XC9X",
+          "permtick": "ORCL"
+        }
+      ],
+      "entryTime": "2018-02-05T15:15:00Z",
+      "entryPrice": 44.365024935,
+      "direction": 0,
+      "quantity": 766,
+      "exitTime": "2018-03-01T21:00:00Z",
+      "exitPrice": 44.9579746,
+      "profitLoss": 454.2,
+      "totalFees": 7.66,
+      "mae": -2230.32,
+      "mfe": 705.03,
+      "duration": "24.05:45:00",
+      "endTradeDrawdown": 2230.32,
+      "isWin": true,
+      "orderIds": [
+        103,
+        107
+      ]
+    },
+    {
+      "id": "cececeaf-31a6-4005-9f4f-801488f46e6f",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2016-03-28T14:15:00Z",
+      "entryPrice": 23.9020203665,
+      "direction": 0,
+      "quantity": 56,
+      "exitTime": "2018-03-05T15:15:00Z",
+      "exitPrice": 41.344275647,
+      "profitLoss": 976.77,
+      "totalFees": 1,
+      "mae": -187.22,
+      "mfe": 1013.03,
+      "duration": "707.01:00:00",
+      "endTradeDrawdown": 315.5,
+      "isWin": true,
+      "orderIds": [
+        63,
+        109
+      ]
+    },
+    {
+      "id": "4d04e01e-b6dc-491f-adea-a3b72956e310",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2015-09-21T14:15:00Z",
+      "entryPrice": 22.776860654,
+      "direction": 0,
+      "quantity": 28,
+      "exitTime": "2018-03-05T15:15:00Z",
+      "exitPrice": 41.40019806,
+      "profitLoss": 521.45,
+      "totalFees": 1,
+      "mae": -11.87,
+      "mfe": 543.46,
+      "duration": "896.01:00:00",
+      "endTradeDrawdown": 165.49,
+      "isWin": true,
+      "orderIds": [
+        51,
+        110
+      ]
+    },
+    {
+      "id": "3bf61b55-52ea-4d8d-bb8d-658d3f43de15",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2018-02-05T15:15:00Z",
+      "entryPrice": 84.220164002,
+      "direction": 0,
+      "quantity": 64,
+      "exitTime": "2019-11-04T15:15:00Z",
+      "exitPrice": 135.687014924,
+      "profitLoss": 3293.88,
+      "totalFees": 3.015,
+      "mae": -397.59,
+      "mfe": 3347.65,
+      "duration": "637.00:00:00",
+      "endTradeDrawdown": 1253.61,
+      "isWin": true,
+      "orderIds": [
+        104,
+        113
+      ]
+    },
+    {
+      "id": "dcb140c1-ad95-4d30-9cc4-06be12b21cc0",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2016-03-28T14:15:00Z",
+      "entryPrice": 23.9020203665,
+      "direction": 0,
+      "quantity": 86,
+      "exitTime": "2019-11-04T15:15:00Z",
+      "exitPrice": 61.404295526,
+      "profitLoss": 3225.2,
+      "totalFees": 1,
+      "mae": -287.51,
+      "mfe": 3225.2,
+      "duration": "1316.01:00:00",
+      "endTradeDrawdown": 1816.91,
+      "isWin": true,
+      "orderIds": [
+        63,
+        114
+      ]
+    },
+    {
+      "id": "f0589c83-c866-43bc-a43e-b6b2f98582a9",
+      "symbols": [
+        {
+          "value": "TSM",
+          "id": "TSM R735QTJ8XC9X",
+          "permtick": "TSM"
+        }
+      ],
+      "entryTime": "2017-06-12T14:15:00Z",
+      "entryPrice": 28.943662899,
+      "direction": 0,
+      "quantity": 921,
+      "exitTime": "2019-11-04T15:15:00Z",
+      "exitPrice": 46.5102431,
+      "profitLoss": 16178.82,
+      "totalFees": 4.89,
+      "mae": -409.65,
+      "mfe": 16178.82,
+      "duration": "875.01:00:00",
+      "endTradeDrawdown": 8394.92,
+      "isWin": true,
+      "orderIds": [
+        97,
+        116
+      ]
+    },
+    {
+      "id": "6b57c54c-22aa-4d9f-9777-56f9daeba072",
+      "symbols": [
+        {
+          "value": "TSM",
+          "id": "TSM R735QTJ8XC9X",
+          "permtick": "TSM"
+        }
+      ],
+      "entryTime": "2018-03-05T15:15:00Z",
+      "entryPrice": 35.916485429,
+      "direction": 0,
+      "quantity": 57,
+      "exitTime": "2019-11-04T15:15:00Z",
+      "exitPrice": 46.5102431,
+      "profitLoss": 603.84,
+      "totalFees": 1,
+      "mae": -422.8,
+      "mfe": 603.84,
+      "duration": "609.00:00:00",
+      "endTradeDrawdown": 519.56,
+      "isWin": true,
+      "orderIds": [
+        111,
+        116
+      ]
+    },
+    {
+      "id": "d47bae42-a7e4-4752-a08f-a67e4364be60",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2015-09-21T14:15:00Z",
+      "entryPrice": 22.776860654,
+      "direction": 0,
+      "quantity": 13,
+      "exitTime": "2019-11-11T15:15:00Z",
+      "exitPrice": 51.402886327,
+      "profitLoss": 372.14,
+      "totalFees": 1,
+      "mae": -5.51,
+      "mfe": 372.14,
+      "duration": "1512.01:00:00",
+      "endTradeDrawdown": 169.95,
+      "isWin": true,
+      "orderIds": [
+        51,
+        118
+      ]
+    },
+    {
+      "id": "1e0a9e25-2f1f-4793-a00d-1251432ed469",
+      "symbols": [
+        {
+          "value": "CSCO",
+          "id": "CSCO R735QTJ8XC9X",
+          "permtick": "CSCO"
+        }
+      ],
+      "entryTime": "2018-03-05T15:15:00Z",
+      "entryPrice": 34.57599688,
+      "direction": 0,
+      "quantity": 19,
+      "exitTime": "2019-11-11T15:15:00Z",
+      "exitPrice": 40.298817923,
+      "profitLoss": 108.73,
+      "totalFees": 6.08,
+      "mae": -45.48,
+      "mfe": 246.47,
+      "duration": "616.00:00:00",
+      "endTradeDrawdown": 183.64,
+      "isWin": true,
+      "orderIds": [
+        112,
+        120
+      ]
+    },
+    {
+      "id": "467c35d8-fcd7-4560-96ba-9ab3ec89795b",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2018-02-05T15:15:00Z",
+      "entryPrice": 84.220164002,
+      "direction": 0,
+      "quantity": 36,
+      "exitTime": "2020-03-23T14:15:00Z",
+      "exitPrice": 130.469685245,
+      "profitLoss": 1664.98,
+      "totalFees": 1,
+      "mae": -223.65,
+      "mfe": 3403.4,
+      "duration": "776.23:00:00",
+      "endTradeDrawdown": 1804.42,
+      "isWin": true,
+      "orderIds": [
+        104,
+        121
+      ]
+    },
+    {
+      "id": "c59e6b54-49c1-4286-a33f-e67365d10d24",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2016-03-28T14:15:00Z",
+      "entryPrice": 23.9020203665,
+      "direction": 0,
+      "quantity": 34,
+      "exitTime": "2020-03-23T14:15:00Z",
+      "exitPrice": 55.320494812,
+      "profitLoss": 1068.23,
+      "totalFees": 1,
+      "mae": -113.67,
+      "mfe": 1871.98,
+      "duration": "1456.00:00:00",
+      "endTradeDrawdown": 803.75,
+      "isWin": true,
+      "orderIds": [
+        63,
+        122
+      ]
+    },
+    {
+      "id": "4850fe4f-aca6-4f64-a471-64ddd814038f",
+      "symbols": [
+        {
+          "value": "TSM",
+          "id": "TSM R735QTJ8XC9X",
+          "permtick": "TSM"
+        }
+      ],
+      "entryTime": "2019-11-11T15:15:00Z",
+      "entryPrice": 47.16192213,
+      "direction": 0,
+      "quantity": 14,
+      "exitTime": "2020-03-23T14:15:00Z",
+      "exitPrice": 40.270282465,
+      "profitLoss": -96.48,
+      "totalFees": 6.085,
+      "mae": -104.71,
+      "mfe": 97.76,
+      "duration": "132.23:00:00",
+      "endTradeDrawdown": 202.48,
+      "isWin": false,
+      "orderIds": [
+        119,
+        124
+      ]
+    },
+    {
+      "id": "22c226a4-6f6d-4eb9-a185-a86dd0c48a40",
+      "symbols": [
+        {
+          "value": "CSCO",
+          "id": "CSCO R735QTJ8XC9X",
+          "permtick": "CSCO"
+        }
+      ],
+      "entryTime": "2018-03-05T15:15:00Z",
+      "entryPrice": 34.57599688,
+      "direction": 0,
+      "quantity": 997,
+      "exitTime": "2020-03-23T14:15:00Z",
+      "exitPrice": 29.59624512,
+      "profitLoss": -4964.81,
+      "totalFees": 5.95,
+      "mae": -6954.08,
+      "mfe": 12932.93,
+      "duration": "748.23:00:00",
+      "endTradeDrawdown": 19887.01,
+      "isWin": false,
+      "orderIds": [
+        112,
+        125
+      ]
+    },
+    {
+      "id": "8268c862-37a4-42ad-b555-3e182a85aeee",
+      "symbols": [
+        {
+          "value": "CSCO",
+          "id": "CSCO R735QTJ8XC9X",
+          "permtick": "CSCO"
+        }
+      ],
+      "entryTime": "2019-11-04T15:15:00Z",
+      "entryPrice": 38.813299343,
+      "direction": 0,
+      "quantity": 193,
+      "exitTime": "2020-03-23T14:15:00Z",
+      "exitPrice": 29.59624512,
+      "profitLoss": -1778.89,
+      "totalFees": 1,
+      "mae": -2163.98,
+      "mfe": 1685.77,
+      "duration": "139.23:00:00",
+      "endTradeDrawdown": 2684.35,
+      "isWin": false,
+      "orderIds": [
+        117,
+        125
+      ]
+    },
+    {
+      "id": "baec64be-3a40-4118-b0d6-3ee2376ac16a",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2018-02-05T15:15:00Z",
+      "entryPrice": 84.220164002,
+      "direction": 0,
+      "quantity": 21,
+      "exitTime": "2020-05-04T14:15:00Z",
+      "exitPrice": 165.825212619,
+      "profitLoss": 1713.71,
+      "totalFees": 1,
+      "mae": -130.46,
+      "mfe": 1985.32,
+      "duration": "818.23:00:00",
+      "endTradeDrawdown": 1052.58,
+      "isWin": true,
+      "orderIds": [
+        104,
+        126
+      ]
+    },
+    {
+      "id": "6d806229-baac-42db-9a17-643ab9aa3e4e",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2016-03-28T14:15:00Z",
+      "entryPrice": 23.9020203665,
+      "direction": 0,
+      "quantity": 44,
+      "exitTime": "2020-05-04T14:15:00Z",
+      "exitPrice": 69.758748191,
+      "profitLoss": 2017.7,
+      "totalFees": 1,
+      "mae": -147.1,
+      "mfe": 2422.57,
+      "duration": "1498.00:00:00",
+      "endTradeDrawdown": 1091.86,
+      "isWin": true,
+      "orderIds": [
+        63,
+        127
+      ]
+    },
+    {
+      "id": "62f53480-e7d3-47d9-9e54-f27d71fcea39",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2015-09-21T14:15:00Z",
+      "entryPrice": 22.776860654,
+      "direction": 0,
+      "quantity": 54,
+      "exitTime": "2020-05-04T14:15:00Z",
+      "exitPrice": 50.946827421,
+      "profitLoss": 1521.18,
+      "totalFees": 1,
+      "mae": -22.89,
+      "mfe": 2031.69,
+      "duration": "1687.00:00:00",
+      "endTradeDrawdown": 1126.13,
+      "isWin": true,
+      "orderIds": [
+        51,
+        128
+      ]
+    },
+    {
+      "id": "475ae8c2-b631-478d-88ff-432c64b005b4",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2015-09-21T14:15:00Z",
+      "entryPrice": 22.776860654,
+      "direction": 0,
+      "quantity": 596,
+      "exitTime": "2020-08-03T20:00:00Z",
+      "exitPrice": 43.077371808,
+      "profitLoss": 12099.1,
+      "totalFees": 4.7,
+      "mae": -252.6,
+      "mfe": 22423.88,
+      "duration": "1778.05:45:00",
+      "endTradeDrawdown": 12429.17,
+      "isWin": true,
+      "orderIds": [
+        51,
+        131
+      ]
+    },
+    {
+      "id": "e32997a6-ef40-4068-8458-45ee6ca7d7f3",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2016-01-19T15:15:00Z",
+      "entryPrice": 23.52219984,
+      "direction": 0,
+      "quantity": 28,
+      "exitTime": "2020-08-03T20:00:00Z",
+      "exitPrice": 43.077371808,
+      "profitLoss": 547.54,
+      "totalFees": 1,
+      "mae": -32.74,
+      "mfe": 1032.6,
+      "duration": "1658.04:45:00",
+      "endTradeDrawdown": 583.92,
+      "isWin": true,
+      "orderIds": [
+        60,
+        131
+      ]
+    },
+    {
+      "id": "9ae179de-be2f-4800-8976-d3248a457103",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2016-11-07T15:15:00Z",
+      "entryPrice": 27.441637364,
+      "direction": 0,
+      "quantity": 22,
+      "exitTime": "2020-08-03T20:00:00Z",
+      "exitPrice": 43.077371808,
+      "profitLoss": 343.99,
+      "totalFees": 1,
+      "mae": -111.95,
+      "mfe": 725.1,
+      "duration": "1365.04:45:00",
+      "endTradeDrawdown": 458.79,
+      "isWin": true,
+      "orderIds": [
+        80,
+        131
+      ]
+    },
+    {
+      "id": "9b73e852-24c0-4b40-b35f-91b5ae530182",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2017-02-21T15:15:00Z",
+      "entryPrice": 29.997544128,
+      "direction": 0,
+      "quantity": 41,
+      "exitTime": "2020-08-03T20:00:00Z",
+      "exitPrice": 43.077371808,
+      "profitLoss": 536.27,
+      "totalFees": 1,
+      "mae": -313.42,
+      "mfe": 1246.53,
+      "duration": "1259.04:45:00",
+      "endTradeDrawdown": 855.03,
+      "isWin": true,
+      "orderIds": [
+        88,
+        131
+      ]
+    },
+    {
+      "id": "81435a5a-a015-41f7-96b6-60c45340c719",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2017-03-06T15:15:00Z",
+      "entryPrice": 29.52060949,
+      "direction": 0,
+      "quantity": 16,
+      "exitTime": "2020-08-03T20:00:00Z",
+      "exitPrice": 43.077371808,
+      "profitLoss": 216.91,
+      "totalFees": 1,
+      "mae": -114.68,
+      "mfe": 494.08,
+      "duration": "1246.04:45:00",
+      "endTradeDrawdown": 333.67,
+      "isWin": true,
+      "orderIds": [
+        92,
+        131
+      ]
+    },
+    {
+      "id": "2308626f-ac1b-4ca4-a379-cf709f4f0ff1",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2017-06-12T14:15:00Z",
+      "entryPrice": 29.582421112,
+      "direction": 0,
+      "quantity": 39,
+      "exitTime": "2020-08-03T20:00:00Z",
+      "exitPrice": 43.077371808,
+      "profitLoss": 526.3,
+      "totalFees": 1,
+      "mae": -281.95,
+      "mfe": 1201.92,
+      "duration": "1148.05:45:00",
+      "endTradeDrawdown": 813.32,
+      "isWin": true,
+      "orderIds": [
+        96,
+        131
+      ]
+    },
+    {
+      "id": "ee56cd5e-4d5a-4274-9cf5-c3f50b61ac8c",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2018-02-05T15:15:00Z",
+      "entryPrice": 38.745292495,
+      "direction": 0,
+      "quantity": 40,
+      "exitTime": "2020-08-03T20:00:00Z",
+      "exitPrice": 43.077371808,
+      "profitLoss": 173.28,
+      "totalFees": 1,
+      "mae": -655.69,
+      "mfe": 866.22,
+      "duration": "910.04:45:00",
+      "endTradeDrawdown": 834.17,
+      "isWin": true,
+      "orderIds": [
+        106,
+        131
+      ]
+    },
+    {
+      "id": "5f6e4f3c-b24a-4803-8b99-2c3a9e5c7565",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2019-11-04T15:15:00Z",
+      "entryPrice": 49.577443616,
+      "direction": 0,
+      "quantity": 97,
+      "exitTime": "2020-08-03T20:00:00Z",
+      "exitPrice": 43.077371808,
+      "profitLoss": -630.51,
+      "totalFees": 1,
+      "mae": -2640.77,
+      "mfe": 1049.87,
+      "duration": "273.04:45:00",
+      "endTradeDrawdown": 2022.87,
+      "isWin": false,
+      "orderIds": [
+        115,
+        131
+      ]
+    },
+    {
+      "id": "788459c5-281e-4e23-aed6-9e523051c63e",
+      "symbols": [
+        {
+          "value": "INTC",
+          "id": "INTC R735QTJ8XC9X",
+          "permtick": "INTC"
+        }
+      ],
+      "entryTime": "2020-03-23T14:15:00Z",
+      "entryPrice": 40.628033769,
+      "direction": 0,
+      "quantity": 61,
+      "exitTime": "2020-08-03T20:00:00Z",
+      "exitPrice": 43.077371808,
+      "profitLoss": 149.41,
+      "totalFees": 1,
+      "mae": -1114.78,
+      "mfe": 1206.14,
+      "duration": "133.05:45:00",
+      "endTradeDrawdown": 903.28,
+      "isWin": true,
+      "orderIds": [
+        123,
+        131
+      ]
+    },
+    {
+      "id": "d47ac5b1-febc-4487-88e0-a7aa937a0740",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2016-03-28T14:15:00Z",
+      "entryPrice": 23.9020203665,
+      "direction": 0,
+      "quantity": 107,
+      "exitTime": "2020-09-08T14:15:00Z",
+      "exitPrice": 117.288065664,
+      "profitLoss": 9992.31,
+      "totalFees": 1,
+      "mae": -357.72,
+      "mfe": 11363.91,
+      "duration": "1625.00:00:00",
+      "endTradeDrawdown": 2655.21,
+      "isWin": true,
+      "orderIds": [
+        63,
+        133
+      ]
+    },
+    {
+      "id": "0b39834b-c5ee-47fa-8ced-7d8cc4d12a41",
+      "symbols": [
+        {
+          "value": "TSM",
+          "id": "TSM R735QTJ8XC9X",
+          "permtick": "TSM"
+        }
+      ],
+      "entryTime": "2019-11-11T15:15:00Z",
+      "entryPrice": 47.16192213,
+      "direction": 0,
+      "quantity": 90,
+      "exitTime": "2020-09-08T14:15:00Z",
+      "exitPrice": 71.78276989,
+      "profitLoss": 2215.88,
+      "totalFees": 1,
+      "mae": -673.15,
+      "mfe": 2571.2,
+      "duration": "301.23:00:00",
+      "endTradeDrawdown": 1301.63,
+      "isWin": true,
+      "orderIds": [
+        119,
+        134
+      ]
+    },
+    {
+      "id": "ecc07095-074d-4e5d-a163-9ed222671019",
+      "symbols": [
+        {
+          "value": "NVDA",
+          "id": "NVDA RHM8UTD8DT2D",
+          "permtick": "NVDA"
+        }
+      ],
+      "entryTime": "2020-05-04T14:15:00Z",
+      "entryPrice": 7.0416433422,
+      "direction": 0,
+      "quantity": 1402,
+      "exitTime": "2020-09-08T14:15:00Z",
+      "exitPrice": 12.5822619945,
+      "profitLoss": 7767.95,
+      "totalFees": 41.03,
+      "mae": 0,
+      "mfe": 10177.29,
+      "duration": "127.00:00:00",
+      "endTradeDrawdown": 2409.34,
+      "isWin": true,
+      "orderIds": [
+        130,
+        135
+      ]
+    },
+    {
+      "id": "2360e7f2-5e97-45ef-8ad2-4feb63bf2105",
+      "symbols": [
+        {
+          "value": "CRM",
+          "id": "CRM SZQUJUA9SVOL",
+          "permtick": "CRM"
+        }
+      ],
+      "entryTime": "2020-09-08T14:15:00Z",
+      "entryPrice": 251.01469476,
+      "direction": 0,
+      "quantity": 270,
+      "exitTime": "2020-10-01T20:00:00Z",
+      "exitPrice": 249.496977328,
+      "profitLoss": -409.78,
+      "totalFees": 2.7,
+      "mae": -4978.61,
+      "mfe": 0,
+      "duration": "23.05:45:00",
+      "endTradeDrawdown": 4978.61,
+      "isWin": false,
+      "orderIds": [
+        136,
+        137
+      ]
+    },
+    {
+      "id": "42c184b7-ac58-480a-ab59-a1080e84e192",
+      "symbols": [
+        {
+          "value": "TSM",
+          "id": "TSM R735QTJ8XC9X",
+          "permtick": "TSM"
+        }
+      ],
+      "entryTime": "2019-11-11T15:15:00Z",
+      "entryPrice": 47.16192213,
+      "direction": 0,
+      "quantity": 34,
+      "exitTime": "2020-10-05T14:15:00Z",
+      "exitPrice": 73.80128176,
+      "profitLoss": 905.74,
+      "totalFees": 1,
+      "mae": -254.3,
+      "mfe": 1051.76,
+      "duration": "328.23:00:00",
+      "endTradeDrawdown": 491.73,
+      "isWin": true,
+      "orderIds": [
+        119,
+        140
+      ]
+    },
+    {
+      "id": "8e81a9f7-14b3-4185-823c-d04969777807",
+      "symbols": [
+        {
+          "value": "NVDA",
+          "id": "NVDA RHM8UTD8DT2D",
+          "permtick": "NVDA"
+        }
+      ],
+      "entryTime": "2020-05-04T14:15:00Z",
+      "entryPrice": 7.0416433422,
+      "direction": 0,
+      "quantity": 230,
+      "exitTime": "2020-10-05T14:15:00Z",
+      "exitPrice": 13.02061015945,
+      "profitLoss": 1375.16,
+      "totalFees": 1.15,
+      "mae": 0,
+      "mfe": 1669.6,
+      "duration": "154.00:00:00",
+      "endTradeDrawdown": 557.92,
+      "isWin": true,
+      "orderIds": [
+        130,
+        141
+      ]
+    },
+    {
+      "id": "fa3882d6-9a9b-4872-89d4-eeca1287db73",
+      "symbols": [
+        {
+          "value": "ADBE",
+          "id": "ADBE R735QTJ8XC9X",
+          "permtick": "ADBE"
+        }
+      ],
+      "entryTime": "2020-10-05T14:15:00Z",
+      "entryPrice": 478.99,
+      "direction": 0,
+      "quantity": 140,
+      "exitTime": "2021-02-01T21:00:00Z",
+      "exitPrice": 462.93,
+      "profitLoss": -2248.4,
+      "totalFees": 2,
+      "mae": -4767,
+      "mfe": 4944.8,
+      "duration": "119.06:45:00",
+      "endTradeDrawdown": 9711.8,
+      "isWin": false,
+      "orderIds": [
+        142,
+        143
+      ]
+    },
+    {
+      "id": "6e2e6069-0e6d-4a1a-96e4-f089cb8404e4",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2018-02-05T15:15:00Z",
+      "entryPrice": 84.220164002,
+      "direction": 0,
+      "quantity": 10,
+      "exitTime": "2021-05-03T14:15:00Z",
+      "exitPrice": 241.981739928,
+      "profitLoss": 1577.62,
+      "totalFees": 1,
+      "mae": -62.12,
+      "mfe": 1671.56,
+      "duration": "1182.23:00:00",
+      "endTradeDrawdown": 501.23,
+      "isWin": true,
+      "orderIds": [
+        104,
+        144
+      ]
+    },
+    {
+      "id": "6185b771-fdd7-4504-af0b-f2954b604eaa",
+      "symbols": [
+        {
+          "value": "TSM",
+          "id": "TSM R735QTJ8XC9X",
+          "permtick": "TSM"
+        }
+      ],
+      "entryTime": "2019-11-11T15:15:00Z",
+      "entryPrice": 47.16192213,
+      "direction": 0,
+      "quantity": 165,
+      "exitTime": "2021-05-03T14:15:00Z",
+      "exitPrice": 107.482097736,
+      "profitLoss": 9952.83,
+      "totalFees": 1,
+      "mae": -1234.11,
+      "mfe": 13414.05,
+      "duration": "538.23:00:00",
+      "endTradeDrawdown": 4643.11,
+      "isWin": true,
+      "orderIds": [
+        119,
+        146
+      ]
+    },
+    {
+      "id": "a684c3c5-5978-438d-a98f-b9b75a00d2fb",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2018-02-05T15:15:00Z",
+      "entryPrice": 84.220164002,
+      "direction": 0,
+      "quantity": 17,
+      "exitTime": "2022-05-23T14:15:00Z",
+      "exitPrice": 244.889424472,
+      "profitLoss": 2731.38,
+      "totalFees": 1,
+      "mae": -105.61,
+      "mfe": 4199.19,
+      "duration": "1567.23:00:00",
+      "endTradeDrawdown": 1467.81,
+      "isWin": true,
+      "orderIds": [
+        104,
+        149
+      ]
+    },
+    {
+      "id": "c7cc14de-af05-40b7-9963-9802465a9003",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2016-03-28T14:15:00Z",
+      "entryPrice": 23.9020203665,
+      "direction": 0,
+      "quantity": 56,
+      "exitTime": "2022-05-23T14:15:00Z",
+      "exitPrice": 134.836425089,
+      "profitLoss": 6212.33,
+      "totalFees": 1,
+      "mae": -187.22,
+      "mfe": 8622.72,
+      "duration": "2247.00:00:00",
+      "endTradeDrawdown": 2423.56,
+      "isWin": true,
+      "orderIds": [
+        63,
+        150
+      ]
+    },
+    {
+      "id": "6efe9a3c-4a24-47dd-9612-79e835ce2f29",
+      "symbols": [
+        {
+          "value": "NVDA",
+          "id": "NVDA RHM8UTD8DT2D",
+          "permtick": "NVDA"
+        }
+      ],
+      "entryTime": "2020-05-04T14:15:00Z",
+      "entryPrice": 7.0416433422,
+      "direction": 0,
+      "quantity": 735,
+      "exitTime": "2022-05-23T14:15:00Z",
+      "exitPrice": 16.6630760344,
+      "profitLoss": 7071.75,
+      "totalFees": 3.675,
+      "mae": 0,
+      "mfe": 19303.14,
+      "duration": "749.00:00:00",
+      "endTradeDrawdown": 12612.15,
+      "isWin": true,
+      "orderIds": [
+        130,
+        152
+      ]
+    },
+    {
+      "id": "7c41c21d-8baf-4f78-a8cf-f6a438d69dc4",
+      "symbols": [
+        {
+          "value": "ASML",
+          "id": "ASMLF R735QTJ8XC9X",
+          "permtick": "ASML"
+        }
+      ],
+      "entryTime": "2021-05-03T14:15:00Z",
+      "entryPrice": 615.66097475,
+      "direction": 0,
+      "quantity": 130,
+      "exitTime": "2022-05-23T14:15:00Z",
+      "exitPrice": 511.934875144,
+      "profitLoss": -13484.39,
+      "totalFees": 2,
+      "mae": -16004.87,
+      "mfe": 30110.85,
+      "duration": "385.00:00:00",
+      "endTradeDrawdown": 46115.72,
+      "isWin": false,
+      "orderIds": [
+        148,
+        153
+      ]
+    },
+    {
+      "id": "f0e945b9-5356-4361-8b54-f830a8378a4f",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2018-02-05T15:15:00Z",
+      "entryPrice": 84.220164002,
+      "direction": 0,
+      "quantity": 15,
+      "exitTime": "2022-08-22T14:15:00Z",
+      "exitPrice": 278.048206435,
+      "profitLoss": 2907.42,
+      "totalFees": 1,
+      "mae": -93.19,
+      "mfe": 3705.17,
+      "duration": "1658.23:00:00",
+      "endTradeDrawdown": 1444.94,
+      "isWin": true,
+      "orderIds": [
+        104,
+        154
+      ]
+    },
+    {
+      "id": "63c3543d-b475-4daa-9557-7f9e9aa18564",
+      "symbols": [
+        {
+          "value": "AAPL",
+          "id": "AAPL R735QTJ8XC9X",
+          "permtick": "AAPL"
+        }
+      ],
+      "entryTime": "2016-03-28T14:15:00Z",
+      "entryPrice": 23.9020203665,
+      "direction": 0,
+      "quantity": 76,
+      "exitTime": "2022-08-22T14:15:00Z",
+      "exitPrice": 168.320860416,
+      "profitLoss": 10975.83,
+      "totalFees": 1,
+      "mae": -254.08,
+      "mfe": 11702.26,
+      "duration": "2338.00:00:00",
+      "endTradeDrawdown": 3832.07,
+      "isWin": true,
+      "orderIds": [
+        63,
+        155
+      ]
+    },
+    {
+      "id": "b8c57ecd-af7f-4f95-969f-7694efc8c678",
+      "symbols": [
+        {
+          "value": "ASML",
+          "id": "ASMLF R735QTJ8XC9X",
+          "permtick": "ASML"
+        }
+      ],
+      "entryTime": "2022-08-22T14:15:00Z",
+      "entryPrice": 525.125947344,
+      "direction": 0,
+      "quantity": 159,
+      "exitTime": "2022-09-01T20:00:00Z",
+      "exitPrice": 460.455501384,
+      "profitLoss": -10282.6,
+      "totalFees": 2,
+      "mae": -11536.73,
+      "mfe": 0,
+      "duration": "10.05:45:00",
+      "endTradeDrawdown": 11536.73,
+      "isWin": false,
+      "orderIds": [
+        158,
+        159
+      ]
+    },
+    {
+      "id": "f913c06b-fa44-42d1-9a49-6eae9a1fdeda",
+      "symbols": [
+        {
+          "value": "TSM",
+          "id": "TSM R735QTJ8XC9X",
+          "permtick": "TSM"
+        }
+      ],
+      "entryTime": "2019-11-11T15:15:00Z",
+      "entryPrice": 47.16192213,
+      "direction": 0,
+      "quantity": 38,
+      "exitTime": "2022-12-05T15:15:00Z",
+      "exitPrice": 77.14864165,
+      "profitLoss": 1139.5,
+      "totalFees": 1,
+      "mae": -284.22,
+      "mfe": 3188.73,
+      "duration": "1120.00:00:00",
+      "endTradeDrawdown": 2812.54,
+      "isWin": true,
+      "orderIds": [
+        119,
+        162
+      ]
+    },
+    {
+      "id": "d7af1c95-6cf0-4f19-9ed3-88ce01da386f",
+      "symbols": [
+        {
+          "value": "NVDA",
+          "id": "NVDA RHM8UTD8DT2D",
+          "permtick": "NVDA"
+        }
+      ],
+      "entryTime": "2020-05-04T14:15:00Z",
+      "entryPrice": 7.0416433422,
+      "direction": 0,
+      "quantity": 208,
+      "exitTime": "2022-12-05T15:15:00Z",
+      "exitPrice": 16.8576186608,
+      "profitLoss": 2041.72,
+      "totalFees": 1.04,
+      "mae": 0,
+      "mfe": 5462.66,
+      "duration": "945.01:00:00",
+      "endTradeDrawdown": 4595.24,
+      "isWin": true,
+      "orderIds": [
+        130,
+        163
+      ]
+    },
+    {
+      "id": "d7264f1e-10e1-48b1-923e-6e73bd857ce6",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2018-02-05T15:15:00Z",
+      "entryPrice": 84.220164002,
+      "direction": 0,
+      "quantity": 240,
+      "exitTime": "2022-12-05T15:15:00Z",
+      "exitPrice": 248.176379657,
+      "profitLoss": 39349.49,
+      "totalFees": 1.5,
+      "mae": -1490.97,
+      "mfe": 59282.69,
+      "duration": "1764.00:00:00",
+      "endTradeDrawdown": 29531.39,
+      "isWin": true,
+      "orderIds": [
+        104,
+        165
+      ]
+    },
+    {
+      "id": "6380951c-a9b6-42e4-acb3-600ccdceda64",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2018-03-05T15:15:00Z",
+      "entryPrice": 85.78664727,
+      "direction": 0,
+      "quantity": 6,
+      "exitTime": "2022-12-05T15:15:00Z",
+      "exitPrice": 248.176379657,
+      "profitLoss": 974.34,
+      "totalFees": 1,
+      "mae": -46.67,
+      "mfe": 1472.67,
+      "duration": "1736.00:00:00",
+      "endTradeDrawdown": 738.28,
+      "isWin": true,
+      "orderIds": [
+        108,
+        165
+      ]
+    },
+    {
+      "id": "2b087c25-6723-4a9c-9a7a-4980441513c3",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2020-09-08T14:15:00Z",
+      "entryPrice": 204.5776409,
+      "direction": 0,
+      "quantity": 44,
+      "exitTime": "2022-12-05T15:15:00Z",
+      "exitPrice": 248.176379657,
+      "profitLoss": 1918.34,
+      "totalFees": 1,
+      "mae": -5569.07,
+      "mfe": 5572.76,
+      "duration": "818.01:00:00",
+      "endTradeDrawdown": 5414.09,
+      "isWin": true,
+      "orderIds": [
+        132,
+        165
+      ]
+    },
+    {
+      "id": "6cbf2de5-7f9f-4f1f-85e5-0683e5ac65f3",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2020-10-05T14:15:00Z",
+      "entryPrice": 196.881511212,
+      "direction": 0,
+      "quantity": 10,
+      "exitTime": "2022-12-05T15:15:00Z",
+      "exitPrice": 248.176379657,
+      "profitLoss": 512.95,
+      "totalFees": 1,
+      "mae": -1188.74,
+      "mfe": 1343.5,
+      "duration": "791.01:00:00",
+      "endTradeDrawdown": 1230.47,
+      "isWin": true,
+      "orderIds": [
+        138,
+        165
+      ]
+    },
+    {
+      "id": "1473d28c-5b72-4c44-ace8-dbfe4c8f39bd",
+      "symbols": [
+        {
+          "value": "AVGO",
+          "id": "AVGO UEW4IOBWVPT1",
+          "permtick": "AVGO"
+        }
+      ],
+      "entryTime": "2022-12-05T15:15:00Z",
+      "entryPrice": 51.171366688,
+      "direction": 0,
+      "quantity": 1477,
+      "exitTime": "2022-12-06T21:00:00Z",
+      "exitPrice": 50.2109573465,
+      "profitLoss": -1418.52,
+      "totalFees": 14.77,
+      "mae": -2093.55,
+      "mfe": 0,
+      "duration": "1.05:45:00",
+      "endTradeDrawdown": 2093.55,
+      "isWin": false,
+      "orderIds": [
+        164,
+        166
+      ]
+    },
+    {
+      "id": "8581197b-cafb-4ea2-b025-068665751f86",
+      "symbols": [
+        {
+          "value": "NVDA",
+          "id": "NVDA RHM8UTD8DT2D",
+          "permtick": "NVDA"
+        }
+      ],
+      "entryTime": "2020-05-04T14:15:00Z",
+      "entryPrice": 7.0416433422,
+      "direction": 0,
+      "quantity": 87,
+      "exitTime": "2022-12-19T15:15:00Z",
+      "exitPrice": 16.5529508668,
+      "profitLoss": 827.48,
+      "totalFees": 1,
+      "mae": 0,
+      "mfe": 2284.86,
+      "duration": "959.01:00:00",
+      "endTradeDrawdown": 1922.05,
+      "isWin": true,
+      "orderIds": [
+        130,
+        169
+      ]
+    },
+    {
+      "id": "d5aa0e5b-d610-41af-8c57-598864d646e7",
+      "symbols": [
+        {
+          "value": "ASML",
+          "id": "ASMLF R735QTJ8XC9X",
+          "permtick": "ASML"
+        }
+      ],
+      "entryTime": "2022-12-19T15:15:00Z",
+      "entryPrice": 554.52807132,
+      "direction": 0,
+      "quantity": 131,
+      "exitTime": "2023-01-03T21:00:00Z",
+      "exitPrice": 541.93744928,
+      "profitLoss": -1649.37,
+      "totalFees": 2,
+      "mae": -5398.4,
+      "mfe": 839.86,
+      "duration": "15.05:45:00",
+      "endTradeDrawdown": 6238.27,
+      "isWin": false,
+      "orderIds": [
+        170,
+        172
+      ]
+    },
+    {
+      "id": "a538dcb8-8583-4706-884f-271bafad9f04",
+      "symbols": [
+        {
+          "value": "TSM",
+          "id": "TSM R735QTJ8XC9X",
+          "permtick": "TSM"
+        }
+      ],
+      "entryTime": "2019-11-11T15:15:00Z",
+      "entryPrice": 47.16192213,
+      "direction": 0,
+      "quantity": 87,
+      "exitTime": "2023-02-13T15:15:00Z",
+      "exitPrice": 90.790132323,
+      "profitLoss": 3795.65,
+      "totalFees": 1,
+      "mae": -650.71,
+      "mfe": 7300.51,
+      "duration": "1190.00:00:00",
+      "endTradeDrawdown": 6439.24,
+      "isWin": true,
+      "orderIds": [
+        119,
+        174
+      ]
+    },
+    {
+      "id": "a9c636d0-0007-4989-9bb6-43b1e2cbc280",
+      "symbols": [
+        {
+          "value": "NVDA",
+          "id": "NVDA RHM8UTD8DT2D",
+          "permtick": "NVDA"
+        }
+      ],
+      "entryTime": "2020-05-04T14:15:00Z",
+      "entryPrice": 7.0416433422,
+      "direction": 0,
+      "quantity": 485,
+      "exitTime": "2023-02-13T15:15:00Z",
+      "exitPrice": 21.241838162,
+      "profitLoss": 6887.09,
+      "totalFees": 2.425,
+      "mae": 0,
+      "mfe": 12737.45,
+      "duration": "1015.01:00:00",
+      "endTradeDrawdown": 10714.87,
+      "isWin": true,
+      "orderIds": [
+        130,
+        175
+      ]
+    },
+    {
+      "id": "c246c278-0da6-4610-a653-25f73ff5081e",
+      "symbols": [
+        {
+          "value": "ASML",
+          "id": "ASMLF R735QTJ8XC9X",
+          "permtick": "ASML"
+        }
+      ],
+      "entryTime": "2023-02-13T15:15:00Z",
+      "entryPrice": 635.124100445,
+      "direction": 0,
+      "quantity": 130,
+      "exitTime": "2023-03-01T21:00:00Z",
+      "exitPrice": 600.607643276,
+      "profitLoss": -4487.14,
+      "totalFees": 2,
+      "mae": -5207.95,
+      "mfe": 2658.07,
+      "duration": "16.05:45:00",
+      "endTradeDrawdown": 7866.02,
+      "isWin": false,
+      "orderIds": [
+        177,
+        178
+      ]
+    },
+    {
+      "id": "ea24cc45-de2b-43cc-b264-ff1184cba546",
+      "symbols": [
+        {
+          "value": "NVDA",
+          "id": "NVDA RHM8UTD8DT2D",
+          "permtick": "NVDA"
+        }
+      ],
+      "entryTime": "2020-05-04T14:15:00Z",
+      "entryPrice": 7.0416433422,
+      "direction": 0,
+      "quantity": 383,
+      "exitTime": "2023-03-13T14:15:00Z",
+      "exitPrice": 22.943881386,
+      "profitLoss": 6090.56,
+      "totalFees": 1.915,
+      "mae": 0,
+      "mfe": 10058.64,
+      "duration": "1043.00:00:00",
+      "endTradeDrawdown": 8461.43,
+      "isWin": true,
+      "orderIds": [
+        130,
+        180
+      ]
+    },
+    {
+      "id": "aed839d2-dc2c-4901-a325-af494bc5b9cf",
+      "symbols": [
+        {
+          "value": "AVGO",
+          "id": "AVGO UEW4IOBWVPT1",
+          "permtick": "AVGO"
+        }
+      ],
+      "entryTime": "2023-03-13T14:15:00Z",
+      "entryPrice": 58.6616127613,
+      "direction": 0,
+      "quantity": 1380,
+      "exitTime": "2023-04-03T20:00:00Z",
+      "exitPrice": 61.40651337,
+      "profitLoss": 3787.96,
+      "totalFees": 13.8,
+      "mae": 0,
+      "mfe": 4248.14,
+      "duration": "21.05:45:00",
+      "endTradeDrawdown": 1926.9,
+      "isWin": true,
+      "orderIds": [
+        182,
+        183
+      ]
+    },
+    {
+      "id": "2c8e4203-fc2f-4b25-aebf-7c15eab65f04",
+      "symbols": [
+        {
+          "value": "NVDA",
+          "id": "NVDA RHM8UTD8DT2D",
+          "permtick": "NVDA"
+        }
+      ],
+      "entryTime": "2020-05-04T14:15:00Z",
+      "entryPrice": 7.0416433422,
+      "direction": 0,
+      "quantity": 205,
+      "exitTime": "2023-04-10T14:15:00Z",
+      "exitPrice": 27.0121367748,
+      "profitLoss": 4093.95,
+      "totalFees": 1.025,
+      "mae": 0,
+      "mfe": 5383.87,
+      "duration": "1071.00:00:00",
+      "endTradeDrawdown": 4528.97,
+      "isWin": true,
+      "orderIds": [
+        130,
+        185
+      ]
+    },
+    {
+      "id": "ff5811ba-1cc9-4849-961a-58dad916dd71",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2022-12-19T15:15:00Z",
+      "entryPrice": 238.432126657,
+      "direction": 0,
+      "quantity": 18,
+      "exitTime": "2023-04-10T14:15:00Z",
+      "exitPrice": 284.85409644,
+      "profitLoss": 835.6,
+      "totalFees": 2.525,
+      "mae": -392.54,
+      "mfe": 835.6,
+      "duration": "111.23:00:00",
+      "endTradeDrawdown": 443.46,
+      "isWin": true,
+      "orderIds": [
+        171,
+        186
+      ]
+    },
+    {
+      "id": "894f3cd4-e0b7-44ce-b089-ad00e0068487",
+      "symbols": [
+        {
+          "value": "ASML",
+          "id": "ASMLF R735QTJ8XC9X",
+          "permtick": "ASML"
+        }
+      ],
+      "entryTime": "2023-04-10T14:15:00Z",
+      "entryPrice": 635.869199184,
+      "direction": 0,
+      "quantity": 141,
+      "exitTime": "2023-05-01T20:00:00Z",
+      "exitPrice": 616.243624,
+      "profitLoss": -2767.21,
+      "totalFees": 2,
+      "mae": -7007.57,
+      "mfe": 1238.88,
+      "duration": "21.05:45:00",
+      "endTradeDrawdown": 8246.44,
+      "isWin": false,
+      "orderIds": [
+        187,
+        188
+      ]
+    },
+    {
+      "id": "32940c8f-aba4-4c12-a1ef-20a2fd7a3601",
+      "symbols": [
+        {
+          "value": "NVDA",
+          "id": "NVDA RHM8UTD8DT2D",
+          "permtick": "NVDA"
+        }
+      ],
+      "entryTime": "2020-05-04T14:15:00Z",
+      "entryPrice": 7.0416433422,
+      "direction": 0,
+      "quantity": 791,
+      "exitTime": "2023-06-26T14:15:00Z",
+      "exitPrice": 42.1745490142,
+      "profitLoss": 27790.13,
+      "totalFees": 3.955,
+      "mae": 0,
+      "mfe": 29053.91,
+      "duration": "1148.00:00:00",
+      "endTradeDrawdown": 17475.18,
+      "isWin": true,
+      "orderIds": [
+        130,
+        191
+      ]
+    },
+    {
+      "id": "f700b1e2-9bbb-4ce7-a458-226b9e8ffe05",
+      "symbols": [
+        {
+          "value": "NVDA",
+          "id": "NVDA RHM8UTD8DT2D",
+          "permtick": "NVDA"
+        }
+      ],
+      "entryTime": "2020-05-04T14:15:00Z",
+      "entryPrice": 7.0416433422,
+      "direction": 0,
+      "quantity": 287,
+      "exitTime": "2024-01-22T15:15:00Z",
+      "exitPrice": 59.452568814,
+      "profitLoss": 15041.94,
+      "totalFees": 1.435,
+      "mae": 0,
+      "mfe": 15041.94,
+      "duration": "1358.01:00:00",
+      "endTradeDrawdown": 6340.55,
+      "isWin": true,
+      "orderIds": [
+        130,
+        196
+      ]
+    },
+    {
+      "id": "7ee0b007-fd11-4029-bbeb-fe7ca56d5fb1",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2022-12-19T15:15:00Z",
+      "entryPrice": 238.432126657,
+      "direction": 0,
+      "quantity": 287,
+      "exitTime": "2024-01-22T15:15:00Z",
+      "exitPrice": 391.918683018,
+      "profitLoss": 44050.64,
+      "totalFees": 1.625,
+      "mae": -6258.79,
+      "mfe": 44050.64,
+      "duration": "399.00:00:00",
+      "endTradeDrawdown": 13118.41,
+      "isWin": true,
+      "orderIds": [
+        171,
+        197
+      ]
+    },
+    {
+      "id": "f0ff1387-a152-4b87-b510-38d5798b3fe3",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2023-02-13T15:15:00Z",
+      "entryPrice": 256.37129643,
+      "direction": 0,
+      "quantity": 19,
+      "exitTime": "2024-01-22T15:15:00Z",
+      "exitPrice": 391.918683018,
+      "profitLoss": 2575.4,
+      "totalFees": 1,
+      "mae": -755.19,
+      "mfe": 2575.4,
+      "duration": "343.00:00:00",
+      "endTradeDrawdown": 868.47,
+      "isWin": true,
+      "orderIds": [
+        176,
+        197
+      ]
+    },
+    {
+      "id": "077752b2-73fe-48fa-b646-96d1e7d591d6",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2023-03-13T14:15:00Z",
+      "entryPrice": 242.839094081,
+      "direction": 0,
+      "quantity": 9,
+      "exitTime": "2024-01-22T15:15:00Z",
+      "exitPrice": 391.918683018,
+      "profitLoss": 1341.72,
+      "totalFees": 1,
+      "mae": -235.93,
+      "mfe": 1341.72,
+      "duration": "315.01:00:00",
+      "endTradeDrawdown": 411.38,
+      "isWin": true,
+      "orderIds": [
+        181,
+        197
+      ]
+    },
+    {
+      "id": "87b2e38b-54ac-4ec2-a230-879e1da53866",
+      "symbols": [
+        {
+          "value": "MSFT",
+          "id": "MSFT R735QTJ8XC9X",
+          "permtick": "MSFT"
+        }
+      ],
+      "entryTime": "2023-06-26T14:15:00Z",
+      "entryPrice": 327.985049028,
+      "direction": 0,
+      "quantity": 10,
+      "exitTime": "2024-01-22T15:15:00Z",
+      "exitPrice": 391.918683018,
+      "profitLoss": 639.34,
+      "totalFees": 1,
+      "mae": -1113.61,
+      "mfe": 639.34,
+      "duration": "210.01:00:00",
+      "endTradeDrawdown": 457.09,
+      "isWin": true,
+      "orderIds": [
+        192,
+        197
+      ]
+    },
+    {
+      "id": "3355f064-30d7-4c47-a94e-915e6fa5d44c",
+      "symbols": [
+        {
+          "value": "AVGO",
+          "id": "AVGO UEW4IOBWVPT1",
+          "permtick": "AVGO"
+        }
+      ],
+      "entryTime": "2023-06-26T14:15:00Z",
+      "entryPrice": 79.42774707,
+      "direction": 0,
+      "quantity": 215,
+      "exitTime": "2024-01-22T15:15:00Z",
+      "exitPrice": 118.192069344,
+      "profitLoss": 8334.33,
+      "totalFees": 7.8,
+      "mae": -194.99,
+      "mfe": 8334.33,
+      "duration": "210.01:00:00",
+      "endTradeDrawdown": 2287.47,
+      "isWin": true,
+      "orderIds": [
+        193,
+        198
+      ]
+    },
+    {
+      "id": "bea30fa8-b39e-497f-b601-f621e0c4f35a",
+      "symbols": [
+        {
+          "value": "TSM",
+          "id": "TSM R735QTJ8XC9X",
+          "permtick": "TSM"
+        }
+      ],
+      "entryTime": "2019-11-11T15:15:00Z",
+      "entryPrice": 47.16192213,
+      "direction": 0,
+      "quantity": 51,
+      "exitTime": "2024-02-20T15:15:00Z",
+      "exitPrice": 122.949173694,
+      "profitLoss": 3865.15,
+      "totalFees": 1,
+      "mae": -381.45,
+      "mfe": 4279.61,
+      "duration": "1562.00:00:00",
+      "endTradeDrawdown": 3774.72,
+      "isWin": true,
+      "orderIds": [
+        119,
+        200
+      ]
+    },
+    {
+      "id": "a0371c53-d7cf-42fe-ac71-9a3a2fd2ebc5",
+      "symbols": [
+        {
+          "value": "NVDA",
+          "id": "NVDA RHM8UTD8DT2D",
+          "permtick": "NVDA"
+        }
+      ],
+      "entryTime": "2020-05-04T14:15:00Z",
+      "entryPrice": 7.0416433422,
+      "direction": 0,
+      "quantity": 292,
+      "exitTime": "2024-02-20T15:15:00Z",
+      "exitPrice": 72.566092002,
+      "profitLoss": 19133.14,
+      "totalFees": 1.46,
+      "mae": 0,
+      "mfe": 19508.7,
+      "duration": "1387.01:00:00",
+      "endTradeDrawdown": 6451.02,
+      "isWin": true,
+      "orderIds": [
+        130,
+        201
+      ]
+    }
+  ],
+  "orig_stats": {
+    "Total Orders": "71",
+    "Average Win": "9.44%",
+    "Average Loss": "-2.75%",
+    "Compounding Annual Return": "31.352%",
+    "Drawdown": "49.100%",
+    "Expectancy": "1.284",
+    "Start Equity": "100000",
+    "End Equity": "2643721.06",
+    "Net Profit": "2543.721%",
+    "Sharpe Ratio": "0.883",
+    "Sortino Ratio": "0.978",
+    "Probabilistic Sharpe Ratio": "29.778%",
+    "Loss Rate": "48%",
+    "Win Rate": "52%",
+    "Profit-Loss Ratio": "3.43",
+    "Alpha": "0.113",
+    "Beta": "1.396",
+    "Annual Standard Deviation": "0.252",
+    "Annual Variance": "0.064",
+    "Information Ratio": "0.885",
+    "Tracking Error": "0.163",
+    "Treynor Ratio": "0.159",
+    "Total Fees": "$280.30",
+    "Estimated Strategy Capacity": "$0",
+    "Lowest Capacity Asset": "NVDA RHM8UTD8DT2D",
+    "Portfolio Turnover": "0.32%",
+    "Drawdown Recovery": "569"
+  },
+  "sub_stats": {
+    "Total Orders": "203",
+    "Average Win": "2.28%",
+    "Average Loss": "-1.92%",
+    "Compounding Annual Return": "25.328%",
+    "Drawdown": "44.200%",
+    "Expectancy": "0.739",
+    "Start Equity": "100000",
+    "End Equity": "1504471.74",
+    "Net Profit": "1404.472%",
+    "Sharpe Ratio": "0.804",
+    "Sortino Ratio": "0.887",
+    "Probabilistic Sharpe Ratio": "24.636%",
+    "Loss Rate": "20%",
+    "Win Rate": "80%",
+    "Profit-Loss Ratio": "1.18",
+    "Alpha": "0.076",
+    "Beta": "1.224",
+    "Annual Standard Deviation": "0.214",
+    "Annual Variance": "0.046",
+    "Information Ratio": "0.742",
+    "Tracking Error": "0.126",
+    "Treynor Ratio": "0.141",
+    "Total Fees": "$407.77",
+    "Estimated Strategy Capacity": "$0",
+    "Lowest Capacity Asset": "MSFT R735QTJ8XC9X",
+    "Portfolio Turnover": "0.35%",
+    "Drawdown Recovery": "722"
+  }
+}

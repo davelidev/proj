@@ -2,30 +2,30 @@ d# Archived Strategy Backtests
 
 *Strategies removed from active tracking if: CAGR ≤ 24%, Overfit ≥ 8/10, or MaxDD ≥ 60%.*
 
-| #                  | Category       | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
-| :----------------- | :------------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
-| [1](#strategy-1)   | Breakout       | 25%  | -36%  | 0.754  | 1009  | 1645   | 0.61      | 2.14         | 4/10    |
-| [2](#strategy-2)   | Breakout       | 45%  | -50%  | 0.977  | 119   | 93     | 1.28      | 2.49         | 6/10    |
-| [3](#strategy-3)   | Breakout       | 42%  | -51%  | 0.920  | 78    | 69     | 1.13      | 2.45         | 6/10    |
-| [4](#strategy-4)   | Breakout       | 42%  | -50%  | 0.917  | 81    | 66     | 1.23      | 2.34         | 5/10    |
-| [6](#strategy-6)   | Breakout       | 36%  | -50%  | 0.834  | 81    | 67     | 1.21      | 2.32         | 5/10    |
-| [7](#strategy-7)   | Breakout       | 31%  | -57%  | 0.726  | 92    | 109    | 0.84      | 2.41         | 3/10    |
-| [8](#strategy-8)   | Dip Buy        | 38%  | -27%  | 1.335  | 1159  | 681    | 1.70      | 1.30         | 7/10    |
-| [9](#strategy-9)   | Dip Buy        | 37%  | -52%  | 0.827  | 10    | 25     | 0.40      | 23.67        | 6/10    |
-| [10](#strategy-10) | Dip Buy        | 30%  | -50%  | 0.728  | 57    | 24     | 2.38      | 1.45         | 5/10    |
-| [11](#strategy-11) | Dip Buy        | 50%  | -37%  | 1.081  | 2037  | 873    | 2.33      | 0.81         | 3/10    |
-| [12](#strategy-12) | Mean Reversion | 26%  | -43%  | 0.835  | 452   | 254    | 1.78      | 1.22         | 2/10    |
-| [13](#strategy-13) | Momentum       | 25%  | -37%  | 0.742  | 97    | 50     | 1.94      | 3.42         | 4/10    |
-| [14](#strategy-14) | Rotation       | 53%  | -23%  | 1.339  | 305   | 172    | 1.77      | 2.74         | 7/10    |
-| [15](#strategy-15) | Rotation       | 53%  | -23%  | 1.339  | 305   | 172    | 1.77      | 2.74         | 7/10    |
-| [16](#strategy-16) | Rotation       | 94%  | -56%  | 1.520  | 100   | 85     | 1.18      | 4.51         | 6/10    |
-| [17](#strategy-17) | Rotation       | 95%  | -57%  | 1.520  | 100   | 85     | 1.18      | 4.51         | 7/10    |
-| [18](#strategy-18) | Rotation       | 42%  | -48%  | 0.859  | 82    | 123    | 0.67      | 3.68         | 6/10    |
-| [19](#strategy-19) | Trend          | 158% | -56%  | 2.224  | 276   | 118    | 2.34      | 1.67         | 7/10    |
-| [20](#strategy-20) | Trend          | 29%  | -51%  | 0.831  | 29    | 18     | 1.61      | 2.91         | 2/10    |
-| [21](#strategy-21) | Trend          | 31%  | -49%  | 0.731  | 100   | 47     | 2.13      | 1.44         | 4/10    |
-| [22](#strategy-22) | Rotation       | 38%  | -54%  | 0.818  | 219   | 229    | 0.96      | 1.98         | 3/10    |
-| [23](#strategy-23) | Rebalance      | —    | —     | —      | —     | —      | —         | —            | —       |
+| #                    | Category       | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
+| :------------------- | :------------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
+| [1](#strategy-1)     | Breakout       | 25%  | -36%  | 0.754  | 1009  | 1645   | 0.61      | 2.14         | 4/10    |
+| ✅ [2](#strategy-2)   | Breakout       | 45%  | -50%  | 0.977  | 119   | 93     | 1.28      | 2.49         | 6/10    |
+| ✅ [3](#strategy-3)   | Breakout       | 42%  | -51%  | 0.920  | 78    | 69     | 1.13      | 2.45         | 6/10    |
+| ✅ [4](#strategy-4)   | Breakout       | 42%  | -50%  | 0.917  | 81    | 66     | 1.23      | 2.34         | 5/10    |
+| ✅ [6](#strategy-6)   | Breakout       | 36%  | -50%  | 0.834  | 81    | 67     | 1.21      | 2.32         | 5/10    |
+| ✅ [7](#strategy-7)   | Breakout       | 31%  | -57%  | 0.726  | 92    | 109    | 0.84      | 2.41         | 3/10    |
+| ✅ [8](#strategy-8)   | Dip Buy        | 38%  | -27%  | 1.335  | 1159  | 681    | 1.70      | 1.30         | 7/10    |
+| ✅ [9](#strategy-9)   | Dip Buy        | 37%  | -52%  | 0.827  | 10    | 25     | 0.40      | 23.67        | 6/10    |
+| ✅ [10](#strategy-10) | Dip Buy        | 30%  | -50%  | 0.728  | 57    | 24     | 2.38      | 1.45         | 5/10    |
+| ✅ [11](#strategy-11) | Dip Buy        | 50%  | -37%  | 1.081  | 2037  | 873    | 2.33      | 0.81         | 3/10    |
+| [12](#strategy-12)   | Mean Reversion | 26%  | -43%  | 0.835  | 452   | 254    | 1.78      | 1.22         | 2/10    |
+| [13](#strategy-13)   | Momentum       | 25%  | -37%  | 0.742  | 97    | 50     | 1.94      | 3.42         | 4/10    |
+| ✅ [14](#strategy-14) | Rotation       | 53%  | -23%  | 1.339  | 305   | 172    | 1.77      | 2.74         | 7/10    |
+| ✅ [15](#strategy-15) | Rotation       | 53%  | -23%  | 1.339  | 305   | 172    | 1.77      | 2.74         | 7/10    |
+| ✅ [16](#strategy-16) | Rotation       | 94%  | -56%  | 1.520  | 100   | 85     | 1.18      | 4.51         | 6/10    |
+| ✅ [17](#strategy-17) | Rotation       | 95%  | -57%  | 1.520  | 100   | 85     | 1.18      | 4.51         | 7/10    |
+| ✅ [18](#strategy-18) | Rotation       | 42%  | -48%  | 0.859  | 82    | 123    | 0.67      | 3.68         | 6/10    |
+| ✅ [19](#strategy-19) | Trend          | 158% | -56%  | 2.224  | 276   | 118    | 2.34      | 1.67         | 7/10    |
+| [20](#strategy-20)   | Trend          | 29%  | -51%  | 0.831  | 29    | 18     | 1.61      | 2.91         | 2/10    |
+| ✅ [21](#strategy-21) | Trend          | 31%  | -49%  | 0.731  | 100   | 47     | 2.13      | 1.44         | 4/10    |
+| ✅ [22](#strategy-22) | Rotation       | 38%  | -54%  | 0.818  | 219   | 229    | 0.96      | 1.98         | 3/10    |
+| [23](#strategy-23)   | Rebalance      | —    | —     | —      | —     | —      | —         | —            | —       |
 
 | # | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -76,7 +76,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: z_gold_oil_breakout.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/z_gold_oil_breakout.py"
+> PATH: "vault://QuantConnect/archive/algos/z_gold_oil_breakout.py"
 > ```
 
 
@@ -104,7 +104,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: strategy_38.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/strategy_38.py"
+> PATH: "vault://QuantConnect/archive/algos/strategy_38.py"
 > ```
 
 
@@ -132,7 +132,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: strategy_36.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/strategy_36.py"
+> PATH: "vault://QuantConnect/archive/algos/strategy_36.py"
 > ```
 
 
@@ -160,7 +160,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: strategy_35.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/strategy_35.py"
+> PATH: "vault://QuantConnect/archive/algos/strategy_35.py"
 > ```
 
 
@@ -188,7 +188,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: strategy_31.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/strategy_31.py"
+> PATH: "vault://QuantConnect/archive/algos/strategy_31.py"
 > ```
 
 
@@ -216,7 +216,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: strategy_16.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/strategy_16.py"
+> PATH: "vault://QuantConnect/archive/algos/strategy_16.py"
 > ```
 
 
@@ -245,7 +245,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: a_10.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/a_10.py"
+> PATH: "vault://QuantConnect/archive/algos/a_10.py"
 > ```
 
 
@@ -273,7 +273,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: strategy_22.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/strategy_22.py"
+> PATH: "vault://QuantConnect/archive/algos/strategy_22.py"
 > ```
 
 
@@ -301,7 +301,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: cheat_code_rotator_tqqq.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/cheat_code_rotator_tqqq.py"
+> PATH: "vault://QuantConnect/archive/algos/cheat_code_rotator_tqqq.py"
 > ```
 
 ## Strategy-19
@@ -326,7 +326,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: conservative_rotation.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/conservative_rotation.py"
+> PATH: "vault://QuantConnect/archive/algos/conservative_rotation.py"
 > ```
 
 
@@ -354,7 +354,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: large_cap_dip_buy.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/large_cap_dip_buy.py"
+> PATH: "vault://QuantConnect/archive/algos/large_cap_dip_buy.py"
 > ```
 
 
@@ -383,7 +383,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: giant_sniper_mean_rev.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/giant_sniper_mean_rev.py"
+> PATH: "vault://QuantConnect/archive/algos/giant_sniper_mean_rev.py"
 > ```
 
 
@@ -412,7 +412,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: vaa_leveraged.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/vaa_leveraged.py"
+> PATH: "vault://QuantConnect/archive/algos/vaa_leveraged.py"
 > ```
 
 
@@ -440,7 +440,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: a_6.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/a_6.py"
+> PATH: "vault://QuantConnect/archive/algos/a_6.py"
 > ```
 
 
@@ -467,7 +467,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: a_7.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/a_7.py"
+> PATH: "vault://QuantConnect/archive/algos/a_7.py"
 > ```
 
 
@@ -495,7 +495,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: rotation_v1.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/rotation_v1.py"
+> PATH: "vault://QuantConnect/archive/algos/rotation_v1.py"
 > ```
 
 
@@ -524,7 +524,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: defensive_rotation.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/defensive_rotation.py"
+> PATH: "vault://QuantConnect/archive/algos/defensive_rotation.py"
 > ```
 
 
@@ -551,7 +551,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: rsi_rebalance.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/rsi_rebalance.py"
+> PATH: "vault://QuantConnect/archive/algos/rsi_rebalance.py"
 > ```
 
 
@@ -579,7 +579,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: a_2.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/a_2.py"
+> PATH: "vault://QuantConnect/archive/algos/a_2.py"
 > ```
 
 
@@ -607,7 +607,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: large_cap_ema.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/large_cap_ema.py"
+> PATH: "vault://QuantConnect/archive/algos/large_cap_ema.py"
 > ```
 
 
@@ -663,7 +663,7 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: dual_signal_rotation.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/dual_signal_rotation.py"
+> PATH: "vault://QuantConnect/archive/algos/dual_signal_rotation.py"
 > ```
 
 
@@ -682,5 +682,5 @@ d# Archived Strategy Backtests
 
 > [!code]- Click to view: rebalance.py
 > ```embed-python
-> PATH: "vault://QuantConnect/archive/rebalance.py"
+> PATH: "vault://QuantConnect/archive/algos/rebalance.py"
 > ```

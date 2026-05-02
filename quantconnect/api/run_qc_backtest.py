@@ -1,4 +1,9 @@
 import os
+import warnings
+# Silence warnings at the earliest possible moment
+os.environ["PYTHONWARNINGS"] = "ignore"
+warnings.filterwarnings("ignore", message="urllib3 v2 only supports OpenSSL")
+
 import sys
 import time
 import json
@@ -34,37 +39,37 @@ def main():
     headers = get_auth_headers()
     
     # 1. Update project file (main.py)
-    print(f"Uploading {filepath} to main.py...")
+    print(f"Uploading {filepath} to main.py...", file=sys.stderr)
     resp = requests.post(f"{BASE_URL}/files/update", headers=headers,
                          json={"projectId": PROJECT_ID, "name": "main.py", "content": content})
     if not resp.json().get("success"):
-        print(f"Failed to upload: {resp.json()}")
+        print(f"Failed to upload: {resp.json()}", file=sys.stderr)
         sys.exit(1)
 
     # 2. Compile
-    print("Compiling...")
+    print("Compiling...", file=sys.stderr)
     resp = requests.post(f"{BASE_URL}/compile/create", headers=headers,
                          json={"projectId": PROJECT_ID})
     cr = resp.json()
     if not cr.get("success"):
-        print(f"Compile failed: {cr}")
+        print(f"Compile failed: {cr}", file=sys.stderr)
         sys.exit(1)
     
     compile_id = cr["compileId"]
 
     # 3. Create Backtest
-    print("Waiting for compile to register...")
+    print("Waiting for compile to register...", file=sys.stderr)
     time.sleep(5)
-    print(f"Starting backtest '{name}'...")
+    print(f"Starting backtest '{name}'...", file=sys.stderr)
     resp = requests.post(f"{BASE_URL}/backtests/create", headers=headers,
                          json={"projectId": PROJECT_ID, "compileId": compile_id, "backtestName": name})
     br = resp.json()
     if not br.get("success"):
-        print(f"Backtest trigger failed: {br}")
+        print(f"Backtest trigger failed: {br}", file=sys.stderr)
         sys.exit(1)
 
     bid = br["backtest"]["backtestId"]
-    print(f"Backtest ID: {bid}")
+    print(f"BACKTEST_ID={bid}")
 
 if __name__ == "__main__":
     main()

@@ -1,5 +1,5 @@
 from AlgorithmImports import *
-from base import START_DATE, END_DATE, INITIAL_CASH, WARMUP_DAYS, SCHEDULE_TICKER, DAILY_OPEN_MIN
+from base import START_DATE, END_DATE, INITIAL_CASH, WARMUP_DAYS, SCHEDULE_TICKER, DAILY_OPEN_MIN, BaseSubAlgo
 from vol_breakout import VolatilityBreakoutSub
 from tech_dip import TechDipBuySub
 from leveraged_rebalance import LeveragedRebalanceSub

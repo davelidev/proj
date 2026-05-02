@@ -1,0 +1,4684 @@
+--- IT 1 (98cdeb9f114106c9a1f68c3253b58100) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 593
+  Average Win: 0.78%
+  Average Loss: -1.32%
+  Compounding Annual Return: -11.424%
+  Drawdown: 78.200%
+  Expectancy: -0.264
+  Start Equity: 100000
+  End Equity: 23301.83
+  Net Profit: -76.698%
+  Sharpe Ratio: -0.853
+  Sortino Ratio: -1.039
+  Probabilistic Sharpe Ratio: 0.000%
+  Loss Rate: 54%
+  Win Rate: 46%
+  Profit-Loss Ratio: 0.59
+  Alpha: -0.067
+  Beta: -0.391
+  Annual Standard Deviation: 0.115
+  Annual Variance: 0.013
+  Information Ratio: -0.789
+  Tracking Error: 0.224
+  Treynor Ratio: 0.25
+  Total Fees: $883.52
+  Estimated Strategy Capacity: $470000000.00
+  Lowest Capacity Asset: BEL R735QTJ8XC9X
+  Portfolio Turnover: 1.00%
+  Drawdown Recovery: 11
+
+Yearly Returns:
+  2014: 🟢 1%
+  2015: 🔴 -13%
+  2016: 🔴 -16%
+  2017: 🔴 -14%
+  2018: 🔴 -1%
+  2019: 🔴 -7%
+  2020: 🔴 -27%
+  2021: 🔴 -10%
+  2022: 🟢 33%
+  2023: 🔴 -38%
+  2024: 🔴 -21%
+  2025: 🔴 -7%
+
+--- IT 2 (8f2a709f6aa9f93908d30400a868089a) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 25
+  Average Win: 27.89%
+  Average Loss: -11.86%
+  Compounding Annual Return: 8.151%
+  Drawdown: 47.400%
+  Expectancy: 0.955
+  Start Equity: 100000
+  End Equity: 256217.29
+  Net Profit: 156.217%
+  Sharpe Ratio: 0.271
+  Sortino Ratio: 0.271
+  Probabilistic Sharpe Ratio: 0.546%
+  Loss Rate: 42%
+  Win Rate: 58%
+  Profit-Loss Ratio: 2.35
+  Alpha: 0.046
+  Beta: 0.061
+  Annual Standard Deviation: 0.188
+  Annual Variance: 0.036
+  Information Ratio: -0.119
+  Tracking Error: 0.232
+  Treynor Ratio: 0.834
+  Total Fees: $1629.41
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TLT SGNKIKYGE9NP
+  Portfolio Turnover: 0.57%
+  Drawdown Recovery: 561
+
+Yearly Returns:
+  2014: 🟢 19%
+  2015: 🔴 -2%
+  2016: 🔴 -4%
+  2017: 🟢 55%
+  2018: 🔴 -2%
+  2019: 🟢 15%
+  2020: 🟢 2%
+  2021: 🟢 51%
+  2022: 🔴 -31%
+  2023: 🟢 3%
+  2024: 🟢 16%
+  2025: 🟢 4%
+
+--- IT 3 (debccd682ec16bd2e17360c0839759ff) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 113
+  Average Win: 48.51%
+  Average Loss: -3.66%
+  Compounding Annual Return: 33.594%
+  Drawdown: 56.400%
+  Expectancy: 3.580
+  Start Equity: 100000
+  End Equity: 3238699.50
+  Net Profit: 3138.700%
+  Sharpe Ratio: 0.757
+  Sortino Ratio: 0.727
+  Probabilistic Sharpe Ratio: 11.699%
+  Loss Rate: 68%
+  Win Rate: 32%
+  Profit-Loss Ratio: 13.25
+  Alpha: 0.158
+  Beta: 1.753
+  Annual Standard Deviation: 0.391
+  Annual Variance: 0.153
+  Information Ratio: 0.684
+  Tracking Error: 0.318
+  Treynor Ratio: 0.169
+  Total Fees: $16404.85
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 2.59%
+  Drawdown Recovery: 646
+
+Yearly Returns:
+  2014: 🟢 56%
+  2015: 🟢 1%
+  2016: 🔴 -12%
+  2017: 🟢 118%
+  2018: 🔴 -23%
+  2019: 🟢 50%
+  2020: 🟢 105%
+  2021: 🟢 88%
+  2022: 🔴 -44%
+  2023: 🟢 113%
+  2024: 🟢 62%
+  2025: 🟢 24%
+
+--- IT 4 (97d5c8012dd9939bc49af71a8e2b4506) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 737
+  Average Win: 2.05%
+  Average Loss: -3.27%
+  Compounding Annual Return: -4.722%
+  Drawdown: 90.800%
+  Expectancy: 0.003
+  Start Equity: 100000
+  End Equity: 55943.95
+  Net Profit: -44.056%
+  Sharpe Ratio: 0.026
+  Sortino Ratio: 0.028
+  Probabilistic Sharpe Ratio: 0.007%
+  Loss Rate: 38%
+  Win Rate: 62%
+  Profit-Loss Ratio: 0.63
+  Alpha: -0.052
+  Beta: 0.779
+  Annual Standard Deviation: 0.364
+  Annual Variance: 0.132
+  Information Ratio: -0.199
+  Tracking Error: 0.348
+  Treynor Ratio: 0.012
+  Total Fees: $2806.27
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: BE WWGTKVBPGKF9
+  Portfolio Turnover: 3.09%
+  Drawdown Recovery: 831
+
+Yearly Returns:
+  2014: 🟢 18%
+  2015: 🔴 -8%
+  2016: 🟢 20%
+  2017: 🟢 24%
+  2018: 🟢 36%
+  2019: 🟢 15%
+  2020: 🟢 17%
+  2021: 🔴 -33%
+  2022: 🔴 -46%
+  2023: 🔴 -36%
+  2024: 🟢 3%
+  2025: 🔴 -20%
+  2026: 🔴 -1%
+
+--- IT 5 (b53b1878cecf9c0e8be81bb3b3da34ae) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 97
+  Average Win: 27.03%
+  Average Loss: -10.14%
+  Compounding Annual Return: 14.093%
+  Drawdown: 77.600%
+  Expectancy: 0.833
+  Start Equity: 100000
+  End Equity: 487067.07
+  Net Profit: 387.067%
+  Sharpe Ratio: 0.406
+  Sortino Ratio: 0.386
+  Probabilistic Sharpe Ratio: 0.985%
+  Loss Rate: 50%
+  Win Rate: 50%
+  Profit-Loss Ratio: 2.67
+  Alpha: 0.03
+  Beta: 1.491
+  Annual Standard Deviation: 0.363
+  Annual Variance: 0.132
+  Information Ratio: 0.228
+  Tracking Error: 0.302
+  Treynor Ratio: 0.099
+  Total Fees: $9287.95
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 2.21%
+  Drawdown Recovery: 961
+
+Yearly Returns:
+  2014: 🟢 49%
+  2015: 🟢 14%
+  2016: 🔴 -12%
+  2017: 🟢 118%
+  2018: 🔴 -27%
+  2019: 🟢 107%
+  2020: 🟢 11%
+  2021: 🟢 20%
+  2022: 🔴 -74%
+  2023: 🟢 154%
+  2024: 🟢 36%
+  2025: 🔴 -19%
+  2026: ⚪ 0%
+
+--- IT 6 (cbf134e91fad5fbecf5c81cab430f1ff) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 365
+  Average Win: 1.95%
+  Average Loss: -2.80%
+  Compounding Annual Return: 12.707%
+  Drawdown: 22.700%
+  Expectancy: 0.301
+  Start Equity: 100000
+  End Equity: 420535.18
+  Net Profit: 320.535%
+  Sharpe Ratio: 0.532
+  Sortino Ratio: 0.389
+  Probabilistic Sharpe Ratio: 8.706%
+  Loss Rate: 23%
+  Win Rate: 77%
+  Profit-Loss Ratio: 0.70
+  Alpha: 0.016
+  Beta: 0.722
+  Annual Standard Deviation: 0.137
+  Annual Variance: 0.019
+  Information Ratio: -0.06
+  Tracking Error: 0.098
+  Treynor Ratio: 0.101
+  Total Fees: $1697.23
+  Estimated Strategy Capacity: $2200000000.00
+  Lowest Capacity Asset: QQQ RIWIV7K5Z9LX
+  Portfolio Turnover: 8.21%
+  Drawdown Recovery: 488
+
+Yearly Returns:
+  2014: 🟢 13%
+  2015: 🟢 14%
+  2016: 🟢 7%
+  2017: 🟢 17%
+  2018: 🔴 -2%
+  2019: 🟢 7%
+  2020: 🟢 16%
+  2021: 🟢 18%
+  2022: 🟢 7%
+  2023: 🟢 27%
+  2024: 🟢 20%
+  2025: 🟢 10%
+
+--- IT 7 (ccd630e1bcc944fddc831ac1d341d744) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 370
+  Average Win: 5.81%
+  Average Loss: -8.07%
+  Compounding Annual Return: 25.746%
+  Drawdown: 60.500%
+  Expectancy: 0.242
+  Start Equity: 100000
+  End Equity: 1565507.81
+  Net Profit: 1465.508%
+  Sharpe Ratio: 0.617
+  Sortino Ratio: 0.459
+  Probabilistic Sharpe Ratio: 4.821%
+  Loss Rate: 28%
+  Win Rate: 72%
+  Profit-Loss Ratio: 0.72
+  Alpha: 0.081
+  Beta: 2.056
+  Annual Standard Deviation: 0.394
+  Annual Variance: 0.156
+  Information Ratio: 0.545
+  Tracking Error: 0.302
+  Treynor Ratio: 0.118
+  Total Fees: $80688.90
+  Estimated Strategy Capacity: $280000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 8.22%
+  Drawdown Recovery: 802
+
+Yearly Returns:
+  2014: 🟢 26%
+  2015: 🟢 30%
+  2016: 🟢 12%
+  2017: 🟢 51%
+  2018: 🔴 -20%
+  2019: 🟢 15%
+  2020: 🟢 30%
+  2021: 🟢 52%
+  2022: 🔴 -4%
+  2023: 🟢 85%
+  2024: 🟢 53%
+  2025: 🟢 14%
+
+--- IT 8 (7d269cefeee5563354458df9512dfa94) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 310
+  Average Win: 5.25%
+  Average Loss: -7.35%
+  Compounding Annual Return: 20.445%
+  Drawdown: 44.300%
+  Expectancy: 0.246
+  Start Equity: 100000
+  End Equity: 933386.05
+  Net Profit: 833.386%
+  Sharpe Ratio: 0.568
+  Sortino Ratio: 0.363
+  Probabilistic Sharpe Ratio: 4.977%
+  Loss Rate: 27%
+  Win Rate: 73%
+  Profit-Loss Ratio: 0.71
+  Alpha: 0.085
+  Beta: 0.952
+  Annual Standard Deviation: 0.282
+  Annual Variance: 0.08
+  Information Ratio: 0.33
+  Tracking Error: 0.247
+  Treynor Ratio: 0.168
+  Total Fees: $50269.55
+  Estimated Strategy Capacity: $280000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 6.86%
+  Drawdown Recovery: 687
+
+Yearly Returns:
+  2014: 🟢 26%
+  2015: 🔴 -3%
+  2016: 🔴 -4%
+  2017: 🟢 51%
+  2018: 🟢 2%
+  2019: 🔴 -15%
+  2020: 🟢 84%
+  2021: 🟢 52%
+  2022: 🔴 -19%
+  2023: 🟢 49%
+  2024: 🟢 53%
+  2025: 🟢 19%
+
+--- IT 9 (19dd9f96f63404aa16c2ec1b8e865786) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 113
+  Average Win: 43.98%
+  Average Loss: -5.07%
+  Compounding Annual Return: 39.706%
+  Drawdown: 65.200%
+  Expectancy: 2.799
+  Start Equity: 100000
+  End Equity: 5541476.99
+  Net Profit: 5441.477%
+  Sharpe Ratio: 0.848
+  Sortino Ratio: 0.897
+  Probabilistic Sharpe Ratio: 17.342%
+  Loss Rate: 61%
+  Win Rate: 39%
+  Profit-Loss Ratio: 8.67
+  Alpha: 0.204
+  Beta: 1.826
+  Annual Standard Deviation: 0.41
+  Annual Variance: 0.168
+  Information Ratio: 0.8
+  Tracking Error: 0.336
+  Treynor Ratio: 0.19
+  Total Fees: $30470.51
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 2.58%
+  Drawdown Recovery: 598
+
+Yearly Returns:
+  2014: 🟢 56%
+  2015: 🔴 -1%
+  2016: 🟢 8%
+  2017: 🟢 118%
+  2018: 🔴 -18%
+  2019: 🟢 60%
+  2020: 🟢 102%
+  2021: 🟢 88%
+  2022: 🔴 -49%
+  2023: 🟢 149%
+  2024: 🟢 62%
+  2025: 🟢 47%
+
+--- IT 10 (6c71b21cf8af494fb41602d8260882bf) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 191
+  Average Win: 2.21%
+  Average Loss: -1.92%
+  Compounding Annual Return: 5.114%
+  Drawdown: 23.100%
+  Expectancy: 0.291
+  Start Equity: 100000
+  End Equity: 182009.64
+  Net Profit: 82.010%
+  Sharpe Ratio: 0.184
+  Sortino Ratio: 0.187
+  Probabilistic Sharpe Ratio: 1.362%
+  Loss Rate: 40%
+  Win Rate: 60%
+  Profit-Loss Ratio: 1.15
+  Alpha: 0.004
+  Beta: 0.141
+  Annual Standard Deviation: 0.081
+  Annual Variance: 0.007
+  Information Ratio: -0.436
+  Tracking Error: 0.146
+  Treynor Ratio: 0.106
+  Total Fees: $1726.85
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: EEM SNQLASP67O85
+  Portfolio Turnover: 4.34%
+  Drawdown Recovery: 981
+
+Yearly Returns:
+  2014: 🟢 6%
+  2015: 🔴 -5%
+  2016: 🟢 5%
+  2017: 🟢 17%
+  2018: 🟢 10%
+  2019: 🟢 9%
+  2020: 🟢 14%
+  2021: 🟢 1%
+  2022: 🔴 -12%
+  2023: 🟢 1%
+  2024: 🟢 2%
+  2025: 🟢 16%
+
+--- IT 11 (e768e81a4bcad148c8347c47a31d0bac) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 195
+  Average Win: 9.50%
+  Average Loss: -8.00%
+  Compounding Annual Return: 14.412%
+  Drawdown: 69.700%
+  Expectancy: 0.330
+  Start Equity: 100000
+  End Equity: 503603.53
+  Net Profit: 403.604%
+  Sharpe Ratio: 0.42
+  Sortino Ratio: 0.385
+  Probabilistic Sharpe Ratio: 0.956%
+  Loss Rate: 39%
+  Win Rate: 61%
+  Profit-Loss Ratio: 1.19
+  Alpha: 0.096
+  Beta: 1.016
+  Annual Standard Deviation: 0.42
+  Annual Variance: 0.177
+  Information Ratio: 0.248
+  Tracking Error: 0.394
+  Treynor Ratio: 0.174
+  Total Fees: $12237.24
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: SOXL UKTSIYPJHFMT
+  Portfolio Turnover: 4.32%
+  Drawdown Recovery: 1011
+
+Yearly Returns:
+  2014: 🟢 20%
+  2015: 🔴 -46%
+  2016: 🟢 5%
+  2017: 🟢 158%
+  2018: 🟢 4%
+  2019: 🟢 47%
+  2020: 🟢 31%
+  2021: 🟢 64%
+  2022: 🔴 -54%
+  2023: 🟢 22%
+  2024: 🟢 25%
+  2025: 🟢 26%
+
+--- IT 12 (5418d499019b50ba99d1d1fde58e7e60) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 586
+  Average Win: 7.32%
+  Average Loss: -6.10%
+  Compounding Annual Return: 28.206%
+  Drawdown: 74.000%
+  Expectancy: 0.282
+  Start Equity: 100000
+  End Equity: 1975466.34
+  Net Profit: 1875.466%
+  Sharpe Ratio: 0.648
+  Sortino Ratio: 0.625
+  Probabilistic Sharpe Ratio: 5.042%
+  Loss Rate: 42%
+  Win Rate: 58%
+  Profit-Loss Ratio: 1.20
+  Alpha: 0.148
+  Beta: 2.071
+  Annual Standard Deviation: 0.479
+  Annual Variance: 0.23
+  Information Ratio: 0.571
+  Tracking Error: 0.406
+  Treynor Ratio: 0.15
+  Total Fees: $61627.42
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 13.18%
+  Drawdown Recovery: 1232
+
+Yearly Returns:
+  2014: 🟢 37%
+  2015: 🔴 -46%
+  2016: 🔴 -18%
+  2017: 🟢 136%
+  2018: 🔴 -4%
+  2019: 🟢 48%
+  2020: 🟢 170%
+  2021: 🟢 62%
+  2022: 🔴 -37%
+  2023: 🟢 71%
+  2024: 🟢 78%
+  2025: 🟢 15%
+
+--- IT 13 (739626ee5ae3befca068444ec8320d14) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 227
+  Average Win: 20.15%
+  Average Loss: -7.76%
+  Compounding Annual Return: 25.876%
+  Drawdown: 64.500%
+  Expectancy: 0.510
+  Start Equity: 100000
+  End Equity: 1585061.45
+  Net Profit: 1485.061%
+  Sharpe Ratio: 0.624
+  Sortino Ratio: 0.594
+  Probabilistic Sharpe Ratio: 5.383%
+  Loss Rate: 58%
+  Win Rate: 42%
+  Profit-Loss Ratio: 2.60
+  Alpha: 0.106
+  Beta: 1.7
+  Annual Standard Deviation: 0.384
+  Annual Variance: 0.148
+  Information Ratio: 0.515
+  Tracking Error: 0.313
+  Treynor Ratio: 0.141
+  Total Fees: $52033.62
+  Estimated Strategy Capacity: $200000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 5.13%
+  Drawdown Recovery: 808
+
+Yearly Returns:
+  2014: 🟢 50%
+  2015: 🔴 -6%
+  2016: 🔴 -17%
+  2017: 🟢 92%
+  2018: 🔴 -6%
+  2019: 🟢 52%
+  2020: 🟢 93%
+  2021: 🟢 54%
+  2022: 🔴 -42%
+  2023: 🟢 78%
+  2024: 🟢 60%
+  2025: 🔴 -1%
+
+--- IT 14 (5c52a81158fb5476b597cb7dad2011ba) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 49
+  Average Win: 17.81%
+  Average Loss: -13.77%
+  Compounding Annual Return: 9.685%
+  Drawdown: 69.800%
+  Expectancy: 0.624
+  Start Equity: 100000
+  End Equity: 303442.28
+  Net Profit: 203.442%
+  Sharpe Ratio: 0.332
+  Sortino Ratio: 0.264
+  Probabilistic Sharpe Ratio: 0.392%
+  Loss Rate: 29%
+  Win Rate: 71%
+  Profit-Loss Ratio: 1.29
+  Alpha: -0.031
+  Beta: 2.107
+  Annual Standard Deviation: 0.406
+  Annual Variance: 0.165
+  Information Ratio: 0.179
+  Tracking Error: 0.313
+  Treynor Ratio: 0.064
+  Total Fees: $4125.62
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 1.11%
+  Drawdown Recovery: 793
+
+Yearly Returns:
+  2014: 🟢 8%
+  2015: 🟢 10%
+  2016: 🔴 -19%
+  2017: 🟢 60%
+  2018: 🔴 -28%
+  2019: 🟢 128%
+  2020: 🟢 24%
+  2021: 🟢 30%
+  2022: 🔴 -64%
+  2023: 🟢 161%
+  2024: 🟢 26%
+  2025: 🔴 -37%
+
+--- IT 15 (66a038207da1dac957bfb9db9369982f) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 129
+  Average Win: 36.21%
+  Average Loss: -5.07%
+  Compounding Annual Return: 24.645%
+  Drawdown: 48.900%
+  Expectancy: 1.419
+  Start Equity: 100000
+  End Equity: 1408629.70
+  Net Profit: 1308.630%
+  Sharpe Ratio: 0.615
+  Sortino Ratio: 0.573
+  Probabilistic Sharpe Ratio: 5.557%
+  Loss Rate: 70%
+  Win Rate: 30%
+  Profit-Loss Ratio: 7.15
+  Alpha: 0.107
+  Beta: 1.373
+  Annual Standard Deviation: 0.349
+  Annual Variance: 0.122
+  Information Ratio: 0.465
+  Tracking Error: 0.293
+  Treynor Ratio: 0.156
+  Total Fees: $22996.75
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 2.94%
+  Drawdown Recovery: 1014
+
+Yearly Returns:
+  2014: 🟢 1%
+  2015: 🔴 -2%
+  2016: 🔴 -6%
+  2017: 🟢 118%
+  2018: 🔴 -1%
+  2019: 🟢 48%
+  2020: 🟢 91%
+  2021: 🟢 15%
+  2022: 🔴 -30%
+  2023: 🟢 63%
+  2024: 🟢 27%
+  2025: 🟢 48%
+
+--- IT 16 (0e4f3cfc67d586f9aeb15f7a3182ffbb) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 907
+  Average Win: 1.89%
+  Average Loss: -1.23%
+  Compounding Annual Return: 20.004%
+  Drawdown: 47.700%
+  Expectancy: 0.442
+  Start Equity: 100000
+  End Equity: 893295.51
+  Net Profit: 793.296%
+  Sharpe Ratio: 0.556
+  Sortino Ratio: 0.538
+  Probabilistic Sharpe Ratio: 4.484%
+  Loss Rate: 43%
+  Win Rate: 57%
+  Profit-Loss Ratio: 1.54
+  Alpha: 0.073
+  Beta: 1.078
+  Annual Standard Deviation: 0.284
+  Annual Variance: 0.08
+  Information Ratio: 0.332
+  Tracking Error: 0.238
+  Treynor Ratio: 0.146
+  Total Fees: $28396.66
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 6.33%
+  Drawdown Recovery: 751
+
+Yearly Returns:
+  2014: 🟢 46%
+  2015: 🔴 -9%
+  2016: 🔴 -14%
+  2017: 🟢 114%
+  2018: 🔴 -17%
+  2019: 🟢 41%
+  2020: 🟢 39%
+  2021: 🟢 31%
+  2022: 🔴 -33%
+  2023: 🟢 78%
+  2024: 🟢 36%
+  2025: 🟢 6%
+  2026: ⚪ 0%
+
+--- IT 17 (6b2e2010e0e04d97a0166063712234b0) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 135
+  Average Win: 24.48%
+  Average Loss: -5.67%
+  Compounding Annual Return: 17.903%
+  Drawdown: 51.800%
+  Expectancy: 0.826
+  Start Equity: 100000
+  End Equity: 722477.65
+  Net Profit: 622.478%
+  Sharpe Ratio: 0.5
+  Sortino Ratio: 0.42
+  Probabilistic Sharpe Ratio: 2.834%
+  Loss Rate: 66%
+  Win Rate: 34%
+  Profit-Loss Ratio: 4.32
+  Alpha: 0.072
+  Beta: 0.948
+  Annual Standard Deviation: 0.294
+  Annual Variance: 0.086
+  Information Ratio: 0.262
+  Tracking Error: 0.26
+  Treynor Ratio: 0.155
+  Total Fees: $19166.60
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 3.08%
+  Drawdown Recovery: 1149
+
+Yearly Returns:
+  2014: 🟢 16%
+  2015: 🔴 -29%
+  2016: 🔴 -19%
+  2017: 🟢 64%
+  2018: 🟢 2%
+  2019: 🟢 20%
+  2020: 🟢 119%
+  2021: 🟢 17%
+  2022: 🔴 -20%
+  2023: 🟢 73%
+  2024: 🟢 36%
+  2025: 🟢 12%
+
+--- IT 18 (229847442b636f153c7ebbb02a0474cf) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 255
+  Average Win: 7.19%
+  Average Loss: -4.51%
+  Compounding Annual Return: 18.451%
+  Drawdown: 54.600%
+  Expectancy: 0.536
+  Start Equity: 100000
+  End Equity: 763820.94
+  Net Profit: 663.821%
+  Sharpe Ratio: 0.496
+  Sortino Ratio: 0.423
+  Probabilistic Sharpe Ratio: 2.401%
+  Loss Rate: 41%
+  Win Rate: 59%
+  Profit-Loss Ratio: 1.59
+  Alpha: 0.062
+  Beta: 1.339
+  Annual Standard Deviation: 0.337
+  Annual Variance: 0.113
+  Information Ratio: 0.315
+  Tracking Error: 0.28
+  Treynor Ratio: 0.125
+  Total Fees: $25998.55
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 4.11%
+  Drawdown Recovery: 1044
+
+Yearly Returns:
+  2014: 🟢 36%
+  2015: 🔴 -6%
+  2016: 🔴 -12%
+  2017: 🟢 52%
+  2018: 🟢 33%
+  2019: 🟢 24%
+  2020: 🟢 23%
+  2021: 🟢 4%
+  2022: 🔴 -11%
+  2023: 🟢 119%
+  2024: 🔴 -9%
+  2025: 🟢 20%
+
+--- IT 19 (b0b3e4e3ab22ddcef631ab0c2504ca54) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 25
+  Average Win: 44.44%
+  Average Loss: -9.19%
+  Compounding Annual Return: 20.792%
+  Drawdown: 69.800%
+  Expectancy: 2.890
+  Start Equity: 100000
+  End Equity: 966158.30
+  Net Profit: 866.158%
+  Sharpe Ratio: 0.531
+  Sortino Ratio: 0.483
+  Probabilistic Sharpe Ratio: 2.491%
+  Loss Rate: 33%
+  Win Rate: 67%
+  Profit-Loss Ratio: 4.83
+  Alpha: 0.052
+  Beta: 2.242
+  Annual Standard Deviation: 0.429
+  Annual Variance: 0.184
+  Information Ratio: 0.446
+  Tracking Error: 0.335
+  Treynor Ratio: 0.102
+  Total Fees: $2740.15
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 0.57%
+  Drawdown Recovery: 854
+
+Yearly Returns:
+  2014: 🟢 56%
+  2015: 🔴 -18%
+  2016: 🔴 -26%
+  2017: 🟢 118%
+  2018: 🔴 -9%
+  2019: 🟢 29%
+  2020: 🟢 45%
+  2021: 🟢 88%
+  2022: 🔴 -41%
+  2023: 🟢 92%
+  2024: 🟢 62%
+  2025: 🔴 -22%
+
+--- IT 20 (9d59f9c2faf7007c68e84b7eaff3829b) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 151
+  Average Win: 12.17%
+  Average Loss: -5.82%
+  Compounding Annual Return: 29.467%
+  Drawdown: 61.600%
+  Expectancy: 0.896
+  Start Equity: 100000
+  End Equity: 2221885.73
+  Net Profit: 2121.886%
+  Sharpe Ratio: 0.681
+  Sortino Ratio: 0.672
+  Probabilistic Sharpe Ratio: 7.384%
+  Loss Rate: 39%
+  Win Rate: 61%
+  Profit-Loss Ratio: 2.09
+  Alpha: 0.106
+  Beta: 2.133
+  Annual Standard Deviation: 0.402
+  Annual Variance: 0.161
+  Information Ratio: 0.637
+  Tracking Error: 0.306
+  Treynor Ratio: 0.128
+  Total Fees: $18799.15
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: XLU RGRPZX100F39
+  Portfolio Turnover: 3.42%
+  Drawdown Recovery: 839
+
+Yearly Returns:
+  2014: 🟢 1%
+  2015: 🔴 -4%
+  2016: ⚪ 0%
+  2017: 🟢 71%
+  2018: 🔴 -9%
+  2019: 🟢 43%
+  2020: 🟢 101%
+  2021: 🟢 19%
+  2022: 🔴 -7%
+  2023: 🟢 73%
+  2024: 🟢 37%
+  2025: 🟢 95%
+
+--- IT 21 (a96d3de33024bc0586e4fe3b84de4be5) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 1079
+  Average Win: 0.83%
+  Average Loss: -0.42%
+  Compounding Annual Return: 18.636%
+  Drawdown: 51.100%
+  Expectancy: 0.923
+  Start Equity: 100000
+  End Equity: 778255.62
+  Net Profit: 678.256%
+  Sharpe Ratio: 0.622
+  Sortino Ratio: 0.673
+  Probabilistic Sharpe Ratio: 10.075%
+  Loss Rate: 35%
+  Win Rate: 65%
+  Profit-Loss Ratio: 1.98
+  Alpha: 0.051
+  Beta: 0.931
+  Annual Standard Deviation: 0.201
+  Annual Variance: 0.04
+  Information Ratio: 0.307
+  Tracking Error: 0.15
+  Treynor Ratio: 0.134
+  Total Fees: $8665.35
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 1.54%
+  Drawdown Recovery: 956
+
+Yearly Returns:
+  2014: 🟢 34%
+  2015: 🟢 3%
+  2016: 🟢 5%
+  2017: 🟢 83%
+  2018: 🔴 -3%
+  2019: 🟢 48%
+  2020: 🟢 43%
+  2021: 🟢 24%
+  2022: 🔴 -46%
+  2023: 🟢 59%
+  2024: 🟢 21%
+  2025: 🟢 10%
+
+--- IT 22 (de91b6903ee8f9a634ce3ef60c55a5a7) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 362
+  Average Win: 6.90%
+  Average Loss: -8.84%
+  Compounding Annual Return: 10.261%
+  Drawdown: 86.700%
+  Expectancy: 0.177
+  Start Equity: 100000
+  End Equity: 323143.28
+  Net Profit: 223.143%
+  Sharpe Ratio: 0.351
+  Sortino Ratio: 0.263
+  Probabilistic Sharpe Ratio: 0.520%
+  Loss Rate: 34%
+  Win Rate: 66%
+  Profit-Loss Ratio: 0.78
+  Alpha: -0.018
+  Beta: 2.083
+  Annual Standard Deviation: 0.416
+  Annual Variance: 0.173
+  Information Ratio: 0.205
+  Tracking Error: 0.327
+  Treynor Ratio: 0.07
+  Total Fees: $6921.78
+  Estimated Strategy Capacity: $17000000.00
+  Lowest Capacity Asset: TNA U7EC123NWZTX
+  Portfolio Turnover: 8.06%
+  Drawdown Recovery: 2043
+
+Yearly Returns:
+  2014: 🟢 5%
+  2015: 🟢 11%
+  2016: 🟢 21%
+  2017: 🟢 47%
+  2018: 🔴 -41%
+  2019: 🟢 29%
+  2020: 🔴 -39%
+  2021: 🟢 70%
+  2022: 🟢 10%
+  2023: 🟢 16%
+  2024: 🟢 32%
+  2025: 🟢 17%
+
+--- IT 23 (091f858be5084b42229779de6d118e2a) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 157
+  Average Win: 23.00%
+  Average Loss: -3.36%
+  Compounding Annual Return: 28.014%
+  Drawdown: 56.400%
+  Expectancy: 1.717
+  Start Equity: 100000
+  End Equity: 1940843.69
+  Net Profit: 1840.844%
+  Sharpe Ratio: 0.67
+  Sortino Ratio: 0.643
+  Probabilistic Sharpe Ratio: 7.541%
+  Loss Rate: 65%
+  Win Rate: 35%
+  Profit-Loss Ratio: 6.85
+  Alpha: 0.128
+  Beta: 1.502
+  Annual Standard Deviation: 0.368
+  Annual Variance: 0.135
+  Information Ratio: 0.548
+  Tracking Error: 0.306
+  Treynor Ratio: 0.164
+  Total Fees: $17739.18
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 3.58%
+  Drawdown Recovery: 750
+
+Yearly Returns:
+  2014: 🟢 56%
+  2015: 🟢 1%
+  2016: 🔴 -12%
+  2017: 🟢 118%
+  2018: 🔴 -32%
+  2019: 🟢 50%
+  2020: 🟢 59%
+  2021: 🟢 68%
+  2022: 🔴 -44%
+  2023: 🟢 113%
+  2024: 🟢 58%
+  2025: 🟢 24%
+  2026: ⚪ 0%
+
+--- IT 24 (f663438c85e04f66bed8df502e3d88db) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 352
+  Average Win: 5.07%
+  Average Loss: -7.36%
+  Compounding Annual Return: 20.838%
+  Drawdown: 66.300%
+  Expectancy: 0.220
+  Start Equity: 100000
+  End Equity: 970645.03
+  Net Profit: 870.645%
+  Sharpe Ratio: 0.541
+  Sortino Ratio: 0.321
+  Probabilistic Sharpe Ratio: 3.201%
+  Loss Rate: 28%
+  Win Rate: 72%
+  Profit-Loss Ratio: 0.69
+  Alpha: 0.065
+  Beta: 1.594
+  Annual Standard Deviation: 0.352
+  Annual Variance: 0.124
+  Information Ratio: 0.398
+  Tracking Error: 0.28
+  Treynor Ratio: 0.119
+  Total Fees: $61043.37
+  Estimated Strategy Capacity: $220000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 7.87%
+  Drawdown Recovery: 1248
+
+Yearly Returns:
+  2014: 🟢 38%
+  2015: 🟢 14%
+  2016: 🔴 -1%
+  2017: 🟢 36%
+  2018: 🔴 -23%
+  2019: 🟢 2%
+  2020: 🟢 7%
+  2021: 🟢 42%
+  2022: 🟢 27%
+  2023: 🟢 50%
+  2024: 🟢 61%
+  2025: 🟢 25%
+
+--- IT 25 (52cb9b65f53e3c4462d9feb6e38d7fc0) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 378
+  Average Win: 6.02%
+  Average Loss: -2.77%
+  Compounding Annual Return: 22.708%
+  Drawdown: 55.700%
+  Expectancy: 0.741
+  Start Equity: 100000
+  End Equity: 1167329.14
+  Net Profit: 1067.329%
+  Sharpe Ratio: 0.584
+  Sortino Ratio: 0.557
+  Probabilistic Sharpe Ratio: 4.702%
+  Loss Rate: 45%
+  Win Rate: 55%
+  Profit-Loss Ratio: 2.17
+  Alpha: 0.092
+  Beta: 1.307
+  Annual Standard Deviation: 0.334
+  Annual Variance: 0.111
+  Information Ratio: 0.416
+  Tracking Error: 0.279
+  Treynor Ratio: 0.149
+  Total Fees: $18680.36
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 2.45%
+  Drawdown Recovery: 825
+
+Yearly Returns:
+  2014: 🟢 51%
+  2015: 🔴 -1%
+  2016: 🔴 -14%
+  2017: 🟢 118%
+  2018: 🔴 -30%
+  2019: 🟢 45%
+  2020: 🟢 47%
+  2021: 🟢 38%
+  2022: 🔴 -42%
+  2023: 🟢 94%
+  2024: 🟢 50%
+  2025: 🟢 19%
+  2026: ⚪ 0%
+
+--- IT 26 (8c6162f7646ecdebe556715d95bcabe2) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 104
+  Average Win: 11.65%
+  Average Loss: -5.58%
+  Compounding Annual Return: 1.298%
+  Drawdown: 48.600%
+  Expectancy: 0.150
+  Start Equity: 100000
+  End Equity: 116755.13
+  Net Profit: 16.755%
+  Sharpe Ratio: 0.033
+  Sortino Ratio: 0.018
+  Probabilistic Sharpe Ratio: 0.021%
+  Loss Rate: 63%
+  Win Rate: 37%
+  Profit-Loss Ratio: 2.09
+  Alpha: -0.03
+  Beta: 0.462
+  Annual Standard Deviation: 0.202
+  Annual Variance: 0.041
+  Information Ratio: -0.35
+  Tracking Error: 0.206
+  Treynor Ratio: 0.014
+  Total Fees: $8302.14
+  Estimated Strategy Capacity: $260000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 2.33%
+  Drawdown Recovery: 2144
+
+Yearly Returns:
+  2014: 🟢 8%
+  2015: 🔴 -22%
+  2016: 🔴 -18%
+  2017: 🟢 12%
+  2018: 🟢 10%
+  2019: 🟢 6%
+  2020: 🟢 36%
+  2021: 🔴 -16%
+  2022: ⚪ 0%
+  2023: 🟢 15%
+  2024: 🔴 -7%
+  2025: 🟢 5%
+
+--- IT 27 (123291e4faf434aaf2c2dde21569fb88) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 469
+  Average Win: 4.93%
+  Average Loss: -2.51%
+  Compounding Annual Return: 16.230%
+  Drawdown: 40.200%
+  Expectancy: 0.419
+  Start Equity: 100000
+  End Equity: 608567.63
+  Net Profit: 508.568%
+  Sharpe Ratio: 0.492
+  Sortino Ratio: 0.379
+  Probabilistic Sharpe Ratio: 3.261%
+  Loss Rate: 52%
+  Win Rate: 48%
+  Profit-Loss Ratio: 1.97
+  Alpha: 0.07
+  Beta: 0.633
+  Annual Standard Deviation: 0.243
+  Annual Variance: 0.059
+  Information Ratio: 0.176
+  Tracking Error: 0.232
+  Treynor Ratio: 0.189
+  Total Fees: $45407.62
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 10.66%
+  Drawdown Recovery: 756
+
+Yearly Returns:
+  2014: 🟢 28%
+  2015: 🔴 -8%
+  2016: ⚪ 0%
+  2017: 🟢 31%
+  2018: 🟢 2%
+  2019: 🟢 47%
+  2020: 🟢 89%
+  2021: 🟢 57%
+  2022: 🔴 -34%
+  2023: 🟢 66%
+  2024: 🔴 -5%
+  2025: 🔴 -17%
+
+--- IT 28 (c7b7967d481fe9a18e95295c33e96ae8) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 633
+  Average Win: 3.22%
+  Average Loss: -4.45%
+  Compounding Annual Return: 19.225%
+  Drawdown: 40.400%
+  Expectancy: 0.205
+  Start Equity: 100000
+  End Equity: 825987.38
+  Net Profit: 725.987%
+  Sharpe Ratio: 0.562
+  Sortino Ratio: 0.404
+  Probabilistic Sharpe Ratio: 5.344%
+  Loss Rate: 30%
+  Win Rate: 70%
+  Profit-Loss Ratio: 0.72
+  Alpha: 0.081
+  Beta: 0.795
+  Annual Standard Deviation: 0.255
+  Annual Variance: 0.065
+  Information Ratio: 0.281
+  Tracking Error: 0.23
+  Treynor Ratio: 0.181
+  Total Fees: $54940.63
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 9.60%
+  Drawdown Recovery: 1049
+
+Yearly Returns:
+  2014: 🟢 10%
+  2015: 🟢 1%
+  2016: 🔴 -10%
+  2017: 🟢 46%
+  2018: 🔴 -24%
+  2019: 🟢 39%
+  2020: 🟢 32%
+  2021: 🟢 58%
+  2022: 🔴 -10%
+  2023: 🟢 42%
+  2024: 🟢 65%
+  2025: 🟢 23%
+
+--- IT 29 (aa270cf5ba9afa7f3bc974532f04126e) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 293
+  Average Win: 12.33%
+  Average Loss: -9.91%
+  Compounding Annual Return: 14.779%
+  Drawdown: 78.200%
+  Expectancy: 0.246
+  Start Equity: 100000
+  End Equity: 523344.26
+  Net Profit: 423.344%
+  Sharpe Ratio: 0.458
+  Sortino Ratio: 0.493
+  Probabilistic Sharpe Ratio: 1.094%
+  Loss Rate: 45%
+  Win Rate: 55%
+  Profit-Loss Ratio: 1.25
+  Alpha: -0.019
+  Beta: 3.265
+  Annual Standard Deviation: 0.52
+  Annual Variance: 0.271
+  Information Ratio: 0.403
+  Tracking Error: 0.395
+  Treynor Ratio: 0.073
+  Total Fees: $25767.63
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TNA U7EC123NWZTX
+  Portfolio Turnover: 6.65%
+  Drawdown Recovery: 776
+
+Yearly Returns:
+  2014: 🟢 26%
+  2015: 🔴 -26%
+  2016: 🟢 21%
+  2017: 🟢 96%
+  2018: 🔴 -43%
+  2019: 🟢 70%
+  2020: 🟢 48%
+  2021: 🟢 124%
+  2022: 🔴 -76%
+  2023: 🟢 163%
+  2024: 🟢 31%
+  2025: 🔴 -11%
+
+--- IT 30 (cdf8e350075019e3e28d1ac1097b2f67) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 113
+  Average Win: 47.08%
+  Average Loss: -4.84%
+  Compounding Annual Return: 31.329%
+  Drawdown: 63.500%
+  Expectancy: 2.643
+  Start Equity: 100000
+  End Equity: 2637472.86
+  Net Profit: 2537.473%
+  Sharpe Ratio: 0.715
+  Sortino Ratio: 0.732
+  Probabilistic Sharpe Ratio: 9.117%
+  Loss Rate: 66%
+  Win Rate: 34%
+  Profit-Loss Ratio: 9.74
+  Alpha: 0.152
+  Beta: 1.682
+  Annual Standard Deviation: 0.397
+  Annual Variance: 0.158
+  Information Ratio: 0.622
+  Tracking Error: 0.33
+  Treynor Ratio: 0.169
+  Total Fees: $15675.76
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 2.59%
+  Drawdown Recovery: 793
+
+Yearly Returns:
+  2014: 🟢 56%
+  2015: 🔴 -4%
+  2016: 🔴 -6%
+  2017: 🟢 118%
+  2018: 🔴 -20%
+  2019: 🟢 50%
+  2020: 🟢 105%
+  2021: 🟢 88%
+  2022: 🔴 -59%
+  2023: 🟢 130%
+  2024: 🟢 62%
+  2025: 🟢 19%
+
+--- IT 31 (4191df6255084b083adf3c1bcb2d29e9) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 257
+  Average Win: 4.69%
+  Average Loss: -8.45%
+  Compounding Annual Return: 7.119%
+  Drawdown: 52.900%
+  Expectancy: 0.123
+  Start Equity: 100000
+  End Equity: 228353.68
+  Net Profit: 128.354%
+  Sharpe Ratio: 0.236
+  Sortino Ratio: 0.142
+  Probabilistic Sharpe Ratio: 0.238%
+  Loss Rate: 28%
+  Win Rate: 72%
+  Profit-Loss Ratio: 0.55
+  Alpha: 0.001
+  Beta: 0.745
+  Annual Standard Deviation: 0.253
+  Annual Variance: 0.064
+  Information Ratio: -0.082
+  Tracking Error: 0.232
+  Treynor Ratio: 0.08
+  Total Fees: $41430.35
+  Estimated Strategy Capacity: $280000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 5.76%
+  Drawdown Recovery: 2044
+
+Yearly Returns:
+  2014: 🟢 24%
+  2015: 🟢 10%
+  2016: 🟢 3%
+  2017: 🟢 52%
+  2018: 🔴 -30%
+  2019: 🔴 -7%
+  2020: 🔴 -8%
+  2021: 🟢 24%
+  2022: 🔴 -8%
+  2023: 🟢 31%
+  2024: 🟢 30%
+  2025: 🔴 -9%
+
+--- IT 32 (3a95cd7166418d27c7d2f248dda86468) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 193
+  Average Win: 8.39%
+  Average Loss: -3.31%
+  Compounding Annual Return: 18.971%
+  Drawdown: 48.300%
+  Expectancy: 0.804
+  Start Equity: 100000
+  End Equity: 805110.12
+  Net Profit: 705.110%
+  Sharpe Ratio: 0.504
+  Sortino Ratio: 0.448
+  Probabilistic Sharpe Ratio: 2.471%
+  Loss Rate: 49%
+  Win Rate: 51%
+  Profit-Loss Ratio: 2.53
+  Alpha: 0.067
+  Beta: 1.372
+  Annual Standard Deviation: 0.348
+  Annual Variance: 0.121
+  Information Ratio: 0.332
+  Tracking Error: 0.291
+  Treynor Ratio: 0.128
+  Total Fees: $16639.46
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 4.38%
+  Drawdown Recovery: 744
+
+Yearly Returns:
+  2014: 🟢 14%
+  2015: 🔴 -5%
+  2016: 🔴 -24%
+  2017: 🟢 118%
+  2018: 🔴 -6%
+  2019: 🟢 7%
+  2020: 🟢 54%
+  2021: 🟢 51%
+  2022: 🔴 -20%
+  2023: 🟢 82%
+  2024: 🟢 15%
+  2025: 🟢 15%
+
+--- IT 33 (ab151cf5837e67647c860963ac0c6597) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 151
+  Average Win: 20.45%
+  Average Loss: -11.11%
+  Compounding Annual Return: 24.467%
+  Drawdown: 75.300%
+  Expectancy: 0.497
+  Start Equity: 100000
+  End Equity: 1384715.67
+  Net Profit: 1284.716%
+  Sharpe Ratio: 0.597
+  Sortino Ratio: 0.587
+  Probabilistic Sharpe Ratio: 3.338%
+  Loss Rate: 47%
+  Win Rate: 53%
+  Profit-Loss Ratio: 1.84
+  Alpha: 0.122
+  Beta: 2.372
+  Annual Standard Deviation: 0.516
+  Annual Variance: 0.267
+  Information Ratio: 0.529
+  Tracking Error: 0.435
+  Treynor Ratio: 0.13
+  Total Fees: $14216.51
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: SOXL UKTSIYPJHFMT
+  Portfolio Turnover: 3.39%
+  Drawdown Recovery: 1206
+
+Yearly Returns:
+  2014: 🟢 49%
+  2015: 🔴 -46%
+  2016: 🟢 15%
+  2017: 🟢 63%
+  2018: 🔴 -12%
+  2019: 🟢 78%
+  2020: 🟢 34%
+  2021: 🟢 139%
+  2022: 🔴 -34%
+  2023: 🟢 56%
+  2024: 🟢 22%
+  2025: 🟢 46%
+
+--- IT 34 (237e0e25940c45c14bbfd228796579a9) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 1461
+  Average Win: 2.40%
+  Average Loss: -1.56%
+  Compounding Annual Return: 23.184%
+  Drawdown: 55.000%
+  Expectancy: 0.299
+  Start Equity: 100000
+  End Equity: 1222661.58
+  Net Profit: 1122.662%
+  Sharpe Ratio: 0.578
+  Sortino Ratio: 0.556
+  Probabilistic Sharpe Ratio: 4.002%
+  Loss Rate: 49%
+  Win Rate: 51%
+  Profit-Loss Ratio: 1.53
+  Alpha: 0.089
+  Beta: 1.61
+  Annual Standard Deviation: 0.373
+  Annual Variance: 0.139
+  Information Ratio: 0.448
+  Tracking Error: 0.305
+  Treynor Ratio: 0.134
+  Total Fees: $108830.34
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 33.24%
+  Drawdown Recovery: 1003
+
+Yearly Returns:
+  2014: 🟢 10%
+  2015: 🔴 -15%
+  2016: 🔴 -15%
+  2017: 🟢 52%
+  2018: 🔴 -36%
+  2019: 🟢 35%
+  2020: 🟢 155%
+  2021: 🟢 73%
+  2022: 🔴 -36%
+  2023: 🟢 108%
+  2024: 🟢 65%
+  2025: 🟢 20%
+
+--- IT 35 (960b3fc262777b51206352a617b4cb7a) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 145
+  Average Win: 27.76%
+  Average Loss: -3.81%
+  Compounding Annual Return: 32.556%
+  Drawdown: 56.700%
+  Expectancy: 2.221
+  Start Equity: 100000
+  End Equity: 2949041.78
+  Net Profit: 2849.042%
+  Sharpe Ratio: 0.741
+  Sortino Ratio: 0.707
+  Probabilistic Sharpe Ratio: 10.797%
+  Loss Rate: 61%
+  Win Rate: 39%
+  Profit-Loss Ratio: 7.28
+  Alpha: 0.152
+  Beta: 1.726
+  Annual Standard Deviation: 0.389
+  Annual Variance: 0.151
+  Information Ratio: 0.661
+  Tracking Error: 0.316
+  Treynor Ratio: 0.167
+  Total Fees: $20256.06
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 3.31%
+  Drawdown Recovery: 663
+
+Yearly Returns:
+  2014: 🟢 53%
+  2015: ⚪ 0%
+  2016: 🔴 -22%
+  2017: 🟢 118%
+  2018: 🔴 -24%
+  2019: 🟢 50%
+  2020: 🟢 105%
+  2021: 🟢 88%
+  2022: 🔴 -44%
+  2023: 🟢 118%
+  2024: 🟢 55%
+  2025: 🟢 34%
+
+--- IT 36 (62d5b594b480ede962681043dd108b82) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 105
+  Average Win: 9.90%
+  Average Loss: -7.03%
+  Compounding Annual Return: 4.390%
+  Drawdown: 58.300%
+  Expectancy: 0.296
+  Start Equity: 100000
+  End Equity: 167510.97
+  Net Profit: 67.511%
+  Sharpe Ratio: 0.193
+  Sortino Ratio: 0.156
+  Probabilistic Sharpe Ratio: 0.103%
+  Loss Rate: 46%
+  Win Rate: 54%
+  Profit-Loss Ratio: 1.41
+  Alpha: -0.032
+  Beta: 1.184
+  Annual Standard Deviation: 0.321
+  Annual Variance: 0.103
+  Information Ratio: -0.062
+  Tracking Error: 0.273
+  Treynor Ratio: 0.052
+  Total Fees: $5575.05
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 2.39%
+  Drawdown Recovery: 1222
+
+Yearly Returns:
+  2014: 🟢 1%
+  2015: 🔴 -43%
+  2016: 🔴 -9%
+  2017: 🟢 87%
+  2018: 🔴 -17%
+  2019: ⚪ 0%
+  2020: 🟢 49%
+  2021: 🔴 -6%
+  2022: 🔴 -11%
+  2023: 🟢 65%
+  2024: 🔴 -4%
+  2025: 🟢 5%
+
+--- IT 37 (c2d720b9d51113e97316b132b15dc68f) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 1917
+  Average Win: 1.97%
+  Average Loss: -1.43%
+  Compounding Annual Return: 16.061%
+  Drawdown: 63.200%
+  Expectancy: 0.199
+  Start Equity: 100000
+  End Equity: 598024.68
+  Net Profit: 498.025%
+  Sharpe Ratio: 0.444
+  Sortino Ratio: 0.422
+  Probabilistic Sharpe Ratio: 1.386%
+  Loss Rate: 50%
+  Win Rate: 50%
+  Profit-Loss Ratio: 1.38
+  Alpha: 0.039
+  Beta: 1.583
+  Annual Standard Deviation: 0.369
+  Annual Variance: 0.136
+  Information Ratio: 0.282
+  Tracking Error: 0.302
+  Treynor Ratio: 0.104
+  Total Fees: $113170.51
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 43.63%
+  Drawdown Recovery: 1034
+
+Yearly Returns:
+  2014: 🔴 -10%
+  2015: 🔴 -5%
+  2016: 🔴 -5%
+  2017: 🟢 46%
+  2018: 🔴 -48%
+  2019: 🟢 37%
+  2020: 🟢 77%
+  2021: 🟢 64%
+  2022: 🔴 -36%
+  2023: 🟢 82%
+  2024: 🟢 67%
+  2025: 🟢 25%
+
+--- IT 38 (9c4312dfdf427dd2dd12c0b7f6b901b1) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 400
+  Average Win: 6.84%
+  Average Loss: -3.08%
+  Compounding Annual Return: 24.040%
+  Drawdown: 63.500%
+  Expectancy: 0.585
+  Start Equity: 100000
+  End Equity: 1328667.53
+  Net Profit: 1228.668%
+  Sharpe Ratio: 0.624
+  Sortino Ratio: 0.597
+  Probabilistic Sharpe Ratio: 6.580%
+  Loss Rate: 51%
+  Win Rate: 49%
+  Profit-Loss Ratio: 2.22
+  Alpha: 0.126
+  Beta: 0.899
+  Annual Standard Deviation: 0.314
+  Annual Variance: 0.099
+  Information Ratio: 0.41
+  Tracking Error: 0.287
+  Treynor Ratio: 0.218
+  Total Fees: $28446.99
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 9.09%
+  Drawdown Recovery: 914
+
+Yearly Returns:
+  2014: 🟢 21%
+  2015: 🔴 -9%
+  2016: 🔴 -3%
+  2017: 🟢 90%
+  2018: 🔴 -5%
+  2019: 🟢 55%
+  2020: 🟢 58%
+  2021: 🟢 27%
+  2022: 🔴 -49%
+  2023: 🟢 105%
+  2024: 🟢 51%
+  2025: 🟢 42%
+
+--- IT 39 (4f5d04529431371020c7264ea2a1db34) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 297
+  Average Win: 9.63%
+  Average Loss: -3.32%
+  Compounding Annual Return: 20.511%
+  Drawdown: 53.800%
+  Expectancy: 0.688
+  Start Equity: 100000
+  End Equity: 939718.00
+  Net Profit: 839.718%
+  Sharpe Ratio: 0.563
+  Sortino Ratio: 0.515
+  Probabilistic Sharpe Ratio: 4.552%
+  Loss Rate: 57%
+  Win Rate: 43%
+  Profit-Loss Ratio: 2.90
+  Alpha: 0.092
+  Beta: 0.899
+  Annual Standard Deviation: 0.288
+  Annual Variance: 0.083
+  Information Ratio: 0.325
+  Tracking Error: 0.258
+  Treynor Ratio: 0.181
+  Total Fees: $24220.32
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 6.76%
+  Drawdown Recovery: 913
+
+Yearly Returns:
+  2014: 🟢 16%
+  2015: 🔴 -25%
+  2016: 🔴 -5%
+  2017: 🟢 64%
+  2018: 🔴 -1%
+  2019: 🟢 49%
+  2020: 🟢 73%
+  2021: 🟢 8%
+  2022: 🔴 -31%
+  2023: 🟢 105%
+  2024: 🟢 39%
+  2025: 🟢 30%
+  2026: ⚪ 0%
+
+--- IT 40 (2c908327915f79d2be60b662bd36ab39) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 411
+  Average Win: 7.95%
+  Average Loss: -5.91%
+  Compounding Annual Return: 34.640%
+  Drawdown: 62.000%
+  Expectancy: 0.455
+  Start Equity: 100000
+  End Equity: 3556607.90
+  Net Profit: 3456.608%
+  Sharpe Ratio: 0.74
+  Sortino Ratio: 0.732
+  Probabilistic Sharpe Ratio: 8.082%
+  Loss Rate: 38%
+  Win Rate: 62%
+  Profit-Loss Ratio: 1.34
+  Alpha: 0.214
+  Beta: 2.116
+  Annual Standard Deviation: 0.514
+  Annual Variance: 0.265
+  Information Ratio: 0.679
+  Tracking Error: 0.445
+  Treynor Ratio: 0.18
+  Total Fees: $67782.52
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 9.26%
+  Drawdown Recovery: 804
+
+Yearly Returns:
+  2014: 🟢 108%
+  2015: 🔴 -11%
+  2016: 🟢 4%
+  2017: 🟢 89%
+  2018: 🔴 -19%
+  2019: 🟢 51%
+  2020: 🟢 113%
+  2021: 🟢 22%
+  2022: 🔴 -35%
+  2023: 🟢 95%
+  2024: 🟢 66%
+  2025: 🟢 46%
+
+--- IT 41 (4ebf7b4ac757ad19872c58153be3c2f6) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 137
+  Average Win: 33.22%
+  Average Loss: -4.22%
+  Compounding Annual Return: 36.066%
+  Drawdown: 56.400%
+  Expectancy: 2.133
+  Start Equity: 100000
+  End Equity: 4036051.21
+  Net Profit: 3936.051%
+  Sharpe Ratio: 0.82
+  Sortino Ratio: 0.763
+  Probabilistic Sharpe Ratio: 16.986%
+  Loss Rate: 65%
+  Win Rate: 35%
+  Profit-Loss Ratio: 7.88
+  Alpha: 0.176
+  Beta: 1.569
+  Annual Standard Deviation: 0.366
+  Annual Variance: 0.134
+  Information Ratio: 0.74
+  Tracking Error: 0.299
+  Treynor Ratio: 0.191
+  Total Fees: $21639.79
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 3.14%
+  Drawdown Recovery: 749
+
+Yearly Returns:
+  2014: 🟢 60%
+  2015: 🟢 1%
+  2016: 🔴 -12%
+  2017: 🟢 118%
+  2018: 🔴 -23%
+  2019: 🟢 50%
+  2020: 🟢 136%
+  2021: 🟢 77%
+  2022: 🔴 -44%
+  2023: 🟢 108%
+  2024: 🟢 86%
+  2025: 🟢 24%
+
+--- IT 42 (25eedb7cb4711dccd2aab2afd674e209) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 170
+  Average Win: 24.25%
+  Average Loss: -2.93%
+  Compounding Annual Return: 31.518%
+  Drawdown: 64.400%
+  Expectancy: 1.874
+  Start Equity: 100000
+  End Equity: 2683522.12
+  Net Profit: 2583.522%
+  Sharpe Ratio: 0.697
+  Sortino Ratio: 0.694
+  Probabilistic Sharpe Ratio: 6.766%
+  Loss Rate: 69%
+  Win Rate: 31%
+  Profit-Loss Ratio: 8.28
+  Alpha: 0.177
+  Beta: 2.026
+  Annual Standard Deviation: 0.483
+  Annual Variance: 0.233
+  Information Ratio: 0.625
+  Tracking Error: 0.412
+  Treynor Ratio: 0.166
+  Total Fees: $14518.63
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: SOXL UKTSIYPJHFMT
+  Portfolio Turnover: 2.59%
+  Drawdown Recovery: 903
+
+Yearly Returns:
+  2014: 🟢 76%
+  2015: 🔴 -26%
+  2016: 🟢 18%
+  2017: 🟢 133%
+  2018: 🔴 -43%
+  2019: 🟢 74%
+  2020: 🟢 90%
+  2021: 🟢 107%
+  2022: 🔴 -50%
+  2023: 🟢 105%
+  2024: 🟢 27%
+  2025: 🟢 46%
+
+--- IT 43 (6f991d5747c03f51ef65155a47973ee8) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 705
+  Average Win: 5.63%
+  Average Loss: -2.47%
+  Compounding Annual Return: 11.831%
+  Drawdown: 55.400%
+  Expectancy: 0.267
+  Start Equity: 100000
+  End Equity: 382919.15
+  Net Profit: 282.919%
+  Sharpe Ratio: 0.357
+  Sortino Ratio: 0.314
+  Probabilistic Sharpe Ratio: 0.761%
+  Loss Rate: 61%
+  Win Rate: 39%
+  Profit-Loss Ratio: 2.28
+  Alpha: 0.033
+  Beta: 0.915
+  Annual Standard Deviation: 0.295
+  Annual Variance: 0.087
+  Information Ratio: 0.1
+  Tracking Error: 0.264
+  Treynor Ratio: 0.115
+  Total Fees: $39273.05
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 16.06%
+  Drawdown Recovery: 1677
+
+Yearly Returns:
+  2014: 🟢 3%
+  2015: 🔴 -28%
+  2016: 🔴 -16%
+  2017: 🟢 41%
+  2018: 🔴 -13%
+  2019: 🟢 66%
+  2020: 🟢 56%
+  2021: 🟢 21%
+  2022: 🔴 -45%
+  2023: 🟢 70%
+  2024: 🟢 45%
+  2025: 🟢 17%
+
+--- IT 44 (e78c9082e4002c7c9cf109e66c358a0d) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 357
+  Average Win: 3.54%
+  Average Loss: -3.12%
+  Compounding Annual Return: -12.512%
+  Drawdown: 85.800%
+  Expectancy: -0.220
+  Start Equity: 100000
+  End Equity: 20087.73
+  Net Profit: -79.912%
+  Sharpe Ratio: -0.233
+  Sortino Ratio: -0.212
+  Probabilistic Sharpe Ratio: 0.000%
+  Loss Rate: 63%
+  Win Rate: 37%
+  Profit-Loss Ratio: 1.14
+  Alpha: -0.129
+  Beta: 0.751
+  Annual Standard Deviation: 0.299
+  Annual Variance: 0.09
+  Information Ratio: -0.527
+  Tracking Error: 0.281
+  Treynor Ratio: -0.093
+  Total Fees: $1695.97
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TNA U7EC123NWZTX
+  Portfolio Turnover: 8.14%
+  Drawdown Recovery: 1303
+
+Yearly Returns:
+  2014: 🔴 -25%
+  2015: 🔴 -13%
+  2016: 🟢 35%
+  2017: 🟢 34%
+  2018: 🔴 -20%
+  2019: 🔴 -31%
+  2020: 🔴 -8%
+  2021: 🔴 -46%
+  2022: 🔴 -24%
+  2023: 🟢 23%
+  2024: 🔴 -26%
+  2025: 🔴 -9%
+  2026: ⚪ 0%
+
+--- IT 45 (4bb08e31860024257c15acea374f0631) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 7
+  Average Win: 21.69%
+  Average Loss: -2.89%
+  Compounding Annual Return: 4.696%
+  Drawdown: 19.500%
+  Expectancy: 4.662
+  Start Equity: 100000
+  End Equity: 173506.61
+  Net Profit: 73.507%
+  Sharpe Ratio: 0.176
+  Sortino Ratio: 0.101
+  Probabilistic Sharpe Ratio: 3.501%
+  Loss Rate: 33%
+  Win Rate: 67%
+  Profit-Loss Ratio: 7.49
+  Alpha: 0.008
+  Beta: 0.031
+  Annual Standard Deviation: 0.06
+  Annual Variance: 0.004
+  Information Ratio: -0.449
+  Tracking Error: 0.152
+  Treynor Ratio: 0.339
+  Total Fees: $312.83
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: BIL TT1EBZ21QWKL
+  Portfolio Turnover: 0.07%
+  Drawdown Recovery: 3811
+
+Yearly Returns:
+  2014: 🟢 48%
+  2015: 🔴 -4%
+  2016: ⚪ 0%
+  2017: 🟢 1%
+  2018: 🟢 1%
+  2019: 🟢 2%
+  2020: ⚪ 0%
+  2021: ⚪ 0%
+  2022: 🟢 1%
+  2023: 🟢 5%
+  2024: 🟢 5%
+  2025: 🟢 4%
+
+--- IT 46 (587837d58345b3de57050872b31eabc8) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 443
+  Average Win: 8.35%
+  Average Loss: -2.13%
+  Compounding Annual Return: 19.405%
+  Drawdown: 56.700%
+  Expectancy: 0.715
+  Start Equity: 100000
+  End Equity: 841058.14
+  Net Profit: 741.058%
+  Sharpe Ratio: 0.523
+  Sortino Ratio: 0.476
+  Probabilistic Sharpe Ratio: 3.127%
+  Loss Rate: 65%
+  Win Rate: 35%
+  Profit-Loss Ratio: 3.92
+  Alpha: 0.079
+  Beta: 1.101
+  Annual Standard Deviation: 0.316
+  Annual Variance: 0.1
+  Information Ratio: 0.316
+  Tracking Error: 0.274
+  Treynor Ratio: 0.15
+  Total Fees: $32528.55
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 10.10%
+  Drawdown Recovery: 1138
+
+Yearly Returns:
+  2014: 🔴 -2%
+  2015: 🔴 -32%
+  2016: 🔴 -16%
+  2017: 🟢 75%
+  2018: 🟢 27%
+  2019: 🟢 38%
+  2020: 🟢 98%
+  2021: 🟢 30%
+  2022: 🔴 -51%
+  2023: 🟢 100%
+  2024: 🟢 32%
+  2025: 🟢 47%
+
+--- IT 47 (0394f6ad702d0c0b4162b7ea7f48b644) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 119
+  Average Win: 12.19%
+  Average Loss: -8.01%
+  Compounding Annual Return: 20.817%
+  Drawdown: 62.000%
+  Expectancy: 0.752
+  Start Equity: 100000
+  End Equity: 968544.96
+  Net Profit: 868.545%
+  Sharpe Ratio: 0.539
+  Sortino Ratio: 0.448
+  Probabilistic Sharpe Ratio: 3.200%
+  Loss Rate: 31%
+  Win Rate: 69%
+  Profit-Loss Ratio: 1.52
+  Alpha: 0.071
+  Beta: 1.51
+  Annual Standard Deviation: 0.353
+  Annual Variance: 0.125
+  Information Ratio: 0.388
+  Tracking Error: 0.288
+  Treynor Ratio: 0.126
+  Total Fees: $10084.26
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 2.70%
+  Drawdown Recovery: 1013
+
+Yearly Returns:
+  2014: 🟢 22%
+  2015: 🔴 -7%
+  2016: 🔴 -23%
+  2017: 🟢 48%
+  2018: 🟢 36%
+  2019: 🟢 51%
+  2020: 🟢 75%
+  2021: 🟢 8%
+  2022: 🔴 -14%
+  2023: 🟢 92%
+  2024: 🔴 -7%
+  2025: 🟢 27%
+
+--- IT 48 (7a7dbe438afa666be6688b780fc23375) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 165
+  Average Win: 40.97%
+  Average Loss: -4.84%
+  Compounding Annual Return: 26.576%
+  Drawdown: 79.800%
+  Expectancy: 2.119
+  Start Equity: 100000
+  End Equity: 1694138.10
+  Net Profit: 1594.138%
+  Sharpe Ratio: 0.643
+  Sortino Ratio: 0.642
+  Probabilistic Sharpe Ratio: 3.982%
+  Loss Rate: 67%
+  Win Rate: 33%
+  Profit-Loss Ratio: 8.47
+  Alpha: 0.208
+  Beta: 2.097
+  Annual Standard Deviation: 0.581
+  Annual Variance: 0.338
+  Information Ratio: 0.565
+  Tracking Error: 0.521
+  Treynor Ratio: 0.178
+  Total Fees: $24161.74
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: SOXL UKTSIYPJHFMT
+  Portfolio Turnover: 3.78%
+  Drawdown Recovery: 800
+
+Yearly Returns:
+  2014: 🟢 55%
+  2015: 🔴 -36%
+  2016: 🟢 111%
+  2017: 🟢 142%
+  2018: 🔴 -12%
+  2019: 🟢 113%
+  2020: 🟢 27%
+  2021: 🟢 122%
+  2022: 🔴 -72%
+  2023: 🟢 123%
+  2024: 🔴 -33%
+  2025: 🟢 53%
+
+--- IT 49 (cdf0ab297bcd7904c5975fef6b7cf84c) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 191
+  Average Win: 4.82%
+  Average Loss: -4.58%
+  Compounding Annual Return: 1.842%
+  Drawdown: 68.200%
+  Expectancy: 0.124
+  Start Equity: 100000
+  End Equity: 124497.04
+  Net Profit: 24.497%
+  Sharpe Ratio: 0.085
+  Sortino Ratio: 0.053
+  Probabilistic Sharpe Ratio: 0.034%
+  Loss Rate: 45%
+  Win Rate: 55%
+  Profit-Loss Ratio: 1.05
+  Alpha: -0.035
+  Beta: 0.708
+  Annual Standard Deviation: 0.245
+  Annual Variance: 0.06
+  Information Ratio: -0.255
+  Tracking Error: 0.227
+  Treynor Ratio: 0.029
+  Total Fees: $12386.58
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: BIL TT1EBZ21QWKL
+  Portfolio Turnover: 4.37%
+  Drawdown Recovery: 883
+
+Yearly Returns:
+  2014: 🟢 45%
+  2015: 🔴 -15%
+  2016: 🟢 4%
+  2017: 🟢 16%
+  2018: 🔴 -27%
+  2019: 🔴 -13%
+  2020: 🔴 -31%
+  2021: 🟢 50%
+  2022: 🔴 -17%
+  2023: 🟢 44%
+  2024: 🟢 4%
+  2025: 🟢 3%
+
+--- IT 50 (c0bf8f98f148cb090f085831c79c542c) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 753
+  Average Win: 2.72%
+  Average Loss: -3.50%
+  Compounding Annual Return: 4.913%
+  Drawdown: 73.700%
+  Expectancy: 0.115
+  Start Equity: 100000
+  End Equity: 177865.05
+  Net Profit: 77.865%
+  Sharpe Ratio: 0.232
+  Sortino Ratio: 0.179
+  Probabilistic Sharpe Ratio: 0.146%
+  Loss Rate: 37%
+  Win Rate: 63%
+  Profit-Loss Ratio: 0.78
+  Alpha: -0.052
+  Beta: 1.759
+  Annual Standard Deviation: 0.373
+  Annual Variance: 0.139
+  Information Ratio: 0.026
+  Tracking Error: 0.295
+  Treynor Ratio: 0.049
+  Total Fees: $43283.92
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 17.13%
+  Drawdown Recovery: 2204
+
+Yearly Returns:
+  2014: 🟢 5%
+  2015: 🔴 -13%
+  2016: 🔴 -13%
+  2017: 🟢 60%
+  2018: 🔴 -30%
+  2019: 🟢 14%
+  2020: 🔴 -21%
+  2021: 🟢 35%
+  2022: 🔴 -24%
+  2023: 🟢 55%
+  2024: 🟢 63%
+  2025: 🔴 -15%
+
+--- IT 51 (5db853ef6e44c66e0c4e447e34c41163) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 40
+  Average Win: 2.24%
+  Average Loss: -1.25%
+  Compounding Annual Return: 0.444%
+  Drawdown: 16.200%
+  Expectancy: 0.228
+  Start Equity: 100000
+  End Equity: 105463.48
+  Net Profit: 5.463%
+  Sharpe Ratio: -0.789
+  Sortino Ratio: -0.456
+  Probabilistic Sharpe Ratio: 0.015%
+  Loss Rate: 56%
+  Win Rate: 44%
+  Profit-Loss Ratio: 1.79
+  Alpha: -0.02
+  Beta: 0.004
+  Annual Standard Deviation: 0.026
+  Annual Variance: 0.001
+  Information Ratio: -0.679
+  Tracking Error: 0.146
+  Treynor Ratio: -4.917
+  Total Fees: $78.68
+  Estimated Strategy Capacity: $80000000.00
+  Lowest Capacity Asset: KO R735QTJ8XC9X
+  Portfolio Turnover: 0.14%
+  Drawdown Recovery: 1456
+
+Yearly Returns:
+  2014: ⚪ 0%
+  2015: ⚪ 0%
+  2016: 🟢 5%
+  2017: 🟢 2%
+  2018: ⚪ 0%
+  2019: ⚪ 0%
+  2020: ⚪ 0%
+  2021: 🟢 3%
+  2022: ⚪ 0%
+  2023: ⚪ 0%
+  2024: ⚪ 0%
+  2025: 🔴 -3%
+
+--- IT 52 (cc42c7e4eccf799ecf3f7d38926b83bf) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 195
+  Average Win: 17.69%
+  Average Loss: -5.36%
+  Compounding Annual Return: 13.132%
+  Drawdown: 60.200%
+  Expectancy: 0.507
+  Start Equity: 100000
+  End Equity: 439965.58
+  Net Profit: 339.966%
+  Sharpe Ratio: 0.385
+  Sortino Ratio: 0.346
+  Probabilistic Sharpe Ratio: 0.922%
+  Loss Rate: 65%
+  Win Rate: 35%
+  Profit-Loss Ratio: 3.30
+  Alpha: 0.036
+  Beta: 1.116
+  Annual Standard Deviation: 0.321
+  Annual Variance: 0.103
+  Information Ratio: 0.162
+  Tracking Error: 0.279
+  Treynor Ratio: 0.111
+  Total Fees: $23243.53
+  Estimated Strategy Capacity: $210000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 4.48%
+  Drawdown Recovery: 1378
+
+Yearly Returns:
+  2014: 🔴 -11%
+  2015: 🔴 -29%
+  2016: 🔴 -9%
+  2017: 🟢 109%
+  2018: 🟢 2%
+  2019: 🟢 30%
+  2020: 🟢 49%
+  2021: 🟢 8%
+  2022: 🔴 -42%
+  2023: 🟢 91%
+  2024: 🟢 30%
+  2025: 🟢 18%
+
+--- IT 53 (5ce7d6b9eb8189d4d9a65ffaa21f6e57) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 0
+  Average Win: 0%
+  Average Loss: 0%
+  Compounding Annual Return: 0%
+  Drawdown: 0%
+  Expectancy: 0
+  Start Equity: 100000
+  End Equity: 100000
+  Net Profit: 0%
+  Sharpe Ratio: 0
+  Sortino Ratio: 0
+  Probabilistic Sharpe Ratio: 0%
+  Loss Rate: 0%
+  Win Rate: 0%
+  Profit-Loss Ratio: 0
+  Alpha: 0
+  Beta: 0
+  Annual Standard Deviation: 0
+  Annual Variance: 0
+  Information Ratio: -0.71
+  Tracking Error: 0.144
+  Treynor Ratio: 0
+  Total Fees: $0.00
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: 
+  Portfolio Turnover: 0%
+  Drawdown Recovery: 0
+
+Yearly Returns:
+  2014: ⚪ 0%
+  2015: ⚪ 0%
+  2016: ⚪ 0%
+  2017: ⚪ 0%
+  2018: ⚪ 0%
+  2019: ⚪ 0%
+  2020: ⚪ 0%
+  2021: ⚪ 0%
+  2022: ⚪ 0%
+  2023: ⚪ 0%
+  2024: ⚪ 0%
+  2025: ⚪ 0%
+
+--- IT 54 (51e2c9a09c9b9124ec3cc1bed9fb89d1) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 835
+  Average Win: 4.60%
+  Average Loss: -7.30%
+  Compounding Annual Return: 26.286%
+  Drawdown: 56.100%
+  Expectancy: 0.177
+  Start Equity: 100000
+  End Equity: 1648455.27
+  Net Profit: 1548.455%
+  Sharpe Ratio: 0.627
+  Sortino Ratio: 0.471
+  Probabilistic Sharpe Ratio: 5.238%
+  Loss Rate: 28%
+  Win Rate: 72%
+  Profit-Loss Ratio: 0.63
+  Alpha: 0.092
+  Beta: 2.012
+  Annual Standard Deviation: 0.399
+  Annual Variance: 0.16
+  Information Ratio: 0.552
+  Tracking Error: 0.311
+  Treynor Ratio: 0.125
+  Total Fees: $107477.72
+  Estimated Strategy Capacity: $150000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 12.64%
+  Drawdown Recovery: 961
+
+Yearly Returns:
+  2014: 🟢 26%
+  2015: 🟢 8%
+  2016: 🔴 -9%
+  2017: 🟢 48%
+  2018: 🔴 -40%
+  2019: 🟢 75%
+  2020: 🟢 79%
+  2021: 🟢 94%
+  2022: 🔴 -33%
+  2023: 🟢 86%
+  2024: 🟢 85%
+  2025: 🟢 7%
+  2026: ⚪ 0%
+
+--- IT 55 (43ad0fa521d1c80eb1e9f9026ab9f362) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 59
+  Average Win: 17.67%
+  Average Loss: -16.00%
+  Compounding Annual Return: 18.328%
+  Drawdown: 38.200%
+  Expectancy: 0.524
+  Start Equity: 100000
+  End Equity: 754341.70
+  Net Profit: 654.342%
+  Sharpe Ratio: 0.532
+  Sortino Ratio: 0.3
+  Probabilistic Sharpe Ratio: 4.139%
+  Loss Rate: 28%
+  Win Rate: 72%
+  Profit-Loss Ratio: 1.10
+  Alpha: 0.076
+  Beta: 0.802
+  Annual Standard Deviation: 0.262
+  Annual Variance: 0.068
+  Information Ratio: 0.256
+  Tracking Error: 0.237
+  Treynor Ratio: 0.174
+  Total Fees: $11967.79
+  Estimated Strategy Capacity: $390000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 1.35%
+  Drawdown Recovery: 900
+
+Yearly Returns:
+  2014: 🟢 46%
+  2015: 🟢 1%
+  2016: 🔴 -4%
+  2017: 🟢 20%
+  2018: 🟢 71%
+  2019: 🟢 18%
+  2020: 🟢 1%
+  2021: 🟢 94%
+  2022: 🔴 -28%
+  2023: 🟢 27%
+  2024: 🟢 39%
+  2025: 🔴 -11%
+
+--- IT 56 (a0846b6ff945fef40349ffcfb10d306e) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 0
+  Average Win: 0%
+  Average Loss: 0%
+  Compounding Annual Return: 0%
+  Drawdown: 0%
+  Expectancy: 0
+  Start Equity: 100000
+  End Equity: 100000
+  Net Profit: 0%
+  Sharpe Ratio: 0
+  Sortino Ratio: 0
+  Probabilistic Sharpe Ratio: 0%
+  Loss Rate: 0%
+  Win Rate: 0%
+  Profit-Loss Ratio: 0
+  Alpha: 0
+  Beta: 0
+  Annual Standard Deviation: 0
+  Annual Variance: 0
+  Information Ratio: -0.71
+  Tracking Error: 0.144
+  Treynor Ratio: 0
+  Total Fees: $0.00
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: 
+  Portfolio Turnover: 0%
+  Drawdown Recovery: 0
+
+Yearly Returns:
+  2014: ⚪ 0%
+  2015: ⚪ 0%
+  2016: ⚪ 0%
+  2017: ⚪ 0%
+  2018: ⚪ 0%
+  2019: ⚪ 0%
+  2020: ⚪ 0%
+  2021: ⚪ 0%
+  2022: ⚪ 0%
+  2023: ⚪ 0%
+  2024: ⚪ 0%
+  2025: ⚪ 0%
+
+--- IT 57 (f618bbe654f5655213bc4fc80bc6d53c) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 587
+  Average Win: 4.41%
+  Average Loss: -1.96%
+  Compounding Annual Return: 19.738%
+  Drawdown: 47.200%
+  Expectancy: 0.473
+  Start Equity: 100000
+  End Equity: 869685.90
+  Net Profit: 769.686%
+  Sharpe Ratio: 0.569
+  Sortino Ratio: 0.473
+  Probabilistic Sharpe Ratio: 5.352%
+  Loss Rate: 55%
+  Win Rate: 45%
+  Profit-Loss Ratio: 2.25
+  Alpha: 0.089
+  Beta: 0.759
+  Annual Standard Deviation: 0.261
+  Annual Variance: 0.068
+  Information Ratio: 0.291
+  Tracking Error: 0.24
+  Treynor Ratio: 0.196
+  Total Fees: $45255.39
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 13.33%
+  Drawdown Recovery: 1223
+
+Yearly Returns:
+  2014: 🟢 8%
+  2015: 🔴 -33%
+  2016: 🔴 -3%
+  2017: 🟢 69%
+  2018: 🟢 4%
+  2019: 🟢 57%
+  2020: 🟢 67%
+  2021: 🔴 -3%
+  2022: 🔴 -13%
+  2023: 🟢 72%
+  2024: 🟢 40%
+  2025: 🟢 34%
+
+--- IT 58 (04906ac68d9109c7c5e094b3f66fa270) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 12
+  Average Win: 27.57%
+  Average Loss: -40.41%
+  Compounding Annual Return: 5.884%
+  Drawdown: 73.500%
+  Expectancy: 0.402
+  Start Equity: 100000
+  End Equity: 198679.78
+  Net Profit: 98.680%
+  Sharpe Ratio: 0.229
+  Sortino Ratio: 0.115
+  Probabilistic Sharpe Ratio: 0.142%
+  Loss Rate: 17%
+  Win Rate: 83%
+  Profit-Loss Ratio: 0.68
+  Alpha: -0.037
+  Beta: 1.435
+  Annual Standard Deviation: 0.331
+  Annual Variance: 0.11
+  Information Ratio: -0.011
+  Tracking Error: 0.266
+  Treynor Ratio: 0.053
+  Total Fees: $2068.15
+  Estimated Strategy Capacity: $360000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 0.28%
+  Drawdown Recovery: 946
+
+Yearly Returns:
+  2014: ⚪ 0%
+  2015: 🟢 17%
+  2016: 🟢 20%
+  2017: ⚪ 0%
+  2018: 🔴 -12%
+  2019: 🟢 46%
+  2020: 🟢 28%
+  2021: ⚪ 0%
+  2022: 🔴 -58%
+  2023: 🟢 43%
+  2024: ⚪ 0%
+  2025: 🟢 44%
+
+--- IT 59 (3914a12ff35512d489217874cd37ffef) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 233
+  Average Win: 11.56%
+  Average Loss: -3.15%
+  Compounding Annual Return: 34.071%
+  Drawdown: 73.600%
+  Expectancy: 1.838
+  Start Equity: 100000
+  End Equity: 3380258.75
+  Net Profit: 3280.259%
+  Sharpe Ratio: 0.745
+  Sortino Ratio: 0.764
+  Probabilistic Sharpe Ratio: 6.962%
+  Loss Rate: 39%
+  Win Rate: 61%
+  Profit-Loss Ratio: 3.66
+  Alpha: 0.262
+  Beta: 2.395
+  Annual Standard Deviation: 0.605
+  Annual Variance: 0.366
+  Information Ratio: 0.694
+  Tracking Error: 0.536
+  Treynor Ratio: 0.188
+  Total Fees: $22051.35
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: SOXL UKTSIYPJHFMT
+  Portfolio Turnover: 5.25%
+  Drawdown Recovery: 904
+
+Yearly Returns:
+  2014: 🟢 94%
+  2015: 🔴 -32%
+  2016: 🟢 26%
+  2017: 🟢 130%
+  2018: 🔴 -35%
+  2019: 🟢 79%
+  2020: 🟢 86%
+  2021: 🟢 122%
+  2022: 🔴 -35%
+  2023: 🟢 84%
+  2024: 🔴 -10%
+  2025: 🟢 72%
+
+--- IT 60 (8ebdc996bc0fc2adb77bba2a62e958f3) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 1537
+  Average Win: 0.74%
+  Average Loss: -1.55%
+  Compounding Annual Return: 27.219%
+  Drawdown: 69.500%
+  Expectancy: 0.239
+  Start Equity: 100000
+  End Equity: 1800558.75
+  Net Profit: 1700.559%
+  Sharpe Ratio: 0.639
+  Sortino Ratio: 0.623
+  Probabilistic Sharpe Ratio: 5.548%
+  Loss Rate: 16%
+  Win Rate: 84%
+  Profit-Loss Ratio: 0.48
+  Alpha: 0.111
+  Beta: 1.982
+  Annual Standard Deviation: 0.417
+  Annual Variance: 0.174
+  Information Ratio: 0.56
+  Tracking Error: 0.336
+  Treynor Ratio: 0.135
+  Total Fees: $14428.19
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TNA U7EC123NWZTX
+  Portfolio Turnover: 5.53%
+  Drawdown Recovery: 775
+
+Yearly Returns:
+  2014: 🟢 52%
+  2015: 🔴 -10%
+  2016: 🔴 -3%
+  2017: 🟢 99%
+  2018: 🔴 -15%
+  2019: 🟢 36%
+  2020: 🟢 75%
+  2021: 🟢 80%
+  2022: 🔴 -33%
+  2023: 🟢 54%
+  2024: 🟢 33%
+  2025: 🟢 33%
+
+--- IT 61 (111e37d86feeb78ed9ac4edf47e04401) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 30
+  Average Win: 19.83%
+  Average Loss: -14.58%
+  Compounding Annual Return: 2.409%
+  Drawdown: 68.900%
+  Expectancy: 0.258
+  Start Equity: 100000
+  End Equity: 133093.29
+  Net Profit: 33.093%
+  Sharpe Ratio: 0.157
+  Sortino Ratio: 0.072
+  Probabilistic Sharpe Ratio: 0.056%
+  Loss Rate: 47%
+  Win Rate: 53%
+  Profit-Loss Ratio: 1.36
+  Alpha: -0.071
+  Beta: 1.569
+  Annual Standard Deviation: 0.337
+  Annual Variance: 0.113
+  Information Ratio: -0.098
+  Tracking Error: 0.263
+  Treynor Ratio: 0.034
+  Total Fees: $3638.09
+  Estimated Strategy Capacity: $320000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 0.67%
+  Drawdown Recovery: 930
+
+Yearly Returns:
+  2014: 🟢 16%
+  2015: 🟢 27%
+  2016: 🔴 -4%
+  2017: ⚪ 0%
+  2018: 🔴 -22%
+  2019: 🟢 50%
+  2020: ⚪ 0%
+  2021: 🟢 10%
+  2022: 🔴 -55%
+  2023: 🟢 39%
+  2024: 🟢 31%
+  2025: 🔴 -11%
+
+--- IT 62 (78108ae47d3e36cfc23dbd15755e277c) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 17
+  Average Win: 125.53%
+  Average Loss: -11.90%
+  Compounding Annual Return: 27.179%
+  Drawdown: 61.600%
+  Expectancy: 4.774
+  Start Equity: 100000
+  End Equity: 1793626.72
+  Net Profit: 1693.627%
+  Sharpe Ratio: 0.649
+  Sortino Ratio: 0.571
+  Probabilistic Sharpe Ratio: 6.447%
+  Loss Rate: 50%
+  Win Rate: 50%
+  Profit-Loss Ratio: 10.55
+  Alpha: 0.113
+  Beta: 1.726
+  Annual Standard Deviation: 0.383
+  Annual Variance: 0.147
+  Information Ratio: 0.548
+  Tracking Error: 0.31
+  Treynor Ratio: 0.144
+  Total Fees: $4354.43
+  Estimated Strategy Capacity: $220000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 0.39%
+  Drawdown Recovery: 664
+
+Yearly Returns:
+  2014: 🟢 60%
+  2015: 🔴 -9%
+  2016: 🔴 -9%
+  2017: 🟢 118%
+  2018: 🟢 7%
+  2019: 🟢 36%
+  2020: 🟢 23%
+  2021: 🟢 88%
+  2022: 🔴 -33%
+  2023: 🟢 86%
+  2024: 🟢 62%
+  2025: 🔴 -7%
+
+--- IT 63 (0f5eaa963d2685b4b22e04a9a421b6b0) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 143
+  Average Win: 28.23%
+  Average Loss: -4.44%
+  Compounding Annual Return: 33.019%
+  Drawdown: 60.500%
+  Expectancy: 2.314
+  Start Equity: 100000
+  End Equity: 3075284.93
+  Net Profit: 2975.285%
+  Sharpe Ratio: 0.745
+  Sortino Ratio: 0.742
+  Probabilistic Sharpe Ratio: 10.837%
+  Loss Rate: 55%
+  Win Rate: 45%
+  Profit-Loss Ratio: 6.35
+  Alpha: 0.163
+  Beta: 1.678
+  Annual Standard Deviation: 0.395
+  Annual Variance: 0.156
+  Information Ratio: 0.658
+  Tracking Error: 0.328
+  Treynor Ratio: 0.176
+  Total Fees: $17857.47
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 3.27%
+  Drawdown Recovery: 751
+
+Yearly Returns:
+  2014: 🟢 56%
+  2015: 🔴 -4%
+  2016: 🔴 -6%
+  2017: 🟢 118%
+  2018: 🔴 -19%
+  2019: 🟢 50%
+  2020: 🟢 105%
+  2021: 🟢 88%
+  2022: 🔴 -48%
+  2023: 🟢 115%
+  2024: 🟢 62%
+  2025: 🟢 18%
+
+--- IT 64 (dea7b0616189110bba55857704a1a817) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 68
+  Average Win: 12.78%
+  Average Loss: -19.09%
+  Compounding Annual Return: 8.188%
+  Drawdown: 72.400%
+  Expectancy: 0.227
+  Start Equity: 100000
+  End Equity: 257280.32
+  Net Profit: 157.280%
+  Sharpe Ratio: 0.299
+  Sortino Ratio: 0.171
+  Probabilistic Sharpe Ratio: 0.287%
+  Loss Rate: 26%
+  Win Rate: 74%
+  Profit-Loss Ratio: 0.67
+  Alpha: -0.041
+  Beta: 1.998
+  Annual Standard Deviation: 0.388
+  Annual Variance: 0.151
+  Information Ratio: 0.126
+  Tracking Error: 0.298
+  Treynor Ratio: 0.058
+  Total Fees: $6950.75
+  Estimated Strategy Capacity: $370000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 1.55%
+  Drawdown Recovery: 840
+
+Yearly Returns:
+  2014: 🟢 7%
+  2015: 🟢 19%
+  2016: 🔴 -6%
+  2017: 🟢 5%
+  2018: 🔴 -13%
+  2019: 🟢 19%
+  2020: 🟢 15%
+  2021: 🟢 71%
+  2022: 🔴 -62%
+  2023: 🟢 49%
+  2024: 🟢 45%
+  2025: 🟢 23%
+
+--- IT 65 (735f61fe752df7b3686752067892dc19) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 91
+  Average Win: 8.37%
+  Average Loss: -6.12%
+  Compounding Annual Return: 12.890%
+  Drawdown: 59.900%
+  Expectancy: 0.631
+  Start Equity: 100000
+  End Equity: 428773.08
+  Net Profit: 328.773%
+  Sharpe Ratio: 0.399
+  Sortino Ratio: 0.314
+  Probabilistic Sharpe Ratio: 1.615%
+  Loss Rate: 31%
+  Win Rate: 69%
+  Profit-Loss Ratio: 1.37
+  Alpha: 0.005
+  Beta: 1.2
+  Annual Standard Deviation: 0.25
+  Annual Variance: 0.063
+  Information Ratio: 0.115
+  Tracking Error: 0.183
+  Treynor Ratio: 0.083
+  Total Fees: $2089.70
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: QQQ RIWIV7K5Z9LX
+  Portfolio Turnover: 2.06%
+  Drawdown Recovery: 902
+
+Yearly Returns:
+  2014: 🟢 19%
+  2015: 🟢 2%
+  2016: 🔴 -21%
+  2017: 🟢 33%
+  2018: 🟢 4%
+  2019: 🟢 27%
+  2020: 🟢 24%
+  2021: 🟢 13%
+  2022: 🔴 -8%
+  2023: 🟢 44%
+  2024: 🟢 27%
+  2025: 🟢 9%
+
+--- IT 66 (81819e3a6e3df519ac3aadbb43a6ec2b) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 533
+  Average Win: 3.67%
+  Average Loss: -2.88%
+  Compounding Annual Return: -3.499%
+  Drawdown: 41.700%
+  Expectancy: 0.007
+  Start Equity: 100000
+  End Equity: 65201.78
+  Net Profit: -34.798%
+  Sharpe Ratio: -0.247
+  Sortino Ratio: -0.197
+  Probabilistic Sharpe Ratio: 0.000%
+  Loss Rate: 56%
+  Win Rate: 44%
+  Profit-Loss Ratio: 1.27
+  Alpha: -0.05
+  Beta: 0.167
+  Annual Standard Deviation: 0.149
+  Annual Variance: 0.022
+  Information Ratio: -0.608
+  Tracking Error: 0.19
+  Treynor Ratio: -0.221
+  Total Fees: $11580.77
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: SOXL UKTSIYPJHFMT
+  Portfolio Turnover: 3.82%
+  Drawdown Recovery: 0
+
+Yearly Returns:
+  2014: 🔴 -10%
+  2015: 🔴 -20%
+  2016: ⚪ 0%
+  2017: 🟢 4%
+  2018: 🔴 -4%
+  2019: 🔴 -1%
+  2020: 🔴 -14%
+  2021: 🟢 29%
+  2022: 🟢 23%
+  2023: 🔴 -18%
+  2024: 🔴 -19%
+  2025: ⚪ 0%
+
+--- IT 67 (c07c53b58d3856e912dac3028f049219) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 53
+  Average Win: 55.23%
+  Average Loss: -6.78%
+  Compounding Annual Return: 26.377%
+  Drawdown: 62.300%
+  Expectancy: 3.357
+  Start Equity: 100000
+  End Equity: 1662512.18
+  Net Profit: 1562.512%
+  Sharpe Ratio: 0.647
+  Sortino Ratio: 0.561
+  Probabilistic Sharpe Ratio: 6.800%
+  Loss Rate: 52%
+  Win Rate: 48%
+  Profit-Loss Ratio: 8.15
+  Alpha: 0.116
+  Beta: 1.438
+  Annual Standard Deviation: 0.355
+  Annual Variance: 0.126
+  Information Ratio: 0.511
+  Tracking Error: 0.295
+  Treynor Ratio: 0.16
+  Total Fees: $4664.71
+  Estimated Strategy Capacity: $220000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 0.99%
+  Drawdown Recovery: 897
+
+Yearly Returns:
+  2014: 🟢 43%
+  2015: 🔴 -27%
+  2016: 🔴 -23%
+  2017: 🟢 117%
+  2018: 🟢 25%
+  2019: 🔴 -11%
+  2020: 🟢 81%
+  2021: 🟢 88%
+  2022: 🔴 -35%
+  2023: 🟢 94%
+  2024: 🟢 62%
+  2025: 🟢 24%
+
+--- IT 68 (b4e06752f2c6533822d626f1305a58d3) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 251
+  Average Win: 10.96%
+  Average Loss: -3.68%
+  Compounding Annual Return: 26.175%
+  Drawdown: 48.800%
+  Expectancy: 1.007
+  Start Equity: 100000
+  End Equity: 1630847.83
+  Net Profit: 1530.848%
+  Sharpe Ratio: 0.632
+  Sortino Ratio: 0.608
+  Probabilistic Sharpe Ratio: 5.792%
+  Loss Rate: 50%
+  Win Rate: 50%
+  Profit-Loss Ratio: 2.98
+  Alpha: 0.112
+  Beta: 1.598
+  Annual Standard Deviation: 0.376
+  Annual Variance: 0.142
+  Information Ratio: 0.513
+  Tracking Error: 0.31
+  Treynor Ratio: 0.149
+  Total Fees: $68091.35
+  Estimated Strategy Capacity: $210000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 5.71%
+  Drawdown Recovery: 646
+
+Yearly Returns:
+  2014: 🟢 24%
+  2015: 🟢 4%
+  2016: 🔴 -15%
+  2017: 🟢 119%
+  2018: 🟢 1%
+  2019: 🟢 37%
+  2020: 🟢 92%
+  2021: 🟢 89%
+  2022: 🔴 -43%
+  2023: 🟢 73%
+  2024: 🟢 4%
+  2025: 🟢 32%
+
+--- IT 69 (edb897e6c33951f188260807008cb79b) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 39
+  Average Win: 5.68%
+  Average Loss: -7.58%
+  Compounding Annual Return: 2.668%
+  Drawdown: 48.400%
+  Expectancy: 0.197
+  Start Equity: 100000
+  End Equity: 137189.91
+  Net Profit: 37.190%
+  Sharpe Ratio: 0.041
+  Sortino Ratio: 0.023
+  Probabilistic Sharpe Ratio: 0.033%
+  Loss Rate: 32%
+  Win Rate: 68%
+  Profit-Loss Ratio: 0.75
+  Alpha: -0.014
+  Beta: 0.26
+  Annual Standard Deviation: 0.149
+  Annual Variance: 0.022
+  Information Ratio: -0.404
+  Tracking Error: 0.18
+  Treynor Ratio: 0.024
+  Total Fees: $2835.62
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: BIL TT1EBZ21QWKL
+  Portfolio Turnover: 0.89%
+  Drawdown Recovery: 1064
+
+Yearly Returns:
+  2014: ⚪ 0%
+  2015: ⚪ 0%
+  2016: 🟢 5%
+  2017: 🟢 1%
+  2018: 🟢 1%
+  2019: 🟢 37%
+  2020: ⚪ 0%
+  2021: ⚪ 0%
+  2022: 🔴 -30%
+  2023: 🟢 23%
+  2024: 🟢 5%
+  2025: 🟢 4%
+
+--- IT 70 (acb2c8df7b2f78dea13f67725d092388) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 679
+  Average Win: 3.46%
+  Average Loss: -3.31%
+  Compounding Annual Return: 9.213%
+  Drawdown: 61.700%
+  Expectancy: 0.168
+  Start Equity: 100000
+  End Equity: 288128.89
+  Net Profit: 188.129%
+  Sharpe Ratio: 0.309
+  Sortino Ratio: 0.269
+  Probabilistic Sharpe Ratio: 0.361%
+  Loss Rate: 43%
+  Win Rate: 57%
+  Profit-Loss Ratio: 1.05
+  Alpha: 0.025
+  Beta: 1.087
+  Annual Standard Deviation: 0.359
+  Annual Variance: 0.129
+  Information Ratio: 0.099
+  Tracking Error: 0.323
+  Treynor Ratio: 0.102
+  Total Fees: $22450.36
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: SOXL UKTSIYPJHFMT
+  Portfolio Turnover: 15.40%
+  Drawdown Recovery: 1860
+
+Yearly Returns:
+  2014: ⚪ 0%
+  2015: 🔴 -48%
+  2016: 🟢 18%
+  2017: 🟢 65%
+  2018: 🔴 -10%
+  2019: 🟢 61%
+  2020: 🟢 42%
+  2021: 🔴 -24%
+  2022: 🔴 -31%
+  2023: 🟢 61%
+  2024: 🟢 27%
+  2025: 🟢 29%
+
+--- IT 71 (054b96d883a256ffc5eb685e180aa5b6) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 80
+  Average Win: 11.20%
+  Average Loss: -11.39%
+  Compounding Annual Return: 11.792%
+  Drawdown: 62.200%
+  Expectancy: 0.389
+  Start Equity: 100000
+  End Equity: 381298.20
+  Net Profit: 281.298%
+  Sharpe Ratio: 0.358
+  Sortino Ratio: 0.176
+  Probabilistic Sharpe Ratio: 0.581%
+  Loss Rate: 30%
+  Win Rate: 70%
+  Profit-Loss Ratio: 0.98
+  Alpha: -0.005
+  Beta: 1.672
+  Annual Standard Deviation: 0.354
+  Annual Variance: 0.125
+  Information Ratio: 0.174
+  Tracking Error: 0.277
+  Treynor Ratio: 0.076
+  Total Fees: $13973.41
+  Estimated Strategy Capacity: $240000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 1.82%
+  Drawdown Recovery: 2299
+
+Yearly Returns:
+  2014: 🟢 31%
+  2015: 🟢 41%
+  2016: 🟢 21%
+  2017: ⚪ 0%
+  2018: 🟢 22%
+  2019: 🟢 26%
+  2020: 🔴 -19%
+  2021: 🟢 15%
+  2022: 🔴 -48%
+  2023: 🟢 57%
+  2024: 🟢 22%
+  2025: 🟢 20%
+
+--- IT 72 (638e40f3c04570a69dfe0f05db9b247b) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 435
+  Average Win: 3.70%
+  Average Loss: -1.79%
+  Compounding Annual Return: 12.248%
+  Drawdown: 42.300%
+  Expectancy: 0.440
+  Start Equity: 100000
+  End Equity: 400396.89
+  Net Profit: 300.397%
+  Sharpe Ratio: 0.405
+  Sortino Ratio: 0.275
+  Probabilistic Sharpe Ratio: 1.937%
+  Loss Rate: 53%
+  Win Rate: 47%
+  Profit-Loss Ratio: 2.06
+  Alpha: 0.047
+  Beta: 0.445
+  Annual Standard Deviation: 0.203
+  Annual Variance: 0.041
+  Information Ratio: 0.017
+  Tracking Error: 0.209
+  Treynor Ratio: 0.185
+  Total Fees: $28006.85
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 9.89%
+  Drawdown Recovery: 1283
+
+Yearly Returns:
+  2014: 🔴 -10%
+  2015: 🔴 -10%
+  2016: 🔴 -25%
+  2017: 🟢 27%
+  2018: 🟢 2%
+  2019: 🟢 74%
+  2020: 🟢 73%
+  2021: 🟢 11%
+  2022: 🔴 -19%
+  2023: 🟢 32%
+  2024: 🟢 13%
+  2025: 🟢 25%
+
+--- IT 73 (70fa00033810bf3c6f534979997e6905) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 153
+  Average Win: 12.55%
+  Average Loss: -8.54%
+  Compounding Annual Return: 23.414%
+  Drawdown: 67.800%
+  Expectancy: 0.581
+  Start Equity: 100000
+  End Equity: 1250371.36
+  Net Profit: 1150.371%
+  Sharpe Ratio: 0.573
+  Sortino Ratio: 0.568
+  Probabilistic Sharpe Ratio: 3.407%
+  Loss Rate: 36%
+  Win Rate: 64%
+  Profit-Loss Ratio: 1.47
+  Alpha: 0.153
+  Beta: 1.096
+  Annual Standard Deviation: 0.418
+  Annual Variance: 0.175
+  Information Ratio: 0.415
+  Tracking Error: 0.387
+  Treynor Ratio: 0.218
+  Total Fees: $14598.25
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: UGL U85WJOCE24BP
+  Portfolio Turnover: 3.42%
+  Drawdown Recovery: 851
+
+Yearly Returns:
+  2014: 🟢 27%
+  2015: 🔴 -39%
+  2016: 🟢 12%
+  2017: 🟢 64%
+  2018: 🟢 2%
+  2019: 🟢 12%
+  2020: 🟢 144%
+  2021: 🟢 22%
+  2022: 🔴 -30%
+  2023: 🟢 67%
+  2024: 🟢 36%
+  2025: 🟢 61%
+
+--- IT 74 (787b4909e64555372d55dae4a8714943) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 0
+  Average Win: 0%
+  Average Loss: 0%
+  Compounding Annual Return: 0%
+  Drawdown: 0%
+  Expectancy: 0
+  Start Equity: 100000
+  End Equity: 100000
+  Net Profit: 0%
+  Sharpe Ratio: 0
+  Sortino Ratio: 0
+  Probabilistic Sharpe Ratio: 0%
+  Loss Rate: 0%
+  Win Rate: 0%
+  Profit-Loss Ratio: 0
+  Alpha: 0
+  Beta: 0
+  Annual Standard Deviation: 0
+  Annual Variance: 0
+  Information Ratio: -0.71
+  Tracking Error: 0.144
+  Treynor Ratio: 0
+  Total Fees: $0.00
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: 
+  Portfolio Turnover: 0%
+  Drawdown Recovery: 0
+
+Yearly Returns:
+  2014: ⚪ 0%
+  2015: ⚪ 0%
+  2016: ⚪ 0%
+  2017: ⚪ 0%
+  2018: ⚪ 0%
+  2019: ⚪ 0%
+  2020: ⚪ 0%
+  2021: ⚪ 0%
+  2022: ⚪ 0%
+  2023: ⚪ 0%
+  2024: ⚪ 0%
+  2025: ⚪ 0%
+
+--- IT 75 (ae17bb85c81fc3582ff41374d9e223bf) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 58
+  Average Win: 29.71%
+  Average Loss: -11.32%
+  Compounding Annual Return: 30.002%
+  Drawdown: 69.800%
+  Expectancy: 1.551
+  Start Equity: 100000
+  End Equity: 2334754.62
+  Net Profit: 2234.755%
+  Sharpe Ratio: 0.679
+  Sortino Ratio: 0.656
+  Probabilistic Sharpe Ratio: 6.634%
+  Loss Rate: 30%
+  Win Rate: 70%
+  Profit-Loss Ratio: 2.62
+  Alpha: 0.122
+  Beta: 2.286
+  Annual Standard Deviation: 0.444
+  Annual Variance: 0.197
+  Information Ratio: 0.635
+  Tracking Error: 0.351
+  Treynor Ratio: 0.132
+  Total Fees: $6788.33
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: QQQ RIWIV7K5Z9LX
+  Portfolio Turnover: 1.25%
+  Drawdown Recovery: 859
+
+Yearly Returns:
+  2014: 🔴 -1%
+  2015: 🔴 -19%
+  2016: 🟢 40%
+  2017: 🟢 76%
+  2018: 🔴 -13%
+  2019: 🟢 39%
+  2020: 🟢 172%
+  2021: 🟢 128%
+  2022: 🔴 -33%
+  2023: 🟢 55%
+  2024: 🟢 27%
+  2025: 🟢 20%
+
+--- IT 76 (e45ad1b8bafb982536c7df29ba3b4241) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 419
+  Average Win: 6.33%
+  Average Loss: -3.76%
+  Compounding Annual Return: 24.483%
+  Drawdown: 67.900%
+  Expectancy: 0.586
+  Start Equity: 100000
+  End Equity: 1386798.76
+  Net Profit: 1286.799%
+  Sharpe Ratio: 0.592
+  Sortino Ratio: 0.551
+  Probabilistic Sharpe Ratio: 3.962%
+  Loss Rate: 41%
+  Win Rate: 59%
+  Profit-Loss Ratio: 1.68
+  Alpha: 0.136
+  Beta: 1.354
+  Annual Standard Deviation: 0.41
+  Annual Variance: 0.168
+  Information Ratio: 0.45
+  Tracking Error: 0.364
+  Treynor Ratio: 0.179
+  Total Fees: $40362.45
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: SOXL UKTSIYPJHFMT
+  Portfolio Turnover: 9.47%
+  Drawdown Recovery: 706
+
+Yearly Returns:
+  2014: 🟢 85%
+  2015: 🔴 -29%
+  2016: 🟢 40%
+  2017: 🟢 58%
+  2018: 🟢 5%
+  2019: 🟢 85%
+  2020: 🟢 94%
+  2021: 🟢 89%
+  2022: 🔴 -48%
+  2023: 🟢 27%
+  2024: 🔴 -13%
+  2025: 🟢 16%
+
+--- IT 77 (230ed7bf688a4fb6a01e125d84923e7e) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 183
+  Average Win: 6.55%
+  Average Loss: -12.25%
+  Compounding Annual Return: 9.992%
+  Drawdown: 72.400%
+  Expectancy: 0.163
+  Start Equity: 100000
+  End Equity: 313779.62
+  Net Profit: 213.780%
+  Sharpe Ratio: 0.344
+  Sortino Ratio: 0.241
+  Probabilistic Sharpe Ratio: 0.446%
+  Loss Rate: 24%
+  Win Rate: 76%
+  Profit-Loss Ratio: 0.53
+  Alpha: -0.035
+  Beta: 2.287
+  Annual Standard Deviation: 0.42
+  Annual Variance: 0.177
+  Information Ratio: 0.206
+  Tracking Error: 0.32
+  Treynor Ratio: 0.063
+  Total Fees: $27412.76
+  Estimated Strategy Capacity: $190000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 4.16%
+  Drawdown Recovery: 2146
+
+Yearly Returns:
+  2014: 🟢 4%
+  2015: 🟢 37%
+  2016: 🟢 1%
+  2017: 🟢 33%
+  2018: 🟢 10%
+  2019: 🟢 28%
+  2020: 🔴 -39%
+  2021: 🟢 26%
+  2022: 🔴 -51%
+  2023: 🟢 48%
+  2024: 🟢 51%
+  2025: 🟢 37%
+
+--- IT 78 (b9dc09170e1c4bb9459078896b1b0b68) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 1351
+  Average Win: 4.98%
+  Average Loss: -5.01%
+  Compounding Annual Return: 21.733%
+  Drawdown: 66.800%
+  Expectancy: 0.181
+  Start Equity: 100000
+  End Equity: 1060577.54
+  Net Profit: 960.578%
+  Sharpe Ratio: 0.559
+  Sortino Ratio: 0.451
+  Probabilistic Sharpe Ratio: 2.424%
+  Loss Rate: 41%
+  Win Rate: 59%
+  Profit-Loss Ratio: 0.99
+  Alpha: 0.11
+  Beta: 2.283
+  Annual Standard Deviation: 0.52
+  Annual Variance: 0.27
+  Information Ratio: 0.478
+  Tracking Error: 0.443
+  Treynor Ratio: 0.127
+  Total Fees: $100716.27
+  Estimated Strategy Capacity: $100000000.00
+  Lowest Capacity Asset: SOXL UKTSIYPJHFMT
+  Portfolio Turnover: 19.08%
+  Drawdown Recovery: 1146
+
+Yearly Returns:
+  2014: 🔴 -19%
+  2015: ⚪ 0%
+  2016: 🔴 -14%
+  2017: 🟢 71%
+  2018: 🔴 -51%
+  2019: 🟢 83%
+  2020: 🟢 162%
+  2021: 🟢 127%
+  2022: 🔴 -1%
+  2023: 🟢 46%
+  2024: 🔴 -1%
+  2025: 🟢 15%
+
+--- IT 79 (c15362ea2cdfdfdafe23a78e9771fcbc) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 1642
+  Average Win: 0.85%
+  Average Loss: -1.09%
+  Compounding Annual Return: 15.689%
+  Drawdown: 64.100%
+  Expectancy: 0.220
+  Start Equity: 100000
+  End Equity: 575421.39
+  Net Profit: 475.421%
+  Sharpe Ratio: 0.449
+  Sortino Ratio: 0.438
+  Probabilistic Sharpe Ratio: 1.844%
+  Loss Rate: 31%
+  Win Rate: 69%
+  Profit-Loss Ratio: 0.77
+  Alpha: 0.073
+  Beta: 0.728
+  Annual Standard Deviation: 0.29
+  Annual Variance: 0.084
+  Information Ratio: 0.189
+  Tracking Error: 0.273
+  Treynor Ratio: 0.179
+  Total Fees: $19250.26
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: SOXL UKTSIYPJHFMT
+  Portfolio Turnover: 5.35%
+  Drawdown Recovery: 695
+
+Yearly Returns:
+  2014: 🟢 27%
+  2015: 🔴 -26%
+  2016: 🟢 28%
+  2017: 🟢 63%
+  2018: 🔴 -10%
+  2019: 🟢 29%
+  2020: 🟢 97%
+  2021: 🟢 37%
+  2022: 🔴 -57%
+  2023: 🟢 49%
+  2024: 🟢 6%
+  2025: 🟢 38%
+
+--- IT 80 (95cce75522fe2bae436765e9d9703c0e) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 564
+  Average Win: 3.51%
+  Average Loss: -2.20%
+  Compounding Annual Return: -2.632%
+  Drawdown: 58.800%
+  Expectancy: 0.022
+  Start Equity: 100000
+  End Equity: 72596.25
+  Net Profit: -27.404%
+  Sharpe Ratio: -0.025
+  Sortino Ratio: -0.018
+  Probabilistic Sharpe Ratio: 0.005%
+  Loss Rate: 61%
+  Win Rate: 39%
+  Profit-Loss Ratio: 1.59
+  Alpha: -0.048
+  Beta: 0.529
+  Annual Standard Deviation: 0.264
+  Annual Variance: 0.069
+  Information Ratio: -0.326
+  Tracking Error: 0.261
+  Treynor Ratio: -0.012
+  Total Fees: $22521.16
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: BIL TT1EBZ21QWKL
+  Portfolio Turnover: 9.50%
+  Drawdown Recovery: 2212
+
+Yearly Returns:
+  2014: 🔴 -5%
+  2015: 🔴 -33%
+  2016: 🔴 -28%
+  2017: 🟢 31%
+  2018: 🔴 -19%
+  2019: 🟢 37%
+  2020: 🟢 66%
+  2021: 🔴 -30%
+  2022: 🔴 -13%
+  2023: 🟢 8%
+  2024: 🟢 2%
+  2025: 🔴 -2%
+
+--- IT 81 (414b3962d1f14f0fc2da0318bfdb36ce) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 385
+  Average Win: 1.31%
+  Average Loss: -1.29%
+  Compounding Annual Return: 14.930%
+  Drawdown: 32.400%
+  Expectancy: 0.590
+  Start Equity: 100000
+  End Equity: 531697.38
+  Net Profit: 431.697%
+  Sharpe Ratio: 0.611
+  Sortino Ratio: 0.614
+  Probabilistic Sharpe Ratio: 13.647%
+  Loss Rate: 21%
+  Win Rate: 79%
+  Profit-Loss Ratio: 1.02
+  Alpha: 0.051
+  Beta: 0.488
+  Annual Standard Deviation: 0.146
+  Annual Variance: 0.021
+  Information Ratio: 0.071
+  Tracking Error: 0.148
+  Treynor Ratio: 0.183
+  Total Fees: $1956.84
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TMF UBTUG7D0B7TX
+  Portfolio Turnover: 1.00%
+  Drawdown Recovery: 801
+
+Yearly Returns:
+  2014: 🟢 32%
+  2015: 🔴 -3%
+  2016: 🔴 -6%
+  2017: 🟢 34%
+  2018: 🟢 4%
+  2019: 🟢 32%
+  2020: 🟢 25%
+  2021: 🟢 16%
+  2022: 🔴 -13%
+  2023: 🟢 29%
+  2024: 🟢 27%
+  2025: 🟢 15%
+
+--- IT 82 (905b4616f071e9fc6a3eff4a838a02df) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 1110
+  Average Win: 1.08%
+  Average Loss: -0.95%
+  Compounding Annual Return: 20.273%
+  Drawdown: 43.800%
+  Expectancy: 0.461
+  Start Equity: 100000
+  End Equity: 917479.64
+  Net Profit: 817.480%
+  Sharpe Ratio: 0.675
+  Sortino Ratio: 0.697
+  Probabilistic Sharpe Ratio: 13.649%
+  Loss Rate: 32%
+  Win Rate: 68%
+  Profit-Loss Ratio: 1.14
+  Alpha: 0.06
+  Beta: 0.961
+  Annual Standard Deviation: 0.201
+  Annual Variance: 0.04
+  Information Ratio: 0.391
+  Tracking Error: 0.145
+  Treynor Ratio: 0.141
+  Total Fees: $13851.93
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: AGG SSC0EI5J2F6T
+  Portfolio Turnover: 3.50%
+  Drawdown Recovery: 1511
+
+Yearly Returns:
+  2014: 🟢 57%
+  2015: 🟢 21%
+  2016: 🟢 22%
+  2017: 🟢 46%
+  2018: 🟢 3%
+  2019: 🟢 70%
+  2020: 🟢 40%
+  2021: 🟢 9%
+  2022: 🔴 -40%
+  2023: 🟢 33%
+  2024: 🟢 10%
+  2025: 🟢 14%
+
+--- IT 83 (4767ba843abe6cbe603e7e3aea415cee) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 199
+  Average Win: 3.69%
+  Average Loss: -3.80%
+  Compounding Annual Return: 6.229%
+  Drawdown: 45.200%
+  Expectancy: 0.233
+  Start Equity: 100000
+  End Equity: 206591.92
+  Net Profit: 106.592%
+  Sharpe Ratio: 0.218
+  Sortino Ratio: 0.136
+  Probabilistic Sharpe Ratio: 0.599%
+  Loss Rate: 37%
+  Win Rate: 63%
+  Profit-Loss Ratio: 0.97
+  Alpha: 0.013
+  Beta: 0.179
+  Annual Standard Deviation: 0.126
+  Annual Variance: 0.016
+  Information Ratio: -0.3
+  Tracking Error: 0.171
+  Treynor Ratio: 0.154
+  Total Fees: $12016.85
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: BIL TT1EBZ21QWKL
+  Portfolio Turnover: 4.53%
+  Drawdown Recovery: 3199
+
+Yearly Returns:
+  2014: 🔴 -24%
+  2015: 🔴 -9%
+  2016: 🔴 -19%
+  2017: 🟢 58%
+  2018: 🟢 2%
+  2019: 🔴 -3%
+  2020: ⚪ 0%
+  2021: 🟢 15%
+  2022: 🟢 1%
+  2023: 🟢 26%
+  2024: 🟢 10%
+  2025: 🟢 46%
+
+--- IT 84 (4c0ffdf1b5953a9989f9525f80600d03) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 8
+  Average Win: 2.90%
+  Average Loss: 0%
+  Compounding Annual Return: 0.947%
+  Drawdown: 5.700%
+  Expectancy: 0
+  Start Equity: 100000
+  End Equity: 111981.77
+  Net Profit: 11.982%
+  Sharpe Ratio: -0.545
+  Sortino Ratio: -0.066
+  Probabilistic Sharpe Ratio: 0.027%
+  Loss Rate: 0%
+  Win Rate: 100%
+  Profit-Loss Ratio: 0
+  Alpha: -0.017
+  Beta: 0.01
+  Annual Standard Deviation: 0.03
+  Annual Variance: 0.001
+  Information Ratio: -0.653
+  Tracking Error: 0.146
+  Treynor Ratio: -1.695
+  Total Fees: $1323.06
+  Estimated Strategy Capacity: $210000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 0.18%
+  Drawdown Recovery: 2491
+
+Yearly Returns:
+  2014: 🟢 6%
+  2015: 🟢 5%
+  2016: ⚪ 0%
+  2017: ⚪ 0%
+  2018: ⚪ 0%
+  2019: ⚪ 0%
+  2020: ⚪ 0%
+  2021: ⚪ 0%
+  2022: 🟢 1%
+  2023: ⚪ 0%
+  2024: ⚪ 0%
+  2025: ⚪ 0%
+
+--- IT 85 (44790b21269dd22621550f0dc82e803b) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 685
+  Average Win: 4.44%
+  Average Loss: -4.33%
+  Compounding Annual Return: 8.617%
+  Drawdown: 74.100%
+  Expectancy: 0.164
+  Start Equity: 100000
+  End Equity: 269806.17
+  Net Profit: 169.806%
+  Sharpe Ratio: 0.324
+  Sortino Ratio: 0.292
+  Probabilistic Sharpe Ratio: 0.360%
+  Loss Rate: 43%
+  Win Rate: 57%
+  Profit-Loss Ratio: 1.02
+  Alpha: 0.037
+  Beta: 1.301
+  Annual Standard Deviation: 0.429
+  Annual Variance: 0.184
+  Information Ratio: 0.155
+  Tracking Error: 0.389
+  Treynor Ratio: 0.107
+  Total Fees: $34084.12
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: BIL TT1EBZ21QWKL
+  Portfolio Turnover: 15.54%
+  Drawdown Recovery: 1486
+
+Yearly Returns:
+  2014: 🟢 48%
+  2015: 🔴 -41%
+  2016: 🟢 16%
+  2017: 🟢 31%
+  2018: 🔴 -26%
+  2019: 🟢 104%
+  2020: 🟢 21%
+  2021: 🔴 -24%
+  2022: 🔴 -50%
+  2023: 🟢 122%
+  2024: 🟢 5%
+  2025: 🟢 27%
+
+--- IT 86 (0518055b970a7394796bdfb87d2ee016) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 1081
+  Average Win: 0.73%
+  Average Loss: -0.51%
+  Compounding Annual Return: 15.895%
+  Drawdown: 29.700%
+  Expectancy: 0.661
+  Start Equity: 100000
+  End Equity: 587817.92
+  Net Profit: 487.818%
+  Sharpe Ratio: 0.609
+  Sortino Ratio: 0.604
+  Probabilistic Sharpe Ratio: 11.908%
+  Loss Rate: 32%
+  Win Rate: 68%
+  Profit-Loss Ratio: 1.43
+  Alpha: 0.042
+  Beta: 0.711
+  Annual Standard Deviation: 0.162
+  Annual Variance: 0.026
+  Information Ratio: 0.149
+  Tracking Error: 0.132
+  Treynor Ratio: 0.138
+  Total Fees: $9774.94
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 2.30%
+  Drawdown Recovery: 657
+
+Yearly Returns:
+  2014: 🟢 15%
+  2015: 🔴 -1%
+  2016: 🔴 -13%
+  2017: 🟢 69%
+  2018: 🟢 6%
+  2019: 🟢 25%
+  2020: 🟢 39%
+  2021: 🟢 28%
+  2022: 🔴 -15%
+  2023: 🟢 34%
+  2024: 🟢 10%
+  2025: 🟢 19%
+
+--- IT 87 (a7cbf9d61e56696357d5ccd6e0c8d8e3) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 77
+  Average Win: 27.46%
+  Average Loss: -6.94%
+  Compounding Annual Return: 29.374%
+  Drawdown: 61.900%
+  Expectancy: 1.870
+  Start Equity: 100000
+  End Equity: 2202852.55
+  Net Profit: 2102.853%
+  Sharpe Ratio: 0.691
+  Sortino Ratio: 0.628
+  Probabilistic Sharpe Ratio: 8.439%
+  Loss Rate: 42%
+  Win Rate: 58%
+  Profit-Loss Ratio: 3.96
+  Alpha: 0.13
+  Beta: 1.653
+  Annual Standard Deviation: 0.376
+  Annual Variance: 0.142
+  Information Ratio: 0.592
+  Tracking Error: 0.306
+  Treynor Ratio: 0.157
+  Total Fees: $11774.24
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 1.76%
+  Drawdown Recovery: 824
+
+Yearly Returns:
+  2014: 🟢 64%
+  2015: 🔴 -8%
+  2016: 🔴 -32%
+  2017: 🟢 118%
+  2018: 🟢 26%
+  2019: 🟢 38%
+  2020: 🟢 59%
+  2021: 🟢 88%
+  2022: 🔴 -32%
+  2023: 🟢 76%
+  2024: 🟢 23%
+  2025: 🟢 30%
+
+--- IT 88 (d44e0df7173d6ad47c3780942c1bb371) ---
+Status: Runtime Error (100.00%)
+Backtest failed with status: Runtime Error
+Error: During the algorithm initialization, the following exception has occurred: &#039;KeltnerReversion&#039; object has no attribute &#039;KeltnerChannels&#039;
+  at Initialize
+    self.kc = self.KeltnerChannels(self.tqqq, 20, 2, MovingAverageType.Exponential, Resolution.Daily)
+              ^^^^^^^^^^^^^^^^^^^^
+ in main.py: line 10
+ &#039;KeltnerReversion&#039; object has no attribute &#039;KeltnerChannels&#039;
+
+Yearly Returns:
+
+--- IT 89 (8c434cc7a7a5b28830e39046914852ee) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 35
+  Average Win: 15.79%
+  Average Loss: -9.64%
+  Compounding Annual Return: 15.138%
+  Drawdown: 55.100%
+  Expectancy: 1.172
+  Start Equity: 100000
+  End Equity: 543342.82
+  Net Profit: 443.343%
+  Sharpe Ratio: 0.452
+  Sortino Ratio: 0.141
+  Probabilistic Sharpe Ratio: 2.009%
+  Loss Rate: 18%
+  Win Rate: 82%
+  Profit-Loss Ratio: 1.64
+  Alpha: 0.038
+  Beta: 0.976
+  Annual Standard Deviation: 0.254
+  Annual Variance: 0.065
+  Information Ratio: 0.171
+  Tracking Error: 0.212
+  Treynor Ratio: 0.118
+  Total Fees: $6280.64
+  Estimated Strategy Capacity: $490000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 0.75%
+  Drawdown Recovery: 1622
+
+Yearly Returns:
+  2014: 🟢 22%
+  2015: 🟢 27%
+  2016: 🔴 -1%
+  2017: ⚪ 0%
+  2018: 🟢 16%
+  2019: 🟢 44%
+  2020: 🔴 -16%
+  2021: 🟢 12%
+  2022: 🟢 8%
+  2023: ⚪ 0%
+  2024: 🟢 34%
+  2025: 🟢 55%
+
+--- IT 90 (05c5bd37e800818ee71d79bb157d6e61) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 6
+  Average Win: 60.54%
+  Average Loss: 0%
+  Compounding Annual Return: 11.266%
+  Drawdown: 60.400%
+  Expectancy: 0
+  Start Equity: 100000
+  End Equity: 360321.06
+  Net Profit: 260.321%
+  Sharpe Ratio: 0.361
+  Sortino Ratio: 0.192
+  Probabilistic Sharpe Ratio: 1.063%
+  Loss Rate: 0%
+  Win Rate: 100%
+  Profit-Loss Ratio: 0
+  Alpha: 0.035
+  Beta: 0.565
+  Annual Standard Deviation: 0.22
+  Annual Variance: 0.048
+  Information Ratio: 0.003
+  Tracking Error: 0.214
+  Treynor Ratio: 0.14
+  Total Fees: $1791.28
+  Estimated Strategy Capacity: $48000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 0.13%
+  Drawdown Recovery: 300
+
+Yearly Returns:
+  2014: 🟢 17%
+  2015: 🟢 47%
+  2016: 🟢 6%
+  2017: 🟢 48%
+  2018: 🔴 -29%
+  2019: 🟢 86%
+  2020: ⚪ 0%
+  2021: ⚪ 0%
+  2022: ⚪ 0%
+  2023: ⚪ 0%
+  2024: ⚪ 0%
+  2025: ⚪ 0%
+
+--- IT 91 (c5630ea703fa40c5c6f6b71e8544b5d3) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 457
+  Average Win: 5.59%
+  Average Loss: -5.08%
+  Compounding Annual Return: 16.573%
+  Drawdown: 72.100%
+  Expectancy: 0.280
+  Start Equity: 100000
+  End Equity: 630467.79
+  Net Profit: 530.468%
+  Sharpe Ratio: 0.471
+  Sortino Ratio: 0.447
+  Probabilistic Sharpe Ratio: 1.327%
+  Loss Rate: 39%
+  Win Rate: 61%
+  Profit-Loss Ratio: 1.10
+  Alpha: 0.088
+  Beta: 1.773
+  Annual Standard Deviation: 0.483
+  Annual Variance: 0.233
+  Information Ratio: 0.35
+  Tracking Error: 0.425
+  Treynor Ratio: 0.128
+  Total Fees: $25033.57
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: SOXL UKTSIYPJHFMT
+  Portfolio Turnover: 10.36%
+  Drawdown Recovery: 1040
+
+Yearly Returns:
+  2014: 🟢 47%
+  2015: 🔴 -42%
+  2016: 🟢 3%
+  2017: 🟢 70%
+  2018: 🔴 -34%
+  2019: 🟢 64%
+  2020: 🟢 28%
+  2021: 🟢 120%
+  2022: 🔴 -56%
+  2023: 🟢 130%
+  2024: 🔴 -21%
+  2025: 🟢 71%
+
+--- IT 92 (572f678f5d97e058032270b100c13e25) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 2058
+  Average Win: 0.45%
+  Average Loss: -0.73%
+  Compounding Annual Return: -20.216%
+  Drawdown: 93.400%
+  Expectancy: -0.355
+  Start Equity: 100000
+  End Equity: 6641.83
+  Net Profit: -93.358%
+  Sharpe Ratio: -2.214
+  Sortino Ratio: -1.194
+  Probabilistic Sharpe Ratio: 0%
+  Loss Rate: 60%
+  Win Rate: 40%
+  Profit-Loss Ratio: 0.62
+  Alpha: -0.17
+  Beta: 0.054
+  Annual Standard Deviation: 0.075
+  Annual Variance: 0.006
+  Information Ratio: -1.573
+  Tracking Error: 0.155
+  Treynor Ratio: -3.07
+  Total Fees: $87577.40
+  Estimated Strategy Capacity: $5700000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 46.88%
+  Drawdown Recovery: 0
+
+Yearly Returns:
+  2014: 🔴 -49%
+  2015: 🔴 -42%
+  2016: 🔴 -40%
+  2017: 🔴 -25%
+  2018: 🔴 -5%
+  2019: 🔴 -20%
+  2020: 🟢 12%
+  2021: 🔴 -10%
+  2022: 🔴 -18%
+  2023: 🔴 -6%
+  2024: 🔴 -2%
+  2025: 🔴 -12%
+
+--- IT 93 (2c60cb91aa616584ea0fc3b14634e0f7) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 14
+  Average Win: 12.62%
+  Average Loss: -5.47%
+  Compounding Annual Return: 3.840%
+  Drawdown: 22.800%
+  Expectancy: 1.362
+  Start Equity: 100000
+  End Equity: 157209.71
+  Net Profit: 57.210%
+  Sharpe Ratio: 0.095
+  Sortino Ratio: 0.026
+  Probabilistic Sharpe Ratio: 0.043%
+  Loss Rate: 29%
+  Win Rate: 71%
+  Profit-Loss Ratio: 2.31
+  Alpha: -0.01
+  Beta: 0.315
+  Annual Standard Deviation: 0.154
+  Annual Variance: 0.024
+  Information Ratio: -0.361
+  Tracking Error: 0.177
+  Treynor Ratio: 0.046
+  Total Fees: $1898.68
+  Estimated Strategy Capacity: $440000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 0.31%
+  Drawdown Recovery: 1148
+
+Yearly Returns:
+  2014: ⚪ 0%
+  2015: 🔴 -4%
+  2016: 🟢 1%
+  2017: ⚪ 0%
+  2018: 🟢 3%
+  2019: 🟢 13%
+  2020: ⚪ 0%
+  2021: ⚪ 0%
+  2022: ⚪ 0%
+  2023: ⚪ 0%
+  2024: ⚪ 0%
+  2025: 🟢 37%
+
+--- IT 94 (b344326dbe950f52531cb6be16fa58c2) ---
+Status: Runtime Error (100.00%)
+Backtest failed with status: Runtime Error
+Error: [ERROR] FATAL UNHANDLED EXCEPTION:Engine.Run(): During the algorithm initialization, the following exception has occurred: Trying to dynamically access a method that does not exist throws a TypeError exception. To prevent the exception, ensure each parameter type matches those required by the 'QuantConnect.Resolution'>) method. Please checkout the API documentation.,  at Initialize,    self.accel = self.ROC(self.roc, 10, Resolution.Daily),                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^, in main.py: line 13, No method matches given arguments for ROC: (<class 'QuantConnect.Indicators.RateOfChange'>, <class 'int'>, <class 'QuantConnect.Resolution'>),ApiConnection.TryRequest(https://www.quantconnect.com/api/v2/cloud/backtest/status/update): Error: The operation was canceled., Response content: ,BacktestingResultHandler.SendFinalResult(): Error running backtest analysis System.InvalidOperationException: Sequence contains no elements,   at System.Linq.ThrowHelper.ThrowNoElementsException(),   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source),   at QuantConnect.Lean.Engine.Results.Analysis.ResultsAnalyzer.ReadEquityCurve(Result result, QCAlgorithm algorithm) in Engine/Results/Analysis/ResultsAnalyzer.cs:line 175,   at QuantConnect.Lean.Engine.Results.Analysis.ResultsAnalyzer.Run(Int32 timeLimitSeconds, Int32 maxFailedAnalyses) in Engine/Results/Analysis/ResultsAnalyzer.cs:line 65,   at QuantConnect.Lean.Engine.Results.BacktestingResultHandler.SendFinalResult() in Engine/Results/BacktestingResultHandler.cs:line 420
+
+Yearly Returns:
+
+--- IT 95 (8b131ff12f44788d92f5b9e051321cad) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 783
+  Average Win: 3.57%
+  Average Loss: -3.03%
+  Compounding Annual Return: -1.132%
+  Drawdown: 64.800%
+  Expectancy: 0.054
+  Start Equity: 100000
+  End Equity: 87218.62
+  Net Profit: -12.781%
+  Sharpe Ratio: -0.001
+  Sortino Ratio: -0.001
+  Probabilistic Sharpe Ratio: 0.008%
+  Loss Rate: 52%
+  Win Rate: 48%
+  Profit-Loss Ratio: 1.18
+  Alpha: -0.053
+  Beta: 0.666
+  Annual Standard Deviation: 0.247
+  Annual Variance: 0.061
+  Information Ratio: -0.34
+  Tracking Error: 0.232
+  Treynor Ratio: -0
+  Total Fees: $41336.14
+  Estimated Strategy Capacity: $120000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 14.25%
+  Drawdown Recovery: 721
+
+Yearly Returns:
+  2014: 🟢 22%
+  2015: 🔴 -12%
+  2016: 🟢 14%
+  2017: 🟢 17%
+  2018: 🔴 -28%
+  2019: 🟢 28%
+  2020: 🔴 -11%
+  2021: 🟢 7%
+  2022: 🔴 -36%
+  2023: 🟢 32%
+  2024: 🔴 -21%
+  2025: 🟢 4%
+
+--- IT 96 (45fb1cf5837e67647c860963ac0c6597) ---
+Error reading backtest: {'errors': ['Backtest not found - 45fb1cf5837e67647c860963ac0c6597 - results required : true'], 'success': False}
+Error: {'errors': ['Backtest not found - 45fb1cf5837e67647c860963ac0c6597 - results required : true'], 'success': False}
+
+--- IT 97 (4d335989cdd2e450c7c6c51671bbf186) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 4
+  Average Win: 15.71%
+  Average Loss: 0%
+  Compounding Annual Return: 2.436%
+  Drawdown: 2.300%
+  Expectancy: 0
+  Start Equity: 100000
+  End Equity: 133510.58
+  Net Profit: 33.511%
+  Sharpe Ratio: -0.156
+  Sortino Ratio: -0.04
+  Probabilistic Sharpe Ratio: 0.001%
+  Loss Rate: 0%
+  Win Rate: 100%
+  Profit-Loss Ratio: 0
+  Alpha: -0.007
+  Beta: 0.013
+  Annual Standard Deviation: 0.039
+  Annual Variance: 0.002
+  Information Ratio: -0.575
+  Tracking Error: 0.147
+  Treynor Ratio: -0.474
+  Total Fees: $1078.62
+  Estimated Strategy Capacity: $21000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 0.08%
+  Drawdown Recovery: 2
+
+Yearly Returns:
+  2014: ⚪ 0%
+  2015: 🟢 22%
+  2016: 🟢 10%
+  2017: ⚪ 0%
+  2018: ⚪ 0%
+  2019: ⚪ 0%
+  2020: ⚪ 0%
+  2021: ⚪ 0%
+  2022: ⚪ 0%
+  2023: ⚪ 0%
+  2024: ⚪ 0%
+  2025: ⚪ 0%
+
+--- IT 98 (37db827321f7a7f57794b3f8ea123471) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 155
+  Average Win: 15.58%
+  Average Loss: -11.53%
+  Compounding Annual Return: 24.163%
+  Drawdown: 78.000%
+  Expectancy: 0.423
+  Start Equity: 100000
+  End Equity: 1344655.75
+  Net Profit: 1244.656%
+  Sharpe Ratio: 0.585
+  Sortino Ratio: 0.608
+  Probabilistic Sharpe Ratio: 3.227%
+  Loss Rate: 39%
+  Win Rate: 61%
+  Profit-Loss Ratio: 1.35
+  Alpha: 0.161
+  Beta: 1.509
+  Annual Standard Deviation: 0.478
+  Annual Variance: 0.229
+  Information Ratio: 0.465
+  Tracking Error: 0.432
+  Treynor Ratio: 0.185
+  Total Fees: $17051.55
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: SOXL UKTSIYPJHFMT
+  Portfolio Turnover: 3.48%
+  Drawdown Recovery: 1150
+
+Yearly Returns:
+  2014: 🟢 56%
+  2015: 🔴 -58%
+  2016: 🟢 11%
+  2017: 🟢 85%
+  2018: 🔴 -16%
+  2019: 🟢 130%
+  2020: 🟢 60%
+  2021: 🟢 29%
+  2022: 🔴 -30%
+  2023: 🟢 32%
+  2024: 🟢 29%
+  2025: 🟢 111%
+
+--- IT 99 (52e3a7bbd7bfebf7b6fadc07d61a23d9) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 179
+  Average Win: 30.34%
+  Average Loss: -3.65%
+  Compounding Annual Return: 35.953%
+  Drawdown: 63.700%
+  Expectancy: 2.352
+  Start Equity: 100000
+  End Equity: 3996250.53
+  Net Profit: 3896.251%
+  Sharpe Ratio: 0.79
+  Sortino Ratio: 0.808
+  Probabilistic Sharpe Ratio: 13.430%
+  Loss Rate: 64%
+  Win Rate: 36%
+  Profit-Loss Ratio: 8.32
+  Alpha: 0.181
+  Beta: 1.757
+  Annual Standard Deviation: 0.403
+  Annual Variance: 0.163
+  Information Ratio: 0.722
+  Tracking Error: 0.333
+  Treynor Ratio: 0.182
+  Total Fees: $29057.10
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 4.09%
+  Drawdown Recovery: 643
+
+Yearly Returns:
+  2014: 🟢 56%
+  2015: 🔴 -8%
+  2016: ⚪ 0%
+  2017: 🟢 118%
+  2018: 🔴 -19%
+  2019: 🟢 58%
+  2020: 🟢 64%
+  2021: 🟢 88%
+  2022: 🔴 -44%
+  2023: 🟢 138%
+  2024: 🟢 62%
+  2025: 🟢 47%
+
+--- IT 100 (33c3f86329a08f6ad2cb4da084e348a3) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 69
+  Average Win: 7.88%
+  Average Loss: -5.44%
+  Compounding Annual Return: 14.453%
+  Drawdown: 27.500%
+  Expectancy: 0.945
+  Start Equity: 100000
+  End Equity: 505778.96
+  Net Profit: 405.779%
+  Sharpe Ratio: 0.455
+  Sortino Ratio: 0.203
+  Probabilistic Sharpe Ratio: 2.170%
+  Loss Rate: 21%
+  Win Rate: 79%
+  Profit-Loss Ratio: 1.45
+  Alpha: 0.05
+  Beta: 0.652
+  Annual Standard Deviation: 0.222
+  Annual Variance: 0.049
+  Information Ratio: 0.108
+  Tracking Error: 0.208
+  Treynor Ratio: 0.155
+  Total Fees: $16726.75
+  Estimated Strategy Capacity: $320000000.00
+  Lowest Capacity Asset: TQQQ UK280CGTCB51
+  Portfolio Turnover: 1.55%
+  Drawdown Recovery: 571
+
+Yearly Returns:
+  2014: 🟢 15%
+  2015: 🟢 27%
+  2016: 🟢 43%
+  2017: 🟢 14%
+  2018: 🟢 7%
+  2019: 🟢 22%
+  2020: ⚪ 0%
+  2021: 🟢 18%
+  2022: 🔴 -3%
+  2023: 🟢 32%
+  2024: 🟢 4%
+  2025: 🟢 4%
+
+--- IT 101 (28b7c1b8e8f1f561010d89921dbb0e7b) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 287
+  Average Win: 0.21%
+  Average Loss: -0.03%
+  Compounding Annual Return: 1.463%
+  Drawdown: 0.600%
+  Expectancy: 4.641
+  Start Equity: 100000
+  End Equity: 119053.06
+  Net Profit: 19.053%
+  Sharpe Ratio: -5.484
+  Sortino Ratio: -5.117
+  Probabilistic Sharpe Ratio: 100%
+  Loss Rate: 38%
+  Win Rate: 62%
+  Profit-Loss Ratio: 8.17
+  Alpha: -0.013
+  Beta: -0
+  Annual Standard Deviation: 0.002
+  Annual Variance: 0
+  Information Ratio: -0.64
+  Tracking Error: 0.144
+  Treynor Ratio: 404.662
+  Total Fees: $1903.53
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: BIL TT1EBZ21QWKL
+  Portfolio Turnover: 6.53%
+  Drawdown Recovery: 1417
+
+Yearly Returns:
+  2014: ⚪ 0%
+  2015: ⚪ 0%
+  2016: ⚪ 0%
+  2017: 🟢 1%
+  2018: 🟢 1%
+  2019: 🟢 1%
+  2020: ⚪ 0%
+  2021: ⚪ 0%
+  2022: 🟢 1%
+  2023: 🟢 5%
+  2024: 🟢 5%
+  2025: 🟢 4%
+
+--- IT 102 (2b238663ede5a1f8b45e758eb6e12318) ---
+Status: Completed. (100.00%)
+Backtest Completed!
+
+Statistics:
+  Total Orders: 2151
+  Average Win: 1.00%
+  Average Loss: -0.78%
+  Compounding Annual Return: 20.549%
+  Drawdown: 55.600%
+  Expectancy: 0.325
+  Start Equity: 100000
+  End Equity: 943105.31
+  Net Profit: 843.105%
+  Sharpe Ratio: 0.564
+  Sortino Ratio: 0.428
+  Probabilistic Sharpe Ratio: 4.658%
+  Loss Rate: 42%
+  Win Rate: 58%
+  Profit-Loss Ratio: 1.29
+  Alpha: 0.09
+  Beta: 0.927
+  Annual Standard Deviation: 0.289
+  Annual Variance: 0.084
+  Information Ratio: 0.329
+  Tracking Error: 0.257
+  Treynor Ratio: 0.176
+  Total Fees: $40356.07
+  Estimated Strategy Capacity: $0
+  Lowest Capacity Asset: BIL TT1EBZ21QWKL
+  Portfolio Turnover: 9.41%
+  Drawdown Recovery: 1821
+
+Yearly Returns:
+  2014: 🟢 29%
+  2015: 🟢 10%
+  2016: 🔴 -13%
+  2017: 🟢 3%
+  2018: 🔴 -26%
+  2019: 🟢 86%
+  2020: 🟢 57%
+  2021: 🟢 65%
+  2022: 🔴 -37%
+  2023: 🟢 74%
+  2024: 🟢 47%
+  2025: 🟢 32%
+

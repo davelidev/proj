@@ -48,15 +48,18 @@ def bundle(strategy_file):
 def upload_and_run(content, name):
     requests.post(f"{BASE_URL}/files/update", headers=get_headers(),
                   json={"projectId": PROJECT_ID, "name": "main.py", "content": content})
+    time.sleep(2)
     r = requests.post(f"{BASE_URL}/compile/create", headers=get_headers(),
                       json={"projectId": PROJECT_ID}).json()
     if not r.get("success"):
         print(f"  Compile failed: {r}")
         return None
-    time.sleep(3)
+    time.sleep(5)
     r = requests.post(f"{BASE_URL}/backtests/create", headers=get_headers(),
                       json={"projectId": PROJECT_ID, "compileId": r["compileId"],
                             "backtestName": name}).json()
+    if not r.get("backtest", {}).get("backtestId"):
+        print(f"  Backtest create failed: {r}")
     return r.get("backtest", {}).get("backtestId")
 
 
