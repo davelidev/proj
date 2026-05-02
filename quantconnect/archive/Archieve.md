@@ -25,6 +25,7 @@ d# Archived Strategy Backtests
 | [20](#strategy-20) | Trend          | 29%  | -51%  | 0.831  | 29    | 18     | 1.61      | 2.91         | 2/10    |
 | [21](#strategy-21) | Trend          | 31%  | -49%  | 0.731  | 100   | 47     | 2.13      | 1.44         | 4/10    |
 | [22](#strategy-22) | Rotation       | 38%  | -54%  | 0.818  | 219   | 229    | 0.96      | 1.98         | 3/10    |
+| [23](#strategy-23) | Rebalance      | —    | —     | —      | —     | —      | —         | —            | —       |
 
 | # | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -665,3 +666,21 @@ d# Archived Strategy Backtests
 > PATH: "vault://QuantConnect/archive/dual_signal_rotation.py"
 > ```
 
+
+---
+
+## Strategy-23
+### Equal-Weight LETF Rebalance (rebalance.py)
+
+**Description:** Simple periodic rebalancer for TQQQ/SOXL/TECL. Holds 20% in each ETF (60% total) and 40% cash, rebalancing once per year after 11am.
+
+*No backtest data — archived without running.*
+
+- **Allocation:** TQQQ 20%, SOXL 20%, TECL 20%, Cash 40%
+- **Rebalance:** Yearly
+- **Symbols:** TQQQ, SOXL, TECL
+
+> [!code]- Click to view: rebalance.py
+> ```embed-python
+> PATH: "vault://QuantConnect/archive/rebalance.py"
+> ```

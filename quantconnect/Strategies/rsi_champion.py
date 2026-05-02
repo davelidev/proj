@@ -1,42 +1,19 @@
-from datetime import datetime, timedelta
-from AlgorithmImports import *                                                                                        
- 
-class RSIDipChampion(QCAlgorithm):                                                                               
-                                                                
-    def Initialize(self):
-        
-        self.SetStartDate(2014, 1, 1)
-        self.SetEndDate(2025, 12, 31)
-        self.SetCash(100000)
-        self.SetBenchmark("QQQ")
-        
-        self.aggressive = ["TQQQ", "SOXL", "TECL"]
-        
-        for ticker in set(self.aggressive + ['QQQ']):
-            self.AddEquity(ticker, Resolution.Daily)
-            
-        # RSI(2) on QQQ for regime signal
-        self.qqq_rsi2 = self.RSI("QQQ", 2, MovingAverageType.Wilders, Resolution.Daily)
-        
-        self.Schedule.On(
-            self.DateRules.EveryDay("QQQ"),
-            self.TimeRules.AfterMarketOpen("QQQ", 35),
-            self.Rebalance,
-        )
-        self.is_long = None
+from AlgorithmImports import *
+from base import BaseSubAlgo, _make_standalone
 
-    def Rebalance(self):
-        if not self.qqq_rsi2.IsReady:
-            return
-        
-        prev_is_long = self.is_long
-        # Trigger: QQQ is extremely oversold
-        self.is_long = self.qqq_rsi2.Current.Value < 25
-        
-        if prev_is_long != self.is_long:
-            self.Liquidate()
-            if self.is_long:
-                # Enter aggressive growth basket
-                for ticker in self.aggressive:
-                    self.SetHoldings(ticker, 1 / len(self.aggressive))
-            # If not long, we stay in Cash (Liquidated)
+
+class RSIDipChampionSub(BaseSubAlgo):
+    def initialize(self):
+        self.algo.AddEquity("QQQ", Resolution.Daily)
+        self.rsi2 = self.algo.RSI("QQQ", 2, MovingAverageType.Wilders, Resolution.Daily)
+        self.syms = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
+
+    def update_targets(self) -> bool:
+        if not self.rsi2.IsReady: return False
+        weight  = 1/3 if self.rsi2.Current.Value < 25 else 0
+        changed = (self.targets.get(self.syms[0], -1) != weight)
+        self.targets = {s: weight for s in self.syms}
+        return changed
+
+
+RSIDipChampionAlgo = _make_standalone(RSIDipChampionSub)

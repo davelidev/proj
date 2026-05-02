@@ -1,28 +1,18 @@
-from datetime import datetime, timedelta
 from AlgorithmImports import *
-
-class Rebalance(QCAlgorithm):
-    def Initialize(self):
-        
-        self.SetStartDate(2014, 1, 1)
-        self.SetEndDate(2025, 12, 31)
-        self.weights = {None:4, "TQQQ": 2, "SOXL": 2, "TECL": 2}
-        self.period = 'year'
-
-        self.last = None
-        for t in self.weights:
-            if t is None: continue
-            self.AddEquity(t, Resolution.Minute)
-
-    def OnData(self, data):
-        if self.Time.hour < 11: return
-        # rebalance on start of week/month/year
-        t = getattr(self.Time, self.period)
-        if t == self.last: return
-        self.last = t
+from base import BaseSubAlgo, _make_standalone
 
 
-        total = sum(self.weights.values())
-        for sym, weight in self.weights.items():
-            if sym is None: continue
-            self.SetHoldings(sym, weight / total)
+class LeveragedRebalanceSub(BaseSubAlgo):
+    def initialize(self):
+        self.syms       = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
+        self.targets    = {s: 0.20 for s in self.syms}
+        self._last_year = None
+
+    def update_targets(self) -> bool:
+        if self.algo.Time.year == self._last_year: return False
+        self._last_year = self.algo.Time.year
+        self.targets    = {s: 0.20 for s in self.syms}
+        return True
+
+
+LeveragedRebalanceAlgo = _make_standalone(LeveragedRebalanceSub)

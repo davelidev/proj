@@ -1,0 +1,58 @@
+{
+    "vol_breakout.py": {
+        "status": "Completed.",
+        "id": "2cab0218fb008b16ed94bfbd8bfd12e0",
+        "raw_stats": {
+            "Total Orders": "2990",
+            "Average Win": "1.13%",
+            "Average Loss": "-1.62%",
+            "Compounding Annual Return": "-53.139%",
+            "Drawdown": "100.000%",
+            "Expectancy": "-0.362",
+            "Start Equity": "100000",
+            "End Equity": "11.15",
+            "Net Profit": "-99.989%",
+            "Sharpe Ratio": "-2.19",
+            "Sortino Ratio": "-1.502",
+            "Probabilistic Sharpe Ratio": "0%",
+            "Loss Rate": "62%",
+            "Win Rate": "38%",
+            "Profit-Loss Ratio": "0.70",
+            "Alpha": "-0.438",
+            "Beta": "0.232",
+            "Annual Standard Deviation": "0.192",
+            "Annual Variance": "0.037",
+            "Information Ratio": "-2.279",
+            "Tracking Error": "0.219",
+            "Treynor Ratio": "-1.809",
+            "Total Fees": "$89947.35",
+            "Estimated Strategy Capacity": "$5700000.00",
+            "Lowest Capacity Asset": "TQQQ UK280CGTCB51",
+            "Portfolio Turnover": "67.82%",
+            "Drawdown Recovery": "0"
+        },
+        "stats": {
+            "CAGR": -53.139,
+            "MaxDD": 100.0,
+            "Sharpe": -2.19,
+            "Win": 1136,
+            "Loss": 1854,
+            "WL": 0.61,
+            "PL": 0.7
+        },
+        "yearly": {
+            "2014": -85,
+            "2015": -69,
+            "2016": -58,
+            "2017": -44,
+            "2018": -24,
+            "2019": -73,
+            "2020": -92,
+            "2021": 0,
+            "2022": 0,
+            "2023": -30,
+            "2024": 0,
+            "2025": 0
+        }
+    }
+}

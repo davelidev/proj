@@ -1,24 +1,24 @@
 # QuantConnect Trading Strategies
 
 
-| #                    | Category  | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
-| :------------------- | :-------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
-| ✅ [1](#strategy-1)  | Breakout  | 45%  | -38%  | 1.021  | 234   | 435    | 0.54      | 3.77         | 6/10    |
-| ✅ [2](#strategy-2)  | Dip Buy   | 31%  | -49%  | 0.883  | 37    | 34     | 1.09      | 3.43         | 2/10    |
-| ✅ [3](#strategy-3)  | Rebalance | 31%  | -52%  | 0.748  | 35    | 0      | ∞         | 0            | 4/10    |
-| ✅ [4](#strategy-4)  | Dip Buy   | 47%  | -37%  | 1.034  | 1426  | 611    | 2.33      | 0.81         | 2/10    |
-| ✅ [5](#strategy-5)  | Trend     | 31%  | -49%  | 0.738  | 100   | 47     | 2.13      | 1.44         | 4/10    |
-| ✅ [7](#strategy-7)  | Breakout  | 38%  | -50%  | 0.880  | 94    | 76     | 1.24      | 2.21         | 4/10    |
-| ✅ **ENSEMBLE**     | **Ensemble**| **35%** | **-37%**| **0.998** | **3041**| **1944** | **1.56**     | **1.33**     | **3/10**|
+| #                  | Category     | CAGR    | MaxDD    | Sharpe    | Win #    | Loss #   | W/L Ratio | Profit Ratio | Overfit  |
+| :----------------- | :----------- | :------ | :------- | :-------- | :------- | :------- | :-------- | :----------- | :------- |
+| ✅ [1](#strategy-1) | Breakout | 43% | -37% | 0.986 | 192 | 341 | 0.56 | 3.45 | 6/10 |
+| ✅ [2](#strategy-2) | Dip Buy      | 31%     | -49%     | 0.883     | 37       | 34       | 1.09      | 3.43         | 2/10     |
+| ✅ [3](#strategy-3) | Rebalance    | 31%     | -52%     | 0.748     | 35       | 0        | ∞         | 0            | 4/10     |
+| ✅ [4](#strategy-4) | Dip Buy      | 47%     | -37%     | 1.034     | 1426     | 611      | 2.33      | 0.81         | 2/10     |
+| ✅ [5](#strategy-5) | Trend        | 31%     | -49%     | 0.738     | 100      | 47       | 2.13      | 1.44         | 4/10     |
+| ✅ [6](#strategy-6) | Breakout     | 38%     | -50%     | 0.880     | 94       | 76       | 1.24      | 2.21         | 4/10     |
+| ✅ **ENSEMBLE**     | **Ensemble** | **35%** | **-37%** | **0.998** | **3041** | **1944** | **1.56**  | **1.33**     | **3/10** |
 
 | #                   | 14         | 15        | 16        | 17         | 18         | 19         | 20          | 21         | 22          | 23         | 24         | 25         |
 | :------------------ | :--------- | :-------- | :-------- | :--------- | :--------- | :--------- | :---------- | :--------- | :---------- | :--------- | :--------- | :--------- |
-| ✅ [1](#strategy-1)  | 🟢 53%     | 🟢 6%     | 🟢 21%    | 🟢 88%     | 🟢 19%     | 🟢 111%    | 🟢 169%     | 🟢 42%     | 🔴 -34%     | 🟢 92%     | 🟢 53%     | 🟢 20%     |
+| ✅ [1](#strategy-1)  | 🟢 43% | 🟢 8% | 🟢 26% | 🟢 101% | 🟢 23% | 🟢 105% | 🟢 149% | 🟢 23% | 🔴 -32% | 🟢 107% | 🟢 52% | 🟢 18% |
 | ✅ [2](#strategy-2)  | 🟢 18%     | ⚪ 0%      | 🟢 5%     | 🟢 37%     | 🟢 6%      | 🟢 50%     | 🟢 62%      | 🟢 55%     | 🔴 -43%     | 🟢 115%    | 🟢 126%    | 🟢 39%     |
 | ✅ [3](#strategy-3)  | 🟢 46%     | 🟢 1%     | 🟢 32%    | 🟢 76%     | 🔴 -15%    | 🟢 107%    | 🟢 51%      | 🟢 65%     | 🔴 -47%     | 🟢 127%    | 🟢 16%     | 🟢 24%     |
 | ✅ [4](#strategy-4)  | 🟢 31%     | 🔴 -8%    | 🔴 -20%   | 🟢 50%     | 🟢 19%     | 🟢 37%     | 🟢 215%     | 🟢 142%    | 🟢 22%      | 🟢 76%     | 🟢 74%     | 🟢 51%     |
 | ✅ [5](#strategy-5)  | 🟢 35%     | 🟢 4%     | 🔴 -15%   | 🟢 133%    | 🟢 7%      | 🟢 29%     | 🟢 69%      | 🟢 83%     | 🔴 -21%     | 🟢 70%     | 🟢 29%     | 🟢 25%     |
-| ✅ [7](#strategy-7)  | 🟢 137%    | 🔴 -3%    | 🔴 -6%    | 🟢 76%     | 🟢 54%     | 🟢 14%     | 🟢 85%      | 🟢 49%     | 🔴 -14%     | 🟢 81%     | 🟢 36%     | 🟢 28%     |
+| ✅ [6](#strategy-6)  | 🟢 137%    | 🔴 -3%    | 🔴 -6%    | 🟢 76%     | 🟢 54%     | 🟢 14%     | 🟢 85%      | 🟢 49%     | 🔴 -14%     | 🟢 81%     | 🟢 36%     | 🟢 28%     |
 | ✅ **ENSEMBLE**     | **🟢 52%** | **🟢 2%** | **🟢 5%** | **🟢 72%** | **🟢 9%** | **🟢 58%** | **🟢 82%** | **🟢 62%** | **🔴 -28%** | **🟢 77%** | **🟢 53%** | **🟢 49%** |
 
 *Note: Checkmarked strategies (✅) are considered "selected" and contribute to the ENSEMBLE calculations.*
@@ -40,11 +40,11 @@
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 45% | -38% | 1.021 | 234 | 435 | 0.54 | 3.77 |
+| 43% | -37% | 0.986 | 192 | 341 | 0.56 | 3.45 |
 
 | 14     | 15    | 16     | 17     | 18     | 19      | 20      | 21     | 22      | 23     | 24     | 25     |
 | :----- | :---- | :----- | :----- | :----- | :------ | :------ | :----- | :------ | :----- | :----- | :----- |
-| 🟢 53% | 🟢 6% | 🟢 21% | 🟢 88% | 🟢 19% | 🟢 111% | 🟢 169% | 🟢 42% | 🔴 -34% | 🟢 92% | 🟢 53% | 🟢 20% |
+| 🟢 43% | 🟢 8% | 🟢 26% | 🟢 101% | 🟢 23% | 🟢 105% | 🟢 149% | 🟢 23% | 🔴 -32% | 🟢 107% | 🟢 52% | 🟢 18% |
 
 > [!code]- Click to view: vol_breakout.py
 > ```embed-python
@@ -73,9 +73,9 @@
 | :----- | :---- | :---- | :----- | :---- | :----- | :----- | :----- | :------ | :------ | :------ | :----- |
 | 🟢 18% | ⚪ 0% | 🟢 5% | 🟢 37% | 🟢 6% | 🟢 50% | 🟢 62% | 🟢 55% | 🔴 -43% | 🟢 115% | 🟢 126% | 🟢 39% |
 
-> [!code]- Click to view: dip_buy_tech.py
+> [!code]- Click to view: tech_dip.py
 > ```embed-python
-> PATH: "vault://QuantConnect/strategies/dip_buy_tech.py"
+> PATH: "vault://QuantConnect/strategies/tech_dip.py"
 > ```
 
 ---
@@ -154,14 +154,14 @@
 | :----- | :---- | :------ | :------ | :---- | :----- | :----- | :----- | :------ | :----- | :----- | :----- |
 | 🟢 35% | 🟢 4% | 🔴 -15% | 🟢 133% | 🟢 7% | 🟢 29% | 🟢 69% | 🟢 83% | 🔴 -21% | 🟢 70% | 🟢 29% | 🟢 25% |
 
-> [!code]- Click to view: dip_buy_tqqq.py
+> [!code]- Click to view: tqqq_dynamic.py
 > ```embed-python
-> PATH: "vault://QuantConnect/strategies/dip_buy_tqqq.py"
+> PATH: "vault://QuantConnect/strategies/tqqq_dynamic.py"
 > ```
 
 ---
 
-## Strategy-7
+## Strategy-6
 ### Expanding Breakout 20d Exit (strategy_34.py)
 
 **Description:** Enters TQQQ when today's trading range expands beyond yesterday's in a confirmed uptrend, then closes the position the moment price tags a 20-day high. Taking profit on strength avoids giving back gains on sharp reversals — the trade opens on a momentum burst and closes at the first new short-term milestone. The defining difference from the other breakout variants in this set.
@@ -181,7 +181,7 @@
 | :----- | :----- | :----- | :----- | :----- | :----- | :----- | :----- | :------ | :----- | :----- | :----- |
 | 🟢 85% | 🔴 -3% | 🔴 -6% | 🟢 76% | 🟢 54% | 🟢 14% | 🟢 85% | 🟢 49% | 🔴 -14% | 🟢 81% | 🟢 36% | 🟢 28% |
 
-> [!code]- Click to view: strategy_34.py
+> [!code]- Click to view: expanding_breakout.py
 > ```embed-python
-> PATH: "vault://QuantConnect/strategies/strategy_34.py"
+> PATH: "vault://QuantConnect/strategies/expanding_breakout.py"
 > ```
