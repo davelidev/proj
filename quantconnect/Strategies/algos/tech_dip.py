@@ -24,7 +24,8 @@ class TechDipBuySub(BaseSubAlgo):
     def on_securities_changed(self, changes):
         # Mirror LargeCapTechStrategy.on_securities_changed exactly
         for sec in changes.AddedSecurities:
-            if sec.Symbol.Value in {"TQQQ", "QQQ", "SOXL", "TECL", "SPY", "BIL"}: continue
+            # Dynamically skip core symbols or anything already handled
+            if sec.Symbol in self.core_syms: continue
             
             sec.rsi   = self.algo.RSI(sec.Symbol, 2)
             sec.max   = self.algo.MAX(sec.Symbol, 252)

@@ -25,6 +25,7 @@ class UltimateAlgo(QCAlgorithm):
 
         self.bil         = self.AddEquity(self.CASH_TICKER, Resolution.Daily).Symbol
         self.last_prices = {}
+        self.core_syms   = {self.bil} # Initialize with Cash asset
 
         self.sub_algos = [
             VolatilityBreakoutSub(self, "VolBreakout"),
@@ -35,10 +36,26 @@ class UltimateAlgo(QCAlgorithm):
             ExpandingBreakoutSub(self,   "ExpandBreak"),
         ]
 
+        # TRACK CORE SYMBOLS:
+        # We wrap AddEquity to capture what sub-algos add during initialize()
+        orig_add_equity = self.AddEquity
+        added_during_init = set()
+        def add_equity_wrapper(ticker, *args, **kwargs):
+            sec = orig_add_equity(ticker, *args, **kwargs)
+            added_during_init.add(sec.Symbol)
+            return sec
+        self.AddEquity = add_equity_wrapper
+
         start_equity = INITIAL_CASH / len(self.sub_algos)
         for sub in self.sub_algos:
             sub.equity = start_equity
             sub.initialize()
+            # Share the core symbols list with the sub-algo
+            sub.core_syms = self.core_syms
+
+        # Restore original AddEquity and finalize core set
+        self.AddEquity = orig_add_equity
+        self.core_syms.update(added_during_init)
 
         self.UniverseSettings.Resolution = Resolution.Daily
         for sub in self.sub_algos:
