@@ -8,3 +8,8 @@ https://www.quantconnect.com/forum/discussion/9531/alpha-rebalancing-trading-str
 https://www.quantconnect.com/forum/discussion/13451/tqqq-200-day-sma-trend-following-optimized/p1
 https://medium.com/quant-factory/alpha-rebalancing-trading-strategy-hangkuquant-quantconnect-python-c63e2a2a0d0d
 https://www.quantconnect.com/forum/discussion/9731/nasdaq-100-momentum-with-volatility-scaling/p1
+https://www.quantconnect.com/forum/discussion/20556/letf-strategy-simple/
+https://www.quantconnect.com/forum/discussion/19857/crypto-12m-momentum-with-market-cap-based-universe/
+https://www.quantconnect.com/forum/discussion/11241/strategy-leveraged-gold-and-long-term-treasuries
+https://www.quantconnect.com/forum/discussion/3596/defensive-asset-allocation-daa/p1
+https://www.quantconnect.com/forum/discussion/14635/balanced-asset-allocation-baa/

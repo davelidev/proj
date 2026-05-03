@@ -1,7 +1,7 @@
 {
     "vol_breakout.py": {
         "status": "Completed.",
-        "id": "dc8d071bc0c8f2aab35178405e00b261",
+        "id": "04a097e1b8cdf7afdb50929cfcd9ced0",
         "raw_stats": {
             "Total Orders": "533",
             "Average Win": "12.27%",
@@ -57,7 +57,7 @@
     },
     "tech_dip.py": {
         "status": "Completed.",
-        "id": "46ce174009d4089c694501b9490a9e7e",
+        "id": "c56cbd18ea2f381ecda4ecde755b7f84",
         "raw_stats": {
             "Total Orders": "87",
             "Average Win": "7.76%",
@@ -66,11 +66,11 @@
             "Drawdown": "41.500%",
             "Expectancy": "1.688",
             "Start Equity": "100000",
-            "End Equity": "2066970.82",
-            "Net Profit": "1966.971%",
+            "End Equity": "2066972.84",
+            "Net Profit": "1966.973%",
             "Sharpe Ratio": "0.869",
             "Sortino Ratio": "0.961",
-            "Probabilistic Sharpe Ratio": "30.733%",
+            "Probabilistic Sharpe Ratio": "30.734%",
             "Loss Rate": "42%",
             "Win Rate": "58%",
             "Profit-Loss Ratio": "3.63",
@@ -81,9 +81,9 @@
             "Information Ratio": "0.858",
             "Tracking Error": "0.139",
             "Treynor Ratio": "0.154",
-            "Total Fees": "$227.66",
+            "Total Fees": "$227.65",
             "Estimated Strategy Capacity": "$0",
-            "Lowest Capacity Asset": "AAPL R735QTJ8XC9X",
+            "Lowest Capacity Asset": "AVGO UEW4IOBWVPT1",
             "Portfolio Turnover": "0.24%",
             "Drawdown Recovery": "561"
         },
@@ -113,7 +113,7 @@
     },
     "leveraged_rebalance.py": {
         "status": "Completed.",
-        "id": "a5b2b241f25272ab1ca260c38cc2a615",
+        "id": "6d55e06bc85d79590bdb34d9bf065b36",
         "raw_stats": {
             "Total Orders": "13",
             "Average Win": "27.51%",
@@ -169,7 +169,7 @@
     },
     "rsi_champion.py": {
         "status": "Completed.",
-        "id": "8119c088bfbae993fa0426d730ff9a18",
+        "id": "97cfba43b0584c16986e952ed933e15c",
         "raw_stats": {
             "Total Orders": "2037",
             "Average Win": "1.42%",
@@ -225,7 +225,7 @@
     },
     "tqqq_dynamic.py": {
         "status": "Completed.",
-        "id": "dfe7a45372e12878ff79339c7913d63c",
+        "id": "6fee1417f3847220c62de869c0b91c08",
         "raw_stats": {
             "Total Orders": "122",
             "Average Win": "22.21%",
@@ -281,7 +281,7 @@
     },
     "expanding_breakout.py": {
         "status": "Completed.",
-        "id": "d7b9307d521294ae6c4975ae767939a7",
+        "id": "057ecd61e347f2e9a80f31609cee5424",
         "raw_stats": {
             "Total Orders": "170",
             "Average Win": "17.41%",

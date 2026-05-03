@@ -42,6 +42,23 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | ✅ | 43% | -37% | 0.986 | 192 | 341 | 0.56 | 3.45 |
 
+| Metric | Value |
+| :--- | :--- |
+| Compounding Annual Return | 42.782% |
+| Net Profit | 7097.894% |
+| Drawdown | 37.400% |
+| Sharpe Ratio | 0.986 |
+| Sortino Ratio | 1.088 |
+| Probabilistic Sharpe Ratio | 34.815% |
+| Alpha | 0.23 |
+| Beta | 1.248 |
+| Win Rate | 36% |
+| Profit-Loss Ratio | 3.45 |
+| Average Win | 12.27% |
+| Average Loss | -3.56% |
+| Total Orders | 533 |
+| Drawdown Recovery | 518 |
+
 | 14     | 15    | 16     | 17     | 18     | 19      | 20      | 21     | 22      | 23     | 24     | 25     |
 | :----- | :---- | :----- | :----- | :----- | :------ | :------ | :----- | :------ | :----- | :----- | :----- |
 | 🟢 43% | 🟢 8% | 🟢 26% | 🟢 101% | 🟢 23% | 🟢 105% | 🟢 149% | 🟢 23% | 🔴 -32% | 🟢 107% | 🟢 52% | 🟢 18% |
@@ -68,6 +85,23 @@
 | Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :----------- |
 | ✅ | 29% | -42% | 0.869 | 50 | 37 | 1.35 | 3.63 |
+
+| Metric | Value |
+| :--- | :--- |
+| Compounding Annual Return | 28.687% |
+| Net Profit | 1966.971% |
+| Drawdown | 41.500% |
+| Sharpe Ratio | 0.869 |
+| Sortino Ratio | 0.961 |
+| Probabilistic Sharpe Ratio | 30.733% |
+| Alpha | 0.097 |
+| Beta | 1.283 |
+| Win Rate | 58% |
+| Profit-Loss Ratio | 3.63 |
+| Average Win | 7.76% |
+| Average Loss | -2.14% |
+| Total Orders | 87 |
+| Drawdown Recovery | 561 |
 
 | 14     | 15    | 16    | 17     | 18    | 19     | 20     | 21     | 22      | 23      | 24      | 25     |
 | :----- | :---- | :---- | :----- | :---- | :----- | :----- | :----- | :------ | :------ | :------ | :----- |
@@ -96,6 +130,23 @@
 | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :----------- |
 | ✅ | 28% | -51% | 0.728 | 13 | 0 | — | 0.00 |
 
+| Metric | Value |
+| :--- | :--- |
+| Compounding Annual Return | 28.273% |
+| Net Profit | 1887.982% |
+| Drawdown | 51.400% |
+| Sharpe Ratio | 0.728 |
+| Sortino Ratio | 0.772 |
+| Probabilistic Sharpe Ratio | 12.586% |
+| Alpha | 0.073 |
+| Beta | 1.87 |
+| Win Rate | 100% |
+| Profit-Loss Ratio | 0 |
+| Average Win | 27.51% |
+| Average Loss | 0% |
+| Total Orders | 13 |
+| Drawdown Recovery | 603 |
+
 
 | 14     | 15    | 16     | 17     | 18      | 19      | 20     | 21     | 22      | 23      | 24     | 25     |
 | :----- | :---- | :----- | :----- | :------ | :------ | :----- | :----- | :------ | :------ | :----- | :----- |
@@ -122,6 +173,23 @@
 | Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | ✅ | 47% | -37% | 1.031 | 1426 | 611 | 2.33 | 0.81 |
+
+| Metric | Value |
+| :--- | :--- |
+| Compounding Annual Return | 46.808% |
+| Net Profit | 9951.249% |
+| Drawdown | 36.900% |
+| Sharpe Ratio | 1.031 |
+| Sortino Ratio | 0.772 |
+| Probabilistic Sharpe Ratio | 37.898% |
+| Alpha | 0.252 |
+| Beta | 1.341 |
+| Win Rate | 70% |
+| Profit-Loss Ratio | 0.81 |
+| Average Win | 1.42% |
+| Average Loss | -1.75% |
+| Total Orders | 2037 |
+| Drawdown Recovery | 829 |
 
 | 14     | 15     | 16      | 17     | 18     | 19     | 20      | 21      | 22     | 23     | 24     | 25     |
 | :----- | :----- | :------ | :----- | :----- | :----- | :------ | :------ | :----- | :----- | :----- | :----- |
@@ -151,6 +219,23 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | ✅ | 31% | -49% | 0.738 | 65 | 57 | 1.14 | 2.69 |
 
+| Metric | Value |
+| :--- | :--- |
+| Compounding Annual Return | 30.884% |
+| Net Profit | 2432.285% |
+| Drawdown | 49.000% |
+| Sharpe Ratio | 0.738 |
+| Sortino Ratio | 0.668 |
+| Probabilistic Sharpe Ratio | 11.752% |
+| Alpha | 0.146 |
+| Beta | 1.412 |
+| Win Rate | 53% |
+| Profit-Loss Ratio | 2.69 |
+| Average Win | 22.21% |
+| Average Loss | -8.26% |
+| Total Orders | 122 |
+| Drawdown Recovery | 650 |
+
 
 | 14     | 15    | 16      | 17      | 18    | 19     | 20     | 21     | 22      | 23     | 24     | 25     |
 | :----- | :---- | :------ | :------ | :---- | :----- | :----- | :----- | :------ | :----- | :----- | :----- |
@@ -178,6 +263,23 @@
 | Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | ✅ | 38% | -49% | 0.886 | 94 | 76 | 1.24 | 2.19 |
+
+| Metric | Value |
+| :--- | :--- |
+| Compounding Annual Return | 38.227% |
+| Net Profit | 4776.917% |
+| Drawdown | 49.200% |
+| Sharpe Ratio | 0.886 |
+| Sortino Ratio | 0.778 |
+| Probabilistic Sharpe Ratio | 23.929% |
+| Alpha | 0.195 |
+| Beta | 1.378 |
+| Win Rate | 55% |
+| Profit-Loss Ratio | 2.19 |
+| Average Win | 17.41% |
+| Average Loss | -7.96% |
+| Total Orders | 170 |
+| Drawdown Recovery | 722 |
 
 
 | 14     | 15     | 16     | 17     | 18     | 19     | 20     | 21     | 22      | 23     | 24     | 25     |

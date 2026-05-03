@@ -10,7 +10,7 @@ BASE_URL   = os.environ.get("QC_BASE_URL", "https://www.quantconnect.com/api/v2"
 
 ALGOS_DIR      = "strategies/algos"
 BASE_FILE      = "strategies/base.py"
-RESULTS_JSON   = "api/strategies_results.json"
+RESULTS_JSON   = os.environ.get("QC_RESULTS_JSON", "api/strategies_results.json")
 STRATEGIES_MD  = "strategies/Strategies.md"
 YEARS          = [str(y) for y in range(2014, 2026)]
 
@@ -269,6 +269,20 @@ def update_strategies_md(all_results):
 # Main
 # ---------------------------------------------------------------------------
 
+def _compact_yearly(text):
+    """Collapse yearly/years/returns arrays to a single line each."""
+    return re.sub(
+        r'("(?:years|returns|yearly)"): \[\n(?:\s*-?\d+,?\n)+\s*\]',
+        lambda m: m.group(1) + ": [" + ", ".join(re.findall(r"-?\d+", m.group(0)[m.group(0).index("["):])) + "]",
+        text,
+    )
+
+
+def save_results(results, path):
+    with open(path, "w") as f:
+        f.write(_compact_yearly(json.dumps(results, indent=4)))
+
+
 def main():
     import sys
     only = sys.argv[1] if len(sys.argv) > 1 else None
@@ -305,8 +319,9 @@ def main():
             "yearly":    extract_yearly(res),
         }
 
-        with open(RESULTS_JSON, "w") as f:
-            json.dump(results, f, indent=4)
+        save_results(results, RESULTS_JSON)
+
+    save_results(results, RESULTS_JSON)
 
     print("\n--- Updating Strategies.md ---")
     update_strategies_md(results)

@@ -10,3 +10,4 @@ node_modules/
 .expo/
 dist/
 embedded/
+strategies_results_fresh.json
