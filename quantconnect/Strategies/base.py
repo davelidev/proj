@@ -24,13 +24,21 @@ class BaseSubAlgo:
         self.equity = 0.0
         self.targets = {}
         self._prev_targets = {}
+        self.universe_groups = {} # Automatically populated { 'GroupName': set(Symbols) }
         self.on_change = None
 
     def initialize(self): pass
     def update_targets(self): pass
     def on_data(self, data): pass
     def on_securities_changed(self, changes): pass
+    
     def universe_selection(self, fundamental): return []
+
+    def get_universes(self):
+        """Returns a dict of { 'name': selection_function }."""
+        if self.HAS_UNIVERSE:
+            return { self.id: self.universe_selection }
+        return {}
 
     def has_changed(self) -> bool:
         """Centralized check to see if target allocations have shifted."""
@@ -46,7 +54,6 @@ class BaseSubAlgo:
 
 def _make_standalone(sub_cls):
     uses_on_data = sub_cls.on_data is not BaseSubAlgo.on_data
-    has_universe = sub_cls.HAS_UNIVERSE
 
     # QC uses Python.NET — multiple inheritance with managed classes is forbidden.
     # Use composition: Algo owns a sub instance and delegates all calls to it.
@@ -57,9 +64,13 @@ def _make_standalone(sub_cls):
             self.SetCash(INITIAL_CASH)
             self._sub = sub_cls(self, sub_cls.__name__)
             self._sub.initialize()
-            if has_universe:
+            
+            universes = self._sub.get_universes()
+            if universes:
                 self.UniverseSettings.Resolution = Resolution.Daily
-                self.AddUniverse(self._sub.universe_selection)
+                for name, func in universes.items():
+                    self.AddUniverse(self._wrap_selection(name, func))
+                    
             self.SetWarmUp(WARMUP_DAYS)
             if not uses_on_data:
                 self.Schedule.On(
@@ -67,6 +78,13 @@ def _make_standalone(sub_cls):
                     self.TimeRules.AfterMarketOpen("SPY", DAILY_OPEN_MIN),
                     self._rebalance,
                 )
+
+        def _wrap_selection(self, name, func):
+            def wrapped(fundamental):
+                selected = func(fundamental)
+                self._sub.universe_groups[name] = set(selected)
+                return selected
+            return wrapped
 
         def _rebalance(self):
             self._sub.update_targets()
@@ -80,8 +98,7 @@ def _make_standalone(sub_cls):
                     self._execute()
 
         def OnSecuritiesChanged(self, changes):
-            if has_universe:
-                self._sub.on_securities_changed(changes)
+            self._sub.on_securities_changed(changes)
 
         def _execute(self):
             for sym, w in self._sub.targets.items():

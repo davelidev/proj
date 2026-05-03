@@ -3,13 +3,15 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class TechDipBuySub(BaseSubAlgo):
-    HAS_UNIVERSE = True
-
     def initialize(self):
-        self.selected_syms = []
         # DISABLE orchestrator warmup to match Day 1 start of tech_dip_orig.py
         self.algo.Settings.AutomaticIndicatorWarmUp = True
         self.algo.Settings.SeedInitialPrices = True
+
+    def get_universes(self):
+        return {
+            "TechTop5": self.universe_selection
+        }
 
     def universe_selection(self, fundamental):
         # Mirror LargeCapTechStrategy._select exactly
@@ -23,9 +25,11 @@ class TechDipBuySub(BaseSubAlgo):
 
     def on_securities_changed(self, changes):
         # Mirror LargeCapTechStrategy.on_securities_changed exactly
+        tech_group = self.universe_groups.get("TechTop5", set())
+        
         for sec in changes.AddedSecurities:
-            # Dynamically skip core symbols or anything already handled
-            if sec.Symbol in self.core_syms: continue
+            # Check if this security belongs to our specific TechTop5 group
+            if sec.Symbol not in tech_group: continue
             
             sec.rsi   = self.algo.RSI(sec.Symbol, 2)
             sec.max   = self.algo.MAX(sec.Symbol, 252)
@@ -38,26 +42,24 @@ class TechDipBuySub(BaseSubAlgo):
                 sec.max.Update(bar.Index[1], bar.close)
                 sec.sma50.Update(bar.Index[1], bar.close)
 
-            if sec.Symbol not in self.selected_syms:
-                self.selected_syms.append(sec.Symbol)
-
         for sec in changes.RemovedSecurities:
-            if sec.Symbol in self.selected_syms:
-                self.selected_syms.remove(sec.Symbol)
-            self.targets.pop(sec.Symbol, None)
-            self.algo.Liquidate(sec.Symbol)
+            # Cleanup targets only if it was one of ours
+            if sec.Symbol in tech_group:
+                self.targets.pop(sec.Symbol, None)
+                self.algo.Liquidate(sec.Symbol)
 
     def update_targets(self):
         # Check for Weekly parity (Monday)
         if self.algo.Time.weekday() != 0: return
         
-        if not self.selected_syms: return
+        tech_group = self.universe_groups.get("TechTop5", set())
+        if not tech_group: return
         
         # Use dynamic weight to match tech_dip_orig.py behavior
-        num_selected = len(self.selected_syms)
+        num_selected = len(tech_group)
         w_entry = 1.0 / num_selected if num_selected > 0 else 0.2
         
-        for s in self.selected_syms:
+        for s in tech_group:
             sec = self.algo.Securities[s]
             if not (hasattr(sec, "max") and sec.max.IsReady and sec.sma50.IsReady): continue
             

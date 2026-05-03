@@ -25,7 +25,6 @@ class UltimateAlgo(QCAlgorithm):
 
         self.bil         = self.AddEquity(self.CASH_TICKER, Resolution.Daily).Symbol
         self.last_prices = {}
-        self.core_syms   = {self.bil} # Initialize with Cash asset
 
         self.sub_algos = [
             VolatilityBreakoutSub(self, "VolBreakout"),
@@ -36,31 +35,17 @@ class UltimateAlgo(QCAlgorithm):
             ExpandingBreakoutSub(self,   "ExpandBreak"),
         ]
 
-        # TRACK CORE SYMBOLS:
-        # We wrap AddEquity to capture what sub-algos add during initialize()
-        orig_add_equity = self.AddEquity
-        added_during_init = set()
-        def add_equity_wrapper(ticker, *args, **kwargs):
-            sec = orig_add_equity(ticker, *args, **kwargs)
-            added_during_init.add(sec.Symbol)
-            return sec
-        self.AddEquity = add_equity_wrapper
-
         start_equity = INITIAL_CASH / len(self.sub_algos)
         for sub in self.sub_algos:
             sub.equity = start_equity
             sub.initialize()
-            # Share the core symbols list with the sub-algo
-            sub.core_syms = self.core_syms
-
-        # Restore original AddEquity and finalize core set
-        self.AddEquity = orig_add_equity
-        self.core_syms.update(added_during_init)
 
         self.UniverseSettings.Resolution = Resolution.Daily
         for sub in self.sub_algos:
-            if sub.HAS_UNIVERSE:
-                self.AddUniverse(sub.universe_selection)
+            universes = sub.get_universes()
+            for name, func in universes.items():
+                self.AddUniverse(self._wrap_universe(sub, name, func))
+
         self.SetWarmUp(WARMUP_DAYS)
 
         # ONE CENTRAL SCHEDULER
@@ -115,6 +100,13 @@ class UltimateAlgo(QCAlgorithm):
             msg  += f"  {sub.id}: ${sub.equity:,.0f} ({share:.1f}% share)\n"
         msg += f"  TOTAL VIRTUAL: ${total_v:,.0f}"
         self.Log(msg)
+
+    def _wrap_universe(self, sub, name, func):
+        def wrapped(fundamental):
+            selected = func(fundamental)
+            sub.universe_groups[name] = set(selected)
+            return selected
+        return wrapped
 
     def PerformDailyUpdate(self):
         if self.IsWarmingUp: return
