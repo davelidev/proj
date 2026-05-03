@@ -75,12 +75,11 @@ def baseline():
 
 @pytest.fixture(scope="session")
 def fresh(request):
-    """Use existing fresh results file if available, otherwise run fresh backtests."""
-    if os.path.exists(FRESH_JSON):
-        with open(FRESH_JSON) as f:
-            return json.load(f)
-    # Run fresh backtests on QC
+    """Run fresh backtests on QC."""
+    # Write to a separate file so baseline is untouched during the run
     env = {**_load_env(), "QC_RESULTS_JSON": FRESH_JSON}
+    if os.path.exists(FRESH_JSON):
+        os.remove(FRESH_JSON)
     subprocess.run([sys.executable, BATCH_RUNNER], cwd=REPO_ROOT, env=env, check=True)
     if not os.path.exists(FRESH_JSON):
         pytest.fail("Batch runner did not produce fresh results file.")

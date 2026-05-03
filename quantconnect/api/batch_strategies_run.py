@@ -88,7 +88,7 @@ def poll(bid):
             print(f"\n  Failed: {status}")
             fetch_logs(bid)
             return None
-        time.sleep(10)
+        time.sleep(2)
 
 
 # ---------------------------------------------------------------------------
@@ -145,7 +145,7 @@ def extract_yearly(res):
         end_eq   = float(entries[-1][1]["portfolioStatistics"]["endEquity"])
         if start_eq > 0:
             result[year] = round((end_eq / start_eq - 1) * 100)
-    return result
+    return [result.get(y) for y in YEARS]
 
 
 # ---------------------------------------------------------------------------
@@ -194,7 +194,7 @@ def update_strategies_md(all_results):
 
             # Yearly summary row (two spaces before closing |)
             elif re.match(rf'^\| ✅ \[{num}\]\(#strategy-{num}\)  \|', line):
-                yr_cells = " | ".join(fmt_cell(yr.get(y)) for y in YEARS)
+                yr_cells = " | ".join(fmt_cell(v) for v in yr)
                 lines[i] = f"| ✅ [{num}](#strategy-{num})  | {yr_cells} |\n"
 
         # ---- Per-strategy sections ----
@@ -254,7 +254,7 @@ def update_strategies_md(all_results):
             continue
 
         if after_yearly_sep:
-            yr_cells         = " | ".join(fmt_cell(yr.get(y)) for y in YEARS)
+            yr_cells         = " | ".join(fmt_cell(v) for v in yr)
             lines[i]         = f"| {yr_cells} |\n"
             after_yearly_sep = False
             continue
@@ -283,7 +283,12 @@ def save_results(results, path):
         f.write(_compact_yearly(json.dumps(results, indent=4)))
 
 
-def main():
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+def pull():
+    """Run QC backtests for any uncached strategies and save raw results."""
     import sys
     only = sys.argv[1] if len(sys.argv) > 1 else None
 
@@ -314,7 +319,7 @@ def main():
         results[filename] = {
             "status":    "Completed.",
             "id":        bid,
-            "raw_stats": raw_stats,
+            "metrics":   raw_stats,
             "stats":     extract_stats(res),
             "yearly":    extract_yearly(res),
         }
@@ -322,10 +327,40 @@ def main():
         save_results(results, RESULTS_JSON)
 
     save_results(results, RESULTS_JSON)
+    return results
 
+
+def transform(results=None):
+    """Load results, compact yearly arrays, and update Strategies.md."""
+    if results is None:
+        if not os.path.exists(RESULTS_JSON):
+            print("No results file found. Run pull first.")
+            return
+        with open(RESULTS_JSON) as f:
+            results = json.load(f)
+
+    save_results(results, RESULTS_JSON)
     print("\n--- Updating Strategies.md ---")
     update_strategies_md(results)
     print("Done.")
+
+
+def main():
+    import sys
+    if "--pull" in sys.argv:
+        results = pull()
+        if "--transform" not in sys.argv:
+            return
+    else:
+        results = None
+
+    if "--transform" in sys.argv:
+        transform(results)
+        return
+
+    # Default: no flags — do both
+    results = pull()
+    transform(results)
 
 
 if __name__ == "__main__":
