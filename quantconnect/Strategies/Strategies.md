@@ -3,23 +3,23 @@
 
 | #                  | Category     | CAGR    | MaxDD    | Sharpe    | Win #   | Loss #  | W/L Ratio | Profit Ratio | Overfit  |
 | :----------------- | :----------- | :------ | :------- | :-------- | :------ | :------ | :-------- | :----------- | :------- |
-| ✅ [1](#strategy-1) | Breakout     | 43%     | -37%     | 0.986     | 192     | 341     | 0.56      | 3.45         | 6/10     |
-| ✅ [2](#strategy-2) | Dip Buy      | 25%     | -44%     | 0.801     | 156     | 41      | 3.80      | 1.22         | 2/10     |
-| ✅ [3](#strategy-3) | Rebalance    | 31%     | -51%     | 0.738     | 36      | 0       | —         | 0.00         | 4/10     |
-| ✅ [4](#strategy-4) | Dip Buy      | 47%     | -37%     | 1.031     | 1426    | 611     | 2.33      | 0.81         | 2/10     |
-| ✅ [5](#strategy-5) | Trend        | 29%     | -49%     | 0.709     | 62      | 58      | 1.07      | 2.71         | 4/10     |
-| ✅ [6](#strategy-6) | Breakout     | 39%     | -50%     | 0.895     | 94      | 76      | 1.24      | 2.21         | 4/10     |
-| ✅ **ENSEMBLE**     | **Ensemble** | **43%** | **-37%** | **0.987** | **192** | **341** | **0.56**  | **3.45**     | **3/10** |
+| ✅ [1](#strategy-1) | Breakout | 43% | -37% | 0.986 | 192 | 341 | 0.56 | 3.45 | 6/10 |
+| ✅ [2](#strategy-2) | Dip Buy | 29% | -42% | 0.869 | 50 | 37 | 1.35 | 3.63 | 2/10 |
+| ✅ [3](#strategy-3) | Rebalance | 28% | -51% | 0.728 | 13 | 0 | — | 0.00 | 4/10 |
+| ✅ [4](#strategy-4) | Dip Buy | 47% | -37% | 1.031 | 1426 | 611 | 2.33 | 0.81 | 2/10 |
+| ✅ [5](#strategy-5) | Trend | 31% | -49% | 0.738 | 65 | 57 | 1.14 | 2.69 | 4/10 |
+| ✅ [6](#strategy-6) | Breakout | 38% | -49% | 0.886 | 94 | 76 | 1.24 | 2.19 | 4/10 |
+| ✅ **ENSEMBLE**     | **Ensemble** | **43%** | **-37%** | **0.986** | **192** | **341** | **0.56**  | **3.45**     | **3/10** |
 
-| #                  | 14         | 15        | 16         | 17          | 18         | 19          | 20          | 21         | 22          | 23          | 24         | 25         |
-| :----------------- | :--------- | :-------- | :--------- | :---------- | :--------- | :---------- | :---------- | :--------- | :---------- | :---------- | :--------- | :--------- |
-| ✅ [1](#strategy-1) | 🟢 43%     | 🟢 8%     | 🟢 26%     | 🟢 101%     | 🟢 23%     | 🟢 105%     | 🟢 149%     | 🟢 23%     | 🔴 -32%     | 🟢 107%     | 🟢 52%     | 🟢 18%     |
-| ✅ [2](#strategy-2) | 🟢 18%     | 🔴 -3%    | 🟢 4%      | 🟢 34%      | 🟢 6%      | 🟢 49%      | 🟢 50%      | 🟢 47%     | 🔴 -38%     | 🟢 77%      | 🟢 82%     | 🟢 35%     |
-| ✅ [3](#strategy-3) | 🟢 41%     | 🟢 3%     | 🟢 34%     | 🟢 77%      | 🔴 -18%    | 🟢 109%     | 🟢 49%      | 🟢 64%     | 🔴 -48%     | 🟢 125%     | 🟢 18%     | 🟢 26%     |
-| ✅ [4](#strategy-4) | 🟢 30%     | 🔴 -8%    | 🔴 -20%    | 🟢 50%      | 🟢 19%     | 🟢 37%      | 🟢 215%     | 🟢 142%    | 🟢 22%      | 🟢 76%      | 🟢 74%     | 🟢 55%     |
-| ✅ [5](#strategy-5) | 🟢 15%     | 🟢 4%     | 🔴 -13%    | 🟢 133%     | 🟢 7%      | 🟢 29%      | 🟢 67%      | 🟢 82%     | 🔴 -20%     | 🟢 70%      | 🟢 29%     | 🟢 28%     |
-| ✅ [6](#strategy-6) | 🟢 137%    | 🔴 -3%    | 🔴 -2%     | 🟢 76%      | 🟢 54%     | 🟢 14%      | 🟢 84%      | 🟢 47%     | 🔴 -14%     | 🟢 81%      | 🟢 36%     | 🟢 32%     |
-| ✅ **ENSEMBLE**     | **🟢 44%** | **🟢 5%** | **🟢 22%** | **🟢 101%** | **🟢 23%** | **🟢 105%** | **🟢 151%** | **🟢 24%** | **🔴 -33%** | **🟢 107%** | **🟢 52%** | **🟢 18%** |
+| #                | 14         | 15        | 16         | 17          | 18         | 19          | 20          | 21         | 22          | 23          | 24         | 25         |
+| :--------------- | :--------- | :-------- | :--------- | :---------- | :--------- | :---------- | :---------- | :--------- | :---------- | :---------- | :--------- | :--------- |
+| [1](#strategy-1) | 🟢 43%     | 🟢 8%     | 🟢 26%     | 🟢 101%     | 🟢 23%     | 🟢 105%     | 🟢 149%     | 🟢 23%     | 🔴 -32%     | 🟢 107%     | 🟢 52%     | 🟢 18%     |
+| [2](#strategy-2) | 🟢 20%     | ⚪ 0%     | 🟢 9%      | 🟢 35%      | 🟢 6%      | 🟢 46%      | 🟢 55%      | 🟢 48%     | 🔴 -36%     | 🟢 88%      | 🟢 107%    | 🟢 37%     |
+| [3](#strategy-3) | 🟢 56%     | 🟢 22%    | 🟢 7%      | 🟢 118%     | 🔴 -22%    | 🟢 138%     | 🟢 110%     | 🟢 88%     | 🔴 -79%     | 🟢 198%     | 🟢 63%     | 🟢 31%     |
+| [4](#strategy-4) | 🟢 13%     | 🔴 -18%   | 🔴 -18%    | 🟢 42%      | 🟢 9%      | 🟢 21%      | 🟢 167%     | 🟢 78%     | 🟢 17%      | 🟢 63%      | 🟢 52%     | 🟢 51%     |
+| [5](#strategy-5) | 🟢 35%     | 🟢 4%     | 🔴 -13%    | 🟢 133%     | 🟢 7%      | 🟢 29%      | 🟢 67%      | 🟢 82%     | 🔴 -20%     | 🟢 70%      | 🟢 29%     | 🟢 28%     |
+| [6](#strategy-6) | 🟢 137%    | 🔴 -3%    | 🔴 -6%     | 🟢 76%      | 🟢 54%     | 🟢 14%      | 🟢 84%      | 🟢 49%     | 🔴 -14%     | 🟢 72%      | 🟢 39%     | 🟢 28%     |
+| **ENSEMBLE**     | **🟢 43%** | **🟢 5%** | **🟢 22%** | **🟢 101%** | **🟢 23%** | **🟢 105%** | **🟢 151%** | **🟢 24%** | **🔴 -33%** | **🟢 107%** | **🟢 52%** | **🟢 18%** |
 
 > Note: Checkmarked strategies (✅) are considered "selected" and contribute to the ENSEMBLE calculations.*
 
@@ -38,9 +38,9 @@
 - **Symbols:** TQQQ
 - **Resolution:** Minute
 
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 43% | -37% | 0.986 | 192 | 341 | 0.56 | 3.45 |
+| Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| ✅ | 43% | -37% | 0.986 | 192 | 341 | 0.56 | 3.45 |
 
 | 14     | 15    | 16     | 17     | 18     | 19      | 20      | 21     | 22      | 23     | 24     | 25     |
 | :----- | :---- | :----- | :----- | :----- | :------ | :------ | :----- | :------ | :----- | :----- | :----- |
@@ -54,7 +54,7 @@
 ---
 
 ## Strategy-2
-### Tech Dip Buy (dip_buy_tech.py)
+### Tech Dip Buy (tech_dip.py)
 
 **Description:** Buys the biggest tech names when they pull back hard during an uptrend, then holds until they recover to new highs or the loss gets too large. Universe rotates automatically as market caps shift, so it always targets the current leaders.
 
@@ -65,13 +65,13 @@
 - **Symbols:** Dynamic top 5 tech by market cap (e.g. AAPL, MSFT, NVDA, AVGO, ORCL)
 - **Rebalance:** Weekly
 
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :---- | :----- | :---- | :----- | :-------- | :----------- |
-| 25% | -44% | 0.801 | 156 | 41 | 3.80 | 1.22 |
+| Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :----------- |
+| ✅ | 29% | -42% | 0.869 | 50 | 37 | 1.35 | 3.63 |
 
 | 14     | 15    | 16    | 17     | 18    | 19     | 20     | 21     | 22      | 23      | 24      | 25     |
 | :----- | :---- | :---- | :----- | :---- | :----- | :----- | :----- | :------ | :------ | :------ | :----- |
-| 🟢 18% | 🔴 -3% | 🟢 4% | 🟢 34% | 🟢 6% | 🟢 49% | 🟢 50% | 🟢 47% | 🔴 -38% | 🟢 77% | 🟢 82% | 🟢 35% |
+| 🟢 20% | ⚪ 0% | 🟢 9% | 🟢 35% | 🟢 6% | 🟢 46% | 🟢 55% | 🟢 48% | 🔴 -36% | 🟢 88% | 🟢 107% | 🟢 37% |
 
 > [!code]- Click to view: tech_dip.py
 > ```embed-python
@@ -92,13 +92,14 @@
 - **Symbols:** TQQQ 20%, SOXL 20%, TECL 20%, Cash 40%
 - **Rebalance:** Yearly
 
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 31% | -51% | 0.738 | 36 | 0 | — | 0.00 |
+| Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :----------- |
+| ✅ | 28% | -51% | 0.728 | 13 | 0 | — | 0.00 |
+
 
 | 14     | 15    | 16     | 17     | 18      | 19      | 20     | 21     | 22      | 23      | 24     | 25     |
 | :----- | :---- | :----- | :----- | :------ | :------ | :----- | :----- | :------ | :------ | :----- | :----- |
-| 🟢 41% | 🟢 3% | 🟢 34% | 🟢 77% | 🔴 -18% | 🟢 109% | 🟢 49% | 🟢 64% | 🔴 -48% | 🟢 125% | 🟢 18% | 🟢 26% |
+| 🟢 34% | 🟢 13% | 🟢 7% | 🟢 71% | 🔴 -13% | 🟢 79% | 🟢 65% | 🟢 52% | 🔴 -47% | 🟢 118% | 🟢 37% | 🟢 21% |
 
 > [!code]- Click to view: leveraged_rebalance.py
 > ```embed-python
@@ -118,9 +119,9 @@
 - **Exit:** QQQ RSI(2) >= 25 → 100% cash
 - **Symbols:** TQQQ, SOXL, TECL (signal from QQQ)
 
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 47% | -37% | 1.031 | 1426 | 611 | 2.33 | 0.81 |
+| Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| ✅ | 47% | -37% | 1.031 | 1426 | 611 | 2.33 | 0.81 |
 
 | 14     | 15     | 16      | 17     | 18     | 19     | 20      | 21      | 22     | 23     | 24     | 25     |
 | :----- | :----- | :------ | :----- | :----- | :----- | :------ | :------ | :----- | :----- | :----- | :----- |
@@ -134,7 +135,7 @@
 ---
 
 ## Strategy-5
-### TQQQ Dynamic Compounding (dip_buy_tqqq.py)
+### TQQQ Dynamic Compounding (tqqq_dynamic.py)
 
 **Description:** Owns TQQQ in bull markets but adjusts position size based on momentum — loads up on dips, cuts back at peaks, and exits entirely when the trend turns bear. Tries to compound faster than a static buy-and-hold by being more aggressive when conditions are favorable and more cautious when overextended.
 
@@ -146,13 +147,14 @@
 - **Exit:** TQQQ ≤ SMA(200) → 100% cash
 - **Symbols:** TQQQ
 
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 29% | -49% | 0.709 | 62 | 58 | 1.07 | 2.71 |
+| Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| ✅ | 31% | -49% | 0.738 | 65 | 57 | 1.14 | 2.69 |
+
 
 | 14     | 15    | 16      | 17      | 18    | 19     | 20     | 21     | 22      | 23     | 24     | 25     |
 | :----- | :---- | :------ | :------ | :---- | :----- | :----- | :----- | :------ | :----- | :----- | :----- |
-| 🟢 15% | 🟢 4% | 🔴 -13% | 🟢 133% | 🟢 7% | 🟢 29% | 🟢 67% | 🟢 82% | 🔴 -20% | 🟢 70% | 🟢 29% | 🟢 28% |
+| 🟢 35% | 🟢 4% | 🔴 -13% | 🟢 133% | 🟢 7% | 🟢 29% | 🟢 67% | 🟢 82% | 🔴 -20% | 🟢 70% | 🟢 29% | 🟢 28% |
 
 > [!code]- Click to view: tqqq_dynamic.py
 > ```embed-python
@@ -162,7 +164,7 @@
 ---
 
 ## Strategy-6
-### Expanding Breakout 20d Exit (strategy_34.py)
+### Expanding Breakout 20d Exit (expanding_breakout.py)
 
 **Description:** Enters TQQQ when today's trading range expands beyond yesterday's in a confirmed uptrend, then closes the position the moment price tags a 20-day high. Taking profit on strength avoids giving back gains on sharp reversals — the trade opens on a momentum burst and closes at the first new short-term milestone. The defining difference from the other breakout variants in this set.
 
@@ -173,13 +175,14 @@
 - **Exit:** Price >= 20-day high OR 3.0 ATR stop OR QQQ < SMA(200)
 - **Symbols:** TQQQ (signal from QQQ)
 
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 39% | -50% | 0.895 | 94 | 76 | 1.24 | 2.21 |
+| Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| ✅ | 38% | -49% | 0.886 | 94 | 76 | 1.24 | 2.19 |
+
 
 | 14     | 15     | 16     | 17     | 18     | 19     | 20     | 21     | 22      | 23     | 24     | 25     |
 | :----- | :----- | :----- | :----- | :----- | :----- | :----- | :----- | :------ | :----- | :----- | :----- |
-| 🟢 137% | 🔴 -3% | 🔴 -2% | 🟢 76% | 🟢 54% | 🟢 14% | 🟢 84% | 🟢 47% | 🔴 -14% | 🟢 81% | 🟢 36% | 🟢 32% |
+| 🟢 137% | 🔴 -3% | 🔴 -2% | 🟢 76% | 🟢 54% | 🟢 14% | 🟢 83% | 🟢 47% | 🔴 -14% | 🟢 72% | 🟢 39% | 🟢 32% |
 
 > [!code]- Click to view: expanding_breakout.py
 > ```embed-python

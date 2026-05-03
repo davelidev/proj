@@ -1,6 +1,6 @@
-d# Archived Strategy Backtests
+# Archived Strategy Backtests
 
-*Strategies removed from active tracking if: CAGR ≤ 24%, Overfit ≥ 8/10, or MaxDD ≥ 60%.*
+*Strategies removed from active tracking if: CAGR < 28%, MaxDD > 58%, or Overfit ≥ 8/10.*
 
 | #                    | Category       | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
 | :------------------- | :------------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
@@ -317,8 +317,8 @@ d# Archived Strategy Backtests
 - **Symbols:** TQQQ, SQQQ, SPY, QQQ
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 95% | -57% | 1.520 | 100 | 85 | 1.18 | 4.51 |
+| :--- | :---- | :----- | :---- | :----- | :-------- | :----------- |
+| 95%  | -57%  | 1.520  | 100   | 85     | 1.18      | 4.51         |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |

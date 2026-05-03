@@ -31,6 +31,7 @@ def main():
     bid = sys.argv[1]
     headers = get_auth_headers()
 
+    stat_retries = 0
     while True:
         resp = requests.get(f"{BASE_URL}/backtests/read", headers=headers,
                             params={"projectId": PROJECT_ID, "backtestId": bid})
@@ -52,10 +53,10 @@ def main():
             
             # Check if stats are actually populated. 
             # Often QC returns a 'Completed' status before the summary stats are aggregated.
-            # We check if 'Total Orders' is "0" and 'Compounding Annual Return' is "0%" as a proxy for 'not ready'.
             is_empty = not stats or (stats.get("Total Orders") == "0" and stats.get("Compounding Annual Return") == "0%")
             
-            if is_empty:
+            if is_empty and stat_retries < 5:
+                stat_retries += 1
                 time.sleep(2)
                 continue
 
@@ -66,32 +67,45 @@ def main():
             max_dd_raw = stats.get("Drawdown", "0%")
             
             # Remove decimals and format
+            cagr_val = 0
+            max_dd_val = 0
             try:
-                cagr = f"{round(float(cagr_raw.strip('%')))}%"
-                max_dd = f"-{round(float(max_dd_raw.strip('%')))}%"
+                cagr_val = float(cagr_raw.strip('%'))
+                max_dd_val = abs(float(max_dd_raw.strip('%')))
+                cagr = f"{round(cagr_val)}%"
+                max_dd = f"-{round(max_dd_val)}%"
             except (ValueError, TypeError):
                 cagr = cagr_raw
                 max_dd = max_dd_raw
             
+            # Criteria: CAGR >= 28% and MaxDD <= 58%
+            passed = cagr_val >= 28 and max_dd_val <= 58
+            pass_icon = "✅" if passed else "❌"
+
             sharpe = stats.get("Sharpe Ratio", "0")
-            trades = stats.get("Total Orders", "0")
             win_pct = stats.get("Win Rate", "0%")
             loss_pct = stats.get("Loss Rate", "0%")
             pl_ratio = stats.get("Profit-Loss Ratio", "0")
 
             # Output Aligned Terminal Table
             cols = [
+                ("Pass?", pass_icon, 5),
                 ("CAGR", cagr, 6),
                 ("MaxDD", max_dd, 6),
                 ("Sharpe", sharpe, 8),
-                ("Trades", trades, 8),
                 ("Win %", win_pct, 8),
                 ("Loss %", loss_pct, 8),
                 ("P/L Ratio", pl_ratio, 9)
             ]
             
+            # Helper for emoji visual width in padding
+            def get_val(v, w):
+                if v in ["✅", "❌"]:
+                    return v + " " * (w - 2)
+                return f"{v:<{w}}"
+
             header = " | ".join(f"{c:<{w}}" for c, v, w in cols)
-            row    = " | ".join(f"{v:<{w}}" for c, v, w in cols)
+            row    = " | ".join(get_val(v, w) for c, v, w in cols)
             divider = "-" * len(header)
             
             print(header)

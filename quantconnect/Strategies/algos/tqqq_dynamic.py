@@ -17,17 +17,13 @@ class TQQQDynamicSub(BaseSubAlgo):
         
         if price > self.sma200.Current.Value:
             if self.rsi10.Current.Value > 80:
-                weight = 0.2
+                self.targets[self.sym] = 0.2
             elif self.rsi2.Current.Value < 30:
-                weight = 1.0
+                self.targets[self.sym] = 1.0
             elif current_w == 0:
-                weight = 0.5
-            else:
-                weight = current_w
+                self.targets[self.sym] = 0.5
         else:
-            weight = 0
-            
-        self.targets = {self.sym: weight}
+            self.targets = {}
 
 
 TQQQDynamicAlgo = _make_standalone(TQQQDynamicSub)

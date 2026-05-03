@@ -121,7 +121,8 @@ class UltimateAlgo(QCAlgorithm):
             self.Log(f"YEARLY REBALANCE: All sub-algos reset to ${reset_val:,.0f}")
 
         for sub in self.sub_algos:
-            sub.update_targets()
+            if sub.update_targets():
+                sub.force_rebalance = True
 
         self.ExecuteAggregation()
 
@@ -135,6 +136,9 @@ class UltimateAlgo(QCAlgorithm):
 
         total_virtual = sum(sub.equity for sub in self.sub_algos)
         if total_virtual <= 0: return
+
+        # Check if any sub-algo is forcing a rebalance
+        force = any(sub.force_rebalance for sub in self.sub_algos)
 
         agg_weights = {}
         for sub in self.sub_algos:
@@ -151,7 +155,7 @@ class UltimateAlgo(QCAlgorithm):
             for s in agg_weights: agg_weights[s] /= total_w
 
         # [Change Detection] Compare with previous aggregate weights
-        if hasattr(self, "_prev_agg_weights"):
+        if not force and hasattr(self, "_prev_agg_weights"):
             # Check if all keys match and weights are within tolerance
             if set(agg_weights.keys()) == set(self._prev_agg_weights.keys()):
                 significant_change = False
@@ -173,6 +177,10 @@ class UltimateAlgo(QCAlgorithm):
         for x in self.Portfolio.Values:
             if x.Invested and x.Symbol not in agg_weights:
                 self.Liquidate(x.Symbol)
+        
+        # Reset force flags
+        for sub in self.sub_algos:
+            sub.force_rebalance = False
 
     def OnData(self, data):
         if self.IsWarmingUp: return
@@ -181,9 +189,9 @@ class UltimateAlgo(QCAlgorithm):
 
         any_changed = False
         for sub in self.sub_algos:
-            sub.on_data(data)
-            if sub.has_changed():
+            if sub.on_data(data) or sub.has_changed() or sub.force_rebalance:
                 any_changed = True
 
         if any_changed:
             self.ExecuteAggregation()
+

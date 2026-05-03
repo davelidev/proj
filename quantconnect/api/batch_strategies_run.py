@@ -8,10 +8,10 @@ API_TOKEN  = os.environ.get("QC_API_TOKEN")
 PROJECT_ID = os.environ.get("QC_PROJECT_ID")
 BASE_URL   = os.environ.get("QC_BASE_URL", "https://www.quantconnect.com/api/v2")
 
-ALGOS_DIR      = "QuantConnect/strategies/algos"
-BASE_FILE      = "QuantConnect/strategies/base.py"
-RESULTS_JSON   = "QuantConnect/api/strategies_results.json"
-STRATEGIES_MD  = "QuantConnect/strategies/Strategies.md"
+ALGOS_DIR      = "strategies/algos"
+BASE_FILE      = "strategies/base.py"
+RESULTS_JSON   = "api/strategies_results.json"
+STRATEGIES_MD  = "strategies/Strategies.md"
 YEARS          = [str(y) for y in range(2014, 2026)]
 
 STRATEGIES = [
@@ -39,7 +39,7 @@ def bundle(strategy_file):
     """Inline base.py into the sub-algo file to produce a self-contained main.py."""
     with open(BASE_FILE) as f:
         base_content = f.read()
-    with open(os.path.join(STRATEGIES_DIR, strategy_file)) as f:
+    with open(os.path.join(ALGOS_DIR, strategy_file)) as f:
         algo_content = f.read()
     algo_content = algo_content.replace("from base import BaseSubAlgo, _make_standalone\n", "")
     return base_content + "\n\n" + algo_content
@@ -63,18 +63,30 @@ def upload_and_run(content, name):
     return r.get("backtest", {}).get("backtestId")
 
 
+def fetch_logs(bid):
+    r = requests.get(f"{BASE_URL}/backtests/read", headers=get_headers(),
+                     params={"projectId": PROJECT_ID, "backtestId": bid}).json()
+    logs = r.get("backtest", {}).get("logs", [])
+    if logs:
+        print("\n  [Logs] Last 5 lines:")
+        for line in logs[-5:]:
+            print(f"    {line}")
+
 def poll(bid):
     while True:
         res = requests.get(f"{BASE_URL}/backtests/read", headers=get_headers(),
                            params={"projectId": PROJECT_ID, "backtestId": bid}).json()
         status   = res.get("backtest", {}).get("status", "")
+        clean_status = status.replace(" ", "").lower()
         progress = float(res.get("backtest", {}).get("progress", 0)) * 100
         print(f"  {status} {progress:.0f}%  ", end="\r")
+        
         if status == "Completed.":
             print()
             return res
-        if status in ("Failure", "RuntimeError", "Cancelled"):
+        if clean_status in ("failure", "runtimeerror", "cancelled"):
             print(f"\n  Failed: {status}")
+            fetch_logs(bid)
             return None
         time.sleep(10)
 
@@ -210,9 +222,12 @@ def update_strategies_md(all_results):
         loss   = str(s.get("Loss", "—"))
         wl     = f"{s['WL']:.2f}"           if s.get("WL")     else "—"
         pl     = f"{s['PL']:.2f}"           if s.get("PL")     is not None else "—"
+        
+        passed = (s.get("CAGR") is not None and s.get("MaxDD") is not None and s["CAGR"] >= 28 and abs(s["MaxDD"]) <= 58)
+        pass_status = "✅" if passed else "❌"
 
         # Stats table header
-        if "| CAGR | MaxDD | Sharpe | Win # |" in line:
+        if "| Pass? | CAGR | MaxDD | Sharpe | Win # |" in line:
             stats_header_seen = True
             after_stats_sep   = False
             continue
@@ -223,7 +238,7 @@ def update_strategies_md(all_results):
             continue
 
         if after_stats_sep:
-            lines[i]       = f"| {cagr} | {maxdd} | {sharpe} | {win} | {loss} | {wl} | {pl} |\n"
+            lines[i]       = f"| {pass_status} | {cagr} | {maxdd} | {sharpe} | {win} | {loss} | {wl} | {pl} |\n"
             after_stats_sep = False
             continue
 

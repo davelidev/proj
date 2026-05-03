@@ -26,6 +26,7 @@ class BaseSubAlgo:
         self._prev_targets = {}
         self.universe_groups = {} # Automatically populated { 'GroupName': set(Symbols) }
         self.on_change = None
+        self.force_rebalance = False
 
     def initialize(self): pass
     def update_targets(self): pass
@@ -43,6 +44,7 @@ class BaseSubAlgo:
     def has_changed(self) -> bool:
         """Centralized check to see if target allocations have shifted."""
         if self.targets != self._prev_targets:
+            self.algo.Log(f"[{self.id}] TARGET CHANGE: {self._prev_targets} -> {self.targets}")
             self._prev_targets = self.targets.copy()
             return True
         return False
@@ -63,6 +65,9 @@ def _make_standalone(sub_cls):
             self.SetEndDate(*END_DATE)
             self.SetCash(INITIAL_CASH)
             self._sub = sub_cls(self, sub_cls.__name__)
+            
+            # Initialize virtual equity to total cash for standalone runs
+            self._sub.equity = INITIAL_CASH
             self._sub.initialize()
             
             universes = self._sub.get_universes()
@@ -87,25 +92,57 @@ def _make_standalone(sub_cls):
             return wrapped
 
         def _rebalance(self):
-            self._sub.update_targets()
-            if self._sub.has_changed():
+            if self.IsWarmingUp: return
+            forced = self._sub.update_targets()
+            if forced or self._sub.has_changed() or self._sub.force_rebalance:
                 self._execute()
+                self._sub.force_rebalance = False
 
         def OnData(self, data):
+            if self.IsWarmingUp: return
+            
+            # [Virtual Accounting] Update equity to track real growth
+            if not hasattr(self, "_prev_total_value"):
+                self._prev_total_value = self.Portfolio.TotalPortfolioValue
+            
+            curr_value = self.Portfolio.TotalPortfolioValue
+            if self._prev_total_value > 0:
+                change_ratio = curr_value / self._prev_total_value
+                self._sub.equity *= change_ratio
+            self._prev_total_value = curr_value
+
             if uses_on_data:
-                self._sub.on_data(data)
-                if self._sub.has_changed():
+                forced = self._sub.on_data(data)
+                if forced or self._sub.has_changed() or self._sub.force_rebalance:
                     self._execute()
+                    self._sub.force_rebalance = False
 
         def OnSecuritiesChanged(self, changes):
             self._sub.on_securities_changed(changes)
 
         def _execute(self):
+            # [Leverage Gate] Ensure total weight does not exceed 1.0
+            total_w = sum(self._sub.targets.values())
+            scale = 1.0 / total_w if total_w > 1.0 else 1.0
+            
+            total_real = self.Portfolio.TotalPortfolioValue
+            if total_real <= 0: return
+
+            # In Standalone mode, we do NOT force cash into BIL.
+            # We let the sub-algo manage its own symbols and let the rest stay as USD.
             for sym, w in self._sub.targets.items():
-                self.SetHoldings(sym, w)
+                target_w = w * scale
+                current_w = self.Portfolio[sym].HoldingsValue / total_real
+                
+                # Only trade if drift > 0.5% or it is an exit (target=0)
+                if abs(target_w - current_w) > 0.005 or (target_w == 0 and self.Portfolio[sym].Invested):
+                    self.SetHoldings(sym, target_w)
+            
+            # Cleanup removed symbols
             for x in self.Portfolio.Values:
                 if x.Invested and x.Symbol not in self._sub.targets:
                     self.Liquidate(x.Symbol)
+
 
     Algo.__name__     = sub_cls.__name__.replace("Sub", "Algo")
     Algo.__qualname__ = Algo.__name__
