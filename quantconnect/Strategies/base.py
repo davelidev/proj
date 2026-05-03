@@ -23,13 +23,21 @@ class BaseSubAlgo:
         self.id = identifier
         self.equity = 0.0
         self.targets = {}
+        self._prev_targets = {}
         self.on_change = None
 
     def initialize(self): pass
-    def update_targets(self) -> bool: return False
-    def on_data(self, data) -> bool: return False
+    def update_targets(self): pass
+    def on_data(self, data): pass
     def on_securities_changed(self, changes): pass
     def universe_selection(self, fundamental): return []
+
+    def has_changed(self) -> bool:
+        """Centralized check to see if target allocations have shifted."""
+        if self.targets != self._prev_targets:
+            self._prev_targets = self.targets.copy()
+            return True
+        return False
 
 
 # ---------------------------------------------------------------------------
@@ -61,12 +69,15 @@ def _make_standalone(sub_cls):
                 )
 
         def _rebalance(self):
-            if self._sub.update_targets():
+            self._sub.update_targets()
+            if self._sub.has_changed():
                 self._execute()
 
         def OnData(self, data):
-            if uses_on_data and self._sub.on_data(data):
-                self._execute()
+            if uses_on_data:
+                self._sub.on_data(data)
+                if self._sub.has_changed():
+                    self._execute()
 
         def OnSecuritiesChanged(self, changes):
             if has_universe:

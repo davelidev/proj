@@ -11,26 +11,37 @@ BUNDLE_SCRIPT = os.path.join(PROJECT_ROOT, "strategies/bundle.py")
 RUN_SCRIPT = os.path.join(PROJECT_ROOT, "api/run_qc_backtest.py")
 POLL_SCRIPT = os.path.join(PROJECT_ROOT, "api/poll_backtest.py")
 STATS_SCRIPT = os.path.join(PROJECT_ROOT, "api/get_yearly_stats.py")
-TARGET_FILE = os.path.join(PROJECT_ROOT, "strategies/embedded/ensemble.py")
 
 def main():
-    os.chdir(PROJECT_ROOT)
-
     # 1. Bundle
-    print("Step 1: Bundling Ensemble...")
-    subprocess.run(["python3", BUNDLE_SCRIPT], check=True)
+    if len(sys.argv) > 1:
+        # Resolve path immediately before chdir
+        standalone_path = os.path.abspath(sys.argv[1])
+        os.chdir(PROJECT_ROOT)
+        
+        print(f"Step 1: Bundling Standalone ({standalone_path})...")
+        subprocess.run(["python3", BUNDLE_SCRIPT, standalone_path], check=True)
+        
+        target_file = os.path.join(PROJECT_ROOT, "strategies/embedded/standalone.py")
+        base_name = os.path.basename(standalone_path)
+        test_name = f"Standalone Run: {base_name}"
+    else:
+        os.chdir(PROJECT_ROOT)
+        print("Step 1: Bundling Ensemble...")
+        subprocess.run(["python3", BUNDLE_SCRIPT], check=True)
+        
+        target_file = os.path.join(PROJECT_ROOT, "strategies/embedded/ensemble.py")
+        test_name = "UltimateAlgo Run"
 
     # 2. Run Backtest & Capture ID
-    print("\nStep 2: Triggering Backtest...")
-    # We capture stdout to get the ID, but keep informational messages on stderr visible
-    res = subprocess.run(["python3", RUN_SCRIPT, TARGET_FILE, "UltimateAlgo Run"], 
-                         capture_output=True, text=True)
-    
-    # Show informational output (stderr)
-    print(res.stderr, file=sys.stderr)
-    
-    # Extract ID
+    print(f"\nStep 2: Triggering Backtest ({test_name})...")
+    # We capture stdout to get the ID, but let stderr flow through for real-time progress
+    res = subprocess.run(["python3", RUN_SCRIPT, target_file, test_name], 
+                         stdout=subprocess.PIPE, stderr=sys.stderr, text=True)
+
+    # Extract ID from captured stdout
     match = re.search(r"BACKTEST_ID=([\w\d]+)", res.stdout)
+
     if not match:
         print(f"Error: Could not find Backtest ID in output:\n{res.stdout}")
         sys.exit(1)

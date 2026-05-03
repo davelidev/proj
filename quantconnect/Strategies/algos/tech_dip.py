@@ -46,13 +46,12 @@ class TechDipBuySub(BaseSubAlgo):
             self.targets.pop(sec.Symbol, None)
             self.algo.Liquidate(sec.Symbol)
 
-    def update_targets(self) -> bool:
+    def update_targets(self):
         # Check for Weekly parity (Monday)
-        if self.algo.Time.weekday() != 0: return False
+        if self.algo.Time.weekday() != 0: return
         
-        if not self.selected_syms: return False
+        if not self.selected_syms: return
         
-        changed = False
         # Use dynamic weight to match tech_dip_orig.py behavior
         num_selected = len(self.selected_syms)
         w_entry = 1.0 / num_selected if num_selected > 0 else 0.2
@@ -65,14 +64,12 @@ class TechDipBuySub(BaseSubAlgo):
                 if sec.rsi.Current.Value < 30 and sec.Price > sec.sma50.Current.Value:
                     self.algo.Log(f"ENTRY {self.algo.Time.date()} {sec.Symbol.Value} rsi={sec.rsi.Current.Value:.1f} price={sec.Price:.2f} max={sec.max.Current.Value:.2f}")
                     self.targets[s] = w_entry
-                    changed = True
             else:
                 reason = "STOP" if sec.Price <= sec.Holdings.AveragePrice * 0.85 else "ATH"
                 if sec.Price <= sec.Holdings.AveragePrice * 0.85 or sec.Price >= sec.max.Current.Value:
                     self.algo.Log(f"EXIT  {self.algo.Time.date()} {sec.Symbol.Value} {reason} price={sec.Price:.2f} avg={sec.Holdings.AveragePrice:.2f} max={sec.max.Current.Value:.2f}")
                     if s in self.targets:
                         del self.targets[s]
-                        changed = True
                 else:
                     # PRESERVE DRIFT: Set target to current weight so SetHoldings does nothing
                     # This allows winners to grow past 20%, matching the 31% CAGR of orig
@@ -80,8 +77,6 @@ class TechDipBuySub(BaseSubAlgo):
                     if s in self.targets:
                         current_w = sec.Holdings.Quantity * sec.Price / self.algo.Portfolio.TotalPortfolioValue
                         self.targets[s] = current_w
-        
-        return changed
 
 
 TechDipBuyAlgo = _make_standalone(TechDipBuySub)

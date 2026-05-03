@@ -52,14 +52,39 @@ def main():
                          json={"projectId": PROJECT_ID})
     cr = resp.json()
     if not cr.get("success"):
-        print(f"Compile failed: {cr}", file=sys.stderr)
+        print(f"Compile trigger failed: {cr}", file=sys.stderr)
         sys.exit(1)
     
     compile_id = cr["compileId"]
+    print(f"Compile ID: {compile_id}", file=sys.stderr)
 
-    # 3. Create Backtest
-    print("Waiting for compile to register...", file=sys.stderr)
-    time.sleep(5)
+    # 3. Poll Compile Status
+    iterations = 0
+    while True:
+        resp = requests.get(f"{BASE_URL}/compile/read", headers=headers,
+                            params={"projectId": PROJECT_ID, "compileId": compile_id})
+        data = resp.json()
+        if not data.get("success"):
+            print(f"Error reading compile: {data}", file=sys.stderr)
+            sys.exit(1)
+            
+        # QC API can return status/state in different places
+        status = data.get("state") or data.get("status") or data.get("compile", {}).get("status", "")
+        print(f"Compile Status: {status or '(waiting)'}...", end="\r", file=sys.stderr, flush=True)
+        
+        if status == "BuildSuccess":
+            print("\nCompile Successful!", file=sys.stderr)
+            break
+        elif status == "BuildError":
+            print("\nCompile Failed!", file=sys.stderr)
+            logs = data.get("logs") or data.get("compile", {}).get("logs", [])
+            for log in logs:
+                print(f"  {log}", file=sys.stderr)
+            sys.exit(1)
+            
+        time.sleep(2)
+
+    # 4. Create Backtest
     print(f"Starting backtest '{name}'...", file=sys.stderr)
     resp = requests.post(f"{BASE_URL}/backtests/create", headers=headers,
                          json={"projectId": PROJECT_ID, "compileId": compile_id, "backtestName": name})

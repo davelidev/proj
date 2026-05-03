@@ -8,10 +8,10 @@ API_TOKEN  = os.environ.get("QC_API_TOKEN")
 PROJECT_ID = os.environ.get("QC_PROJECT_ID")
 BASE_URL   = os.environ.get("QC_BASE_URL", "https://www.quantconnect.com/api/v2")
 
-STRATEGIES_DIR = "QuantConnect/strategies"
-BASE_FILE      = os.path.join(STRATEGIES_DIR, "base.py")
+ALGOS_DIR      = "QuantConnect/strategies/algos"
+BASE_FILE      = "QuantConnect/strategies/base.py"
 RESULTS_JSON   = "QuantConnect/api/strategies_results.json"
-STRATEGIES_MD  = os.path.join(STRATEGIES_DIR, "Strategies.md")
+STRATEGIES_MD  = "QuantConnect/strategies/Strategies.md"
 YEARS          = [str(y) for y in range(2014, 2026)]
 
 STRATEGIES = [

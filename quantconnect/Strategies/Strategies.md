@@ -1,14 +1,14 @@
 # QuantConnect Trading Strategies
 
 
-| #                  | Category     | CAGR    | MaxDD    | Sharpe    | Win #    | Loss #   | W/L Ratio | Profit Ratio | Overfit  |
-| :----------------- | :----------- | :------ | :------- | :-------- | :------- | :------- | :-------- | :----------- | :------- |
-| ✅ [1](#strategy-1) | Breakout | 43% | -37% | 0.986 | 192 | 341 | 0.56 | 3.45 | 6/10 |
-| ✅ [2](#strategy-2) | Dip Buy | 25% | -44% | 0.801 | 156 | 41 | 3.80 | 1.22 | 2/10 |
-| ✅ [3](#strategy-3) | Rebalance | 31% | -51% | 0.738 | 36 | 0 | — | 0.00 | 4/10 |
-| ✅ [4](#strategy-4) | Dip Buy | 47% | -37% | 1.031 | 1426 | 611 | 2.33 | 0.81 | 2/10 |
-| ✅ [5](#strategy-5) | Trend | 29% | -49% | 0.709 | 62 | 58 | 1.07 | 2.71 | 4/10 |
-| ✅ [6](#strategy-6) | Breakout | 39% | -50% | 0.895 | 94 | 76 | 1.24 | 2.21 | 4/10 |
+| #                  | Category     | CAGR    | MaxDD    | Sharpe    | Win #   | Loss #  | W/L Ratio | Profit Ratio | Overfit  |
+| :----------------- | :----------- | :------ | :------- | :-------- | :------ | :------ | :-------- | :----------- | :------- |
+| ✅ [1](#strategy-1) | Breakout     | 43%     | -37%     | 0.986     | 192     | 341     | 0.56      | 3.45         | 6/10     |
+| ✅ [2](#strategy-2) | Dip Buy      | 25%     | -44%     | 0.801     | 156     | 41      | 3.80      | 1.22         | 2/10     |
+| ✅ [3](#strategy-3) | Rebalance    | 31%     | -51%     | 0.738     | 36      | 0       | —         | 0.00         | 4/10     |
+| ✅ [4](#strategy-4) | Dip Buy      | 47%     | -37%     | 1.031     | 1426    | 611     | 2.33      | 0.81         | 2/10     |
+| ✅ [5](#strategy-5) | Trend        | 29%     | -49%     | 0.709     | 62      | 58      | 1.07      | 2.71         | 4/10     |
+| ✅ [6](#strategy-6) | Breakout     | 39%     | -50%     | 0.895     | 94      | 76      | 1.24      | 2.21         | 4/10     |
 | ✅ **ENSEMBLE**     | **Ensemble** | **43%** | **-37%** | **0.987** | **192** | **341** | **0.56**  | **3.45**     | **3/10** |
 
 | #                  | 14         | 15        | 16         | 17          | 18         | 19          | 20          | 21         | 22          | 23          | 24         | 25         |
@@ -21,7 +21,7 @@
 | ✅ [6](#strategy-6) | 🟢 137%    | 🔴 -3%    | 🔴 -2%     | 🟢 76%      | 🟢 54%     | 🟢 14%      | 🟢 84%      | 🟢 47%     | 🔴 -14%     | 🟢 81%      | 🟢 36%     | 🟢 32%     |
 | ✅ **ENSEMBLE**     | **🟢 44%** | **🟢 5%** | **🟢 22%** | **🟢 101%** | **🟢 23%** | **🟢 105%** | **🟢 151%** | **🟢 24%** | **🔴 -33%** | **🟢 107%** | **🟢 52%** | **🟢 18%** |
 
-*Note: Checkmarked strategies (✅) are considered "selected" and contribute to the ENSEMBLE calculations.*
+> Note: Checkmarked strategies (✅) are considered "selected" and contribute to the ENSEMBLE calculations.*
 
 
 ---

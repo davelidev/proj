@@ -84,8 +84,8 @@ def main():
         return
     res_orig = poll(bid_orig)
 
-    print("--- Running SUB-ALGO (tech_dip_sub.py) ---")
-    sub_content = bundle("tech_dip_sub.py")
+    print("--- Running SUB-ALGO (tech_dip.py) ---")
+    sub_content = bundle("tech_dip.py")
     bid_sub = run_backtest(sub_content, "TechDip-SubAlgo")
     if not bid_sub:
         print("Failed to start sub-algo")

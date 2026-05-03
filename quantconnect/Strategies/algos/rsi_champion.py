@@ -6,14 +6,11 @@ class RSIDipChampionSub(BaseSubAlgo):
     def initialize(self):
         self.algo.AddEquity("QQQ", Resolution.Daily)
         self.rsi2 = self.algo.RSI("QQQ", 2, MovingAverageType.Wilders, Resolution.Daily)
-        self.syms = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
+        self.sym = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
 
-    def update_targets(self) -> bool:
-        if not self.rsi2.IsReady: return False
-        weight  = 1/3 if self.rsi2.Current.Value < 25 else 0
-        changed = (self.targets.get(self.syms[0], -1) != weight)
-        self.targets = {s: weight for s in self.syms}
-        return changed
+    def update_targets(self):
+        if not self.rsi2.IsReady: return
+        self.targets[self.sym] = int(self.rsi2.Current.Value < 25)
 
 
 RSIDipChampionAlgo = _make_standalone(RSIDipChampionSub)

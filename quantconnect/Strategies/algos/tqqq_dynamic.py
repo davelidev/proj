@@ -8,26 +8,26 @@ class TQQQDynamicSub(BaseSubAlgo):
         self.rsi2   = self.algo.RSI(self.sym, 2,   MovingAverageType.Wilders, Resolution.Daily)
         self.rsi10  = self.algo.RSI(self.sym, 10, MovingAverageType.Wilders, Resolution.Daily)
         self.sma200 = self.algo.SMA(self.sym, 200, Resolution.Daily)
-        self.current_weight = 0
 
-    def update_targets(self) -> bool:
-        if not (self.rsi2.IsReady and self.sma200.IsReady): return False
+    def update_targets(self):
+        if not (self.rsi2.IsReady and self.sma200.IsReady): return
         price = self.algo.Securities[self.sym].Price
+        
+        current_w = self.targets.get(self.sym, 0)
+        
         if price > self.sma200.Current.Value:
             if self.rsi10.Current.Value > 80:
-                new_w = 0.2
+                weight = 0.2
             elif self.rsi2.Current.Value < 30:
-                new_w = 1.0
-            elif self.current_weight == 0:
-                new_w = 0.5
+                weight = 1.0
+            elif current_w == 0:
+                weight = 0.5
             else:
-                new_w = self.current_weight
+                weight = current_w
         else:
-            new_w = 0
-        changed             = (self.current_weight != new_w)
-        self.current_weight = new_w
-        self.targets        = {self.sym: self.current_weight}
-        return changed
+            weight = 0
+            
+        self.targets = {self.sym: weight}
 
 
 TQQQDynamicAlgo = _make_standalone(TQQQDynamicSub)

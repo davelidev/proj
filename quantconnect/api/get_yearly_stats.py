@@ -71,8 +71,7 @@ def main():
     sorted_years = sorted(yearly.keys())
     
     # Width calculation: Emojis are 2 cells wide, but len() sees them as 1.
-    # We manually pad to ensure perfect alignment in the terminal.
-    width = 9
+    col_width = 8
     header_parts = []
     divider_parts = []
     row_parts = []
@@ -82,15 +81,17 @@ def main():
         emoji = "🟢" if ret > 0 else "🔴" if ret < 0 else "⚪"
         content = f"{emoji} {ret}%"
         
-        # Header/Divider
-        header_parts.append(f"{y:<{width}}")
-        divider_parts.append("-" * width)
+        # Header
+        header_parts.append(f"{y:<{col_width}}")
         
-        # Row Content: Manual Padding
-        # "🟢 5%" -> len is 4, visual width is 5.
-        # "🟢 101%" -> len is 6, visual width is 7.
-        visual_width = len(content) + 1
-        padding = max(0, width - visual_width)
+        # Divider
+        divider_parts.append("-" * col_width)
+        
+        # Row Content: Manual Padding for emoji visual width
+        # Python len() sees emoji as 1, but terminal renders as 2.
+        # So visual_len = len(content) + 1
+        visual_len = len(content) + 1
+        padding = max(0, col_width - visual_len)
         row_parts.append(content + (" " * padding))
         
     print(" | ".join(header_parts))

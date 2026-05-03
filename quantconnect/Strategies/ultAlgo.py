@@ -141,6 +141,21 @@ class UltimateAlgo(QCAlgorithm):
         if total_w > 1.0:
             for s in agg_weights: agg_weights[s] /= total_w
 
+        # [Change Detection] Compare with previous aggregate weights
+        if hasattr(self, "_prev_agg_weights"):
+            # Check if all keys match and weights are within tolerance
+            if set(agg_weights.keys()) == set(self._prev_agg_weights.keys()):
+                significant_change = False
+                for sym, weight in agg_weights.items():
+                    prev_w = self._prev_agg_weights[sym]
+                    if abs(weight - prev_w) > self.REBAL_DRIFT:
+                        significant_change = True
+                        break
+                if not significant_change:
+                    return # Skip execution
+
+        self._prev_agg_weights = agg_weights.copy()
+
         for sym, weight in agg_weights.items():
             cur = self.Portfolio[sym].HoldingsValue / total_real
             if abs(weight - cur) > self.REBAL_DRIFT or (weight == 0 and self.Portfolio[sym].Invested):
@@ -157,7 +172,8 @@ class UltimateAlgo(QCAlgorithm):
 
         any_changed = False
         for sub in self.sub_algos:
-            if sub.on_data(data):
+            sub.on_data(data)
+            if sub.has_changed():
                 any_changed = True
 
         if any_changed:
