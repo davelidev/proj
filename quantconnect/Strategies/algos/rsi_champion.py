@@ -12,7 +12,7 @@ class RSIDipChampionSub(BaseSubAlgo):
         if not self.rsi2.IsReady: return
         
         if self.rsi2.Current.Value < 25:
-            self.targets = {s: 1/3 for s in self.syms}
+            self.targets = {s: 1 / len(self.syms) for s in self.syms}
         else:
             self.targets = {}
 

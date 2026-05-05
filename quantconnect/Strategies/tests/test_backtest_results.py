@@ -89,6 +89,13 @@ def fresh(request):
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
+def _metric_val(metrics, key):
+    v = metrics.get(key)
+    if v is None: return None
+    try: return float(str(v).replace('%', '').strip())
+    except: return None
+
+
 def _fmt_pct(v):
     if v is None:
         return "  —  "
@@ -194,16 +201,19 @@ def print_summary(baseline, fresh):
     print(hdr)
     print("  " + "─" * 68)
     for fname in STRAT_IDS:
-        r   = fresh.get(fname, {})
-        s   = r.get("stats", {})
-        raw = r.get("metrics", {})
-        cagr   = f"{s['CAGR']:.0f}%"    if s.get("CAGR")   is not None else "—"
-        maxdd  = f"-{s['MaxDD']:.0f}%"  if s.get("MaxDD")  is not None else "—"
-        sharpe = f"{s['Sharpe']:.2f}"   if s.get("Sharpe") is not None else "—"
+        r    = fresh.get(fname, {})
+        raw  = r.get("metrics", {})
+        cagr_v = _metric_val(raw, "Compounding Annual Return")
+        ddown_v = _metric_val(raw, "Drawdown")
+        shrp_v = _metric_val(raw, "Sharpe Ratio")
+        pl_v = _metric_val(raw, "Profit-Loss Ratio")
+        cagr   = f"{cagr_v:.0f}%"  if cagr_v is not None else "—"
+        maxdd  = f"-{ddown_v:.0f}%" if ddown_v is not None else "—"
+        sharpe = f"{shrp_v:.2f}"   if shrp_v is not None else "—"
         alpha  = f"{float(raw['Alpha']):.2f}" if raw.get("Alpha") else "—"
         beta   = f"{float(raw['Beta']):.2f}"  if raw.get("Beta")  else "—"
         wr     = raw.get("Win Rate", "—")
-        pf     = f"{s['PL']:.2f}"       if s.get("PL") is not None else "—"
+        pf     = f"{pl_v:.2f}" if pl_v is not None else "—"
         b_raw  = baseline.get(fname, {}).get("metrics", {})
         changed = sum(1 for k in STAT_KEYS if b_raw.get(k) != raw.get(k))
         match  = "  ✓" if changed == 0 else f"  ✗ {changed} changed"

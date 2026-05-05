@@ -1,92 +1,80 @@
 {
     "vol_breakout.py": {
-        "yearly": [43, 8, 26, 101, 23, 105, 149, 23, -32, 107, 52, 18],
         "metrics": {
             "Compounding Annual Return": "42.782%",
             "Drawdown": "37.400%",
-            "Win Rate": "36%",
-            "Profit-Loss Ratio": "3.45",
             "Sharpe Ratio": "0.986",
-            "Alpha": "0.23",
             "Beta": "1.248",
-            "Average Win": "12.27%",
-            "Average Loss": "-3.56%",
-            "Total Orders": "533"
-        }
+            "Alpha": "0.23",
+            "Total Orders": "533",
+            "Win Rate": "36%",
+            "Profit-Loss Ratio": "3.45"
+        },
+        "yearly": [43, 8, 26, 101, 23, 105, 149, 23, -32, 107, 52, 18]
     },
     "tech_dip.py": {
-        "yearly": [20, 0, 9, 35, 6, 46, 55, 48, -36, 88, 107, 37],
         "metrics": {
             "Compounding Annual Return": "28.687%",
             "Drawdown": "41.500%",
-            "Win Rate": "58%",
-            "Profit-Loss Ratio": "3.63",
             "Sharpe Ratio": "0.869",
-            "Alpha": "0.097",
             "Beta": "1.283",
-            "Average Win": "7.76%",
-            "Average Loss": "-2.14%",
-            "Total Orders": "87"
-        }
+            "Alpha": "0.097",
+            "Total Orders": "87",
+            "Win Rate": "58%",
+            "Profit-Loss Ratio": "3.63"
+        },
+        "yearly": [20, 0, 9, 35, 6, 46, 55, 48, -36, 88, 107, 37]
     },
     "leveraged_rebalance.py": {
-        "yearly": [34, 13, 7, 71, -13, 79, 65, 52, -47, 118, 37, 21],
         "metrics": {
             "Compounding Annual Return": "28.273%",
             "Drawdown": "51.400%",
-            "Win Rate": "100%",
-            "Profit-Loss Ratio": "0",
             "Sharpe Ratio": "0.728",
-            "Alpha": "0.073",
             "Beta": "1.87",
-            "Average Win": "27.51%",
-            "Average Loss": "0%",
-            "Total Orders": "13"
-        }
+            "Alpha": "0.073",
+            "Total Orders": "13",
+            "Win Rate": "100%",
+            "Profit-Loss Ratio": "0"
+        },
+        "yearly": [34, 13, 7, 71, -13, 79, 65, 52, -47, 118, 37, 21]
     },
     "rsi_champion.py": {
-        "yearly": [30, -8, -20, 50, 19, 37, 215, 142, 22, 76, 74, 55],
         "metrics": {
             "Compounding Annual Return": "46.808%",
             "Drawdown": "36.900%",
-            "Win Rate": "70%",
-            "Profit-Loss Ratio": "0.81",
             "Sharpe Ratio": "1.031",
-            "Alpha": "0.252",
             "Beta": "1.341",
-            "Average Win": "1.42%",
-            "Average Loss": "-1.75%",
-            "Total Orders": "2037"
-        }
+            "Alpha": "0.252",
+            "Total Orders": "2037",
+            "Win Rate": "70%",
+            "Profit-Loss Ratio": "0.81"
+        },
+        "yearly": [30, -8, -20, 50, 19, 37, 215, 142, 22, 76, 74, 55]
     },
     "tqqq_dynamic.py": {
-        "yearly": [35, 4, -13, 133, 7, 29, 67, 82, -20, 70, 29, 28],
         "metrics": {
             "Compounding Annual Return": "30.884%",
             "Drawdown": "49.000%",
-            "Win Rate": "53%",
-            "Profit-Loss Ratio": "2.69",
             "Sharpe Ratio": "0.738",
-            "Alpha": "0.146",
             "Beta": "1.412",
-            "Average Win": "22.21%",
-            "Average Loss": "-8.26%",
-            "Total Orders": "122"
-        }
+            "Alpha": "0.146",
+            "Total Orders": "122",
+            "Win Rate": "53%",
+            "Profit-Loss Ratio": "2.69"
+        },
+        "yearly": [35, 4, -13, 133, 7, 29, 67, 82, -20, 70, 29, 28]
     },
     "expanding_breakout.py": {
-        "yearly": [137, -3, -2, 76, 54, 14, 83, 47, -14, 72, 39, 32],
         "metrics": {
             "Compounding Annual Return": "38.227%",
             "Drawdown": "49.200%",
-            "Win Rate": "55%",
-            "Profit-Loss Ratio": "2.19",
             "Sharpe Ratio": "0.886",
-            "Alpha": "0.195",
             "Beta": "1.378",
-            "Average Win": "17.41%",
-            "Average Loss": "-7.96%",
-            "Total Orders": "170"
-        }
+            "Alpha": "0.195",
+            "Total Orders": "170",
+            "Win Rate": "55%",
+            "Profit-Loss Ratio": "2.19"
+        },
+        "yearly": [137, -3, -2, 76, 54, 14, 83, 47, -14, 72, 39, 32]
     }
 }

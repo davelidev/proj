@@ -10,9 +10,20 @@ BASE_URL   = os.environ.get("QC_BASE_URL", "https://www.quantconnect.com/api/v2"
 
 ALGOS_DIR      = "strategies/algos"
 BASE_FILE      = "strategies/base.py"
-RESULTS_JSON   = os.environ.get("QC_RESULTS_JSON", "api/strategies_results.json")
+RESULTS_JSON   = os.environ.get("QC_RESULTS_JSON", "strategies/tests/strategies_results.json")
 STRATEGIES_MD  = "strategies/Strategies.md"
 YEARS          = [str(y) for y in range(2014, 2026)]
+
+METRIC_KEYS = [
+    "Compounding Annual Return",
+    "Drawdown",
+    "Sharpe Ratio",
+    "Beta",
+    "Alpha",
+    "Total Orders",
+    "Win Rate",
+    "Profit-Loss Ratio",
+]
 
 STRATEGIES = [
     ("vol_breakout.py",        1),
@@ -73,6 +84,7 @@ def fetch_logs(bid):
             print(f"    {line}")
 
 def poll(bid):
+    stat_retries = 0
     while True:
         res = requests.get(f"{BASE_URL}/backtests/read", headers=get_headers(),
                            params={"projectId": PROJECT_ID, "backtestId": bid}).json()
@@ -80,8 +92,14 @@ def poll(bid):
         clean_status = status.replace(" ", "").lower()
         progress = float(res.get("backtest", {}).get("progress", 0)) * 100
         print(f"  {status} {progress:.0f}%  ", end="\r")
-        
+
         if status == "Completed.":
+            stats = res.get("backtest", {}).get("statistics", {})
+            is_empty = not stats or (stats.get("Total Orders") == "0" and stats.get("Compounding Annual Return") == "0%")
+            if is_empty and stat_retries < 5:
+                stat_retries += 1
+                time.sleep(2)
+                continue
             print()
             return res
         if clean_status in ("failure", "runtimeerror", "cancelled"):
@@ -90,44 +108,6 @@ def poll(bid):
             return None
         time.sleep(2)
 
-
-# ---------------------------------------------------------------------------
-# Stats extraction
-# ---------------------------------------------------------------------------
-
-def extract_stats(res):
-    stats = res.get("backtest", {}).get("statistics", {})
-    if not stats:
-        rw = res.get("backtest", {}).get("rollingWindow", {})
-        if rw:
-            stats = rw[sorted(rw.keys())[-1]].get("portfolioStatistics", {})
-
-    def pct(k1, k2=None):
-        v = stats.get(k1) or (stats.get(k2) if k2 else None)
-        if v is None: return None
-        v = float(str(v).replace('%', '').strip())
-        return v * 100 if abs(v) < 1.0 else v
-
-    def num(k1, k2=None):
-        v = stats.get(k1) or (stats.get(k2) if k2 else None)
-        if v is None: return None
-        try: return float(str(v).replace('%', '').strip())
-        except: return None
-
-    cagr   = pct("Compounding Annual Return", "compoundingAnnualReturn")
-    maxdd  = pct("Drawdown", "drawdown")
-    sharpe = num("Sharpe Ratio", "sharpeRatio")
-    total  = int(num("Total Orders", "totalOrders") or 0)
-    wr_raw = stats.get("Win Rate") or stats.get("winRate") or "0"
-    wr     = float(str(wr_raw).replace('%', '').strip())
-    if wr > 1: wr /= 100
-    win_n  = round(total * wr)
-    loss_n = total - win_n
-    wl     = round(win_n / loss_n, 2) if loss_n > 0 else 0
-    pl     = num("Profit-Loss Ratio", "profitLossRatio")
-
-    return {"CAGR": cagr, "MaxDD": maxdd, "Sharpe": sharpe,
-            "Win": win_n, "Loss": loss_n, "WL": wl, "PL": pl}
 
 
 def extract_yearly(res):
@@ -158,6 +138,38 @@ def fmt_cell(val):
     return f"{e} {val}%"
 
 
+def _metric_val(metrics, key):
+    """Extract float from a metrics dict value (e.g. '42.782%' → 42.782)."""
+    v = metrics.get(key)
+    if v is None: return None
+    try: return float(str(v).replace('%', '').strip())
+    except: return None
+
+
+def _fmt_metrics(metrics):
+    """Derive display values from metrics dict (new format, no stats)."""
+    cagr_v   = _metric_val(metrics, "Compounding Annual Return")
+    maxdd_v  = _metric_val(metrics, "Drawdown")
+    sharpe_v = _metric_val(metrics, "Sharpe Ratio")
+    pl_v     = _metric_val(metrics, "Profit-Loss Ratio")
+    total    = int(_metric_val(metrics, "Total Orders") or 0)
+    wr_v     = _metric_val(metrics, "Win Rate")
+    wr       = wr_v if wr_v is not None else 0
+    if wr > 1: wr /= 100
+    win_n    = round(total * wr)
+    loss_n   = total - win_n
+    wl_v     = round(win_n / loss_n, 2) if loss_n > 0 else 0
+
+    cagr   = f"{cagr_v:.0f}%"        if cagr_v   is not None else "—"
+    maxdd  = f"-{abs(maxdd_v):.0f}%" if maxdd_v  is not None else "—"
+    sharpe = f"{sharpe_v:.3f}"       if sharpe_v is not None else "—"
+    win    = str(win_n)
+    loss   = str(loss_n)
+    wl     = f"{wl_v:.2f}"           if wl_v     else "—"
+    pl     = f"{pl_v:.2f}"           if pl_v     is not None else "—"
+    return cagr, maxdd, sharpe, win, loss, wl, pl, cagr_v, maxdd_v
+
+
 def update_strategies_md(all_results):
     with open(STRATEGIES_MD) as f:
         lines = f.readlines()
@@ -174,16 +186,10 @@ def update_strategies_md(all_results):
         for filename, num in STRATEGIES:
             if filename not in all_results: continue
             r = all_results[filename]
-            if r.get("status") != "Completed.": continue
-            s  = r["stats"]
+            metrics = r.get("metrics", {})
+            if not metrics.get("Compounding Annual Return"): continue
             yr = r["yearly"]
-            cagr   = f"{s['CAGR']:.0f}%"   if s.get("CAGR")   is not None else "—"
-            maxdd  = f"-{abs(s['MaxDD']):.0f}%" if s.get("MaxDD") is not None else "—"
-            sharpe = f"{s['Sharpe']:.3f}"   if s.get("Sharpe") is not None else "—"
-            win    = str(s.get("Win",  "—"))
-            loss   = str(s.get("Loss", "—"))
-            wl     = f"{s['WL']:.2f}"       if s.get("WL")     else "—"
-            pl     = f"{s['PL']:.2f}"       if s.get("PL")     is not None else "—"
+            cagr, maxdd, sharpe, win, loss, wl, pl, _, _ = _fmt_metrics(metrics)
 
             # Stats summary row  (single space before closing |)
             if re.match(rf'^\| ✅ \[{num}\]\(#strategy-{num}\) \|', line):
@@ -211,19 +217,12 @@ def update_strategies_md(all_results):
         fname = next((f for f, n in STRATEGIES if n == in_section), None)
         if not fname or fname not in all_results: continue
         r = all_results[fname]
-        if r.get("status") != "Completed.": continue
+        metrics = r.get("metrics", {})
+        if not metrics.get("Compounding Annual Return"): continue
 
-        s  = r["stats"]
         yr = r["yearly"]
-        cagr   = f"{s['CAGR']:.0f}%"       if s.get("CAGR")   is not None else "—"
-        maxdd  = f"-{abs(s['MaxDD']):.0f}%" if s.get("MaxDD")  is not None else "—"
-        sharpe = f"{s['Sharpe']:.3f}"       if s.get("Sharpe") is not None else "—"
-        win    = str(s.get("Win",  "—"))
-        loss   = str(s.get("Loss", "—"))
-        wl     = f"{s['WL']:.2f}"           if s.get("WL")     else "—"
-        pl     = f"{s['PL']:.2f}"           if s.get("PL")     is not None else "—"
-        
-        passed = (s.get("CAGR") is not None and s.get("MaxDD") is not None and s["CAGR"] >= 28 and abs(s["MaxDD"]) <= 58)
+        cagr, maxdd, sharpe, win, loss, wl, pl, cagr_v, maxdd_v = _fmt_metrics(metrics)
+        passed = (cagr_v is not None and maxdd_v is not None and cagr_v >= 28 and abs(maxdd_v) <= 58)
         pass_status = "✅" if passed else "❌"
 
         # Stats table header
@@ -300,7 +299,8 @@ def pull():
     for filename, num in STRATEGIES:
         if only and only not in filename:
             continue
-        if results.get(filename, {}).get("status") == "Completed.":
+        existing = results.get(filename, {})
+        if existing.get("metrics", {}).get("Compounding Annual Return") is not None:
             print(f"Skipping Strategy-{num} ({filename}) — cached")
             continue
 
@@ -313,16 +313,14 @@ def pull():
 
         res = poll(bid)
         if not res:
-            results[filename] = {"status": "Failed"}
+            results[filename] = {"metrics": {}}
         else:
             raw_stats = res.get("backtest", {}).get("statistics", {})
-        results[filename] = {
-            "status":    "Completed.",
-            "id":        bid,
-            "metrics":   raw_stats,
-            "stats":     extract_stats(res),
-            "yearly":    extract_yearly(res),
-        }
+            metrics = {k: raw_stats[k] for k in METRIC_KEYS if k in raw_stats}
+            results[filename] = {
+                "metrics": metrics,
+                "yearly":  extract_yearly(res),
+            }
 
         save_results(results, RESULTS_JSON)
 
