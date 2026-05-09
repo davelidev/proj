@@ -30,10 +30,11 @@ class TechDipBuySub(BaseSubAlgo):
 
     def update_targets(self):
         tech = self.universe_groups.get("TechDipBuySub", set())
-        if not tech or self.algo.Time.weekday() != 0: return
+        if not tech or self.algo.Time.weekday() != 0: return False
 
         total_value = self.algo.Portfolio.TotalPortfolioValue
         w = 1.0 / 5
+        prev = dict(self.targets)
 
         # Step 1: process exits; drift-lock survivors so base never trims winners
         for s in tech:
@@ -55,6 +56,8 @@ class TechDipBuySub(BaseSubAlgo):
                 entry_w = min(w, budget)
                 self.targets[s] = entry_w
                 budget -= entry_w
+
+        return self.targets != prev
 
 
 TechDipBuyAlgo = _make_standalone(TechDipBuySub)

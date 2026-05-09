@@ -13,7 +13,7 @@ from expanding_breakout import ExpandingBreakoutSub
 # ---------------------------------------------------------------------------
 
 class UltimateAlgo(QCAlgorithm):
-    MONTHLY_OPEN_MIN  = 60    # minutes after open for monthly log
+    MONTHLY_OPEN_MIN  = 40    # minutes after open for monthly log
     CASH_TICKER       = "BIL"
     BIL_MIN_REMAINING = 0.01  # only route idle cash to BIL above this weight
     REBAL_DRIFT       = 0.005 # skip rebalance if drift is smaller than this
@@ -27,7 +27,7 @@ class UltimateAlgo(QCAlgorithm):
         self.last_prices = {}
 
         self.sub_algos = [
-            VolatilityBreakoutSub(self, "VolBreakout"),
+            # VolatilityBreakoutSub(self, "VolBreakout"),  # disabled: minute-resolution signals get clipped by daily-only ExecuteAggregation; net-negative in ensemble (28% vs 30% baseline)
             TechDipBuySub(self,         "TechDip"),
             LeveragedRebalanceSub(self,  "LevRebal"),
             RSIDipChampionSub(self,      "RSIDip"),
@@ -46,7 +46,7 @@ class UltimateAlgo(QCAlgorithm):
             for name, func in universes.items():
                 self.AddUniverse(self._wrap_universe(sub, name, func))
 
-        self.SetWarmUp(WARMUP_DAYS)
+        self.SetWarmUp(WARMUP_DAYS, Resolution.Daily)
 
         # ONE CENTRAL SCHEDULER
         self.Schedule.On(
@@ -120,6 +120,11 @@ class UltimateAlgo(QCAlgorithm):
             for sub in self.sub_algos: sub.equity = reset_val
             self.Log(f"YEARLY REBALANCE: All sub-algos reset to ${reset_val:,.0f}")
 
+        # Each sub's update_targets returns True iff self.targets changed.
+        # Subs that need a rebalance even without a target change set
+        # self.force_rebalance themselves. ExecuteAggregation always runs and
+        # uses its own drift gate to skip cheap days; the drift-detection is
+        # an alpha source (vol harvesting across cash-heavy vs risk-heavy subs).
         for sub in self.sub_algos:
             if sub.update_targets():
                 sub.force_rebalance = True
@@ -177,7 +182,7 @@ class UltimateAlgo(QCAlgorithm):
         for x in self.Portfolio.Values:
             if x.Invested and x.Symbol not in agg_weights:
                 self.Liquidate(x.Symbol)
-        
+
         # Reset force flags
         for sub in self.sub_algos:
             sub.force_rebalance = False
@@ -187,11 +192,6 @@ class UltimateAlgo(QCAlgorithm):
 
         self.UpdateVirtualAccounting()
 
-        any_changed = False
         for sub in self.sub_algos:
-            if sub.on_data(data) or sub.has_changed() or sub.force_rebalance:
-                any_changed = True
-
-        if any_changed:
-            self.ExecuteAggregation()
+            sub.on_data(data)
 

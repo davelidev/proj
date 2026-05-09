@@ -8,7 +8,8 @@ START_DATE      = (2014, 1, 1)
 END_DATE        = (2025, 12, 31)
 INITIAL_CASH    = 100_000
 WARMUP_DAYS     = 252
-DAILY_OPEN_MIN  = 35
+SCHEDULE_TICKER = "SPY"
+DAILY_OPEN_MIN  = 45
 
 
 # ---------------------------------------------------------------------------
@@ -23,16 +24,15 @@ class BaseSubAlgo:
         self.id = identifier
         self.equity = 0.0
         self.targets = {}
-        self._prev_targets = {}
         self.universe_groups = {} # Automatically populated { 'GroupName': set(Symbols) }
         self.on_change = None
         self.force_rebalance = False
 
     def initialize(self): pass
-    def update_targets(self): pass
+    def update_targets(self): pass  # subs return True iff self.targets changed
     def on_data(self, data): pass
     def on_securities_changed(self, changes): pass
-    
+
     def universe_selection(self, fundamental): return []
 
     def get_universes(self):
@@ -40,14 +40,6 @@ class BaseSubAlgo:
         if self.HAS_UNIVERSE:
             return { self.id: self.universe_selection }
         return {}
-
-    def has_changed(self) -> bool:
-        """Centralized check to see if target allocations have shifted."""
-        if self.targets != self._prev_targets:
-            self.algo.Log(f"[{self.id}] TARGET CHANGE: {self._prev_targets} -> {self.targets}")
-            self._prev_targets = self.targets.copy()
-            return True
-        return False
 
 
 # ---------------------------------------------------------------------------
@@ -93,8 +85,8 @@ def _make_standalone(sub_cls):
 
         def _rebalance(self):
             if self.IsWarmingUp: return
-            forced = self._sub.update_targets()
-            if forced or self._sub.has_changed() or self._sub.force_rebalance:
+            changed = self._sub.update_targets()
+            if changed or self._sub.force_rebalance:
                 self._execute()
                 self._sub.force_rebalance = False
 
@@ -112,8 +104,8 @@ def _make_standalone(sub_cls):
             self._prev_total_value = curr_value
 
             if uses_on_data:
-                forced = self._sub.on_data(data)
-                if forced or self._sub.has_changed() or self._sub.force_rebalance:
+                changed = self._sub.on_data(data)
+                if changed or self._sub.force_rebalance:
                     self._execute()
                     self._sub.force_rebalance = False
 

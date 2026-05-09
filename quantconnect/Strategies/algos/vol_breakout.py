@@ -26,13 +26,14 @@ class VolatilityBreakoutSub(BaseSubAlgo):
         self.entry_price = 0
 
     def on_data(self, data):
-        self.update_targets()
+        return self.update_targets()
 
     def update_targets(self):
-        if self.algo.IsWarmingUp or self.algo.Time.hour < 10: return
+        if self.algo.IsWarmingUp or self.algo.Time.hour < 10: return False
         price    = self.algo.Securities[self.sym].Price
         invested = self.targets.get(self.sym, 0) > 0
 
+        prev = dict(self.targets)
         if not invested:
             if self.volatility.Value < 0.1 and price >= self.high.Current.Value * 0.98:
                 self.entry_price = price
@@ -40,6 +41,7 @@ class VolatilityBreakoutSub(BaseSubAlgo):
         else:
             if self.volatility.Value > 0.15 or price <= self.entry_price * 0.97:
                 self.targets = {self.sym: 0}
+        return self.targets != prev
 
 
 VolatilityBreakoutAlgo = _make_standalone(VolatilityBreakoutSub)

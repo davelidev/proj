@@ -42,28 +42,35 @@ def detect_ensemble_files():
     file_list.append(ORCHESTRATOR_FILE)
     return file_list
 
-def bundle(files, output_path):
+def bundle(files, output_path, ensemble=False):
     # Ensure directory exists
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    
+
     print(f"Bundling {len(files)} files into {output_path}...")
     bundled_content = "from AlgorithmImports import *\n\n"
-    
+
     seen_files = set() # Prevent duplicates
-    
+
     for fpath in files:
         if fpath in seen_files: continue
         if not os.path.exists(fpath):
             print(f"Warning: File not found {fpath}")
             continue
-            
+
         seen_files.add(fpath)
         with open(fpath, "r") as f:
             content = f.read()
-            # Remove redundant cross-file imports
             content = re.sub(r"^from\s+.*?import\s+.*$", "", content, flags=re.MULTILINE)
             content = re.sub(r"^import\s+.*$", "", content, flags=re.MULTILINE)
-            
+
+            if ensemble:
+                # Strip _make_standalone and standalone assignments — they create extra
+                # QCAlgorithm subclasses that cause QC to run the wrong class.
+                content = re.sub(
+                    r"\n# -{10,}\n# Standalone mixin factory\n# -{10,}\n\ndef _make_standalone\b.*?\n    return Algo\n",
+                    "\n", content, flags=re.DOTALL)
+                content = re.sub(r"^\w+Algo\s*=\s*_make_standalone\(\w+\)\s*$", "", content, flags=re.MULTILINE)
+
             bundled_content += f"\n# --- Content from {fpath} ---\n"
             bundled_content += content + "\n"
 
@@ -85,7 +92,7 @@ def main():
         # Full Ensemble mode with Dynamic Detection
         ensemble_files = detect_ensemble_files()
         output_name = os.path.join(OUTPUT_DIR, "ensemble.py")
-        bundle(ensemble_files, output_name)
+        bundle(ensemble_files, output_name, ensemble=True)
 
 if __name__ == "__main__":
     main()

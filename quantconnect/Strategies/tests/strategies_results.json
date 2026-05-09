@@ -14,16 +14,16 @@
     },
     "tech_dip.py": {
         "metrics": {
-            "Compounding Annual Return": "28.687%",
-            "Drawdown": "41.500%",
-            "Sharpe Ratio": "0.869",
-            "Beta": "1.283",
-            "Alpha": "0.097",
-            "Total Orders": "87",
-            "Win Rate": "58%",
-            "Profit-Loss Ratio": "3.63"
+            "Compounding Annual Return": "28.106%",
+            "Drawdown": "41.300%",
+            "Sharpe Ratio": "0.848",
+            "Beta": "1.277",
+            "Alpha": "0.094",
+            "Total Orders": "100",
+            "Win Rate": "53%",
+            "Profit-Loss Ratio": "2.69"
         },
-        "yearly": [20, 0, 9, 35, 6, 46, 55, 48, -36, 88, 107, 37]
+        "yearly": [20, 0, 8, 37, 6, 39, 38, 53, -35, 87, 119, 38]
     },
     "leveraged_rebalance.py": {
         "metrics": {

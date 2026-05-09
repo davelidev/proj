@@ -17,7 +17,7 @@ class ExpandingBreakoutSub(BaseSubAlgo):
 
     def update_targets(self):
         if not self.adx.IsReady or not self.sma200.IsReady or not self.max_exit.IsReady:
-            return
+            return False
         price     = self.algo.Securities[self.sym].Price
         qqq_price = self.algo.Securities[self.qqq].Price
         s200      = self.sma200.Current.Value
@@ -25,10 +25,11 @@ class ExpandingBreakoutSub(BaseSubAlgo):
         max_val   = self.max_exit.Current.Value
         # USE QQQ FOR RANGE SIGNAL
         hist = self.algo.History(self.qqq, 3, Resolution.Daily)
-        if len(hist) < 3: return
+        if len(hist) < 3: return False
         rang = lambda x: x.high - x.low
         r2, r1 = rang(hist.iloc[-3]), rang(hist.iloc[-2])
 
+        prev = dict(self.targets)
         if not self.targets:
             if qqq_price > s200 and r1 > r2 and adx_val > 25:
                 self.targets       = {self.sym: 1.0}
@@ -39,6 +40,7 @@ class ExpandingBreakoutSub(BaseSubAlgo):
             if price >= max_val or price < self.trailing_stop or qqq_price < s200:
                 self.targets       = {}
                 self.trailing_stop = 0
+        return self.targets != prev
 
 
 ExpandingBreakoutAlgo = _make_standalone(ExpandingBreakoutSub)

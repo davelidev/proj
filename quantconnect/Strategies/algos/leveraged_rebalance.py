@@ -9,6 +9,8 @@ class LeveragedRebalanceSub(BaseSubAlgo):
         self._last_year = None
 
     def update_targets(self):
+        # Annual rebalance: always returns True on year-change so the ensemble
+        # rebalances to correct positional drift, even though weights are static.
         if self.algo.Time.year == self._last_year: return False
         self._last_year = self.algo.Time.year
         self.targets = {s: 1 / len(self.syms) * .6 for s in self.syms}
