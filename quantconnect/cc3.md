@@ -49,4 +49,23 @@ Each strategy targets the dynamic top-10 mega-cap basket via AddUniverse by mark
 | 019 | Algo019 | RSI(14) divergence detector | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
 | 020 | Algo020 | Volume-weighted momentum (1.2× + 5d return) | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
 
+### Batch 3 (Strategies 021–030): Davey-Adapted Entries + Final Mega-Cap Signals
+
+Each strategy targets the dynamic top-10 mega-cap basket via AddUniverse by market cap.
+
+| #   | Name | Signal Type | Universe | CAGR | MaxDD | Sharpe | Pass | Backtest ID |
+| :-- | :--- | :---------- | :------- | :--- | :---- | :----- | :--- | :---------- |
+| 021 | Algo021-Envelope | Envelope breakout: price > SMA(20) ± 10% + volume surge | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 022 | Algo022-ConsClosures | 3+ consecutive closes > SMA(50) = strong uptrend signal | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 023 | Algo023-SupRes | Close > prev 21d high (long) / < 21d low (short) | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 024 | Algo024-IntraBar | (close-open) > 2×(high-low) = bullish continuation | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 025 | Algo025-MFO | Money Flow Index extremes (< 30 oversold, > 70 overbought) | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 026 | Algo026-ROC | ROC(5d) threshold: > 5% long, < -5% short | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 027 | Algo027-BollingerB | Bollinger %B (20,2): < 0 oversold, > 1 overbought | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 028 | Algo028-Reversal | 2-bar reversal after new 10d high (contrarian short) | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 029 | Algo029-Trendline | Higher highs AND higher lows trendline detection → long | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 030 | Algo030-LinReg | Linear regression slope (20d): slope > 0 long, < 0 short | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+
+**Status:** ✅ Generation complete, ⏳ Pending QC submission (cluster at capacity)
+
 _Results will be appended as submissions complete._
