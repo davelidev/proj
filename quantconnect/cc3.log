@@ -2,3 +2,7 @@ algo_num,name,batch,signal_type,universe,cagr,maxdd,sharpe,pass,backtest_id
 # Batch 1 Status: 10 strategies generated and validated; awaiting QC submission (cluster at capacity)
 # Generation: DeepSeek Pro, all 10 strategies created and validated (AST OK, no banned patterns)
 # Submission: Queued for sequential processing once QC resources available
+# Batch 2 Status: 10 strategies generated and validated; QC submission blocked by cluster capacity
+# Generation: DeepSeek Pro, all 10 strategies created and validated (AST OK, no banned patterns)
+# Compilation: All 10 strategies compiled successfully (BuildSuccess for all)
+# Submission: Queued - cluster at capacity ("There are no spare nodes available")

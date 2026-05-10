@@ -32,4 +32,21 @@ Each strategy targets the dynamic top-10 mega-cap basket via AddUniverse by mark
 | 009 | Algo009 | Bollinger Band lower touch | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
 | 010 | Algo010 | Percentile mean-reversion | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
 
+### Batch 2 (Strategies 011–020): Davey-Adapted Entries + Distinct Signals
+
+Each strategy targets the dynamic top-10 mega-cap basket via AddUniverse by market cap.
+
+| #   | Name | Signal Type | Universe | CAGR | MaxDD | Sharpe | Pass | Backtest ID |
+| :-- | :--- | :---------- | :------- | :--- | :---- | :----- | :--- | :---------- |
+| 011 | Algo011 | Highest close (10d) breakout + 5d momentum gate | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 012 | Algo012 | ADX(14) > 25 triggers 5d high breakout | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 013 | Algo013 | MACD (12,26,9) crossover | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 014 | Algo014 | Keltner Channel (20, 1.5×ATR) breakout | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 015 | Algo015 | Williams %R(-14) extremes | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 016 | Algo016 | Close > open + volume surge (1.2×) | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 017 | Algo017 | Pullback pattern + SMA(20) bounce | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 018 | Algo018 | Highest high (21d) breakout at ADX > 30 | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 019 | Algo019 | RSI(14) divergence detector | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+| 020 | Algo020 | Volume-weighted momentum (1.2× + 5d return) | Mega-cap top-10 | _pending_ | _pending_ | _pending_ | — | — |
+
 _Results will be appended as submissions complete._
