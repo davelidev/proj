@@ -1,1 +1,4 @@
 algo_num,name,batch,signal_type,universe,cagr,maxdd,sharpe,pass,backtest_id
+# Batch 1 Status: 10 strategies generated and validated; awaiting QC submission (cluster at capacity)
+# Generation: DeepSeek Pro, all 10 strategies created and validated (AST OK, no banned patterns)
+# Submission: Queued for sequential processing once QC resources available
