@@ -1,9 +1,8 @@
 # region imports
 from AlgorithmImports import *
-import numpy as np
 # endregion
 
-class DispersionWeightedAlgorithm(QCAlgorithm):
+class Algo085(QCAlgorithm):
     """
     Strategy: Dispersion weighting.
     Universe: A set of major ETFs (SPY, QQQ, IWM, EFA, EEM).
