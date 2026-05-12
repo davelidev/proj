@@ -2,54 +2,50 @@ from AlgorithmImports import *
 
 
 class Algo001(QCAlgorithm):
-    """Sharpe-Ranked Sector Rotation: Hold top-3 of 11 sector ETFs by 63d Sharpe."""
+    """
+    Algo #1 — RSI(2) Mean Reversion on TQQQ
+    Davey Cheat Code Strategy #1 (Short Term RSI).
+
+    Entry: RSI(2) < 10 (oversold) -> 100% TQQQ
+    Exit:  RSI(2) > 70 OR held >= 5 days -> flat (cash)
+    Resolution: Daily.
+    """
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
 
-        self.tickers = ["XLK", "XLF", "XLE", "XLV", "XLY", "XLI", "XLP", "XLU", "XLB", "XLRE", "XLC"]
-        self.symbols = []
-        for t in self.tickers:
-            sym = self.AddEquity(t, Resolution.Daily).Symbol
-            self.symbols.append(sym)
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.rsi  = self.RSI(self.tqqq, 2, MovingAverageType.Wilders, Resolution.Daily)
+        self.SetWarmUp(20, Resolution.Daily)
 
-        self.lookback = 63
-        self.top_n = 3
-        self.rebalance_flag = False
+        self.entry_bar  = None
+        self.bar_count  = 0
+        self.MAX_HOLD   = 5
+        self.RSI_BUY    = 10
+        self.RSI_SELL   = 70
 
         self.Schedule.On(
-            self.DateRules.MonthStart(self.symbols[0]),
-            self.TimeRules.AfterMarketOpen(self.symbols[0], 30),
+            self.DateRules.EveryDay(self.tqqq),
+            self.TimeRules.AfterMarketOpen(self.tqqq, 30),
             self.Rebalance,
         )
 
     def Rebalance(self):
-        scores = {}
-        for sym in self.symbols:
-            hist = self.History(sym, self.lookback + 1, Resolution.Daily)
-            if hist.empty or "close" not in hist.columns:
-                continue
-            closes = hist["close"].values
-            if len(closes) < self.lookback + 1:
-                continue
-            rets = (closes[1:] - closes[:-1]) / closes[:-1]
-            std = rets.std()
-            if std <= 0 or std != std:
-                continue
-            sharpe = rets.mean() / std
-            scores[sym] = sharpe
-
-        if not scores:
+        if self.IsWarmingUp or not self.rsi.IsReady:
             return
-        ranked = sorted(scores.items(), key=lambda kv: kv[1], reverse=True)
-        winners = [s for s, _ in ranked[: self.top_n]]
 
-        for sym in self.symbols:
-            if sym not in winners and self.Portfolio[sym].Invested:
-                self.Liquidate(sym)
+        self.bar_count += 1
+        invested = self.Portfolio[self.tqqq].Invested
+        rsi_val  = self.rsi.Current.Value
 
-        weight = 1.0 / max(len(winners), 1)
-        for sym in winners:
-            self.SetHoldings(sym, weight)
+        if not invested:
+            if rsi_val < self.RSI_BUY:
+                self.SetHoldings(self.tqqq, 1.0)
+                self.entry_bar = self.bar_count
+        else:
+            held = self.bar_count - (self.entry_bar or self.bar_count)
+            if rsi_val > self.RSI_SELL or held >= self.MAX_HOLD:
+                self.Liquidate(self.tqqq)
+                self.entry_bar = None

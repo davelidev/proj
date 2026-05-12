@@ -1,48 +1,29 @@
 from AlgorithmImports import *
-import numpy as np
 
 
 class Algo044(QCAlgorithm):
-    """Mega-10 EW + QQQ 20d annualized vol < 25% gate."""
+    """#44 — Trend exit also on TQQQ self-SMA (catch leveraged decay early)."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.sma_qqq  = self.SMA(self.qqq, 150, Resolution.Daily)
+        self.sma_tqqq = self.SMA(self.tqqq, 100, Resolution.Daily)
+        self.SetWarmUp(170, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
+                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+                         self.Rebalance)
 
-        self.tickers = [
-            "AAPL", "MSFT", "NVDA", "GOOGL", "AMZN",
-            "META", "TSLA", "AVGO", "JPM", "V",
-        ]
-        self.symbols = [self.AddEquity(t, Resolution.Daily).Symbol for t in self.tickers]
-        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
-
-        self.vol_threshold = 0.25
-        self.in_market = False
-
-        self.Schedule.On(
-            self.DateRules.EveryDay(self.qqq),
-            self.TimeRules.AfterMarketOpen(self.qqq, 30),
-            self.R,
-        )
-
-    def R(self):
-        hist = self.History(self.qqq, 21, Resolution.Daily)
-        if hist.empty or len(hist) < 21:
-            return
-        closes = hist['close'].values
-        log_rets = np.diff(np.log(closes))
-        vol = float(np.std(log_rets) * np.sqrt(252))
-
-        target_in = vol < self.vol_threshold
-        if target_in == self.in_market:
-            return
-
-        if target_in:
-            w = 1.0 / len(self.symbols)
-            for s in self.symbols:
-                self.SetHoldings(s, w)
-        else:
-            self.Liquidate()
-
-        self.in_market = target_in
+    def Rebalance(self):
+        if self.IsWarmingUp or not self.sma_qqq.IsReady or not self.sma_tqqq.IsReady: return
+        qqq_in = self.Securities[self.qqq].Price > self.sma_qqq.Current.Value
+        tqqq_in = self.Securities[self.tqqq].Price > self.sma_tqqq.Current.Value
+        in_trend = qqq_in and tqqq_in  # double-confirmation
+        invested = self.Portfolio[self.tqqq].Invested
+        if in_trend and not invested:
+            self.SetHoldings(self.tqqq, 1.0)
+        elif not in_trend and invested:
+            self.Liquidate(self.tqqq)

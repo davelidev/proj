@@ -1,81 +1,86 @@
 from AlgorithmImports import *
-import numpy as np
 
 
 class Algo083(QCAlgorithm):
-    """#083 — TQQQ regime-switch with TQQQ trend confirmation (price > own 50d SMA)."""
-    LOOKBACK = 63; CALM_VOL = 0.55; PANIC_VOL = 0.85; TOP_N = 7
+    """NR7 Volatility Compression Breakout on QQQ.
+    Today's range narrowest of last 7 days → next day buy 100% QQQ.
+    Exit: close above 5-day high (reached during trade) OR 10-day max hold."""
 
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100_000)
-        self.UniverseSettings.Resolution = Resolution.Daily
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.sma = self.SMA(self.tqqq, 50, Resolution.Daily)
-        self.AddUniverse(self.Sel); self.SetWarmUp(150, Resolution.Daily)
-        self.basket = []; self.regime = "out"; self.month_seen = -1; self.weights = {}
-        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
-                         self.TimeRules.AfterMarketOpen(self.tqqq, 30), self.R)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100_000)
 
-    def Sel(self, fund):
-        elig = [f for f in fund if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
-        elig.sort(key=lambda f: f.MarketCap, reverse=True)
-        self.basket = [f.Symbol for f in elig[:self.TOP_N]]
-        return self.basket
+        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
 
-    def _vol(self):
-        h = self.History(self.tqqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return None
-        c = h['close'].values; r = np.diff(np.log(c))
-        return float(np.std(r) * np.sqrt(252))
+        self.nr7_lookback = 7
+        self.exit_high_window = 5
+        self.max_hold_days = 10
 
-    def _w(self):
-        if not self.basket: return {}
-        h = self.History(self.basket, self.LOOKBACK + 1, Resolution.Daily)
-        if h.empty: return {}
-        rets = {}
-        for s in self.basket:
-            try:
-                if s not in h.index.get_level_values(0): continue
-                c = h.loc[s]['close']
-                if len(c) < self.LOOKBACK + 1: continue
-                rets[s] = max(0.0, c.iloc[-1] / c.iloc[0] - 1.0)
-            except: continue
-        t = sum(rets.values())
-        if t <= 0: return {s: 1.0 / len(self.basket) for s in self.basket}
-        return {s: r / t for s, r in rets.items()}
+        # State
+        self.signal_armed = False  # NR7 fired today, enter next bar
+        self.in_trade = False
+        self.days_held = 0
 
-    def _liq(self):
-        for s in list(self.Portfolio.Keys):
-            if self.Portfolio[s].Invested: self.Liquidate(s)
+        self.SetWarmUp(self.nr7_lookback + 10, Resolution.Daily)
 
-    def R(self):
-        if self.IsWarmingUp or not self.sma.IsReady or not self.basket: return
-        v = self._vol()
-        if v is None: return
-        tqqq_px = self.Securities[self.tqqq].Price
-        in_uptrend = tqqq_px > self.sma.Current.Value
-
-        if v >= self.PANIC_VOL: nr = "out"
-        elif v < self.CALM_VOL and in_uptrend: nr = "tqqq"
-        elif v < self.PANIC_VOL: nr = "basket"
-        else: nr = "out"
-
-        if nr != self.regime:
-            self._liq()
-            if nr == "tqqq": self.SetHoldings(self.tqqq, 1.0)
-            elif nr == "basket":
-                self.weights = self._w(); self.month_seen = self.Time.month
-                for s, w in self.weights.items():
-                    if w > 0: self.SetHoldings(s, w)
-            self.regime = nr
+    def OnData(self, data):
+        if self.IsWarmingUp:
+            return
+        if self.qqq not in data or data[self.qqq] is None:
             return
 
-        if self.regime == "basket" and self.Time.month != self.month_seen:
-            self.weights = self._w(); self.month_seen = self.Time.month
-            target_set = set(self.weights.keys())
-            for s in list(self.Portfolio.Keys):
-                if s != self.tqqq and self.Portfolio[s].Invested and s not in target_set:
-                    self.Liquidate(s)
-            for s, w in self.weights.items():
-                cur = self.Portfolio[s].HoldingsValue / max(1e-9, self.Portfolio.TotalPortfolioValue)
-                if abs(w - cur) > 0.03 and w > 0: self.SetHoldings(s, w)
+        # Step 1: if signal_armed from previous bar's close, enter at today's open price (market order at this bar)
+        if self.signal_armed and not self.in_trade:
+            self.SetHoldings(self.qqq, 1.0)
+            self.in_trade = True
+            self.days_held = 0
+            self.signal_armed = False
+            return  # don't evaluate exit on entry day
+
+        # Step 2: manage open position
+        if self.in_trade:
+            self.days_held += 1
+
+            # Exit on close above 5-day high (using last 5 daily bars including today)
+            hist_exit = self.History(self.qqq, self.exit_high_window + 1, Resolution.Daily)
+            exit_signal = False
+            if hist_exit is not None and not hist_exit.empty:
+                try:
+                    highs = hist_exit["high"]
+                    closes = hist_exit["close"]
+                    if len(highs) >= self.exit_high_window + 1 and len(closes) >= 1:
+                        # 5-day high excluding today's bar
+                        prior_high = float(highs.iloc[:-1].tail(self.exit_high_window).max())
+                        today_close = float(closes.iloc[-1])
+                        if today_close > prior_high:
+                            exit_signal = True
+                except Exception:
+                    pass
+
+            if exit_signal or self.days_held >= self.max_hold_days:
+                if self.Portfolio[self.qqq].Invested:
+                    self.Liquidate(self.qqq)
+                self.in_trade = False
+                self.days_held = 0
+                # fall through to potentially re-arm
+
+        # Step 3: check NR7 condition on today's bar (only when flat)
+        if not self.in_trade:
+            hist = self.History(self.qqq, self.nr7_lookback, Resolution.Daily)
+            if hist is None or hist.empty:
+                return
+            try:
+                highs = hist["high"]
+                lows = hist["low"]
+            except Exception:
+                return
+            if len(highs) < self.nr7_lookback or len(lows) < self.nr7_lookback:
+                return
+
+            ranges = (highs - lows).values
+            today_range = float(ranges[-1])
+            min_range = float(min(ranges))
+
+            if today_range <= min_range + 1e-12:
+                self.signal_armed = True

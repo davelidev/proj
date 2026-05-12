@@ -2,46 +2,26 @@ from AlgorithmImports import *
 
 
 class Algo032(QCAlgorithm):
-    """Mega-5 EW + RSI(14)-on-QQQ Regime Cash Gate.
-
-    Hold Mega-5 equal-weight when QQQ RSI(14) > 50; cash otherwise.
-    """
+    """#32 — IBS<0.05 (extreme oversold), exit IBS>0.9. Lower freq, very high quality."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-
-        basket = ["AAPL", "MSFT", "NVDA", "GOOGL", "AMZN"]
-        self.basket_symbols = []
-        for t in basket:
-            eq = self.AddEquity(t, Resolution.Daily)
-            self.basket_symbols.append(eq.Symbol)
-
-        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
-        self.rsi = self.RSI(self.qqq, 14, MovingAverageType.Wilders, Resolution.Daily)
-
-        self.regime_in = None
-        self.SetWarmUp(40, Resolution.Daily)
-
-        self.Schedule.On(
-            self.DateRules.EveryDay("QQQ"),
-            self.TimeRules.AfterMarketOpen("QQQ", 30),
-            self.Rebalance,
-        )
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.SetWarmUp(5, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
+                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+                         self.Rebalance)
 
     def Rebalance(self):
-        if self.IsWarmingUp or not self.rsi.IsReady:
-            return
-
-        new_regime = self.rsi.Current.Value > 50.0
-        if new_regime == self.regime_in:
-            return
-        self.regime_in = new_regime
-
-        if new_regime:
-            w = 1.0 / len(self.basket_symbols)
-            for sym in self.basket_symbols:
-                self.SetHoldings(sym, w)
-        else:
-            self.Liquidate()
+        if self.IsWarmingUp: return
+        bar = self.Securities[self.tqqq]
+        h, l, c = bar.High, bar.Low, bar.Close
+        if h <= l: return
+        ibs = (c - l) / (h - l)
+        invested = self.Portfolio[self.tqqq].Invested
+        if not invested and ibs < 0.05:
+            self.SetHoldings(self.tqqq, 1.0)
+        elif invested and ibs > 0.9:
+            self.Liquidate(self.tqqq)

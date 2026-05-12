@@ -2,43 +2,23 @@ from AlgorithmImports import *
 
 
 class Algo015(QCAlgorithm):
-    """TQQQ when TLT 50d return is negative (rates rising = risk-on growth tailwind); else flat."""
+    """#15 — ROC(126) momentum on QQQ. Long TQQQ when 6mo return > 0."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-
         self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.tlt = self.AddEquity("TLT", Resolution.Daily).Symbol
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.roc  = self.ROC(self.qqq, 126, Resolution.Daily)
+        self.SetWarmUp(140, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
+                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+                         self.Rebalance)
 
-        self.lookback = 50
-        self.in_position = False
-
-        self.SetWarmUp(60, Resolution.Daily)
-
-    def OnData(self, data):
-        if self.IsWarmingUp:
-            return
-        if not (data.ContainsKey(self.tqqq) and data.ContainsKey(self.tlt)):
-            return
-
-        hist = self.History(self.tlt, self.lookback + 2, Resolution.Daily)
-        if hist is None or hist.empty:
-            return
-        try:
-            tlt_close = hist["close"]
-        except Exception:
-            return
-        if len(tlt_close) < self.lookback + 1:
-            return
-
-        tlt_ret = (tlt_close.iloc[-1] / tlt_close.iloc[-self.lookback - 1]) - 1.0
-        want_in = tlt_ret < 0
-
-        if want_in and not self.in_position:
-            self.SetHoldings(self.tqqq, 1.0)
-            self.in_position = True
-        elif not want_in and self.in_position:
-            self.Liquidate()
-            self.in_position = False
+    def Rebalance(self):
+        if self.IsWarmingUp or not self.roc.IsReady: return
+        bullish = self.roc.Current.Value > 0
+        invested = self.Portfolio[self.tqqq].Invested
+        if bullish and not invested: self.SetHoldings(self.tqqq, 1.0)
+        elif not bullish and invested: self.Liquidate(self.tqqq)

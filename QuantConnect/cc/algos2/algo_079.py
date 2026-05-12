@@ -1,60 +1,60 @@
 from AlgorithmImports import *
-import numpy as np
-
 
 class Algo079(QCAlgorithm):
-    """#079 — TQQQ size scales linearly by inverse vol; rest in dyn top-7 EW.
-    target_tqqq = clip((0.80 - vol) / 0.40, 0.0, 1.0)
-    rest = 1.0 - target_tqqq, distributed equal-weight to top-7 dyn basket.
-    """
-    TOP_N = 7
 
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100_000)
-        self.UniverseSettings.Resolution = Resolution.Daily
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.AddUniverse(self.Sel); self.SetWarmUp(150, Resolution.Daily)
-        self.basket = []
-        self.last_target = None
-        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
-                         self.TimeRules.AfterMarketOpen(self.tqqq, 30), self.R)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100_000)
 
-    def Sel(self, fund):
-        elig = [f for f in fund if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
-        elig.sort(key=lambda f: f.MarketCap, reverse=True)
-        self.basket = [f.Symbol for f in elig[:self.TOP_N]]
-        return self.basket
+        self.symbols = {
+            "AAPL": self.AddEquity("AAPL", Resolution.Daily).Symbol,
+            "MSFT": self.AddEquity("MSFT", Resolution.Daily).Symbol,
+            "NVDA": self.AddEquity("NVDA", Resolution.Daily).Symbol,
+            "GOOGL": self.AddEquity("GOOGL", Resolution.Daily).Symbol,
+            "AMZN": self.AddEquity("AMZN", Resolution.Daily).Symbol,
+        }
+        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
 
-    def _vol(self):
-        h = self.History(self.tqqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return None
-        c = h['close'].values; r = np.diff(np.log(c))
-        return float(np.std(r) * np.sqrt(252))
+        self.atrs = {ticker: self.ATR(sym, 14) for ticker, sym in self.symbols.items()}
+        self.sma200 = self.SMA(self.qqq, 200)
 
-    def R(self):
-        if self.IsWarmingUp or not self.basket: return
-        v = self._vol()
-        if v is None: return
+        self.month = -1
+        self.SetWarmUp(200, Resolution.Daily)
 
-        # tqqq weight: 1.0 at vol=0.40, 0.0 at vol=0.80, linear between
-        tqqq_w = max(0.0, min(1.0, (0.80 - v) / 0.40))
-        basket_w = 1.0 - tqqq_w
-        per_name = basket_w / len(self.basket) if self.basket else 0
-
-        # Only trade if change is meaningful
-        if self.last_target is not None and abs(self.last_target - tqqq_w) < 0.05:
+    def OnData(self, data: Slice):
+        if self.IsWarmingMode:
             return
 
-        target_set = set(self.basket)
-        for s in list(self.Portfolio.Keys):
-            if s != self.tqqq and self.Portfolio[s].Invested and s not in target_set:
-                self.Liquidate(s)
+        if not self.sma200.IsReady:
+            return
 
-        for s in self.basket:
-            cur = self.Portfolio[s].HoldingsValue / max(1e-9, self.Portfolio.TotalPortfolioValue)
-            if abs(per_name - cur) > 0.03:
-                self.SetHoldings(s, per_name)
-        cur_t = self.Portfolio[self.tqqq].HoldingsValue / max(1e-9, self.Portfolio.TotalPortfolioValue)
-        if abs(tqqq_w - cur_t) > 0.03:
-            self.SetHoldings(self.tqqq, tqqq_w)
-        self.last_target = tqqq_w
+        for atr in self.atrs.values():
+            if not atr.IsReady:
+                return
+
+        if self.Time.month == self.month:
+            return
+        self.month = self.Time.month
+
+        qqq_price = self.Securities[self.qqq].Close
+        if qqq_price == 0:
+            return
+
+        if qqq_price < self.sma200.Current.Value:
+            for ticker in self.symbols:
+                self.Liquidate(self.symbols[ticker])
+            return
+
+        inv_atrs = []
+        for ticker, sym in self.symbols.items():
+            atr_val = self.atrs[ticker].Current.Value
+            if atr_val <= 0:
+                return
+            inv_atrs.append(1.0 / atr_val)
+
+        total_inv = sum(inv_atrs)
+        weights = [inv / total_inv for inv in inv_atrs]
+
+        for (ticker, sym), w in zip(self.symbols.items(), weights):
+            self.SetHoldings(sym, w)

@@ -1,76 +1,77 @@
 from AlgorithmImports import *
-import numpy as np
+import math
 
 
 class Algo086(QCAlgorithm):
-    """#086 — Top-10 dyn + #075 regime switch (more diversified basket regime)."""
-    LOOKBACK = 63; CALM_VOL = 0.55; PANIC_VOL = 0.85; TOP_N = 10
+    """
+    Volatility-Targeted TQQQ Allocation.
+
+    Single position TQQQ sized by volatility targeting.
+    QQQ 20-day realized vol (annualized using daily log returns * sqrt(252)).
+    Target portfolio vol = 30% annual. w = clip(0.30 / realized_vol, 0.0, 1.0).
+    Daily rebalance, but only trade when |new_w - cur_w| > 5% to limit churn.
+    """
 
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100_000)
-        self.UniverseSettings.Resolution = Resolution.Daily
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100_000)
+
+        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
         self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.AddUniverse(self.Sel); self.SetWarmUp(150, Resolution.Daily)
-        self.basket = []; self.regime = "out"; self.month_seen = -1; self.weights = {}
-        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
-                         self.TimeRules.AfterMarketOpen(self.tqqq, 30), self.R)
 
-    def Sel(self, fund):
-        elig = [f for f in fund if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
-        elig.sort(key=lambda f: f.MarketCap, reverse=True)
-        self.basket = [f.Symbol for f in elig[:self.TOP_N]]
-        return self.basket
+        self.target_vol = 0.30
+        self.lookback = 20
+        self.churn_threshold = 0.05
 
-    def _vol(self):
-        h = self.History(self.tqqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return None
-        c = h['close'].values; r = np.diff(np.log(c))
-        return float(np.std(r) * np.sqrt(252))
+        self.SetWarmUp(self.lookback + 5, Resolution.Daily)
 
-    def _w(self):
-        if not self.basket: return {}
-        h = self.History(self.basket, self.LOOKBACK + 1, Resolution.Daily)
-        if h.empty: return {}
-        rets = {}
-        for s in self.basket:
-            try:
-                if s not in h.index.get_level_values(0): continue
-                c = h.loc[s]['close']
-                if len(c) < self.LOOKBACK + 1: continue
-                rets[s] = max(0.0, c.iloc[-1] / c.iloc[0] - 1.0)
-            except: continue
-        t = sum(rets.values())
-        if t <= 0: return {s: 1.0 / len(self.basket) for s in self.basket}
-        return {s: r / t for s, r in rets.items()}
+        self.Schedule.On(
+            self.DateRules.EveryDay(self.qqq),
+            self.TimeRules.AfterMarketOpen(self.qqq, 30),
+            self.DailyRebalance,
+        )
 
-    def _liq(self):
-        for s in list(self.Portfolio.Keys):
-            if self.Portfolio[s].Invested: self.Liquidate(s)
+    def _realized_vol(self):
+        history = self.History([self.qqq], self.lookback + 1, Resolution.Daily)
+        if history.empty:
+            return None
+        try:
+            closes = history.loc[self.qqq]["close"].values
+        except Exception:
+            return None
+        if len(closes) < self.lookback + 1:
+            return None
 
-    def R(self):
-        if self.IsWarmingUp or not self.basket: return
-        v = self._vol()
-        if v is None: return
-        if v >= self.PANIC_VOL: nr = "out"
-        elif v < self.CALM_VOL: nr = "tqqq"
-        else: nr = "basket"
+        log_rets = []
+        for i in range(1, len(closes)):
+            if closes[i - 1] > 0 and closes[i] > 0:
+                log_rets.append(math.log(closes[i] / closes[i - 1]))
+        if len(log_rets) < 2:
+            return None
 
-        if nr != self.regime:
-            self._liq()
-            if nr == "tqqq": self.SetHoldings(self.tqqq, 1.0)
-            elif nr == "basket":
-                self.weights = self._w(); self.month_seen = self.Time.month
-                for s, w in self.weights.items():
-                    if w > 0: self.SetHoldings(s, w)
-            self.regime = nr
+        mean = sum(log_rets) / len(log_rets)
+        var = sum((r - mean) ** 2 for r in log_rets) / (len(log_rets) - 1)
+        daily_vol = math.sqrt(var)
+        ann_vol = daily_vol * math.sqrt(252)
+        return ann_vol
+
+    def DailyRebalance(self):
+        if self.IsWarmingUp:
             return
 
-        if self.regime == "basket" and self.Time.month != self.month_seen:
-            self.weights = self._w(); self.month_seen = self.Time.month
-            target_set = set(self.weights.keys())
-            for s in list(self.Portfolio.Keys):
-                if s != self.tqqq and self.Portfolio[s].Invested and s not in target_set:
-                    self.Liquidate(s)
-            for s, w in self.weights.items():
-                cur = self.Portfolio[s].HoldingsValue / max(1e-9, self.Portfolio.TotalPortfolioValue)
-                if abs(w - cur) > 0.03 and w > 0: self.SetHoldings(s, w)
+        rv = self._realized_vol()
+        if rv is None or rv <= 0:
+            return
+
+        new_w = self.target_vol / rv
+        if new_w < 0.0:
+            new_w = 0.0
+        if new_w > 1.0:
+            new_w = 1.0
+
+        cur_w = self.Portfolio[self.tqqq].HoldingsValue / self.Portfolio.TotalPortfolioValue \
+            if self.Portfolio.TotalPortfolioValue > 0 else 0.0
+
+        if abs(new_w - cur_w) > self.churn_threshold:
+            self.SetHoldings(self.tqqq, new_w)

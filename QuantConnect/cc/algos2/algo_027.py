@@ -2,57 +2,51 @@ from AlgorithmImports import *
 
 
 class Algo027(QCAlgorithm):
-    """Triple-confirmation TQQQ entry with 30-day time-stop."""
+    """#27 — 5 most mkt cap by 6mo momentum, monthly."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
+        self.UniverseSettings.Resolution = Resolution.Daily
+        self.AddUniverse(self.Coarse, self.Fine)
+        self.SetWarmUp(160, Resolution.Daily)
+        self.candidates = []
+        self.Schedule.On(self.DateRules.MonthStart(),
+                         self.TimeRules.At(10, 0),
+                         self.Rebalance)
 
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
+    def Coarse(self, coarse):
+        sel = [c for c in coarse if c.HasFundamentalData and c.Price > 5]
+        sel.sort(key=lambda c: c.DollarVolume, reverse=True)
+        return [c.Symbol for c in sel[:200]]
 
-        self.qqq_sma50 = self.SMA(self.qqq, 50, Resolution.Daily)
-        self.qqq_roc5 = self.ROC(self.qqq, 5, Resolution.Daily)
-        self.qqq_rsi = self.RSI(self.qqq, 14, MovingAverageType.Wilders, Resolution.Daily)
-
-        self.entry_date = None
-
-        self.SetWarmUp(70, Resolution.Daily)
-
-        self.Schedule.On(
-            self.DateRules.EveryDay(self.qqq),
-            self.TimeRules.AfterMarketOpen(self.qqq, 30),
-            self.Rebalance,
-        )
+    def Fine(self, fine):
+        sel = [f for f in fine if f.MarketCap > 5e10]
+        sel.sort(key=lambda f: f.MarketCap, reverse=True)
+        # Take the top 30 largest, then we'll rank by momentum
+        self.candidates = [f.Symbol for f in sel[:30]]
+        return self.candidates
 
     def Rebalance(self):
-        if self.IsWarmingUp:
-            return
-        if not (self.qqq_sma50.IsReady and self.qqq_roc5.IsReady and self.qqq_rsi.IsReady):
-            return
-
-        price = self.Securities[self.qqq].Price
-        sma = self.qqq_sma50.Current.Value
-        roc5 = self.qqq_roc5.Current.Value
-        rsi = self.qqq_rsi.Current.Value
-
-        invested = self.Portfolio[self.tqqq].Invested
-
-        # time-stop check first
-        if invested and self.entry_date is not None:
-            days_held = (self.Time - self.entry_date).days
-            # ~30 trading days ≈ 42 calendar days; use trading-day approximation
-            # We'll count business days conservatively as 30 calendar*1.4 ~ 42
-            if days_held >= 42:
-                self.Liquidate()
-                self.entry_date = None
-                return
-
-        if not invested:
-            cond_a = roc5 > 0
-            cond_b = price > sma
-            cond_c = 40 <= rsi <= 70
-            if cond_a and cond_b and cond_c:
-                self.SetHoldings(self.tqqq, 1.0)
-                self.entry_date = self.Time
+        if self.IsWarmingUp or not self.candidates: return
+        history = self.History(self.candidates, 130, Resolution.Daily)
+        if history.empty: return
+        moms = {}
+        for sym in self.candidates:
+            try:
+                if sym not in history.index.get_level_values(0): continue
+                closes = history.loc[sym]['close']
+                if len(closes) < 130: continue
+                moms[sym] = (closes.iloc[-1] / closes.iloc[0]) - 1
+            except Exception: continue
+        if not moms: return
+        ranked = sorted(moms.items(), key=lambda x: x[1], reverse=True)
+        top5 = [s for s, _ in ranked[:5]]
+        if not top5: return
+        w = 1.0 / len(top5)
+        for sym in list(self.Portfolio.Keys):
+            if self.Portfolio[sym].Invested and sym not in top5:
+                self.Liquidate(sym)
+        for sym in top5:
+            self.SetHoldings(sym, w)

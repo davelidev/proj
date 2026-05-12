@@ -2,13 +2,16 @@
 
 | #                  | Category     | CAGR    | MaxDD    | Sharpe   | Win #    | Loss #   | W/L Ratio | Profit Ratio | Overfit  |     |
 | :----------------- | :----------- | :------ | :------- | :------- | :------- | :------- | :-------- | :----------- | :------- | --- |
-| ✅ [1](#strategy-1) | Breakout | 43% | -37% | 0.986 | 192 | 341 | 0.56 | 3.45 | 6/10 |
+| [1](#strategy-1) | Breakout | 43% | -37% | 0.986 | 192 | 341 | 0.56 | 3.45 | 6/10 |
 | ✅ [2](#strategy-2) | Dip Buy | 28% | -42% | 0.846 | 42 | 38 | 1.11 | 3.11 | 2/10 |
 | ✅ [3](#strategy-3) | Rebalance | 28% | -51% | 0.727 | 12 | 0 | — | 0.00 | 4/10 |
 | ✅ [4](#strategy-4) | Dip Buy | 47% | -37% | 1.031 | 1426 | 611 | 2.33 | 0.81 | 2/10 |
 | ✅ [5](#strategy-5) | Trend | 31% | -49% | 0.738 | 65 | 57 | 1.14 | 2.69 | 4/10 |
 | ✅ [6](#strategy-6) | Breakout | 0% | -0% | 0.000 | 0 | 0 | — | 0.00 | 4/10 |
-| ✅ **ENSEMBLE**     | **Ensemble** | **30%** | **-32%** | **0.93** | **2234** | **1051** | **2.13**  | **1.18**     | **3/10** |     |
+| ✅ [7](#strategy-7) | Trend | 40% | -55% | 0.871 | 11 | 17 | 0.65 | 8.14 | 2/10 |
+| ✅ [8](#strategy-8) | Mean Reversion | 46% | -43% | 1.049 | 137 | 51 | 2.69 | 1.14 | 3/10 |
+| ✅ [9](#strategy-9) | Rotation | 30% | -23% | 1.073 | 390 | 327 | 1.19 | 2.12 | 3/10 |
+| **ENSEMBLE**       | **Ensemble** | **35%** | **-30%** | **1.035** | **2379** | **1338** | **1.78** | **1.36** | **—** |     |
 
 | #                | 14         | 15        | 16         | 17          | 18         | 19          | 20          | 21         | 22          | 23          | 24         | 25         |
 | :--------------- | :--------- | :-------- | :--------- | :---------- | :--------- | :---------- | :---------- | :--------- | :---------- | :---------- | :--------- | :--------- |
@@ -18,9 +21,12 @@
 | [4](#strategy-4) | 🟢 30% | 🔴 -8% | 🔴 -20% | 🟢 50% | 🟢 19% | 🟢 37% | 🟢 215% | 🟢 142% | 🟢 22% | 🟢 76% | 🟢 74% | 🟢 55% |
 | [5](#strategy-5) | 🟢 35% | 🟢 4% | 🔴 -13% | 🟢 133% | 🟢 7% | 🟢 29% | 🟢 67% | 🟢 82% | 🔴 -20% | 🟢 70% | 🟢 29% | 🟢 28% |
 | [6](#strategy-6) | 🟢 137% | 🔴 -3% | 🔴 -2% | 🟢 76% | 🟢 54% | 🟢 14% | 🟢 83% | 🟢 47% | 🔴 -14% | 🟢 72% | 🟢 39% | 🟢 32% |
-| **ENSEMBLE**     | **🟢 43%** | **🟢 1%** | **🔴 -9%** | **🟢 66%** | **🟢 8%** | **🟢 32%** | **🟢 81%** | **🟢 66%** | **🔴 -15%** | **🟢 71%** | **🟢 40%** | **🟢 28%** |
+| [7](#strategy-7) | 🟢 47% | 🟢 18% | 🔴 -5% | 🟢 118% | 🟢 1% | 🟢 53% | 🟢 97% | 🟢 88% | 🔴 -34% | 🟢 125% | 🟢 45% | 🟢 27% |
+| [8](#strategy-8) | 🟢 7% | 🟢 6% | 🟢 39% | 🟢 71% | 🔴 -29% | 🟢 33% | 🟢 344% | 🟢 75% | 🔴 -1% | 🟢 101% | 🟢 29% | 🟢 82% |
+| [9](#strategy-9) | 🟢 11% | 🟢 5% | 🟢 4% | 🟢 38% | 🟢 15% | 🟢 47% | 🟢 95% | 🟢 46% | 🔴 -11% | 🟢 51% | 🟢 38% | 🟢 50% |
+| **ENSEMBLE**     | **🟢 35%** | **🟢 5%** | **🔴 -1%** | **🟢 70%** | **🟢 4%** | **🟢 37%** | **🟢 116%** | **🟢 67%** | **🔴 -15%** | **🟢 80%** | **🟢 39%** | **🟢 37%** |
 
-> Note: Checkmarked strategies (✅) are considered "selected" and contribute to the ENSEMBLE calculations.*
+> Note: Checkmarked strategies (✅) are considered "selected" and contribute to the ENSEMBLE calculations. VolBreakout (strategy-1) is disabled in the list so 8 sub-algos are active.*
 
 ---
 
@@ -184,6 +190,81 @@
 > PATH: "vault://QuantConnect/strategies/algos/expanding_breakout.py"
 > ```
 
+---
 
+## Strategy-7
+### TQQQ Trend SMA150 (tqqq_sma150.py)
 
+**Description:** An identical structure to the classic SMA200 trend but with the SMA lookback shortened from 200 to 150 days. This faster filter catches trend entries a few weeks earlier and, more importantly, exits during drawdowns sooner — which in 2022 meant preserving more capital for the recovery. The result is a meaningful lift in CAGR (33% to 40%) with essentially unchanged MaxDD (-56% to -55%). The weakness is that a shorter lookback increases whipsaw frequency during range-bound, choppy markets.
+
+*Overfit 2/10 — 150d is a common alternative to 200d, but this is clearly part of a parameter sweep across SMA lengths. The improvement over the 200d variant is marginal enough to question out-of-sample robustness.*
+
+- **Entry:** QQQ price > 150-day SMA → allocate 100% to TQQQ
+- **Exit:** QQQ price <= 150-day SMA → liquidate TQQQ to cash
+- **Symbols:** TQQQ, QQQ
+
+| Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| ✅ | 40% | -55% | 0.871 | 11 | 17 | 0.65 | 8.14 |
+
+| 14     | 15     | 16     | 17      | 18     | 19     | 20     | 21     | 22      | 23      | 24     | 25     |
+| :----- | :----- | :----- | :------ | :----- | :----- | :----- | :----- | :------ | :------ | :----- | :----- |
+| 🟢 47% | 🟢 18% | 🔴 -5% | 🟢 118% | 🟢 1%  | 🟢 53% | 🟢 97% | 🟢 88% | 🔴 -34% | 🟢 125% | 🟢 45% | 🟢 27% |
+
+> [!code]- Click to view: tqqq_sma150.py
+> ```embed-python
+> PATH: "vault://QuantConnect/strategies/algos/tqqq_sma150.py"
+> ```
+
+---
+
+## Strategy-8
+### IBS Extreme + ATR Stop (ibs_atr_stop.py)
+
+**Description:** Enters TQQQ on IBS < 0.1 like the basic IBS strategy, but adds a trailing volatility-based stop loss at 3x the 14-period ATR from the entry price. This stop is designed to cap catastrophic single-trade losses during flash crashes or gap downs. The weakness is that TQQQ's 3x leverage amplifies volatility, making the 3x ATR stop prone to triggering on routine whipsaws rather than true disasters.
+
+*Overfit 3/10 — IBS thresholds and ATR multiplier (3x) are standard choices (Bollinger-style 3-sigma logic). ATR(14) is a canonical period.*
+
+- **Entry:** IBS < 0.1
+- **Exit:** IBS > 0.9, OR close < entry_price - 3 × ATR(14)
+- **Symbols:** TQQQ
+
+| Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| ✅ | 46% | -43% | 1.049 | 137 | 51 | 2.69 | 1.14 |
+
+| 14     | 15     | 16     | 17     | 18      | 19     | 20      | 21     | 22     | 23      | 24     | 25     |
+| :----- | :----- | :----- | :----- | :------ | :----- | :------ | :----- | :------ | :----- | :----- | :----- |
+| 🟢 7%  | 🟢 6%  | 🟢 39% | 🟢 71% | 🔴 -29% | 🟢 33% | 🟢 344% | 🟢 75% | 🔴 -1%  | 🟢 101% | 🟢 29% | 🟢 82% |
+
+> [!code]- Click to view: ibs_atr_stop.py
+> ```embed-python
+> PATH: "vault://QuantConnect/strategies/algos/ibs_atr_stop.py"
+> ```
+
+---
+
+## Strategy-9
+### 5 Most Mkt Cap + IBS Regime Mix (mktcap_ibs_regime.py)
+
+**Description:** Switches between two regimes based on QQQ relative to its 200-day SMA. In trend mode (QQQ above SMA200), it holds all five most market capital companies equal-weight. In non-trend mode, it only holds names where IBS is below 0.2, acting as an oversold mean-reversion filter. The regime mix gives it the best MaxDD in the set (-23%) — the IBS filter successfully sidesteps the worst of bear markets.
+
+*Overfit 3/10 — SMA200 is a standard lookback. The IBS<0.2 threshold is the single tuned parameter; it is reasonable but untested against alternatives.*
+
+- **Entry:** Trend mode (QQQ > SMA200): equal weight all 5. No-trend mode: only names with IBS < 0.2, equal-weighted
+- **Exit:** When QQQ < SMA200 and a held name no longer has IBS < 0.2, liquidate
+- **Symbols:** QQQ (signal), Top 5 US equities by market cap (dynamic universe)
+
+| Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| ✅ | 30% | -23% | 1.073 | 390 | 327 | 1.19 | 2.12 |
+
+| 14     | 15     | 16     | 17     | 18     | 19     | 20     | 21     | 22      | 23     | 24     | 25     |
+| :----- | :----- | :----- | :----- | :----- | :----- | :----- | :----- | :------ | :----- | :----- | :----- |
+| 🟢 11% | 🟢 5%  | 🟢 4%  | 🟢 38% | 🟢 15% | 🟢 47% | 🟢 95% | 🟢 46% | 🔴 -11% | 🟢 51% | 🟢 38% | 🟢 50% |
+
+> [!code]- Click to view: mktcap_ibs_regime.py
+> ```embed-python
+> PATH: "vault://QuantConnect/strategies/algos/mktcap_ibs_regime.py"
+> ```
 

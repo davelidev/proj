@@ -2,57 +2,26 @@ from AlgorithmImports import *
 
 
 class Algo033(QCAlgorithm):
-    """Mega-7 EW + SPY 50-day Z-Score Regime Cash Gate.
-
-    Z = (SPY_close - SMA50) / STD50; hold Mega-7 EW when Z > 0, else cash.
-    """
+    """#33 — IBS<0.1 buy, faster exit IBS>0.7."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-
-        basket = ["AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA"]
-        self.basket_symbols = []
-        for t in basket:
-            eq = self.AddEquity(t, Resolution.Daily)
-            self.basket_symbols.append(eq.Symbol)
-
-        self.spy = self.AddEquity("SPY", Resolution.Daily).Symbol
-        self.sma50 = self.SMA(self.spy, 50, Resolution.Daily)
-        self.std50 = self.STD(self.spy, 50, Resolution.Daily)
-
-        self.regime_in = None
-        self.SetWarmUp(70, Resolution.Daily)
-
-        self.Schedule.On(
-            self.DateRules.EveryDay("SPY"),
-            self.TimeRules.AfterMarketOpen("SPY", 30),
-            self.Rebalance,
-        )
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.SetWarmUp(5, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
+                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+                         self.Rebalance)
 
     def Rebalance(self):
-        if self.IsWarmingUp:
-            return
-        if not (self.sma50.IsReady and self.std50.IsReady):
-            return
-
-        price = self.Securities[self.spy].Price
-        if price <= 0:
-            return
-        std_v = self.std50.Current.Value
-        if std_v <= 0:
-            return
-        z = (price - self.sma50.Current.Value) / std_v
-
-        new_regime = z > 0.0
-        if new_regime == self.regime_in:
-            return
-        self.regime_in = new_regime
-
-        if new_regime:
-            w = 1.0 / len(self.basket_symbols)
-            for sym in self.basket_symbols:
-                self.SetHoldings(sym, w)
-        else:
-            self.Liquidate()
+        if self.IsWarmingUp: return
+        bar = self.Securities[self.tqqq]
+        h, l, c = bar.High, bar.Low, bar.Close
+        if h <= l: return
+        ibs = (c - l) / (h - l)
+        invested = self.Portfolio[self.tqqq].Invested
+        if not invested and ibs < 0.1:
+            self.SetHoldings(self.tqqq, 1.0)
+        elif invested and ibs > 0.7:
+            self.Liquidate(self.tqqq)

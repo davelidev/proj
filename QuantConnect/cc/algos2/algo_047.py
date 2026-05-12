@@ -1,76 +1,56 @@
 from AlgorithmImports import *
-import numpy as np
 
 
 class Algo047(QCAlgorithm):
-    """Mega-7 + QQQ 20d vol < 25% gate + monthly inverse-vol (risk-parity) weights."""
+    """#47 — #46 + ATR stop on trend pos to cut DD."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.sma  = self.SMA(self.qqq, 150, Resolution.Daily)
+        self.atr  = self.ATR(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.SetWarmUp(170, Resolution.Daily)
+        self.in_trend_pos = False
+        self.in_mr_pos = False
+        self.entry_price = None
+        self.peak_price = None
+        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
+                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+                         self.Rebalance)
 
-        self.tickers = ["AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA"]
-        self.symbols = [self.AddEquity(t, Resolution.Daily).Symbol for t in self.tickers]
-        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
+    def Rebalance(self):
+        if self.IsWarmingUp or not self.sma.IsReady or not self.atr.IsReady: return
+        bar = self.Securities[self.tqqq]
+        h, l, c = bar.High, bar.Low, bar.Close
+        if h <= l: return
+        ibs = (c - l) / (h - l)
+        in_trend = self.Securities[self.qqq].Price > self.sma.Current.Value
+        invested = self.Portfolio[self.tqqq].Invested
+        atr_v = self.atr.Current.Value
 
-        self.vol_threshold = 0.25
-        self.in_market = False
+        if invested and self.in_trend_pos:
+            self.peak_price = max(self.peak_price or c, c)
+            trail_stop = self.peak_price - 5.0 * atr_v
+            if c < trail_stop:
+                self.Liquidate(self.tqqq)
+                self.in_trend_pos = False
+                self.peak_price = None
+                return
 
-        self.weights = {s: 1.0 / len(self.symbols) for s in self.symbols}
-
-        self.Schedule.On(
-            self.DateRules.MonthStart(self.qqq),
-            self.TimeRules.AfterMarketOpen(self.qqq, 20),
-            self.RecomputeWeights,
-        )
-        self.Schedule.On(
-            self.DateRules.EveryDay(self.qqq),
-            self.TimeRules.AfterMarketOpen(self.qqq, 30),
-            self.R,
-        )
-
-    def RecomputeWeights(self):
-        # 60d std of daily log returns -> need 61 closes.
-        inv_vol = {}
-        for s in self.symbols:
-            hist = self.History(s, 61, Resolution.Daily)
-            if hist is None or hist.empty or len(hist) < 61:
-                inv_vol[s] = 0.0
-                continue
-            closes = hist['close'].values
-            log_rets = np.diff(np.log(closes))
-            std = float(np.std(log_rets))
-            inv_vol[s] = (1.0 / std) if std > 1e-9 else 0.0
-
-        total = sum(inv_vol.values())
-        if total <= 0.0:
-            self.weights = {s: 1.0 / len(self.symbols) for s in self.symbols}
+        if in_trend:
+            if not invested:
+                self.SetHoldings(self.tqqq, 1.0); self.in_trend_pos = True; self.in_mr_pos = False
+                self.peak_price = c
         else:
-            self.weights = {s: v / total for s, v in inv_vol.items()}
-
-        if self.in_market:
-            self._apply_weights()
-
-    def _apply_weights(self):
-        for s, w in self.weights.items():
-            self.SetHoldings(s, w)
-
-    def R(self):
-        hist = self.History(self.qqq, 21, Resolution.Daily)
-        if hist.empty or len(hist) < 21:
-            return
-        closes = hist['close'].values
-        log_rets = np.diff(np.log(closes))
-        vol = float(np.std(log_rets) * np.sqrt(252))
-
-        target_in = vol < self.vol_threshold
-        if target_in == self.in_market:
-            return
-
-        if target_in:
-            self._apply_weights()
-        else:
-            self.Liquidate()
-
-        self.in_market = target_in
+            if self.in_trend_pos and invested:
+                self.Liquidate(self.tqqq); self.in_trend_pos = False; self.peak_price = None
+            if not invested and ibs < 0.05:
+                self.SetHoldings(self.tqqq, 1.0); self.in_mr_pos = True
+                self.entry_price = c
+            elif invested and self.in_mr_pos:
+                stop = self.entry_price - 3.0 * atr_v if self.entry_price else 0
+                if ibs > 0.7 or c < stop:
+                    self.Liquidate(self.tqqq); self.in_mr_pos = False; self.entry_price = None

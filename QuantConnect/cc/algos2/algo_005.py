@@ -2,57 +2,23 @@ from AlgorithmImports import *
 
 
 class Algo005(QCAlgorithm):
-    """Cross-Asset Momentum Cascade: EW only positive 6mo-return assets, else BIL."""
+    """#5 — TQQQ trend on QQQ 100d SMA."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-
-        self.tickers = ["QQQ", "SPY", "TLT", "GLD"]
-        self.symbols = []
-        for t in self.tickers:
-            sym = self.AddEquity(t, Resolution.Daily).Symbol
-            self.symbols.append(sym)
-
-        self.bil = self.AddEquity("BIL", Resolution.Daily).Symbol
-
-        self.lookback = 126  # ~6 months
-
-        self.Schedule.On(
-            self.DateRules.MonthStart(self.symbols[0]),
-            self.TimeRules.AfterMarketOpen(self.symbols[0], 30),
-            self.Rebalance,
-        )
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.sma  = self.SMA(self.qqq, 100, Resolution.Daily)
+        self.SetWarmUp(120, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
+                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+                         self.Rebalance)
 
     def Rebalance(self):
-        positive = []
-        for sym in self.symbols:
-            hist = self.History(sym, self.lookback + 1, Resolution.Daily)
-            if hist.empty or "close" not in hist.columns:
-                continue
-            closes = hist["close"].values
-            if len(closes) < self.lookback + 1:
-                continue
-            ret_6m = (closes[-1] / closes[0]) - 1.0
-            if ret_6m > 0:
-                positive.append(sym)
-
-        if not positive:
-            for sym in self.symbols:
-                if self.Portfolio[sym].Invested:
-                    self.Liquidate(sym)
-            self.SetHoldings(self.bil, 1.0)
-            return
-
-        if self.Portfolio[self.bil].Invested:
-            self.Liquidate(self.bil)
-
-        for sym in self.symbols:
-            if sym not in positive and self.Portfolio[sym].Invested:
-                self.Liquidate(sym)
-
-        n = len(positive)
-        weight = 1.0 / n
-        for sym in positive:
-            self.SetHoldings(sym, weight)
+        if self.IsWarmingUp or not self.sma.IsReady: return
+        in_trend = self.Securities[self.qqq].Price > self.sma.Current.Value
+        invested = self.Portfolio[self.tqqq].Invested
+        if in_trend and not invested: self.SetHoldings(self.tqqq, 1.0)
+        elif not in_trend and invested: self.Liquidate(self.tqqq)

@@ -1,76 +1,72 @@
 from AlgorithmImports import *
-import numpy as np
 
 
 class Algo085(QCAlgorithm):
-    """#085 — Top-5 dyn (more concentrated) + #075 regime switch."""
-    LOOKBACK = 63; CALM_VOL = 0.55; PANIC_VOL = 0.85; TOP_N = 5
+    """
+    Leveraged-Tech Basket EW + QQQ Trend Gate.
+
+    Universe: 5 different 3x leveraged ETFs (TQQQ, TECL, SOXL, UPRO, FAS).
+    Equal-weight basket (20% each, total = 100%) when QQQ > QQQ 200d SMA, else flat.
+    Daily check; monthly rebalance back to 20% targets.
+    """
 
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100_000)
-        self.UniverseSettings.Resolution = Resolution.Daily
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.AddUniverse(self.Sel); self.SetWarmUp(150, Resolution.Daily)
-        self.basket = []; self.regime = "out"; self.month_seen = -1; self.weights = {}
-        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
-                         self.TimeRules.AfterMarketOpen(self.tqqq, 30), self.R)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100_000)
 
-    def Sel(self, fund):
-        elig = [f for f in fund if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
-        elig.sort(key=lambda f: f.MarketCap, reverse=True)
-        self.basket = [f.Symbol for f in elig[:self.TOP_N]]
-        return self.basket
+        self.basket = ["TQQQ", "TECL", "SOXL", "UPRO", "FAS"]
+        self.symbols = []
+        for t in self.basket:
+            eq = self.AddEquity(t, Resolution.Daily)
+            self.symbols.append(eq.Symbol)
 
-    def _vol(self):
-        h = self.History(self.tqqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return None
-        c = h['close'].values; r = np.diff(np.log(c))
-        return float(np.std(r) * np.sqrt(252))
+        # QQQ for the trend signal
+        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
+        self.qqq_sma200 = self.SMA(self.qqq, 200, Resolution.Daily)
 
-    def _w(self):
-        if not self.basket: return {}
-        h = self.History(self.basket, self.LOOKBACK + 1, Resolution.Daily)
-        if h.empty: return {}
-        rets = {}
-        for s in self.basket:
-            try:
-                if s not in h.index.get_level_values(0): continue
-                c = h.loc[s]['close']
-                if len(c) < self.LOOKBACK + 1: continue
-                rets[s] = max(0.0, c.iloc[-1] / c.iloc[0] - 1.0)
-            except: continue
-        t = sum(rets.values())
-        if t <= 0: return {s: 1.0 / len(self.basket) for s in self.basket}
-        return {s: r / t for s, r in rets.items()}
+        self.SetWarmUp(220, Resolution.Daily)
 
-    def _liq(self):
-        for s in list(self.Portfolio.Keys):
-            if self.Portfolio[s].Invested: self.Liquidate(s)
+        self._last_rebalance_month = -1
 
-    def R(self):
-        if self.IsWarmingUp or not self.basket: return
-        v = self._vol()
-        if v is None: return
-        if v >= self.PANIC_VOL: nr = "out"
-        elif v < self.CALM_VOL: nr = "tqqq"
-        else: nr = "basket"
+        self.Schedule.On(
+            self.DateRules.EveryDay(self.qqq),
+            self.TimeRules.AfterMarketOpen(self.qqq, 30),
+            self.DailyCheck,
+        )
 
-        if nr != self.regime:
-            self._liq()
-            if nr == "tqqq": self.SetHoldings(self.tqqq, 1.0)
-            elif nr == "basket":
-                self.weights = self._w(); self.month_seen = self.Time.month
-                for s, w in self.weights.items():
-                    if w > 0: self.SetHoldings(s, w)
-            self.regime = nr
+    def DailyCheck(self):
+        if self.IsWarmingUp:
+            return
+        if not self.qqq_sma200.IsReady:
             return
 
-        if self.regime == "basket" and self.Time.month != self.month_seen:
-            self.weights = self._w(); self.month_seen = self.Time.month
-            target_set = set(self.weights.keys())
-            for s in list(self.Portfolio.Keys):
-                if s != self.tqqq and self.Portfolio[s].Invested and s not in target_set:
-                    self.Liquidate(s)
-            for s, w in self.weights.items():
-                cur = self.Portfolio[s].HoldingsValue / max(1e-9, self.Portfolio.TotalPortfolioValue)
-                if abs(w - cur) > 0.03 and w > 0: self.SetHoldings(s, w)
+        qqq_price = self.Securities[self.qqq].Price
+        if qqq_price <= 0:
+            return
+
+        gate_on = qqq_price > self.qqq_sma200.Current.Value
+
+        month = self.Time.month
+        is_new_month = month != self._last_rebalance_month
+
+        if not gate_on:
+            # Flat: liquidate basket
+            for sym in self.symbols:
+                if self.Portfolio[sym].Invested:
+                    self.SetHoldings(sym, 0.0)
+            self._last_rebalance_month = month
+            return
+
+        # Gate on: equal-weight 20% each
+        if is_new_month or self._needs_initial_fill():
+            target = 1.0 / len(self.symbols)
+            for sym in self.symbols:
+                self.SetHoldings(sym, target)
+            self._last_rebalance_month = month
+
+    def _needs_initial_fill(self):
+        for sym in self.symbols:
+            if not self.Portfolio[sym].Invested:
+                return True
+        return False

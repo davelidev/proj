@@ -1,73 +1,38 @@
 from AlgorithmImports import *
-import numpy as np
 
 
 class Algo051(QCAlgorithm):
-    """#051 — Mega-7 momo-weighted (1mo) + TQQQ-vol cash gate (vol < 60%)."""
-    LOOKBACK = 21
-    VOL_THRESH = 0.60  # TQQQ is 3x QQQ so threshold ~3× higher
-    MEGA = ["AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA"]
+    """#51 — 5 most mkt cap + cash sleeve when QQQ < SMA200."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.syms = [self.AddEquity(t, Resolution.Daily).Symbol for t in self.MEGA]
-        self.SetWarmUp(150, Resolution.Daily)
-        self.in_market = False
-        self.month_seen = -1
-        self.weights = {}
-        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
-                         self.TimeRules.AfterMarketOpen(self.tqqq, 30), self.R)
+        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
+        self.sma = self.SMA(self.qqq, 200, Resolution.Daily)
+        self.UniverseSettings.Resolution = Resolution.Daily
+        self.AddUniverse(self.Sel)
+        self.SetWarmUp(220, Resolution.Daily)
+        self.top5 = []
+        self.Schedule.On(self.DateRules.MonthStart(),
+                         self.TimeRules.At(10, 0),
+                         self.R)
 
-    def _vol(self):
-        h = self.History(self.tqqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return None
-        c = h['close'].values
-        r = np.diff(np.log(c))
-        return float(np.std(r) * np.sqrt(252))
-
-    def _compute_weights(self):
-        h = self.History(self.syms, self.LOOKBACK + 1, Resolution.Daily)
-        if h.empty: return {}
-        rets = {}
-        for s in self.syms:
-            try:
-                if s not in h.index.get_level_values(0): continue
-                c = h.loc[s]['close']
-                if len(c) < self.LOOKBACK + 1: continue
-                rets[s] = max(0.0, c.iloc[-1] / c.iloc[0] - 1.0)
-            except Exception: continue
-        total = sum(rets.values())
-        if total <= 0:
-            return {s: 1.0 / len(self.syms) for s in self.syms}
-        return {s: r / total for s, r in rets.items()}
+    def Sel(self, fund):
+        elig = [f for f in fund if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
+        elig.sort(key=lambda f: f.MarketCap, reverse=True)
+        self.top5 = [f.Symbol for f in elig[:5]]
+        return self.top5
 
     def R(self):
-        if self.IsWarmingUp: return
-        v = self._vol()
-        if v is None: return
-        gate_on = v < self.VOL_THRESH
-
-        if gate_on:
-            month = self.Time.month
-            if month != self.month_seen or not self.in_market:
-                self.weights = self._compute_weights()
-                self.month_seen = month
-            if not self.in_market:
-                for s in self.syms:
-                    w = self.weights.get(s, 0.0)
-                    if w > 0: self.SetHoldings(s, w)
-                self.in_market = True
-            else:
-                for s in self.syms:
-                    w = self.weights.get(s, 0.0)
-                    cur = self.Portfolio[s].HoldingsValue / self.Portfolio.TotalPortfolioValue if self.Portfolio.TotalPortfolioValue > 0 else 0
-                    if abs(w - cur) > 0.05:
-                        self.SetHoldings(s, w)
+        if self.IsWarmingUp or not self.sma.IsReady or not self.top5: return
+        in_trend = self.Securities[self.qqq].Price > self.sma.Current.Value
+        if in_trend:
+            w = 1.0 / len(self.top5)
+            for sym in list(self.Portfolio.Keys):
+                if self.Portfolio[sym].Invested and sym not in self.top5:
+                    self.Liquidate(sym)
+            for sym in self.top5: self.SetHoldings(sym, w)
         else:
-            if self.in_market:
-                for s in self.syms:
-                    if self.Portfolio[s].Invested: self.Liquidate(s)
-                self.in_market = False
+            for sym in list(self.Portfolio.Keys):
+                if self.Portfolio[sym].Invested: self.Liquidate(sym)

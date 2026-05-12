@@ -1,45 +1,44 @@
 from AlgorithmImports import *
-import numpy as np
 
 
 class Algo041(QCAlgorithm):
-    """Mega-7 EW + QQQ 20d annualized vol < 20% gate (tighter)."""
+    """#41 — Same as #40 but SMA200 + IBS<0.05 in down-trend."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.sma  = self.SMA(self.qqq, 200, Resolution.Daily)
+        self.SetWarmUp(220, Resolution.Daily)
+        self.in_trend_pos = False
+        self.in_mr_pos = False
+        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
+                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+                         self.Rebalance)
 
-        self.tickers = ["AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA"]
-        self.symbols = [self.AddEquity(t, Resolution.Daily).Symbol for t in self.tickers]
-        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
+    def Rebalance(self):
+        if self.IsWarmingUp or not self.sma.IsReady: return
+        bar = self.Securities[self.tqqq]
+        h, l, c = bar.High, bar.Low, bar.Close
+        if h <= l: return
+        ibs = (c - l) / (h - l)
+        in_trend = self.Securities[self.qqq].Price > self.sma.Current.Value
+        invested = self.Portfolio[self.tqqq].Invested
 
-        self.vol_threshold = 0.20
-        self.in_market = False
-
-        self.Schedule.On(
-            self.DateRules.EveryDay(self.qqq),
-            self.TimeRules.AfterMarketOpen(self.qqq, 30),
-            self.R,
-        )
-
-    def R(self):
-        hist = self.History(self.qqq, 21, Resolution.Daily)
-        if hist.empty or len(hist) < 21:
-            return
-        closes = hist['close'].values
-        log_rets = np.diff(np.log(closes))
-        vol = float(np.std(log_rets) * np.sqrt(252))
-
-        target_in = vol < self.vol_threshold
-        if target_in == self.in_market:
-            return
-
-        if target_in:
-            w = 1.0 / len(self.symbols)
-            for s in self.symbols:
-                self.SetHoldings(s, w)
+        if in_trend:
+            if not invested:
+                self.SetHoldings(self.tqqq, 1.0)
+                self.in_trend_pos = True
+                self.in_mr_pos = False
         else:
-            self.Liquidate()
-
-        self.in_market = target_in
+            if self.in_trend_pos and invested:
+                self.Liquidate(self.tqqq)
+                self.in_trend_pos = False
+            if not invested and ibs < 0.05:
+                self.SetHoldings(self.tqqq, 1.0)
+                self.in_mr_pos = True
+            elif invested and self.in_mr_pos and ibs > 0.9:
+                self.Liquidate(self.tqqq)
+                self.in_mr_pos = False

@@ -1,56 +1,40 @@
 from AlgorithmImports import *
-import numpy as np
 
 
 class Algo003(QCAlgorithm):
-    """Drawdown-Adjusted Rotation: top-2 by 252d return divided by |max drawdown|."""
+    """
+    Algo #3 — TQQQ trend-following on QQQ 200d SMA (Gayed-style 'LFTL').
+    Hold 100% TQQQ when QQQ > 200d SMA, else flat.
+
+    Davey Cheat Code Chapter 5 regime filter applied as primary signal.
+    """
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
 
-        self.tickers = ["QQQ", "SPY", "XLK", "XLY", "XLF", "XLV", "TLT", "GLD"]
-        self.symbols = []
-        for t in self.tickers:
-            sym = self.AddEquity(t, Resolution.Daily).Symbol
-            self.symbols.append(sym)
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
 
-        self.lookback = 252
-        self.top_n = 2
+        self.sma  = self.SMA(self.qqq, 200, Resolution.Daily)
+        self.SetWarmUp(220, Resolution.Daily)
 
         self.Schedule.On(
-            self.DateRules.MonthStart(self.symbols[0]),
-            self.TimeRules.AfterMarketOpen(self.symbols[0], 30),
+            self.DateRules.EveryDay(self.tqqq),
+            self.TimeRules.AfterMarketOpen(self.tqqq, 30),
             self.Rebalance,
         )
 
     def Rebalance(self):
-        scores = {}
-        for sym in self.symbols:
-            hist = self.History(sym, self.lookback + 1, Resolution.Daily)
-            if hist.empty or "close" not in hist.columns:
-                continue
-            closes = hist["close"].values
-            if len(closes) < self.lookback + 1:
-                continue
-            total_ret = (closes[-1] / closes[0]) - 1.0
-            running_max = np.maximum.accumulate(closes)
-            drawdowns = (closes - running_max) / running_max
-            max_dd = abs(drawdowns.min())
-            if max_dd <= 1e-6:
-                continue
-            scores[sym] = total_ret / max_dd
-
-        if not scores:
+        if self.IsWarmingUp or not self.sma.IsReady:
             return
-        ranked = sorted(scores.items(), key=lambda kv: kv[1], reverse=True)
-        winners = [s for s, _ in ranked[: self.top_n]]
 
-        for sym in self.symbols:
-            if sym not in winners and self.Portfolio[sym].Invested:
-                self.Liquidate(sym)
+        qqq_px   = self.Securities[self.qqq].Price
+        in_trend = qqq_px > self.sma.Current.Value
+        invested = self.Portfolio[self.tqqq].Invested
 
-        weight = 1.0 / max(len(winners), 1)
-        for sym in winners:
-            self.SetHoldings(sym, weight)
+        if in_trend and not invested:
+            self.SetHoldings(self.tqqq, 1.0)
+        elif not in_trend and invested:
+            self.Liquidate(self.tqqq)

@@ -1,82 +1,76 @@
 from AlgorithmImports import *
-import numpy as np
 
 
 class Algo090(QCAlgorithm):
-    """#090 — 4-tier vol-graded allocation: TQQQ, TQQQ+basket, basket, cash."""
-    LOOKBACK = 63; TOP_N = 7
-    T1 = 0.40  # vol < T1: 100% TQQQ
-    T2 = 0.55  # vol < T2: 50% TQQQ + 50% basket
-    T3 = 0.75  # vol < T3: 100% basket; else cash
+    """
+    Equal-Weight Top 3 Leveraged Sector ETFs by 3mo Momentum.
+
+    Universe: 7 leveraged sector ETFs:
+        TQQQ (3x Nasdaq), TECL (3x Tech), SOXL (3x Semis),
+        FAS (3x Financials), CURE (3x Healthcare),
+        DPST (3x Regional Banks), TNA (3x Small Cap).
+    Each month, rank by 3-month return (63d). Hold top 3 equal-weight (1/3 each).
+    No trend gate. Liquidate non-winners.
+    """
 
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100_000)
-        self.UniverseSettings.Resolution = Resolution.Daily
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.AddUniverse(self.Sel); self.SetWarmUp(150, Resolution.Daily)
-        self.basket = []; self.regime = "out"; self.month_seen = -1; self.weights = {}
-        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
-                         self.TimeRules.AfterMarketOpen(self.tqqq, 30), self.R)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100_000)
 
-    def Sel(self, fund):
-        elig = [f for f in fund if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
-        elig.sort(key=lambda f: f.MarketCap, reverse=True)
-        self.basket = [f.Symbol for f in elig[:self.TOP_N]]
-        return self.basket
+        self.tickers = ["TQQQ", "TECL", "SOXL", "FAS", "CURE", "DPST", "TNA"]
+        self.symbols = []
+        for t in self.tickers:
+            eq = self.AddEquity(t, Resolution.Daily)
+            self.symbols.append(eq.Symbol)
 
-    def _vol(self):
-        h = self.History(self.tqqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return None
-        c = h['close'].values; r = np.diff(np.log(c))
-        return float(np.std(r) * np.sqrt(252))
+        self.SetWarmUp(80, Resolution.Daily)
 
-    def _w(self):
-        if not self.basket: return {}
-        h = self.History(self.basket, self.LOOKBACK + 1, Resolution.Daily)
-        if h.empty: return {}
-        rets = {}
-        for s in self.basket:
-            try:
-                if s not in h.index.get_level_values(0): continue
-                c = h.loc[s]['close']
-                if len(c) < self.LOOKBACK + 1: continue
-                rets[s] = max(0.0, c.iloc[-1] / c.iloc[0] - 1.0)
-            except: continue
-        t = sum(rets.values())
-        if t <= 0: return {s: 1.0 / len(self.basket) for s in self.basket}
-        return {s: r / t for s, r in rets.items()}
+        self.Schedule.On(
+            self.DateRules.MonthStart(self.symbols[0]),
+            self.TimeRules.AfterMarketOpen(self.symbols[0], 30),
+            self.MonthlyRebalance,
+        )
 
-    def _liq(self):
-        for s in list(self.Portfolio.Keys):
-            if self.Portfolio[s].Invested: self.Liquidate(s)
+    def _ret_3mo(self, sym):
+        history = self.History([sym], 70, Resolution.Daily)
+        if history.empty:
+            return None
+        try:
+            closes = history.loc[sym]["close"].values
+        except Exception:
+            return None
+        if len(closes) < 64:
+            return None
+        prev = closes[-64]
+        last = closes[-1]
+        if prev <= 0:
+            return None
+        return last / prev - 1.0
 
-    def _set_tier(self, tier):
-        self._liq()
-        if tier == "tqqq":
-            self.SetHoldings(self.tqqq, 1.0)
-        elif tier == "mixed":
-            self.weights = self._w(); self.month_seen = self.Time.month
-            self.SetHoldings(self.tqqq, 0.50)
-            for s, w in self.weights.items():
-                if w > 0: self.SetHoldings(s, w * 0.50)
-        elif tier == "basket":
-            self.weights = self._w(); self.month_seen = self.Time.month
-            for s, w in self.weights.items():
-                if w > 0: self.SetHoldings(s, w)
-
-    def R(self):
-        if self.IsWarmingUp or not self.basket: return
-        v = self._vol()
-        if v is None: return
-        if v < self.T1: nr = "tqqq"
-        elif v < self.T2: nr = "mixed"
-        elif v < self.T3: nr = "basket"
-        else: nr = "out"
-
-        if nr != self.regime:
-            self._set_tier(nr)
-            self.regime = nr
+    def MonthlyRebalance(self):
+        if self.IsWarmingUp:
             return
 
-        if self.regime in ("mixed", "basket") and self.Time.month != self.month_seen:
-            self._set_tier(nr)
+        scored = []
+        for sym in self.symbols:
+            r = self._ret_3mo(sym)
+            if r is not None:
+                scored.append((sym, r))
+
+        if len(scored) < 3:
+            return
+
+        scored.sort(key=lambda x: x[1], reverse=True)
+        winners = [s for s, _ in scored[:3]]
+        winner_set = set(winners)
+
+        # Liquidate non-winners
+        for sym in self.symbols:
+            if sym not in winner_set and self.Portfolio[sym].Invested:
+                self.SetHoldings(sym, 0.0)
+
+        # Equal-weight 1/3 each
+        target = 1.0 / 3.0
+        for sym in winners:
+            self.SetHoldings(sym, target)

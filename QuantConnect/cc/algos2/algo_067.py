@@ -1,56 +1,55 @@
 from AlgorithmImports import *
-import numpy as np
 
 
 class Algo067(QCAlgorithm):
-    """#067 — Top-7 cap-weighted (by mkt cap from fundamental data) + TQQQ vol gate."""
-    VOL_THRESH = 0.60; TOP_N = 7
+    """#67 — 5 most mkt cap with 6mo momentum re-rank + SMA200 cash gate."""
 
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100_000)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100_000)
+        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
+        self.sma = self.SMA(self.qqq, 200, Resolution.Daily)
         self.UniverseSettings.Resolution = Resolution.Daily
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.AddUniverse(self.Sel); self.SetWarmUp(150, Resolution.Daily)
-        self.basket_data = []  # list of (Symbol, mktcap)
-        self.in_market = False; self.month_seen = -1
-        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
-                         self.TimeRules.AfterMarketOpen(self.tqqq, 30), self.R)
+        self.AddUniverse(self.Coarse, self.Fine)
+        self.SetWarmUp(160, Resolution.Daily)
+        self.candidates = []
+        self.Schedule.On(self.DateRules.MonthStart(),
+                         self.TimeRules.At(10, 0), self.R)
 
-    def Sel(self, fund):
-        elig = [f for f in fund if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
-        elig.sort(key=lambda f: f.MarketCap, reverse=True)
-        self.basket_data = [(f.Symbol, float(f.MarketCap)) for f in elig[:self.TOP_N]]
-        return [s for s, _ in self.basket_data]
+    def Coarse(self, c):
+        sel = [x for x in c if x.HasFundamentalData and x.Price > 5]
+        sel.sort(key=lambda x: x.DollarVolume, reverse=True)
+        return [x.Symbol for x in sel[:200]]
 
-    def _vol(self):
-        h = self.History(self.tqqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return None
-        c = h['close'].values; r = np.diff(np.log(c))
-        return float(np.std(r) * np.sqrt(252))
-
-    def _w(self):
-        if not self.basket_data: return {}
-        total = sum(mc for _, mc in self.basket_data)
-        if total <= 0: return {}
-        return {s: mc / total for s, mc in self.basket_data}
+    def Fine(self, f):
+        sel = [x for x in f if x.MarketCap > 5e10]
+        sel.sort(key=lambda x: x.MarketCap, reverse=True)
+        self.candidates = [x.Symbol for x in sel[:30]]
+        return self.candidates
 
     def R(self):
-        if self.IsWarmingUp or not self.basket_data: return
-        v = self._vol()
-        if v is None: return
-        on = v < self.VOL_THRESH
-        if on:
-            weights = self._w()
-            target_set = set(weights.keys())
+        if self.IsWarmingUp or not self.sma.IsReady or not self.candidates: return
+        in_trend = self.Securities[self.qqq].Price > self.sma.Current.Value
+        if not in_trend:
             for s in list(self.Portfolio.Keys):
-                if self.Portfolio[s].Invested and s != self.tqqq and s not in target_set: self.Liquidate(s)
-            for s, w in weights.items():
-                cur = self.Portfolio[s].HoldingsValue / max(1e-9, self.Portfolio.TotalPortfolioValue)
-                if not self.in_market or abs(w - cur) > 0.05:
-                    if w > 0: self.SetHoldings(s, w)
-            self.in_market = True
-        else:
-            if self.in_market:
-                for s in list(self.Portfolio.Keys):
-                    if self.Portfolio[s].Invested: self.Liquidate(s)
-                self.in_market = False
+                if self.Portfolio[s].Invested: self.Liquidate(s)
+            return
+        history = self.History(self.candidates, 130, Resolution.Daily)
+        if history.empty: return
+        moms = {}
+        for sym in self.candidates:
+            try:
+                if sym not in history.index.get_level_values(0): continue
+                closes = history.loc[sym]['close']
+                if len(closes) < 130: continue
+                moms[sym] = (closes.iloc[-1] / closes.iloc[0]) - 1
+            except: continue
+        if not moms: return
+        ranked = sorted(moms.items(), key=lambda x: x[1], reverse=True)
+        top5 = [s for s, _ in ranked[:5]]
+        if not top5: return
+        w = 1.0 / len(top5)
+        for sym in list(self.Portfolio.Keys):
+            if self.Portfolio[sym].Invested and sym not in top5: self.Liquidate(sym)
+        for sym in top5: self.SetHoldings(sym, w)

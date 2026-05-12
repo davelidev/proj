@@ -2,48 +2,28 @@ from AlgorithmImports import *
 
 
 class Algo013(QCAlgorithm):
-    """TQQQ 5-day cumulative drawdown mean-reversion: buy after -8% 5d drop, exit on positive 5d or 7-day max hold."""
+    """#13 — Donchian 50-day breakout. Long TQQQ on 50d high, exit on 50d low."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-
         self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.lookback = 5
-        self.entry_threshold = -0.08
-        self.max_hold = 7
-        self.days_held = 0
-        self.in_position = False
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.don  = self.DCH(self.qqq, 50, Resolution.Daily)
+        self.SetWarmUp(60, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
+                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+                         self.Rebalance)
 
-        self.SetWarmUp(15, Resolution.Daily)
-
-    def OnData(self, data):
-        if self.IsWarmingUp:
-            return
-        if not data.ContainsKey(self.tqqq):
-            return
-
-        hist = self.History(self.tqqq, self.lookback + 2, Resolution.Daily)
-        if hist is None or hist.empty:
-            return
-        try:
-            closes = hist["close"]
-        except Exception:
-            return
-        if len(closes) < self.lookback + 1:
-            return
-
-        cum_ret = (closes.iloc[-1] / closes.iloc[-self.lookback - 1]) - 1.0
-
-        if self.in_position:
-            self.days_held += 1
-            if cum_ret > 0 or self.days_held >= self.max_hold:
-                self.Liquidate()
-                self.in_position = False
-                self.days_held = 0
-        else:
-            if cum_ret < self.entry_threshold:
-                self.SetHoldings(self.tqqq, 1.0)
-                self.in_position = True
-                self.days_held = 0
+    def Rebalance(self):
+        if self.IsWarmingUp or not self.don.IsReady: return
+        px = self.Securities[self.qqq].Price
+        invested = self.Portfolio[self.tqqq].Invested
+        upper = self.don.UpperBand.Current.Value
+        lower = self.don.LowerBand.Current.Value
+        # Buy when price near new high; exit when near low
+        if not invested and px >= upper * 0.999:
+            self.SetHoldings(self.tqqq, 1.0)
+        elif invested and px <= lower * 1.001:
+            self.Liquidate(self.tqqq)

@@ -2,35 +2,33 @@ from AlgorithmImports import *
 
 
 class Algo039(QCAlgorithm):
-    """8 Leveraged ETF EW Permanent + Monthly Rebalance.
-
-    Basket: TQQQ, UPRO, SOXL, TECL, QLD, SSO, DDM, FAS.
-    Equal-weight (1/8 each). Pure cross-sectional rebalance harvesting,
-    no timing signal. Rebalance back to EW monthly.
-    """
+    """#39 — IBS extreme + max hold 3 days (avoid bag-holding through reversals)."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-
-        basket = ["TQQQ", "UPRO", "SOXL", "TECL", "QLD", "SSO", "DDM", "FAS"]
-        self.basket_symbols = []
-        for t in basket:
-            eq = self.AddEquity(t, Resolution.Daily)
-            self.basket_symbols.append(eq.Symbol)
-
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
         self.SetWarmUp(5, Resolution.Daily)
+        self.entry_bar = None
+        self.bar_count = 0
+        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
+                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+                         self.Rebalance)
 
-        self.Schedule.On(
-            self.DateRules.MonthStart(self.basket_symbols[0]),
-            self.TimeRules.AfterMarketOpen(self.basket_symbols[0], 30),
-            self.RebalanceEW,
-        )
-
-    def RebalanceEW(self):
-        if self.IsWarmingUp:
-            return
-        w = 1.0 / len(self.basket_symbols)
-        for sym in self.basket_symbols:
-            self.SetHoldings(sym, w)
+    def Rebalance(self):
+        if self.IsWarmingUp: return
+        self.bar_count += 1
+        bar = self.Securities[self.tqqq]
+        h, l, c = bar.High, bar.Low, bar.Close
+        if h <= l: return
+        ibs = (c - l) / (h - l)
+        invested = self.Portfolio[self.tqqq].Invested
+        if not invested and ibs < 0.1:
+            self.SetHoldings(self.tqqq, 1.0)
+            self.entry_bar = self.bar_count
+        elif invested:
+            held = self.bar_count - (self.entry_bar or self.bar_count)
+            if ibs > 0.9 or held >= 3:
+                self.Liquidate(self.tqqq)
+                self.entry_bar = None

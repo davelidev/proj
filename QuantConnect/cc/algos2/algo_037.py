@@ -2,66 +2,24 @@ from AlgorithmImports import *
 
 
 class Algo037(QCAlgorithm):
-    """Leveraged-Tech Trio + XLK-vs-XLP Realized-Spread Cash Gate.
-
-    Basket: TQQQ, TECL, SOXL (EW). Spread = XLK 20d return - XLP 20d return.
-    Long basket if spread > 0; cash otherwise.
-    """
+    """#37 — TQQQ "Sell in May": hold Nov-Apr, flat May-Oct."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-
-        basket = ["TQQQ", "TECL", "SOXL"]
-        self.basket_symbols = []
-        for t in basket:
-            eq = self.AddEquity(t, Resolution.Daily)
-            self.basket_symbols.append(eq.Symbol)
-
-        self.xlk = self.AddEquity("XLK", Resolution.Daily).Symbol
-        self.xlp = self.AddEquity("XLP", Resolution.Daily).Symbol
-
-        self.regime_in = None
-        self.SetWarmUp(30, Resolution.Daily)
-
-        self.Schedule.On(
-            self.DateRules.EveryDay("XLK"),
-            self.TimeRules.AfterMarketOpen("XLK", 30),
-            self.Rebalance,
-        )
-
-    def _ret_20d(self, sym):
-        hist = self.History(sym, 22, Resolution.Daily)
-        if hist is None or hist.empty:
-            return None
-        try:
-            closes = hist["close"].values
-        except Exception:
-            return None
-        if len(closes) < 22:
-            return None
-        return closes[-1] / closes[0] - 1.0
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.SetWarmUp(5, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
+                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+                         self.Rebalance)
 
     def Rebalance(self):
-        if self.IsWarmingUp:
-            return
-
-        rk = self._ret_20d(self.xlk)
-        rp = self._ret_20d(self.xlp)
-        if rk is None or rp is None:
-            return
-
-        spread = rk - rp
-        new_regime = spread > 0.0
-
-        if new_regime == self.regime_in:
-            return
-        self.regime_in = new_regime
-
-        if new_regime:
-            w = 1.0 / len(self.basket_symbols)
-            for sym in self.basket_symbols:
-                self.SetHoldings(sym, w)
-        else:
-            self.Liquidate()
+        if self.IsWarmingUp: return
+        m = self.Time.month
+        in_season = m in (11, 12, 1, 2, 3, 4)
+        invested = self.Portfolio[self.tqqq].Invested
+        if in_season and not invested:
+            self.SetHoldings(self.tqqq, 1.0)
+        elif not in_season and invested:
+            self.Liquidate(self.tqqq)

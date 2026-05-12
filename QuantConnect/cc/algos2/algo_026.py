@@ -2,50 +2,33 @@ from AlgorithmImports import *
 
 
 class Algo026(QCAlgorithm):
-    """TQQQ position scaled inversely to QQQ Bollinger %B (mean-reversion sizing)."""
+    """#26 — 5 most market capital companies, cap-weighted, monthly."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
+        self.UniverseSettings.Resolution = Resolution.Daily
+        self.AddUniverse(self.Select)
+        self.SetWarmUp(20, Resolution.Daily)
+        self.top_data = []
+        self.Schedule.On(self.DateRules.MonthStart(),
+                         self.TimeRules.At(10, 0),
+                         self.Rebalance)
 
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
-
-        self.bb = self.BB(self.qqq, 20, 2, MovingAverageType.Simple, Resolution.Daily)
-
-        self.last_w = -1.0
-
-        self.SetWarmUp(40, Resolution.Daily)
-
-        self.Schedule.On(
-            self.DateRules.EveryDay(self.qqq),
-            self.TimeRules.AfterMarketOpen(self.qqq, 30),
-            self.Rebalance,
-        )
+    def Select(self, fundamental):
+        elig = [f for f in fundamental if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
+        elig.sort(key=lambda f: f.MarketCap, reverse=True)
+        self.top_data = [(f.Symbol, f.MarketCap) for f in elig[:5]]
+        return [s for s, _ in self.top_data]
 
     def Rebalance(self):
-        if self.IsWarmingUp:
-            return
-        if not self.bb.IsReady:
-            return
-
-        upper = self.bb.UpperBand.Current.Value
-        lower = self.bb.LowerBand.Current.Value
-        price = self.Securities[self.qqq].Price
-
-        if upper == lower:
-            return
-
-        pct_b = (price - lower) / (upper - lower)
-        w = 1.0 - pct_b
-        if w < 0.0:
-            w = 0.0
-        if w > 1.0:
-            w = 1.0
-
-        if abs(w - self.last_w) < 0.05:
-            return
-
-        self.SetHoldings(self.tqqq, w)
-        self.last_w = w
+        if self.IsWarmingUp or not self.top_data: return
+        total_mc = sum(mc for _, mc in self.top_data)
+        if total_mc <= 0: return
+        weights = {s: mc / total_mc for s, mc in self.top_data}
+        for sym in list(self.Portfolio.Keys):
+            if self.Portfolio[sym].Invested and sym not in weights:
+                self.Liquidate(sym)
+        for sym, w in weights.items():
+            self.SetHoldings(sym, w)

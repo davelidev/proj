@@ -2,48 +2,22 @@ from AlgorithmImports import *
 
 
 class Algo009(QCAlgorithm):
-    """Region-Rotation: Top-2 of US/EU/JP/EM/CN by 90d return at 50/50."""
+    """#9 — TQQQ self-SMA150."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-
-        self.tickers = ["SPY", "EFA", "EWJ", "EEM", "FXI"]
-        self.symbols = []
-        for t in self.tickers:
-            sym = self.AddEquity(t, Resolution.Daily).Symbol
-            self.symbols.append(sym)
-
-        self.lookback = 90
-        self.top_n = 2
-
-        self.Schedule.On(
-            self.DateRules.MonthStart(self.symbols[0]),
-            self.TimeRules.AfterMarketOpen(self.symbols[0], 30),
-            self.Rebalance,
-        )
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.sma  = self.SMA(self.tqqq, 150, Resolution.Daily)
+        self.SetWarmUp(170, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
+                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+                         self.Rebalance)
 
     def Rebalance(self):
-        scores = {}
-        for sym in self.symbols:
-            hist = self.History(sym, self.lookback + 1, Resolution.Daily)
-            if hist.empty or "close" not in hist.columns:
-                continue
-            closes = hist["close"].values
-            if len(closes) < self.lookback + 1:
-                continue
-            scores[sym] = (closes[-1] / closes[0]) - 1.0
-
-        if not scores:
-            return
-        ranked = sorted(scores.items(), key=lambda kv: kv[1], reverse=True)
-        winners = [s for s, _ in ranked[: self.top_n]]
-
-        for sym in self.symbols:
-            if sym not in winners and self.Portfolio[sym].Invested:
-                self.Liquidate(sym)
-
-        weight = 0.5
-        for sym in winners:
-            self.SetHoldings(sym, weight)
+        if self.IsWarmingUp or not self.sma.IsReady: return
+        in_trend = self.Securities[self.tqqq].Price > self.sma.Current.Value
+        invested = self.Portfolio[self.tqqq].Invested
+        if in_trend and not invested: self.SetHoldings(self.tqqq, 1.0)
+        elif not in_trend and invested: self.Liquidate(self.tqqq)

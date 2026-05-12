@@ -1,78 +1,60 @@
 from AlgorithmImports import *
-import numpy as np
 
 
 class Algo084(QCAlgorithm):
-    """#084 — TQQQ + dyn top-7 inv-vol weighted (basket regime by inverse name vol)."""
-    LOOKBACK = 63; CALM_VOL = 0.55; PANIC_VOL = 0.85; TOP_N = 7
+    """Dual-Asset Momentum Rotation: SPY vs TLT, 6-month return.
+    Hold whichever is higher at 100%. If both negative, hold cash. Monthly rebalance."""
 
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100_000)
-        self.UniverseSettings.Resolution = Resolution.Daily
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.AddUniverse(self.Sel); self.SetWarmUp(150, Resolution.Daily)
-        self.basket = []; self.regime = "out"; self.month_seen = -1; self.weights = {}
-        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
-                         self.TimeRules.AfterMarketOpen(self.tqqq, 30), self.R)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100_000)
 
-    def Sel(self, fund):
-        elig = [f for f in fund if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
-        elig.sort(key=lambda f: f.MarketCap, reverse=True)
-        self.basket = [f.Symbol for f in elig[:self.TOP_N]]
-        return self.basket
+        self.spy = self.AddEquity("SPY", Resolution.Daily).Symbol
+        self.tlt = self.AddEquity("TLT", Resolution.Daily).Symbol
+        self.assets = [self.spy, self.tlt]
 
-    def _vol(self):
-        h = self.History(self.tqqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return None
-        c = h['close'].values; r = np.diff(np.log(c))
-        return float(np.std(r) * np.sqrt(252))
+        self.lookback = 126  # ~6 months trading days
 
-    def _w(self):
-        if not self.basket: return {}
-        h = self.History(self.basket, 60, Resolution.Daily)
-        if h.empty: return {}
-        invvol = {}
-        for s in self.basket:
-            try:
-                if s not in h.index.get_level_values(0): continue
-                c = h.loc[s]['close'].values
-                if len(c) < 60: continue
-                rs = np.diff(np.log(c))
-                vol = np.std(rs)
-                if vol > 0: invvol[s] = 1.0 / vol
-            except: continue
-        t = sum(invvol.values())
-        if t <= 0: return {s: 1.0 / len(self.basket) for s in self.basket}
-        return {s: w / t for s, w in invvol.items()}
+        self.Schedule.On(
+            self.DateRules.MonthStart("SPY"),
+            self.TimeRules.At(10, 0),
+            self.Rebalance,
+        )
 
-    def _liq(self):
-        for s in list(self.Portfolio.Keys):
-            if self.Portfolio[s].Invested: self.Liquidate(s)
+    def _six_month_return(self, sym):
+        hist = self.History(sym, self.lookback, Resolution.Daily)
+        if hist is None or hist.empty:
+            return None
+        try:
+            closes = hist["close"]
+        except Exception:
+            return None
+        if len(closes) < 2:
+            return None
+        first = float(closes.iloc[0])
+        last = float(closes.iloc[-1])
+        if first <= 0:
+            return None
+        return (last / first) - 1.0
 
-    def R(self):
-        if self.IsWarmingUp or not self.basket: return
-        v = self._vol()
-        if v is None: return
-        if v >= self.PANIC_VOL: nr = "out"
-        elif v < self.CALM_VOL: nr = "tqqq"
-        else: nr = "basket"
+    def Rebalance(self):
+        spy_ret = self._six_month_return(self.spy)
+        tlt_ret = self._six_month_return(self.tlt)
 
-        if nr != self.regime:
-            self._liq()
-            if nr == "tqqq": self.SetHoldings(self.tqqq, 1.0)
-            elif nr == "basket":
-                self.weights = self._w(); self.month_seen = self.Time.month
-                for s, w in self.weights.items():
-                    if w > 0: self.SetHoldings(s, w)
-            self.regime = nr
+        if spy_ret is None or tlt_ret is None:
             return
 
-        if self.regime == "basket" and self.Time.month != self.month_seen:
-            self.weights = self._w(); self.month_seen = self.Time.month
-            target_set = set(self.weights.keys())
-            for s in list(self.Portfolio.Keys):
-                if s != self.tqqq and self.Portfolio[s].Invested and s not in target_set:
-                    self.Liquidate(s)
-            for s, w in self.weights.items():
-                cur = self.Portfolio[s].HoldingsValue / max(1e-9, self.Portfolio.TotalPortfolioValue)
-                if abs(w - cur) > 0.03 and w > 0: self.SetHoldings(s, w)
+        # If both negative → cash
+        if spy_ret < 0 and tlt_ret < 0:
+            for sym in self.assets:
+                if self.Portfolio[sym].Invested:
+                    self.Liquidate(sym)
+            return
+
+        winner = self.spy if spy_ret >= tlt_ret else self.tlt
+        loser = self.tlt if winner == self.spy else self.spy
+
+        if self.Portfolio[loser].Invested:
+            self.Liquidate(loser)
+        self.SetHoldings(winner, 1.0)

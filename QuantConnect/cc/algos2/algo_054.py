@@ -1,75 +1,32 @@
 from AlgorithmImports import *
-import numpy as np
 
 
 class Algo054(QCAlgorithm):
-    """#054 — Mega-7 top-3 by 3mo momentum (zero-out bottom 4) + TQQQ vol gate."""
-    LOOKBACK = 63
-    VOL_THRESH = 0.60
-    MEGA = ["AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA"]
+    """#54 — TQQQ buy on first up day after 2 down days, exit on first down day."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.syms = [self.AddEquity(t, Resolution.Daily).Symbol for t in self.MEGA]
-        self.SetWarmUp(150, Resolution.Daily)
-        self.in_market = False
-        self.month_seen = -1
-        self.weights = {}
-        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
-                         self.TimeRules.AfterMarketOpen(self.tqqq, 30), self.R)
-
-    def _vol(self):
-        h = self.History(self.tqqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return None
-        c = h['close'].values
-        r = np.diff(np.log(c))
-        return float(np.std(r) * np.sqrt(252))
-
-    def _compute_weights(self):
-        h = self.History(self.syms, self.LOOKBACK + 1, Resolution.Daily)
-        if h.empty: return {}
-        rets = {}
-        for s in self.syms:
-            try:
-                if s not in h.index.get_level_values(0): continue
-                c = h.loc[s]['close']
-                if len(c) < self.LOOKBACK + 1: continue
-                rets[s] = c.iloc[-1] / c.iloc[0] - 1.0
-            except Exception: continue
-        if not rets: return {}
-        ranked = sorted(rets.items(), key=lambda kv: kv[1], reverse=True)[:3]
-        positive = [(s, max(0.0, r)) for s, r in ranked]
-        total = sum(r for _, r in positive)
-        if total <= 0:
-            return {s: 1.0 / 3 for s, _ in ranked}
-        return {s: r / total for s, r in positive if r > 0}
+        self.t = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.SetWarmUp(5, Resolution.Daily)
+        self.history = []
+        self.Schedule.On(self.DateRules.EveryDay(self.t),
+                         self.TimeRules.AfterMarketOpen(self.t, 30),
+                         self.R)
 
     def R(self):
         if self.IsWarmingUp: return
-        v = self._vol()
-        if v is None: return
-        gate_on = v < self.VOL_THRESH
-
-        if gate_on:
-            month = self.Time.month
-            if month != self.month_seen or not self.in_market:
-                self.weights = self._compute_weights()
-                self.month_seen = month
-            if self.weights:
-                target_set = set(self.weights.keys())
-                for s in self.syms:
-                    if self.Portfolio[s].Invested and s not in target_set:
-                        self.Liquidate(s)
-                for s, w in self.weights.items():
-                    cur = self.Portfolio[s].HoldingsValue / self.Portfolio.TotalPortfolioValue if self.Portfolio.TotalPortfolioValue > 0 else 0
-                    if not self.in_market or abs(w - cur) > 0.05:
-                        self.SetHoldings(s, w)
-                self.in_market = True
-        else:
-            if self.in_market:
-                for s in self.syms:
-                    if self.Portfolio[s].Invested: self.Liquidate(s)
-                self.in_market = False
+        c = self.Securities[self.t].Close
+        if c <= 0: return
+        self.history.append(c)
+        if len(self.history) > 5: self.history = self.history[-5:]
+        if len(self.history) < 4: return
+        h = self.history
+        # 2 down days then 1 up
+        two_down_then_up = h[-2] < h[-3] < h[-4] and h[-1] > h[-2]
+        invested = self.Portfolio[self.t].Invested
+        if not invested and two_down_then_up:
+            self.SetHoldings(self.t, 1.0)
+        elif invested and h[-1] < h[-2]:
+            self.Liquidate(self.t)

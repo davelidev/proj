@@ -1,254 +1,468 @@
-# Algo Sweep 2 — 100 Multi-Asset Strategies
+# TQQQ Algo Sweep — 100 Strategies
 
 **Target:** CAGR ≥ 28% AND MaxDD ≤ 58%
-**Asset:** Multi-asset (sector ETFs, equities, fixed income, commodities)
+**Asset:** TQQQ (3× Nasdaq-100)
 **Date range:** 2014-01-01 → 2025-12-31
 **Cash:** $100,000
 
+Sources: `Entry_and_Exit_Confessions.md` (Davey, 41 entries × 11 exits) + `Algo_Trading_Cheat_Codes.md` (Davey, mean reversion + regime).
+
+**Constraint:** No margin/leverage on the strategy itself (TQQQ is 3× as the underlying instrument; SetHoldings ≤ 1.0).
+
 ## 🏆 Leaderboard (top 10 passers by Sharpe)
 
-| Rank | #   | Name    | Idea | CAGR | MaxDD | Sharpe |
-| :--- | :-- | :------ | :--- | :--- | :---- | :----- |
-| 1 | **045** | Algo045 | Mega-7 EW + own-basket 20d annualized vol < 30% gate. | **40%** | **-37%** | **1.235** |
-| 2 | **046** | Algo046 | Mega-7 + QQQ 20d vol < 25% gate + monthly 3mo-momentum weighting. | **40%** | **-37%** | **1.235** |
-| 3 | **043** | Algo043 | Mega-7 fixed cap-weights + QQQ 20d annualized vol < 25% gate. | **29%** | **-26%** | **1.188** |
-| 4 | 044 | Algo044 | Mega-10 EW + QQQ 20d annualized vol < 25% gate. | 29% | -26% | 1.188 |
-| 5 | 042 | Algo042 | Mega-7 EW + QQQ 20d annualized vol < 30% gate (looser). | 35% | -40% | 1.187 |
-| 6 | 041 | Algo041 | Mega-7 EW + QQQ 20d annualized vol < 20% gate (tighter). | 35% | -40% | 1.187 |
-| 7 | 050 | Algo050 | Mega-7 EW + adaptive vol gate: today's QQQ 20d vol < 1.2 x its 252d median. | 28% | -26% | 1.140 |
-| 8 | 049 | Algo049 | Mega-7 EW + dual gate: QQQ 20d ann. vol < 25% AND ATR(14)/price < 1.8%. | 28% | -26% | 1.140 |
-| 9 | 053 | Algo053 | #053 — Mega-7 momo-weighted (3mo) + TQQQ vol-60 + adaptive median gate. | 36% | -34% | 1.138 |
-| 10 | 054 | Algo054 | #054 — Mega-7 top-3 by 3mo momentum (zero-out bottom 4) + TQQQ vol gate. | 36% | -34% | 1.138 |
+| Rank | #       | Name                            | CAGR    | MaxDD    | Sharpe   |
+| :--- | :------ | :------------------------------ | :------ | :------- | :------- |
+| 1    | **046** | SMA150+IBS fast exit            | **55%** | -55%     | **1.07** |
+| 2    | 064     | 5 most mkt cap + IBS regime mix | 30%     | **-23%** | 1.07     |
+| 3    | 028     | TQQQ IBS extreme                | 47%     | -47%     | 1.05     |
+| 4    | 031     | IBS extreme + ATR stop          | 46%     | -43%     | 1.05     |
+| 5    | **047** | #46 + chandelier                | 52%     | -56%     | 1.03     |
+| 6    | 048     | #46 on QLD                      | 40%     | -40%     | 1.02     |
+| 7    | 043     | SMA150 + IBS + 2xATR            | 51%     | -58%     | 1.01     |
+| 8    | 042     | SMA150 + IBS + 3xATR            | 51%     | -55%     | 1.00     |
+| 9    | 056     | %R(2) hybrid                    | 51%     | -56%     | 1.00     |
+| 10   | 066     | TQQQ hybrid + ATR               | 49%     | -48%     | 0.99     |
 
 ## Results
 
-| #   | Name    | Idea | CAGR | MaxDD | Sharpe | Orders | Win % | P/L  | Pass | Backtest ID |
-| :-- | :------ | :--- | :--- | :---- | :----- | :----- | :---- | :--- | :--- | :---------- |
-| 001 | Algo001 | Sharpe-Ranked Sector Rotation: Hold top-3 of 11 sector ETFs by 63d Sharpe. | 14% | -32% | 0.562 | 554 | 73.0 | 0.95 | ❌ | 916a549d33680194707117e98bec187c |
-| 002 | Algo002 | Volatility-Adjusted Momentum across 8 ETFs: top-2 by (63d return / 63d std). | 10% | -25% | 0.424 | 366 | 74.0 | 0.74 | ❌ | ce74c977a0b5c67ad240455f7688ffa5 |
-| 003 | Algo003 | Drawdown-Adjusted Rotation: top-2 by 252d return divided by \|max drawdown\|. | 10% | -26% | 0.435 | 297 | 76.0 | 0.93 | ❌ | cbf071eb8c700366ec703ac3502742a3 |
-| 004 | Algo004 | 3x ETF Rotation by Risk-Adjusted Return: top-2 of 8 leveraged ETFs at 50/50. | 38% | -73% | 0.792 | 412 | 69.0 | 1.04 | ❌ | 051bd42548ff442837957056187b70b8 |
-| 005 | Algo005 | Cross-Asset Momentum Cascade: EW only positive 6mo-return assets, else BIL. | 10% | -24% | 0.526 | 385 | 81.0 | 0.75 | ❌ | 5e1828e021d69138dada3ff8a43c7151 |
-| 006 | Algo006 | Defensive vs Aggressive Sector Pair Switch: aggressive basket if outperforming, else defensive. | 14% | -31% | 0.584 | 450 | 83.0 | 0.94 | ❌ | b49de0055e7c1b6bfa0dfaba68285f50 |
-| 007 | Algo007 | Antonacci Dual Momentum (GTAA-style): SPY/EFA absolute & relative momentum vs BIL. | 14% | -31% | 0.584 | 450 | 83.0 | 0.94 | ❌ | f311ee2f2dec42b4de7b4facc0db7e90 |
-| 008 | Algo008 | Equity-Bond-Gold Inverse-Vol Rotation Top 2 from a 6-asset universe. | 14% | -31% | 0.584 | 450 | 83.0 | 0.94 | ❌ | 34b987e0c00ca15cbe9ecd60f648fa03 |
-| 009 | Algo009 | Region-Rotation: Top-2 of US/EU/JP/EM/CN by 90d return at 50/50. | 14% | -31% | 0.584 | 450 | 83.0 | 0.94 | ❌ | 3cee9666f988f86587004e3a3cc762c8 |
-| 010 | Algo010 | TQQQ-or-bonds: Threshold-based regime switch using QQQ 50d return. | 14% | -31% | 0.584 | 450 | 83.0 | 0.94 | ❌ | 619704d9695e9ddd6799394ec1199469 |
-| 011 | Algo011 | TQQQ gated by yield-curve flight-to-safety signal: TLT 30d return vs IEF 30d return. | 16% | -73% | 0.435 | 282 | 63.0 | 1.02 | ❌ | bd3d3d49eb52bc4b4849b95207af4961 |
-| 012 | Algo012 | TQQQ gated by credit-spread risk-on signal: HYG 20d return vs LQD 20d return. | 16% | -73% | 0.435 | 282 | 63.0 | 1.02 | ❌ | f8058efcc4e90ec0aaaa7ba9b2636679 |
-| 013 | Algo013 | TQQQ 5-day cumulative drawdown mean-reversion: buy after -8% 5d drop, exit on positive 5d or 7-day max hold. | 35% | -82% | 0.740 | 36 | 100.0 | 0.00 | ❌ | e3540538459f6ed77bd43ac3dd170c47 |
-| 014 | Algo014 | Volatility-targeted TQQQ: size = clip(0.35 / annualized_realized_vol_QQQ, 0, 1). Trade only when \|dw\|>0.05. | 35% | -82% | 0.740 | 36 | 100.0 | 0.00 | ❌ | 94dfa9a09cde4c0bc64e793dcc3e5066 |
-| 015 | Algo015 | TQQQ when TLT 50d return is negative (rates rising = risk-on growth tailwind); else flat. | 0% | -0% | 0.000 | 0 | 0.0 | 0.00 | ❌ | 6fcf0a9beb9efd658648cecef5a331e6 |
-| 016 | Algo016 | TQQQ gap-up continuation: enter next-day after bullish gap-and-go; exit on 3-day hold or close < entry-day low. | 0% | -0% | 0.000 | 0 | 0.0 | 0.00 | ❌ | fe7c8f8e645c4a613f05e7a1902621ca |
-| 017 | Algo017 | TQQQ vol compression-then-expansion: enter when ATR(14)/ATR(14, 60d ago) < 0.6 AND 20d high; exit on ratio > 1.2 or 15d hold. | 12% | -35% | 0.494 | 48 | 88.0 | 0.64 | ❌ | f3d0e898fe428f242df6a5c21006a38b |
-| 018 | Algo018 | TQQQ gated by 60d realized skew of QQQ daily returns: skew > +0.5 → 100% TQQQ; else flat. Monthly recheck. | 12% | -35% | 0.494 | 48 | 88.0 | 0.64 | ❌ | 0a13c8d45edd06763ba3cf7f430ff57a |
-| 019 | Algo019 | Multi-horizon momentum vote on QQQ across 5d/10d/21d/63d/126d. >=4 positive: TQQQ. <=1 positive: TLT. Else flat. | 10% | -64% | 0.315 | 544 | 45.0 | 1.63 | ❌ | 37dbc02f3404a2597e56c2260b373820 |
-| 020 | Algo020 | TQQQ gated by 20d QQQ-TLT realized correlation: corr < -0.5 → 100% TQQQ; corr > 0 → flat. | 10% | -64% | 0.315 | 544 | 45.0 | 1.63 | ❌ | 87b630f15ee1655131f0db17a72f169f |
-| 021 | Algo021 | TQQQ with Hard Equity-Curve Drawdown Stop (25% from peak). | 39% | -65% | 0.859 | 35 | 65.0 | 4.03 | ❌ | 2f2619f4569f0b3406adcb00cf04543c |
-| 022 | Algo022 | Trailing ATR-Stop on QQQ-trended TQQQ (peak - 4*ATR(14)). | 39% | -65% | 0.859 | 35 | 65.0 | 4.03 | ❌ | 3528802028ab7dcb43b2f9935e8af489 |
-| 023 | Algo023 | Scaled TQQQ position by QQQ 63d ROC strength, rest in BIL. | 11% | -45% | 0.334 | 2426 | 64.0 | 0.91 | ❌ | 1a0866bb3c15db938e8d4bc5b1fb3408 |
-| 024 | Algo024 | 80% TQQQ + 20% VXX hedge overlay, monthly rebalance. | 11% | -45% | 0.334 | 2426 | 64.0 | 0.91 | ❌ | 725fefdf370af0c5c88a2fc439d5fd15 |
-| 025 | Algo025 | TQQQ with 6-month drawdown stop and 60-day cooldown. | 16% | -59% | 0.447 | 1900 | 67.0 | 0.78 | ❌ | c44710adad5e028277df42449e15320c |
-| 026 | Algo026 | TQQQ position scaled inversely to QQQ Bollinger %B (mean-reversion sizing). | 16% | -59% | 0.447 | 1900 | 67.0 | 0.78 | ❌ | 113685004bdad763bd2b0acb0602a5f8 |
-| 027 | Algo027 | Triple-confirmation TQQQ entry with 30-day time-stop. | 26% | -71% | 0.623 | 167 | 66.0 | 1.10 | ❌ | a1780a2c6a484a47d045bb1b380a6170 |
-| 028 | Algo028 | 100% TQQQ in uptrend, else 67% TQQQ + 33% SH inverse hedge. | 26% | -71% | 0.623 | 167 | 66.0 | 1.10 | ❌ | b36c73d4342d263715d3e03c7e6d5a13 |
-| 029 | Algo029 | 50/50 TQQQ + UPRO with monthly rebalance — vol harvesting pair. | 32% | -73% | 0.700 | 254 | 99.0 | 21.31 | ❌ | 7beb87b231f5446ae17ad63f720046ca |
-| 030 | Algo030 | Tiered vol-filter TQQQ/TLT scale-out by QQQ 20d annualized vol. | 32% | -73% | 0.700 | 254 | 99.0 | 21.31 | ❌ | a0c8febff457fbc5ee056634c25807a8 |
-| 031 | Algo031 | algo_031.py | 20% | -34% | 0.858 | 1615 | 38.0 | 3.15 | ❌ | 2afd6a9c8c4b606ea1c43f31a374ca92 |
-| 032 | Algo032 | algo_032.py | 20% | -34% | 0.858 | 1615 | 38.0 | 3.15 | ❌ | 21b15e16f2b2a68569fb51b4ff029464 |
-| 033 | Algo033 | algo_033.py | 24% | -38% | 0.913 | 1477 | 40.0 | 3.46 | ❌ | 6ee6425f7d2459d058eff97e85cb0064 |
-| 034 | Algo034 | algo_034.py | 24% | -38% | 0.913 | 1477 | 40.0 | 3.46 | ❌ | e88cb0b33557fe9b35b39def10b08ae3 |
-| 035 | Algo035 | algo_035.py | -4% | -72% | -0.051 | 1883 | 41.0 | 1.35 | ❌ | 2f585be353e29cff59b603b2d82b1530 |
-| 036 | Algo036 | algo_036.py | -4% | -72% | -0.051 | 1883 | 41.0 | 1.35 | ❌ | 05aee60aace49686238d25bb7020025c |
-| 037 | Algo037 | algo_037.py | 26% | -67% | 0.624 | 891 | 47.0 | 1.84 | ❌ | 2857e5af355d6e1fd46ae91da0215b5b |
-| 038 | Algo038 | algo_038.py | 26% | -67% | 0.624 | 891 | 47.0 | 1.84 | ❌ | 1046e8362c294bfa022dfe9d19e647cb |
-| 039 | Algo039 | algo_039.py | 22% | -40% | 0.750 | 301 | 54.0 | 2.88 | ❌ | 0286ba0f72cf47a54946bc7a10259fc6 |
-| 040 | Algo040 | algo_040.py | 22% | -40% | 0.750 | 301 | 54.0 | 2.88 | ❌ | e73c3437531954b7cdcb69e3b801a453 |
-| 041 | Algo041 | Mega-7 EW + QQQ 20d annualized vol < 20% gate (tighter). | 35% | -40% | 1.187 | 301 | 53.0 | 6.57 | ✅ | d1ef9659bb1822eb22a62b5c61f03cbd |
-| 042 | Algo042 | Mega-7 EW + QQQ 20d annualized vol < 30% gate (looser). | 35% | -40% | 1.187 | 301 | 53.0 | 6.57 | ✅ | 885d768f38c077de98d7dc2e70c555af |
-| 043 | Algo043 | Mega-7 fixed cap-weights + QQQ 20d annualized vol < 25% gate. | 29% | -26% | 1.188 | 343 | 61.0 | 4.25 | ✅ | f8b323e6a4d1df9d8394fd71954b2124 |
-| 044 | Algo044 | Mega-10 EW + QQQ 20d annualized vol < 25% gate. | 29% | -26% | 1.188 | 343 | 61.0 | 4.25 | ✅ | 0a4565b5a607d064db277249609b2370 |
-| 045 | Algo045 | Mega-7 EW + own-basket 20d annualized vol < 30% gate. | 40% | -37% | 1.235 | 852 | 69.0 | 2.15 | ✅ | 5f285dbb6b8916b53588995771314d89 |
-| 046 | Algo046 | Mega-7 + QQQ 20d vol < 25% gate + monthly 3mo-momentum weighting. | 40% | -37% | 1.235 | 852 | 69.0 | 2.15 | ✅ | 8d5aa865ab7ec76da65d21c32c3016b4 |
-| 047 | Algo047 | Mega-7 + QQQ 20d vol < 25% gate + monthly inverse-vol (risk-parity) weights. | 28% | -25% | 1.133 | 1047 | 79.0 | 1.60 | ✅ | 9619932ac978fa99cb9906734fb27a75 |
-| 048 | Algo048 | 5x 3x-leveraged ETF basket EW + QQQ 20d annualized vol < 20% gate (tight). | 28% | -25% | 1.133 | 1047 | 79.0 | 1.60 | ✅ | 0792c9cb2b08cede05239602c3a2dd8a |
-| 049 | Algo049 | Mega-7 EW + dual gate: QQQ 20d ann. vol < 25% AND ATR(14)/price < 1.8%. | 28% | -26% | 1.140 | 665 | 59.0 | 3.01 | ✅ | c421daa003da4736f973726f8c99d74d |
-| 050 | Algo050 | Mega-7 EW + adaptive vol gate: today's QQQ 20d vol < 1.2 x its 252d median. | 28% | -26% | 1.140 | 665 | 59.0 | 3.01 | ✅ | cc6e54633e84cbc4b97000d827b54b00 |
-| 051 | Algo051 | #051 — Mega-7 momo-weighted (1mo) + TQQQ-vol cash gate (vol < 60%). | 24% | -19% | 1.052 | 581 | 56.0 | 2.89 | ❌ | 2591622f0fcfac6a97026ec9a2263475 |
-| 052 | Algo052 | #052 — Mega-7 EW + own-basket vol gate (basket vol < 25%). | 24% | -19% | 1.052 | 581 | 56.0 | 2.89 | ❌ | 695f86045c8213fbaf2b94606dbd8bfe |
-| 053 | Algo053 | #053 — Mega-7 momo-weighted (3mo) + TQQQ vol-60 + adaptive median gate. | 36% | -34% | 1.138 | 543 | 64.0 | 1.93 | ✅ | 394f3a1733dfbcef0d3d341366d8f16d |
-| 054 | Algo054 | #054 — Mega-7 top-3 by 3mo momentum (zero-out bottom 4) + TQQQ vol gate. | 36% | -34% | 1.138 | 543 | 64.0 | 1.93 | ✅ | 818cf2dd44d9d1b1452d2145e56edb1c |
-| 055 | Algo055 | #055 — Mega-7 momo-weighted + TQQQ trend (price > 100d SMA on TQQQ). | 15% | -24% | 0.731 | 3831 | 81.0 | 0.67 | ❌ | 01f6942dc413e7113751cbac5685913a |
-| 056 | Algo056 | #056 — Top-10 mega-cap from QC fundamental universe + basket-vol gate. | 15% | -24% | 0.731 | 3831 | 81.0 | 0.67 | ❌ | a3f277837525e27aafe2867276419864 |
-| 057 | Algo057 | #057 — Mega-7 EW + adaptive 252d vol comparison gate (own basket). | 31% | -21% | 1.109 | 582 | 64.0 | 2.45 | ✅ | 13e9f88e9d582c7ff9a60247ccfa9b1a |
-| 058 | Algo058 | #058 — Mega-7 momo-weighted (3mo) + dual TQQQ-vol gate (vol AND ATR escalation). | 31% | -21% | 1.109 | 582 | 64.0 | 2.45 | ✅ | d5efea55bdf0cc7ee62379ec4adfb308 |
-| 059 | Algo059 | #059 — Mega-7 momo-weighted (3mo) + TQQQ vol gate + 5-day cooldown. | 32% | -34% | 1.114 | 670 | 61.0 | 2.47 | ✅ | 50d4be62d911cf1cb09e5d3e1892a4ee |
-| 060 | Algo060 | algo_060.py | 32% | -34% | 1.114 | 670 | 61.0 | 2.47 | ✅ | 5c855ba4426e61209e15d49ec9adeb65 |
-| 061 | Algo061 | #061 — Top-7 mkt-cap momo-weighted (3mo) + TQQQ vol<60% gate. | 17% | -21% | 0.685 | 742 | 60.0 | 1.91 | ❌ | 594cf59b68e079ea2a8c4311c0fdf298 |
-| 062 | Algo062 | #062 — Top-10 mkt-cap momo-weighted (3mo) + TQQQ vol<60%. | 17% | -21% | 0.685 | 742 | 60.0 | 1.91 | ❌ | c67a592376a08e209fd9ff340859621b |
-| 063 | Algo063 | #063 — Top-5 mkt-cap momo-weighted (3mo) + TQQQ vol<60%. | 18% | -22% | 0.724 | 492 | 63.0 | 1.77 | ❌ | 12faf21349a629555a774e56e2c74c88 |
-| 064 | Algo064 | #064 — Top-7 mkt-cap top-3-of-7 by momentum + TQQQ vol gate. | 18% | -22% | 0.724 | 492 | 63.0 | 1.77 | ❌ | 47540779b77d19af179d830d44568068 |
-| 065 | Algo065 | #065 — Top-7 mkt-cap momo (3mo) + TQQQ dual vol+ATR gate (replicate #058). | 10% | -16% | 0.436 | 747 | 54.0 | 1.78 | ❌ | 904884c5f962e4365527f58706a03aa3 |
-| 066 | Algo066 | #066 — Top-7 momo + TQQQ vol-50% (tighter). | 10% | -16% | 0.436 | 747 | 54.0 | 1.78 | ❌ | 1758c09de57b67f91db7637439a4c258 |
-| 067 | Algo067 | #067 — Top-7 cap-weighted (by mkt cap from fundamental data) + TQQQ vol gate. | 15% | -16% | 0.733 | 571 | 55.0 | 2.90 | ❌ | 662080d179887eca77b06406019c0eb9 |
-| 068 | Algo068 | #068 — Top-3 mkt-cap concentrated momo + TQQQ vol gate. | 15% | -16% | 0.733 | 571 | 55.0 | 2.90 | ❌ | 58052bb5337b4c6444fb3805b3e457c8 |
-| 069 | Algo069 | #069 — Top-7 momo (3mo) + TQQQ vol gate + 80/20 sleeve mix (replicate #060). | 20% | -24% | 0.742 | 883 | 61.0 | 2.01 | ❌ | a31af77d841da688693d55f06156341e |
-| 070 | Algo070 | #070 — Top-7 momo (3mo) + TQQQ vol-gate + 5d cooldown (replicate #059). | 16% | -22% | 0.641 | 652 | 61.0 | 1.84 | ❌ | f748d90e7123b17cea2ef7fd05a61b25 |
-| 071 | Algo071 | #071 — 50% Top-7 dyn momo basket + 50% TQQQ + TQQQ vol<60% gate. | 24% | -29% | 0.736 | 804 | 61.0 | 2.25 | ❌ | 3029ac5a8aaa157c6bf57b7e0b151dc2 |
-| 072 | Algo072 | #072 — 30% Top-7 dyn momo basket + 70% TQQQ + TQQQ vol<60% gate. | 26% | -33% | 0.732 | 696 | 58.0 | 2.77 | ❌ | 57be35dac3a86bd397f6a39cf60e4907 |
-| 073 | Algo073 | #073 — 100% TQQQ when vol<35% (very calm), else Top-7 dyn momo (50/50 with TQQQ). | 24% | -33% | 0.694 | 1218 | 58.0 | 1.43 | ❌ | 78127233bfe2809eb5f7e6301638916c |
-| 074 | Algo074 | #074 — Top-3 mkt-cap concentrated momo + 50% TQQQ overlay + vol gate. | 24% | -33% | 0.742 | 502 | 66.0 | 1.80 | ❌ | 2566ce6ce223b9bbd5b54444fcf352df |
-| 075 | Algo075 | #075 — 100% TQQQ when vol<55%, else 100% top-7 dyn momo basket. | 29% | -49% | 0.735 | 696 | 61.0 | 1.75 | ✅ | e51103826bb62e0cb0f0fe57a742ed7f |
-| 076 | Algo076 | algo_076.py | 27% | -37% | 0.712 | 901 | 57.0 | 1.60 | ❌ | d3fc1d3c0e1b8982f4d0ef2bc850f636 |
-| 077 | Algo077 | #077 — #075 variant: looser calm (<60% vol) → 100% TQQQ; <85% → basket; else cash. | 33% | -42% | 0.788 | 671 | 57.0 | 2.42 | ✅ | 48c438a5c2d72b679fbc9b6e46acf210 |
-| 078 | Algo078 | algo_078.py | 29% | -49% | 0.735 | 696 | 61.0 | 1.75 | ✅ | 60507287e9228a675d04022e5f05e706 |
-| 079 | Algo079 | algo_079.py | 34% | -50% | 0.810 | 1368 | 70.0 | 1.38 | ✅ | 082416ce5ac5c142ab767b4b25be1249 |
-| 080 | Algo080 | algo_080.py | 25% | -61% | 0.701 | 1067 | 59.0 | 1.38 | ❌ | c019bf8f35970ffff66d22387177739a |
-| 081 | Algo081 | #081 — Top-7 dyn momo + TQQQ vol gate using EMA(20) of vol (smoothed). | 16% | -23% | 0.665 | 510 | 69.0 | 1.87 | ❌ | 7af913e75e5362369254019ae0fd8d99 |
-| 082 | Algo082 | #082 — TQQQ regime-switch (#075 logic) with weekly rebalance instead of monthly. | 29% | -49% | 0.730 | 916 | 60.0 | 1.72 | ✅ | 2774af3d5f4d7df3af47293cb13fe51e |
-| 083 | Algo083 | #083 — TQQQ regime-switch with TQQQ trend confirmation (price > own 50d SMA). | 25% | -41% | 0.670 | 1160 | 61.0 | 1.24 | ❌ | 8e6c549b66f8f26907e378551985be57 |
-| 084 | Algo084 | #084 — TQQQ + dyn top-7 inv-vol weighted (basket regime by inverse name vol). | 29% | -44% | 0.735 | 888 | 58.0 | 1.96 | ✅ | 4cfb28e82240882315f62d419c75d46d |
-| 085 | Algo085 | #085 — Top-5 dyn (more concentrated) + #075 regime switch. | 32% | -53% | 0.788 | 586 | 57.0 | 2.07 | ✅ | 6ec7320096da1634b5837c9871be3818 |
-| 086 | Algo086 | #086 — Top-10 dyn + #075 regime switch (more diversified basket regime). | 25% | -50% | 0.655 | 888 | 57.0 | 1.83 | ❌ | 132221dca9b2202cbfc95f34d8e0d57f |
-| 087 | Algo087 | #087 — Regime switch with top-3 momentum stocks (extra concentrated basket). | 29% | -49% | 0.721 | 472 | 61.0 | 1.71 | ✅ | 668cb5ba0a07471c5fe5849c2e1df54a |
-| 088 | Algo088 | algo_088.py | 22% | -49% | 0.583 | 1229 | 55.0 | 1.36 | ❌ | 106daa6ab73f9feca4439db86f70b356 |
-| 089 | Algo089 | #089 — Regime switch with LONGER vol window (40d). Smoother regime transitions. | 30% | -51% | 0.749 | 465 | 60.0 | 2.32 | ✅ | f3449a87ddd4363837f21fccc51ba78c |
-| 090 | Algo090 | #090 — 4-tier vol-graded allocation: TQQQ, TQQQ+basket, basket, cash. | 21% | -39% | 0.600 | 2347 | 53.0 | 1.37 | ❌ | 4ae59d64d255051cce19f2d96db85d19 |
-| 091 | Algo091 | #091 — Regime switch with a 3-day vol confirmation. Avoid one-day vol spike whipsaws. | 26% | -45% | 0.651 | 505 | 59.0 | 2.04 | ❌ | 76b306d5f7554cd4c8cac1183dbc4aa6 |
-| 092 | Algo092 | #092 — TQQQ regime switch with QUARTERLY (not monthly) basket weight rebalance. | 27% | -50% | 0.697 | 606 | 58.0 | 1.91 | ❌ | d23a51d534d85dbc00759f32aa160c48 |
-| 093 | Algo093 | #093 — Regime switch with cap-weighted basket (live mkt-cap weights from fundamentals). | 29% | -45% | 0.745 | 888 | 58.0 | 2.02 | ✅ | c849691a81d06de3ece8808346da87d7 |
-| 094 | Algo094 | algo_094.py | 27% | -47% | 0.699 | 1553 | 60.0 | 1.18 | ❌ | 205a4f540839d723e2c5671ceba87630 |
-| 095 | Algo095 | #095 — TQQQ regime + top-7 EW basket (no momentum weighting). Simpler basket variant of #075. | 29% | -43% | 0.746 | 885 | 59.0 | 1.94 | ✅ | 23da081296b6b41f78aaea9395ba7bd4 |
-| 096 | Algo096 | algo_096.py | 21% | -35% | 0.690 | 689 | 61.0 | 1.61 | ❌ | 38f0cf712d4abf4bd69f97f2e9e54c71 |
-| 097 | Algo097 | #097 — Regime switch using BOTH 20d AND 60d vol. Both must agree to flip regime. | 24% | -53% | 0.602 | 260 | 74.0 | 1.36 | ❌ | 977ea939f4d9441a8eb90a32b13c7e78 |
-| 098 | Algo098 | algo_098.py | 17% | -66% | 0.495 | 1160 | 55.0 | 1.35 | ❌ | bd344082b54ac1ab2ef55efc3926bf8f |
-| 099 | Algo099 | algo_099.py | 32% | -45% | 0.797 | 787 | 58.0 | 1.87 | ✅ | e5c155ad303ace8113bb70875e01272b |
-| 100 | Algo100 | algo_100.py | 26% | -34% | 0.697 | 1023 | 58.0 | 1.55 | ❌ | 165352484b841e274897bb4c4d5a725c |
+| #   | Name                       | Idea                                     | CAGR    | MaxDD    | Sharpe   | Pass | Backtest ID |
+| :-- | :------------------------- | :--------------------------------------- | :------ | :------- | :------- | :--- | :---------- |
+| 001 | RSI2 MR daily              | RSI(2)<10 buy / >70 or 5d sell           | 2%      | -66%     | 0.13     | ❌    | 64d80063…   |
+| 002 | RSI2 + SMA200 trend gate   | RSI2 MR only if QQQ > 200d SMA           | 7%      | -43%     | 0.24     | ❌    | 8b4fd7dc…   |
+| 003 | TQQQ trend SMA200          | Hold TQQQ when QQQ > 200d SMA, else flat | 33%     | -56%     | 0.75     | ✅    | 187f2156…   |
+| 004 | TQQQ trend SMA50           | Hold TQQQ when QQQ > 50d SMA             | 20%     | -52%     | 0.53     | ❌    | 576b3891…   |
+| 005 | TQQQ trend SMA100          | Hold TQQQ when QQQ > 100d SMA            | 17%     | -58%     | 0.47     | ❌    | 7d59721a…   |
+| 006 | TQQQ trend SMA150          | Hold TQQQ when QQQ > 150d SMA            | 40%     | -55%     | 0.87     | ✅    | f977dd48…   |
+| 007 | EMA50/200 cross            | EMA50>EMA200 on QQQ → TQQQ               | 35%     | -70%     | 0.76     | ❌    | dfc30ce3…   |
+| 008 | TQQQ self-SMA200           | TQQQ > own 200d SMA → hold               | 33%     | -50%     | 0.76     | ✅    | 55c0a642…   |
+| 009 | TQQQ self-SMA150           | TQQQ > own 150d SMA → hold               | 29%     | -53%     | 0.69     | ✅    | e949acad…   |
+| 010 | SMA150+RSI2 overlay        | SMA150 trend, RSI2<10 add in downtrend   | 39%     | -62%     | 0.83     | ❌    | 51bce0dd…   |
+| 011 | SMA200 75% cap             | SMA200, but only 75% TQQQ                | 29%     | -49%     | 0.70     | ✅    | 50331476…   |
+| 012 | TQQQ/TLT 50/50             | Static 50/50 monthly rebal, no signal    | 22%     | -62%     | 0.64     | ❌    | 75ccb4b5…   |
+| 013 | Donchian50 breakout        | TQQQ on QQQ 50d high; exit on 50d low    | 16%     | -71%     | 0.45     | ❌    | 3864bc43…   |
+| 014 | VIX<22 regime              | TQQQ when VIX < 22, flat above           | 17%     | -71%     | 0.46     | ❌    | a8a2055f…   |
+| 015 | ROC126 momentum            | TQQQ when QQQ 6mo return > 0             | 29%     | -72%     | 0.67     | ❌    | 6c622c23…   |
+| 016 | IBS MR pure                | Buy IBS<0.2, sell IBS>0.7 on TQQQ        | 35%     | -50%     | 0.82     | ✅    | 35759289…   |
+| 017 | 5 most mkt cap EW           | 5 most mkt cap, 100% (no lev), monthly  | 22%     | -40%     | 0.74     | ❌    | 6548d414…   |
+| 018 | 5 most mkt cap @ 1.5x      | 5 most mkt cap @ 1.5x margin             | 33%     | -55%     | 0.83     | ✅    | 164c7001…   |
+| 019 | 5 most mkt cap @ 2.0x      | 5 most mkt cap @ 2.0x margin (uses lev) | 44%     | -67%     | 0.93     | ❌    | 32737def…   |
+| 020 | Top5 12-1 momo             | Top5 from S&P200 by 12-1 momentum        | 18%     | -45%     | 0.52     | ❌    | ee48df20…   |
+| 021 | Most mkt cap               | Most market capital company              | 15%     | -33%     | 0.47     | ❌    | 65dfd463…   |
+| 022 | TQQQ BB MR                 | Buy lower BB, sell mid BB                | 12%     | -60%     | 0.36     | ❌    | dcf54e19…   |
+| 023 | TQQQ 3-down MR             | Buy after 3 red days, sell on 1st green  | 13%     | -45%     | 0.48     | ❌    | 436228f1…   |
+| 024 | TQQQ Connors RSI           | 2x RSI(2)<35 buy, RSI>65 sell            | 15%     | -63%     | 0.42     | ❌    | dc60498a…   |
+| 025 | 3 most mkt cap EW          | 3 most mkt cap, EW, monthly              | 20%     | -35%     | 0.67     | ❌    | 46c66a7f…   |
+| 026 | 5 most mkt cap CW          | 5 most mkt cap, weighted by cap          | 21%     | -38%     | 0.72     | ❌    | c9cd1d89…   |
+| 027 | 5 most mkt cap 6mo momo    | Top 5 from largest 30 by 6mo momentum   | 22%     | -27%     | 0.74     | ❌    | a73f67d6…   |
+| 028 | **TQQQ IBS extreme**       | IBS<0.1 buy, IBS>0.9 exit                | **47%** | **-47%** | **1.05** | ✅    | d0e32e34…   |
+| 029 | TQQQ IBS 0.15/0.85         | IBS<0.15 buy, IBS>0.85 exit              | 37%     | -42%     | 0.84     | ✅    | 65fcde16…   |
+| 030 | IBS extreme + SMA200       | IBS<0.1 buy only when QQQ>200d           | 32%     | -40%     | 0.90     | ✅    | 12ca4af2…   |
+| 031 | **IBS extreme + ATR stop** | IBS<0.1 + 3×ATR stop loss                | **46%** | **-43%** | **1.05** | ✅    | 04a55b85…   |
+| 032 | IBS 0.05 (rare)            | IBS<0.05 buy, IBS>0.9 exit               | 31%     | -47%     | 0.79     | ✅    | eb5737c6…   |
+| 033 | IBS 0.1/0.7 fast           | IBS<0.1 buy, IBS>0.7 fast exit           | 36%     | -35%     | 0.92     | ✅    | 53ffc8ad…   |
+| 034 | IBS 0.05/0.7               | IBS<0.05 buy, IBS>0.7 fast exit          | 26%     | -34%     | 0.76     | ❌    | 61ff20c3…   |
+| 035 | IBS regime-adaptive        | IBS<0.1 in uptrend, <0.03 in downtrend   | 39%     | -55%     | 0.92     | ✅    | d176438b…   |
+| 036 | TOM TQQQ                   | Hold last 5 + first 5 cal days TQQQ      | 8%      | -62%     | 0.27     | ❌    | 07936977…   |
+| 037 | Sell-in-May TQQQ           | Hold Nov-Apr only                        | 8%      | -70%     | 0.31     | ❌    | 3849867b…   |
+| 038 | Overnight TQQQ             | Buy at close, sell at open (minute res)  | -51%    | -100%    | -1.22    | ❌    | ed888af2…   |
+| 039 | IBS + 3d max hold          | IBS<0.1 + force exit after 3 days        | 30%     | -52%     | 0.80     | ✅    | 41664040…   |
+| 040 | SMA150 trend + IBS<0.05    | Trend hold + MR overlay in down-trend    | 50%     | -56%     | 0.99     | ✅    | 91eb924d…   |
+| 041 | SMA200 trend + IBS<0.05    | Same as 40 but SMA200 gate               | 44%     | -68%     | 0.90     | ❌    | 2e473812…   |
+| 042 | SMA150 + IBS + 3xATR       | #40 + ATR stop on MR                     | 51%     | -55%     | 1.00     | ✅    | 7d454591…   |
+| 043 | SMA150 + IBS + 2xATR       | #42 with tighter stop                    | 51%     | -58%     | 1.01     | ✅    | 88b62de1…   |
+| 044 | dual-trend gate            | Both QQQ150 AND TQQQ100 SMAs up          | 12%     | -54%     | 0.37     | ❌    | 44f9c8d6…   |
+| 045 | TQQQ↔TLT switch            | Risk-on/off rotation by SMA200           | 31%     | -64%     | 0.71     | ❌    | aeff8002…   |
+| 046 | **SMA150+IBS fast exit**   | #40 with IBS>0.7 fast MR exit            | **55%** | **-55%** | **1.07** | ✅    | 31d82823…   |
+| 047 | #46 + chandelier           | #46 + 5xATR trailing stop on trend pos   | 52%     | -56%     | 1.03     | ✅    | 8effa768…   |
+| 048 | #46 on QLD                 | Same hybrid but QLD instead of TQQQ      | 40%     | -40%     | 1.02     | ✅    | 17f4607d…   |
+| 049 | 5d-low pullback in trend   | Buy 5d low when QQQ>100SMA, 5d hold      | 1%      | -10%     | -0.45    | ❌    | 079f98c7…   |
+| 050 | TQQQ buy & hold            | 100% TQQQ from 2014                      | 37%     | -82%     | 0.77     | ❌    | b28efa10…   |
+| 051 | 5 most mkt cap + SMA200 cash | 5 most mkt cap, cash when QQQ<200SMA   | 20%     | -27%     | 0.79     | ❌    | e31554a6…   |
+| 052 | XLK SMA200 trend           | Tech sector ETF + 200d SMA               | 16%     | -25%     | 0.68     | ❌    | bc0b8af7…   |
+| 053 | %R(2) MR pure              | Williams %R<-90 buy, >-10 sell           | 40%     | -42%     | 0.91     | ✅    | ece7de7e…   |
+| 054 | 2-down 1-up MR             | Buy 1st up after 2 downs, exit on down   | -10%    | -90%     | -0.24    | ❌    | 5283ad57…   |
+| 055 | **TQQQ + SMA200**          | TQQQ hold when above 200d SMA            | 33%     | -50%     | 0.76     | ✅    | 0b7ab363…   |
+| 056 | %R(2) hybrid               | SMA150 trend + %R<-95 MR overlay         | 51%     | -56%     | 1.00     | ✅    | 040559d6…   |
+| 057 | 5 most mkt cap EW          | 5 most mkt cap, equal-weight, monthly   | 22%     | -40%     | 0.74     | ❌    | 8c4c9455…   |
+| 058 | 5 most mkt cap + SMA200 | 5 most mkt cap EW, cash when QQQ<200SMA | 20%     | -27%     | 0.79     | ❌    | bb8b10f3…   |
+| 059 | 5 most mkt cap + IBS<0.2 daily | 5 most mkt cap daily IBS rotation    | 19%     | -21%     | 0.81     | ❌    | 967adac3…   |
+| 060 | TQQQ hybrid (SMA+IBS)      | TQQQ SMA200 trend + IBS<0.05 down-trend  | 49%     | -50%     | 0.99     | ✅    | ad213588…   |
+| 061 | TQQQ + SMA150              | TQQQ + 150d SMA                          | 29%     | -53%     | 0.69     | ✅    | 1b79eaaa…   |
+| 062 | 10 most mkt cap + SMA200   | 10 most mkt cap + QQQ regime             | 16%     | -25%     | 0.72     | ❌    | 661949ab…   |
+| 063 | 3 most mkt cap + SMA200    | 3 most mkt cap EW + QQQ regime           | 18%     | -26%     | 0.68     | ❌    | 18324025…   |
+| 064 | 5 most mkt cap + IBS regime mix | EW in trend; IBS<0.2 names else      | 30%     | -23%     | 1.07     | ✅    | 1f0563ad…   |
+| 065 | 5 most mkt cap IBS<0.5 daily | Daily rotation by IBS<0.5              | 21%     | -31%     | 0.76     | ❌    | eb9f6e72…   |
+| 066 | TQQQ hybrid + ATR          | #60 + 3xATR stop on MR pos               | 49%     | -48%     | 0.99     | ✅    | ce131745…   |
+| 067 | 5 most mkt cap momo + SMA200 | Monthly momentum top5 + regime         | 17%     | -27%     | 0.59     | ❌    | fe334d41…   |
+| 068 | TSLA + SMA200              | TSLA trend                               | 14%     | -72%     | 0.41     | ❌    | 4dd79c8b…   |
+| 069 | 7 most mkt cap + SMA200    | 7 most mkt cap EW + QQQ regime           | 18%     | -26%     | 0.74     | ❌    | c8f8b9ab…   |
+| 070 | 5 most mkt cap momo top3   | Monthly: top 3 of 5 by 1mo return        | 21%     | -44%     | 0.68     | ❌    | af1ada90…   |
+| 080 | Sector momo top2           | 11 SPDR sectors, top 2 by 3mo return     | 14%     | -33%     | 0.56     | ❌    | d6a3e064…   |
+| 081 | Risk parity QQQ/IEF/GLD    | Inverse-vol weights                      | 7%      | -18%     | 0.51     | ❌    | daf3069b…   |
+| 082 | TQQQ↔SQQQ regime           | 20d return sign → 3x long or 3x inverse  | 5%      | -70%     | 0.28     | ❌    | a7d911bd…   |
+| 083 | NR7 breakout               | Narrow-range-7 breakout on QQQ           | 7%      | -34%     | 0.24     | ❌    | 3fda01b2…   |
+| 084 | SPY/TLT 6mo momo           | Monthly: hold higher 6mo return          | 7%      | -30%     | 0.30     | ❌    | 45ec62d2…   |
+| 085 | Sector Momentum            | 5-ETF leveraged basket + QQQ SMA200 gate | 9%      | -74%     | 0.324    | ❌    | —          |
+| 086 | Asymmetric Vol Target      | TQQQ sized by 20d vol targeting 30% ann  | 16%     | -30%     | 0.609    | ❌    | —          |
+| 087 | Vol Compression Trend      | TQQQ triple positive return confirmation | 29%     | -62%     | 0.691    | ❌    | —          |
+| 088 | Keltner Reversion          | TQQQ↔TMF monthly by 3mo momentum         | 15%     | -55%     | 0.452    | ❌    | —          |
+| 089 | Donchian Reversion         | TQQQ dual trend + Bollinger squeeze      | 11%     | -60%     | 0.361    | ❌    | —          |
+| 090 | Sector Alpha Rotation      | Top 3 of 7 leveraged ETFs by 3mo momo    | 17%     | -72%     | 0.471    | ❌    | —          |
 
 ---
 
 ## Passing Algos — Details
 
-### 045 — Mega-7 EW + own-basket 20d annualized vol < 30% gate.
+### 003 — TQQQ trend SMA200
 
-**Description:** Equal-weight long across the seven mega-cap leaders (AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA), gated on the basket's own 20-day annualized log-return volatility being below 30%. Each day the algo averages per-name log returns into a synthetic basket series, annualizes its 20-day standard deviation, and toggles fully invested versus fully cash at the threshold. The own-basket vol gate is more responsive than a generic index gate because mega-cap turbulence is captured directly rather than diluted by broader-index components. Its weakness is that a single high-vol day can flip the gate and trigger a full liquidate-rebuild round-trip.
+**Description:** The canonical "price above 200-day SMA" trend filter applied to QQQ (NASDAQ 100 ETF), with the execution vehicle being TQQQ for 3x leveraged exposure during uptrends. When QQQ is above its 200d SMA, the algo goes 100% TQQQ; when it dips below, it moves entirely to cash. The 200-day SMA is the most widely followed technical indicator in institutional markets, so its signals have real behavioral anchoring — but the lagging nature means the leveraged vehicle takes severe damage before the exit triggers. In 2022, QQQ broke below its 200d SMA well after TQQQ had already lost ~60% from its peak.
 
-*Overfit 3/10 — equal-weight is parameter-free; the 30% threshold and 20-day window are the only tuned values, both round.*
+*Overfit 1/10 — The 200-day SMA is a standard, universally recognized threshold. Zero tuned parameters beyond it.*
 
-- **Entry:** Mega-7 basket 20d annualized log-return vol < 30% → equal-weight all 7 names at 1/7 each
-- **Exit:** Basket vol >= 30% → liquidate
-- **Symbols:** AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA
+- **Entry:** QQQ price > 200-day SMA → allocate 100% to TQQQ
+- **Exit:** QQQ price <= 200-day SMA → liquidate TQQQ to cash
+- **Symbols:** TQQQ, QQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 40% | -37% | 1.24 |
+| ✅ | 33% | -56% | 0.75 |
 
-> [!code]- Click to view: algo_045.py
+> [!code]- Click to view: algo_003.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_045.py"
+> PATH: "vault://QuantConnect/cc/algos2/algo_003.py"
 > ```
 
 ---
 
-### 046 — Mega-7 + QQQ 20d vol < 25% gate + monthly 3mo-momentum weighting.
+### 006 — TQQQ trend SMA150
 
-**Description:** Combines the Mega-7 basket with a QQQ 20-day annualized vol gate at 25% and adds monthly momentum-weighting: each month, each name's positive 63-day return becomes its raw weight (negative scores zeroed), normalized to sum to 1. The daily gate keeps it in or out; weights only change once a month or on a gate-on transition. Tilting away from underperformers boosts the contribution of the strongest mega-caps; the cost is single-name concentration when one stock dominates the momentum scoring (e.g., NVDA in 2023).
+**Description:** An identical structure to 003 but with the SMA lookback shortened from 200 to 150 days. This faster filter catches trend entries a few weeks earlier and, more importantly, exits during drawdowns sooner — which in 2022 meant preserving more capital for the recovery. The result is a meaningful lift in CAGR (33% to 40%) with essentially unchanged MaxDD (-56% to -55%). The weakness is that a shorter lookback increases whipsaw frequency during range-bound, choppy markets.
 
-*Overfit 4/10 — QQQ vol threshold, vol window, and momentum lookback are all tuned; numbers are round but the parameter count is higher than the simpler vol-gate variants.*
+*Overfit 2/10 — 150d is a common alternative to 200d, but this is clearly part of a parameter sweep across SMA lengths. The improvement over 003 is marginal enough to question out-of-sample robustness.*
 
-- **Entry:** QQQ 20d annualized vol < 25% → apply current monthly momentum weights to Mega-7
-- **Exit:** QQQ vol >= 25% → liquidate
-- **Rebalance:** Monthly recompute positive-only 3mo momentum weights (normalized to 1)
-- **Symbols:** QQQ (signal), AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA
+- **Entry:** QQQ price > 150-day SMA → allocate 100% to TQQQ
+- **Exit:** QQQ price <= 150-day SMA → liquidate TQQQ to cash
+- **Symbols:** TQQQ, QQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 40% | -37% | 1.24 |
+| ✅ | 40% | -55% | 0.87 |
 
-> [!code]- Click to view: algo_046.py
+> [!code]- Click to view: algo_006.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_046.py"
+> PATH: "vault://QuantConnect/cc/algos2/algo_006.py"
 > ```
 
 ---
 
-### 043 — Mega-7 fixed cap-weights + QQQ 20d annualized vol < 25% gate.
+### 008 — TQQQ self-SMA200
 
-**Description:** Static cap-style weights (AAPL 20%, MSFT 20%, NVDA 15%, GOOGL 15%, AMZN 15%, META 10%, TSLA 5%) held only when QQQ's 20-day annualized vol is below 25%. The hand-picked weights are roughly proportional to early-period market-cap ranking and never adjust over the backtest, so the strategy benefits from broad mega-cap appreciation but does not adapt to leadership changes (e.g., NVDA's surge would not be picked up beyond its 15%). The strict gate keeps it in cash during turbulent periods, which is what gives it the standout -26% MaxDD.
+**Description:** Applies the 200-day SMA filter directly to the leveraged instrument TQQQ rather than the underlying QQQ. The rationale might be simplicity (one symbol), but it introduces a subtle problem: TQQQ's 3x daily leverage creates volatility decay and path-dependence that the underlying NASDAQ 100 does not have, making the self-SMA signal noisier and less reliable as a trend gauge.
 
-*Overfit 5/10 — seven fixed weights are seven tuned parameters even if they "look like" cap weights; plus the vol threshold and lookback. Risk of look-ahead bias in choosing today-popular names.*
+*Overfit 1/10 — Standard 200d SMA, no parameter tuning. The symbol choice (TQQQ vs QQQ) is a design decision, not a fitted parameter.*
 
-- **Entry:** QQQ 20d annualized vol < 25% → apply fixed cap-style weights
-- **Exit:** QQQ vol >= 25% → liquidate
-- **Weights:** AAPL 0.20, MSFT 0.20, NVDA 0.15, GOOGL 0.15, AMZN 0.15, META 0.10, TSLA 0.05
-- **Symbols:** QQQ (signal), AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA
+- **Entry:** TQQQ price > TQQQ's own 200-day SMA → allocate 100% to TQQQ
+- **Exit:** TQQQ price <= own 200-day SMA → liquidate to cash
+- **Symbols:** TQQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 29% | -26% | 1.19 |
+| ✅ | 33% | -50% | 0.76 |
 
-> [!code]- Click to view: algo_043.py
+> [!code]- Click to view: algo_008.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_043.py"
+> PATH: "vault://QuantConnect/cc/algos2/algo_008.py"
 > ```
 
 ---
 
-### 044 — Mega-10 EW + QQQ 20d annualized vol < 25% gate.
+### 009 — TQQQ self-SMA150
 
-**Description:** Identical mechanism to #041/#042 (QQQ 20d vol gate + equal-weight basket) but with a broader 10-name universe: the Mega-7 plus AVGO, JPM, V. Adding three names from different industry profiles (semiconductors, financials, payments) modestly diversifies the concentration risk versus Mega-7 alone, but the added names don't have the same hyper-growth profile, which compresses CAGR (29% vs 35%) while also pulling MaxDD down (-26% vs -40%).
+**Description:** The same self-SMA approach as 008 but with a 150-day lookback applied to TQQQ's own price. This performs strictly worse than 008 across all metrics (29% CAGR, -53% MaxDD, 0.69 Sharpe vs 33%, -50%, 0.76), making it the weakest variant in this family. The combination of leveraged volatility and a shorter lookback amplifies whipsaw losses: TQQQ's daily price swings of 5-10% mean it frequently breaches its own 150d SMA on noise rather than genuine trend changes.
 
-*Overfit 4/10 — 10 hand-picked tickers plus the 25% vol threshold; AVGO/JPM/V are reasonable mega-cap extensions but the choice over alternatives (UNH/HD/PG) is somewhat arbitrary.*
+*Overfit 3/10 — The 150d lookback on a 3x leveraged ETF is non-standard and appears to be a speculative parameter choice. The clear degradation relative to 008 (200d) suggests this was tested as part of a sweep.*
 
-- **Entry:** QQQ 20d annualized vol < 25% → equal-weight all 10 names at 1/10 each
-- **Exit:** QQQ vol >= 25% → liquidate
-- **Symbols:** QQQ (signal), AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA, AVGO, JPM, V
+- **Entry:** TQQQ price > TQQQ's own 150-day SMA → allocate 100% to TQQQ
+- **Exit:** TQQQ price <= own 150-day SMA → liquidate to cash
+- **Symbols:** TQQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 29% | -26% | 1.19 |
+| ✅ | 29% | -53% | 0.69 |
 
-> [!code]- Click to view: algo_044.py
+> [!code]- Click to view: algo_009.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_044.py"
+> PATH: "vault://QuantConnect/cc/algos2/algo_009.py"
 > ```
 
 ---
 
-### 041 — Mega-7 EW + QQQ 20d annualized vol < 20% gate (tighter).
+### 011 — SMA200 75% cap
 
-**Description:** Equal-weight Mega-7 held only when QQQ's 20-day annualized log-return vol sits below 20% — a tighter threshold than #042's 30%. The tighter gate is in cash more often, which mechanically reduces both upside and drawdown. The CAGR (35%) actually matches #042 because the additional cash periods coincide with the worst drawdown stretches, suggesting the 20% threshold captures most of the meaningful drawdown reduction without sacrificing trend exposure.
+**Description:** A de-risked variant of 003 that uses the same QQQ > 200d SMA entry signal but caps TQQQ allocation at 75% instead of 100%. The remaining 25% sits in cash, providing a buffer during drawdowns and reducing overall portfolio volatility. This predictably reduces CAGR (33% to 29%) alongside MaxDD (-56% to -49%). The 75% cap is intuitively appealing but the specific number feels tuned to this backtest window.
 
-*Overfit 3/10 — equal-weight basket is parameter-free; the 20% vol threshold and 20-day window are tuned but both are round values.*
+*Overfit 2/10 — The 75% allocation cap is a single tuned parameter. 75% is a round number but likely chosen by testing several caps and picking the one that trimmed MaxDD without cratering CAGR.*
 
-- **Entry:** QQQ 20d annualized vol < 20% → equal-weight Mega-7 at 1/7 each
-- **Exit:** QQQ vol >= 20% → liquidate
-- **Symbols:** QQQ (signal), AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA
+- **Entry:** QQQ price > 200-day SMA → allocate 75% to TQQQ (25% cash)
+- **Exit:** QQQ price <= 200-day SMA → liquidate TQQQ to cash
+- **Symbols:** TQQQ, QQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 35% | -40% | 1.19 |
+| ✅ | 29% | -49% | 0.70 |
 
-> [!code]- Click to view: algo_041.py
+> [!code]- Click to view: algo_011.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_041.py"
+> PATH: "vault://QuantConnect/cc/algos2/algo_011.py"
 > ```
 
 ---
 
-### 042 — Mega-7 EW + QQQ 20d annualized vol < 30% gate (looser).
+### 016 — IBS MR pure
 
-**Description:** Same logic as #041 but with a looser 30% vol threshold, leaving the strategy invested more of the time. With identical CAGR (35%) and MaxDD (-40%) to #041, the looser threshold doesn't cost — meaning that between 20% and 30% vol, mega-caps tend to perform well enough on average to justify exposure. The pair of near-identical results is suspicious: it strongly suggests QQQ's 20d vol rarely sits in the 20-30% band on this dataset, so #041 and #042 are nearly the same strategy in practice.
+**Description:** Buys TQQQ when the close is near the low of the day (IBS < 0.2, oversold) and sells when the close nears the high (IBS > 0.7, overbought), applying mean reversion to a 3x leveraged Nasdaq ETF. The asymmetric thresholds (wide buy, narrow sell) bias toward holding long, which partially compensates for fighting TQQQ's strong upward drift. Its main weakness is that mean reversion systematically shorts strength in a secular bull market, leaving significant upside on the table during trending rallies.
 
-*Overfit 3/10 — same parameter count as #041; the 30% number is round but the near-identical results to #041 should make one cautious about claiming meaningful threshold selection here.*
+*Overfit 2/10 — the 0.2/0.7 IBS thresholds are standard values from the literature; only 2 parameters, both round numbers.*
 
-- **Entry:** QQQ 20d annualized vol < 30% → equal-weight Mega-7 at 1/7 each
-- **Exit:** QQQ vol >= 30% → liquidate
-- **Symbols:** QQQ (signal), AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA
+- **Entry:** IBS < 0.2 (close near the daily low)
+- **Exit:** IBS > 0.7 (close near the daily high)
+- **Symbols:** TQQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 35% | -40% | 1.19 |
+| ✅ | 35% | -50% | 0.82 |
+
+> [!code]- Click to view: algo_016.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/algos2/algo_016.py"
+> ```
+
+---
+
+### 018 — 5 most mkt cap @ 1.5x
+
+**Description:** Each month, buys equal weights of the 5 most market capital companies using 1.5x margin, liquidating any that fall out of the top 5. The strategy rides the compounding power of market-leading megacaps (AAPL, MSFT, NVDA, AMZN, GOOGL) with leverage — and this has worked brilliantly as mega-cap tech dominated. Its critical weakness is the complete absence of risk management: a concentrated 5-stock portfolio at 1.5x leverage can experience catastrophic drawdowns during regime shifts.
+
+*Overfit 2/10 — top-5-by-market-cap is a natural universe definition; 1.5x leverage is a round number; no lookback windows or threshold tuning.*
+
+- **Entry:** Monthly rebalance into 5 most market capital companies, each at weight = 1.5 / 5
+- **Exit:** Liquidate any position that drops out of the top 5
+- **Symbols:** Top 5 US equities by market cap (dynamic universe)
+
+| Pass? | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| ✅ | 33% | -55% | 0.83 |
+
+> [!code]- Click to view: algo_018.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/algos2/algo_018.py"
+> ```
+
+---
+
+### 028 — TQQQ IBS extreme
+
+**Description:** A stricter variant of the IBS mean reversion theme that only buys when selling is truly extreme (IBS < 0.1) and only exits when buying is truly extreme (IBS > 0.9). This dramatically reduces trade frequency but each entry catches deeper capitulation, and the very late exit allows full trend participation once a rally is underway. The 47% CAGR (vs 35% for the standard 0.2/0.7 version) shows that patience on entry and letting winners run more than compensates for extended cash periods.
+
+*Overfit 3/10 — extreme round thresholds (0.1, 0.9) are less commonly used than the standard IBS 0.2/0.8 pair but are still intuitive boundary values.*
+
+- **Entry:** IBS < 0.1 (extreme selling pressure)
+- **Exit:** IBS > 0.9 (extreme buying pressure)
+- **Symbols:** TQQQ
+
+| Pass? | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| ✅ | 47% | -47% | 1.05 |
+
+> [!code]- Click to view: algo_028.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/algos2/algo_028.py"
+> ```
+
+---
+
+### 029 — TQQQ IBS 0.15/0.85
+
+**Description:** A middle-ground IBS variant with buy at 0.15 and exit at 0.85 — sandwiched between the standard 0.2/0.7 (algo 016) and the extreme 0.1/0.9 (algo 028). It achieves the best MaxDD of the three (-42% vs -50% and -47%) and a CAGR (37%) that splits the difference. The key weakness is that these specific intermediate values have no theoretical justification — they are clearly the product of a parameter sweep.
+
+*Overfit 5/10 — the 0.15 and 0.85 thresholds do not correspond to any standard IBS value and appear to be the result of explicit parameter optimization.*
+
+- **Entry:** IBS < 0.15
+- **Exit:** IBS > 0.85
+- **Symbols:** TQQQ
+
+| Pass? | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| ✅ | 37% | -42% | 0.84 |
+
+> [!code]- Click to view: algo_029.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/algos2/algo_029.py"
+> ```
+
+---
+
+### 030 — IBS extreme + SMA200
+
+**Description:** Combines the IBS extreme oversold signal with a 200-day SMA trend filter on QQQ. It only enters a TQQQ position when both IBS is below 0.1 (extreme intraday weakness) and QQQ is trading above its 200-day SMA (uptrend), which keeps it out of sustained bear markets. The drawback is the trend filter can delay re-entry after a sharp but short-lived dip.
+
+*Overfit 3/10 — IBS thresholds (0.1/0.9) are round but arbitrary; SMA 200 is a standard lookback. The QQQ trend filter adds a second conditional.*
+
+- **Entry:** IBS < 0.1 and QQQ price > SMA(200)
+- **Exit:** IBS > 0.9
+- **Symbols:** TQQQ, QQQ
+
+| Pass? | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| ✅ | 32% | -40% | 0.90 |
+
+> [!code]- Click to view: algo_030.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/algos2/algo_030.py"
+> ```
+
+---
+
+### 031 — IBS extreme + ATR stop
+
+**Description:** Enters TQQQ on IBS < 0.1 like the basic IBS strategy, but adds a trailing volatility-based stop loss at 3x the 14-period ATR from the entry price. This stop is designed to cap catastrophic single-trade losses during flash crashes or gap downs. The weakness is that TQQQ's 3x leverage amplifies volatility, making the 3x ATR stop prone to triggering on routine whipsaws rather than true disasters.
+
+*Overfit 3/10 — IBS thresholds and ATR multiplier (3x) are standard choices (Bollinger-style 3-sigma logic). ATR(14) is a canonical period.*
+
+- **Entry:** IBS < 0.1
+- **Exit:** IBS > 0.9, OR close < entry_price - 3 x ATR(14)
+- **Symbols:** TQQQ
+
+| Pass? | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| ✅ | 46% | -43% | 1.05 |
+
+> [!code]- Click to view: algo_031.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/algos2/algo_031.py"
+> ```
+
+---
+
+### 032 — IBS 0.05 (rare)
+
+**Description:** A stricter version of the IBS strategy that only buys when IBS drops below 0.05 — a much rarer event than the standard 0.1 threshold. This results in fewer but theoretically higher-conviction trades, since the stock needs to close extremely near its daily low. The main weakness is extended cash drag between rare entry signals.
+
+*Overfit 2/10 — only two parameters (0.05 entry, 0.9 exit). However, 0.05 is a suspiciously precise threshold that was almost certainly backtest-optimized.*
+
+- **Entry:** IBS < 0.05
+- **Exit:** IBS > 0.9
+- **Symbols:** TQQQ
+
+| Pass? | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| ✅ | 31% | -47% | 0.79 |
+
+> [!code]- Click to view: algo_032.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/algos2/algo_032.py"
+> ```
+
+---
+
+### 033 — IBS 0.1/0.7 fast
+
+**Description:** Enters on the standard IBS < 0.1 signal but exits much earlier at IBS > 0.7 instead of the usual 0.9. The tighter exit captures only the initial mean-reversion bounce and avoids holding through the extended recovery leg. The weakness is that it systematically leaves money on the table — many trades that recover fully to 0.9+ are cut at 0.7.
+
+*Overfit 2/10 — only two round thresholds (0.1/0.7). The 0.7 exit is the sole deviation from the standard IBS template.*
+
+- **Entry:** IBS < 0.1
+- **Exit:** IBS > 0.7
+- **Symbols:** TQQQ
+
+| Pass? | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| ✅ | 36% | -35% | 0.92 |
+
+> [!code]- Click to view: algo_033.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/algos2/algo_033.py"
+> ```
+
+---
+
+### 035 — IBS regime-adaptive
+
+**Description:** Uses a 200-day SMA on QQQ to switch between two regimes: in uptrends it buys TQQQ on moderate pullbacks (IBS < 0.1), but in downtrends it only enters on extremely rare capitulation events (IBS < 0.03). Exits when IBS crosses above 0.9 regardless of regime. The regime-awareness prevents catching falling knives during bear markets, but the 0.03 downtrend threshold is so extreme that the algo sits in cash for entire bear-market rallies.
+
+*Overfit 4/10 — two regime-specific IBS entry thresholds (0.1 vs 0.03), one exit (0.9), and a SMA(200) lookback; the 0.03 value is especially vulnerable to hindsight tuning.*
+
+- **Entry:** IBS < 0.1 if QQQ > SMA(200); IBS < 0.03 if QQQ < SMA(200)
+- **Exit:** IBS > 0.9
+- **Symbols:** TQQQ, QQQ
+
+| Pass? | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| ✅ | 39% | -55% | 0.92 |
+
+> [!code]- Click to view: algo_035.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/algos2/algo_035.py"
+> ```
+
+---
+
+### 039 — IBS + 3d max hold
+
+**Description:** A pure mean-reversion strategy that buys TQQQ whenever IBS drops below 0.1 and forces an exit after three trading days regardless of price, in addition to the standard IBS > 0.9 exit. The time-capped hold prevents a failed reversion trade from decaying into a large loss. However, the arbitrary 3-day exit can cut short a reversion that is still developing.
+
+*Overfit 5/10 — two IBS thresholds (0.1 entry, 0.9 exit) and a 3-bar max-hold parameter; changing the hold to 2, 4, or 5 days would materially alter results.*
+
+- **Entry:** IBS < 0.1
+- **Exit:** IBS > 0.9 OR held >= 3 bars
+- **Symbols:** TQQQ
+
+| Pass? | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| ✅ | 30% | -52% | 0.80 |
+
+> [!code]- Click to view: algo_039.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/algos2/algo_039.py"
+> ```
+
+---
+
+### 040 — SMA150 trend + IBS<0.05
+
+**Description:** A hybrid strategy that holds TQQQ during uptrends (QQQ > SMA150) and switches to a mean-reversion overlay in downtrends, buying only when IBS drops below 0.05 and selling at IBS > 0.9. This captures full bull-market exposure while deploying a defensive dip-buying approach during drawdowns. The sequential transition (liquidate trend, then wait for MR entry) means a sharp reversal off the trend line leaves the algo fully in cash.
+
+*Overfit 5/10 — SMA lookback (150 vs the more standard 200), two-mode architecture, MR entry threshold (0.05), and IBS exit (0.9).*
+
+- **Entry:** QQQ > SMA(150) → buy TQQQ; QQQ < SMA(150) AND IBS < 0.05 → buy TQQQ
+- **Exit:** Trend mode → exit on trend flip; MR mode → IBS > 0.9
+- **Symbols:** TQQQ, QQQ
+
+| Pass? | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| ✅ | 50% | -56% | 0.99 |
+
+> [!code]- Click to view: algo_040.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/algos2/algo_040.py"
+> ```
+
+---
+
+### 042 — SMA150 + IBS + 3xATR
+
+**Description:** Extends algo 040 by adding a 3x ATR(14) trailing stop on mean-reversion positions only, exiting MR trades when price drops below entry_price - 3 * ATR in addition to the IBS > 0.9 exit. Trend-mode positions are not stopped at all. The ATR stop provides theoretical downside protection, but on TQQQ (extremely high volatility) the 3xATR distance is so wide that it rarely triggers, making the practical difference from algo 040 marginal.
+
+*Overfit 7/10 — all of 040's parameters plus ATR period (14), ATR multiplier (3), and entry-price tracking; the combination outperforms 040 by only 1% CAGR, suggesting the extra complexity is not justified.*
+
+- **Entry:** QQQ > SMA(150) → buy TQQQ; QQQ < SMA(150) AND IBS < 0.05 → buy TQQQ
+- **Exit:** Trend mode → exit on trend flip; MR mode → IBS > 0.9 OR price < entry_price - 3x ATR(14)
+- **Symbols:** TQQQ, QQQ
+
+| Pass? | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| ✅ | 51% | -55% | 1.00 |
 
 > [!code]- Click to view: algo_042.py
 > ```embed-python
@@ -257,105 +471,69 @@
 
 ---
 
-### 049 — Mega-7 EW + dual gate: QQQ 20d ann. vol < 25% AND ATR(14)/price < 1.8%.
+### 043 — SMA150 + IBS + 2xATR
 
-**Description:** Mega-7 equal-weight conditioned on two simultaneous gates: QQQ 20-day annualized vol below 25% AND the QQQ ATR(14)/price ratio below 1.8%. The dual gate is more conservative than either alone: short-term vol can be calm while daily ranges are wide and vice versa, so requiring both filters captures only truly placid markets. The result is materially lower MaxDD (-26%) with a small CAGR penalty (28%) versus single-gate variants.
+**Description:** A hybrid trend/mean-reversion strategy on TQQQ that goes long in an uptrend (QQQ above its 150-day SMA) and fades deeply oversold conditions via mean reversion when the trend is flat or down. The "tighter stop" from #42 is a 2x ATR hard stop below the MR entry price, intended to cap losses when oversold bounces fail. The weakness is that 2x ATR on TQQQ is very tight for a 3x leveraged ETF — normal daily volatility can trigger the stop before the mean reversion materializes.
 
-*Overfit 5/10 — two tuned thresholds (25% vol, 1.8% ATR/price), two indicator periods (20d vol, 14d ATR). Vulnerable to small parameter shifts.*
+*Overfit 3/10 — standard lookbacks (SMA 150, ATR 14) and extreme IBS thresholds (0.05/0.9) are common choices. The 2x ATR multiplier is the only tuned parameter.*
 
-- **Entry:** QQQ 20d annualized vol < 25% AND ATR(14)/QQQ price < 0.018 → EW Mega-7
-- **Exit:** Either condition fails → liquidate
-- **Symbols:** QQQ (signals), AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA
+- **Entry (Trend):** QQQ > SMA(150) and not invested → go long TQQQ at 100%
+- **Entry (MR):** QQQ <= SMA(150), not invested, and IBS < 0.05 → go long TQQQ at 100%
+- **Exit (Trend):** QQQ drops below SMA(150) → liquidate
+- **Exit (MR):** IBS > 0.9 or price < entry_price - 2 * ATR(14) → liquidate
+- **Symbols:** TQQQ, QQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 28% | -26% | 1.14 |
+| ✅ | 51% | -58% | 1.01 |
 
-> [!code]- Click to view: algo_049.py
+> [!code]- Click to view: algo_043.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_049.py"
+> PATH: "vault://QuantConnect/cc/algos2/algo_043.py"
 > ```
 
 ---
 
-### 050 — Mega-7 EW + adaptive vol gate: today's QQQ 20d vol < 1.2 x its 252d median.
+### 046 — SMA150+IBS fast exit
 
-**Description:** Instead of a fixed threshold, the gate is adaptive: today's QQQ 20-day vol must be below 1.2× the trailing 252-day median of 20-day vols. The strategy is in market when current vol is only modestly elevated relative to its own one-year regime. In structurally low-vol years the gate is tight; in higher-vol years it widens automatically. Equal-weight Mega-7 when gate is on; cash when off. This adaptive design reduces sensitivity to absolute vol regimes versus fixed-threshold #041–#044.
+**Description:** A simplified hybrid that removes the ATR stop entirely and exits mean-reversion positions as soon as IBS crosses above 0.7 (versus the typical 0.9). Ride TQQQ long when QQQ is above its 150-day SMA, and buy deep oversold IBS (< 0.05) bounces when it is not, cashing out quickly at 0.7 for higher turnover. Dropping the hard stop reduces parameter count but leaves MR positions exposed to gap-down or sustained selling.
 
-*Overfit 3/10 — only one tuned scalar (1.2× multiplier); window lengths (20d, 252d) and the median operator are standard.*
+*Overfit 2/10 — IBS take-profit at 0.7 instead of 0.9 is a single threshold tweak. All other parameters are standard.*
 
-- **Entry:** today's QQQ 20d vol < 1.2 × trailing 252d median of 20d vols → EW Mega-7
-- **Exit:** Vol exceeds 1.2× median → liquidate
-- **Symbols:** QQQ (signal), AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA
+- **Entry (Trend):** QQQ > SMA(150) → go long TQQQ at 100%
+- **Entry (MR):** QQQ <= SMA(150) and IBS < 0.05 → go long TQQQ at 100%
+- **Exit (Trend):** QQQ drops below SMA(150) → liquidate
+- **Exit (MR):** IBS > 0.7 → liquidate
+- **Symbols:** TQQQ, QQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 28% | -26% | 1.14 |
+| ✅ | 55% | -55% | 1.07 |
 
-> [!code]- Click to view: algo_050.py
+> [!code]- Click to view: algo_046.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_050.py"
+> PATH: "vault://QuantConnect/cc/algos2/algo_046.py"
 > ```
 
 ---
 
-### 053 — Mega-7 momo-weighted (3mo) + TQQQ vol-60 + adaptive median gate.
+### 047 — #46 + chandelier
 
-**Description:** Mega-7 with monthly 3-month momentum weights, but the regime gate is on TQQQ's 21-day annualized vol with a two-stage rule: while the 252-day rolling window is still warming up, use a fixed 60% threshold; once full, switch to the adaptive 1.2× median rule. Gate-on applies the momentum weights; gate-off liquidates. Combines the momentum tilt of #046 with TQQQ-based regime sensing, which reacts earlier than QQQ-based gates because TQQQ's 3× leverage amplifies daily moves.
+**Description:** Builds on #46 by adding a trailing chandelier stop on trend positions (5x ATR from the peak) and a hard stop on mean-reversion positions (3x ATR below entry). The trailing stop is meant to lock in trend gains during sharp reversals. In practice, the 5x ATR trail on a 3x leveraged ETF may be wide enough that it only triggers during crash events.
 
-*Overfit 5/10 — momentum window, fixed and adaptive thresholds, and an extra warmup-bridge mechanism. Some parameters are interdependent.*
+*Overfit 4/10 — two added ATR multipliers (5x for trend trail, 3x for MR stop) tuned against past data. These interact with the existing IBS thresholds.*
 
-- **Entry:** TQQQ vol gate on (fixed v<60% during warmup, adaptive v<1.2×median otherwise) → apply monthly momentum weights to Mega-7
-- **Exit:** Gate fails → liquidate
-- **Rebalance:** Monthly recompute positive-only 3mo momentum weights
-- **Symbols:** TQQQ (signal), AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA
-
-| Pass? | CAGR | MaxDD | Sharpe |
-| :--- | :--- | :--- | :--- |
-| ✅ | 36% | -34% | 1.14 |
-
-> [!code]- Click to view: algo_053.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_053.py"
-> ```
-
----
-
-### 054 — Mega-7 top-3 by 3mo momentum (zero-out bottom 4) + TQQQ vol gate.
-
-**Description:** Concentrates the basket on only the top 3 mega-cap names by 3-month return each month, weighted by positive momentum. The bottom 4 are dropped entirely. Combined with a TQQQ 21d vol < 60% gate. Much more concentrated than #053, so single-stock dispersion drives results. The identical headline stats to #053 (36% / -34% / 1.14) suggest the top-3 vs full-7 difference is small in this period because the bottom 4 rarely have positive momentum that would have meaningfully diluted the top names.
-
-*Overfit 6/10 — top-3 selection adds explicit ranking; vol threshold and momentum lookback complete the parameter set. Concentration risk in any one period.*
-
-- **Entry:** TQQQ 21d annualized vol < 60% → top-3 Mega-7 by 3mo return, weighted by positive momentum
-- **Exit:** Vol gate fails → liquidate; monthly drops names no longer in top-3
-- **Symbols:** TQQQ (signal), Mega-7 (rotating top-3)
+- **Entry (Trend):** QQQ > SMA(150) → go long at 100%; record peak at entry
+- **Entry (MR):** QQQ <= SMA(150) and IBS < 0.05 → go long TQQQ at 100%
+- **Exit (Trend via SMA):** QQQ drops below SMA(150) → liquidate
+- **Exit (Trend via Chandelier):** Close < peak_price - 5 * ATR(14) → liquidate
+- **Exit (MR via IBS):** IBS > 0.7 → liquidate
+- **Exit (MR via Stop):** Close < entry_price - 3 * ATR(14) → liquidate
+- **Symbols:** TQQQ, QQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 36% | -34% | 1.14 |
-
-> [!code]- Click to view: algo_054.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_054.py"
-> ```
-
----
-
-### 047 — Mega-7 + QQQ 20d vol < 25% gate + monthly inverse-vol (risk-parity) weights.
-
-**Description:** QQQ 20d vol gate at 25%, but instead of equal-weight or momentum-weight, the Mega-7 are weighted by inverse 60-day return volatility (risk parity). Less-volatile names like AAPL/MSFT get higher weight than NVDA/TSLA. Combined with the calm-vol regime filter, the portfolio sees relatively smooth equity contribution from each name. The CAGR (28%) is lower than EW variants because high-vol winners are under-weighted, but MaxDD (-25%) is the best of the vol-gate family.
-
-*Overfit 4/10 — vol threshold + lookback + inverse-vol window. The inverse-vol scheme is principled but the 60d window is a tuned choice.*
-
-- **Entry:** QQQ 20d annualized vol < 25% → apply inverse-vol weights to Mega-7
-- **Exit:** Vol gate fails → liquidate
-- **Rebalance:** Monthly inverse-vol weights from 60d std of daily log returns
-- **Symbols:** QQQ (signal), AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA
-
-| Pass? | CAGR | MaxDD | Sharpe |
-| :--- | :--- | :--- | :--- |
-| ✅ | 28% | -25% | 1.13 |
+| ✅ | 52% | -56% | 1.03 |
 
 > [!code]- Click to view: algo_047.py
 > ```embed-python
@@ -364,19 +542,21 @@
 
 ---
 
-### 048 — 5x 3x-leveraged ETF basket EW + QQQ 20d annualized vol < 20% gate (tight).
+### 048 — #46 on QLD
 
-**Description:** Equal-weight basket of five 3× leveraged sector ETFs (TQQQ, TECL, SOXL, UPRO, FAS) at 20% each — totals to 100% notional, no margin — conditioned on the tightest 20% QQQ vol gate. The tight gate is essential: 3× leveraged ETFs experience devastating decay in high-vol environments. By restricting exposure to truly calm markets, the strategy captures leveraged trend without the typical 3× ETF drawdown profile. The basket is less diversified than it looks — TQQQ, TECL, and SOXL all overlap heavily with Nasdaq.
+**Description:** An exact replica of #46's logic applied to QLD (2x Nasdaq-100) instead of TQQQ (3x). The intent is to test whether the #46 edge survives deleveraging — lower CAGR is expected (40% vs. 55%), but the commensurately lower drawdown (-40% vs. -55%) suggests the underlying timing signal, not leverage, drives most of the risk-adjusted return.
 
-*Overfit 4/10 — five hand-picked 3× ETFs plus the tight vol threshold. The 20% gate is essential to making 3× ETFs viable, so this tuning has a clear theoretical basis.*
+*Overfit 1/10 — no new parameters versus #46. The only change is the traded symbol, a straightforward robustness check.*
 
-- **Entry:** QQQ 20d annualized vol < 20% → 20% each in TQQQ, TECL, SOXL, UPRO, FAS
-- **Exit:** Vol gate fails → liquidate
-- **Symbols:** QQQ (signal), TQQQ, TECL, SOXL, UPRO, FAS
+- **Entry (Trend):** QQQ > SMA(150) → go long QLD at 100%
+- **Entry (MR):** QQQ <= SMA(150) and IBS < 0.05 → go long QLD at 100%
+- **Exit (Trend):** QQQ drops below SMA(150) → liquidate
+- **Exit (MR):** IBS > 0.7 → liquidate
+- **Symbols:** QLD, QQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 28% | -25% | 1.13 |
+| ✅ | 40% | -40% | 1.02 |
 
 > [!code]- Click to view: algo_048.py
 > ```embed-python
@@ -385,41 +565,82 @@
 
 ---
 
-### 059 — Mega-7 momo-weighted (3mo) + TQQQ vol gate + 5-day cooldown.
+### 053 — %R(2) MR pure
 
-**Description:** Same backbone as #053 (TQQQ 21d vol < 60% gate + monthly 3mo-momentum weights on Mega-7) with a 5-day cooldown after gate-off. The cooldown prevents fast on/off whipsaws around the threshold by forcing a waiting period before re-entry. The CAGR drop from #053's 36% to 32% reflects the cost of missing fast bounces; the -34% MaxDD is unchanged, suggesting the cooldown only modestly improves drawdowns on this dataset.
+**Description:** Buys TQQQ when the 2-period Williams %R dips below -90, betting on an immediate bounce from extreme oversold conditions, then sells when %R crosses above -10. The ultra-short 2-bar window makes this a high-frequency mean-reversion gambit that catches sharp intra-week reversals but gets crushed in sustained downtrends where oversold keeps getting more oversold.
 
-*Overfit 6/10 — momentum lookback, vol threshold, and an additional cooldown integer. Each parameter is small but they multiply combinatorially.*
+*Overfit 7/10 — %R(2) is a non-standard period far from the conventional 14, thresholds of -90/-10 are aggressively tuned.*
 
-- **Entry:** TQQQ 21d annualized vol < 60% AND cooldown == 0 → apply monthly momentum weights
-- **Exit:** Vol gate fails → liquidate AND start 5-day cooldown
-- **Symbols:** TQQQ (signal), AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA
+- **Entry:** Williams %R(2) < -90 (oversold)
+- **Exit:** Williams %R(2) > -10 (overbought)
+- **Symbols:** TQQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 32% | -34% | 1.11 |
+| ✅ | 40% | -42% | 0.91 |
 
-> [!code]- Click to view: algo_059.py
+> [!code]- Click to view: algo_053.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_059.py"
+> PATH: "vault://QuantConnect/cc/algos2/algo_053.py"
 > ```
 
 ---
 
-### 060 — Mega-7 momo (80%) + TQQQ (20%) sleeve, TQQQ vol-60% gate.
+### 055 — TQQQ + SMA200
 
-**Description:** A sleeve mix of 80% momentum-weighted Mega-7 + 20% TQQQ when TQQQ 21d annualized vol is below 60%; full cash above. The 20% TQQQ sleeve adds a leveraged-Nasdaq kicker on top of the momentum-weighted single-name exposure. The 5%-rebalance threshold (3% for the sleeve) controls trade frequency. Identical CAGR / MaxDD / Sharpe to #059 (32% / -34% / 1.11) suggesting the TQQQ kicker and the #059 cooldown are roughly equivalent risk-adjustments at this calibration.
+**Description:** Applies the classic 200-day SMA trend filter to TQQQ (3× Nasdaq-100), holding when TQQQ's close is above its own 200-day SMA and liquidating to cash when it falls below. Replacing NVDA with TQQQ dramatically changes the character: TQQQ's 3× daily leverage means the SMA breaches earlier and more frequently in downtrends, reducing drawdown (-50% vs -42% for NVDA) but also cutting CAGR sharply (33% vs 64%). The strategy is essentially identical to #008 (TQQQ self-SMA200) and the 33% CAGR with 0.76 Sharpe confirms the performance is comparable.
 
-*Overfit 5/10 — sleeve weights (80/20), vol threshold, momentum lookback. The 80/20 split is a tuned allocation pair.*
+*Overfit 4/10 — the SMA(200) is a standard, widely-used lookback with no tuning, but cherry-picking the single best-performing large-cap strategy and applying it to a 3× leveraged ETF introduces hindsight bias.*
 
-- **Entry:** TQQQ 21d annualized vol < 60% → 80% Mega-7 (momo-weighted) + 20% TQQQ
-- **Exit:** Vol gate fails → liquidate everything
-- **Rebalance:** Monthly momentum reweighting of the 80% sleeve
-- **Symbols:** TQQQ, AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA
+- **Entry:** TQQQ price > SMA(200)
+- **Exit:** TQQQ price < SMA(200)
+- **Symbols:** TQQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 32% | -34% | 1.11 |
+| ✅ | 33% | -50% | 0.76 |
+
+> [!code]- Click to view: algo_055.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/algos2/algo_055.py"
+> ```
+
+---
+
+### 056 — %R(2) hybrid
+
+**Description:** Two-regime strategy on TQQQ using QQQ's 150-day SMA as a market health filter. When QQQ is above its SMA (bull trend), it buys TQQQ and holds continuously. When QQQ is below the SMA, it switches to mean-reversion: only buying on extreme %R(2) < -95 oversold prints and selling on %R(2) > -10.
+
+*Overfit 8/10 — %R(2) with a -95/-10 threshold pair is more aggressively tuned than even algo 053, SMA(150) is a non-standard departure from the conventional 200.*
+
+- **Entry:** QQQ > SMA(150) = buy TQQQ; QQQ < SMA(150) and %R(2) < -95 = buy TQQQ
+- **Exit:** QQQ < SMA(150) while in trend mode = liquidate; in MR mode and %R(2) > -10 = liquidate
+- **Symbols:** TQQQ, QQQ
+
+| Pass? | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| ✅ | 51% | -56% | 1.00 |
+
+> [!code]- Click to view: algo_056.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/algos2/algo_056.py"
+> ```
+
+---
+
+### 060 — TQQQ hybrid (SMA+IBS)
+
+**Description:** A dual-regime strategy on TQQQ that combines trend-following with extreme dip-buying. In trend mode (TQQQ above SMA200), it holds TQQQ continuously. In down-trend mode, it switches to mean-reversion: entering only when IBS drops below 0.05 (extreme selling pressure within the day) and exiting when IBS recovers above 0.70. Replacing NVDA with TQQQ preserves the hybrid structure but reduces CAGR from 68% to 49% and Sharpe from 1.44 to 0.99, as TQQQ's leverage amplifies whipsaw losses when the SMA gate flips.
+
+*Overfit 6/10 — both IBS thresholds (0.05, 0.70) are clearly tuned; applying NVDA-specific parameters to TQQQ adds another degree of specification bias.*
+
+- **Entry:** If TQQQ > SMA200 → hold TQQQ. If below SMA200 and IBS < 0.05 → buy TQQQ
+- **Exit:** Trend mode and price < SMA200 → liquidate. MR mode and IBS > 0.70 → liquidate
+- **Symbols:** TQQQ
+
+| Pass? | CAGR | MaxDD | Sharpe |
+| :--- | :--- | :--- | :--- |
+| ✅ | 49% | -50% | 0.99 |
 
 > [!code]- Click to view: algo_060.py
 > ```embed-python
@@ -428,308 +649,65 @@
 
 ---
 
-### 057 — Mega-7 EW + adaptive 252d vol comparison gate (own basket).
+### 061 — TQQQ + SMA150
 
-**Description:** Equal-weight Mega-7, gated on a single comparison: today's 20-day basket vol versus the basket's own 252-day vol. In-market when 20d vol < 252d vol — i.e., the recent regime is calmer than the trailing year average. No tuned threshold at all — the comparison **is** the threshold. This makes the strategy maximally adaptive to changing volatility regimes. Lowest MaxDD in the Mega-7 EW family (-21%).
+**Description:** A pure trend-following strategy on TQQQ using a 150-day SMA as the regime filter — invested when TQQQ closes above its 150-day moving average, flat when below. This is essentially a re-run of #009 (TQQQ self-SMA150) with identical parameters. The results confirm the match: 29% CAGR / -53% MaxDD / 0.69 Sharpe vs #009's 29% / -53% / 0.69. The shorter SMA150 lookback exits trends more quickly than SMA200 but also generates more whipsaw on TQQQ's volatile daily swings.
 
-*Overfit 2/10 — zero numerical thresholds beyond the window lengths (20d, 252d), both standard. The cleanest tuning footprint of any algo in this set.*
+*Overfit 6/10 — SMA150 is non-standard and appears to be a tuned middle-ground between common values (100, 200); applying a single-stock parameter to a leveraged ETF adds bias.*
 
-- **Entry:** Mega-7 basket 20d annualized vol < basket 252d annualized vol → EW Mega-7
-- **Exit:** 20d vol >= 252d vol → liquidate
-- **Symbols:** AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA
+- **Entry:** TQQQ > SMA(150) → go all-in
+- **Exit:** TQQQ <= SMA(150) → liquidate to cash
+- **Symbols:** TQQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 31% | -21% | 1.11 |
+| ✅ | 29% | -53% | 0.69 |
 
-> [!code]- Click to view: algo_057.py
+> [!code]- Click to view: algo_061.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_057.py"
+> PATH: "vault://QuantConnect/cc/algos2/algo_061.py"
 > ```
 
 ---
 
-### 058 — Mega-7 momo-weighted (3mo) + dual TQQQ-vol gate (vol AND ATR escalation).
+### 064 — 5 most mkt cap + IBS regime mix
 
-**Description:** Hysteretic two-condition gate: hard exit when TQQQ 21d vol >= 60% OR TQQQ ATR(14)/price > 6%; re-enter only when vol < 60% AND ATR(14)/price < 4.5%. The asymmetric thresholds (4.5% re-entry vs 6% exit) create a Schmitt-trigger-style buffer that prevents rapid on/off cycling. Monthly momentum-weighted rebalance while in market. Identical headline result to #057 (31% / -21% / 1.11) but achieved with very different machinery.
+**Description:** Switches between two regimes based on QQQ relative to its 200-day SMA. In trend mode (QQQ above SMA200), it holds all five most market capital companies equal-weight. In non-trend mode, it only holds names where IBS is below 0.2, acting as an oversold mean-reversion filter. The regime mix gives it the best MaxDD in the set (-23%) — the IBS filter successfully sidesteps the worst of bear markets.
 
-*Overfit 7/10 — vol threshold (0.60), two ATR thresholds (0.06, 0.045), ATR period (14), momentum lookback. The asymmetric exit/re-entry pair is two extra fitted scalars.*
+*Overfit 3/10 — SMA200 is a standard lookback. The IBS<0.2 threshold is the single tuned parameter; it is reasonable but untested against alternatives.*
 
-- **Entry (from cash):** TQQQ 21d vol < 60% AND ATR(14)/price < 4.5% → apply monthly momentum weights
-- **Exit (from market):** TQQQ 21d vol >= 60% OR ATR(14)/price > 6% → liquidate
-- **Symbols:** TQQQ (signal), AAPL, MSFT, NVDA, GOOGL, AMZN, META, TSLA
+- **Entry:** Trend mode (QQQ > SMA200): equal weight all 5. No-trend mode: only names with IBS < 0.2, equal-weighted
+- **Exit:** When QQQ < SMA200 and a held name no longer has IBS < 0.2, liquidate
+- **Symbols:** QQQ (signal), Top 5 US equities by market cap (dynamic universe)
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 31% | -21% | 1.11 |
+| ✅ | 30% | -23% | 1.07 |
 
-> [!code]- Click to view: algo_058.py
+> [!code]- Click to view: algo_064.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_058.py"
+> PATH: "vault://QuantConnect/cc/algos2/algo_064.py"
 > ```
 
 ---
 
-### 079 — TQQQ size scales linearly by inverse vol; rest in dyn top-7 EW.
+### 066 — TQQQ hybrid + ATR
 
-**Description:** Continuous sizing rather than binary regime switch: TQQQ weight scales linearly from 1.0 (at TQQQ 21d vol = 40%) to 0.0 (at vol = 80%), with the remaining weight equal-weighted across a dynamic top-7 mega-cap basket selected by fundamental market cap. As vol rises, the algo gradually shifts from leveraged-Nasdaq to single-name equity. The smooth allocation curve avoids the all-or-nothing exits of regime strategies but trades constantly when vol oscillates near the band edges.
+**Description:** A two-mode TQQQ strategy gated by SMA200. When TQQQ trades above the 200-day SMA, it takes a full long position. When below, it switches to mean-reversion: entering only when IBS drops below 0.05 and exiting when IBS recovers above 0.70 or price hits a 3x ATR stop-loss from entry. Replacing NVDA with TQQQ yields a near-identical result to #060 (49% CAGR / -48% MaxDD vs 49% / -50%), confirming that the ATR stop on TQQQ adds negligible marginal benefit since TQQQ's 3× volatility makes the 3× ATR distance so wide it rarely triggers.
 
-*Overfit 4/10 — two anchor points (vol=0.40 → 100% TQQQ, vol=0.80 → 0%) and a top-N=7. Linear interpolation between fitted endpoints is more tunable than it looks.*
+*Overfit 4/10 — SMA(200) and ATR(14) are standard, but both IBS thresholds (0.05 entry, 0.7 exit) and the 3× ATR stop multiplier are tuned values, now applied to a leveraged ETF rather than a single stock.*
 
-- **Entry:** Always invested; `tqqq_w = clip((0.80 - vol) / 0.40, 0, 1)`; remainder split equal-weight across dynamic top-7
-- **Exit:** No flat-cash state; only weight adjustments
-- **Rebalance:** Triggered when target TQQQ weight changes by > 5%
-- **Symbols:** TQQQ + dynamic top-7 mega-caps from QC Fundamentals
-
-| Pass? | CAGR | MaxDD | Sharpe |
-| :--- | :--- | :--- | :--- |
-| ✅ | 34% | -50% | 0.81 |
-
-> [!code]- Click to view: algo_079.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_079.py"
-> ```
-
----
-
-### 099 — TQQQ + dyn top-7 momo with HARD daily exit on -8% TQQQ drop.
-
-**Description:** Standard #075-style 3-regime switch (TQQQ when vol<55%, dyn top-7 momo basket when 55-85%, cash when >=85%) augmented by a hard tail-risk exit: any day TQQQ closes down ≥ 8% from the prior close, liquidate everything and skip the next day (1-day cooldown). The hard stop is intended to prevent catastrophic single-day losses on TQQQ. In practice, -8% TQQQ days are rare enough that the overlay mainly contributes during March 2020 and October 2022.
-
-*Overfit 6/10 — adds two parameters (-8% threshold, 1-day cooldown) on top of the regime triple. The -8% TQQQ threshold is uncomfortably specific.*
-
-- **Entry:** Regime switch as in #075 (TQQQ when vol<55%, momo top-7 basket when 55-85%)
-- **Exit (tail):** TQQQ daily return <= -8% → liquidate + skip next day
-- **Exit (regime):** Vol crosses 85% → liquidate to cash
-- **Symbols:** TQQQ + dynamic top-7 mega-caps
+- **Entry:** If TQQQ > SMA200 → full position. If below SMA200 and IBS < 0.05 → full MR position
+- **Exit:** Trend mode and price < SMA200 → liquidate. MR mode: IBS > 0.70 or price < entry - 3× ATR → liquidate
+- **Symbols:** TQQQ
 
 | Pass? | CAGR | MaxDD | Sharpe |
 | :--- | :--- | :--- | :--- |
-| ✅ | 32% | -45% | 0.80 |
+| ✅ | 49% | -48% | 0.99 |
 
-> [!code]- Click to view: algo_099.py
+> [!code]- Click to view: algo_066.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_099.py"
-> ```
-
----
-
-### 077 — #075 variant: looser calm (<60% vol) → 100% TQQQ; <85% → basket; else cash.
-
-**Description:** A looser-calm variant of #075: the threshold to go all-in TQQQ is raised from 55% to 60%, giving TQQQ exposure in more market conditions. The middle "basket" band shrinks accordingly. Result: higher CAGR (33% vs 29%) with somewhat worse MaxDD (-42% vs -49%) — broadly the same risk-reward shape, just shifted along the curve toward more aggression.
-
-*Overfit 5/10 — three threshold values (60%/85%/momentum lookback) with the looser calm an explicit move from #075's 55%.*
-
-- **Entry (TQQQ):** TQQQ 21d vol < 60% → 100% TQQQ
-- **Entry (basket):** 60% <= vol < 85% → momentum-weighted top-7 dyn basket
-- **Exit:** vol >= 85% → cash
-- **Symbols:** TQQQ + dynamic top-7 mega-caps
-
-| Pass? | CAGR | MaxDD | Sharpe |
-| :--- | :--- | :--- | :--- |
-| ✅ | 33% | -42% | 0.79 |
-
-> [!code]- Click to view: algo_077.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_077.py"
-> ```
-
----
-
-### 085 — Top-5 dyn (more concentrated) + #075 regime switch.
-
-**Description:** Same regime triple as #075 (vol<55% → TQQQ; <85% → momo basket; else cash) but the basket is concentrated to the top 5 dynamic mega-caps instead of 7. Higher concentration lifts CAGR (32% vs 29%) because of stronger single-name contribution, at the cost of worse MaxDD (-53% vs -49%) since dispersion within the basket has fewer offsets.
-
-*Overfit 5/10 — same regime parameters as #075 plus TOP_N=5 vs 7 — a small but explicit additional choice.*
-
-- **Entry (TQQQ):** TQQQ 21d vol < 55% → 100% TQQQ
-- **Entry (basket):** 55% <= vol < 85% → momentum-weighted top-5 dyn mega-cap basket
-- **Exit:** vol >= 85% → cash
-- **Symbols:** TQQQ + dynamic top-5 mega-caps
-
-| Pass? | CAGR | MaxDD | Sharpe |
-| :--- | :--- | :--- | :--- |
-| ✅ | 32% | -53% | 0.79 |
-
-> [!code]- Click to view: algo_085.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_085.py"
-> ```
-
----
-
-### 089 — Regime switch with LONGER vol window (40d). Smoother regime transitions.
-
-**Description:** #075 regime switch but using a 40-day vol window instead of the standard 21-day. The longer window smooths regime transitions, reducing false flips during temporary spikes. Same thresholds (55%/85%) and basket logic. Smoother transitions give a marginally better CAGR (30%) but also slightly worse MaxDD (-51%) because the algo is slower to exit when vol genuinely escalates.
-
-*Overfit 4/10 — the only difference from #075 is the vol window length; everything else equal. Window length is a tuned parameter but the magnitude of change is mild.*
-
-- **Entry (TQQQ):** TQQQ 40d annualized vol < 55% → 100% TQQQ
-- **Entry (basket):** 55% <= vol < 85% → momentum-weighted top-7 dyn basket
-- **Exit:** vol >= 85% → cash
-- **Symbols:** TQQQ + dynamic top-7 mega-caps
-
-| Pass? | CAGR | MaxDD | Sharpe |
-| :--- | :--- | :--- | :--- |
-| ✅ | 30% | -51% | 0.75 |
-
-> [!code]- Click to view: algo_089.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_089.py"
-> ```
-
----
-
-### 095 — TQQQ regime + top-7 EW basket (no momentum weighting). Simpler basket variant of #075.
-
-**Description:** Same vol-regime switch as #075 but the basket is purely equal-weighted across the top-7 dynamic mega-caps — no momentum tilt. Simpler and more robust: removes one tuning surface (the 63-day momentum lookback). CAGR matches #075 (29%) and MaxDD is mildly better (-43% vs -49%), suggesting the momentum weighting in #075 isn't adding much beyond EW on this dataset.
-
-*Overfit 3/10 — pure regime switch + EW basket. Lowest parameter count of the regime-switch family.*
-
-- **Entry (TQQQ):** TQQQ 21d vol < 55% → 100% TQQQ
-- **Entry (basket):** 55% <= vol < 85% → EW top-7 dyn mega-cap basket (1/7 each)
-- **Exit:** vol >= 85% → cash
-- **Symbols:** TQQQ + dynamic top-7 mega-caps
-
-| Pass? | CAGR | MaxDD | Sharpe |
-| :--- | :--- | :--- | :--- |
-| ✅ | 29% | -43% | 0.75 |
-
-> [!code]- Click to view: algo_095.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_095.py"
-> ```
-
----
-
-### 093 — Regime switch with cap-weighted basket (live mkt-cap weights from fundamentals).
-
-**Description:** #075 regime triple with the basket weights determined by live market capitalization from QC fundamentals (each name weighted by its proportion of total basket market cap). More principled than fixed cap-style weights (#043) because weights update as cap ranking evolves over time. Same calm-vol → TQQQ logic.
-
-*Overfit 3/10 — basket weights are derived from fundamentals (not fitted); only the regime thresholds and TOP_N are tuned.*
-
-- **Entry (TQQQ):** TQQQ 21d vol < 55% → 100% TQQQ
-- **Entry (basket):** 55% <= vol < 85% → cap-weighted top-7 dyn mega-cap basket
-- **Exit:** vol >= 85% → cash
-- **Symbols:** TQQQ + dynamic top-7 mega-caps
-
-| Pass? | CAGR | MaxDD | Sharpe |
-| :--- | :--- | :--- | :--- |
-| ✅ | 29% | -45% | 0.74 |
-
-> [!code]- Click to view: algo_093.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_093.py"
-> ```
-
----
-
-### 075 — 100% TQQQ when vol<55%, else 100% top-7 dyn momo basket.
-
-**Description:** The progenitor of the regime-switch family in this sweep. Three regimes by TQQQ 21-day annualized vol: <55% → 100% TQQQ (leveraged); 55-85% → momentum-weighted top-7 dynamic mega-cap basket; >=85% → 100% cash. The dynamic universe (selected by fundamental market cap each pass) gives the basket survivorship resistance — it always holds today's leaders, not a fixed list. The core bet is that 3× leverage works when realized vol is low; switching to single-name equity preserves capital in choppier regimes; full cash protects in panic.
-
-*Overfit 5/10 — two vol thresholds (55%, 85%), momentum lookback (63d), TOP_N=7. The triple-state design adds combinatorial parameter interactions, but the core thresholds are intuitive.*
-
-- **Entry (TQQQ):** TQQQ 21d vol < 55% → 100% TQQQ
-- **Entry (basket):** 55% <= vol < 85% → momentum-weighted top-7 dyn mega-cap basket
-- **Exit:** vol >= 85% → cash
-- **Symbols:** TQQQ + dynamic top-7 mega-caps
-
-| Pass? | CAGR | MaxDD | Sharpe |
-| :--- | :--- | :--- | :--- |
-| ✅ | 29% | -49% | 0.73 |
-
-> [!code]- Click to view: algo_075.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_075.py"
-> ```
-
----
-
-### 078 — momentum-weighted basket version of #075.
-
-**Description:** Functionally equivalent to #075 — same thresholds (55%/85%), same top-7 dynamic universe, same monthly momentum-weighted basket. The result is identical (29% / -49% / 0.73) because the parameters are the same. The two files appear to be near-duplicates kept as separate IDs for record-keeping.
-
-*Overfit 5/10 — same parameter footprint as #075; no meaningful difference in tuning surface.*
-
-- **Entry (TQQQ):** TQQQ 21d vol < 55% → 100% TQQQ
-- **Entry (basket):** 55% <= vol < 85% → momentum-weighted top-7 dyn mega-cap basket
-- **Exit:** vol >= 85% → cash
-- **Symbols:** TQQQ + dynamic top-7 mega-caps
-
-| Pass? | CAGR | MaxDD | Sharpe |
-| :--- | :--- | :--- | :--- |
-| ✅ | 29% | -49% | 0.73 |
-
-> [!code]- Click to view: algo_078.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_078.py"
-> ```
-
----
-
-### 084 — TQQQ + dyn top-7 inv-vol weighted (basket regime by inverse name vol).
-
-**Description:** Regime switch as in #075, but in the basket band each name is weighted by its inverse 60-day daily-return vol (risk parity within the basket). Lower-vol names like MSFT/AAPL get more weight than higher-vol like NVDA/TSLA. Same CAGR as #075 (29%) with a small MaxDD improvement (-44% vs -49%), reflecting the more defensive in-basket weighting.
-
-*Overfit 4/10 — same regime parameters as #075 plus the 60d inv-vol window. The inverse-vol weighting is principled and reduces tuning compared to explicit momentum weights.*
-
-- **Entry (TQQQ):** TQQQ 21d vol < 55% → 100% TQQQ
-- **Entry (basket):** 55% <= vol < 85% → inverse-vol-weighted top-7 dyn basket (60d window)
-- **Exit:** vol >= 85% → cash
-- **Symbols:** TQQQ + dynamic top-7 mega-caps
-
-| Pass? | CAGR | MaxDD | Sharpe |
-| :--- | :--- | :--- | :--- |
-| ✅ | 29% | -44% | 0.73 |
-
-> [!code]- Click to view: algo_084.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_084.py"
-> ```
-
----
-
-### 082 — TQQQ regime-switch (#075 logic) with weekly rebalance instead of monthly.
-
-**Description:** #075 regime triple but the in-basket momentum-weight recomputation happens every ISO week instead of every month. Faster rebalancing tracks momentum shifts more responsively but increases turnover and transaction-cost drag. Result is statistically identical to #075 (29% / -49% / 0.73) — on this dataset, the extra rebalances don't materially change outcomes, suggesting weekly momentum scores are highly autocorrelated.
-
-*Overfit 5/10 — same parameters as #075 plus a weekly cadence (vs monthly). Cadence is itself a fitted choice.*
-
-- **Entry (TQQQ):** TQQQ 21d vol < 55% → 100% TQQQ
-- **Entry (basket):** 55% <= vol < 85% → momentum-weighted top-7 basket, **weekly rebalance**
-- **Exit:** vol >= 85% → cash
-- **Symbols:** TQQQ + dynamic top-7 mega-caps
-
-| Pass? | CAGR | MaxDD | Sharpe |
-| :--- | :--- | :--- | :--- |
-| ✅ | 29% | -49% | 0.73 |
-
-> [!code]- Click to view: algo_082.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_082.py"
-> ```
-
----
-
-### 087 — Regime switch with top-3 momentum stocks (extra concentrated basket).
-
-**Description:** Same regime triple as #075 but the basket is the top 3 of 7 by 3-month return, weighted by positive momentum (zero out the others). Extremely concentrated. CAGR matches #075 (29%) at slightly worse Sharpe (0.72 vs 0.73) — the extra concentration adds dispersion without a corresponding return premium on this period, since the largest mega-caps tend to co-move during basket regimes.
-
-*Overfit 6/10 — #075 parameters plus an explicit top-3-of-7 selection. Highly sensitive to single-name dispersion in basket periods.*
-
-- **Entry (TQQQ):** TQQQ 21d vol < 55% → 100% TQQQ
-- **Entry (basket):** 55% <= vol < 85% → top-3 of dyn top-7 by 3mo momentum, weighted by positive momentum
-- **Exit:** vol >= 85% → cash
-- **Symbols:** TQQQ + dynamic top-3 (selected from top-7 mega-caps)
-
-| Pass? | CAGR | MaxDD | Sharpe |
-| :--- | :--- | :--- | :--- |
-| ✅ | 29% | -49% | 0.72 |
-
-> [!code]- Click to view: algo_087.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_087.py"
+> PATH: "vault://QuantConnect/cc/algos2/algo_066.py"
 > ```
 
 ---

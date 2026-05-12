@@ -6,6 +6,9 @@ from leveraged_rebalance import LeveragedRebalanceSub
 from rsi_champion import RSIDipChampionSub
 from tqqq_dynamic import TQQQDynamicSub
 from expanding_breakout import ExpandingBreakoutSub
+from tqqq_sma150 import TQQQSMA150Sub
+from ibs_atr_stop import IBSATRStopSub
+from mktcap_ibs_regime import MktCapIBSRegimeSub
 
 
 # ---------------------------------------------------------------------------
@@ -28,11 +31,14 @@ class UltimateAlgo(QCAlgorithm):
 
         self.sub_algos = [
             # VolatilityBreakoutSub(self, "VolBreakout"),  # disabled: minute-resolution signals get clipped by daily-only ExecuteAggregation; net-negative in ensemble (28% vs 30% baseline)
-            TechDipBuySub(self,         "TechDip"),
-            LeveragedRebalanceSub(self,  "LevRebal"),
-            RSIDipChampionSub(self,      "RSIDip"),
-            TQQQDynamicSub(self,         "TQQQDyn"),
-            ExpandingBreakoutSub(self,   "ExpandBreak"),
+            TechDipBuySub(self,           "TechDip"),
+            LeveragedRebalanceSub(self,   "LevRebal"),
+            RSIDipChampionSub(self,       "RSIDip"),
+            TQQQDynamicSub(self,           "TQQQDyn"),
+            ExpandingBreakoutSub(self,     "ExpandBreak"),
+            TQQQSMA150Sub(self,            "TQQQSMA150"),
+            IBSATRStopSub(self,            "IBSATRStop"),
+            MktCapIBSRegimeSub(self,       "MktCapIBS"),
         ]
 
         start_equity = INITIAL_CASH / len(self.sub_algos)

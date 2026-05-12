@@ -1,53 +1,31 @@
 from AlgorithmImports import *
-import numpy as np
 
 
 class Algo057(QCAlgorithm):
-    """#057 — Mega-7 EW + adaptive 252d vol comparison gate (own basket)."""
-    MEGA = ["AAPL", "MSFT", "NVDA", "GOOGL", "AMZN", "META", "TSLA"]
+    """#57 — 5 most market capital companies, equal-weight, monthly."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-        self.syms = [self.AddEquity(t, Resolution.Daily).Symbol for t in self.MEGA]
-        self.SetWarmUp(280, Resolution.Daily)
-        self.in_market = False
-        self.Schedule.On(self.DateRules.EveryDay(self.syms[0]),
-                         self.TimeRules.AfterMarketOpen(self.syms[0], 30), self.R)
+        self.UniverseSettings.Resolution = Resolution.Daily
+        self.AddUniverse(self.Sel)
+        self.SetWarmUp(20, Resolution.Daily)
+        self.top5 = []
+        self.Schedule.On(self.DateRules.MonthStart(),
+                         self.TimeRules.At(10, 0), self.R)
 
-    def _vols(self):
-        h = self.History(self.syms, 253, Resolution.Daily)
-        if h.empty: return None, None
-        rets_per_name = []
-        for s in self.syms:
-            try:
-                if s not in h.index.get_level_values(0): return None, None
-                c = h.loc[s]['close'].values
-                if len(c) < 253: return None, None
-                rets_per_name.append(np.diff(np.log(c)))
-            except Exception:
-                return None, None
-        if not rets_per_name: return None, None
-        arr = np.array(rets_per_name)
-        basket_rets = arr.mean(axis=0)
-        v20 = float(np.std(basket_rets[-20:]) * np.sqrt(252))
-        v252 = float(np.std(basket_rets) * np.sqrt(252))
-        return v20, v252
+    def Sel(self, fund):
+        elig = [f for f in fund if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
+        elig.sort(key=lambda f: f.MarketCap, reverse=True)
+        self.top5 = [f.Symbol for f in elig[:5]]
+        return self.top5
 
     def R(self):
-        if self.IsWarmingUp: return
-        v20, v252 = self._vols()
-        if v20 is None: return
-        gate_on = v20 < v252
-
-        if gate_on:
-            if not self.in_market:
-                w = 1.0 / len(self.syms)
-                for s in self.syms: self.SetHoldings(s, w)
-                self.in_market = True
-        else:
-            if self.in_market:
-                for s in self.syms:
-                    if self.Portfolio[s].Invested: self.Liquidate(s)
-                self.in_market = False
+        if self.IsWarmingUp or not self.top5: return
+        w = 1.0 / len(self.top5)
+        for sym in list(self.Portfolio.Keys):
+            if self.Portfolio[sym].Invested and sym not in self.top5:
+                self.Liquidate(sym)
+        for s in self.top5:
+            self.SetHoldings(s, w)

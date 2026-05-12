@@ -1,72 +1,82 @@
 from AlgorithmImports import *
-import numpy as np
 
 
 class Algo081(QCAlgorithm):
-    """#081 — Top-7 dyn momo + TQQQ vol gate using EMA(20) of vol (smoothed)."""
-    LOOKBACK = 63; VOL_THRESH = 0.55; TOP_N = 7
+    """Risk Parity QQQ/IEF/GLD: weights inverse to 20-day realized volatility.
+    Rebalance only when any leg drifts >5% from target. Sum of weights = 1.0."""
 
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100_000)
-        self.UniverseSettings.Resolution = Resolution.Daily
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.AddUniverse(self.Sel); self.SetWarmUp(150, Resolution.Daily)
-        self.basket = []; self.in_market = False; self.month_seen = -1; self.weights = {}
-        self.vol_ema = None
-        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
-                         self.TimeRules.AfterMarketOpen(self.tqqq, 30), self.R)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100_000)
 
-    def Sel(self, fund):
-        elig = [f for f in fund if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
-        elig.sort(key=lambda f: f.MarketCap, reverse=True)
-        self.basket = [f.Symbol for f in elig[:self.TOP_N]]
-        return self.basket
+        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
+        self.ief = self.AddEquity("IEF", Resolution.Daily).Symbol
+        self.gld = self.AddEquity("GLD", Resolution.Daily).Symbol
+        self.assets = [self.qqq, self.ief, self.gld]
 
-    def _vol(self):
-        h = self.History(self.tqqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return None
-        c = h['close'].values; r = np.diff(np.log(c))
-        v = float(np.std(r) * np.sqrt(252))
-        # EMA-smooth with 20-day half-life
-        alpha = 2.0 / 21.0
-        if self.vol_ema is None: self.vol_ema = v
-        else: self.vol_ema = alpha * v + (1 - alpha) * self.vol_ema
-        return self.vol_ema
+        self.lookback = 20
+        self.drift_threshold = 0.05
 
-    def _w(self):
-        if not self.basket: return {}
-        h = self.History(self.basket, self.LOOKBACK + 1, Resolution.Daily)
-        if h.empty: return {}
-        rets = {}
-        for s in self.basket:
+        self.target_weights = {sym: 0.0 for sym in self.assets}
+
+        self.SetWarmUp(self.lookback + 5, Resolution.Daily)
+
+    def _compute_target_weights(self):
+        vols = {}
+        for sym in self.assets:
+            hist = self.History(sym, self.lookback + 1, Resolution.Daily)
+            if hist is None or hist.empty:
+                return None
             try:
-                if s not in h.index.get_level_values(0): continue
-                c = h.loc[s]['close']
-                if len(c) < self.LOOKBACK + 1: continue
-                rets[s] = max(0.0, c.iloc[-1] / c.iloc[0] - 1.0)
-            except: continue
-        t = sum(rets.values())
-        if t <= 0: return {s: 1.0 / len(self.basket) for s in self.basket}
-        return {s: r / t for s, r in rets.items()}
+                closes = hist["close"]
+            except Exception:
+                return None
+            if len(closes) < self.lookback + 1:
+                return None
+            rets = closes.pct_change().dropna()
+            if len(rets) < 2:
+                return None
+            v = float(rets.std())
+            if v <= 0 or v != v:  # NaN guard
+                return None
+            vols[sym] = v
 
-    def R(self):
-        if self.IsWarmingUp or not self.basket: return
-        v = self._vol()
-        if v is None: return
-        on = v < self.VOL_THRESH
-        if on:
-            if self.Time.month != self.month_seen or not self.in_market:
-                self.weights = self._w(); self.month_seen = self.Time.month
-            target_set = set(self.weights.keys())
-            for s in list(self.Portfolio.Keys):
-                if self.Portfolio[s].Invested and s != self.tqqq and s not in target_set: self.Liquidate(s)
-            for s, w in self.weights.items():
-                cur = self.Portfolio[s].HoldingsValue / max(1e-9, self.Portfolio.TotalPortfolioValue)
-                if not self.in_market or abs(w - cur) > 0.05:
-                    if w > 0: self.SetHoldings(s, w)
-            self.in_market = True
-        else:
-            if self.in_market:
-                for s in list(self.Portfolio.Keys):
-                    if self.Portfolio[s].Invested: self.Liquidate(s)
-                self.in_market = False
+        inv = {sym: 1.0 / v for sym, v in vols.items()}
+        total_inv = sum(inv.values())
+        if total_inv <= 0:
+            return None
+        return {sym: inv[sym] / total_inv for sym in self.assets}
+
+    def OnData(self, data):
+        if self.IsWarmingUp:
+            return
+
+        new_targets = self._compute_target_weights()
+        if new_targets is None:
+            return
+
+        # Compute current actual portfolio weights
+        equity = float(self.Portfolio.TotalPortfolioValue)
+        if equity <= 0:
+            return
+
+        current_weights = {}
+        for sym in self.assets:
+            holding_value = float(self.Portfolio[sym].HoldingsValue)
+            current_weights[sym] = holding_value / equity
+
+        # Check drift vs new targets
+        max_drift = 0.0
+        for sym in self.assets:
+            d = abs(current_weights[sym] - new_targets[sym])
+            if d > max_drift:
+                max_drift = d
+
+        # If never invested, force initial allocation
+        any_invested = any(self.Portfolio[s].Invested for s in self.assets)
+
+        if (not any_invested) or max_drift > self.drift_threshold:
+            self.target_weights = new_targets
+            for sym in self.assets:
+                self.SetHoldings(sym, self.target_weights[sym])
