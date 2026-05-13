@@ -250,7 +250,7 @@ def main():
 
         # Save incrementally
         with open(outpath, "w") as f:
-            json.dump(results, f, indent=2)
+            json.dump(results, f, indent=2, ensure_ascii=False)
 
         time.sleep(1)
 

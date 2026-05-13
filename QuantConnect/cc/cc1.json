@@ -1,0 +1,1444 @@
+{
+  "strategies": {
+    "1": {
+      "category": "Breakout",
+      "name": "Volatility Squeeze Alpha (z_gold_oil_breakout.py)",
+      "description": "Volatility squeeze breakout strategy applied to Gold and Oil CFDs. Uses Bollinger Bands and Keltner Channels to identify \"squeezes\" before explosive moves.",
+      "overfit": "4/10",
+      "overfit_notes": "BB/KC squeeze is a documented and widely-used pattern; four indicators each with clear roles; ATR trailing stop uses a standard multiplier; primary concern is the non-standard asset pairing (Gold + Oil CFDs) which limits historical depth.",
+      "rules": [
+        {
+          "label": "Squeeze",
+          "text": "BB inside KC"
+        },
+        {
+          "label": "Entry",
+          "text": "Squeeze breakout AND Price > EMA"
+        },
+        {
+          "label": "Exit",
+          "text": "ATR-based trailing stop or time-based"
+        },
+        {
+          "label": "Symbols",
+          "text": "XAUUSD (Gold), WTICOUSD (Oil)"
+        },
+        {
+          "label": "Resolution",
+          "text": "Hour"
+        }
+      ],
+      "algo_dir": "algos1",
+      "file": "z_gold_oil_breakout.py",
+      "vault_path": "vault://QuantConnect/cc/algos1/z_gold_oil_breakout.py"
+    },
+    "2": {
+      "category": "Breakout",
+      "name": "Research S38 - Vol Expansion + SOXL/TQQQ + VIX Shield (strategy_38.py)",
+      "description": "Expanding Volatility + SOXL/TQQQ Momentum Rotation + VIX/VIX3M Structural Shield.",
+      "overfit": "6/10",
+      "overfit_notes": "three stacked components (vol expansion, LETF momentum rotation, VIX/VIX3M ratio filter) each with separate thresholds; the VIX3M/VIX ratio is a non-standard metric; LETF asset selection (SOXL/TQQQ) carries hindsight bias.",
+      "rules": [
+        {
+          "label": "Gate",
+          "text": "QQQ > SMA(200) AND VIX/VIX3M < 1.10"
+        },
+        {
+          "label": "Entry",
+          "text": "Expanding Range AND ADX(10) > 25 → TQQQ; ADX > 30 AND SOXL momentum > TQQQ → SOXL"
+        },
+        {
+          "label": "Exit",
+          "text": "3.0 ATR trailing stop OR QQQ < SMA(200) OR VIX/VIX3M > 1.10"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, SOXL (signal from QQQ, VIX, VIX3M)"
+        }
+      ],
+      "algo_dir": "algos1",
+      "file": "strategy_38.py",
+      "vault_path": "vault://QuantConnect/cc/algos1/strategy_38.py"
+    },
+    "3": {
+      "category": "Breakout",
+      "name": "Research S36 - Triple-LETF Rotator + Expanding Range (strategy_36.py)",
+      "description": "Triple-LETF Rotator (TQQQ/SOXL/TECL) with Expanding Range momentum logic.",
+      "overfit": "6/10",
+      "overfit_notes": "LETF trio selection (TQQQ/SOXL/TECL) carries hindsight bias as these were the decade's top performers; expanding range momentum adds non-standard breakout width parameters; this is a refined iteration of S38, indicating active tuning.",
+      "rules": [
+        {
+          "label": "Gate",
+          "text": "QQQ > SMA(200)"
+        },
+        {
+          "label": "Entry",
+          "text": "Expanding Range AND ADX(10) > 25 → TQQQ; ADX > 30 → highest momentum of TQQQ/SOXL/TECL"
+        },
+        {
+          "label": "Exit",
+          "text": "3.0 ATR trailing stop OR QQQ < SMA(200)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, SOXL, TECL (signal from QQQ)"
+        }
+      ],
+      "algo_dir": "algos1",
+      "file": "strategy_36.py",
+      "vault_path": "vault://QuantConnect/cc/algos1/strategy_36.py"
+    },
+    "4": {
+      "category": "Breakout",
+      "name": "Research S35 - Expanding Strong Trend + SOXL + ADX (strategy_35.py)",
+      "description": "Expanding Strong Trend logic with dynamic SOXL rotation and ADX filters.",
+      "overfit": "5/10",
+      "overfit_notes": "the expanding trend base is well-defined but the specific ADX threshold and SOXL rotation trigger condition look iteratively fitted; ADX itself is a standard indicator, keeping the score moderate.",
+      "rules": [
+        {
+          "label": "Gate",
+          "text": "QQQ > SMA(200)"
+        },
+        {
+          "label": "Entry",
+          "text": "Expanding Range AND ADX(10) > 25 → TQQQ; ADX > 30 AND SOXL momentum > TQQQ → SOXL"
+        },
+        {
+          "label": "Exit",
+          "text": "3.0 ATR trailing stop OR QQQ < SMA(200)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, SOXL (signal from QQQ)"
+        }
+      ],
+      "algo_dir": "algos1",
+      "file": "strategy_35.py",
+      "vault_path": "vault://QuantConnect/cc/algos1/strategy_35.py"
+    },
+    "5": {
+      "name": "Research S31 - Expanding Breakout + ADX + 3.0 ATR (strategy_31.py)",
+      "description": "Expanding Breakout with tightened ADX trend filters and 3.0 ATR protection.",
+      "overfit": "5/10",
+      "overfit_notes": "3.0 ATR is above the typical 2.0 default; combining expanding breakout with tightened ADX and an elevated ATR multiplier suggests multiple rounds of iterative refinement from the S16 baseline.",
+      "rules": [
+        {
+          "label": "Gate",
+          "text": "QQQ > SMA(200)"
+        },
+        {
+          "label": "Entry",
+          "text": "Expanding Range AND ADX(10) > 25 → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "3.0 ATR trailing stop OR QQQ < SMA(200)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ (signal from QQQ)"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/strategy_31.py",
+      "algo_dir": "algos1",
+      "file": "strategy_31.py",
+      "category": "Breakout"
+    },
+    "6": {
+      "name": "Research S16 - Classic Expanding Breakout + 2.5 ATR (strategy_16.py)",
+      "description": "Classic Expanding Breakout (Yest Range > Prev Range) with 2.5 ATR trailing stop.",
+      "overfit": "3/10",
+      "overfit_notes": "classic breakout with a standard ATR multiplier; lowest parameter count in the breakout series; no exotic filters; the unmodified baseline from which S31–S38 were derived.",
+      "rules": [
+        {
+          "label": "Gate",
+          "text": "QQQ > SMA(200)"
+        },
+        {
+          "label": "Entry",
+          "text": "Expanding Range AND ADX(10) > 20 → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "2.5 ATR trailing stop OR QQQ < SMA(200)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ (signal from QQQ)"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/strategy_16.py",
+      "algo_dir": "algos1",
+      "file": "strategy_16.py",
+      "category": "Breakout"
+    },
+    "7": {
+      "name": "RSI Frankenfest v1.5 (a_10.py)",
+      "description": "Multi-layered strategy using a QQQ EMA(200) top gate. Bullish regime uses RSI(TQQQ,2) for dip buying, while bearish regime uses a defensive selection from bonds and defensive ETFs.",
+      "overfit": "7/10",
+      "overfit_notes": "large defensive ETF pool (10+ symbols), complex ranking logic, and multiple regime gates; the name reflects iterative layering; only 5 years of data (2020 start) gives a short history relative to the parameter count.",
+      "rules": [
+        {
+          "label": "Gate",
+          "text": "QQQ > EMA(200)"
+        },
+        {
+          "label": "Bull Entry",
+          "text": "RSI(TQQQ, 2) < 20"
+        },
+        {
+          "label": "Defensive",
+          "text": "Bottom 1 by RSI(10) from defensive list"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, QLD, BSV, TLT, LQD, VBF, XLP, UGE, XLU, XLV, SPAB, ANGL, etc."
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/a_10.py",
+      "algo_dir": "algos1",
+      "file": "a_10.py",
+      "category": "Dip Buy"
+    },
+    "8": {
+      "name": "Research S22 - High-Octane RSI Swing TQQQ (strategy_22.py)",
+      "description": "High-Octane RSI Swing. Entry on leader dips (NVDA/AMD/TSLA) → 100% TQQQ.",
+      "overfit": "6/10",
+      "overfit_notes": "only 35 total trades (10 wins, 25 losses), far too few for statistical confidence; using individual stock RSI signals as triggers for a TQQQ position creates a cross-asset dependency unlikely to hold out-of-sample; the NVDA/AMD/TSLA universe reflects hindsight selection.",
+      "rules": [
+        {
+          "label": "Gate",
+          "text": "QQQ > SMA(200)"
+        },
+        {
+          "label": "Entry",
+          "text": "Any of NVDA/AMD/TSLA RSI(2) < 20 → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ RSI(2) > 70 OR QQQ < SMA(200)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ (trigger from NVDA, AMD, TSLA; signal from QQQ)"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/strategy_22.py",
+      "algo_dir": "algos1",
+      "file": "strategy_22.py",
+      "category": "Dip Buy"
+    },
+    "9": {
+      "name": "Research S11 - Cheat Code Rotator TQQQ (cheat_code_rotator_tqqq.py)",
+      "description": "Pure Cheat Code logic. 200 SMA Bull Filter + VIX Shield + RSI2 Dip entry.",
+      "overfit": "5/10",
+      "overfit_notes": "three stacked filters (SMA(200) + VIX ceiling + RSI(2)) with 81 trades; the VIX ceiling is an additional non-standard fitted threshold; \"cheat code\" framing suggests the entry conditions were identified retrospectively rather than from first principles.",
+      "rules": [
+        {
+          "label": "Gate",
+          "text": "QQQ > SMA(200) AND VIX < 28"
+        },
+        {
+          "label": "Entry",
+          "text": "QQQ RSI(2) < 30 → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ RSI(10) > 80 OR QQQ < SMA(200) OR VIX > 32"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ (signal from QQQ, VIX)"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/cheat_code_rotator_tqqq.py",
+      "algo_dir": "algos1",
+      "file": "cheat_code_rotator_tqqq.py",
+      "category": "Dip Buy"
+    },
+    "10": {
+      "name": "Conservative Rotation (conservative_rotation.py)",
+      "description": "Always either long or short — never in cash. Rides TQQQ in bull markets and flips to SQQQ during sustained downtrends, but stays long during sharp crashes rather than shorting into panic. Aggressive on both sides of the market. The 1020% return in 2020 is a red flag suggesting the logic was calibrated to the specific shape of the COVID crash and recovery.",
+      "overfit": "7/10",
+      "overfit_notes": "the crash gate (RSI(10) < 30 prevents shorting into panic drops) appears specifically calibrated to avoid shorting the COVID crash; the 1020% 2020 return is an extreme outlier; always-invested design amplifies the effect of any misfired bear signal.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "Default TQQQ; rotate to SQQQ when SPY < SMA(200) AND TQQQ < SMA(20) AND no crash"
+        },
+        {
+          "label": "Exit",
+          "text": "Rotate back to TQQQ when trend or crash conditions clear"
+        },
+        {
+          "label": "Crash Gate",
+          "text": "RSI(10) on QQQ or SPY < 30 → stay long TQQQ (prevents shorting sharp drops)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, SQQQ, SPY, QQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/conservative_rotation.py",
+      "algo_dir": "algos1",
+      "file": "conservative_rotation.py",
+      "category": "Rotation"
+    },
+    "11": {
+      "name": "Large Cap Dip Buy (large_cap_dip_buy.py)",
+      "description": "Targets the top 5 largest technology companies by market cap. Waits for a short-term pullback (RSI < 25) within a broad tech universe. Exits when individual positions reach new 1-year highs.",
+      "overfit": "3/10",
+      "overfit_notes": "standard RSI(2)/ATH-exit logic with a dynamic market cap universe that prevents hindsight symbol selection; RSI threshold of 25 is a minor variation from the common 30; the main concern is the small trade count (80 trades).",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "Top 5 Tech Market Cap AND RSI(2) < 25"
+        },
+        {
+          "label": "Exit",
+          "text": "Price >= 252-day High (ATH)"
+        },
+        {
+          "label": "Symbols",
+          "text": "Dynamic top 5 tech (AAPL, MSFT, NVDA, AVGO, ORCL)"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Weekly"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/large_cap_dip_buy.py",
+      "algo_dir": "algos1",
+      "file": "large_cap_dip_buy.py",
+      "category": "Mean Reversion"
+    },
+    "12": {
+      "name": "Giant Sniper Mean-Reversion (giant_sniper_mean_rev.py)",
+      "description": "High-conviction mean reversion in global leaders. Selects Top 5 by Market Cap monthly and enters on deep RSI(2) dips.",
+      "overfit": "2/10",
+      "overfit_notes": "minimal parameters (RSI(2) < 20 entry, RSI(2) > 70 exit, SMA(200) shield); dynamic market cap universe eliminates hindsight symbol selection; 706 trades provides strong statistical backing; close to textbook RSI mean-reversion.",
+      "rules": [
+        {
+          "label": "Universe",
+          "text": "Top 5 Market Cap"
+        },
+        {
+          "label": "Entry",
+          "text": "RSI(2) < 20"
+        },
+        {
+          "label": "Exit",
+          "text": "RSI(2) > 70 OR QQQ < SMA(200)"
+        },
+        {
+          "label": "Shield",
+          "text": "QQQ > SMA(200)"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/giant_sniper_mean_rev.py",
+      "algo_dir": "algos1",
+      "file": "giant_sniper_mean_rev.py",
+      "category": "Mean Reversion"
+    },
+    "13": {
+      "name": "VAA Leveraged (vaa_leveraged.py)",
+      "description": "VAA-G (Global) strategy modified for leveraged ETFs. Rotates between high-momentum offensive assets (TQQQ, EFA, EEM, AGG) when all are positive, or defensive assets (LQD, IEF, SHY) otherwise. Monthly rebalancing.",
+      "overfit": "4/10",
+      "overfit_notes": "the VAA momentum formula (12/4/2/1 weights) is published and non-fitted; replacing the original broad ETFs with TQQQ as the sole offensive asset introduces LETF hindsight selection risk; defensive basket (LQD/IEF/SHY) is standard.",
+      "rules": [
+        {
+          "label": "Logic",
+          "text": "Momentum Score = (12 * r1) + (4 * r3) + (2 * r6) + (1 * r12)"
+        },
+        {
+          "label": "Risk-On",
+          "text": "ALL offensive scores > 0"
+        },
+        {
+          "label": "Assets (Offensive)",
+          "text": "TQQQ, EFA, EEM, AGG"
+        },
+        {
+          "label": "Assets (Defensive)",
+          "text": "LQD, IEF, SHY"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Monthly"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/vaa_leveraged.py",
+      "algo_dir": "algos1",
+      "file": "vaa_leveraged.py",
+      "category": "Momentum"
+    },
+    "14": {
+      "name": "SOXL.SOXS SeeSaw (a_6.py)",
+      "description": "Binary rotation between SOXL and SOXS based on RSI thresholds and cumulative returns. Includes a cash (BIL) default and UVXY for hedging.",
+      "overfit": "7/10",
+      "overfit_notes": "non-standard RSI periods (25 and 32) not found in reference literature; dual cumulative return lookbacks (6-month and 1-month) with a custom drift rebalance threshold are all hand-fitted; 477 trades is borderline for this parameter count.",
+      "rules": [
+        {
+          "label": "Indicators",
+          "text": "RSI(SOXS, 25), RSI(SOXL, 32), CumRet(6), CumRet(1)"
+        },
+        {
+          "label": "Default",
+          "text": "BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "SOXL, SOXS, UVXY, BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Drift-based (10%)"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/a_6.py",
+      "algo_dir": "algos1",
+      "file": "a_6.py",
+      "category": "Rotation"
+    },
+    "15": {
+      "name": "SOXL.SOXS SeeSaw Duplicate (a_7.py)",
+      "description": "Duplicate of Strategy 8. Uses binary rotation between SOXL and SOXS based on RSI and cumulative return logic.",
+      "overfit": "7/10",
+      "overfit_notes": "identical to Strategy-14; the presence of a near-identical variant implies active parameter search rather than independent derivation; both should be treated as a single research branch.",
+      "rules": [
+        {
+          "label": "Indicators",
+          "text": "RSI(SOXS, 25), RSI(SOXL, 32), CumRet(6), CumRet(1)"
+        },
+        {
+          "label": "Symbols",
+          "text": "SOXL, SOXS, UVXY, BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Drift-based (10%)"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/a_7.py",
+      "algo_dir": "algos1",
+      "file": "a_7.py",
+      "category": "Rotation"
+    },
+    "16": {
+      "name": "Rotation Strategy V1 (rotation_v1.py)",
+      "description": "Trend-following rotation between TQQQ and SPY. Uses SPY SMA(200) as a global regime filter.",
+      "overfit": "6/10",
+      "overfit_notes": "the 1020% 2020 return is a major outlier suggesting the rotation timing was calibrated to the COVID crash and recovery; commented-out bear logic and multiple candidate assets (TQQQ/SPXL/TECL) indicate iterative asset selection.",
+      "rules": [
+        {
+          "label": "Regime",
+          "text": "SPY > SMA(200) → TQQQ"
+        },
+        {
+          "label": "Bear Logic",
+          "text": "Stay in cash or SQQQ (original code commented out)"
+        },
+        {
+          "label": "Symbols",
+          "text": "SPY, QQQ, TQQQ, SPXL, UVXY, TECL, UPRO, SQQQ, TLT"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/rotation_v1.py",
+      "algo_dir": "algos1",
+      "file": "rotation_v1.py",
+      "category": "Rotation"
+    },
+    "17": {
+      "name": "Defensive Rotation (defensive_rotation.py)",
+      "description": "Rotates between TQQQ, SQQQ, and cash depending on the trend and momentum regime. More conservative than S19 — defaults to cash when conditions are ambiguous rather than forcing a position. A duplicate initialization block in the code indicates this strategy was tuned in place over time.",
+      "overfit": "6/10",
+      "overfit_notes": "SMA(200) and SMA(20) are standard, but RSI(2) < 20 bull entry and RSI(2) > 80 bear entry are tighter than the typical 30/70; the duplicate initialization block confirms iterative in-place tuning.",
+      "rules": [
+        {
+          "label": "Entry (Bull)",
+          "text": "TQQQ > SMA(200) AND (price > SMA(20) OR RSI(2) < 20) → TQQQ"
+        },
+        {
+          "label": "Entry (Bear)",
+          "text": "TQQQ ≤ SMA(200) AND (price < SMA(20) OR RSI(2) > 80) → SQQQ"
+        },
+        {
+          "label": "Cash Gate",
+          "text": "RSI(10) on QQQ or SPY < 30 → cash regardless of regime"
+        },
+        {
+          "label": "Default",
+          "text": "Cash"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, SQQQ, SPY, QQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/defensive_rotation.py",
+      "algo_dir": "algos1",
+      "file": "defensive_rotation.py",
+      "category": "Rotation"
+    },
+    "18": {
+      "name": "RSI Rebalance (rsi_rebalance.py)",
+      "description": "An advanced version of the RSI Champion. Monitors QQQ for extreme oversold conditions and rotates into an aggressive growth basket. Includes a defensive ranking system for rotation during neutral periods.",
+      "overfit": "3/10",
+      "overfit_notes": "single oversold trigger with 2910 trades gives strong statistical confidence; RSI(2) < 25 and the LETF basket are the only minor non-standard choices; the defensive ranking fallback adds parameters but does not change the dominant core signal.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "QQQ RSI(2) < 25 → equal-weight TQQQ / SOXL / TECL"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ RSI(2) >= 25 → 100% Cash/Defensive"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, SOXL, TECL, TLT, GLD, IEF, AGG, BND, SGOV, BSV"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/rsi_rebalance.py",
+      "algo_dir": "algos1",
+      "file": "rsi_rebalance.py",
+      "category": "Dip Buy"
+    },
+    "19": {
+      "name": "TQQQ Simple Long Term (a_2.py)",
+      "description": "A trend-following strategy for TQQQ using SPY SMA(200) as a regime filter and TQQQ SMA(20) for local trend. Includes RSI(10) filters for timing.",
+      "overfit": "7/10",
+      "overfit_notes": "158% CAGR and 4720% in 2020 are extreme outliers; the triple-filter stack (SPY SMA(200) + TQQQ SMA(20) + RSI(10)) appears calibrated to catch the exact shape of the COVID recovery; the implausibly high CAGR is the primary concern.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "SPY > SMA(200) AND (TQQQ > SMA(20) OR RSI(10) < 30)"
+        },
+        {
+          "label": "Exit",
+          "text": "SPY <= SMA(200) OR (TQQQ < SMA(20) AND RSI(10) > 70)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, SQQQ, SPY, UVXY, SPXL, UPRO, TLT"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/a_2.py",
+      "algo_dir": "algos1",
+      "file": "a_2.py",
+      "category": "Trend"
+    },
+    "20": {
+      "name": "Large Cap Tech Strategy (large_cap_ema.py)",
+      "description": "A simple trend-following strategy for top tech leaders. Buys when price pulls below the 100-day EMA and exits when it recovers to a new 1-year high.",
+      "overfit": "2/10",
+      "overfit_notes": "clean two-rule design (EMA(100) entry, 252-day high exit); dynamic market cap universe prevents hindsight symbol selection; EMA(100) is less standard than SMA(200) but not exotic; 47 trades is small but the logic is straightforward.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "Top 5 Tech Market Cap AND Price < EMA(100)"
+        },
+        {
+          "label": "Exit",
+          "text": "Price >= 252-day High"
+        },
+        {
+          "label": "Symbols",
+          "text": "Dynamic Top 5 Tech"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Weekly"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos1/large_cap_ema.py",
+      "algo_dir": "algos1",
+      "file": "large_cap_ema.py",
+      "category": "Trend"
+    },
+    "21": {
+      "name": "Research S8 - TQQQ Dynamic Compounding (dip_buy_tqqq.py)",
+      "description": "Dynamic Compounding. Varies TQQQ leverage based on RSI2 dip/RSI10 exhaustion.",
+      "overfit": "4/10",
+      "overfit_notes": "RSI thresholds (30, 80) are textbook oversold/overbought levels and SMA(200) is canonical, but the three-tier allocation (20%/50%/100%) and the RSI(10) > 80 de-lever trigger look hand-fitted; single-ticker focus on TQQQ keeps the parameter space small. Restored from git history (commit cba62e9^); identical in spirit to the active tqqq_dynamic.py.",
+      "rules": [
+        {
+          "label": "Entry (Bull, full)",
+          "text": "TQQQ > SMA(200) AND RSI(2) < 30 → 100%"
+        },
+        {
+          "label": "Entry (Bull, default)",
+          "text": "TQQQ > SMA(200), not overbought → 50%"
+        },
+        {
+          "label": "De-lever",
+          "text": "TQQQ > SMA(200) AND RSI(10) > 80 → 20%"
+        },
+        {
+          "label": "Exit",
+          "text": "TQQQ ≤ SMA(200) → 100% cash"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/strategies/dip_buy_tqqq.py",
+      "file": "dip_buy_tqqq.py",
+      "algo_dir": "algos1",
+      "category": "Trend"
+    },
+    "22": {
+      "category": "Rebalance",
+      "name": "Equal-Weight LETF Rebalance (rebalance.py)",
+      "description": "Simple periodic rebalancer for TQQQ/SOXL/TECL. Holds 20% in each ETF (60% total) and 40% cash, rebalancing once per year after 11am.",
+      "overfit_notes": "zero mechanical parameter tuning, but the TQQQ/SOXL/TECL choice is hindsight bias — these three were among the best-performing leveraged ETFs of the backtest decade, knowable only after the fact. 40% cash dampens drawdowns but doesn't address the selection issue.",
+      "rules": [
+        {
+          "label": "Allocation",
+          "text": "TQQQ 20%, SOXL 20%, TECL 20%, Cash 40%"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Yearly"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, SOXL, TECL"
+        }
+      ],
+      "algo_dir": "algos1",
+      "file": "rebalance.py",
+      "vault_path": "vault://QuantConnect/cc/algos1/rebalance.py",
+      "overfit": "4/10"
+    },
+    "23": {
+      "category": "Trend",
+      "name": "TQQQ trend SMA200 (algo_003.py)",
+      "description": "The canonical \"price above 200-day SMA\" trend filter applied to QQQ (NASDAQ 100 ETF), with the execution vehicle being TQQQ for 3x leveraged exposure during uptrends. When QQQ is above its 200d SMA, the algo goes 100% TQQQ; when it dips below, it moves entirely to cash. The 200-day SMA is the most widely followed technical indicator in institutional markets, so its signals have real behavioral anchoring — but the lagging nature means the leveraged vehicle takes severe damage before the exit triggers. In 2022, QQQ broke below its 200d SMA well after TQQQ had already lost ~60% from its peak.",
+      "overfit": "1/10",
+      "overfit_notes": "The 200-day SMA is a standard, universally recognized threshold. Zero tuned parameters beyond it.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "QQQ price > 200-day SMA → allocate 100% to TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ price <= 200-day SMA → liquidate TQQQ to cash"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, QQQ"
+        }
+      ],
+      "algo_dir": "algos2",
+      "file": "algo_003.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_003.py"
+    },
+    "24": {
+      "category": "Trend",
+      "name": "TQQQ trend SMA150 (algo_006.py)",
+      "description": "An identical structure to 003 but with the SMA lookback shortened from 200 to 150 days. This faster filter catches trend entries a few weeks earlier and, more importantly, exits during drawdowns sooner — which in 2022 meant preserving more capital for the recovery. The result is a meaningful lift in CAGR (33% to 40%) with essentially unchanged MaxDD (-56% to -55%). The weakness is that a shorter lookback increases whipsaw frequency during range-bound, choppy markets.",
+      "overfit": "2/10",
+      "overfit_notes": "150d is a common alternative to 200d, but this is clearly part of a parameter sweep across SMA lengths. The improvement over 003 is marginal enough to question out-of-sample robustness.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "QQQ price > 150-day SMA → allocate 100% to TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ price <= 150-day SMA → liquidate TQQQ to cash"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, QQQ"
+        }
+      ],
+      "algo_dir": "algos2",
+      "file": "algo_006.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_006.py"
+    },
+    "25": {
+      "category": "Trend",
+      "name": "TQQQ self-SMA200 (algo_008.py)",
+      "description": "Applies the 200-day SMA filter directly to the leveraged instrument TQQQ rather than the underlying QQQ. The rationale might be simplicity (one symbol), but it introduces a subtle problem: TQQQ's 3x daily leverage creates volatility decay and path-dependence that the underlying NASDAQ 100 does not have, making the self-SMA signal noisier and less reliable as a trend gauge.",
+      "overfit": "1/10",
+      "overfit_notes": "Standard 200d SMA, no parameter tuning. The symbol choice (TQQQ vs QQQ) is a design decision, not a fitted parameter.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "TQQQ price > TQQQ's own 200-day SMA → allocate 100% to TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "TQQQ price <= own 200-day SMA → liquidate to cash"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "algo_dir": "algos2",
+      "file": "algo_008.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_008.py"
+    },
+    "26": {
+      "category": "Trend",
+      "name": "TQQQ self-SMA150 (algo_009.py)",
+      "description": "The same self-SMA approach as 008 but with a 150-day lookback applied to TQQQ's own price. This performs strictly worse than 008 across all metrics (29% CAGR, -53% MaxDD, 0.69 Sharpe vs 33%, -50%, 0.76), making it the weakest variant in this family. The combination of leveraged volatility and a shorter lookback amplifies whipsaw losses: TQQQ's daily price swings of 5-10% mean it frequently breaches its own 150d SMA on noise rather than genuine trend changes.",
+      "overfit": "3/10",
+      "overfit_notes": "The 150d lookback on a 3x leveraged ETF is non-standard and appears to be a speculative parameter choice. The clear degradation relative to 008 (200d) suggests this was tested as part of a sweep.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "TQQQ price > TQQQ's own 150-day SMA → allocate 100% to TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "TQQQ price <= own 150-day SMA → liquidate to cash"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "algo_dir": "algos2",
+      "file": "algo_009.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_009.py"
+    },
+    "27": {
+      "name": "SMA200 75% cap (algo_011.py)",
+      "description": "A de-risked variant of 003 that uses the same QQQ > 200d SMA entry signal but caps TQQQ allocation at 75% instead of 100%. The remaining 25% sits in cash, providing a buffer during drawdowns and reducing overall portfolio volatility. This predictably reduces CAGR (33% to 29%) alongside MaxDD (-56% to -49%). The 75% cap is intuitively appealing but the specific number feels tuned to this backtest window.",
+      "overfit": "2/10",
+      "overfit_notes": "The 75% allocation cap is a single tuned parameter. 75% is a round number but likely chosen by testing several caps and picking the one that trimmed MaxDD without cratering CAGR.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "QQQ price > 200-day SMA → allocate 75% to TQQQ (25% cash)"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ price <= 200-day SMA → liquidate TQQQ to cash"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, QQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_011.py",
+      "algo_dir": "algos2",
+      "file": "algo_011.py",
+      "category": "Trend"
+    },
+    "28": {
+      "name": "IBS MR pure (algo_016.py)",
+      "description": "Buys TQQQ when the close is near the low of the day (IBS < 0.2, oversold) and sells when the close nears the high (IBS > 0.7, overbought), applying mean reversion to a 3x leveraged Nasdaq ETF. The asymmetric thresholds (wide buy, narrow sell) bias toward holding long, which partially compensates for fighting TQQQ's strong upward drift. Its main weakness is that mean reversion systematically shorts strength in a secular bull market, leaving significant upside on the table during trending rallies.",
+      "overfit": "2/10",
+      "overfit_notes": "the 0.2/0.7 IBS thresholds are standard values from the literature; only 2 parameters, both round numbers.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "IBS < 0.2 (close near the daily low)"
+        },
+        {
+          "label": "Exit",
+          "text": "IBS > 0.7 (close near the daily high)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_016.py",
+      "algo_dir": "algos2",
+      "file": "algo_016.py",
+      "category": "Mean Reversion"
+    },
+    "29": {
+      "name": "5 most mkt cap @ 1.5x (algo_018.py)",
+      "description": "Each month, buys equal weights of the 5 most market capital companies using 1.5x margin, liquidating any that fall out of the top 5. The strategy rides the compounding power of market-leading megacaps (AAPL, MSFT, NVDA, AMZN, GOOGL) with leverage — and this has worked brilliantly as mega-cap tech dominated. Its critical weakness is the complete absence of risk management: a concentrated 5-stock portfolio at 1.5x leverage can experience catastrophic drawdowns during regime shifts.",
+      "overfit": "2/10",
+      "overfit_notes": "top-5-by-market-cap is a natural universe definition; 1.5x leverage is a round number; no lookback windows or threshold tuning.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "Monthly rebalance into 5 most market capital companies, each at weight = 1.5 / 5"
+        },
+        {
+          "label": "Exit",
+          "text": "Liquidate any position that drops out of the top 5"
+        },
+        {
+          "label": "Symbols",
+          "text": "Top 5 US equities by market cap (dynamic universe)"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_018.py",
+      "algo_dir": "algos2",
+      "file": "algo_018.py",
+      "category": "Rotation"
+    },
+    "30": {
+      "name": "TQQQ IBS extreme (algo_028.py)",
+      "description": "A stricter variant of the IBS mean reversion theme that only buys when selling is truly extreme (IBS < 0.1) and only exits when buying is truly extreme (IBS > 0.9). This dramatically reduces trade frequency but each entry catches deeper capitulation, and the very late exit allows full trend participation once a rally is underway. The 47% CAGR (vs 35% for the standard 0.2/0.7 version) shows that patience on entry and letting winners run more than compensates for extended cash periods.",
+      "overfit": "3/10",
+      "overfit_notes": "extreme round thresholds (0.1, 0.9) are less commonly used than the standard IBS 0.2/0.8 pair but are still intuitive boundary values.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "IBS < 0.1 (extreme selling pressure)"
+        },
+        {
+          "label": "Exit",
+          "text": "IBS > 0.9 (extreme buying pressure)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_028.py",
+      "algo_dir": "algos2",
+      "file": "algo_028.py",
+      "category": "Mean Reversion"
+    },
+    "31": {
+      "name": "TQQQ IBS 0.15/0.85 (algo_029.py)",
+      "description": "A middle-ground IBS variant with buy at 0.15 and exit at 0.85 — sandwiched between the standard 0.2/0.7 (algo 016) and the extreme 0.1/0.9 (algo 028). It achieves the best MaxDD of the three (-42% vs -50% and -47%) and a CAGR (37%) that splits the difference. The key weakness is that these specific intermediate values have no theoretical justification — they are clearly the product of a parameter sweep.",
+      "overfit": "5/10",
+      "overfit_notes": "the 0.15 and 0.85 thresholds do not correspond to any standard IBS value and appear to be the result of explicit parameter optimization.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "IBS < 0.15"
+        },
+        {
+          "label": "Exit",
+          "text": "IBS > 0.85"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_029.py",
+      "algo_dir": "algos2",
+      "file": "algo_029.py",
+      "category": "Mean Reversion"
+    },
+    "32": {
+      "name": "IBS extreme + SMA200 (algo_030.py)",
+      "description": "Combines the IBS extreme oversold signal with a 200-day SMA trend filter on QQQ. It only enters a TQQQ position when both IBS is below 0.1 (extreme intraday weakness) and QQQ is trading above its 200-day SMA (uptrend), which keeps it out of sustained bear markets. The drawback is the trend filter can delay re-entry after a sharp but short-lived dip.",
+      "overfit": "3/10",
+      "overfit_notes": "IBS thresholds (0.1/0.9) are round but arbitrary; SMA 200 is a standard lookback. The QQQ trend filter adds a second conditional.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "IBS < 0.1 and QQQ price > SMA(200)"
+        },
+        {
+          "label": "Exit",
+          "text": "IBS > 0.9"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, QQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_030.py",
+      "algo_dir": "algos2",
+      "file": "algo_030.py",
+      "category": "Mean Reversion"
+    },
+    "33": {
+      "name": "IBS extreme + ATR stop (algo_031.py)",
+      "description": "Enters TQQQ on IBS < 0.1 like the basic IBS strategy, but adds a trailing volatility-based stop loss at 3x the 14-period ATR from the entry price. This stop is designed to cap catastrophic single-trade losses during flash crashes or gap downs. The weakness is that TQQQ's 3x leverage amplifies volatility, making the 3x ATR stop prone to triggering on routine whipsaws rather than true disasters.",
+      "overfit": "3/10",
+      "overfit_notes": "IBS thresholds and ATR multiplier (3x) are standard choices (Bollinger-style 3-sigma logic). ATR(14) is a canonical period.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "IBS < 0.1"
+        },
+        {
+          "label": "Exit",
+          "text": "IBS > 0.9, OR close < entry_price - 3 x ATR(14)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_031.py",
+      "algo_dir": "algos2",
+      "file": "algo_031.py",
+      "category": "Mean Reversion"
+    },
+    "34": {
+      "name": "IBS 0.05 (rare) (algo_032.py)",
+      "description": "A stricter version of the IBS strategy that only buys when IBS drops below 0.05 — a much rarer event than the standard 0.1 threshold. This results in fewer but theoretically higher-conviction trades, since the stock needs to close extremely near its daily low. The main weakness is extended cash drag between rare entry signals.",
+      "overfit": "2/10",
+      "overfit_notes": "only two parameters (0.05 entry, 0.9 exit). However, 0.05 is a suspiciously precise threshold that was almost certainly backtest-optimized.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "IBS < 0.05"
+        },
+        {
+          "label": "Exit",
+          "text": "IBS > 0.9"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_032.py",
+      "algo_dir": "algos2",
+      "file": "algo_032.py",
+      "category": "Mean Reversion"
+    },
+    "35": {
+      "name": "IBS 0.1/0.7 fast (algo_033.py)",
+      "description": "Enters on the standard IBS < 0.1 signal but exits much earlier at IBS > 0.7 instead of the usual 0.9. The tighter exit captures only the initial mean-reversion bounce and avoids holding through the extended recovery leg. The weakness is that it systematically leaves money on the table — many trades that recover fully to 0.9+ are cut at 0.7.",
+      "overfit": "2/10",
+      "overfit_notes": "only two round thresholds (0.1/0.7). The 0.7 exit is the sole deviation from the standard IBS template.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "IBS < 0.1"
+        },
+        {
+          "label": "Exit",
+          "text": "IBS > 0.7"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_033.py",
+      "algo_dir": "algos2",
+      "file": "algo_033.py",
+      "category": "Mean Reversion"
+    },
+    "36": {
+      "name": "IBS regime-adaptive (algo_035.py)",
+      "description": "Uses a 200-day SMA on QQQ to switch between two regimes: in uptrends it buys TQQQ on moderate pullbacks (IBS < 0.1), but in downtrends it only enters on extremely rare capitulation events (IBS < 0.03). Exits when IBS crosses above 0.9 regardless of regime. The regime-awareness prevents catching falling knives during bear markets, but the 0.03 downtrend threshold is so extreme that the algo sits in cash for entire bear-market rallies.",
+      "overfit": "4/10",
+      "overfit_notes": "two regime-specific IBS entry thresholds (0.1 vs 0.03), one exit (0.9), and a SMA(200) lookback; the 0.03 value is especially vulnerable to hindsight tuning.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "IBS < 0.1 if QQQ > SMA(200); IBS < 0.03 if QQQ < SMA(200)"
+        },
+        {
+          "label": "Exit",
+          "text": "IBS > 0.9"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, QQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_035.py",
+      "algo_dir": "algos2",
+      "file": "algo_035.py",
+      "category": "Mean Reversion"
+    },
+    "37": {
+      "name": "IBS + 3d max hold (algo_039.py)",
+      "description": "A pure mean-reversion strategy that buys TQQQ whenever IBS drops below 0.1 and forces an exit after three trading days regardless of price, in addition to the standard IBS > 0.9 exit. The time-capped hold prevents a failed reversion trade from decaying into a large loss. However, the arbitrary 3-day exit can cut short a reversion that is still developing.",
+      "overfit": "5/10",
+      "overfit_notes": "two IBS thresholds (0.1 entry, 0.9 exit) and a 3-bar max-hold parameter; changing the hold to 2, 4, or 5 days would materially alter results.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "IBS < 0.1"
+        },
+        {
+          "label": "Exit",
+          "text": "IBS > 0.9 OR held >= 3 bars"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_039.py",
+      "algo_dir": "algos2",
+      "file": "algo_039.py",
+      "category": "Mean Reversion"
+    },
+    "38": {
+      "name": "SMA150 trend + IBS<0.05 (algo_040.py)",
+      "description": "A hybrid strategy that holds TQQQ during uptrends (QQQ > SMA150) and switches to a mean-reversion overlay in downtrends, buying only when IBS drops below 0.05 and selling at IBS > 0.9. This captures full bull-market exposure while deploying a defensive dip-buying approach during drawdowns. The sequential transition (liquidate trend, then wait for MR entry) means a sharp reversal off the trend line leaves the algo fully in cash.",
+      "overfit": "5/10",
+      "overfit_notes": "SMA lookback (150 vs the more standard 200), two-mode architecture, MR entry threshold (0.05), and IBS exit (0.9).",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "QQQ > SMA(150) → buy TQQQ; QQQ < SMA(150) AND IBS < 0.05 → buy TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "Trend mode → exit on trend flip; MR mode → IBS > 0.9"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, QQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_040.py",
+      "algo_dir": "algos2",
+      "file": "algo_040.py",
+      "category": "Trend/MR Hybrid"
+    },
+    "39": {
+      "name": "SMA150 + IBS + 3xATR (algo_042.py)",
+      "description": "Extends algo 040 by adding a 3x ATR(14) trailing stop on mean-reversion positions only, exiting MR trades when price drops below entry_price - 3 * ATR in addition to the IBS > 0.9 exit. Trend-mode positions are not stopped at all. The ATR stop provides theoretical downside protection, but on TQQQ (extremely high volatility) the 3xATR distance is so wide that it rarely triggers, making the practical difference from algo 040 marginal.",
+      "overfit": "7/10",
+      "overfit_notes": "all of 040's parameters plus ATR period (14), ATR multiplier (3), and entry-price tracking; the combination outperforms 040 by only 1% CAGR, suggesting the extra complexity is not justified.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "QQQ > SMA(150) → buy TQQQ; QQQ < SMA(150) AND IBS < 0.05 → buy TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "Trend mode → exit on trend flip; MR mode → IBS > 0.9 OR price < entry_price - 3x ATR(14)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, QQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_042.py",
+      "algo_dir": "algos2",
+      "file": "algo_042.py",
+      "category": "Trend/MR Hybrid"
+    },
+    "40": {
+      "name": "SMA150 + IBS + 2xATR (algo_043.py)",
+      "description": "A hybrid trend/mean-reversion strategy on TQQQ that goes long in an uptrend (QQQ above its 150-day SMA) and fades deeply oversold conditions via mean reversion when the trend is flat or down. The \"tighter stop\" from #42 is a 2x ATR hard stop below the MR entry price, intended to cap losses when oversold bounces fail. The weakness is that 2x ATR on TQQQ is very tight for a 3x leveraged ETF — normal daily volatility can trigger the stop before the mean reversion materializes.",
+      "overfit": "3/10",
+      "overfit_notes": "standard lookbacks (SMA 150, ATR 14) and extreme IBS thresholds (0.05/0.9) are common choices. The 2x ATR multiplier is the only tuned parameter.",
+      "rules": [
+        {
+          "label": "Entry (Trend)",
+          "text": "QQQ > SMA(150) and not invested → go long TQQQ at 100%"
+        },
+        {
+          "label": "Entry (MR)",
+          "text": "QQQ <= SMA(150), not invested, and IBS < 0.05 → go long TQQQ at 100%"
+        },
+        {
+          "label": "Exit (Trend)",
+          "text": "QQQ drops below SMA(150) → liquidate"
+        },
+        {
+          "label": "Exit (MR)",
+          "text": "IBS > 0.9 or price < entry_price - 2 * ATR(14) → liquidate"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, QQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_043.py",
+      "algo_dir": "algos2",
+      "file": "algo_043.py",
+      "category": "Trend/MR Hybrid"
+    },
+    "41": {
+      "name": "SMA150+IBS fast exit (algo_046.py)",
+      "description": "A simplified hybrid that removes the ATR stop entirely and exits mean-reversion positions as soon as IBS crosses above 0.7 (versus the typical 0.9). Ride TQQQ long when QQQ is above its 150-day SMA, and buy deep oversold IBS (< 0.05) bounces when it is not, cashing out quickly at 0.7 for higher turnover. Dropping the hard stop reduces parameter count but leaves MR positions exposed to gap-down or sustained selling.",
+      "overfit": "2/10",
+      "overfit_notes": "IBS take-profit at 0.7 instead of 0.9 is a single threshold tweak. All other parameters are standard.",
+      "rules": [
+        {
+          "label": "Entry (Trend)",
+          "text": "QQQ > SMA(150) → go long TQQQ at 100%"
+        },
+        {
+          "label": "Entry (MR)",
+          "text": "QQQ <= SMA(150) and IBS < 0.05 → go long TQQQ at 100%"
+        },
+        {
+          "label": "Exit (Trend)",
+          "text": "QQQ drops below SMA(150) → liquidate"
+        },
+        {
+          "label": "Exit (MR)",
+          "text": "IBS > 0.7 → liquidate"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, QQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_046.py",
+      "algo_dir": "algos2",
+      "file": "algo_046.py",
+      "category": "Mean Reversion"
+    },
+    "42": {
+      "name": "#46 + chandelier (algo_047.py)",
+      "description": "Builds on #46 by adding a trailing chandelier stop on trend positions (5x ATR from the peak) and a hard stop on mean-reversion positions (3x ATR below entry). The trailing stop is meant to lock in trend gains during sharp reversals. In practice, the 5x ATR trail on a 3x leveraged ETF may be wide enough that it only triggers during crash events.",
+      "overfit": "4/10",
+      "overfit_notes": "two added ATR multipliers (5x for trend trail, 3x for MR stop) tuned against past data. These interact with the existing IBS thresholds.",
+      "rules": [
+        {
+          "label": "Entry (Trend)",
+          "text": "QQQ > SMA(150) → go long at 100%; record peak at entry"
+        },
+        {
+          "label": "Entry (MR)",
+          "text": "QQQ <= SMA(150) and IBS < 0.05 → go long TQQQ at 100%"
+        },
+        {
+          "label": "Exit (Trend via SMA)",
+          "text": "QQQ drops below SMA(150) → liquidate"
+        },
+        {
+          "label": "Exit (Trend via Chandelier)",
+          "text": "Close < peak_price - 5 * ATR(14) → liquidate"
+        },
+        {
+          "label": "Exit (MR via IBS)",
+          "text": "IBS > 0.7 → liquidate"
+        },
+        {
+          "label": "Exit (MR via Stop)",
+          "text": "Close < entry_price - 3 * ATR(14) → liquidate"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, QQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_047.py",
+      "algo_dir": "algos2",
+      "file": "algo_047.py",
+      "category": "Trend/MR Hybrid"
+    },
+    "43": {
+      "name": "#46 on QLD (algo_048.py)",
+      "description": "An exact replica of #46's logic applied to QLD (2x Nasdaq-100) instead of TQQQ (3x). The intent is to test whether the #46 edge survives deleveraging — lower CAGR is expected (40% vs. 55%), but the commensurately lower drawdown (-40% vs. -55%) suggests the underlying timing signal, not leverage, drives most of the risk-adjusted return.",
+      "overfit": "1/10",
+      "overfit_notes": "no new parameters versus #46. The only change is the traded symbol, a straightforward robustness check.",
+      "rules": [
+        {
+          "label": "Entry (Trend)",
+          "text": "QQQ > SMA(150) → go long QLD at 100%"
+        },
+        {
+          "label": "Entry (MR)",
+          "text": "QQQ <= SMA(150) and IBS < 0.05 → go long QLD at 100%"
+        },
+        {
+          "label": "Exit (Trend)",
+          "text": "QQQ drops below SMA(150) → liquidate"
+        },
+        {
+          "label": "Exit (MR)",
+          "text": "IBS > 0.7 → liquidate"
+        },
+        {
+          "label": "Symbols",
+          "text": "QLD, QQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_048.py",
+      "algo_dir": "algos2",
+      "file": "algo_048.py",
+      "category": "Trend/MR Hybrid"
+    },
+    "44": {
+      "name": "%R(2) MR pure (algo_053.py)",
+      "description": "Buys TQQQ when the 2-period Williams %R dips below -90, betting on an immediate bounce from extreme oversold conditions, then sells when %R crosses above -10. The ultra-short 2-bar window makes this a high-frequency mean-reversion gambit that catches sharp intra-week reversals but gets crushed in sustained downtrends where oversold keeps getting more oversold.",
+      "overfit": "7/10",
+      "overfit_notes": "%R(2) is a non-standard period far from the conventional 14, thresholds of -90/-10 are aggressively tuned.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "Williams %R(2) < -90 (oversold)"
+        },
+        {
+          "label": "Exit",
+          "text": "Williams %R(2) > -10 (overbought)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_053.py",
+      "algo_dir": "algos2",
+      "file": "algo_053.py",
+      "category": "Mean Reversion"
+    },
+    "45": {
+      "name": "TQQQ + SMA200 (algo_055.py)",
+      "description": "Applies the classic 200-day SMA trend filter to TQQQ (3× Nasdaq-100), holding when TQQQ's close is above its own 200-day SMA and liquidating to cash when it falls below. Replacing NVDA with TQQQ dramatically changes the character: TQQQ's 3× daily leverage means the SMA breaches earlier and more frequently in downtrends, reducing drawdown (-50% vs -42% for NVDA) but also cutting CAGR sharply (33% vs 64%). The strategy is essentially identical to #008 (TQQQ self-SMA200) and the 33% CAGR with 0.76 Sharpe confirms the performance is comparable.",
+      "overfit": "4/10",
+      "overfit_notes": "the SMA(200) is a standard, widely-used lookback with no tuning, but cherry-picking the single best-performing large-cap strategy and applying it to a 3× leveraged ETF introduces hindsight bias.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "TQQQ price > SMA(200)"
+        },
+        {
+          "label": "Exit",
+          "text": "TQQQ price < SMA(200)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_055.py",
+      "algo_dir": "algos2",
+      "file": "algo_055.py",
+      "category": "Trend"
+    },
+    "46": {
+      "name": "%R(2) hybrid (algo_056.py)",
+      "description": "Two-regime strategy on TQQQ using QQQ's 150-day SMA as a market health filter. When QQQ is above its SMA (bull trend), it buys TQQQ and holds continuously. When QQQ is below the SMA, it switches to mean-reversion: only buying on extreme %R(2) < -95 oversold prints and selling on %R(2) > -10.",
+      "overfit": "8/10",
+      "overfit_notes": "%R(2) with a -95/-10 threshold pair is more aggressively tuned than even algo 053, SMA(150) is a non-standard departure from the conventional 200.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "QQQ > SMA(150) = buy TQQQ; QQQ < SMA(150) and %R(2) < -95 = buy TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ < SMA(150) while in trend mode = liquidate; in MR mode and %R(2) > -10 = liquidate"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, QQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_056.py",
+      "algo_dir": "algos2",
+      "file": "algo_056.py",
+      "category": "Trend/MR Hybrid"
+    },
+    "47": {
+      "name": "TQQQ hybrid (SMA+IBS) (algo_060.py)",
+      "description": "A dual-regime strategy on TQQQ that combines trend-following with extreme dip-buying. In trend mode (TQQQ above SMA200), it holds TQQQ continuously. In down-trend mode, it switches to mean-reversion: entering only when IBS drops below 0.05 (extreme selling pressure within the day) and exiting when IBS recovers above 0.70. Replacing NVDA with TQQQ preserves the hybrid structure but reduces CAGR from 68% to 49% and Sharpe from 1.44 to 0.99, as TQQQ's leverage amplifies whipsaw losses when the SMA gate flips.",
+      "overfit": "6/10",
+      "overfit_notes": "both IBS thresholds (0.05, 0.70) are clearly tuned; applying NVDA-specific parameters to TQQQ adds another degree of specification bias.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "If TQQQ > SMA200 → hold TQQQ. If below SMA200 and IBS < 0.05 → buy TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "Trend mode and price < SMA200 → liquidate. MR mode and IBS > 0.70 → liquidate"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_060.py",
+      "algo_dir": "algos2",
+      "file": "algo_060.py",
+      "category": "Trend/MR Hybrid"
+    },
+    "48": {
+      "name": "TQQQ + SMA150 (algo_061.py)",
+      "description": "A pure trend-following strategy on TQQQ using a 150-day SMA as the regime filter — invested when TQQQ closes above its 150-day moving average, flat when below. This is essentially a re-run of #009 (TQQQ self-SMA150) with identical parameters. The results confirm the match: 29% CAGR / -53% MaxDD / 0.69 Sharpe vs #009's 29% / -53% / 0.69. The shorter SMA150 lookback exits trends more quickly than SMA200 but also generates more whipsaw on TQQQ's volatile daily swings.",
+      "overfit": "6/10",
+      "overfit_notes": "SMA150 is non-standard and appears to be a tuned middle-ground between common values (100, 200); applying a single-stock parameter to a leveraged ETF adds bias.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "TQQQ > SMA(150) → go all-in"
+        },
+        {
+          "label": "Exit",
+          "text": "TQQQ <= SMA(150) → liquidate to cash"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_061.py",
+      "algo_dir": "algos2",
+      "file": "algo_061.py",
+      "category": "Trend"
+    },
+    "49": {
+      "name": "5 most mkt cap + IBS regime mix (algo_064.py)",
+      "description": "Switches between two regimes based on QQQ relative to its 200-day SMA. In trend mode (QQQ above SMA200), it holds all five most market capital companies equal-weight. In non-trend mode, it only holds names where IBS is below 0.2, acting as an oversold mean-reversion filter. The regime mix gives it the best MaxDD in the set (-23%) — the IBS filter successfully sidesteps the worst of bear markets.",
+      "overfit": "3/10",
+      "overfit_notes": "SMA200 is a standard lookback. The IBS<0.2 threshold is the single tuned parameter; it is reasonable but untested against alternatives.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "Trend mode (QQQ > SMA200): equal weight all 5. No-trend mode: only names with IBS < 0.2, equal-weighted"
+        },
+        {
+          "label": "Exit",
+          "text": "When QQQ < SMA200 and a held name no longer has IBS < 0.2, liquidate"
+        },
+        {
+          "label": "Symbols",
+          "text": "QQQ (signal), Top 5 US equities by market cap (dynamic universe)"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_064.py",
+      "algo_dir": "algos2",
+      "file": "algo_064.py",
+      "category": "Trend/MR Hybrid"
+    },
+    "50": {
+      "name": "TQQQ hybrid + ATR (algo_066.py)",
+      "description": "A two-mode TQQQ strategy gated by SMA200. When TQQQ trades above the 200-day SMA, it takes a full long position. When below, it switches to mean-reversion: entering only when IBS drops below 0.05 and exiting when IBS recovers above 0.70 or price hits a 3x ATR stop-loss from entry. Replacing NVDA with TQQQ yields a near-identical result to #060 (49% CAGR / -48% MaxDD vs 49% / -50%), confirming that the ATR stop on TQQQ adds negligible marginal benefit since TQQQ's 3× volatility makes the 3× ATR distance so wide it rarely triggers.",
+      "overfit": "4/10",
+      "overfit_notes": "SMA(200) and ATR(14) are standard, but both IBS thresholds (0.05 entry, 0.7 exit) and the 3× ATR stop multiplier are tuned values, now applied to a leveraged ETF rather than a single stock.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "If TQQQ > SMA200 → full position. If below SMA200 and IBS < 0.05 → full MR position"
+        },
+        {
+          "label": "Exit",
+          "text": "Trend mode and price < SMA200 → liquidate. MR mode: IBS > 0.70 or price < entry - 3× ATR → liquidate"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ"
+        }
+      ],
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_066.py",
+      "algo_dir": "algos2",
+      "file": "algo_066.py",
+      "category": "Trend/MR Hybrid"
+    },
+    "51": {
+      "name": "8 Leveraged ETF EW Permanent + Monthly Rebalance (algo_039.py — algos3)",
+      "description": "Equal-weight basket of 8 leveraged ETFs (TQQQ, UPRO, SOXL, TECL, QLD, SSO, DDM, FAS) with monthly rebalance. Pure cross-sectional rebalancing with no timing signal. This strategy was not converted to the dynamic top-5 universe — the leveraged ETF basket remained intact.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "Monthly rebalance to equal weight (1/8 each)"
+        },
+        {
+          "label": "Exit",
+          "text": "None (permanent hold, rebalanced monthly)"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, UPRO, SOXL, TECL, QLD, SSO, DDM, FAS"
+        },
+        {
+          "label": "Resolution",
+          "text": "Daily"
+        }
+      ],
+      "category": "Rotation",
+      "file": "algo_039.py",
+      "algo_dir": "algos2",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_039.py",
+      "overfit": "5/10",
+      "overfit_notes": "zero mechanical parameter tuning, but the 8-ETF basket (TQQQ/UPRO/SOXL/TECL/QLD/SSO/DDM/FAS) is heavy hindsight selection — every name is a tech/financial leveraged ETF that benefited from the 2014–2025 bull run; the same basket pre-2010 would have been catastrophic (leveraged ETFs barely existed). More hindsight-loaded than Strategy 3's 3-ETF version."
+    },
+    "52": {
+      "name": "5x 3x-Leveraged ETF Basket + QQQ Vol Gate (algo_048.py — algos3)",
+      "description": "Equal-weight basket of 5 leveraged tech ETFs (TQQQ, TECL, SOXL, UPRO, FAS) gated by QQQ 20-day annualized volatility. Invested only when vol < 20%, otherwise flat. The tight vol gate (20% vs typical 30%) makes this a fair-weather strategy that sits out high-volatility periods entirely.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "QQQ 20d vol < 20% → equal-weight all 5 ETFs"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ 20d vol >= 20% → liquidate"
+        },
+        {
+          "label": "Symbols",
+          "text": "TQQQ, TECL, SOXL, UPRO, FAS, QQQ"
+        }
+      ],
+      "category": "Rotation",
+      "file": "algo_048.py",
+      "algo_dir": "algos2",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_048.py",
+      "overfit": "6/10",
+      "overfit_notes": "two compounding sources: same hindsight ETF basket as Strategy 51, plus a custom 20% QQQ vol gate (the strategy's own description flags this as tight vs the typical 30% threshold). The fair-weather behavior sitting out every high-vol period is the kind of rule that back-fits cleanly to bull-market data and underperforms out-of-sample."
+    },
+    "53": {
+      "name": "Dynamic Top-5 EW + Adaptive Vol Gate (algo_057.py — algos3)",
+      "description": "Holds the top-5 market-cap stocks equal-weight when the basket's recent 20-day volatility is below its longer-term 252-day volatility (calm regime). When short-term vol exceeds the long-term average, it goes to cash. This adaptive gate naturally sidesteps volatility spikes (2020 COVID crash, 2022 rate hikes) while capturing most of the upside in calm bull markets.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "Basket 20d vol < basket 252d vol → equal-weight top-5"
+        },
+        {
+          "label": "Exit",
+          "text": "20d vol >= 252d vol → liquidate"
+        },
+        {
+          "label": "Symbols",
+          "text": "Top 5 US equities by market cap (dynamic universe), QQQ"
+        }
+      ],
+      "category": "Mean Reversion",
+      "file": "algo_057.py",
+      "algo_dir": "algos2",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_057.py",
+      "overfit": "2/10",
+      "overfit_notes": "dynamic top-5 universe removes name-selection bias; the gate compares short-term (20d) to long-term (252d) volatility with no magic threshold — adaptive by construction, essentially zero tuned parameters. One of the cleanest designs in the set."
+    },
+    "54": {
+      "name": "Dynamic Top-5 Momentum + TQQQ Sleeve + Vol Gate (algo_060.py — algos3)",
+      "description": "A two-sleeve allocation: 80% in top-5 market-cap stocks weighted by 3-month momentum, 20% in TQQQ. The entire portfolio is gated by TQQQ's 21-day annualized volatility — invested only when vol < 60%. The momentum weighting concentrates exposure in the strongest-performing mega-caps, while the TQQQ sleeve adds a small leverage kick. Monthly momentum recomputation.",
+      "rules": [
+        {
+          "label": "Entry",
+          "text": "TQQQ 21d vol < 60% → allocate (80% top-5 momo-weighted, 20% TQQQ)"
+        },
+        {
+          "label": "Exit",
+          "text": "TQQQ 21d vol >= 60% → liquidate all"
+        },
+        {
+          "label": "Symbols",
+          "text": "Top 5 US equities by market cap (dynamic universe), TQQQ, QQQ"
+        }
+      ],
+      "category": "Momentum",
+      "file": "algo_060.py",
+      "algo_dir": "algos2",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_060.py",
+      "overfit": "5/10",
+      "overfit_notes": "dynamic universe helps, but four hand-picked parameters stack up: 80/20 split between sleeves, 3-month momentum lookback, 21-day vol window, and 60% vol cutoff. The 60% threshold is unusually loose for TQQQ (typical regime gates use 30–50%) and the 21-day window is on the short side — both smell like they were tuned to keep the strategy engaged through 2020–2021."
+    }
+  }
+}

@@ -148,10 +148,10 @@ def main():
             print(f"\n  Could not parse stats: {stats}")
 
         with open(RESULTS_FILE, "w") as f:
-            json.dump(results, f, indent=2)
+            json.dump(results, f, indent=2, ensure_ascii=False)
 
     print("\n\nFinal Results:")
-    print(json.dumps(results, indent=2))
+    print(json.dumps(results, indent=2, ensure_ascii=False))
 
 if __name__ == "__main__":
     main()

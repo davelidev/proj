@@ -1,0 +1,200 @@
+{
+  "strategies": {
+    "003": {
+      "name": "TQQQ trend SMA200",
+      "description": "Hold TQQQ when QQQ > 200d SMA, else flat",
+      "algo_dir": "algos2",
+      "file": "algo_003.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_003.py"
+    },
+    "006": {
+      "name": "TQQQ trend SMA150",
+      "description": "Hold TQQQ when QQQ > 150d SMA",
+      "algo_dir": "algos2",
+      "file": "algo_006.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_006.py"
+    },
+    "008": {
+      "name": "TQQQ self-SMA200",
+      "description": "TQQQ > own 200d SMA → hold",
+      "algo_dir": "algos2",
+      "file": "algo_008.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_008.py"
+    },
+    "009": {
+      "name": "TQQQ self-SMA150",
+      "description": "TQQQ > own 150d SMA → hold",
+      "algo_dir": "algos2",
+      "file": "algo_009.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_009.py"
+    },
+    "011": {
+      "name": "SMA200 75% cap",
+      "description": "SMA200, but only 75% TQQQ",
+      "algo_dir": "algos2",
+      "file": "algo_011.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_011.py"
+    },
+    "016": {
+      "name": "IBS MR pure",
+      "description": "Buy IBS<0.2, sell IBS>0.7 on TQQQ",
+      "algo_dir": "algos2",
+      "file": "algo_016.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_016.py"
+    },
+    "018": {
+      "name": "5 most mkt cap @ 1.5x",
+      "description": "5 most mkt cap @ 1.5x margin",
+      "algo_dir": "algos2",
+      "file": "algo_018.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_018.py"
+    },
+    "028": {
+      "name": "TQQQ IBS extreme",
+      "description": "IBS<0.1 buy, IBS>0.9 exit",
+      "algo_dir": "algos2",
+      "file": "algo_028.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_028.py"
+    },
+    "029": {
+      "name": "TQQQ IBS 0.15/0.85",
+      "description": "IBS<0.15 buy, IBS>0.85 exit",
+      "algo_dir": "algos2",
+      "file": "algo_029.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_029.py"
+    },
+    "030": {
+      "name": "IBS extreme + SMA200",
+      "description": "IBS<0.1 buy only when QQQ>200d",
+      "algo_dir": "algos2",
+      "file": "algo_030.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_030.py"
+    },
+    "031": {
+      "name": "IBS extreme + ATR stop",
+      "description": "IBS<0.1 + 3×ATR stop loss",
+      "algo_dir": "algos2",
+      "file": "algo_031.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_031.py"
+    },
+    "032": {
+      "name": "IBS 0.05 (rare)",
+      "description": "IBS<0.05 buy, IBS>0.9 exit",
+      "algo_dir": "algos2",
+      "file": "algo_032.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_032.py"
+    },
+    "033": {
+      "name": "IBS 0.1/0.7 fast",
+      "description": "IBS<0.1 buy, IBS>0.7 fast exit",
+      "algo_dir": "algos2",
+      "file": "algo_033.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_033.py"
+    },
+    "035": {
+      "name": "IBS regime-adaptive",
+      "description": "IBS<0.1 in uptrend, <0.03 in downtrend",
+      "algo_dir": "algos2",
+      "file": "algo_035.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_035.py"
+    },
+    "039": {
+      "name": "IBS + 3d max hold",
+      "description": "IBS<0.1 + force exit after 3 days",
+      "algo_dir": "algos2",
+      "file": "algo_039.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_039.py"
+    },
+    "040": {
+      "name": "SMA150 trend + IBS<0.05",
+      "description": "Trend hold + MR overlay in down-trend",
+      "algo_dir": "algos2",
+      "file": "algo_040.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_040.py"
+    },
+    "042": {
+      "name": "SMA150 + IBS + 3xATR",
+      "description": "#40 + ATR stop on MR",
+      "algo_dir": "algos2",
+      "file": "algo_042.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_042.py"
+    },
+    "043": {
+      "name": "SMA150 + IBS + 2xATR",
+      "description": "#42 with tighter stop",
+      "algo_dir": "algos2",
+      "file": "algo_043.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_043.py"
+    },
+    "046": {
+      "name": "SMA150+IBS fast exit",
+      "description": "#40 with IBS>0.7 fast MR exit",
+      "algo_dir": "algos2",
+      "file": "algo_046.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_046.py"
+    },
+    "047": {
+      "name": "#46 + chandelier",
+      "description": "#46 + 5xATR trailing stop on trend pos",
+      "algo_dir": "algos2",
+      "file": "algo_047.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_047.py"
+    },
+    "048": {
+      "name": "#46 on QLD",
+      "description": "Same hybrid but QLD instead of TQQQ",
+      "algo_dir": "algos2",
+      "file": "algo_048.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_048.py"
+    },
+    "053": {
+      "name": "%R(2) MR pure",
+      "description": "Williams %R<-90 buy, >-10 sell",
+      "algo_dir": "algos2",
+      "file": "algo_053.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_053.py"
+    },
+    "055": {
+      "name": "TQQQ + SMA200",
+      "description": "TQQQ hold when above 200d SMA",
+      "algo_dir": "algos2",
+      "file": "algo_055.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_055.py"
+    },
+    "056": {
+      "name": "%R(2) hybrid",
+      "description": "SMA150 trend + %R<-95 MR overlay",
+      "algo_dir": "algos2",
+      "file": "algo_056.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_056.py"
+    },
+    "060": {
+      "name": "TQQQ hybrid (SMA+IBS)",
+      "description": "TQQQ SMA200 trend + IBS<0.05 down-trend",
+      "algo_dir": "algos2",
+      "file": "algo_060.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_060.py"
+    },
+    "061": {
+      "name": "TQQQ + SMA150",
+      "description": "TQQQ + 150d SMA",
+      "algo_dir": "algos2",
+      "file": "algo_061.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_061.py"
+    },
+    "064": {
+      "name": "5 most mkt cap + IBS regime mix",
+      "description": "EW in trend; IBS<0.2 names else",
+      "algo_dir": "algos2",
+      "file": "algo_064.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_064.py"
+    },
+    "066": {
+      "name": "TQQQ hybrid + ATR",
+      "description": "#60 + 3xATR stop on MR pos",
+      "algo_dir": "algos2",
+      "file": "algo_066.py",
+      "vault_path": "vault://QuantConnect/cc/algos2/algo_066.py"
+    }
+  }
+}

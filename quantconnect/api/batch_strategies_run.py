@@ -279,7 +279,7 @@ def _compact_yearly(text):
 
 def save_results(results, path):
     with open(path, "w") as f:
-        f.write(_compact_yearly(json.dumps(results, indent=4)))
+        f.write(_compact_yearly(json.dumps(results, indent=4, ensure_ascii=False)))
 
 
 # ---------------------------------------------------------------------------
