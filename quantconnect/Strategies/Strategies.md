@@ -1,32 +1,32 @@
 # QuantConnect Trading Strategies
 
-| #                  | Category     | CAGR    | MaxDD    | Sharpe   | Win #    | Loss #   | W/L Ratio | Profit Ratio | Overfit  |     |
-| :----------------- | :----------- | :------ | :------- | :------- | :------- | :------- | :-------- | :----------- | :------- | --- |
-| [1](#strategy-1) | Breakout | 43% | -37% | 0.986 | 192 | 341 | 0.56 | 3.45 | 6/10 |
-| ✅ [2](#strategy-2) | Dip Buy | 28% | -42% | 0.846 | 42 | 38 | 1.11 | 3.11 | 2/10 |
-| ✅ [3](#strategy-3) | Rebalance | 28% | -51% | 0.727 | 12 | 0 | — | 0.00 | 4/10 |
-| ✅ [4](#strategy-4) | Dip Buy | 47% | -37% | 1.031 | 1426 | 611 | 2.33 | 0.81 | 2/10 |
-| ✅ [5](#strategy-5) | Trend | 31% | -49% | 0.738 | 65 | 57 | 1.14 | 2.69 | 4/10 |
-| ✅ [6](#strategy-6) | Breakout | 0% | -0% | 0.000 | 0 | 0 | — | 0.00 | 4/10 |
-| ✅ [7](#strategy-7) | Trend | 40% | -55% | 0.871 | 11 | 17 | 0.65 | 8.14 | 2/10 |
-| ✅ [8](#strategy-8) | Mean Reversion | 46% | -43% | 1.049 | 137 | 51 | 2.69 | 1.14 | 3/10 |
-| ✅ [9](#strategy-9) | Rotation | 30% | -23% | 1.073 | 390 | 327 | 1.19 | 2.12 | 3/10 |
-| **ENSEMBLE**       | **Ensemble** | **35%** | **-30%** | **1.035** | **2379** | **1338** | **1.78** | **1.36** | **—** |     |
+| #                  | Category       | CAGR    | MaxDD    | Sharpe    | Win #    | Loss #   | W/L Ratio | Profit Ratio | Overfit |     |
+| :----------------- | :------------- | :------ | :------- | :-------- | :------- | :------- | :-------- | :----------- | :------ | --- |
+| [1](#strategy-1)   | Breakout       | 43%     | -37%     | 0.986     | 192      | 341      | 0.56      | 3.45         | 6/10    |     |
+| [2](#strategy-2)   | Dip Buy        | 28%     | -42%     | 0.846     | 42       | 38       | 1.11      | 3.11         | 2/10    |     |
+| ✅ [3](#strategy-3) | Rebalance      | 28%     | -51%     | 0.727     | 12       | 0        | —         | 0.00         | 4/10    |     |
+| ✅ [4](#strategy-4) | Dip Buy        | 42%     | -32%     | 0.989     | 634      | 272      | 2.33      | 0.89         | 2/10    |     |
+| ✅ [5](#strategy-5) | Trend          | 31%     | -49%     | 0.738     | 65       | 57       | 1.14      | 2.69         | 4/10    |     |
+| ✅ [6](#strategy-6) | Breakout       | 40%     | -49%     | 0.912     | 95       | 78       | 1.22      | 2.19         | 4/10    |     |
+| ✅ [7](#strategy-7) | Trend          | 40%     | -55%     | 0.871     | 11       | 17       | 0.65      | 8.14         | 2/10    |     |
+| ✅ [8](#strategy-8) | Mean Reversion | 46%     | -43%     | 1.049     | 137      | 51       | 2.69      | 1.14         | 3/10    |     |
+| ✅ [9](#strategy-9) | Rotation       | 30%     | -23%     | 1.073     | 390      | 327      | 1.19      | 2.12         | 3/10    |     |
+| **ENSEMBLE**       | **Ensemble**   | **38%** | **-33%** | **1.036** | **1535** | **863**  | **1.78**  | **1.51**     | **—**   |     |
 
-| #                | 14         | 15        | 16         | 17          | 18         | 19          | 20          | 21         | 22          | 23          | 24         | 25         |
-| :--------------- | :--------- | :-------- | :--------- | :---------- | :--------- | :---------- | :---------- | :--------- | :---------- | :---------- | :--------- | :--------- |
-| [1](#strategy-1) | 🟢 43%     | 🟢 8%     | 🟢 26%     | 🟢 101%     | 🟢 23%     | 🟢 105%     | 🟢 149%     | 🟢 23%     | 🔴 -32%     | 🟢 107%     | 🟢 52%     | 🟢 18%     |
-| [2](#strategy-2) | 🟢 20% | ⚪ 0% | 🟢 8% | 🟢 37% | 🟢 6% | 🟢 39% | 🟢 38% | 🟢 53% | 🔴 -35% | 🟢 87% | 🟢 119% | 🟢 38% |
-| [3](#strategy-3) | 🟢 34% | 🟢 13% | 🟢 7% | 🟢 71% | 🔴 -13% | 🟢 79% | 🟢 65% | 🟢 52% | 🔴 -47% | 🟢 118% | 🟢 37% | 🟢 21% |
-| [4](#strategy-4) | 🟢 30% | 🔴 -8% | 🔴 -20% | 🟢 50% | 🟢 19% | 🟢 37% | 🟢 215% | 🟢 142% | 🟢 22% | 🟢 76% | 🟢 74% | 🟢 55% |
-| [5](#strategy-5) | 🟢 35% | 🟢 4% | 🔴 -13% | 🟢 133% | 🟢 7% | 🟢 29% | 🟢 67% | 🟢 82% | 🔴 -20% | 🟢 70% | 🟢 29% | 🟢 28% |
-| [6](#strategy-6) | 🟢 137% | 🔴 -3% | 🔴 -2% | 🟢 76% | 🟢 54% | 🟢 14% | 🟢 83% | 🟢 47% | 🔴 -14% | 🟢 72% | 🟢 39% | 🟢 32% |
-| [7](#strategy-7) | 🟢 47% | 🟢 18% | 🔴 -5% | 🟢 118% | 🟢 1% | 🟢 53% | 🟢 97% | 🟢 88% | 🔴 -34% | 🟢 125% | 🟢 45% | 🟢 27% |
-| [8](#strategy-8) | 🟢 7% | 🟢 6% | 🟢 39% | 🟢 71% | 🔴 -29% | 🟢 33% | 🟢 344% | 🟢 75% | 🔴 -1% | 🟢 101% | 🟢 29% | 🟢 82% |
-| [9](#strategy-9) | 🟢 11% | 🟢 5% | 🟢 4% | 🟢 38% | 🟢 15% | 🟢 47% | 🟢 95% | 🟢 46% | 🔴 -11% | 🟢 51% | 🟢 38% | 🟢 50% |
-| **ENSEMBLE**     | **🟢 35%** | **🟢 5%** | **🔴 -1%** | **🟢 70%** | **🟢 4%** | **🟢 37%** | **🟢 116%** | **🟢 67%** | **🔴 -15%** | **🟢 80%** | **🟢 39%** | **🟢 37%** |
+| #                | 14         | 15        | 16       | 17         | 18        | 19         | 20          | 21         | 22          | 23         | 24         | 25         |
+| :--------------- | :--------- | :-------- | :------- | :--------- | :-------- | :--------- | :---------- | :--------- | :---------- | :--------- | :--------- | :--------- |
+| [1](#strategy-1) | 🟢 43%     | 🟢 8%     | 🟢 26%   | 🟢 101%    | 🟢 23%    | 🟢 105%    | 🟢 149%     | 🟢 23%     | 🔴 -32%     | 🟢 107%    | 🟢 52%     | 🟢 18%     |
+| [2](#strategy-2) | 🟢 20%     | ⚪ 0%      | 🟢 8%    | 🟢 37%     | 🟢 6%     | 🟢 39%     | 🟢 38%      | 🟢 53%     | 🔴 -35%     | 🟢 87%     | 🟢 119%    | 🟢 38%     |
+| [3](#strategy-3) | 🟢 34%     | 🟢 13%    | 🟢 7%    | 🟢 71%     | 🔴 -13%   | 🟢 79%     | 🟢 65%      | 🟢 52%     | 🔴 -47%     | 🟢 118%    | 🟢 37%     | 🟢 21%     |
+| [4](#strategy-4) | 🟢 39%     | 🟢 1%     | 🔴 -18%  | 🟢 46%     | 🟢 12%    | 🟢 34%     | 🟢 81%      | 🟢 110%    | 🟢 33%      | 🟢 60%     | 🟢 72%     | 🟢 66%     |
+| [5](#strategy-5) | 🟢 35%     | 🟢 4%     | 🔴 -13%  | 🟢 133%    | 🟢 7%     | 🟢 29%     | 🟢 67%      | 🟢 82%     | 🔴 -20%     | 🟢 70%     | 🟢 29%     | 🟢 28%     |
+| [6](#strategy-6) | 🟢 144%    | 🔴 -6%    | 🔴 -6%   | 🟢 76%     | 🟢 54%    | 🟢 14%     | 🟢 84%      | 🟢 49%     | 🔴 -14%     | 🟢 72%     | 🟢 39%     | 🟢 28%     |
+| [7](#strategy-7) | 🟢 47%     | 🟢 18%    | 🔴 -5%   | 🟢 118%    | 🟢 1%     | 🟢 53%     | 🟢 97%      | 🟢 88%     | 🔴 -34%     | 🟢 125%    | 🟢 45%     | 🟢 27%     |
+| [8](#strategy-8) | 🟢 7%      | 🟢 6%     | 🟢 39%   | 🟢 71%     | 🔴 -29%   | 🟢 33%     | 🟢 344%     | 🟢 75%     | 🔴 -1%      | 🟢 101%    | 🟢 29%     | 🟢 82%     |
+| [9](#strategy-9) | 🟢 11%     | 🟢 5%     | 🟢 4%    | 🟢 38%     | 🟢 15%    | 🟢 47%     | 🟢 95%      | 🟢 46%     | 🔴 -11%     | 🟢 51%     | 🟢 38%     | 🟢 50%     |
+| **ENSEMBLE**     | **🟢 44%** | **🟢 5%** | **⚪ 0%** | **🟢 79%** | **🟢 4%** | **🟢 42%** | **🟢 113%** | **🟢 72%** | **🔴 -16%** | **🟢 88%** | **🟢 44%** | **🟢 46%** |
 
-> Note: Checkmarked strategies (✅) are considered "selected" and contribute to the ENSEMBLE calculations. VolBreakout (strategy-1) is disabled in the list so 8 sub-algos are active.*
+> Note: Checkmarked strategies (✅) are considered "selected" and contribute to the ENSEMBLE calculations. VolBreakout (strategy-1) and Tech Dip Buy (strategy-2) are disabled, so 7 sub-algos are active.*
 
 ---
 
@@ -114,21 +114,21 @@
 ## Strategy-4
 ### RSI Champion (rsi_champion.py)
 
-**Description:** Sits in cash most of the time, then rushes into a basket of leveraged tech ETFs the moment the market gets extremely oversold. Exits as soon as the signal clears. Patient and decisive — no trend filter, no regime switching, just one clean trigger. With over 2000 trades across 11 years it is the most statistically reliable strategy in the set.
+**Description:** Sits in cash most of the time, then rushes into a basket of leveraged tech ETFs the moment the market gets extremely oversold. Exits as soon as the signal clears. Patient and decisive — no trend filter, no regime switching, just one clean trigger. ~900 closed trades across 11 years give it strong statistical reliability relative to the rest of the set.
 
-*Overfit 2/10 — single indicator, one threshold; 2000+ trades give strong statistical confidence; the RSI < 25 level (vs the more common 20 or 30) is the only minor non-standard choice.*
+*Overfit 2/10 — single indicator, one threshold; ~900 closed trades give solid statistical confidence; RSI(2) < 20 is a textbook oversold level (alongside the <10 and <30 variants), so there is no parameter-fitting concern.*
 
-- **Entry:** QQQ RSI(2) < 25 → equal-weight TQQQ / SOXL / TECL
-- **Exit:** QQQ RSI(2) >= 25 → 100% cash
+- **Entry:** QQQ RSI(2) < 20 → equal-weight TQQQ / SOXL / TECL
+- **Exit:** QQQ RSI(2) >= 20 → 100% cash
 - **Symbols:** TQQQ, SOXL, TECL (signal from QQQ)
 
 | Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| ✅ | 47% | -37% | 1.031 | 1426 | 611 | 2.33 | 0.81 |
+| ✅ | 42% | -32% | 0.989 | 634 | 272 | 2.33 | 0.89 |
 
-| 14     | 15     | 16      | 17     | 18     | 19     | 20      | 21      | 22     | 23     | 24     | 25     |
-| :----- | :----- | :------ | :----- | :----- | :----- | :------ | :------ | :----- | :----- | :----- | :----- |
-| 🟢 30% | 🔴 -8% | 🔴 -20% | 🟢 50% | 🟢 19% | 🟢 37% | 🟢 215% | 🟢 142% | 🟢 22% | 🟢 76% | 🟢 74% | 🟢 55% |
+| 14     | 15    | 16      | 17     | 18     | 19     | 20     | 21      | 22     | 23     | 24     | 25     |
+| :----- | :---- | :------ | :----- | :----- | :----- | :----- | :------ | :----- | :----- | :----- | :----- |
+| 🟢 39% | 🟢 1% | 🔴 -18% | 🟢 46% | 🟢 12% | 🟢 34% | 🟢 81% | 🟢 110% | 🟢 33% | 🟢 60% | 🟢 72% | 🟢 66% |
 
 > [!code]- Click to view: rsi_champion.py
 > ```embed-python
@@ -179,11 +179,13 @@
 
 | Pass? | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| ❌ | 0% | -0% | 0.000 | 0 | 0 | — | 0.00 |
+| ✅ | 40% | -49% | 0.912 | 95 | 78 | 1.22 | 2.19 |
 
 | 14     | 15     | 16     | 17     | 18     | 19     | 20     | 21     | 22      | 23     | 24     | 25     |
 | :----- | :----- | :----- | :----- | :----- | :----- | :----- | :----- | :------ | :----- | :----- | :----- |
-| ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% | ⚪ 0% |
+| 🟢 144% | 🔴 -6% | 🔴 -6% | 🟢 76% | 🟢 54% | 🟢 14% | 🟢 84% | 🟢 49% | 🔴 -14% | 🟢 72% | 🟢 39% | 🟢 28% |
+
+[Backtest](https://www.quantconnect.com/project/31177892/backtest/42389a9eb4dbd33bfb2df9496328c3af)
 
 > [!code]- Click to view: expanding_breakout.py
 > ```embed-python

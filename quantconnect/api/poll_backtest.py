@@ -44,9 +44,22 @@ def main():
         status = bt.get("status", "")
         progress = float(bt.get("progress", 0)) * 100
         
+        # Extract cash from runtime statistics (cash = equity - holdings)
+        rs = bt.get("runtimeStatistics", {})
+        cash_str = ""
+        try:
+            eq_str = rs.get("Equity", "$0")
+            h_str  = rs.get("Holdings", "$0")
+            eq = float(eq_str.replace("$", "").replace(",", ""))
+            h  = float(h_str.replace("$", "").replace(",", ""))
+            cash = eq - h
+            cash_str = f" | Cash: ${cash:,.0f}"
+        except (ValueError, TypeError):
+            pass
+
         # Clear the line with spaces to prevent trailing artifacts
-        status_line = f"Status: {status} ({progress:.2f}%)"
-        print(f"\r{status_line:<50}", end="", flush=True)
+        status_line = f"Status: {status} ({progress:.2f}%){cash_str}"
+        print(f"\r{status_line:<70}", end="", flush=True)
         
         if status in ["Completed", "Completed."]:
             stats = bt.get("statistics", {})

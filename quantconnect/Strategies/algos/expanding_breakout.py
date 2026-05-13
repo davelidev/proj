@@ -13,7 +13,7 @@ class ExpandingBreakoutSub(BaseSubAlgo):
         self.trailing_stop = 0
 
     def on_data(self, data):
-        self.update_targets()
+        return self.update_targets()
 
     def update_targets(self):
         if not self.adx.IsReady or not self.sma200.IsReady or not self.max_exit.IsReady:

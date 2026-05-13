@@ -26,89 +26,89 @@ Sources: `Entry_and_Exit_Confessions.md` (Davey, 41 entries × 11 exits) + `Algo
 
 ## Results
 
-| #   | Name                       | Idea                                     | CAGR    | MaxDD    | Sharpe   | Pass | Backtest ID |
-| :-- | :------------------------- | :--------------------------------------- | :------ | :------- | :------- | :--- | :---------- |
-| 001 | RSI2 MR daily              | RSI(2)<10 buy / >70 or 5d sell           | 2%      | -66%     | 0.13     | ❌    | 64d80063…   |
-| 002 | RSI2 + SMA200 trend gate   | RSI2 MR only if QQQ > 200d SMA           | 7%      | -43%     | 0.24     | ❌    | 8b4fd7dc…   |
-| 003 | TQQQ trend SMA200          | Hold TQQQ when QQQ > 200d SMA, else flat | 33%     | -56%     | 0.75     | ✅    | 187f2156…   |
-| 004 | TQQQ trend SMA50           | Hold TQQQ when QQQ > 50d SMA             | 20%     | -52%     | 0.53     | ❌    | 576b3891…   |
-| 005 | TQQQ trend SMA100          | Hold TQQQ when QQQ > 100d SMA            | 17%     | -58%     | 0.47     | ❌    | 7d59721a…   |
-| 006 | TQQQ trend SMA150          | Hold TQQQ when QQQ > 150d SMA            | 40%     | -55%     | 0.87     | ✅    | f977dd48…   |
-| 007 | EMA50/200 cross            | EMA50>EMA200 on QQQ → TQQQ               | 35%     | -70%     | 0.76     | ❌    | dfc30ce3…   |
-| 008 | TQQQ self-SMA200           | TQQQ > own 200d SMA → hold               | 33%     | -50%     | 0.76     | ✅    | 55c0a642…   |
-| 009 | TQQQ self-SMA150           | TQQQ > own 150d SMA → hold               | 29%     | -53%     | 0.69     | ✅    | e949acad…   |
-| 010 | SMA150+RSI2 overlay        | SMA150 trend, RSI2<10 add in downtrend   | 39%     | -62%     | 0.83     | ❌    | 51bce0dd…   |
-| 011 | SMA200 75% cap             | SMA200, but only 75% TQQQ                | 29%     | -49%     | 0.70     | ✅    | 50331476…   |
-| 012 | TQQQ/TLT 50/50             | Static 50/50 monthly rebal, no signal    | 22%     | -62%     | 0.64     | ❌    | 75ccb4b5…   |
-| 013 | Donchian50 breakout        | TQQQ on QQQ 50d high; exit on 50d low    | 16%     | -71%     | 0.45     | ❌    | 3864bc43…   |
-| 014 | VIX<22 regime              | TQQQ when VIX < 22, flat above           | 17%     | -71%     | 0.46     | ❌    | a8a2055f…   |
-| 015 | ROC126 momentum            | TQQQ when QQQ 6mo return > 0             | 29%     | -72%     | 0.67     | ❌    | 6c622c23…   |
-| 016 | IBS MR pure                | Buy IBS<0.2, sell IBS>0.7 on TQQQ        | 35%     | -50%     | 0.82     | ✅    | 35759289…   |
-| 017 | 5 most mkt cap EW           | 5 most mkt cap, 100% (no lev), monthly  | 22%     | -40%     | 0.74     | ❌    | 6548d414…   |
-| 018 | 5 most mkt cap @ 1.5x      | 5 most mkt cap @ 1.5x margin             | 33%     | -55%     | 0.83     | ✅    | 164c7001…   |
-| 019 | 5 most mkt cap @ 2.0x      | 5 most mkt cap @ 2.0x margin (uses lev) | 44%     | -67%     | 0.93     | ❌    | 32737def…   |
-| 020 | Top5 12-1 momo             | Top5 from S&P200 by 12-1 momentum        | 18%     | -45%     | 0.52     | ❌    | ee48df20…   |
-| 021 | Most mkt cap               | Most market capital company              | 15%     | -33%     | 0.47     | ❌    | 65dfd463…   |
-| 022 | TQQQ BB MR                 | Buy lower BB, sell mid BB                | 12%     | -60%     | 0.36     | ❌    | dcf54e19…   |
-| 023 | TQQQ 3-down MR             | Buy after 3 red days, sell on 1st green  | 13%     | -45%     | 0.48     | ❌    | 436228f1…   |
-| 024 | TQQQ Connors RSI           | 2x RSI(2)<35 buy, RSI>65 sell            | 15%     | -63%     | 0.42     | ❌    | dc60498a…   |
-| 025 | 3 most mkt cap EW          | 3 most mkt cap, EW, monthly              | 20%     | -35%     | 0.67     | ❌    | 46c66a7f…   |
-| 026 | 5 most mkt cap CW          | 5 most mkt cap, weighted by cap          | 21%     | -38%     | 0.72     | ❌    | c9cd1d89…   |
-| 027 | 5 most mkt cap 6mo momo    | Top 5 from largest 30 by 6mo momentum   | 22%     | -27%     | 0.74     | ❌    | a73f67d6…   |
-| 028 | **TQQQ IBS extreme**       | IBS<0.1 buy, IBS>0.9 exit                | **47%** | **-47%** | **1.05** | ✅    | d0e32e34…   |
-| 029 | TQQQ IBS 0.15/0.85         | IBS<0.15 buy, IBS>0.85 exit              | 37%     | -42%     | 0.84     | ✅    | 65fcde16…   |
-| 030 | IBS extreme + SMA200       | IBS<0.1 buy only when QQQ>200d           | 32%     | -40%     | 0.90     | ✅    | 12ca4af2…   |
-| 031 | **IBS extreme + ATR stop** | IBS<0.1 + 3×ATR stop loss                | **46%** | **-43%** | **1.05** | ✅    | 04a55b85…   |
-| 032 | IBS 0.05 (rare)            | IBS<0.05 buy, IBS>0.9 exit               | 31%     | -47%     | 0.79     | ✅    | eb5737c6…   |
-| 033 | IBS 0.1/0.7 fast           | IBS<0.1 buy, IBS>0.7 fast exit           | 36%     | -35%     | 0.92     | ✅    | 53ffc8ad…   |
-| 034 | IBS 0.05/0.7               | IBS<0.05 buy, IBS>0.7 fast exit          | 26%     | -34%     | 0.76     | ❌    | 61ff20c3…   |
-| 035 | IBS regime-adaptive        | IBS<0.1 in uptrend, <0.03 in downtrend   | 39%     | -55%     | 0.92     | ✅    | d176438b…   |
-| 036 | TOM TQQQ                   | Hold last 5 + first 5 cal days TQQQ      | 8%      | -62%     | 0.27     | ❌    | 07936977…   |
-| 037 | Sell-in-May TQQQ           | Hold Nov-Apr only                        | 8%      | -70%     | 0.31     | ❌    | 3849867b…   |
-| 038 | Overnight TQQQ             | Buy at close, sell at open (minute res)  | -51%    | -100%    | -1.22    | ❌    | ed888af2…   |
-| 039 | IBS + 3d max hold          | IBS<0.1 + force exit after 3 days        | 30%     | -52%     | 0.80     | ✅    | 41664040…   |
-| 040 | SMA150 trend + IBS<0.05    | Trend hold + MR overlay in down-trend    | 50%     | -56%     | 0.99     | ✅    | 91eb924d…   |
-| 041 | SMA200 trend + IBS<0.05    | Same as 40 but SMA200 gate               | 44%     | -68%     | 0.90     | ❌    | 2e473812…   |
-| 042 | SMA150 + IBS + 3xATR       | #40 + ATR stop on MR                     | 51%     | -55%     | 1.00     | ✅    | 7d454591…   |
-| 043 | SMA150 + IBS + 2xATR       | #42 with tighter stop                    | 51%     | -58%     | 1.01     | ✅    | 88b62de1…   |
-| 044 | dual-trend gate            | Both QQQ150 AND TQQQ100 SMAs up          | 12%     | -54%     | 0.37     | ❌    | 44f9c8d6…   |
-| 045 | TQQQ↔TLT switch            | Risk-on/off rotation by SMA200           | 31%     | -64%     | 0.71     | ❌    | aeff8002…   |
-| 046 | **SMA150+IBS fast exit**   | #40 with IBS>0.7 fast MR exit            | **55%** | **-55%** | **1.07** | ✅    | 31d82823…   |
-| 047 | #46 + chandelier           | #46 + 5xATR trailing stop on trend pos   | 52%     | -56%     | 1.03     | ✅    | 8effa768…   |
-| 048 | #46 on QLD                 | Same hybrid but QLD instead of TQQQ      | 40%     | -40%     | 1.02     | ✅    | 17f4607d…   |
-| 049 | 5d-low pullback in trend   | Buy 5d low when QQQ>100SMA, 5d hold      | 1%      | -10%     | -0.45    | ❌    | 079f98c7…   |
-| 050 | TQQQ buy & hold            | 100% TQQQ from 2014                      | 37%     | -82%     | 0.77     | ❌    | b28efa10…   |
-| 051 | 5 most mkt cap + SMA200 cash | 5 most mkt cap, cash when QQQ<200SMA   | 20%     | -27%     | 0.79     | ❌    | e31554a6…   |
-| 052 | XLK SMA200 trend           | Tech sector ETF + 200d SMA               | 16%     | -25%     | 0.68     | ❌    | bc0b8af7…   |
-| 053 | %R(2) MR pure              | Williams %R<-90 buy, >-10 sell           | 40%     | -42%     | 0.91     | ✅    | ece7de7e…   |
-| 054 | 2-down 1-up MR             | Buy 1st up after 2 downs, exit on down   | -10%    | -90%     | -0.24    | ❌    | 5283ad57…   |
-| 055 | **TQQQ + SMA200**          | TQQQ hold when above 200d SMA            | 33%     | -50%     | 0.76     | ✅    | 0b7ab363…   |
-| 056 | %R(2) hybrid               | SMA150 trend + %R<-95 MR overlay         | 51%     | -56%     | 1.00     | ✅    | 040559d6…   |
-| 057 | 5 most mkt cap EW          | 5 most mkt cap, equal-weight, monthly   | 22%     | -40%     | 0.74     | ❌    | 8c4c9455…   |
-| 058 | 5 most mkt cap + SMA200 | 5 most mkt cap EW, cash when QQQ<200SMA | 20%     | -27%     | 0.79     | ❌    | bb8b10f3…   |
-| 059 | 5 most mkt cap + IBS<0.2 daily | 5 most mkt cap daily IBS rotation    | 19%     | -21%     | 0.81     | ❌    | 967adac3…   |
-| 060 | TQQQ hybrid (SMA+IBS)      | TQQQ SMA200 trend + IBS<0.05 down-trend  | 49%     | -50%     | 0.99     | ✅    | ad213588…   |
-| 061 | TQQQ + SMA150              | TQQQ + 150d SMA                          | 29%     | -53%     | 0.69     | ✅    | 1b79eaaa…   |
-| 062 | 10 most mkt cap + SMA200   | 10 most mkt cap + QQQ regime             | 16%     | -25%     | 0.72     | ❌    | 661949ab…   |
-| 063 | 3 most mkt cap + SMA200    | 3 most mkt cap EW + QQQ regime           | 18%     | -26%     | 0.68     | ❌    | 18324025…   |
-| 064 | 5 most mkt cap + IBS regime mix | EW in trend; IBS<0.2 names else      | 30%     | -23%     | 1.07     | ✅    | 1f0563ad…   |
-| 065 | 5 most mkt cap IBS<0.5 daily | Daily rotation by IBS<0.5              | 21%     | -31%     | 0.76     | ❌    | eb9f6e72…   |
-| 066 | TQQQ hybrid + ATR          | #60 + 3xATR stop on MR pos               | 49%     | -48%     | 0.99     | ✅    | ce131745…   |
-| 067 | 5 most mkt cap momo + SMA200 | Monthly momentum top5 + regime         | 17%     | -27%     | 0.59     | ❌    | fe334d41…   |
-| 068 | TSLA + SMA200              | TSLA trend                               | 14%     | -72%     | 0.41     | ❌    | 4dd79c8b…   |
-| 069 | 7 most mkt cap + SMA200    | 7 most mkt cap EW + QQQ regime           | 18%     | -26%     | 0.74     | ❌    | c8f8b9ab…   |
-| 070 | 5 most mkt cap momo top3   | Monthly: top 3 of 5 by 1mo return        | 21%     | -44%     | 0.68     | ❌    | af1ada90…   |
-| 080 | Sector momo top2           | 11 SPDR sectors, top 2 by 3mo return     | 14%     | -33%     | 0.56     | ❌    | d6a3e064…   |
-| 081 | Risk parity QQQ/IEF/GLD    | Inverse-vol weights                      | 7%      | -18%     | 0.51     | ❌    | daf3069b…   |
-| 082 | TQQQ↔SQQQ regime           | 20d return sign → 3x long or 3x inverse  | 5%      | -70%     | 0.28     | ❌    | a7d911bd…   |
-| 083 | NR7 breakout               | Narrow-range-7 breakout on QQQ           | 7%      | -34%     | 0.24     | ❌    | 3fda01b2…   |
-| 084 | SPY/TLT 6mo momo           | Monthly: hold higher 6mo return          | 7%      | -30%     | 0.30     | ❌    | 45ec62d2…   |
-| 085 | Sector Momentum            | 5-ETF leveraged basket + QQQ SMA200 gate | 9%      | -74%     | 0.324    | ❌    | —          |
-| 086 | Asymmetric Vol Target      | TQQQ sized by 20d vol targeting 30% ann  | 16%     | -30%     | 0.609    | ❌    | —          |
-| 087 | Vol Compression Trend      | TQQQ triple positive return confirmation | 29%     | -62%     | 0.691    | ❌    | —          |
-| 088 | Keltner Reversion          | TQQQ↔TMF monthly by 3mo momentum         | 15%     | -55%     | 0.452    | ❌    | —          |
-| 089 | Donchian Reversion         | TQQQ dual trend + Bollinger squeeze      | 11%     | -60%     | 0.361    | ❌    | —          |
-| 090 | Sector Alpha Rotation      | Top 3 of 7 leveraged ETFs by 3mo momo    | 17%     | -72%     | 0.471    | ❌    | —          |
+| #   | Name                            | Idea                                     | CAGR    | MaxDD    | Sharpe   | Pass | Backtest ID |
+| :-- | :------------------------------ | :--------------------------------------- | :------ | :------- | :------- | :--- | :---------- |
+| 001 | RSI2 MR daily                   | RSI(2)<10 buy / >70 or 5d sell           | 2%      | -66%     | 0.13     | ❌    | 64d80063…   |
+| 002 | RSI2 + SMA200 trend gate        | RSI2 MR only if QQQ > 200d SMA           | 7%      | -43%     | 0.24     | ❌    | 8b4fd7dc…   |
+| 003 | TQQQ trend SMA200               | Hold TQQQ when QQQ > 200d SMA, else flat | 33%     | -56%     | 0.75     | ✅    | 187f2156…   |
+| 004 | TQQQ trend SMA50                | Hold TQQQ when QQQ > 50d SMA             | 20%     | -52%     | 0.53     | ❌    | 576b3891…   |
+| 005 | TQQQ trend SMA100               | Hold TQQQ when QQQ > 100d SMA            | 17%     | -58%     | 0.47     | ❌    | 7d59721a…   |
+| 006 | TQQQ trend SMA150               | Hold TQQQ when QQQ > 150d SMA            | 40%     | -55%     | 0.87     | ✅    | f977dd48…   |
+| 007 | EMA50/200 cross                 | EMA50>EMA200 on QQQ → TQQQ               | 35%     | -70%     | 0.76     | ❌    | dfc30ce3…   |
+| 008 | TQQQ self-SMA200                | TQQQ > own 200d SMA → hold               | 33%     | -50%     | 0.76     | ✅    | 55c0a642…   |
+| 009 | TQQQ self-SMA150                | TQQQ > own 150d SMA → hold               | 29%     | -53%     | 0.69     | ✅    | e949acad…   |
+| 010 | SMA150+RSI2 overlay             | SMA150 trend, RSI2<10 add in downtrend   | 39%     | -62%     | 0.83     | ❌    | 51bce0dd…   |
+| 011 | SMA200 75% cap                  | SMA200, but only 75% TQQQ                | 29%     | -49%     | 0.70     | ✅    | 50331476…   |
+| 012 | TQQQ/TLT 50/50                  | Static 50/50 monthly rebal, no signal    | 22%     | -62%     | 0.64     | ❌    | 75ccb4b5…   |
+| 013 | Donchian50 breakout             | TQQQ on QQQ 50d high; exit on 50d low    | 16%     | -71%     | 0.45     | ❌    | 3864bc43…   |
+| 014 | VIX<22 regime                   | TQQQ when VIX < 22, flat above           | 17%     | -71%     | 0.46     | ❌    | a8a2055f…   |
+| 015 | ROC126 momentum                 | TQQQ when QQQ 6mo return > 0             | 29%     | -72%     | 0.67     | ❌    | 6c622c23…   |
+| 016 | IBS MR pure                     | Buy IBS<0.2, sell IBS>0.7 on TQQQ        | 35%     | -50%     | 0.82     | ✅    | 35759289…   |
+| 017 | 5 most mkt cap EW               | 5 most mkt cap, 100% (no lev), monthly   | 22%     | -40%     | 0.74     | ❌    | 6548d414…   |
+| 018 | 5 most mkt cap @ 1.5x           | 5 most mkt cap @ 1.5x margin             | 33%     | -55%     | 0.83     | ✅    | 164c7001…   |
+| 019 | 5 most mkt cap @ 2.0x           | 5 most mkt cap @ 2.0x margin (uses lev)  | 44%     | -67%     | 0.93     | ❌    | 32737def…   |
+| 020 | Top5 12-1 momo                  | Top5 from S&P200 by 12-1 momentum        | 18%     | -45%     | 0.52     | ❌    | ee48df20…   |
+| 021 | Most mkt cap                    | Most market capital company              | 15%     | -33%     | 0.47     | ❌    | 65dfd463…   |
+| 022 | TQQQ BB MR                      | Buy lower BB, sell mid BB                | 12%     | -60%     | 0.36     | ❌    | dcf54e19…   |
+| 023 | TQQQ 3-down MR                  | Buy after 3 red days, sell on 1st green  | 13%     | -45%     | 0.48     | ❌    | 436228f1…   |
+| 024 | TQQQ Connors RSI                | 2x RSI(2)<35 buy, RSI>65 sell            | 15%     | -63%     | 0.42     | ❌    | dc60498a…   |
+| 025 | 3 most mkt cap EW               | 3 most mkt cap, EW, monthly              | 20%     | -35%     | 0.67     | ❌    | 46c66a7f…   |
+| 026 | 5 most mkt cap CW               | 5 most mkt cap, weighted by cap          | 21%     | -38%     | 0.72     | ❌    | c9cd1d89…   |
+| 027 | 5 most mkt cap 6mo momo         | Top 5 from largest 30 by 6mo momentum    | 22%     | -27%     | 0.74     | ❌    | a73f67d6…   |
+| 028 | **TQQQ IBS extreme**            | IBS<0.1 buy, IBS>0.9 exit                | **47%** | **-47%** | **1.05** | ✅    | d0e32e34…   |
+| 029 | TQQQ IBS 0.15/0.85              | IBS<0.15 buy, IBS>0.85 exit              | 37%     | -42%     | 0.84     | ✅    | 65fcde16…   |
+| 030 | IBS extreme + SMA200            | IBS<0.1 buy only when QQQ>200d           | 32%     | -40%     | 0.90     | ✅    | 12ca4af2…   |
+| 031 | **IBS extreme + ATR stop**      | IBS<0.1 + 3×ATR stop loss                | **46%** | **-43%** | **1.05** | ✅    | 04a55b85…   |
+| 032 | IBS 0.05 (rare)                 | IBS<0.05 buy, IBS>0.9 exit               | 31%     | -47%     | 0.79     | ✅    | eb5737c6…   |
+| 033 | IBS 0.1/0.7 fast                | IBS<0.1 buy, IBS>0.7 fast exit           | 36%     | -35%     | 0.92     | ✅    | 53ffc8ad…   |
+| 034 | IBS 0.05/0.7                    | IBS<0.05 buy, IBS>0.7 fast exit          | 26%     | -34%     | 0.76     | ❌    | 61ff20c3…   |
+| 035 | IBS regime-adaptive             | IBS<0.1 in uptrend, <0.03 in downtrend   | 39%     | -55%     | 0.92     | ✅    | d176438b…   |
+| 036 | TOM TQQQ                        | Hold last 5 + first 5 cal days TQQQ      | 8%      | -62%     | 0.27     | ❌    | 07936977…   |
+| 037 | Sell-in-May TQQQ                | Hold Nov-Apr only                        | 8%      | -70%     | 0.31     | ❌    | 3849867b…   |
+| 038 | Overnight TQQQ                  | Buy at close, sell at open (minute res)  | -51%    | -100%    | -1.22    | ❌    | ed888af2…   |
+| 039 | IBS + 3d max hold               | IBS<0.1 + force exit after 3 days        | 30%     | -52%     | 0.80     | ✅    | 41664040…   |
+| 040 | SMA150 trend + IBS<0.05         | Trend hold + MR overlay in down-trend    | 50%     | -56%     | 0.99     | ✅    | 91eb924d…   |
+| 041 | SMA200 trend + IBS<0.05         | Same as 40 but SMA200 gate               | 44%     | -68%     | 0.90     | ❌    | 2e473812…   |
+| 042 | SMA150 + IBS + 3xATR            | #40 + ATR stop on MR                     | 51%     | -55%     | 1.00     | ✅    | 7d454591…   |
+| 043 | SMA150 + IBS + 2xATR            | #42 with tighter stop                    | 51%     | -58%     | 1.01     | ✅    | 88b62de1…   |
+| 044 | dual-trend gate                 | Both QQQ150 AND TQQQ100 SMAs up          | 12%     | -54%     | 0.37     | ❌    | 44f9c8d6…   |
+| 045 | TQQQ↔TLT switch                 | Risk-on/off rotation by SMA200           | 31%     | -64%     | 0.71     | ❌    | aeff8002…   |
+| 046 | **SMA150+IBS fast exit**        | #40 with IBS>0.7 fast MR exit            | **55%** | **-55%** | **1.07** | ✅    | 31d82823…   |
+| 047 | #46 + chandelier                | #46 + 5xATR trailing stop on trend pos   | 52%     | -56%     | 1.03     | ✅    | 8effa768…   |
+| 048 | #46 on QLD                      | Same hybrid but QLD instead of TQQQ      | 40%     | -40%     | 1.02     | ✅    | 17f4607d…   |
+| 049 | 5d-low pullback in trend        | Buy 5d low when QQQ>100SMA, 5d hold      | 1%      | -10%     | -0.45    | ❌    | 079f98c7…   |
+| 050 | TQQQ buy & hold                 | 100% TQQQ from 2014                      | 37%     | -82%     | 0.77     | ❌    | b28efa10…   |
+| 051 | 5 most mkt cap + SMA200 cash    | 5 most mkt cap, cash when QQQ<200SMA     | 20%     | -27%     | 0.79     | ❌    | e31554a6…   |
+| 052 | XLK SMA200 trend                | Tech sector ETF + 200d SMA               | 16%     | -25%     | 0.68     | ❌    | bc0b8af7…   |
+| 053 | %R(2) MR pure                   | Williams %R<-90 buy, >-10 sell           | 40%     | -42%     | 0.91     | ✅    | ece7de7e…   |
+| 054 | 2-down 1-up MR                  | Buy 1st up after 2 downs, exit on down   | -10%    | -90%     | -0.24    | ❌    | 5283ad57…   |
+| 055 | **TQQQ + SMA200**               | TQQQ hold when above 200d SMA            | 33%     | -50%     | 0.76     | ✅    | 0b7ab363…   |
+| 056 | %R(2) hybrid                    | SMA150 trend + %R<-95 MR overlay         | 51%     | -56%     | 1.00     | ✅    | 040559d6…   |
+| 057 | 5 most mkt cap EW               | 5 most mkt cap, equal-weight, monthly    | 22%     | -40%     | 0.74     | ❌    | 8c4c9455…   |
+| 058 | 5 most mkt cap + SMA200         | 5 most mkt cap EW, cash when QQQ<200SMA  | 20%     | -27%     | 0.79     | ❌    | bb8b10f3…   |
+| 059 | 5 most mkt cap + IBS<0.2 daily  | 5 most mkt cap daily IBS rotation        | 19%     | -21%     | 0.81     | ❌    | 967adac3…   |
+| 060 | TQQQ hybrid (SMA+IBS)           | TQQQ SMA200 trend + IBS<0.05 down-trend  | 49%     | -50%     | 0.99     | ✅    | ad213588…   |
+| 061 | TQQQ + SMA150                   | TQQQ + 150d SMA                          | 29%     | -53%     | 0.69     | ✅    | 1b79eaaa…   |
+| 062 | 10 most mkt cap + SMA200        | 10 most mkt cap + QQQ regime             | 16%     | -25%     | 0.72     | ❌    | 661949ab…   |
+| 063 | 3 most mkt cap + SMA200         | 3 most mkt cap EW + QQQ regime           | 18%     | -26%     | 0.68     | ❌    | 18324025…   |
+| 064 | 5 most mkt cap + IBS regime mix | EW in trend; IBS<0.2 names else          | 30%     | -23%     | 1.07     | ✅    | 1f0563ad…   |
+| 065 | 5 most mkt cap IBS<0.5 daily    | Daily rotation by IBS<0.5                | 21%     | -31%     | 0.76     | ❌    | eb9f6e72…   |
+| 066 | TQQQ hybrid + ATR               | #60 + 3xATR stop on MR pos               | 49%     | -48%     | 0.99     | ✅    | ce131745…   |
+| 067 | 5 most mkt cap momo + SMA200    | Monthly momentum top5 + regime           | 17%     | -27%     | 0.59     | ❌    | fe334d41…   |
+| 068 | TSLA + SMA200                   | TSLA trend                               | 14%     | -72%     | 0.41     | ❌    | 4dd79c8b…   |
+| 069 | 7 most mkt cap + SMA200         | 7 most mkt cap EW + QQQ regime           | 18%     | -26%     | 0.74     | ❌    | c8f8b9ab…   |
+| 070 | 5 most mkt cap momo top3        | Monthly: top 3 of 5 by 1mo return        | 21%     | -44%     | 0.68     | ❌    | af1ada90…   |
+| 080 | Sector momo top2                | 11 SPDR sectors, top 2 by 3mo return     | 14%     | -33%     | 0.56     | ❌    | d6a3e064…   |
+| 081 | Risk parity QQQ/IEF/GLD         | Inverse-vol weights                      | 7%      | -18%     | 0.51     | ❌    | daf3069b…   |
+| 082 | TQQQ↔SQQQ regime                | 20d return sign → 3x long or 3x inverse  | 5%      | -70%     | 0.28     | ❌    | a7d911bd…   |
+| 083 | NR7 breakout                    | Narrow-range-7 breakout on QQQ           | 7%      | -34%     | 0.24     | ❌    | 3fda01b2…   |
+| 084 | SPY/TLT 6mo momo                | Monthly: hold higher 6mo return          | 7%      | -30%     | 0.30     | ❌    | 45ec62d2…   |
+| 085 | Sector Momentum                 | 5-ETF leveraged basket + QQQ SMA200 gate | 9%      | -74%     | 0.324    | ❌    | —           |
+| 086 | Asymmetric Vol Target           | TQQQ sized by 20d vol targeting 30% ann  | 16%     | -30%     | 0.609    | ❌    | —           |
+| 087 | Vol Compression Trend           | TQQQ triple positive return confirmation | 29%     | -62%     | 0.691    | ❌    | —           |
+| 088 | Keltner Reversion               | TQQQ↔TMF monthly by 3mo momentum         | 15%     | -55%     | 0.452    | ❌    | —           |
+| 089 | Donchian Reversion              | TQQQ dual trend + Bollinger squeeze      | 11%     | -60%     | 0.361    | ❌    | —           |
+| 090 | Sector Alpha Rotation           | Top 3 of 7 leveraged ETFs by 3mo momo    | 17%     | -72%     | 0.471    | ❌    | —           |
 
 ---
 

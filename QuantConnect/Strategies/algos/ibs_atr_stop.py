@@ -3,14 +3,21 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class IBSATRStopSub(BaseSubAlgo):
-    """#031 — IBS extreme + ATR-based stop loss."""
+    """#031 — IBS extreme + ATR-based stop loss.
+
+    Uses update_targets (scheduled at +DAILY_OPEN_MIN after market open) rather
+    than on_data: the standalone factory's on_data path delivered systematically
+    worse fills (30% vs 46% CAGR over 2014–2026). With Resolution.Daily,
+    Securities[self.sym] at +45 min after open already reflects the previous
+    trading day's complete bar, so IBS/ATR can be computed cleanly here.
+    """
 
     def initialize(self):
         self.sym = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
         self.atr = self.algo.ATR(self.sym, 14, MovingAverageType.Wilders, Resolution.Daily)
         self.entry_price = None
 
-    def on_data(self, data):
+    def update_targets(self):
         if not self.atr.IsReady: return False
         bar = self.algo.Securities[self.sym]
         h, l, c = bar.High, bar.Low, bar.Close
