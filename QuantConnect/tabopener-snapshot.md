@@ -1,0 +1,53 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - heading "Terminal Tabs" [level=1] [ref=e4]
+    - generic [ref=e5]: "3"
+  - generic [ref=e6]:
+    - generic [ref=e8] [cursor=pointer]:
+      - generic [ref=e9]:
+        - generic [ref=e11]:
+          - generic [ref=e12]: deepseek-v4-flash
+          - text: ~/Desktop/proj/QuantConnect
+        - generic [ref=e13]:
+          - button "▲" [ref=e14]
+          - button "▼" [ref=e15]
+      - generic [ref=e17]:
+        - generic [ref=e18]: ctx
+        - progressbar [ref=e20]
+        - generic [ref=e21]: 54%
+    - generic [ref=e23] [cursor=pointer]:
+      - generic [ref=e24]:
+        - generic [ref=e26]:
+          - generic [ref=e27]: deepseek-v4-flash
+          - text: ~/Desktop/proj/QuantConnect
+        - generic [ref=e28]:
+          - button "▲" [ref=e29]
+          - button "▼" [ref=e30]
+      - generic [ref=e32]:
+        - generic [ref=e33]: ctx
+        - progressbar [ref=e35]
+        - generic [ref=e36]: 19%
+    - generic [ref=e38] [cursor=pointer]:
+      - generic [ref=e39]:
+        - generic [ref=e41]:
+          - generic [ref=e42]: opus
+          - text: ~/Desktop/proj/QuantConnect
+        - generic [ref=e43]:
+          - button "▲" [ref=e44]
+          - button "▼" [ref=e45]
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - generic [ref=e48]: ctx
+          - generic [ref=e49]:
+            - progressbar
+          - generic [ref=e50]: 0%
+        - generic [ref=e51]:
+          - generic [ref=e52]: 5h
+          - generic [ref=e53]:
+            - progressbar
+          - generic [ref=e54]: 0%
+        - generic [ref=e55]:
+          - generic [ref=e56]: 7d
+          - generic [ref=e57]:
+            - progressbar
+          - generic [ref=e58]: 0%

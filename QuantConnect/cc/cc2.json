@@ -1,200 +1,313 @@
 {
   "strategies": {
-    "003": {
-      "name": "TQQQ trend SMA200",
-      "description": "Hold TQQQ when QQQ > 200d SMA, else flat",
-      "algo_dir": "algos2",
-      "file": "algo_003.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_003.py"
+    "1": {
+      "name": "TQQQ SMA Trend (it_3.py)",
+      "description": "Baseline 200-day SMA filter on QQQ to manage TQQQ exposure.",
+      "category": "Trend",
+      "overfit": "2/10",
+      "overfit_notes": "Industry standard parameter",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ close > SMA(200)"
+        },
+        {
+          "label": "Entry",
+          "text": "QQQ > SMA(200) → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ ≤ SMA(200) → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ. Execution: TQQQ / BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "it_3.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/it_3.py",
+      "source": "qc_pass.md F3"
     },
-    "006": {
-      "name": "TQQQ trend SMA150",
-      "description": "Hold TQQQ when QQQ > 150d SMA",
-      "algo_dir": "algos2",
-      "file": "algo_006.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_006.py"
+    "2": {
+      "name": "Trend Vol Hybrid (it_23.py)",
+      "description": "Combines SMA trend following with a VIX panic filter.",
+      "category": "Trend/MR Hybrid",
+      "overfit": "3/10",
+      "overfit_notes": "Adds one macro volatility filter",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ close > SMA(200)"
+        },
+        {
+          "label": "Entry",
+          "text": "QQQ > SMA(200) AND VIX < 30 → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ ≤ SMA(200) OR VIX ≥ 30 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + VIX. Execution: TQQQ / BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "it_23.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/it_23.py",
+      "source": "qc_pass.md F23"
     },
-    "008": {
-      "name": "TQQQ self-SMA200",
-      "description": "TQQQ > own 200d SMA → hold",
-      "algo_dir": "algos2",
-      "file": "algo_008.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_008.py"
+    "3": {
+      "name": "Vol Ratio Trend (it_35.py)",
+      "description": "SMA trend following with a short/long-term volatility ratio filter.",
+      "category": "Trend/MR Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Adds volatility lookback ratios",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ close > SMA(200)"
+        },
+        {
+          "label": "Entry",
+          "text": "QQQ > SMA(200) AND STD(10)/STD(60) < 1.2 → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ ≤ SMA(200) OR vol ratio ≥ 1.2 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ. Execution: TQQQ / BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "it_35.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/it_35.py",
+      "source": "qc_pass.md F35"
     },
-    "009": {
-      "name": "TQQQ self-SMA150",
-      "description": "TQQQ > own 150d SMA → hold",
-      "algo_dir": "algos2",
-      "file": "algo_009.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_009.py"
+    "4": {
+      "name": "Trend Stretch Exit (it_41.py)",
+      "description": "Trend following with mean-reversion \"stretch\" thresholds for exits.",
+      "category": "Mean Reversion",
+      "overfit": "3/10",
+      "overfit_notes": "Specific stretch thresholds",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ close > SMA(200)"
+        },
+        {
+          "label": "Entry",
+          "text": "QQQ > SMA(200) AND stretch = (price - SMA)/SMA < 15% → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ < SMA(200) OR stretch > 20% → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ. Execution: TQQQ / BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "it_41.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/it_41.py",
+      "source": "qc_pass.md F41"
     },
-    "011": {
-      "name": "SMA200 75% cap",
-      "description": "SMA200, but only 75% TQQQ",
-      "algo_dir": "algos2",
-      "file": "algo_011.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_011.py"
+    "5": {
+      "name": "LETF Simple Rotation (it_101.py)",
+      "description": "Advanced 3-of-4 regime vote (SPY, QQQ, SMH, SOXL) with overbought hedges.",
+      "category": "Rotation",
+      "overfit": "7/10",
+      "overfit_notes": "High complexity, multiple tickers and states",
+      "rules": [
+        {
+          "label": "Regime gate",
+          "text": "3-of-4 vote: SPY, QQQ, SMH, SOXL each > SMA(202) → BULL if ≥ 3 votes"
+        },
+        {
+          "label": "Bull overbought (R1)",
+          "text": "BULL AND any RSI(15) on {SPY, QQQ, SMH, SOXL} > 72 → 100% UVIX (UVXY proxy pre-2022-03-30)"
+        },
+        {
+          "label": "Bull default (R3)",
+          "text": "BULL AND not overbought → 50% TQQQ + 50% SOXL"
+        },
+        {
+          "label": "Bear bounce (R4)",
+          "text": "BEAR AND (QQQ RSI(8) < 29 OR SMH RSI(8) < 31) → 100% SOXL"
+        },
+        {
+          "label": "Bear default (R5)",
+          "text": "BEAR otherwise → 100% cash"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: SPY, QQQ, SMH, SOXL. Execution: TQQQ, SOXL, UVIX/UVXY"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 15 min before market close"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "it_101.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/it_101.py",
+      "source": "qc_pass.md F101"
     },
-    "016": {
-      "name": "IBS MR pure",
-      "description": "Buy IBS<0.2, sell IBS>0.7 on TQQQ",
-      "algo_dir": "algos2",
-      "file": "algo_016.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_016.py"
+    "6": {
+      "name": "TQQQ IBS Dip (0.25/0.90, SMA200)",
+      "description": "Internal Bar Strength (close position within high-low range) on the QQQ index triggers entry into leveraged Nasdaq exposure when IBS drops below 0.25 and the index is above its 200-day average. Exits when bars close near their highs (IBS > 0.90) or the long-term trend breaks down.",
+      "category": "Mean Reversion",
+      "overfit": "3/10",
+      "overfit_notes": "IBS<0.25 is a standard published threshold; SMA(200) is canonical. Two tuned parameters total.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ close > SMA(200)"
+        },
+        {
+          "label": "Entry",
+          "text": "IBS(QQQ) < 0.25 → buy 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "IBS > 0.90 OR trend break"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ. Execution: TQQQ"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily at -10 min before close (uses today's full bar)"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc2_014.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc2_014.py",
+      "source": "cc2.json #14"
     },
-    "018": {
-      "name": "5 most mkt cap @ 1.5x",
-      "description": "5 most mkt cap @ 1.5x margin",
-      "algo_dir": "algos2",
-      "file": "algo_018.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_018.py"
+    "7": {
+      "name": "TQQQ Anti-Martingale Pyramid (base 50%, +15% per 5% gain, cap 100%)",
+      "description": "Starts at 50% TQQQ when QQQ > SMA(200). For every 5% gain above the entry price, adds another 15% allocation until reaching 100%. Liquidates on trend break. Implements the 'let winners run / cut losers' principle discussed in the 'Antifragile / 2025 best year' thread — pyramiding into strength rather than averaging into weakness.",
+      "category": "Trend",
+      "overfit": "3/10",
+      "overfit_notes": "Anti-Martingale is a textbook position-sizing scheme; tuned step (5% gain → +15% size).",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ > SMA(200)"
+        },
+        {
+          "label": "Initial entry",
+          "text": "50% TQQQ"
+        },
+        {
+          "label": "Pyramid",
+          "text": "Each 5% gain above entry → +15% allocation, capped at 100%"
+        },
+        {
+          "label": "Exit",
+          "text": "Trend break → liquidate all"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ. Execution: TQQQ"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_022.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_022.py",
+      "source": "cc3.json #22"
     },
-    "028": {
-      "name": "TQQQ IBS extreme",
-      "description": "IBS<0.1 buy, IBS>0.9 exit",
-      "algo_dir": "algos2",
-      "file": "algo_028.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_028.py"
+    "8": {
+      "category": "Dip Buy",
+      "name": "Mega-Cap Value Averaging (cc4_007.py)",
+      "description": "Universe-driven dip-buy on the five largest-cap U.S. stocks (selected from the top 100 by dollar volume, then ranked by market cap each universe refresh). Whenever a name pulls back more than 5% from its 20-day high it gets a 20% portfolio allocation, and the position is liquidated the moment price prints a new 20-day high. The construction sidesteps single-stock bets by spreading 100% nominal exposure across five mega-caps, and only sells into strength — never on weakness — so a position can sit in drawdown indefinitely until a fresh high releases it.",
+      "overfit": "4/10",
+      "overfit_notes": "Two tuned numbers (5% dip threshold, 20-day high lookback) and a hindsight-driven universe — 'top 5 by market cap' over 2014–2025 maps directly onto the mega-cap tech complex (AAPL/MSFT/AMZN/GOOGL/META/NVDA), which is the regime the backtest favors. The rule itself (buy weakness in an uptrend, exit on new highs) is a standard value-averaging template; no exotic indicators or per-asset tuning.",
+      "rules": [
+        {
+          "label": "Universe",
+          "text": "Top 100 stocks by dollar volume → top 5 by market cap (daily refresh)"
+        },
+        {
+          "label": "Entry",
+          "text": "Price < 20-day high × 0.95 → buy 20% allocation"
+        },
+        {
+          "label": "Exit",
+          "text": "Price ≥ 20-day high → liquidate"
+        },
+        {
+          "label": "Sizing",
+          "text": "Fixed 20% per name (5 names → 100% gross when fully loaded)"
+        },
+        {
+          "label": "Resolution",
+          "text": "Daily bars"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc4_007.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc4_007.py",
+      "source": "cc4.json #7"
     },
-    "029": {
-      "name": "TQQQ IBS 0.15/0.85",
-      "description": "IBS<0.15 buy, IBS>0.85 exit",
-      "algo_dir": "algos2",
-      "file": "algo_029.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_029.py"
-    },
-    "030": {
-      "name": "IBS extreme + SMA200",
-      "description": "IBS<0.1 buy only when QQQ>200d",
-      "algo_dir": "algos2",
-      "file": "algo_030.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_030.py"
-    },
-    "031": {
-      "name": "IBS extreme + ATR stop",
-      "description": "IBS<0.1 + 3×ATR stop loss",
-      "algo_dir": "algos2",
-      "file": "algo_031.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_031.py"
-    },
-    "032": {
-      "name": "IBS 0.05 (rare)",
-      "description": "IBS<0.05 buy, IBS>0.9 exit",
-      "algo_dir": "algos2",
-      "file": "algo_032.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_032.py"
-    },
-    "033": {
-      "name": "IBS 0.1/0.7 fast",
-      "description": "IBS<0.1 buy, IBS>0.7 fast exit",
-      "algo_dir": "algos2",
-      "file": "algo_033.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_033.py"
-    },
-    "035": {
-      "name": "IBS regime-adaptive",
-      "description": "IBS<0.1 in uptrend, <0.03 in downtrend",
-      "algo_dir": "algos2",
-      "file": "algo_035.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_035.py"
-    },
-    "039": {
-      "name": "IBS + 3d max hold",
-      "description": "IBS<0.1 + force exit after 3 days",
-      "algo_dir": "algos2",
-      "file": "algo_039.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_039.py"
-    },
-    "040": {
-      "name": "SMA150 trend + IBS<0.05",
-      "description": "Trend hold + MR overlay in down-trend",
-      "algo_dir": "algos2",
-      "file": "algo_040.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_040.py"
-    },
-    "042": {
-      "name": "SMA150 + IBS + 3xATR",
-      "description": "#40 + ATR stop on MR",
-      "algo_dir": "algos2",
-      "file": "algo_042.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_042.py"
-    },
-    "043": {
-      "name": "SMA150 + IBS + 2xATR",
-      "description": "#42 with tighter stop",
-      "algo_dir": "algos2",
-      "file": "algo_043.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_043.py"
-    },
-    "046": {
-      "name": "SMA150+IBS fast exit",
-      "description": "#40 with IBS>0.7 fast MR exit",
-      "algo_dir": "algos2",
-      "file": "algo_046.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_046.py"
-    },
-    "047": {
-      "name": "#46 + chandelier",
-      "description": "#46 + 5xATR trailing stop on trend pos",
-      "algo_dir": "algos2",
-      "file": "algo_047.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_047.py"
-    },
-    "048": {
-      "name": "#46 on QLD",
-      "description": "Same hybrid but QLD instead of TQQQ",
-      "algo_dir": "algos2",
-      "file": "algo_048.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_048.py"
-    },
-    "053": {
-      "name": "%R(2) MR pure",
-      "description": "Williams %R<-90 buy, >-10 sell",
-      "algo_dir": "algos2",
-      "file": "algo_053.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_053.py"
-    },
-    "055": {
-      "name": "TQQQ + SMA200",
-      "description": "TQQQ hold when above 200d SMA",
-      "algo_dir": "algos2",
-      "file": "algo_055.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_055.py"
-    },
-    "056": {
-      "name": "%R(2) hybrid",
-      "description": "SMA150 trend + %R<-95 MR overlay",
-      "algo_dir": "algos2",
-      "file": "algo_056.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_056.py"
-    },
-    "060": {
-      "name": "TQQQ hybrid (SMA+IBS)",
-      "description": "TQQQ SMA200 trend + IBS<0.05 down-trend",
-      "algo_dir": "algos2",
-      "file": "algo_060.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_060.py"
-    },
-    "061": {
-      "name": "TQQQ + SMA150",
-      "description": "TQQQ + 150d SMA",
-      "algo_dir": "algos2",
-      "file": "algo_061.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_061.py"
-    },
-    "064": {
-      "name": "5 most mkt cap + IBS regime mix",
-      "description": "EW in trend; IBS<0.2 names else",
-      "algo_dir": "algos2",
-      "file": "algo_064.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_064.py"
-    },
-    "066": {
-      "name": "TQQQ hybrid + ATR",
-      "description": "#60 + 3xATR stop on MR pos",
-      "algo_dir": "algos2",
-      "file": "algo_066.py",
-      "vault_path": "vault://QuantConnect/cc/algos2/algo_066.py"
+    "9": {
+      "category": "Rotation",
+      "name": "Nasdaq-100 Breadth Rotation (cc4_010.py)",
+      "description": "Uses participation across the 10 largest-cap U.S. stocks (drawn from the top 100 by dollar volume) as a breadth regime gate for TQQQ. Each constituent runs a 50-day EMA, and the strategy measures the fraction trading above its EMA: above 60% it goes 100% long TQQQ, below 40% it liquidates, and in the 40–60% no-man's-land it holds whatever it had. The mega-cap basket acts as a proxy for Nasdaq leadership health — when participation is broad the engine ramps full 3× exposure, and when it deteriorates it steps fully aside.",
+      "overfit": "5/10",
+      "overfit_notes": "Three tuned thresholds (50-day EMA period, 60% bull cutoff, 40% bear cutoff) and a regime-defining universe choice. The 60/40 asymmetric hysteresis is a reasonable design choice (prevents whipsaws around 50%) but the specific levels are unverified. The 'top 10 by market cap' basket suffers the same hindsight asset-selection bias as #14 — over 2014–2025 it locks in the mega-cap tech leadership that the strategy then leverages 3× into.",
+      "rules": [
+        {
+          "label": "Universe",
+          "text": "Top 100 stocks by dollar volume → top 10 by market cap (signal basket)"
+        },
+        {
+          "label": "Indicator",
+          "text": "50-day EMA per constituent; breadth = fraction trading above EMA"
+        },
+        {
+          "label": "Bull entry",
+          "text": "Breadth > 60% → 100% TQQQ"
+        },
+        {
+          "label": "Bear exit",
+          "text": "Breadth < 40% → liquidate TQQQ"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: top-10 mega-cap basket. Execution: TQQQ"
+        },
+        {
+          "label": "Resolution",
+          "text": "Daily bars"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc4_010.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc4_010.py",
+      "source": "cc4.json #10"
     }
   }
 }

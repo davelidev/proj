@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Generate cc1.md from cc1.json + backtest_cc1.json.
-If backtest_cc1.json is missing, runs backtests via QuantConnect API first.
+Generate cc<N>.md from cc<N>.json + backtest_cc<N>.json.
+If backtest_cc<N>.json is missing, runs backtests via QuantConnect API first.
 
 Usage:
-    python3 cc/generate_md.py                        # cc/cc1.json → cc/cc1.md
-    python3 cc/generate_md.py cc/cc1.json            # explicit input
-    python3 cc/generate_md.py cc/cc1.json --skip-bt  # skip backtests, md only
+    python3 cc/generate_md.py cc/cc3.json            # cc/cc3.json → cc/cc3.md
+    python3 cc/generate_md.py cc/cc3.json --skip-bt  # skip backtests, md only
+    python3 cc/generate_md.py                        # defaults to cc/cc1.json
 """
 
 import os, sys, json, time
@@ -35,8 +35,12 @@ def resolve_paths(cc_json_path):
     return backtest_path, md_path
 
 
-def run_missing_backtests(strategies, backtest_path):
-    """Run backtests for strategies that lack results. Saves incrementally."""
+def run_missing_backtests(strategies, backtest_path, md_path=None):
+    """Run backtests for strategies that lack results. Saves incrementally.
+
+    If md_path is provided, regenerate the markdown after each completed
+    backtest so cc<N>.md reflects live progress.
+    """
     from batch_runner import run_backtest
 
     existing = {}
@@ -45,6 +49,15 @@ def run_missing_backtests(strategies, backtest_path):
 
     results = dict(existing)
     ran_any = False
+
+    def _regen_md():
+        if md_path:
+            try:
+                generate_markdown(strategies, results, md_path)
+            except Exception as e:
+                print(f"  [warn] live md regen failed: {e}")
+
+    _regen_md()  # initial render with whatever results exist
 
     for sid, meta in strategies.items():
         key = str(sid)
@@ -62,6 +75,7 @@ def run_missing_backtests(strategies, backtest_path):
         if not os.path.exists(filepath):
             results[key] = {"error": f"file not found: {filepath}"}
             save_json(backtest_path, results)
+            _regen_md()
             continue
 
         name = f"Strategy-{sid}"
@@ -82,6 +96,7 @@ def run_missing_backtests(strategies, backtest_path):
             print(f"  [{pf}] {name}: CAGR={result.get('cagr')}, MaxDD={result.get('maxdd')}")
 
         save_json(backtest_path, results)
+        _regen_md()
         time.sleep(1)
 
     if ran_any:
@@ -126,9 +141,26 @@ def derive_trade_stats(bt):
     return out
 
 
+def _is_displayable(meta, r):
+    """Show a strategy in the markdown if it passes the cutoff, or fails very narrowly
+    while still having an extremely low drawdown (<= 30%)."""
+    if not r or "error" in r:
+        return False
+    cagr_val = r.get("cagr_val", 0) or 0
+    maxdd_val = r.get("maxdd_val", 0) or 0
+    if cagr_val >= 28 and maxdd_val <= 58:
+        return True
+    # near-miss with very low DD: at least 22% CAGR AND <=30% DD
+    if cagr_val >= 22 and maxdd_val <= 30:
+        return True
+    return False
+
+
 def generate_markdown(strategies, backtest_results, output_path):
-    """Generate cc1.md from strategy metadata + backtest results."""
-    ordered = sorted(strategies.items(), key=lambda x: int(x[0]))
+    """Generate cc<N>.md from strategy metadata + backtest results."""
+    all_ordered = sorted(strategies.items(), key=lambda x: int(x[0]))
+    ordered = [(sid, meta) for sid, meta in all_ordered
+               if _is_displayable(meta, backtest_results.get(sid, {}))]
     lines = []
 
     # --- Header ---
@@ -151,7 +183,7 @@ def generate_markdown(strategies, backtest_results, output_path):
         overfit = meta.get("overfit", "—")
 
         # Trade-count stats derived from backtest results (was previously stored
-        # in cc1.json meta.stats; moved here so the columns auto-refresh).
+        # in cc<N>.json meta.stats; moved here so the columns auto-refresh).
         stats = derive_trade_stats(r)
         win_count = stats["win_count"]
         loss_count = stats["loss_count"]
@@ -297,7 +329,7 @@ def main():
     if skip_bt:
         backtest_results = load_json(backtest_path) if os.path.exists(backtest_path) else {}
     else:
-        backtest_results = run_missing_backtests(strategies, backtest_path)
+        backtest_results = run_missing_backtests(strategies, backtest_path, md_path=md_path)
 
     generate_markdown(strategies, backtest_results, md_path)
 

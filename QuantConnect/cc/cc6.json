@@ -1,0 +1,487 @@
+{
+  "strategies": {
+    "1": {
+      "name": "TQQQ SMA Trend (it_3.py)",
+      "description": "Baseline 200-day SMA filter on QQQ to manage TQQQ exposure.",
+      "category": "Trend",
+      "overfit": "2/10",
+      "overfit_notes": "Industry standard parameter",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ close > SMA(200)"
+        },
+        {
+          "label": "Entry",
+          "text": "QQQ > SMA(200) → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ ≤ SMA(200) → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ. Execution: TQQQ / BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "it_3.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/it_3.py",
+      "source": "cc2.json #1"
+    },
+    "151": {
+      "name": "3-State ROC20+D300 (cc3_152.py)",
+      "file": "cc3_152.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_152.py",
+      "source": "cc3 batch 31"
+    },
+    "152": {
+      "name": "3-State ROC20+D150 70/30 (cc3_153.py)",
+      "file": "cc3_153.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_153.py",
+      "source": "cc3 batch 31"
+    },
+    "153": {
+      "name": "ROC+D100+D250 Consensus (cc3_154.py)",
+      "file": "cc3_154.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_154.py",
+      "source": "cc3 batch 31"
+    },
+    "154": {
+      "name": "ROC+D200 + 7% Trail Binary (cc3_155.py)",
+      "file": "cc3_155.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_155.py",
+      "source": "cc3 batch 31"
+    },
+    "155": {
+      "name": "ROC+D200 + 4% Trail Binary (cc3_156.py)",
+      "file": "cc3_156.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_156.py",
+      "source": "cc3 batch 31"
+    },
+    "156": {
+      "name": "Linear Regression Slope-100 (cc3_157.py)",
+      "file": "cc3_157.py",
+      "category": "Statistical",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_157.py",
+      "source": "cc3 batch 32"
+    },
+    "157": {
+      "name": "CMO(20) Momentum (cc3_158.py)",
+      "file": "cc3_158.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_158.py",
+      "source": "cc3 batch 32"
+    },
+    "158": {
+      "name": "Monthly Pivot Point (cc3_159.py)",
+      "file": "cc3_159.py",
+      "category": "Levels",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_159.py",
+      "source": "cc3 batch 32"
+    },
+    "159": {
+      "name": "Median-Price 200 (cc3_160.py)",
+      "file": "cc3_160.py",
+      "category": "Statistical",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_160.py",
+      "source": "cc3 batch 32"
+    },
+    "160": {
+      "name": "Z-Score from Median MAD (cc3_161.py)",
+      "file": "cc3_161.py",
+      "category": "Statistical",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_161.py",
+      "source": "cc3 batch 32"
+    },
+    "161": {
+      "name": "CMO(50) (cc3_162.py)",
+      "file": "cc3_162.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_162.py",
+      "source": "cc3 batch 33"
+    },
+    "162": {
+      "name": "Heikin-Ashi 3-Green Trend (cc3_163.py)",
+      "file": "cc3_163.py",
+      "category": "Pattern",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_163.py",
+      "source": "cc3 batch 33"
+    },
+    "163": {
+      "name": "Up-Day Count 20 (cc3_164.py)",
+      "file": "cc3_164.py",
+      "category": "Statistical",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_164.py",
+      "source": "cc3 batch 33"
+    },
+    "164": {
+      "name": "3-State CMO+Median200 (cc3_165.py)",
+      "file": "cc3_165.py",
+      "category": "Momentum",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_165.py",
+      "source": "cc3 batch 33"
+    },
+    "165": {
+      "name": "3-State Aroon+CMO (cc3_166.py)",
+      "file": "cc3_166.py",
+      "category": "Momentum",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_166.py",
+      "source": "cc3 batch 33"
+    },
+    "166": {
+      "name": "3-State Aroon+CMO 70/30 (cc3_167.py)",
+      "file": "cc3_167.py",
+      "category": "Momentum",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_167.py",
+      "source": "cc3 batch 34"
+    },
+    "167": {
+      "name": "Within 10% of 52w High (cc3_168.py)",
+      "file": "cc3_168.py",
+      "category": "Statistical",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_168.py",
+      "source": "cc3 batch 34"
+    },
+    "168": {
+      "name": "CMO(30) (cc3_169.py)",
+      "file": "cc3_169.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_169.py",
+      "source": "cc3 batch 34"
+    },
+    "169": {
+      "name": "3-State CMO+52w-High Gate (cc3_170.py)",
+      "file": "cc3_170.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_170.py",
+      "source": "cc3 batch 34"
+    },
+    "170": {
+      "name": "Up/Down Ratio 50d (cc3_171.py)",
+      "file": "cc3_171.py",
+      "category": "Statistical",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_171.py",
+      "source": "cc3 batch 34"
+    },
+    "171": {
+      "name": "CMO + Top-1 Mega-Cap Defense (cc3_172.py)",
+      "file": "cc3_172.py",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_172.py",
+      "source": "cc3 batch 35"
+    },
+    "172": {
+      "name": "Aroon Oscillator > 50 (cc3_173.py)",
+      "file": "cc3_173.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_173.py",
+      "source": "cc3 batch 35"
+    },
+    "173": {
+      "name": "Days-Since-52w-High < 30 (cc3_174.py)",
+      "file": "cc3_174.py",
+      "category": "Statistical",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_174.py",
+      "source": "cc3 batch 35"
+    },
+    "174": {
+      "name": "Range Expansion Entry (cc3_175.py)",
+      "file": "cc3_175.py",
+      "category": "Pattern",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_175.py",
+      "source": "cc3 batch 35"
+    },
+    "175": {
+      "name": "3-State Aroon-Osc + CMO (cc3_176.py)",
+      "file": "cc3_176.py",
+      "category": "Momentum",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_176.py",
+      "source": "cc3 batch 35"
+    },
+    "176": {
+      "name": "Skewness-60 Return (cc3_177.py)",
+      "file": "cc3_177.py",
+      "category": "Statistical",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_177.py",
+      "source": "cc3 batch 36"
+    },
+    "177": {
+      "name": "Top-5 Inverse-Beta Weighted (cc3_178.py)",
+      "file": "cc3_178.py",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_178.py",
+      "source": "cc3 batch 36"
+    },
+    "178": {
+      "name": "50d Median Regime Change (cc3_179.py)",
+      "file": "cc3_179.py",
+      "category": "Statistical",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_179.py",
+      "source": "cc3 batch 36"
+    },
+    "179": {
+      "name": "QQQ Outperform SPY 60d (cc3_180.py)",
+      "file": "cc3_180.py",
+      "category": "Cross-Asset",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_180.py",
+      "source": "cc3 batch 36"
+    },
+    "180": {
+      "name": "Volume ROC + D200 Gate (cc3_181.py)",
+      "file": "cc3_181.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_181.py",
+      "source": "cc3 batch 36"
+    },
+    "181": {
+      "name": "NR7 Break (Crabel) (cc3_182.py)",
+      "file": "cc3_182.py",
+      "category": "Pattern",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_182.py",
+      "source": "cc3 batch 37 Crabel"
+    },
+    "182": {
+      "name": "Inside-Day Breakout (cc3_183.py)",
+      "file": "cc3_183.py",
+      "category": "Pattern",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_183.py",
+      "source": "cc3 batch 37 Crabel"
+    },
+    "183": {
+      "name": "Crabel Stretch (cc3_184.py)",
+      "file": "cc3_184.py",
+      "category": "Pattern",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_184.py",
+      "source": "cc3 batch 37 Crabel"
+    },
+    "184": {
+      "name": "Wide-Range Reversal (cc3_185.py)",
+      "file": "cc3_185.py",
+      "category": "Pattern",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_185.py",
+      "source": "cc3 batch 37 Crabel"
+    },
+    "185": {
+      "name": "2-Bar NR Break (Crabel) (cc3_186.py)",
+      "file": "cc3_186.py",
+      "category": "Pattern",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_186.py",
+      "source": "cc3 batch 37 Crabel"
+    },
+    "186": {
+      "name": "Connors MDD-3 (cc3_187.py)",
+      "file": "cc3_187.py",
+      "category": "Mean Reversion",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_187.py",
+      "source": "cc3 batch 38 Connors"
+    },
+    "187": {
+      "name": "Connors MDD-4 (cc3_188.py)",
+      "file": "cc3_188.py",
+      "category": "Mean Reversion",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_188.py",
+      "source": "cc3 batch 38 Connors"
+    },
+    "188": {
+      "name": "Connors 5 of 7 Down (cc3_189.py)",
+      "file": "cc3_189.py",
+      "category": "Mean Reversion",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_189.py",
+      "source": "cc3 batch 38 Connors"
+    },
+    "189": {
+      "name": "Connors 3-Down 1-Up Reversal (cc3_190.py)",
+      "file": "cc3_190.py",
+      "category": "Pattern",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_190.py",
+      "source": "cc3 batch 38 Connors"
+    },
+    "190": {
+      "name": "Connors 5-Day High Pullback (cc3_191.py)",
+      "file": "cc3_191.py",
+      "category": "Pattern",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_191.py",
+      "source": "cc3 batch 38 Connors"
+    },
+    "191": {
+      "name": "Williams VIX Fix (cc3_192.py)",
+      "file": "cc3_192.py",
+      "category": "Volatility",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_192.py",
+      "source": "cc3 batch 39 Vol"
+    },
+    "192": {
+      "name": "VIX Percentile 60d (cc3_193.py)",
+      "file": "cc3_193.py",
+      "category": "Volatility",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_193.py",
+      "source": "cc3 batch 39 Vol"
+    },
+    "193": {
+      "name": "VIX Spike Fade (cc3_194.py)",
+      "file": "cc3_194.py",
+      "category": "Volatility",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_194.py",
+      "source": "cc3 batch 39 Vol"
+    },
+    "194": {
+      "name": "Realized Vol Contraction (cc3_195.py)",
+      "file": "cc3_195.py",
+      "category": "Volatility",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_195.py",
+      "source": "cc3 batch 39 Vol"
+    },
+    "195": {
+      "name": "3-State VIX+Aroon (cc3_196.py)",
+      "file": "cc3_196.py",
+      "category": "Volatility",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_196.py",
+      "source": "cc3 batch 39 Vol"
+    },
+    "196": {
+      "name": "QQQ vs TLT 60d RS (cc3_197.py)",
+      "file": "cc3_197.py",
+      "category": "Cross-Asset",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_197.py",
+      "source": "cc3 batch 40 CrossAsset"
+    },
+    "197": {
+      "name": "QQQ vs GLD 60d RS (cc3_198.py)",
+      "file": "cc3_198.py",
+      "category": "Cross-Asset",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_198.py",
+      "source": "cc3 batch 40 CrossAsset"
+    },
+    "198": {
+      "name": "QQQ Leading SPY (cc3_199.py)",
+      "file": "cc3_199.py",
+      "category": "Cross-Asset",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_199.py",
+      "source": "cc3 batch 40 CrossAsset"
+    },
+    "199": {
+      "name": "3-Asset RS Leader (QQQ/SPY/IWM) (cc3_200.py)",
+      "file": "cc3_200.py",
+      "category": "Cross-Asset",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_200.py",
+      "source": "cc3 batch 40 CrossAsset"
+    },
+    "200": {
+      "name": "HYG vs LQD Credit Spread (cc3_201.py)",
+      "file": "cc3_201.py",
+      "category": "Cross-Asset",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_201.py",
+      "source": "cc3 batch 40 CrossAsset"
+    }
+  }
+}

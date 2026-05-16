@@ -1,0 +1,487 @@
+{
+  "strategies": {
+    "1": {
+      "name": "TQQQ SMA Trend (it_3.py)",
+      "description": "Baseline 200-day SMA filter on QQQ to manage TQQQ exposure.",
+      "category": "Trend",
+      "overfit": "2/10",
+      "overfit_notes": "Industry standard parameter",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ close > SMA(200)"
+        },
+        {
+          "label": "Entry",
+          "text": "QQQ > SMA(200) → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ ≤ SMA(200) → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ. Execution: TQQQ / BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "it_3.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/it_3.py",
+      "source": "cc2.json #1"
+    },
+    "51": {
+      "name": "4-State 3-Filter TQQQ (cc3_052.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_052.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_052.py",
+      "source": "cc3 batch 11"
+    },
+    "52": {
+      "name": "3-State 80/20 Middle (cc3_053.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_053.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_053.py",
+      "source": "cc3 batch 11"
+    },
+    "53": {
+      "name": "3-State TQQQ + Top-3 Defense (cc3_054.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_054.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_054.py",
+      "source": "cc3 batch 11"
+    },
+    "54": {
+      "name": "3-State Aroon-25 + Donchian-150 (cc3_055.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_055.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_055.py",
+      "source": "cc3 batch 11"
+    },
+    "55": {
+      "name": "3-State TQQQ + Top-5 Defense No Cash (cc3_056.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_056.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_056.py",
+      "source": "cc3 batch 11"
+    },
+    "56": {
+      "name": "4-State Aroon + D100 + D200 (cc3_057.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_057.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_057.py",
+      "source": "cc3 batch 12"
+    },
+    "57": {
+      "name": "3-State 60/40 Middle (cc3_058.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_058.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_058.py",
+      "source": "cc3 batch 12"
+    },
+    "58": {
+      "name": "4-State TQQQ/Top-1 Step-Down (cc3_059.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_059.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_059.py",
+      "source": "cc3 batch 12"
+    },
+    "59": {
+      "name": "3-State Aroon-10 + Donchian-200 (cc3_060.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_060.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_060.py",
+      "source": "cc3 batch 12"
+    },
+    "60": {
+      "name": "3-State ROC(20) + Donchian-200 (cc3_061.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_061.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_061.py",
+      "source": "cc3 batch 12"
+    },
+    "61": {
+      "name": "3-State ROC(10) + Donchian-200 (cc3_062.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_062.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_062.py",
+      "source": "cc3 batch 13"
+    },
+    "62": {
+      "name": "3-State ROC(40) + Donchian-200 (cc3_063.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_063.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_063.py",
+      "source": "cc3 batch 13"
+    },
+    "63": {
+      "name": "4-State ROC(20)+D100+D200 (cc3_064.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_064.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_064.py",
+      "source": "cc3 batch 13"
+    },
+    "64": {
+      "name": "3-State ROC(20)+D200 70/30 (cc3_065.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_065.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_065.py",
+      "source": "cc3 batch 13"
+    },
+    "65": {
+      "name": "3-State ROC(20)+D200 + Top-1 Defense (cc3_066.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_066.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_066.py",
+      "source": "cc3 batch 13"
+    },
+    "66": {
+      "name": "3-State ROC(20)+D200 80/20 (cc3_067.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_067.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_067.py",
+      "source": "cc3 batch 14"
+    },
+    "67": {
+      "name": "4-State ROC(20)+D100+D200 + Top-1 (cc3_068.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_068.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_068.py",
+      "source": "cc3 batch 14"
+    },
+    "68": {
+      "name": "3-State ROC(60) + D200 (cc3_069.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_069.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_069.py",
+      "source": "cc3 batch 14"
+    },
+    "69": {
+      "name": "4-State ROC(20)+Aroon-25+D200 (cc3_070.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_070.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_070.py",
+      "source": "cc3 batch 14"
+    },
+    "70": {
+      "name": "3-State ROC(20)+D200 60/40 (cc3_071.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_071.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_071.py",
+      "source": "cc3 batch 14"
+    },
+    "71": {
+      "name": "3-State VIX Bands (cc3_072.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_072.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_072.py",
+      "source": "cc3 batch 15"
+    },
+    "72": {
+      "name": "3-State QQQ/SPY Relative Strength (cc3_073.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_073.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_073.py",
+      "source": "cc3 batch 15"
+    },
+    "73": {
+      "name": "Top-5 Momentum Rotation (cc3_074.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_074.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_074.py",
+      "source": "cc3 batch 15"
+    },
+    "74": {
+      "name": "Top-5 70% + 30% TQQQ Overlay (cc3_075.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_075.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_075.py",
+      "source": "cc3 batch 15"
+    },
+    "75": {
+      "name": "3-State Momentum Accel ROC(20) (cc3_076.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_076.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_076.py",
+      "source": "cc3 batch 15"
+    },
+    "76": {
+      "name": "3-State ROC+D200 + VIX>35 Panic (cc3_077.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_077.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_077.py",
+      "source": "cc3 batch 16"
+    },
+    "77": {
+      "name": "Top-5 60% + 40% TQQQ/BIL Overlay (cc3_078.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_078.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_078.py",
+      "source": "cc3 batch 16"
+    },
+    "78": {
+      "name": "3-State ROC(20)>1% + D200 (cc3_079.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_079.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_079.py",
+      "source": "cc3 batch 16"
+    },
+    "79": {
+      "name": "4-State ROC10+ROC40+D200 (cc3_080.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_080.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_080.py",
+      "source": "cc3 batch 16"
+    },
+    "80": {
+      "name": "3-State Momentum-Accel + Top-1 Defense (cc3_081.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_081.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_081.py",
+      "source": "cc3 batch 16"
+    },
+    "81": {
+      "name": "Regime-Gated Drawdown Buy (cc3_082.py)",
+      "category": "Mean Reversion",
+      "overfit": "4/10",
+      "file": "cc3_082.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_082.py",
+      "source": "cc3 batch 17"
+    },
+    "82": {
+      "name": "Regime-Gated TOM (cc3_083.py)",
+      "category": "Seasonality",
+      "overfit": "4/10",
+      "file": "cc3_083.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_083.py",
+      "source": "cc3 batch 17"
+    },
+    "83": {
+      "name": "3-State ROC+D200 TLT Defense (cc3_084.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_084.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_084.py",
+      "source": "cc3 batch 17"
+    },
+    "84": {
+      "name": "Top-5 → Top-3 by 20d Return (cc3_085.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_085.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_085.py",
+      "source": "cc3 batch 17"
+    },
+    "85": {
+      "name": "4-State ROC+D100+D300 (cc3_086.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_086.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_086.py",
+      "source": "cc3 batch 17"
+    },
+    "86": {
+      "name": "5-State ROC+D100+D200+Top1 Fill (cc3_087.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_087.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_087.py",
+      "source": "cc3 batch 18"
+    },
+    "87": {
+      "name": "ROC+D200 + 7% Trail Exit (cc3_088.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_088.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_088.py",
+      "source": "cc3 batch 18"
+    },
+    "88": {
+      "name": "3-State Aroon-15 + D200 (cc3_089.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_089.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_089.py",
+      "source": "cc3 batch 18"
+    },
+    "89": {
+      "name": "TQQQ Pyramid (10%/day) (cc3_090.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_090.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_090.py",
+      "source": "cc3 batch 18"
+    },
+    "90": {
+      "name": "3-State Dual-ROC + D200 (cc3_091.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_091.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_091.py",
+      "source": "cc3 batch 18"
+    },
+    "91": {
+      "name": "ROC+D200 + 5% Trail Exit (cc3_092.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_092.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_092.py",
+      "source": "cc3 batch 19"
+    },
+    "92": {
+      "name": "ROC+D200 + 10% Trail Exit (cc3_093.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_093.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_093.py",
+      "source": "cc3 batch 19"
+    },
+    "93": {
+      "name": "3-State Dual-ROC+D200 70/30 (cc3_094.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_094.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_094.py",
+      "source": "cc3 batch 19"
+    },
+    "94": {
+      "name": "4-State Triple-ROC+D200 (cc3_095.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_095.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_095.py",
+      "source": "cc3 batch 19"
+    },
+    "95": {
+      "name": "TQQQ Pyramid 20%/day (cc3_096.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_096.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_096.py",
+      "source": "cc3 batch 19"
+    },
+    "96": {
+      "name": "Dual-ROC+D200 + 5% Trail (cc3_097.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_097.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_097.py",
+      "source": "cc3 batch 20"
+    },
+    "97": {
+      "name": "3-State Triple-ROC+D200 70/30 (cc3_098.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_098.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_098.py",
+      "source": "cc3 batch 20"
+    },
+    "98": {
+      "name": "ROC+D200 + 5% Trail + Top-1 Defense (cc3_099.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_099.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_099.py",
+      "source": "cc3 batch 20"
+    },
+    "99": {
+      "name": "TQQQ Pyramid 30%/day (cc3_100.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_100.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_100.py",
+      "source": "cc3 batch 20"
+    },
+    "100": {
+      "name": "ROC+D200 + Trail + Top-1/BIL Fill (cc3_101.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_101.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_101.py",
+      "source": "cc3 batch 20"
+    }
+  }
+}

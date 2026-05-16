@@ -1,0 +1,487 @@
+{
+  "strategies": {
+    "1": {
+      "name": "TQQQ SMA Trend (it_3.py)",
+      "description": "Baseline 200-day SMA filter on QQQ to manage TQQQ exposure.",
+      "category": "Trend",
+      "overfit": "2/10",
+      "overfit_notes": "Industry standard parameter",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ close > SMA(200)"
+        },
+        {
+          "label": "Entry",
+          "text": "QQQ > SMA(200) → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "QQQ ≤ SMA(200) → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ. Execution: TQQQ / BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "it_3.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/it_3.py",
+      "source": "cc2.json #1"
+    },
+    "451": {
+      "name": "Mom150+Sto14+Top3 (cc3_452.py)",
+      "file": "cc3_452.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_452.py",
+      "source": "cc3 batches 87-91"
+    },
+    "452": {
+      "name": "Mom20+Sto50+Top3 (cc3_453.py)",
+      "file": "cc3_453.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_453.py",
+      "source": "cc3 batches 87-91"
+    },
+    "453": {
+      "name": "Mom30+Sto50+Top3 (cc3_454.py)",
+      "file": "cc3_454.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_454.py",
+      "source": "cc3 batches 87-91"
+    },
+    "454": {
+      "name": "Mom20+Sto5+Top3 (cc3_455.py)",
+      "file": "cc3_455.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_455.py",
+      "source": "cc3 batches 87-91"
+    },
+    "455": {
+      "name": "Mom20+Sto14+Top5 (cc3_456.py)",
+      "file": "cc3_456.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_456.py",
+      "source": "cc3 batches 87-91"
+    },
+    "481": {
+      "name": "PSAR+Mom20+Top3 (cc3_482.py)",
+      "file": "cc3_482.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_482.py",
+      "source": "cc3 batch 92 (diverse)"
+    },
+    "482": {
+      "name": "Range Exp+DD60+Top3 (cc3_483.py)",
+      "file": "cc3_483.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_483.py",
+      "source": "cc3 batch 92 (diverse)"
+    },
+    "483": {
+      "name": "LR Slope+Tenkan/Kijun+Top3 (cc3_484.py)",
+      "file": "cc3_484.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_484.py",
+      "source": "cc3 batch 92 (diverse)"
+    },
+    "484": {
+      "name": "DD60+DD200+Top3 (cc3_485.py)",
+      "file": "cc3_485.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_485.py",
+      "source": "cc3 batch 92 (diverse)"
+    },
+    "485": {
+      "name": "Variance Ratio+Skew+Top3 (cc3_486.py)",
+      "file": "cc3_486.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_486.py",
+      "source": "cc3 batch 92 (diverse)"
+    },
+    "486": {
+      "name": "OBV+Force+Top3 (cc3_487.py)",
+      "file": "cc3_487.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_487.py",
+      "source": "cc3 batch 93"
+    },
+    "487": {
+      "name": "WVF+VIX-band+Top3 (cc3_488.py)",
+      "file": "cc3_488.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_488.py",
+      "source": "cc3 batch 93"
+    },
+    "488": {
+      "name": "QQQ/TLT+Tenkan+Top3 (cc3_489.py)",
+      "file": "cc3_489.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_489.py",
+      "source": "cc3 batch 93"
+    },
+    "489": {
+      "name": "VolContract+Tenkan+Top3 (cc3_490.py)",
+      "file": "cc3_490.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_490.py",
+      "source": "cc3 batch 93"
+    },
+    "490": {
+      "name": "UpDnVol+52w+Top3 (cc3_491.py)",
+      "file": "cc3_491.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_491.py",
+      "source": "cc3 batch 93"
+    },
+    "491": {
+      "name": "Mom20+Force+Top3 (cc3_492.py)",
+      "file": "cc3_492.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_492.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "492": {
+      "name": "Mom60+Force+Top3 (cc3_493.py)",
+      "file": "cc3_493.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_493.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "493": {
+      "name": "Mom20+RNG+Top3 (cc3_494.py)",
+      "file": "cc3_494.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_494.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "494": {
+      "name": "Mom60+RNG+Top3 (cc3_495.py)",
+      "file": "cc3_495.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_495.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "495": {
+      "name": "Mom20+52w+Top3 (cc3_496.py)",
+      "file": "cc3_496.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_496.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "496": {
+      "name": "Mom60+52w+Top3 (cc3_497.py)",
+      "file": "cc3_497.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_497.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "497": {
+      "name": "Mom20+Skew+Top3 (cc3_498.py)",
+      "file": "cc3_498.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_498.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "498": {
+      "name": "Mom60+Skew+Top3 (cc3_499.py)",
+      "file": "cc3_499.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_499.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "499": {
+      "name": "Mom20+VR+Top3 (cc3_500.py)",
+      "file": "cc3_500.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_500.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "500": {
+      "name": "Mom60+VR+Top3 (cc3_501.py)",
+      "file": "cc3_501.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_501.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "501": {
+      "name": "Mom20+LR+Top3 (cc3_502.py)",
+      "file": "cc3_502.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_502.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "502": {
+      "name": "Mom60+LR+Top3 (cc3_503.py)",
+      "file": "cc3_503.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_503.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "503": {
+      "name": "Near60+Skew+Top3 (cc3_504.py)",
+      "file": "cc3_504.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_504.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "504": {
+      "name": "Near60+Force+Top3 (cc3_505.py)",
+      "file": "cc3_505.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_505.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "505": {
+      "name": "Near60+VR+Top3 (cc3_506.py)",
+      "file": "cc3_506.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_506.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "506": {
+      "name": "Near60+LR+Top3 (cc3_507.py)",
+      "file": "cc3_507.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_507.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "507": {
+      "name": "Near60+RNG+Top3 (cc3_508.py)",
+      "file": "cc3_508.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_508.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "508": {
+      "name": "Mom5+Mom60+Top3 (cc3_509.py)",
+      "file": "cc3_509.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_509.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "509": {
+      "name": "Mom5+Mom252+Top3 (cc3_510.py)",
+      "file": "cc3_510.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_510.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "510": {
+      "name": "Mom60+Mom252+Top3 (cc3_511.py)",
+      "file": "cc3_511.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_511.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "511": {
+      "name": "Mom20+Mom252+Top3 (cc3_512.py)",
+      "file": "cc3_512.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_512.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "512": {
+      "name": "VR+Skew+Top3 (cc3_513.py)",
+      "file": "cc3_513.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_513.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "513": {
+      "name": "VR+RNG+Top3 (cc3_514.py)",
+      "file": "cc3_514.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_514.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "514": {
+      "name": "LR+Skew+Top3 (cc3_515.py)",
+      "file": "cc3_515.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_515.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "515": {
+      "name": "Force+Skew+Top3 (cc3_516.py)",
+      "file": "cc3_516.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_516.py",
+      "source": "cc3 batch 94-98 diverse"
+    },
+    "516": {
+      "name": "M20_M60_FI+Top3 (cc3_517.py)",
+      "file": "cc3_517.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_517.py",
+      "source": "cc3 batches 99-103 diverse"
+    },
+    "517": {
+      "name": "M20_M60_NEAR60+Top3 (cc3_518.py)",
+      "file": "cc3_518.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_518.py",
+      "source": "cc3 batches 99-103 diverse"
+    },
+    "518": {
+      "name": "M20_M60_VOLCONT+Top3 (cc3_519.py)",
+      "file": "cc3_519.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_519.py",
+      "source": "cc3 batches 99-103 diverse"
+    },
+    "519": {
+      "name": "M20_M60_UPVOL+Top3 (cc3_520.py)",
+      "file": "cc3_520.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_520.py",
+      "source": "cc3 batches 99-103 diverse"
+    },
+    "520": {
+      "name": "M20_FI_NEAR60+Top3 (cc3_521.py)",
+      "file": "cc3_521.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_521.py",
+      "source": "cc3 batches 99-103 diverse"
+    },
+    "521": {
+      "name": "M20_FI_VOLCONT+Top3 (cc3_522.py)",
+      "file": "cc3_522.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_522.py",
+      "source": "cc3 batches 99-103 diverse"
+    },
+    "522": {
+      "name": "M20_FI_UPVOL+Top3 (cc3_523.py)",
+      "file": "cc3_523.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_523.py",
+      "source": "cc3 batches 99-103 diverse"
+    },
+    "523": {
+      "name": "M20_NEAR60_VOLCONT+Top3 (cc3_524.py)",
+      "file": "cc3_524.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_524.py",
+      "source": "cc3 batches 99-103 diverse"
+    },
+    "524": {
+      "name": "M20_NEAR60_UPVOL+Top3 (cc3_525.py)",
+      "file": "cc3_525.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_525.py",
+      "source": "cc3 batches 99-103 diverse"
+    },
+    "525": {
+      "name": "M20_VOLCONT_UPVOL+Top3 (cc3_526.py)",
+      "file": "cc3_526.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_526.py",
+      "source": "cc3 batches 99-103 diverse"
+    }
+  }
+}

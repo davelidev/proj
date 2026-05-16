@@ -2,622 +2,279 @@
 
 *Strategies removed from active tracking if: CAGR < 28%, MaxDD > 58%, or Overfit ≥ 8/10.*
 
-| #                    | Pass | Category | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
-| :------------------- | :--- | :------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
-| [001](#strategy-001) | ✅    | —        | 33%  | -56%  | 0.753  | 10    | 47     | 0.21      | 28.85        | —       |
-| [002](#strategy-002) | ✅    | —        | 40%  | -55%  | 0.871  | 21    | 36     | 0.58      | 14.75        | —       |
-| [003](#strategy-003) | ✅    | —        | 33%  | -50%  | 0.76   | 18    | 41     | 0.44      | 16.03        | —       |
-| [004](#strategy-004) | ✅    | —        | 29%  | -53%  | 0.692  | 24    | 59     | 0.41      | 10.03        | —       |
-| [005](#strategy-005) | ✅    | —        | 29%  | -49%  | 0.703  | 10    | 47     | 0.21      | 28.86        | —       |
-| [006](#strategy-006) | ✅    | —        | 35%  | -50%  | 0.817  | 498   | 245    | 2.03      | 0.85         | —       |
-| [007](#strategy-007) | ✅    | —        | 33%  | -55%  | 0.829  | 569   | 49     | 11.61     | 1.89         | —       |
-| [008](#strategy-008) | ✅    | —        | 47%  | -47%  | 1.05   | 269   | 100    | 2.69      | 1.00         | —       |
-| [009](#strategy-009) | ✅    | —        | 37%  | -42%  | 0.843  | 361   | 162    | 2.23      | 0.88         | —       |
-| [010](#strategy-010) | ✅    | —        | 32%  | -40%  | 0.903  | 214   | 79     | 2.71      | 0.97         | —       |
-| [011](#strategy-011) | ✅    | —        | 46%  | -43%  | 1.049  | 271   | 106    | 2.56      | 0.96         | —       |
-| [012](#strategy-012) | ✅    | —        | 31%  | -47%  | 0.791  | 170   | 60     | 2.83      | 0.96         | —       |
-| [013](#strategy-013) | ✅    | —        | 36%  | -35%  | 0.915  | 328   | 141    | 2.33      | 0.96         | —       |
-| [014](#strategy-014) | ✅    | —        | 39%  | -55%  | 0.917  | 237   | 92     | 2.58      | 0.98         | —       |
-| [015](#strategy-015) | ✅    | —        | 30%  | -52%  | 0.799  | 295   | 166    | 1.78      | 1.04         | —       |
-| [016](#strategy-016) | ✅    | —        | 50%  | -56%  | 0.986  | 52    | 45     | 1.16      | 5.27         | —       |
-| [017](#strategy-017) | ✅    | —        | 51%  | -55%  | 1.002  | 57    | 44     | 1.30      | 4.54         | —       |
-| [018](#strategy-018) | ✅    | —        | 51%  | -58%  | 1.01   | 57    | 44     | 1.30      | 4.53         | —       |
-| [019](#strategy-019) | ✅    | —        | 55%  | -55%  | 1.068  | 62    | 49     | 1.27      | 4.76         | —       |
-| [020](#strategy-020) | ✅    | —        | 52%  | -56%  | 1.027  | 77    | 60     | 1.28      | 2.77         | —       |
-| [021](#strategy-021) | ✅    | —        | 40%  | -40%  | 1.018  | 69    | 46     | 1.50      | 3.88         | —       |
-| [022](#strategy-022) | ✅    | —        | 40%  | -42%  | 0.912  | 242   | 90     | 2.69      | 0.95         | —       |
-| [023](#strategy-023) | ✅    | —        | 33%  | -50%  | 0.76   | 18    | 41     | 0.44      | 16.03        | —       |
-| [024](#strategy-024) | ✅    | —        | 51%  | -56%  | 0.996  | 55    | 50     | 1.10      | 5.92         | —       |
-| [025](#strategy-025) | ✅    | —        | 49%  | -50%  | 0.988  | 69    | 58     | 1.19      | 4.69         | —       |
-| [026](#strategy-026) | ✅    | —        | 29%  | -53%  | 0.692  | 24    | 59     | 0.41      | 10.03        | —       |
-| [027](#strategy-027) | ✅    | —        | 30%  | -23%  | 1.073  | 828   | 650    | 1.27      | 2.07         | —       |
-| [028](#strategy-028) | ✅    | —        | 49%  | -48%  | 0.991  | 71    | 58     | 1.22      | 4.32         | —       |
+| #                    | Pass | Category        | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
+| :------------------- | :--- | :-------------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
+| [1](#strategy-1)     | ✅    | Trend           | 34%  | -56%  | 0.757  | 36    | 77    | 0.47     | 13.25        | 2/10   |
+| [2](#strategy-2)     | ✅    | Trend/MR Hybrid | 28%  | -56%  | 0.67   | 55    | 102   | 0.54     | 6.85         | 3/10   |
+| [3](#strategy-3)     | ✅    | Trend/MR Hybrid | 33%  | -57%  | 0.741  | 57    | 88    | 0.65     | 7.28         | 4/10   |
+| [4](#strategy-4)     | ✅    | Mean Reversion  | 36%  | -56%  | 0.82   | 48    | 89    | 0.54     | 7.88         | 3/10   |
+| [5](#strategy-5)     | ✅    | Rotation        | 125% | -47%  | 1.869  | 2471  | 2105  | 1.17     | 2.55         | 7/10   |
+| [6](#strategy-6)     | ✅    | Mean Reversion  | 30%  | -39%  | 0.757  | 334   | 137   | 2.44     | 0.77         | 3/10   |
+| [7](#strategy-7)     | ✅    | Trend           | 30%  | -51%  | 0.715  | 120   | 70    | 1.71     | 4.25         | 3/10   |
+| [8](#strategy-8)     | ✅    | Dip Buy         | 30%  | -39%  | 0.864  | 384   | 68    | 5.65     | 5.11         | 4/10   |
+| [9](#strategy-9)     | ✅    | Rotation        | 29%  | -48%  | 0.692  | 127   | 109   | 1.17     | 3.15         | 5/10   |
 
 
 ---
-## Strategy-001
-### TQQQ trend SMA200
+## Strategy-1
+### TQQQ SMA Trend (it_3.py)
 
-**Description:** Hold TQQQ when QQQ > 200d SMA, else flat
+**Description:** Baseline 200-day SMA filter on QQQ to manage TQQQ exposure.
+
+*Overfit 2/10 — Industry standard parameter*
+
+- **Trend gate:** QQQ close > SMA(200)
+- **Entry:** QQQ > SMA(200) → 100% TQQQ
+- **Exit:** QQQ ≤ SMA(200) → 100% BIL
+- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Rebalance:** Daily, 30 min after market open
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 33% | -56% | 0.753 | 10 | 47 | 0.21 | 28.85 |
+| 34% | -56% | 0.757 | 36 | 77 | 0.47 | 13.25 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 56% | 🟢 2% | 🔴 -12% | 🟢 118% | 🔴 -23% | 🟢 50% | 🟢 105% | 🟢 88% | 🔴 -44% | 🟢 112% | 🟢 62% | 🟢 23% |
+| 🟢 56% | 🟢 1% | 🔴 -12% | 🟢 118% | 🔴 -23% | 🟢 50% | 🟢 105% | 🟢 88% | 🔴 -44% | 🟢 113% | 🟢 62% | 🟢 24% |
 
-> [!code]- Click to view: algo_003.py
+> [!code]- Click to view: it_3.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_003.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/it_3.py"
 > ```
 
 
 ---
 
-## Strategy-002
-### TQQQ trend SMA150
+## Strategy-2
+### Trend Vol Hybrid (it_23.py)
 
-**Description:** Hold TQQQ when QQQ > 150d SMA
+**Description:** Combines SMA trend following with a VIX panic filter.
+
+*Overfit 3/10 — Adds one macro volatility filter*
+
+- **Trend gate:** QQQ close > SMA(200)
+- **Entry:** QQQ > SMA(200) AND VIX < 30 → 100% TQQQ
+- **Exit:** QQQ ≤ SMA(200) OR VIX ≥ 30 → 100% BIL
+- **Symbols:** Signal: QQQ + VIX. Execution: TQQQ / BIL
+- **Rebalance:** Daily, 30 min after market open
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 40% | -55% | 0.871 | 21 | 36 | 0.58 | 14.75 |
+| 28% | -56% | 0.67 | 55 | 102 | 0.54 | 6.85 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 47% | 🟢 18% | 🔴 -5% | 🟢 118% | 🟢 1% | 🟢 53% | 🟢 97% | 🟢 88% | 🔴 -34% | 🟢 125% | 🟢 45% | 🟢 27% |
+| 🟢 56% | 🟢 1% | 🔴 -12% | 🟢 118% | 🔴 -32% | 🟢 50% | 🟢 59% | 🟢 68% | 🔴 -44% | 🟢 113% | 🟢 58% | 🟢 24% |
 
-> [!code]- Click to view: algo_006.py
+> [!code]- Click to view: it_23.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_006.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/it_23.py"
 > ```
 
 
 ---
 
-## Strategy-003
-### TQQQ self-SMA200
+## Strategy-3
+### Vol Ratio Trend (it_35.py)
 
-**Description:** TQQQ > own 200d SMA → hold
+**Description:** SMA trend following with a short/long-term volatility ratio filter.
+
+*Overfit 4/10 — Adds volatility lookback ratios*
+
+- **Trend gate:** QQQ close > SMA(200)
+- **Entry:** QQQ > SMA(200) AND STD(10)/STD(60) < 1.2 → 100% TQQQ
+- **Exit:** QQQ ≤ SMA(200) OR vol ratio ≥ 1.2 → 100% BIL
+- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Rebalance:** Daily, 30 min after market open
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 33% | -50% | 0.76 | 18 | 41 | 0.44 | 16.03 |
+| 33% | -57% | 0.741 | 57 | 88 | 0.65 | 7.28 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 52% | 🟢 11% | 🔴 -20% | 🟢 118% | 🟢 8% | 🟢 40% | 🟢 69% | 🟢 88% | 🔴 -21% | 🟢 68% | 🟢 41% | 🟢 16% |
+| 🟢 53% | ⚪ 0% | 🔴 -22% | 🟢 118% | 🔴 -24% | 🟢 50% | 🟢 105% | 🟢 88% | 🔴 -44% | 🟢 118% | 🟢 55% | 🟢 34% |
 
-> [!code]- Click to view: algo_008.py
+> [!code]- Click to view: it_35.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_008.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/it_35.py"
 > ```
 
 
 ---
 
-## Strategy-004
-### TQQQ self-SMA150
+## Strategy-4
+### Trend Stretch Exit (it_41.py)
 
-**Description:** TQQQ > own 150d SMA → hold
+**Description:** Trend following with mean-reversion "stretch" thresholds for exits.
+
+*Overfit 3/10 — Specific stretch thresholds*
+
+- **Trend gate:** QQQ close > SMA(200)
+- **Entry:** QQQ > SMA(200) AND stretch = (price - SMA)/SMA < 15% → 100% TQQQ
+- **Exit:** QQQ < SMA(200) OR stretch > 20% → 100% BIL
+- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Rebalance:** Daily, 30 min after market open
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 29% | -53% | 0.692 | 24 | 59 | 0.41 | 10.03 |
+| 36% | -56% | 0.82 | 48 | 89 | 0.54 | 7.88 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 42% | 🟢 1% | 🔴 -5% | 🟢 118% | 🔴 -23% | 🟢 16% | 🟢 93% | 🟢 64% | 🔴 -22% | 🟢 76% | 🟢 45% | 🟢 27% |
+| 🟢 60% | 🟢 1% | 🔴 -12% | 🟢 118% | 🔴 -23% | 🟢 50% | 🟢 136% | 🟢 77% | 🔴 -44% | 🟢 108% | 🟢 86% | 🟢 24% |
 
-> [!code]- Click to view: algo_009.py
+> [!code]- Click to view: it_41.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_009.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/it_41.py"
 > ```
 
 
 ---
 
-## Strategy-005
-### SMA200 75% cap
+## Strategy-5
+### LETF Simple Rotation (it_101.py)
 
-**Description:** SMA200, but only 75% TQQQ
+**Description:** Advanced 3-of-4 regime vote (SPY, QQQ, SMH, SOXL) with overbought hedges.
+
+*Overfit 7/10 — High complexity, multiple tickers and states*
+
+- **Regime gate:** 3-of-4 vote: SPY, QQQ, SMH, SOXL each > SMA(202) → BULL if ≥ 3 votes
+- **Bull overbought (R1):** BULL AND any RSI(15) on {SPY, QQQ, SMH, SOXL} > 72 → 100% UVIX (UVXY proxy pre-2022-03-30)
+- **Bull default (R3):** BULL AND not overbought → 50% TQQQ + 50% SOXL
+- **Bear bounce (R4):** BEAR AND (QQQ RSI(8) < 29 OR SMH RSI(8) < 31) → 100% SOXL
+- **Bear default (R5):** BEAR otherwise → 100% cash
+- **Symbols:** Signal: SPY, QQQ, SMH, SOXL. Execution: TQQQ, SOXL, UVIX/UVXY
+- **Rebalance:** Daily, 15 min before market close
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 29% | -49% | 0.703 | 10 | 47 | 0.21 | 28.86 |
+| 125% | -47% | 1.869 | 2471 | 2105 | 1.17 | 2.55 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 42% | 🟢 1% | 🔴 -9% | 🟢 94% | 🔴 -16% | 🟢 39% | 🟢 87% | 🟢 80% | 🔴 -39% | 🟢 87% | 🟢 55% | 🟢 15% |
+| 🟢 64% | 🔴 -11% | 🟢 58% | 🟢 139% | 🟢 20% | 🟢 136% | 🟢 1028% | 🟢 260% | 🟢 17% | 🟢 66% | 🟢 187% | 🟢 370% |
 
-> [!code]- Click to view: algo_011.py
+> [!code]- Click to view: it_101.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_011.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/it_101.py"
 > ```
 
 
 ---
 
-## Strategy-006
-### IBS MR pure
+## Strategy-6
+### TQQQ IBS Dip (0.25/0.90, SMA200)
 
-**Description:** Buy IBS<0.2, sell IBS>0.7 on TQQQ
+**Description:** Internal Bar Strength (close position within high-low range) on the QQQ index triggers entry into leveraged Nasdaq exposure when IBS drops below 0.25 and the index is above its 200-day average. Exits when bars close near their highs (IBS > 0.90) or the long-term trend breaks down.
+
+*Overfit 3/10 — IBS<0.25 is a standard published threshold; SMA(200) is canonical. Two tuned parameters total.*
+
+- **Trend gate:** QQQ close > SMA(200)
+- **Entry:** IBS(QQQ) < 0.25 → buy 100% TQQQ
+- **Exit:** IBS > 0.90 OR trend break
+- **Symbols:** Signal: QQQ. Execution: TQQQ
+- **Rebalance:** Daily at -10 min before close (uses today's full bar)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 35% | -50% | 0.817 | 498 | 245 | 2.03 | 0.85 |
+| 30% | -39% | 0.757 | 334 | 137 | 2.44 | 0.77 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🔴 -11% | 🔴 -18% | 🟢 18% | 🟢 41% | 🔴 -12% | 🟢 18% | 🟢 384% | 🟢 51% | 🟢 24% | 🟢 125% | ⚪ 0% | 🟢 43% |
+| 🟢 13% | 🔴 -23% | 🟢 10% | 🟢 88% | 🔴 -22% | 🟢 22% | 🟢 175% | 🟢 91% | 🔴 -8% | 🟢 73% | 🟢 16% | 🟢 37% |
 
-> [!code]- Click to view: algo_016.py
+> [!code]- Click to view: cc2_014.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_016.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/cc2_014.py"
 > ```
 
 
 ---
 
-## Strategy-007
-### 5 most mkt cap @ 1.5x
+## Strategy-7
+### TQQQ Anti-Martingale Pyramid (base 50%, +15% per 5% gain, cap 100%)
 
-**Description:** 5 most mkt cap @ 1.5x margin
+**Description:** Starts at 50% TQQQ when QQQ > SMA(200). For every 5% gain above the entry price, adds another 15% allocation until reaching 100%. Liquidates on trend break. Implements the 'let winners run / cut losers' principle discussed in the 'Antifragile / 2025 best year' thread — pyramiding into strength rather than averaging into weakness.
+
+*Overfit 3/10 — Anti-Martingale is a textbook position-sizing scheme; tuned step (5% gain → +15% size).*
+
+- **Trend gate:** QQQ > SMA(200)
+- **Initial entry:** 50% TQQQ
+- **Pyramid:** Each 5% gain above entry → +15% allocation, capped at 100%
+- **Exit:** Trend break → liquidate all
+- **Symbols:** Signal: QQQ. Execution: TQQQ
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 33% | -55% | 0.829 | 569 | 49 | 11.61 | 1.89 |
+| 30% | -51% | 0.715 | 120 | 70 | 1.71 | 4.25 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 19% | 🟢 14% | 🟢 10% | 🟢 53% | 🟢 12% | 🟢 70% | 🟢 84% | 🟢 71% | 🔴 -51% | 🟢 102% | 🟢 50% | 🟢 50% |
+| 🟢 33% | 🔴 -6% | 🔴 -6% | 🟢 111% | 🔴 -5% | 🟢 35% | 🟢 83% | 🟢 88% | 🔴 -36% | 🟢 90% | 🟢 62% | 🟢 7% |
 
-> [!code]- Click to view: algo_018.py
+> [!code]- Click to view: cc3_022.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_018.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/cc3_022.py"
 > ```
 
 
 ---
 
-## Strategy-008
-### TQQQ IBS extreme
+## Strategy-8
+### Mega-Cap Value Averaging (cc4_007.py)
 
-**Description:** IBS<0.1 buy, IBS>0.9 exit
+**Description:** Universe-driven dip-buy on the five largest-cap U.S. stocks (selected from the top 100 by dollar volume, then ranked by market cap each universe refresh). Whenever a name pulls back more than 5% from its 20-day high it gets a 20% portfolio allocation, and the position is liquidated the moment price prints a new 20-day high. The construction sidesteps single-stock bets by spreading 100% nominal exposure across five mega-caps, and only sells into strength — never on weakness — so a position can sit in drawdown indefinitely until a fresh high releases it.
+
+*Overfit 4/10 — Two tuned numbers (5% dip threshold, 20-day high lookback) and a hindsight-driven universe — 'top 5 by market cap' over 2014–2025 maps directly onto the mega-cap tech complex (AAPL/MSFT/AMZN/GOOGL/META/NVDA), which is the regime the backtest favors. The rule itself (buy weakness in an uptrend, exit on new highs) is a standard value-averaging template; no exotic indicators or per-asset tuning.*
+
+- **Universe:** Top 100 stocks by dollar volume → top 5 by market cap (daily refresh)
+- **Entry:** Price < 20-day high × 0.95 → buy 20% allocation
+- **Exit:** Price ≥ 20-day high → liquidate
+- **Sizing:** Fixed 20% per name (5 names → 100% gross when fully loaded)
+- **Resolution:** Daily bars
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 47% | -47% | 1.05 | 269 | 100 | 2.69 | 1.00 |
+| 30% | -39% | 0.864 | 384 | 68 | 5.65 | 5.11 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 12% | 🟢 5% | 🟢 39% | 🟢 71% | 🔴 -18% | 🟢 35% | 🟢 344% | 🟢 75% | 🔴 -1% | 🟢 101% | 🟢 17% | 🟢 82% |
+| 🟢 22% | 🟢 16% | 🟢 14% | 🟢 49% | 🔴 -4% | 🟢 61% | 🟢 57% | 🟢 50% | 🔴 -34% | 🟢 76% | 🟢 75% | 🟢 28% |
 
-> [!code]- Click to view: algo_028.py
+> [!code]- Click to view: cc4_007.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_028.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/cc4_007.py"
 > ```
 
 
 ---
 
-## Strategy-009
-### TQQQ IBS 0.15/0.85
+## Strategy-9
+### Nasdaq-100 Breadth Rotation (cc4_010.py)
 
-**Description:** IBS<0.15 buy, IBS>0.85 exit
+**Description:** Uses participation across the 10 largest-cap U.S. stocks (drawn from the top 100 by dollar volume) as a breadth regime gate for TQQQ. Each constituent runs a 50-day EMA, and the strategy measures the fraction trading above its EMA: above 60% it goes 100% long TQQQ, below 40% it liquidates, and in the 40–60% no-man's-land it holds whatever it had. The mega-cap basket acts as a proxy for Nasdaq leadership health — when participation is broad the engine ramps full 3× exposure, and when it deteriorates it steps fully aside.
 
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 37% | -42% | 0.843 | 361 | 162 | 2.23 | 0.88 |
+*Overfit 5/10 — Three tuned thresholds (50-day EMA period, 60% bull cutoff, 40% bear cutoff) and a regime-defining universe choice. The 60/40 asymmetric hysteresis is a reasonable design choice (prevents whipsaws around 50%) but the specific levels are unverified. The 'top 10 by market cap' basket suffers the same hindsight asset-selection bias as #14 — over 2014–2025 it locks in the mega-cap tech leadership that the strategy then leverages 3× into.*
 
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🔴 -3% | ⚪ 0% | 🟢 5% | 🟢 50% | 🔴 -22% | 🟢 63% | 🟢 361% | 🟢 74% | 🟢 9% | 🟢 74% | 🟢 1% | 🟢 42% |
-
-> [!code]- Click to view: algo_029.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_029.py"
-> ```
-
-
----
-
-## Strategy-010
-### IBS extreme + SMA200
-
-**Description:** IBS<0.1 buy only when QQQ>200d
+- **Universe:** Top 100 stocks by dollar volume → top 10 by market cap (signal basket)
+- **Indicator:** 50-day EMA per constituent; breadth = fraction trading above EMA
+- **Bull entry:** Breadth > 60% → 100% TQQQ
+- **Bear exit:** Breadth < 40% → liquidate TQQQ
+- **Symbols:** Signal: top-10 mega-cap basket. Execution: TQQQ
+- **Resolution:** Daily bars
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 32% | -40% | 0.903 | 214 | 79 | 2.71 | 0.97 |
+| 29% | -48% | 0.692 | 127 | 109 | 1.17 | 3.15 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 12% | 🟢 1% | 🟢 8% | 🟢 71% | 🔴 -10% | 🟢 34% | 🟢 136% | 🟢 75% | 🔴 -14% | 🟢 84% | 🟢 17% | 🟢 50% |
+| 🟢 11% | 🟢 2% | 🔴 -7% | 🟢 118% | 🔴 -29% | 🟢 33% | 🟢 127% | 🟢 41% | 🔴 -34% | 🟢 73% | 🟢 46% | 🟢 82% |
 
-> [!code]- Click to view: algo_030.py
+> [!code]- Click to view: cc4_010.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_030.py"
-> ```
-
-
----
-
-## Strategy-011
-### IBS extreme + ATR stop
-
-**Description:** IBS<0.1 + 3×ATR stop loss
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 46% | -43% | 1.049 | 271 | 106 | 2.56 | 0.96 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 7% | 🟢 6% | 🟢 39% | 🟢 71% | 🔴 -29% | 🟢 33% | 🟢 344% | 🟢 75% | 🔴 -1% | 🟢 101% | 🟢 29% | 🟢 82% |
-
-> [!code]- Click to view: algo_031.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_031.py"
-> ```
-
-
----
-
-## Strategy-012
-### IBS 0.05 (rare)
-
-**Description:** IBS<0.05 buy, IBS>0.9 exit
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 31% | -47% | 0.791 | 170 | 60 | 2.83 | 0.96 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 9% | 🟢 8% | 🟢 43% | 🟢 37% | 🔴 -12% | 🟢 24% | 🟢 216% | 🟢 28% | 🟢 6% | 🟢 45% | 🔴 -6% | 🟢 77% |
-
-> [!code]- Click to view: algo_032.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_032.py"
-> ```
-
-
----
-
-## Strategy-013
-### IBS 0.1/0.7 fast
-
-**Description:** IBS<0.1 buy, IBS>0.7 fast exit
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 36% | -35% | 0.915 | 328 | 141 | 2.33 | 0.96 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🔴 -7% | 🔴 -4% | 🟢 23% | 🟢 34% | 🔴 -1% | 🟢 18% | 🟢 273% | 🟢 20% | 🟢 26% | 🟢 89% | 🟢 75% | 🟢 22% |
-
-> [!code]- Click to view: algo_033.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_033.py"
-> ```
-
-
----
-
-## Strategy-014
-### IBS regime-adaptive
-
-**Description:** IBS<0.1 in uptrend, <0.03 in downtrend
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 39% | -55% | 0.917 | 237 | 92 | 2.58 | 0.98 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 12% | 🟢 1% | 🟢 26% | 🟢 71% | 🔴 -31% | 🟢 35% | 🟢 303% | 🟢 75% | 🔴 -23% | 🟢 84% | 🟢 17% | 🟢 92% |
-
-> [!code]- Click to view: algo_035.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_035.py"
-> ```
-
-
----
-
-## Strategy-015
-### IBS + 3d max hold
-
-**Description:** IBS<0.1 + force exit after 3 days
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 30% | -52% | 0.799 | 295 | 166 | 1.78 | 1.04 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🔴 -4% | 🔴 -18% | 🟢 15% | 🟢 47% | 🟢 46% | 🟢 9% | 🟢 205% | 🟢 58% | 🔴 -34% | 🟢 90% | 🟢 61% | 🟢 8% |
-
-> [!code]- Click to view: algo_039.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_039.py"
-> ```
-
-
----
-
-## Strategy-016
-### SMA150 trend + IBS<0.05
-
-**Description:** Trend hold + MR overlay in down-trend
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 50% | -56% | 0.986 | 52 | 45 | 1.16 | 5.27 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 47% | 🟢 7% | 🟢 26% | 🟢 118% | 🔴 -22% | 🟢 55% | 🟢 222% | 🟢 88% | 🔴 -31% | 🟢 135% | 🟢 64% | 🟢 57% |
-
-> [!code]- Click to view: algo_040.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_040.py"
-> ```
-
-
----
-
-## Strategy-017
-### SMA150 + IBS + 3xATR
-
-**Description:** #40 + ATR stop on MR
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 51% | -55% | 1.002 | 57 | 44 | 1.30 | 4.54 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 47% | 🟢 8% | 🟢 26% | 🟢 118% | 🔴 -16% | 🟢 55% | 🟢 222% | 🟢 88% | 🔴 -31% | 🟢 135% | 🟢 64% | 🟢 57% |
-
-> [!code]- Click to view: algo_042.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_042.py"
-> ```
-
-
----
-
-## Strategy-018
-### SMA150 + IBS + 2xATR
-
-**Description:** #42 with tighter stop
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 51% | -58% | 1.01 | 57 | 44 | 1.30 | 4.53 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 47% | 🟢 23% | 🟢 19% | 🟢 118% | 🔴 -3% | 🟢 55% | 🟢 222% | 🟢 88% | 🔴 -43% | 🟢 135% | 🟢 64% | 🟢 57% |
-
-> [!code]- Click to view: algo_043.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_043.py"
-> ```
-
-
----
-
-## Strategy-019
-### SMA150+IBS fast exit
-
-**Description:** #40 with IBS>0.7 fast MR exit
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 55% | -55% | 1.068 | 62 | 49 | 1.27 | 4.76 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 47% | 🟢 7% | 🟢 17% | 🟢 118% | 🔴 -14% | 🟢 57% | 🟢 276% | 🟢 88% | 🔴 -26% | 🟢 135% | 🟢 64% | 🟢 70% |
-
-> [!code]- Click to view: algo_046.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_046.py"
-> ```
-
-
----
-
-## Strategy-020
-### #46 + chandelier
-
-**Description:** #46 + 5xATR trailing stop on trend pos
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 52% | -56% | 1.027 | 77 | 60 | 1.28 | 2.77 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 46% | 🟢 8% | 🟢 9% | 🟢 118% | 🔴 -23% | 🟢 60% | 🟢 266% | 🟢 81% | 🔴 -26% | 🟢 136% | 🟢 64% | 🟢 70% |
-
-> [!code]- Click to view: algo_047.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_047.py"
-> ```
-
-
----
-
-## Strategy-021
-### #46 on QLD
-
-**Description:** Same hybrid but QLD instead of TQQQ
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 40% | -40% | 1.018 | 69 | 46 | 1.50 | 3.88 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 33% | 🟢 11% | 🟢 3% | 🟢 70% | 🔴 -4% | 🟢 36% | 🟢 158% | 🟢 57% | 🟢 2% | 🟢 93% | 🟢 46% | 🟢 49% |
-
-> [!code]- Click to view: algo_048.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_048.py"
-> ```
-
-
----
-
-## Strategy-022
-### %R(2) MR pure
-
-**Description:** Williams %R<-90 buy, >-10 sell
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 40% | -42% | 0.912 | 242 | 90 | 2.69 | 0.95 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 9% | 🟢 18% | 🟢 41% | 🟢 49% | 🔴 -19% | 🟢 64% | 🟢 347% | 🟢 17% | 🔴 -3% | 🟢 110% | 🟢 37% | 🟢 10% |
-
-> [!code]- Click to view: algo_053.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_053.py"
-> ```
-
-
----
-
-## Strategy-023
-### TQQQ + SMA200
-
-**Description:** TQQQ hold when above 200d SMA
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 33% | -50% | 0.76 | 18 | 41 | 0.44 | 16.03 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 52% | 🟢 11% | 🔴 -20% | 🟢 118% | 🟢 8% | 🟢 40% | 🟢 69% | 🟢 88% | 🔴 -21% | 🟢 68% | 🟢 41% | 🟢 16% |
-
-> [!code]- Click to view: algo_055.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_055.py"
-> ```
-
-
----
-
-## Strategy-024
-### %R(2) hybrid
-
-**Description:** SMA150 trend + %R<-95 MR overlay
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 51% | -56% | 0.996 | 55 | 50 | 1.10 | 5.92 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 47% | 🟢 17% | 🟢 9% | 🟢 118% | 🔴 -21% | 🟢 53% | 🟢 191% | 🟢 88% | 🔴 -4% | 🟢 164% | 🟢 64% | 🟢 28% |
-
-> [!code]- Click to view: algo_056.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_056.py"
-> ```
-
-
----
-
-## Strategy-025
-### TQQQ hybrid (SMA+IBS)
-
-**Description:** TQQQ SMA200 trend + IBS<0.05 down-trend
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 49% | -50% | 0.988 | 69 | 58 | 1.19 | 4.69 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 52% | 🟢 9% | 🟢 4% | 🟢 118% | 🔴 -8% | 🟢 36% | 🟢 259% | 🟢 88% | 🔴 -11% | 🟢 75% | 🟢 59% | 🟢 48% |
-
-> [!code]- Click to view: algo_060.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_060.py"
-> ```
-
-
----
-
-## Strategy-026
-### TQQQ + SMA150
-
-**Description:** TQQQ + 150d SMA
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 29% | -53% | 0.692 | 24 | 59 | 0.41 | 10.03 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 42% | 🟢 1% | 🔴 -5% | 🟢 118% | 🔴 -23% | 🟢 16% | 🟢 93% | 🟢 64% | 🔴 -22% | 🟢 76% | 🟢 45% | 🟢 27% |
-
-> [!code]- Click to view: algo_061.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_061.py"
-> ```
-
-
----
-
-## Strategy-027
-### 5 most mkt cap + IBS regime mix
-
-**Description:** EW in trend; IBS<0.2 names else
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 30% | -23% | 1.073 | 828 | 650 | 1.27 | 2.07 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 11% | 🟢 5% | 🟢 4% | 🟢 38% | 🟢 15% | 🟢 47% | 🟢 95% | 🟢 46% | 🔴 -11% | 🟢 51% | 🟢 38% | 🟢 50% |
-
-> [!code]- Click to view: algo_064.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_064.py"
-> ```
-
-
----
-
-## Strategy-028
-### TQQQ hybrid + ATR
-
-**Description:** #60 + 3xATR stop on MR pos
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 49% | -48% | 0.991 | 71 | 58 | 1.22 | 4.32 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 52% | 🟢 9% | 🔴 -2% | 🟢 118% | 🔴 -1% | 🟢 36% | 🟢 259% | 🟢 88% | 🔴 -11% | 🟢 75% | 🟢 59% | 🟢 48% |
-
-> [!code]- Click to view: algo_066.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/algos2/algo_066.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/cc4_010.py"
 > ```
 
 
