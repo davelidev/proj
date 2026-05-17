@@ -1,0 +1,1004 @@
+{
+  "strategies": {
+    "351": {
+      "name": "Mom40+W%R+Top3 (cc3_352.py)",
+      "file": "cc3_352.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_352.py",
+      "source": "cc3 batches 67-71",
+      "description": "A hybrid momentum rotator that combines three bullish signals on QQQ to determine how aggressively to allocate between leveraged tech and large-cap equities. The strategy scores three conditions — a long-term price median gate, a 40-day price momentum check, and a Williams %R reading — and shifts the portfolio along a risk ladder from TQQQ to top-3 market-cap stocks to a cash-equivalent ETF as the score falls. All three signals must align to go fully leveraged; no signals result in a defensive split.",
+      "overfit_notes": "Three tuned components: 200-bar median as trend gate (non-SMA), 40-day momentum lookback, Williams %R threshold at -50 (midline). Portfolio allocation ladder uses non-rounded 50/50 split for score=2 state. Lookback of 40 days is a non-standard momentum period.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > 100th percentile of last 200 daily closes (rolling median)"},
+        {"label": "Strength filter", "text": "QQQ 40-day price momentum positive (close[-1] > close[-41])"},
+        {"label": "Entry", "text": "Score 3 (all signals) → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3 large-caps; Score 1 → 100% top-3 large-caps; Score 0 → 50% top-3 large-caps + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers immediate rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + W%R(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume (daily coarse+fine universe)"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "352": {
+      "name": "Mom40+ADX+Top3 (cc3_353.py)",
+      "file": "cc3_353.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_353.py",
+      "source": "cc3 batches 67-71",
+      "description": "A hybrid momentum rotator identical in structure to the W%R variant but using ADX directional strength as the third signal. The ADX condition is bullish when the positive directional index exceeds the negative directional index, indicating trend direction rather than a fixed level threshold. Portfolio allocation follows the same 4-state score ladder between TQQQ, top large-cap stocks, and a cash-equivalent ETF.",
+      "overfit_notes": "Three components: 200-bar median gate, 40-day momentum, and ADX(14) directional crossover (DI+ > DI−). The directional crossover is a standard ADX signal but combined with a non-standard trend gate and momentum period.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 40-day momentum positive AND ADX(14) DI+ > DI−"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "353": {
+      "name": "Mom40+CCI+Top3 (cc3_354.py)",
+      "file": "cc3_354.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_354.py",
+      "source": "cc3 batches 67-71",
+      "description": "A hybrid momentum rotator that replaces the oscillator component with CCI, using its zero-line crossover as the bullish signal. A positive CCI reading indicates the asset is trading above its average price level. The strategy otherwise follows the same three-signal scoring system and allocation ladder between leveraged tech, large-cap equities, and cash.",
+      "overfit_notes": "Three components: 200-bar median gate, 40-day momentum, CCI(20) at zero threshold. CCI zero-line is a natural midpoint but period of 20 is slightly non-standard (14 is more canonical).",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 40-day momentum positive AND CCI(20) > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + CCI(20). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "354": {
+      "name": "Mom40+Sto+Top3 (cc3_355.py)",
+      "file": "cc3_355.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_355.py",
+      "source": "cc3 batches 67-71",
+      "description": "A hybrid momentum rotator that uses a Stochastic oscillator's %K line above 50 as the bullish third signal alongside the standard 40-day momentum and median trend gate. The midline threshold on Stochastic is a simple directional indicator of recent price relative to recent range. Allocation follows the same risk ladder between TQQQ, top large-cap stocks, and BIL.",
+      "overfit_notes": "Three components: 200-bar median gate, 40-day momentum, Stochastic(14,3,3) %K > 50. Stochastic at 50 is a neutral midline; 40-day momentum period is non-canonical. Three parameters with non-standard lookbacks.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 40-day momentum positive AND Stochastic(14,3,3) %K > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + STO(14,3,3). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "355": {
+      "name": "Mom90+MFI14+Top3 (cc3_356.py)",
+      "file": "cc3_356.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_356.py",
+      "source": "cc3 batches 67-71",
+      "description": "A hybrid momentum rotator using a longer 90-day price momentum window combined with a Money Flow Index reading as the third bullish condition. The MFI midline at 50 determines whether buying pressure dominates. All three signals — median trend gate, 90-day momentum, and MFI — are scored to slide allocations across TQQQ, the top market-cap stocks, and a cash ETF.",
+      "overfit_notes": "Three components: 200-bar median gate, 90-day momentum lookback (non-standard), MFI(14) at 50 midline. The 90-day momentum window was tuned; standard periods are 20 or 60.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 90-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "356": {
+      "name": "Mom15+MFI14+Top3 (cc3_357.py)",
+      "file": "cc3_357.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_357.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a short 15-day price momentum lookback paired with MFI as the oscillator gate. The shorter momentum window makes the strategy more reactive to recent price reversals. As with all strategies in this series, three signals are scored and mapped to an allocation ladder between TQQQ, the top large-cap stocks, and BIL.",
+      "overfit_notes": "Three components: 200-bar median gate, 15-day momentum (short, non-standard), MFI(14) > 50. The 15-day window is tuned for shorter-term momentum confirmation.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 15-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "357": {
+      "name": "Mom15+WILR14+Top3 (cc3_358.py)",
+      "file": "cc3_358.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_358.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator combining a short 15-day price momentum check with Williams %R as the oscillator component. The W%R midline at -50 distinguishes overbought from oversold conditions. The strategy uses the same three-signal scoring framework and risk ladder seen throughout this series.",
+      "overfit_notes": "Three components: 200-bar median gate, 15-day momentum, W%R(14) > -50 midline. Shorter momentum lookback of 15 days is non-standard.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 15-day momentum positive AND W%R(14) > -50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + W%R(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "358": {
+      "name": "Mom15+ADX14+Top3 (cc3_359.py)",
+      "file": "cc3_359.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_359.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator that pairs a 15-day price momentum check with ADX directional strength as the oscillator signal. The bullish ADX condition is met when the positive directional index exceeds the negative one, indicating upward trend direction. Portfolio allocations shift along the standard TQQQ-to-BIL ladder based on the combined score.",
+      "overfit_notes": "Three components: 200-bar median gate, 15-day momentum (non-standard), ADX(14) DI+ > DI− directional crossover. Short lookback combined with trend gate adds overfitting risk.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 15-day momentum positive AND ADX(14) DI+ > DI−"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "359": {
+      "name": "Mom15+CCI20+Top3 (cc3_360.py)",
+      "file": "cc3_360.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_360.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator combining a short 15-day price momentum check with CCI zero-line crossover as the oscillator signal. The strategy is designed for short-term momentum confirmation with money-flow context. As with all strategies in this series, allocations shift between TQQQ, top large-cap stocks, and BIL based on the combined signal score.",
+      "overfit_notes": "Three components: 200-bar median gate, 15-day momentum, CCI(20) > 0. The 15-day momentum window and CCI(20) period are both non-standard choices.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 15-day momentum positive AND CCI(20) > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + CCI(20). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "360": {
+      "name": "Mom15+STO14+Top3 (cc3_361.py)",
+      "file": "cc3_361.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_361.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a 15-day price momentum window alongside a Stochastic %K midline check as the oscillator gate. The Stochastic measures recent price location within its range, and reading above 50 indicates bullish near-term momentum. Portfolio risk scales from full TQQQ exposure down to partial BIL depending on how many of the three signals confirm.",
+      "overfit_notes": "Three components: 200-bar median gate, 15-day momentum, Stochastic(14,3,3) %K > 50. Short 15-day lookback combined with three separate tuned parameters.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 15-day momentum positive AND Stochastic(14,3,3) %K > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + STO(14,3,3). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "361": {
+      "name": "Mom45+MFI14+Top3 (cc3_362.py)",
+      "file": "cc3_362.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_362.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a 45-day price momentum window and MFI as the oscillator component. The 45-day lookback sits between the shorter-term and medium-term variants in this series, capturing roughly two months of price direction. Allocations slide across TQQQ, top market-cap stocks, and BIL based on the three-signal score.",
+      "overfit_notes": "Three components: 200-bar median gate, 45-day momentum (non-standard), MFI(14) > 50. The 45-day window is a tuned mid-range lookback.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 45-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "362": {
+      "name": "Mom45+WILR14+Top3 (cc3_363.py)",
+      "file": "cc3_363.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_363.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a 45-day price momentum window alongside Williams %R midline as the oscillator signal. The strategy captures intermediate-term price direction while using W%R to gauge overbought/oversold conditions. Portfolio allocation shifts through the standard four-state risk ladder on signal-score changes.",
+      "overfit_notes": "Three components: 200-bar median gate, 45-day momentum, W%R(14) > -50. The 45-day window is a non-canonical tuned parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 45-day momentum positive AND W%R(14) > -50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + W%R(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "363": {
+      "name": "Mom45+ADX14+Top3 (cc3_364.py)",
+      "file": "cc3_364.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_364.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a 45-day price momentum window with ADX directional strength as the oscillator condition. The bullish ADX signal fires when the positive directional indicator exceeds the negative, suggesting trending upward conditions. The three-signal score drives allocation across the TQQQ-to-BIL ladder.",
+      "overfit_notes": "Three components: 200-bar median gate, 45-day momentum, ADX(14) DI+ > DI−. The 45-day lookback is a tuned non-standard period.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 45-day momentum positive AND ADX(14) DI+ > DI−"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "364": {
+      "name": "Mom45+CCI20+Top3 (cc3_365.py)",
+      "file": "cc3_365.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_365.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator pairing 45-day price momentum with CCI zero-line crossover as the oscillator signal. Positive CCI indicates prices are above their recent typical price, adding a mean-reversion flavor to the momentum framework. Allocations follow the same four-state risk ladder between TQQQ, top large-cap stocks, and BIL.",
+      "overfit_notes": "Three components: 200-bar median gate, 45-day momentum, CCI(20) > 0. Both the momentum lookback and CCI period are non-standard tuned choices.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 45-day momentum positive AND CCI(20) > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + CCI(20). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "365": {
+      "name": "Mom45+STO14+Top3 (cc3_366.py)",
+      "file": "cc3_366.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_366.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator combining a 45-day price momentum check with Stochastic %K above 50 as the oscillator confirmation. The Stochastic midline acts as a quick read on whether recent price action leans bullish within its recent range. Risk scaling follows the same TQQQ-to-BIL four-state ladder shared across this strategy family.",
+      "overfit_notes": "Three components: 200-bar median gate, 45-day momentum, Stochastic(14,3,3) %K > 50. The 45-day lookback is a tuned non-canonical period.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 45-day momentum positive AND Stochastic(14,3,3) %K > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + STO(14,3,3). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "366": {
+      "name": "Mom90+WILR14+Top3 (cc3_367.py)",
+      "file": "cc3_367.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_367.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a longer 90-day price momentum window alongside Williams %R midline as the oscillator signal. The 90-day lookback captures roughly one quarter of price direction, making the momentum signal slower to turn. The three-signal scoring system allocates between TQQQ, top market-cap stocks, and BIL.",
+      "overfit_notes": "Three components: 200-bar median gate, 90-day momentum (non-standard), W%R(14) > -50. The 90-day window is tuned to capture quarterly momentum trends.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 90-day momentum positive AND W%R(14) > -50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + W%R(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "367": {
+      "name": "Mom90+ADX14+Top3 (cc3_368.py)",
+      "file": "cc3_368.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_368.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a 90-day price momentum window with ADX directional strength as the third condition. The long lookback on momentum makes this variant more suitable for capturing sustained quarterly trends, while the ADX directional crossover filters out weak or choppy moves. Portfolio risk scales between TQQQ and BIL based on signal score.",
+      "overfit_notes": "Three components: 200-bar median gate, 90-day momentum (non-standard), ADX(14) DI+ > DI−. Longer momentum window is tuned to reduce false signals.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 90-day momentum positive AND ADX(14) DI+ > DI−"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "368": {
+      "name": "Mom90+CCI20+Top3 (cc3_369.py)",
+      "file": "cc3_369.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_369.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a 90-day price momentum window alongside CCI zero-line crossover as the oscillator signal. The longer momentum lookback provides a slower-moving directional filter, while CCI reflects whether prices are currently above their recent average. The four-state score drives allocation between TQQQ, top stocks, and BIL.",
+      "overfit_notes": "Three components: 200-bar median gate, 90-day momentum, CCI(20) > 0. Both the momentum window and CCI period are non-standard tuned parameters.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 90-day momentum positive AND CCI(20) > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + CCI(20). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "369": {
+      "name": "Mom90+STO14+Top3 (cc3_370.py)",
+      "file": "cc3_370.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_370.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator combining a 90-day price momentum check with Stochastic %K midline as the oscillator signal. The long momentum window and short-term stochastic create a deliberate multi-timescale blend — quarterly trend direction confirmed by near-term price positioning. Allocation follows the standard four-state risk ladder.",
+      "overfit_notes": "Three components: 200-bar median gate, 90-day momentum, Stochastic(14,3,3) %K > 50. The 90-day lookback is a non-standard tuned period.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 90-day momentum positive AND Stochastic(14,3,3) %K > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + STO(14,3,3). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "370": {
+      "name": "Mom120+MFI14+Top3 (cc3_371.py)",
+      "file": "cc3_371.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_371.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a 120-day price momentum window alongside MFI as the oscillator gate. The 120-day lookback covers roughly six months of price direction, making momentum a slow-moving semi-annual signal. MFI above 50 provides a near-term buying pressure confirmation before committing to the leveraged position.",
+      "overfit_notes": "Three components: 200-bar median gate, 120-day momentum (non-standard), MFI(14) > 50. The six-month lookback is specifically tuned.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 120-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "371": {
+      "name": "Mom120+WILR14+Top3 (cc3_372.py)",
+      "file": "cc3_372.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_372.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a 120-day price momentum window with Williams %R midline as the oscillator confirmation. The six-month momentum check is a slow, robust trend signal, while W%R at -50 adds a short-term directional filter. The four-state score ladder determines allocations between TQQQ, top large-cap stocks, and BIL.",
+      "overfit_notes": "Three components: 200-bar median gate, 120-day momentum, W%R(14) > -50. The long momentum window is a tuned semi-annual lookback.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 120-day momentum positive AND W%R(14) > -50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + W%R(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "372": {
+      "name": "Mom120+ADX14+Top3 (cc3_373.py)",
+      "file": "cc3_373.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_373.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a 120-day price momentum window alongside ADX directional strength as the third signal. With a six-month lookback on momentum, the strategy focuses on well-established multi-month trends and uses ADX direction to confirm they are still active. Portfolio exposure scales from fully leveraged TQQQ down to cash as signals weaken.",
+      "overfit_notes": "Three components: 200-bar median gate, 120-day momentum, ADX(14) DI+ > DI−. The semi-annual momentum window is a tuned non-standard period.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 120-day momentum positive AND ADX(14) DI+ > DI−"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "373": {
+      "name": "Mom120+CCI20+Top3 (cc3_374.py)",
+      "file": "cc3_374.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_374.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a 120-day price momentum window alongside CCI zero-line as the oscillator signal. The semi-annual momentum provides a slow background trend read while CCI adds a shorter-cycle context about whether prices are currently above their typical level. The three-signal score drives allocation across the standard risk ladder.",
+      "overfit_notes": "Three components: 200-bar median gate, 120-day momentum, CCI(20) > 0. Both momentum window and CCI period are non-standard tuned choices.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 120-day momentum positive AND CCI(20) > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + CCI(20). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "374": {
+      "name": "Mom120+STO14+Top3 (cc3_375.py)",
+      "file": "cc3_375.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_375.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator combining a 120-day price momentum window with Stochastic %K midline as the oscillator signal. The long momentum lookback captures six months of price trend while Stochastic adds near-term directional context. Allocations follow the four-state risk ladder shared across all variants in this series.",
+      "overfit_notes": "Three components: 200-bar median gate, 120-day momentum, Stochastic(14,3,3) %K > 50. The semi-annual momentum window is a specifically tuned parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 120-day momentum positive AND Stochastic(14,3,3) %K > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + STO(14,3,3). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "375": {
+      "name": "Mom180+MFI14+Top3 (cc3_376.py)",
+      "file": "cc3_376.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_376.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a very long 180-day price momentum window — roughly nine months — alongside MFI as the oscillator condition. This is the slowest-moving momentum variant in the series, designed to confirm only established longer-term trends before deploying leveraged exposure. MFI above 50 adds a short-term buying pressure gate.",
+      "overfit_notes": "Three components: 200-bar median gate, 180-day momentum (non-standard, very long), MFI(14) > 50. The nine-month lookback is an extreme tuned parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 180-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "376": {
+      "name": "Mom180+WILR14+Top3 (cc3_377.py)",
+      "file": "cc3_377.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_377.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a 180-day price momentum window alongside Williams %R midline as the oscillator gate. This variant is the longest momentum period paired with W%R in the series, emphasizing only well-established nine-month trend direction. The four-state score allocates between TQQQ, large-cap stocks, and cash proportionally.",
+      "overfit_notes": "Three components: 200-bar median gate, 180-day momentum (very long, non-standard), W%R(14) > -50. The 180-day window is a specifically tuned extreme parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 180-day momentum positive AND W%R(14) > -50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + W%R(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "377": {
+      "name": "Mom180+ADX14+Top3 (cc3_378.py)",
+      "file": "cc3_378.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_378.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using the longest momentum window in the series — 180 days — alongside ADX directional strength as the oscillator condition. The near-annual price momentum makes this the most conservative trend follower in the family, using ADX direction to validate ongoing bullish trend dynamics. Portfolio risk scales between TQQQ and BIL based on the combined score.",
+      "overfit_notes": "Three components: 200-bar median gate, 180-day momentum (extreme, non-standard), ADX(14) DI+ > DI−. The 180-day window is the most extreme lookback in this batch.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 180-day momentum positive AND ADX(14) DI+ > DI−"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "378": {
+      "name": "Mom20+MFI7+Top3 (cc3_379.py)",
+      "file": "cc3_379.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_379.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a standard 20-day price momentum window alongside a short-period MFI as the oscillator signal. The MFI period of 7 days makes it a more reactive, faster money-flow gauge than the standard 14-period version. The three-signal score drives the usual four-state allocation ladder between TQQQ, top large-cap stocks, and BIL.",
+      "overfit_notes": "Three components: 200-bar median gate, 20-day momentum, MFI(7) > 50. The short 7-period MFI is a non-standard tuned parameter — default is 14.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND MFI(7) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(7). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "379": {
+      "name": "Mom20+MFI30+Top3 (cc3_380.py)",
+      "file": "cc3_380.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_380.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a 20-day price momentum window with a longer 30-period MFI as the oscillator gate. The extended MFI window smooths out short-term noise in money flow, providing a more stable measure of buying versus selling pressure. Allocation follows the same four-state risk ladder between TQQQ, top stocks, and BIL.",
+      "overfit_notes": "Three components: 200-bar median gate, 20-day momentum, MFI(30) > 50. The 30-period MFI is a tuned non-standard period — twice the default of 14.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND MFI(30) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(30). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "380": {
+      "name": "Mom20+MFI50+Top3 (cc3_381.py)",
+      "file": "cc3_381.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_381.py",
+      "source": "cc3 batches 72-76",
+      "description": "A hybrid momentum rotator using a 20-day price momentum check alongside a very long 50-period MFI as the oscillator gate. The 50-day MFI functions more as a slow money-flow trend indicator than a traditional oscillator. Three signals are scored and mapped to the standard TQQQ-to-BIL allocation ladder.",
+      "overfit_notes": "Three components: 200-bar median gate, 20-day momentum, MFI(50) > 50. The 50-period MFI is a heavily tuned non-standard period — over three times the default.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND MFI(50) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(50). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "381": {
+      "name": "Mom20+MFI14+Top3 w70 (cc3_382.py)",
+      "file": "cc3_382.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_382.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using 20-day momentum and MFI as signals, but with a modified allocation weighting that skews toward TQQQ when score is 2. At partial confirmation (score 2), the portfolio holds 70% TQQQ and 30% top large-cap stocks rather than the 50/50 default, making this a more aggressive variant of the base strategy.",
+      "overfit_notes": "Three components: 200-bar median gate, 20-day momentum, MFI(14) > 50. Additionally, the score-2 allocation weight of 70/30 TQQQ/stocks is a tuned non-standard split adding a fourth parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 70% TQQQ + 30% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "382": {
+      "name": "Mom20+MFI14+Top3 w30 (cc3_383.py)",
+      "file": "cc3_383.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_383.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using 20-day momentum and MFI, but with a conservative allocation weighting at partial confirmation. At score 2, the portfolio holds only 30% TQQQ and 70% top large-cap stocks, making this the cautious counterpart to the w70 variant. The strategy deemphasizes the leveraged ETF at intermediate signal strength.",
+      "overfit_notes": "Three components: 200-bar median gate, 20-day momentum, MFI(14) > 50. The score-2 allocation of 30/70 TQQQ/stocks is a tuned parameter creating a fourth degree of freedom.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 30% TQQQ + 70% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "383": {
+      "name": "Mom20+WILR14+Top3 w70 (cc3_384.py)",
+      "file": "cc3_384.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_384.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using 20-day momentum and Williams %R as signals, with an aggressive 70/30 TQQQ/stocks split at partial signal confirmation. This weighting variant favors TQQQ over the large-cap universe during intermediate market conditions, accepting more leveraged risk when two of three signals are green.",
+      "overfit_notes": "Three components: 200-bar median gate, 20-day momentum, W%R(14) > -50. The score-2 split of 70% TQQQ / 30% stocks is a fourth tuned parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND W%R(14) > -50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 70% TQQQ + 30% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + W%R(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "384": {
+      "name": "Mom20+WILR14+Top3 w30 (cc3_385.py)",
+      "file": "cc3_385.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_385.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using 20-day momentum and Williams %R, with a conservative 30/70 TQQQ/stocks split when signals are mixed. This variant minimizes leveraged ETF exposure during uncertain market regimes, preferring to hold more of the large-cap equity universe until all three conditions align for full TQQQ allocation.",
+      "overfit_notes": "Three components: 200-bar median gate, 20-day momentum, W%R(14) > -50. The score-2 weight of 30% TQQQ / 70% stocks is a tuned fourth parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND W%R(14) > -50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 30% TQQQ + 70% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + W%R(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "385": {
+      "name": "Mom20+ADX14+Top3 w70 (cc3_386.py)",
+      "file": "cc3_386.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_386.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using 20-day momentum and ADX directional strength, with an aggressive 70/30 TQQQ/stocks weighting at partial confirmation. The ADX condition (DI+ > DI−) provides directional trend validation, and at intermediate signal strength the portfolio leans heavier toward the leveraged tech ETF. Full TQQQ deployment requires all three signals.",
+      "overfit_notes": "Three components: 200-bar median gate, 20-day momentum, ADX(14) DI+ > DI−. The score-2 weight of 70% TQQQ is a tuned fourth parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND ADX(14) DI+ > DI−"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 70% TQQQ + 30% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "386": {
+      "name": "Mom20+ADX14+Top3 w30 (cc3_387.py)",
+      "file": "cc3_387.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_387.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using 20-day momentum and ADX directional strength, with a conservative 30/70 TQQQ/stocks split at partial confirmation. This variant of the ADX rotator tilts the mixed-signal portfolio heavily toward unlevered large-cap equities rather than TQQQ, reducing leveraged exposure during ambiguous market conditions.",
+      "overfit_notes": "Three components: 200-bar median gate, 20-day momentum, ADX(14) DI+ > DI−. The score-2 weight of 30% TQQQ / 70% stocks is a tuned fourth parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND ADX(14) DI+ > DI−"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 30% TQQQ + 70% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "387": {
+      "name": "Mom20+CCI20+Top3 w70 (cc3_388.py)",
+      "file": "cc3_388.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_388.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using 20-day momentum and CCI zero-line as signals, with a TQQQ-heavy 70/30 split at partial confirmation. At intermediate signal strength, this strategy maintains significant leveraged tech exposure, holding 70% TQQQ alongside the large-cap universe. Full allocation to TQQQ requires all three signals to be positive.",
+      "overfit_notes": "Three components: 200-bar median gate, 20-day momentum, CCI(20) > 0. The score-2 weight of 70% TQQQ is a tuned fourth parameter alongside non-standard CCI period.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND CCI(20) > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 70% TQQQ + 30% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + CCI(20). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "388": {
+      "name": "Mom20+CCI20+Top3 w30 (cc3_389.py)",
+      "file": "cc3_389.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_389.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using 20-day momentum and CCI zero-line as signals, but with a conservative 30/70 TQQQ/stocks weighting at partial confirmation. This variant of the CCI rotator de-emphasizes leveraged exposure during uncertain market conditions and favors holding the large-cap stock universe until all three signals align.",
+      "overfit_notes": "Three components: 200-bar median gate, 20-day momentum, CCI(20) > 0. The score-2 weight of 30% TQQQ / 70% stocks is a tuned fourth parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND CCI(20) > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 30% TQQQ + 70% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + CCI(20). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "389": {
+      "name": "Mom30+MFI14+Top3 w70 (cc3_390.py)",
+      "file": "cc3_390.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_390.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using a 30-day momentum window and MFI as signals, with an aggressive 70/30 TQQQ/stocks weighting at partial confirmation. The 30-day momentum window sits between the shorter and medium variants, while the skewed allocation toward TQQQ at score 2 increases leverage during intermediate bullish conditions.",
+      "overfit_notes": "Three components: 200-bar median gate, 30-day momentum, MFI(14) > 50. The score-2 weight of 70% TQQQ is a tuned fourth parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 30-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 70% TQQQ + 30% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "390": {
+      "name": "Mom30+MFI14+Top3 w30 (cc3_391.py)",
+      "file": "cc3_391.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_391.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using a 30-day momentum window and MFI as signals, with a conservative 30/70 TQQQ/stocks weighting at partial confirmation. This variant is the cautious counterpart to the w70 version, holding proportionally more large-cap equities than TQQQ when market signals are mixed.",
+      "overfit_notes": "Three components: 200-bar median gate, 30-day momentum, MFI(14) > 50. The score-2 weight of 30% TQQQ / 70% stocks is a tuned fourth parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 30-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 30% TQQQ + 70% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "391": {
+      "name": "Mom30+WILR14+Top3 w70 (cc3_392.py)",
+      "file": "cc3_392.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_392.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using a 30-day momentum window and Williams %R as signals, with a TQQQ-heavy 70/30 allocation at partial confirmation. The W%R midline provides a quick overbought/oversold read on top of the momentum signal, and the aggressive weighting increases leveraged tech exposure when two of three conditions are met.",
+      "overfit_notes": "Three components: 200-bar median gate, 30-day momentum, W%R(14) > -50. The score-2 weight of 70% TQQQ is a tuned fourth parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 30-day momentum positive AND W%R(14) > -50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 70% TQQQ + 30% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + W%R(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "392": {
+      "name": "Mom30+WILR14+Top3 w30 (cc3_393.py)",
+      "file": "cc3_393.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_393.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using a 30-day momentum window and Williams %R as signals, with a conservative 30/70 TQQQ/stocks split at partial signal confirmation. This variant of the W%R rotator pulls back leveraged exposure during ambiguous market regimes, keeping more portfolio weight in the unlevered large-cap universe.",
+      "overfit_notes": "Three components: 200-bar median gate, 30-day momentum, W%R(14) > -50. The score-2 weight of 30% TQQQ / 70% stocks is a tuned fourth parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 30-day momentum positive AND W%R(14) > -50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 30% TQQQ + 70% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + W%R(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "393": {
+      "name": "Mom60+MFI14+Top3 w70 (cc3_394.py)",
+      "file": "cc3_394.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_394.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using a 60-day (three-month) momentum window and MFI as signals, with an aggressive 70/30 TQQQ/stocks weighting at partial confirmation. The quarter-length momentum period captures an intermediate trend horizon, while the skewed allocation toward TQQQ at score 2 maintains higher leverage during partial bullish conditions.",
+      "overfit_notes": "Three components: 200-bar median gate, 60-day momentum, MFI(14) > 50. The score-2 weight of 70% TQQQ is a tuned fourth parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 60-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 70% TQQQ + 30% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "394": {
+      "name": "Mom60+MFI14+Top3 w30 (cc3_395.py)",
+      "file": "cc3_395.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_395.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using a 60-day momentum window and MFI as signals, with a conservative 30/70 TQQQ/stocks split at partial confirmation. This is the cautious counterpart to the w70 variant, significantly reducing leveraged tech exposure during mixed-signal market environments and favoring the unlevered large-cap universe.",
+      "overfit_notes": "Three components: 200-bar median gate, 60-day momentum, MFI(14) > 50. The score-2 weight of 30% TQQQ / 70% stocks is a tuned fourth parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 60-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 30% TQQQ + 70% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "395": {
+      "name": "Mom60+WILR14+Top3 w70 (cc3_396.py)",
+      "file": "cc3_396.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_396.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using a 60-day momentum window and Williams %R as signals, with an aggressive 70/30 TQQQ/stocks weighting at partial confirmation. The three-month momentum lookback combined with a midline W%R check provides medium-term trend direction, and the w70 weighting increases leveraged tech concentration when two signals agree.",
+      "overfit_notes": "Three components: 200-bar median gate, 60-day momentum, W%R(14) > -50. The score-2 weight of 70% TQQQ is a tuned fourth parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 60-day momentum positive AND W%R(14) > -50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 70% TQQQ + 30% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + W%R(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "396": {
+      "name": "Mom60+WILR14+Top3 w30 (cc3_397.py)",
+      "file": "cc3_397.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_397.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using a 60-day momentum window and Williams %R as signals, with a conservative 30/70 TQQQ/stocks split at partial confirmation. This variant of the 60-day W%R rotator holds proportionally more large-cap equities than TQQQ when market signals are ambiguous, minimizing leveraged exposure in uncertain regimes.",
+      "overfit_notes": "Three components: 200-bar median gate, 60-day momentum, W%R(14) > -50. The score-2 weight of 30% TQQQ / 70% stocks is a tuned fourth parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 60-day momentum positive AND W%R(14) > -50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 30% TQQQ + 70% top-3; Score 1 → 100% top-3; Score 0 → 50% top-3 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + W%R(14). Execution: TQQQ / top-3 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 3 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "397": {
+      "name": "Mom20+MFI14+Top4 w50 (cc3_398.py)",
+      "file": "cc3_398.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_398.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using 20-day momentum and MFI as signals, now holding the top 4 large-cap stocks instead of 3, with a balanced 50/50 TQQQ/stocks split at partial confirmation. Expanding the stock universe to four holdings increases diversification within the large-cap bucket while keeping the same three-signal scoring framework.",
+      "overfit_notes": "Three core components: 200-bar median gate, 20-day momentum, MFI(14) > 50. The universe size of Top-4 and the score-2 equal split are two additional tuned structural choices.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-4; Score 1 → 100% top-4; Score 0 → 50% top-4 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-4 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 4 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "398": {
+      "name": "Mom30+MFI14+Top4 w50 (cc3_399.py)",
+      "file": "cc3_399.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_399.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using a 30-day momentum window and MFI as signals, holding the top 4 large-cap stocks with a balanced 50/50 TQQQ/stocks split at partial confirmation. The 30-day momentum window lengthens the trend signal compared to the Top-4 w50 variant with 20-day lookback, otherwise sharing the same structure.",
+      "overfit_notes": "Three core components: 200-bar median gate, 30-day momentum, MFI(14) > 50. The universe size of Top-4 and the score-2 equal split are two additional structural tuning choices.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 30-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% top-4; Score 1 → 100% top-4; Score 0 → 50% top-4 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-4 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 4 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "399": {
+      "name": "Mom20+MFI14+Top5 w60 (cc3_400.py)",
+      "file": "cc3_400.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_400.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using 20-day momentum and MFI as signals, with a wider 5-stock universe and a 60/40 TQQQ/stocks weighting at partial confirmation. Holding the top 5 market-cap stocks increases diversification within the large-cap bucket, while the 60/40 split at score 2 represents a moderately aggressive weighting toward leveraged tech.",
+      "overfit_notes": "Three core components: 200-bar median gate, 20-day momentum, MFI(14) > 50. The universe size of Top-5 and score-2 weight of 60% TQQQ are two additional tuned structural parameters.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% top-5; Score 1 → 100% top-5; Score 0 → 50% top-5 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-5 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 5 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    },
+    "400": {
+      "name": "Mom20+MFI14+Top5 w70 (cc3_401.py)",
+      "file": "cc3_401.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_401.py",
+      "source": "cc3 batches 77-81",
+      "description": "A hybrid momentum rotator using 20-day momentum and MFI as signals, with a 5-stock universe and an aggressive 70/30 TQQQ/stocks weighting at partial confirmation. Holding five stocks diversifies the large-cap exposure more broadly than the three-stock base strategy, while the 70% TQQQ allocation at score 2 maintains high leverage when two of three signals confirm.",
+      "overfit_notes": "Three core components: 200-bar median gate, 20-day momentum, MFI(14) > 50. The universe size of Top-5 and score-2 weight of 70% TQQQ are two additional tuned structural parameters.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > rolling 200-day median"},
+        {"label": "Strength filter", "text": "QQQ 20-day momentum positive AND MFI(14) > 50"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; Score 2 → 70% TQQQ + 30% top-5; Score 1 → 100% top-5; Score 0 → 50% top-5 + 50% BIL"},
+        {"label": "Exit", "text": "Signal score change triggers rebalance"},
+        {"label": "Symbols", "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-5 market-cap stocks / BIL"},
+        {"label": "Universe", "text": "Top 5 stocks by market cap from top 100 by dollar volume"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open, on state change only"}
+      ]
+    }
+  }
+}

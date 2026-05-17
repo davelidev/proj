@@ -1,0 +1,944 @@
+{
+  "strategies": {
+    "251": {
+      "name": "MFI(10) >50 + Median (cc3_252.py)",
+      "file": "cc3_252.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_252.py",
+      "source": "cc3 batch 51",
+      "description": "A trend-following strategy that combines a long-term price median filter with a short-period Money Flow Index. QQQ is used as the signal asset and TQQQ/BIL as execution vehicles. When both the median filter and MFI agree, the strategy goes fully long TQQQ; partial disagreement yields a 50/50 split.",
+      "overfit_notes": "MFI period of 10 and threshold of 50 are both relatively standard; the 200-day median split (index 100 of sorted closes) is a slightly unusual trend gate but not aggressively tuned. Overfit risk is low.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "MFI(10) > 50"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit (MR)", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "252": {
+      "name": "MFI(20) >60 + Median (cc3_253.py)",
+      "file": "cc3_253.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_253.py",
+      "source": "cc3 batch 51",
+      "description": "A trend-following strategy pairing a 200-day price median filter on QQQ with a 20-period MFI threshold. Raises the MFI bar to 60 versus the standard 50 midline, requiring more positive money flow pressure before entering TQQQ. Partial agreement produces a 50/50 TQQQ/BIL allocation.",
+      "overfit_notes": "MFI threshold of 60 is a one-notch tightening above the neutral midline; the 20-period window is slightly non-standard but close to the textbook 14. Two components with one lightly tuned threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "MFI(20) > 60"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "253": {
+      "name": "MFI(14) >50 70/30 middle (cc3_254.py)",
+      "file": "cc3_254.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_254.py",
+      "source": "cc3 batch 51",
+      "description": "A trend-following strategy combining the standard 14-period MFI with a 200-day price median filter. Uniquely uses a 70/30 TQQQ/BIL split in the mixed state (when only one of the two conditions is met), leaning more aggressively toward the leveraged ETF than the equal-weight variant.",
+      "overfit_notes": "MFI(14) at threshold 50 is canonical; the 70/30 mixed-state allocation is a tuned parameter with no fundamental justification. Two components, one lightly tuned allocation weight.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "MFI(14) > 50"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 70% TQQQ / 30% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "254": {
+      "name": "MFI(14) >40 (loose) (cc3_255.py)",
+      "file": "cc3_255.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_255.py",
+      "source": "cc3 batch 51",
+      "description": "A loosened variant of the MFI median trend-follower, using a below-neutral MFI threshold of 40 to allow entry under weaker money-flow conditions. This makes the strategy more permissive: it enters TQQQ whenever the price is above its median and even modest positive flow is present.",
+      "overfit_notes": "MFI(14) threshold of 40 is deliberately loose and below the neutral 50 midline, reducing the strength filter's selectivity. The 50/50 mixed allocation is standard. One slightly tuned threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "MFI(14) > 40 (loose threshold)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "255": {
+      "name": "MFI(30) >50 60/40 middle (cc3_256.py)",
+      "file": "cc3_256.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_256.py",
+      "source": "cc3 batch 51",
+      "description": "A trend-following strategy using a slower 30-period MFI paired with the 200-day price median filter on QQQ. The mixed state tilts slightly toward TQQQ at a 60/40 split, giving a moderate bias toward the trend in ambiguous conditions.",
+      "overfit_notes": "MFI period of 30 is longer than canonical; threshold of 50 is standard. The 60/40 mixed-state split is a mildly tuned allocation. Two standard components with one lightly tuned weight.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "MFI(30) > 50"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 60% TQQQ / 40% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "256": {
+      "name": "Stochastic + Williams %R + Median (cc3_257.py)",
+      "file": "cc3_257.py",
+      "category": "Oscillator",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_257.py",
+      "source": "cc3 batch 52",
+      "description": "A trend-following strategy that requires consensus from two separate momentum oscillators — Stochastic and Williams %R — in addition to a long-term price median filter. Both oscillators must signal bullish conditions simultaneously for a full TQQQ position; partial agreement yields a 50/50 split.",
+      "overfit_notes": "Stochastic(14,3,3) and Williams %R(14) are at canonical periods; thresholds of StochK > StochD (no level threshold) and W%R > -50 (midline) are standard. Three components total but all at near-textbook settings.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Stochastic(14,3,3) %K > %D AND Williams %R(14) > -50"},
+        {"label": "Entry", "text": "Trend gate AND both oscillators bullish → 100% TQQQ"},
+        {"label": "Exit", "text": "One of {trend, oscillator consensus} true → 50% TQQQ / 50% BIL; neither → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "257": {
+      "name": "PSAR + Median (cc3_258.py)",
+      "file": "cc3_258.py",
+      "category": "Oscillator",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_258.py",
+      "source": "cc3 batch 52",
+      "description": "A trend-following strategy combining Parabolic SAR with a 200-day price median filter on QQQ. Price above the PSAR dot indicates an uptrend; when this aligns with the median filter, the strategy goes fully into TQQQ. Disagreement between the two produces a 50/50 split.",
+      "overfit_notes": "PSAR uses default parameters (step=0.02, initial=0.02, max=0.2), which are textbook. The 200-day median filter is a standard long-term gate. Two standard components at canonical settings.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "QQQ price > PSAR(0.02, 0.02, 0.2)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "258": {
+      "name": "CCI + Median (cc3_259.py)",
+      "file": "cc3_259.py",
+      "category": "Oscillator",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_259.py",
+      "source": "cc3 batch 52",
+      "description": "A trend-following strategy combining a 20-period Commodity Channel Index with a 200-day price median filter on QQQ. CCI above zero indicates bullish momentum; paired with the median trend gate, this drives a three-state TQQQ/BIL allocation.",
+      "overfit_notes": "CCI(20) is a standard period; the threshold of zero (neutral line) rather than the conventional ±100 overbought/oversold levels is a slight but reasonable deviation. Two components, one lightly non-canonical threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "CCI(20) > 0"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "259": {
+      "name": "LR Forecast 30 + Median (cc3_260.py)",
+      "file": "cc3_260.py",
+      "category": "Regression",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_260.py",
+      "source": "cc3 batch 52",
+      "description": "A trend-following strategy that pairs a 200-day price median filter with a hand-computed 30-bar linear regression forecast. The forecast is bullish when the extrapolated next-bar price exceeds the current price by more than a small negative buffer, signaling upward slope. Execution is binary: fully TQQQ or fully BIL.",
+      "overfit_notes": "The 30-bar regression window is a custom parameter; the 0.99 price tolerance buffer (forecast > price * 0.99) is a lightly tuned threshold. Two components, both somewhat non-standard but not extreme.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "30-bar linear regression forecast > current price × 0.99"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "Either condition fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "260": {
+      "name": "Williams %R(50) + Median (cc3_261.py)",
+      "file": "cc3_261.py",
+      "category": "Oscillator",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_261.py",
+      "source": "cc3 batch 52",
+      "description": "A trend-following strategy using an extended 50-period Williams %R oscillator alongside a 200-day price median filter. The W%R midline crossing (above -50) acts as the momentum gate. Three-state allocation switches between full TQQQ, a 50/50 mix, and full BIL.",
+      "overfit_notes": "Williams %R period of 50 is longer than the standard 14; threshold of -50 is the standard midline. One slightly non-canonical period, one standard threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Williams %R(50) > -50"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "261": {
+      "name": "ADX(14) > 25 + DI+ + Median (cc3_262.py)",
+      "file": "cc3_262.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_262.py",
+      "source": "cc3 batch 53",
+      "description": "A trend-following strategy gating entry on both ADX trend strength and directional bias. A combined bullish signal requires ADX to exceed 25 (indicating a trending market) and DI+ to be above DI- (confirming upward direction), plus the 200-day median filter. The mixed state uses a 60/40 TQQQ/BIL split.",
+      "overfit_notes": "ADX(14) at threshold 25 is the classic textbook definition of a trending market; DI+ > DI- is standard directional logic. The 60/40 mixed-state allocation is a light tuning. Near-canonical parameters overall.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "ADX(14) > 25 AND DI+ > DI-"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 60% TQQQ / 40% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "262": {
+      "name": "ADX(30) + Median (cc3_263.py)",
+      "file": "cc3_263.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_263.py",
+      "source": "cc3 batch 53",
+      "description": "A trend-following strategy combining a slower 30-period ADX with a directional filter and the 200-day price median. ADX strength is checked at the lower threshold of 20, and DI+ must exceed DI- to confirm a bullish trend. Three-state allocation uses equal 50/50 in the mixed state.",
+      "overfit_notes": "ADX period of 30 is non-standard (vs canonical 14); the ADX threshold of 20 (instead of the textbook 25) is a slight adjustment. DI+ > DI- is standard. Two mildly non-canonical parameters.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "ADX(30) > 20 AND DI+ > DI-"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "263": {
+      "name": "DI+ > DI- only + Median (cc3_264.py)",
+      "file": "cc3_264.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_264.py",
+      "source": "cc3 batch 53",
+      "description": "A stripped-down directional-indicator trend follower that uses only the DI+ vs DI- relationship from ADX (ignoring the ADX level itself), combined with a 200-day price median filter. This tests whether directional bias alone, without a trend-strength gate, is sufficient for timing TQQQ.",
+      "overfit_notes": "Using only DI+/DI- without an ADX level threshold is a simplified but legitimate approach; ADX(14) at canonical period. The 200-day median is standard. Two standard components with no unusual thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "DI+(14) > DI-(14)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "264": {
+      "name": "ADX+MFI+Median 4-state (cc3_265.py)",
+      "file": "cc3_265.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_265.py",
+      "source": "cc3 batch 53",
+      "description": "A four-state trend-following strategy that counts independent bullish votes from three sources: a 200-day price median filter, DI+ > DI- from ADX, and MFI above 50. The count (0–3) directly maps to a graduated TQQQ/BIL allocation from 0% to 100%.",
+      "overfit_notes": "Three components (median, ADX directional, MFI), all at near-canonical settings. The 4-state step-down allocation table (1.0/0.7/0.3/0.0) is a parameterized choice; the concept is standard. Moderate overfit risk from the explicit allocation steps.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (1 vote)"},
+        {"label": "Strength filter", "text": "DI+(14) > DI-(14) (1 vote); MFI(14) > 50 (1 vote)"},
+        {"label": "Allocation", "text": "3 votes → 100% TQQQ; 2 votes → 70% TQQQ / 30% BIL; 1 vote → 30% TQQQ / 70% BIL; 0 votes → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "265": {
+      "name": "DI Cross (DI+/DI-) (cc3_266.py)",
+      "file": "cc3_266.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_266.py",
+      "source": "cc3 batch 53",
+      "description": "A signal-triggered trend follower that enters TQQQ only on the actual crossover of DI+ above DI- (not merely the current state) when the 200-day median filter is bullish. Exit is triggered on the reverse crossover (DI- crosses above DI+) regardless of the median.",
+      "overfit_notes": "Uses ADX(14) at canonical period; DI crossover is a standard entry concept. The median filter on entry but not on exit introduces slight asymmetry. No unusual thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (entry only)"},
+        {"label": "Entry", "text": "DI+(14) crosses above DI-(14) AND in trend → 100% TQQQ"},
+        {"label": "Exit", "text": "DI-(14) crosses above DI+(14) → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "266": {
+      "name": "Tenkan/Kijun Cross + Median (cc3_267.py)",
+      "file": "cc3_267.py",
+      "category": "Ichimoku",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_267.py",
+      "source": "cc3 batch 54",
+      "description": "A trend-following strategy using the Ichimoku Tenkan-sen (9-period midpoint) versus Kijun-sen (26-period midpoint) relationship as a momentum signal, combined with a 200-day price median filter. When Tenkan is above Kijun (a standard bullish Ichimoku signal) and the median gate passes, the strategy holds TQQQ.",
+      "overfit_notes": "Tenkan (9) and Kijun (26) periods are the textbook Ichimoku defaults; the 200-day median is standard. All components at canonical settings.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Tenkan (9-period midpoint) > Kijun (26-period midpoint)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "267": {
+      "name": "Above Tenkan+Kijun 4-state (cc3_268.py)",
+      "file": "cc3_268.py",
+      "category": "Ichimoku",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_268.py",
+      "source": "cc3 batch 54",
+      "description": "A four-state Ichimoku trend follower that counts three independent bullish conditions: the 200-day median filter, price above Tenkan-sen, and price above Kijun-sen. Each passing condition adds one vote, driving a graduated TQQQ/BIL allocation across four levels.",
+      "overfit_notes": "Ichimoku periods (9, 26) are canonical. The 4-state allocation table (1.0/0.7/0.3/0.0) is a parameterized design choice; using price relative to Tenkan and Kijun separately (rather than as a cross) is somewhat non-standard.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (1 vote)"},
+        {"label": "Strength filter", "text": "Price > Tenkan (9-period midpoint) (1 vote); Price > Kijun (26-period midpoint) (1 vote)"},
+        {"label": "Allocation", "text": "3 votes → 100% TQQQ; 2 votes → 70% TQQQ / 30% BIL; 1 vote → 30% TQQQ / 70% BIL; 0 votes → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "268": {
+      "name": "Above Ichimoku Cloud (cc3_269.py)",
+      "file": "cc3_269.py",
+      "category": "Ichimoku",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_269.py",
+      "source": "cc3 batch 54",
+      "description": "A trend-following strategy requiring QQQ to trade above the full Ichimoku cloud (Senkou Span A and B computed from standard 9/26/52 periods) alongside a 200-day price median filter. Being above both cloud boundaries is a classically strong bullish Ichimoku signal.",
+      "overfit_notes": "Ichimoku periods (9, 26, 52) are all standard textbook values. The cloud-top condition is canonical. All components at unmodified defaults.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Price > max(Senkou Span A, Senkou Span B) — above entire Ichimoku cloud"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "269": {
+      "name": "Stochastic(50,5,5) + Median (cc3_270.py)",
+      "file": "cc3_270.py",
+      "category": "Oscillator",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_270.py",
+      "source": "cc3 batch 54",
+      "description": "A trend-following strategy using a slow, wide 50-period Stochastic oscillator above its midline (50) as a momentum filter, combined with a 200-day price median filter on QQQ. The extra-long Stochastic period dampens noise and provides a slower-turning momentum signal.",
+      "overfit_notes": "Stochastic period of 50 with smoothing (5,5) is significantly non-standard versus the canonical (14,3,3); threshold of %K > 50 is the midline, which is standard. One notably non-canonical period choice.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Stochastic(50,5,5) %K > 50"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "270": {
+      "name": "Up/Down Vol Ratio + Median (cc3_271.py)",
+      "file": "cc3_271.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_271.py",
+      "source": "cc3 batch 54",
+      "description": "A trend-following strategy using an up/down volume ratio as a market breadth filter: summing volume on up-days versus down-days over the past 20 sessions and requiring buyers to dominate. Combined with a 200-day price median filter on QQQ, it drives a three-state TQQQ/BIL allocation.",
+      "overfit_notes": "The 20-day lookback window and the ratio threshold of 1.0 are both round numbers and reasonable defaults. Two standard-feeling components, though the up/down volume ratio is less common than MFI.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Sum of volume on up-days / sum of volume on down-days (last 20 days) > 1.0"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "271": {
+      "name": "QQQ vs TLT + Median (cc3_272.py)",
+      "file": "cc3_272.py",
+      "category": "Cross-Asset",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_272.py",
+      "source": "cc3 batch 55",
+      "description": "A cross-asset trend follower that uses relative performance of QQQ versus long-term Treasuries (TLT) over a 60-day window as a risk-on/risk-off signal. When equities are outperforming bonds on a 3-month basis and QQQ is above its long-term price median, the strategy holds TQQQ.",
+      "overfit_notes": "The 60-day relative performance lookback and the 200-day median are both round standard parameters. QQQ vs TLT relative momentum is a well-known risk-on signal. Low overfit risk.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "QQQ 60-day return > TLT 60-day return (risk-on)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ + TLT. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "272": {
+      "name": "QQQ vs SHY rates calm + Median (cc3_273.py)",
+      "file": "cc3_273.py",
+      "category": "Cross-Asset",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_273.py",
+      "source": "cc3 batch 55",
+      "description": "A cross-asset trend follower that monitors short-term Treasury ETF (SHY) performance as a rate-calm indicator. When SHY has not lost more than 0.5% over the past 60 days (rates are not spiking) and QQQ is above its 200-day median, the strategy holds TQQQ.",
+      "overfit_notes": "The SHY 60-day return threshold of -0.005 is a specific, somewhat tuned parameter. The concept of using SHY as a rates-calm filter is sensible but the exact threshold introduces modest overfit risk. Two components with one tuned threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "SHY 60-day return > -0.5% (rates calm)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ + SHY. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "273": {
+      "name": "Weak Dollar + Median (cc3_274.py)",
+      "file": "cc3_274.py",
+      "category": "Cross-Asset",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_274.py",
+      "source": "cc3 batch 55",
+      "description": "A cross-asset trend follower that uses the US dollar ETF (UUP) as a macro filter: requiring the dollar to be weak (below a 2% gain over 60 days) before entering TQQQ alongside the 200-day QQQ median filter. A weakening dollar is historically associated with risk-on equity rallies.",
+      "overfit_notes": "The UUP 60-day return threshold of 2% (< 0.02) is a specific tuned value rather than zero; it allows mild dollar strength but not strong rallies. One moderately tuned threshold. The 200-day median is standard.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "UUP 60-day return < 2% (dollar not strengthening sharply)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ + UUP. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "274": {
+      "name": "HYG vs IEI Credit + Median (cc3_275.py)",
+      "file": "cc3_275.py",
+      "category": "Cross-Asset",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_275.py",
+      "source": "cc3 batch 55",
+      "description": "A cross-asset trend follower using credit market risk appetite as a signal: high-yield bonds (HYG) outperforming intermediate Treasuries (IEI) over 60 days indicates risk-on conditions. Combined with the 200-day QQQ median filter, this drives a three-state TQQQ/BIL allocation.",
+      "overfit_notes": "HYG vs IEI relative performance is a well-known credit spread proxy; the 60-day window is a round standard parameter. The zero-return threshold (relative return comparison) needs no tuning. Low overfit risk.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "HYG 60-day return > IEI 60-day return (credit risk-on)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ + HYG + IEI. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "275": {
+      "name": "SPY Range Position + Median (cc3_276.py)",
+      "file": "cc3_276.py",
+      "category": "Cross-Asset",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_276.py",
+      "source": "cc3 batch 55",
+      "description": "A cross-asset trend follower that measures SPY's position within its 50-day price range as a market-strength gauge. When SPY is in the upper 30% of its 50-day range and QQQ is above its 200-day median, the strategy holds TQQQ. This captures periods when the broad market is near its recent highs.",
+      "overfit_notes": "The 50-day range lookback and the 0.7 range-position threshold are both tuned parameters. Using SPY range position as a secondary signal (while executing on TQQQ) adds specificity. Two components, both with somewhat tuned parameters.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "SPY position in 50-day price range > 70%"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ + SPY. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "276": {
+      "name": "Triple MFI consensus + Median (cc3_277.py)",
+      "file": "cc3_277.py",
+      "category": "Volume",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_277.py",
+      "source": "cc3 batch 56",
+      "description": "A multi-timeframe money-flow trend follower that runs three MFI periods simultaneously (7, 14, 30 days) and counts how many exceed 50, then combines that count with a 200-day median filter for a four-level TQQQ/BIL allocation. Requiring consensus across short, medium, and long money-flow windows filters out noise.",
+      "overfit_notes": "Three MFI periods (7, 14, 30) and their thresholds of 50 are all at or near standard values; the specific allocation steps (1.0/0.6/0.3/0.0) and the partial consensus logic (in_trend and n>=1 vs in_trend or n>=2) add tuned complexity. Moderate overfit risk.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Count of {MFI(7), MFI(14), MFI(30)} > 50"},
+        {"label": "Allocation", "text": "Trend + all 3 MFI → 100% TQQQ; trend + ≥1 MFI → 60% TQQQ / 40% BIL; trend or ≥2 MFI → 30% TQQQ / 70% BIL; else → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "277": {
+      "name": "MFI(5) + Median (cc3_278.py)",
+      "file": "cc3_278.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_278.py",
+      "source": "cc3 batch 56",
+      "description": "A fast-reacting trend-following strategy using a very short 5-period MFI as a near-term money-flow gate alongside the 200-day QQQ median filter. The short MFI period makes this more reactive to daily volume shifts, potentially increasing turnover compared to longer-period variants.",
+      "overfit_notes": "MFI period of 5 is notably short compared to the canonical 14; threshold of 50 is standard. One non-canonical period parameter. The 200-day median and 50/50 split are standard.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "MFI(5) > 50"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "278": {
+      "name": "MFI(50) + Median (cc3_279.py)",
+      "file": "cc3_279.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_279.py",
+      "source": "cc3 batch 56",
+      "description": "A slow-turning trend-following strategy using a very long 50-period MFI to capture sustained money flow trends, combined with the 200-day QQQ price median filter. The extended MFI period reduces false signals but also slows response to trend changes.",
+      "overfit_notes": "MFI period of 50 is significantly longer than the canonical 14; threshold of 50 is the standard midline. One notably non-canonical period choice. The 200-day median is standard.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "MFI(50) > 50"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "279": {
+      "name": "MFI Rising + Median (cc3_280.py)",
+      "file": "cc3_280.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_280.py",
+      "source": "cc3 batch 56",
+      "description": "A trend-following strategy requiring MFI to be both above 50 and rising (higher than it was 10 days ago), filtering for accelerating positive money flow alongside the 200-day QQQ median. This adds a momentum-of-momentum condition to the standard MFI filter.",
+      "overfit_notes": "MFI(14) at threshold 50 is canonical; the 10-day lookback for trend direction is a mildly tuned parameter. Requiring both level and rising direction adds one additional condition. Low-to-moderate overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "MFI(14) > 50 AND MFI is higher than 10 days ago (rising)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "280": {
+      "name": "MFI+W%R+Median 4-state (cc3_281.py)",
+      "file": "cc3_281.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_281.py",
+      "source": "cc3 batch 56",
+      "description": "A four-state trend follower combining the 200-day price median, MFI above 50, and Williams %R above -50 into a vote-counting framework. Each indicator contributes one vote; the total (0–3) maps to a graduated TQQQ/BIL allocation.",
+      "overfit_notes": "MFI(14) and Williams %R(14) are at canonical periods; thresholds of 50 and -50 are the standard midlines for each. The 4-state allocation table (1.0/0.7/0.3/0.0) is a parameterized design. Three components at standard settings.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (1 vote)"},
+        {"label": "Strength filter", "text": "MFI(14) > 50 (1 vote); Williams %R(14) > -50 (1 vote)"},
+        {"label": "Allocation", "text": "3 votes → 100% TQQQ; 2 votes → 70% TQQQ / 30% BIL; 1 vote → 30% TQQQ / 70% BIL; 0 votes → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "281": {
+      "name": "Range Compressed 80% (cc3_282.py)",
+      "file": "cc3_282.py",
+      "category": "Range",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_282.py",
+      "source": "cc3 batch 57",
+      "description": "A volatility-based trend follower that uses recent price-range compression as a buy signal: when QQQ's average daily range over the past 25 days is less than 80% of the 200-day average range (a volatility squeeze), and price is above its median, the strategy holds TQQQ. Compressed ranges often precede breakouts.",
+      "overfit_notes": "The 25-day recent range window and the 0.8 compression threshold are both tuned parameters; the 200-day baseline is standard. The threshold of 80% is a specific choice with no canonical basis, introducing moderate overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Avg daily range (last 25 days) < 80% of avg daily range (last 200 days)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "282": {
+      "name": "Range Compressed 90% (cc3_283.py)",
+      "file": "cc3_283.py",
+      "category": "Range",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_283.py",
+      "source": "cc3 batch 57",
+      "description": "A looser version of the range-compression trend follower, triggering when QQQ's recent 25-day average range is below 90% of the 200-day historical average. Compared to the 80% variant, this fires more frequently as it accepts more moderately compressed conditions.",
+      "overfit_notes": "The 90% threshold is one variant in a sweep of range-compression thresholds; no canonical justification. The 25-day/200-day window pair is a design choice. Similar overfit profile to the 80% variant.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Avg daily range (last 25 days) < 90% of avg daily range (last 200 days)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "283": {
+      "name": "Range Expanded 110% (cc3_284.py)",
+      "file": "cc3_284.py",
+      "category": "Range",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_284.py",
+      "source": "cc3 batch 57",
+      "description": "A volatility-expansion trend follower that enters TQQQ when QQQ's recent 25-day average range exceeds 110% of the 200-day average, indicating elevated volatility, combined with a median trend gate. This tests whether periods of rising volatility in an uptrend produce strong forward returns.",
+      "overfit_notes": "The 110% threshold inverts the compression logic; it is one step in a family of threshold sweeps. Elevated volatility entry is a non-standard signal direction compared to breakout compression strategies. Moderate tuning.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Avg daily range (last 25 days) > 110% of avg daily range (last 200 days)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "284": {
+      "name": "Range Expanded 120% (cc3_285.py)",
+      "file": "cc3_285.py",
+      "category": "Range",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_285.py",
+      "source": "cc3 batch 57",
+      "description": "A variant of the range-expansion trend follower with a tighter expansion requirement: the recent 25-day average range must exceed 120% of the 200-day historical average. This fires less frequently than the 110% variant and targets more pronounced volatility expansions.",
+      "overfit_notes": "The 120% threshold is a step in the same family of range-expansion threshold sweeps. The concept is the same as the 110% variant with one adjusted parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Avg daily range (last 25 days) > 120% of avg daily range (last 200 days)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "285": {
+      "name": "Wide Range Up Entry (cc3_286.py)",
+      "file": "cc3_286.py",
+      "category": "Range",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_286.py",
+      "source": "cc3 batch 57",
+      "description": "A signal-triggered trend follower that enters TQQQ only when QQQ prints a wide bullish bar: the prior session's range must be more than 1.5 times the 10-day average and the close must be above the open. Entry requires the median trend filter to also be true; positions are held for at least 10 days before re-evaluation.",
+      "overfit_notes": "The 1.5× range multiplier, 10-day average window, and 10-day minimum holding period are all specifically tuned parameters. The wide-up-bar event-driven entry is a non-standard signal with meaningful overfit potential.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Entry", "text": "Prior bar range > 1.5× avg of prior 10 bars AND close > open → 100% TQQQ (held for ≥10 days)"},
+        {"label": "Exit", "text": "Median trend fails OR 10-day holding period expires without re-trigger → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "286": {
+      "name": "Range Expanded 130% (cc3_287.py)",
+      "file": "cc3_287.py",
+      "category": "Range",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_287.py",
+      "source": "cc3 batch 58",
+      "description": "A range-expansion trend follower requiring the recent 25-day average range to exceed 130% of the 200-day historical average alongside the median trend filter. This targets significantly elevated volatility regimes where upside expansion in a trend may signal strong momentum.",
+      "overfit_notes": "The 130% threshold is one step in a family of range threshold sweeps; same architecture as the 110%/120% variants with one parameter shifted.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Avg daily range (last 25 days) > 130% of avg daily range (last 200 days)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "287": {
+      "name": "Range Expanded 140% (cc3_288.py)",
+      "file": "cc3_288.py",
+      "category": "Range",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_288.py",
+      "source": "cc3 batch 58",
+      "description": "A range-expansion trend follower requiring the recent 25-day average range to exceed 140% of the 200-day historical average alongside the median trend filter. At this threshold, the strategy targets only high-volatility expansion periods, making triggers relatively rare.",
+      "overfit_notes": "The 140% threshold is a further step in the same family of range sweeps. Rarer triggers at this level increase the risk that any observed performance reflects small-sample overfitting.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Avg daily range (last 25 days) > 140% of avg daily range (last 200 days)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "288": {
+      "name": "Range Expanded 150% (cc3_289.py)",
+      "file": "cc3_289.py",
+      "category": "Range",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_289.py",
+      "source": "cc3 batch 58",
+      "description": "The most extreme range-expansion trend follower in this series, requiring the recent 25-day average range to exceed 150% of the historical 200-day average. This fires only during very high volatility regimes in an uptrend, making it highly selective.",
+      "overfit_notes": "The 150% threshold is the most extreme in this sweep, producing the fewest triggers. Very infrequent signals greatly increase overfit risk for any backtest result achieved at this setting.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Avg daily range (last 25 days) > 150% of avg daily range (last 200 days)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "289": {
+      "name": "Range Loose 100% (cc3_290.py)",
+      "file": "cc3_290.py",
+      "category": "Range",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_290.py",
+      "source": "cc3 batch 58",
+      "description": "A permissive range-expansion trend follower using a 100% threshold: the 25-day average range only needs to exceed the 200-day average (any expansion above the mean). Combined with the median filter, this is essentially always true during high-volatility uptrends.",
+      "overfit_notes": "The 100% threshold is the baseline — the strategy enters whenever current volatility is above-average, which is a frequent condition. This is effectively a volatility-regime filter at the broadest setting. Low parameter specificity.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Avg daily range (last 25 days) > 100% of avg daily range (last 200 days) (above-average volatility)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "290": {
+      "name": "Range Compressed 70% (cc3_291.py)",
+      "file": "cc3_291.py",
+      "category": "Range",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_291.py",
+      "source": "cc3 batch 58",
+      "description": "The tightest range-compression trend follower in this series: QQQ's 25-day average range must be below 70% of its 200-day average, indicating a significant volatility squeeze before entry. Combined with the median filter, this seeks the most compressed low-volatility conditions before investing in TQQQ.",
+      "overfit_notes": "The 70% compression threshold is the most stringent in the compression sweep, producing the fewest triggers. Rare triggers increase the risk that any backtest performance reflects small-sample overfitting.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "Avg daily range (last 25 days) < 70% of avg daily range (last 200 days) (severe compression)"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "291": {
+      "name": "Range+MFI 4-state (cc3_292.py)",
+      "file": "cc3_292.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_292.py",
+      "source": "cc3 batch 59",
+      "description": "A four-state hybrid combining the 200-day median, a range-expansion filter (25-day range > 110% of 200-day average), and MFI above 50 into a vote-counting framework. Each indicator contributes one vote; the total maps to a graduated TQQQ/BIL allocation.",
+      "overfit_notes": "Three components: median (standard), range expansion at 110% (tuned), MFI(14) > 50 (standard). The 4-state allocation table and the 110% range threshold are both specific choices. Moderate overfit from combined parameter count.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (1 vote)"},
+        {"label": "Strength filter", "text": "Avg daily range (25d) > 110% of avg (200d) (1 vote); MFI(14) > 50 (1 vote)"},
+        {"label": "Allocation", "text": "3 votes → 100% TQQQ; 2 votes → 70% TQQQ / 30% BIL; 1 vote → 30% TQQQ / 70% BIL; 0 votes → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "292": {
+      "name": "5d Momentum + Median (cc3_293.py)",
+      "file": "cc3_293.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_293.py",
+      "source": "cc3 batch 59",
+      "description": "A short-term momentum trend follower that requires QQQ to have a positive 5-day return (last close vs 5 bars ago) alongside the 200-day price median filter. This captures very recent near-term positive momentum as a confirmation of the long-term trend.",
+      "overfit_notes": "5-day momentum is a standard short-term return measure; the positive-return threshold (> 0) is the most basic. The 200-day median is standard. Two simple components at minimal tuning.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "QQQ 5-day return > 0"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "293": {
+      "name": "Dual Mom 20+60 4-state (cc3_294.py)",
+      "file": "cc3_294.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_294.py",
+      "source": "cc3 batch 59",
+      "description": "A four-state momentum trend follower combining the 200-day price median with two separate lookback momentum measures (20-day and 60-day). All three votes drive a graduated TQQQ/BIL allocation. This tests whether multi-timeframe momentum agreement (1-month and 3-month) improves timing.",
+      "overfit_notes": "20-day and 60-day momentum lookbacks are both standard timeframes; positive-return thresholds need no tuning. The 4-state allocation table is a parameterized design choice. Three components at near-canonical settings.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (1 vote)"},
+        {"label": "Strength filter", "text": "QQQ 20-day return > 0 (1 vote); QQQ 60-day return > 0 (1 vote)"},
+        {"label": "Allocation", "text": "3 votes → 100% TQQQ; 2 votes → 70% TQQQ / 30% BIL; 1 vote → 30% TQQQ / 70% BIL; 0 votes → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "294": {
+      "name": "12-mo Momentum + Median (cc3_295.py)",
+      "file": "cc3_295.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_295.py",
+      "source": "cc3 batch 59",
+      "description": "A long-term momentum trend follower that uses the 252-trading-day annual return of QQQ as a secondary momentum filter alongside the 200-day price median. Both indicators must be positive for a full TQQQ allocation; disagreement yields a 50/50 split.",
+      "overfit_notes": "252-day annual return is the standard 12-month momentum measure used in academic literature; the positive-return threshold needs no tuning. The 200-day median is standard. Two components at canonical settings.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "QQQ 252-day (12-month) return > 0"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% BIL; neither true → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "295": {
+      "name": "VIX-Fix Calm Entry + Median (cc3_296.py)",
+      "file": "cc3_296.py",
+      "category": "Volatility",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_296.py",
+      "source": "cc3 batch 59",
+      "description": "A volatility-filtered trend follower using the Williams VIX-Fix (a synthetic volatility measure computed from price relative to a 22-day high) as a calm/stress indicator. Entry requires low synthetic VIX (below 3%) during an uptrend; exit triggers when the VIX-Fix spikes above 8% or the trend fails.",
+      "overfit_notes": "The 22-day high window for VIX-Fix is a standard Williams parameter; the calm threshold of 3% and exit threshold of 8% are specific tuned values with no canonical basis. Two thresholds introducing moderate overfit risk.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "VIX-Fix = (22-day high − close) / 22-day high × 100 < 3%"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "VIX-Fix > 8% OR trend gate fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "296": {
+      "name": "Dual Mom 10+30 4-state (cc3_297.py)",
+      "file": "cc3_297.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_297.py",
+      "source": "cc3 batch 60",
+      "description": "A four-state momentum trend follower using shorter 10-day and 30-day momentum lookbacks alongside the 200-day median filter. The three independent votes drive a graduated TQQQ/BIL allocation, testing whether near-term and medium-term momentum agreement produces better timing.",
+      "overfit_notes": "10-day and 30-day momentum lookbacks are standard short and medium-term measures; positive-return thresholds need no tuning. The 4-state table is a design parameter. Three components at near-canonical settings.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (1 vote)"},
+        {"label": "Strength filter", "text": "QQQ 10-day return > 0 (1 vote); QQQ 30-day return > 0 (1 vote)"},
+        {"label": "Allocation", "text": "3 votes → 100% TQQQ; 2 votes → 70% TQQQ / 30% BIL; 1 vote → 30% TQQQ / 70% BIL; 0 votes → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "297": {
+      "name": "Dual Mom 30+90 4-state (cc3_298.py)",
+      "file": "cc3_298.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_298.py",
+      "source": "cc3 batch 60",
+      "description": "A four-state momentum trend follower using medium and longer-term 30-day and 90-day momentum lookbacks alongside the 200-day median filter. The three votes drive a graduated TQQQ/BIL allocation, testing whether intermediate and quarterly momentum agreement improves timing.",
+      "overfit_notes": "30-day and 90-day momentum lookbacks are standard timeframes; positive-return thresholds need no tuning. The 4-state table is a design parameter. Three components at near-canonical settings.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (1 vote)"},
+        {"label": "Strength filter", "text": "QQQ 30-day return > 0 (1 vote); QQQ 90-day return > 0 (1 vote)"},
+        {"label": "Allocation", "text": "3 votes → 100% TQQQ; 2 votes → 70% TQQQ / 30% BIL; 1 vote → 30% TQQQ / 70% BIL; 0 votes → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "298": {
+      "name": "Triple Mom 5-state (cc3_299.py)",
+      "file": "cc3_299.py",
+      "category": "Momentum",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_299.py",
+      "source": "cc3 batch 60",
+      "description": "A five-state momentum trend follower that counts four independent positive-return signals: the 200-day median filter, 10-day, 30-day, and 90-day momentum. The count (0–4) maps to five graduated TQQQ/BIL allocations in 25% increments. This is the most complex pure-momentum variant in this series.",
+      "overfit_notes": "Four components (median + three momentum periods), all at near-standard settings. The 5-state allocation table with 25% steps (1.0/0.75/0.5/0.25/0.0) is a parameterized design. The specific three momentum lookbacks (10/30/90) introduce mild selection overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (1 vote)"},
+        {"label": "Strength filter", "text": "QQQ 10-day return > 0 (1 vote); 30-day return > 0 (1 vote); 90-day return > 0 (1 vote)"},
+        {"label": "Allocation", "text": "4 votes → 100% TQQQ; 3 → 75%; 2 → 50%; 1 → 25%; 0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "299": {
+      "name": "Mom20+Median+Top1 (cc3_300.py)",
+      "file": "cc3_300.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_300.py",
+      "source": "cc3 batch 60",
+      "description": "A hybrid trend follower that pairs the standard 20-day momentum and 200-day median timing signals with a universe selection component: the single largest-cap stock from the top 100 by dollar volume is used as the cash-alternative exposure in mixed states. When both signals are bullish, 100% goes to TQQQ; in mixed states, 50% goes to TQQQ and 50% to the top market-cap stock.",
+      "overfit_notes": "The 20-day momentum and 200-day median are both standard. Using the top-1 market-cap stock as the non-leveraged allocation (instead of BIL) is a non-canonical design that benefits from large-cap bias in the backtest period. Mild overfit from this vehicle selection.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Strength filter", "text": "QQQ 20-day return > 0"},
+        {"label": "Entry", "text": "Both conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "One condition true → 50% TQQQ / 50% top-cap stock; neither true → 100% top-cap stock"},
+        {"label": "Universe", "text": "Top 1 stock by market cap from top 100 by dollar volume"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / largest-cap stock"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "300": {
+      "name": "Dual Mom Top-1 Step-Down (cc3_301.py)",
+      "file": "cc3_301.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_301.py",
+      "source": "cc3 batch 60",
+      "description": "A four-state hybrid that combines the 200-day median, 20-day momentum, and 60-day momentum to drive a step-down allocation across TQQQ, the largest-cap stock, and BIL. As the vote count drops from 3 to 0, the strategy steps down from pure TQQQ through mixed TQQQ/top-cap, to pure top-cap, and finally to a 50/50 top-cap/BIL split.",
+      "overfit_notes": "Three components (median + two momentum periods) at near-standard settings; the specific 4-state allocation plan mixing TQQQ, top-cap stock, and BIL in an asymmetric step-down is a highly specific design choice. The universe selection (top market cap stock) adds vehicle-selection risk.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (1 vote)"},
+        {"label": "Strength filter", "text": "QQQ 20-day return > 0 (1 vote); QQQ 60-day return > 0 (1 vote)"},
+        {"label": "Allocation", "text": "3 votes → 100% TQQQ; 2 votes → 50% TQQQ / 50% top-cap; 1 vote → 100% top-cap; 0 votes → 50% top-cap / 50% BIL"},
+        {"label": "Universe", "text": "Top 1 stock by market cap from top 100 by dollar volume"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / largest-cap stock / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    }
+  }
+}

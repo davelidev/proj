@@ -1,0 +1,954 @@
+{
+  "strategies": {
+    "451": {
+      "name": "Mom150+Sto14+Top3 (cc3_452.py)",
+      "file": "cc3_452.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_452.py",
+      "source": "cc3 batches 87-91",
+      "description": "A hybrid trend-score rotator that blends a leveraged Nasdaq ETF, a large-cap universe sleeve, and a cash fallback based on three binary signals. Each day it tallies how many of a 200-bar median regime filter, a 150-day price momentum, and a Stochastic-K midline cross are bullish, then allocates proportionally. At maximum conviction it goes all-in on the 3x leveraged ETF; at zero conviction it splits between the large-cap sleeve and cash.",
+      "overfit_notes": "Median-of-200 regime (non-SMA), 150-day lookback momentum, Stochastic(14,3,3) with K>50 midline. Two out of three signals use non-canonical periods. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Entry (trend)", "text": "Score 3/3 → 100% TQQQ; score 2/3 → 50% TQQQ + 50% large-cap Top 3; score 1/3 → 100% large-cap Top 3; score 0/3 → 50% large-cap Top 3 + 50% BIL"},
+        {"label": "Strength filter", "text": "Stochastic(14,3,3) %K > 50 (bullish vote); 150-day price momentum positive (bullish vote)"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "452": {
+      "name": "Mom20+Sto50+Top3 (cc3_453.py)",
+      "file": "cc3_453.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_453.py",
+      "source": "cc3 batches 87-91",
+      "description": "A hybrid trend-score rotator using three binary conditions: a 200-bar median price regime, a 20-day price momentum, and a Stochastic-K midline check with a 50-bar period. Conviction score (0–3) drives a graduated allocation between the 3x leveraged ETF, the top three large-cap stocks, and cash. As with all strategies in this family, the score changes trigger rebalancing rather than price events.",
+      "overfit_notes": "Median-of-200 regime, 20-day momentum, Stochastic(50,3,3) with K>50. The 50-bar Stochastic is a non-canonical period choice. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Stochastic(50,3,3) %K > 50; 20-day price momentum positive"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "453": {
+      "name": "Mom30+Sto50+Top3 (cc3_454.py)",
+      "file": "cc3_454.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_454.py",
+      "source": "cc3 batches 87-91",
+      "description": "Identical in structure to the Mom20+Sto50 variant but uses a 30-day lookback for the momentum signal instead of 20. Three binary signals (median regime, 30-day momentum, Stochastic-K midline) are tallied into a conviction score that drives graduated allocation between a leveraged ETF, a large-cap stock sleeve, and cash.",
+      "overfit_notes": "Median-of-200 regime, 30-day momentum (non-canonical), Stochastic(50,3,3) K>50. Both momentum and oscillator use non-standard periods. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Stochastic(50,3,3) %K > 50; 30-day price momentum positive"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "454": {
+      "name": "Mom20+Sto5+Top3 (cc3_455.py)",
+      "file": "cc3_455.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_455.py",
+      "source": "cc3 batches 87-91",
+      "description": "A very short-term stochastic variant of the three-signal score rotator. Uses a 5-bar Stochastic (extremely fast-reacting oscillator), a 20-day momentum, and a 200-bar median regime. The speed of the Stochastic contrasts with the slower regime filter, making the combined signal sensitive to short-term overbought/oversold swings while still requiring medium-term uptrend confirmation.",
+      "overfit_notes": "Stochastic(5,3,3) is an extremely non-canonical period. Median-of-200 regime, 20-day momentum. The 5-bar Stoch is a highly tuned choice. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Stochastic(5,3,3) %K > 50; 20-day price momentum positive"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "455": {
+      "name": "Mom20+Sto14+Top5 (cc3_456.py)",
+      "file": "cc3_456.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_456.py",
+      "source": "cc3 batches 87-91",
+      "description": "The same three-signal trend-score architecture as the core family but expands the large-cap universe sleeve from the top 3 to the top 5 stocks by market cap. Signals are a 200-bar median regime, 20-day momentum, and Stochastic(14) K>50. The wider stock sleeve reduces concentration within that allocation tier.",
+      "overfit_notes": "Median-of-200 regime, 20-day momentum, Stochastic(14,3,3) K>50 — canonical Stochastic period but non-standard momentum lookback and non-standard universe size of 5. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Stochastic(14,3,3) %K > 50; 20-day price momentum positive"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 5; score 1 → 100% Top 5; score 0 → 50% Top 5 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 5 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "481": {
+      "name": "PSAR+Mom20+Top3 (cc3_482.py)",
+      "file": "cc3_482.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_482.py",
+      "source": "cc3 batch 92 (diverse)",
+      "description": "A three-signal hybrid rotator that combines a Parabolic SAR trend signal with a short-term momentum check and a 200-bar median regime filter. The PSAR gives a dynamic trailing-stop-style trend reading, while the 20-day momentum adds a separate price-level confirmation. Conviction score drives graduated allocation from the leveraged ETF down through a large-cap stock sleeve to cash.",
+      "overfit_notes": "PSAR(0.02, 0.02, 0.2) with default parameters, 20-day momentum, median-of-200 regime. Parameters are at standard defaults so overfit is modest. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Parabolic SAR: price > PSAR value; 20-day price momentum positive"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "482": {
+      "name": "Range Exp+DD60+Top3 (cc3_483.py)",
+      "file": "cc3_483.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_483.py",
+      "source": "cc3 batch 92 (diverse)",
+      "description": "A diverse three-signal rotator using market structure signals rather than momentum. The range expansion signal checks whether recent daily true ranges exceed the long-run average by at least 10%, indicating active trend conditions. The drawdown signal confirms the market is not in deep correction by requiring price within 5% of the 60-day high. The 200-bar median provides a long-run regime filter.",
+      "overfit_notes": "Range expansion threshold of 1.1x (10% above average), 25-bar recent vs 200-bar baseline comparison; drawdown filter at 95% of 60-bar high. Three tuned thresholds. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Recent 25-bar avg true range > 200-bar avg true range × 1.1 (range expansion); price > 95% of 60-day high (drawdown check)"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "483": {
+      "name": "LR Slope+Tenkan/Kijun+Top3 (cc3_484.py)",
+      "file": "cc3_484.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_484.py",
+      "source": "cc3 batch 92 (diverse)",
+      "description": "A diverse rotator combining a linear regression slope signal with an Ichimoku Tenkan/Kijun crossover and a 200-bar median regime gate. The slope of a 50-day linear regression on closes determines if price is in an upward trend mathematically. The Tenkan (9-bar midpoint) vs Kijun (26-bar midpoint) crossover provides a separate momentum confirmation from Ichimoku theory.",
+      "overfit_notes": "LR slope over 50 bars, Tenkan/Kijun from 9/26-bar high-low midpoints, median-of-200 regime. The LR window and Ichimoku periods are standard choices. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "50-bar linear regression slope on closes > 0; Tenkan (9-bar midpoint) > Kijun (26-bar midpoint)"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "484": {
+      "name": "DD60+DD200+Top3 (cc3_485.py)",
+      "file": "cc3_485.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_485.py",
+      "source": "cc3 batch 92 (diverse)",
+      "description": "A drawdown-focused rotator that uses two separate rolling-high proximity signals (60-day and 200-day) alongside a 200-bar median regime filter. Both drawdown checks vote bullish when price remains close to recent highs at their respective horizons. This creates a layered approach where moderate corrections can still score some bullish points while severe ones turn off both signals.",
+      "overfit_notes": "Drawdown thresholds: price/60-day high > 0.95 and price/200-day high > 0.90. Two distinct non-rounded thresholds. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Price > 95% of 60-day high; price > 90% of 200-day high"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "485": {
+      "name": "Variance Ratio+Skew+Top3 (cc3_486.py)",
+      "file": "cc3_486.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_486.py",
+      "source": "cc3 batch 92 (diverse)",
+      "description": "A statistically-oriented rotator that pairs a variance ratio test (detecting trending vs mean-reverting price behavior) with a return skewness filter (positive skew indicating more frequent small losses than large gains, consistent with trending). Both signals are computed from raw return history without external indicators. A 200-bar median provides the primary regime gate.",
+      "overfit_notes": "Variance ratio: 5-day vs 1-day variance scaled by 5, threshold > 1.0; skewness of last 60 returns > 0. Both are fully data-derived signals with no tuned thresholds beyond the zero crossing. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "5-day/1-day variance ratio > 1.0 (trending); 60-bar return skewness > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "486": {
+      "name": "OBV+Force+Top3 (cc3_487.py)",
+      "file": "cc3_487.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_487.py",
+      "source": "cc3 batch 93",
+      "description": "A volume-flow rotator combining two volume-based momentum signals: an On-Balance Volume slope (trending up over 30 bars) and a Force Index sum (price-change times volume over 13 bars positive). Both signals confirm that recent price moves are accompanied by supportive volume, reducing false signals from price-only momentum. The 200-bar median provides regime context.",
+      "overfit_notes": "OBV slope window of 30 bars, Force Index sum over 13 bars — both are non-canonical period choices. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "OBV 30-bar linear regression slope > 0; Force Index (price-change × volume) sum over last 13 bars > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "487": {
+      "name": "WVF+VIX-band+Top3 (cc3_488.py)",
+      "file": "cc3_488.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_488.py",
+      "source": "cc3 batch 93",
+      "description": "A volatility-aware hybrid rotator that uses the Williams VIX Fix (synthetic VIX computed from price data) alongside the actual CBOE VIX index. The WVF checks how far below its 22-day rolling high price sits, and the VIX level provides a macro fear filter. Together they vote that conditions are calm and risk-on before committing to leveraged exposure.",
+      "overfit_notes": "WVF threshold < 5% (drawdown from 22-day high); VIX level threshold < 25. Both are specific numeric cutoffs that could be period-sensitive. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Williams VIX Fix (price drawdown from 22-day high) < 5%; CBOE VIX < 25"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ + CBOE VIX. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "488": {
+      "name": "QQQ/TLT+Tenkan+Top3 (cc3_489.py)",
+      "file": "cc3_489.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_489.py",
+      "source": "cc3 batch 93",
+      "description": "A diverse rotator that cross-assets equity vs bond relative strength with an Ichimoku Tenkan/Kijun signal. The relative strength signal confirms equity is outperforming long-term Treasuries over a 60-day window before adding to risk. The Tenkan/Kijun crossover provides a shorter-term momentum confirmation. Both combine with the 200-bar median regime gate.",
+      "overfit_notes": "QQQ vs TLT 60-day relative return comparison; Tenkan/Kijun from 9/26-bar midpoints; median-of-200 regime. The 60-day RS window is a tuned parameter. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "QQQ 60-day return > TLT 60-day return (equity RS); Tenkan (9-bar midpoint) > Kijun (26-bar midpoint)"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ + TLT. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "489": {
+      "name": "VolContract+Tenkan+Top3 (cc3_490.py)",
+      "file": "cc3_490.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_490.py",
+      "source": "cc3 batch 93",
+      "description": "A rotator pairing volatility contraction (short-term realized volatility falling below the long-run baseline) with an Ichimoku Tenkan/Kijun crossover signal. Volatility contraction tends to precede breakouts, while the Tenkan/Kijun confirms the direction. The 200-bar median provides the primary regime gate. Calm, uptrending conditions drive allocation toward the leveraged ETF.",
+      "overfit_notes": "Vol contraction: 10-bar stddev < 60-bar stddev (rolling return series); Tenkan/Kijun from 9/26-bar midpoints; median-of-200 regime. The 10-vs-60 window pair is a tuned choice. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "10-bar return volatility < 60-bar return volatility (contraction); Tenkan (9-bar midpoint) > Kijun (26-bar midpoint)"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "490": {
+      "name": "UpDnVol+52w+Top3 (cc3_491.py)",
+      "file": "cc3_491.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_491.py",
+      "source": "cc3 batch 93",
+      "description": "A volume-breadth rotator that measures whether buying pressure (up-day volume) exceeds selling pressure (down-day volume) over 20 days, combined with a 52-week proximity filter (price within 7% of the one-year high). Both signals assess market health from different angles — participation from the volume side and strength from the drawdown side — alongside the 200-bar median regime gate.",
+      "overfit_notes": "Up-volume vs down-volume over 20 bars; drawdown threshold of 93% of 252-day high; median-of-200 regime. The 93% threshold and 252-day window are specific tuned parameters. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day up-day volume > 20-day down-day volume; price > 93% of 252-day rolling high"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "491": {
+      "name": "Mom20+Force+Top3 (cc3_492.py)",
+      "file": "cc3_492.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_492.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "A hybrid trend rotator combining a 20-day price momentum signal with a Force Index sum (price-change times volume over 13 bars), against a 200-bar median regime backdrop. Price momentum confirms the direction while the Force Index ensures volume is supporting the move. The same graduated four-tier allocation scheme applies: leveraged ETF, large-cap stocks, mixed, or cash.",
+      "overfit_notes": "20-day momentum, Force Index over 13 bars, median-of-200 regime. The 13-bar Force Index window is a non-canonical choice. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes (from last 252 days of history)"},
+        {"label": "Strength filter", "text": "20-day price momentum positive; Force Index (price-change × volume) sum over 13 bars > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "492": {
+      "name": "Mom60+Force+Top3 (cc3_493.py)",
+      "file": "cc3_493.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_493.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Identical in structure to Mom20+Force but uses a 60-day lookback for the price momentum signal, capturing quarterly trend rather than monthly. The Force Index sum over 13 bars provides volume confirmation on the shorter timeframe. The combination of a longer momentum with a short volume-force window is designed to reduce momentum-chasing noise.",
+      "overfit_notes": "60-day momentum, Force Index over 13 bars, median-of-200 regime. Same overfit considerations as the 20-day variant. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "60-day price momentum positive; Force Index sum over 13 bars > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "493": {
+      "name": "Mom20+RNG+Top3 (cc3_494.py)",
+      "file": "cc3_494.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_494.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Pairs a 20-day price momentum with a range expansion filter (recent daily ranges expanding relative to the long-run baseline) under a 200-bar median regime gate. Range expansion signals that price moves are becoming larger in magnitude, which typically accompanies trending moves rather than consolidation. Combined with momentum, this targets active uptrends with confirming volatility expansion.",
+      "overfit_notes": "20-day momentum, range expansion: 25-bar avg true range > 200-bar avg × 1.1, median-of-200. The 1.1x expansion threshold is a tuned parameter. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day price momentum positive; 25-bar avg daily range > 200-bar avg daily range × 1.1"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "494": {
+      "name": "Mom60+RNG+Top3 (cc3_495.py)",
+      "file": "cc3_495.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_495.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "The 60-day momentum variant of the Mom+Range rotator. Uses a quarterly momentum check combined with a range expansion signal and a 200-bar median regime filter. The longer 60-day window reduces turnover from the momentum signal while range expansion still captures active trending volatility. The three binary signals feed the same four-tier allocation ladder.",
+      "overfit_notes": "60-day momentum, 25-bar vs 200-bar range expansion with 1.1x threshold, median-of-200. Same structure as Mom20+RNG. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "60-day price momentum positive; 25-bar avg daily range > 200-bar avg daily range × 1.1"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "495": {
+      "name": "Mom20+52w+Top3 (cc3_496.py)",
+      "file": "cc3_496.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_496.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Combines a 20-day momentum signal with a 52-week high proximity filter and a 200-bar median regime gate. Being near the 52-week high is a well-known indicator of trend strength. The short-term momentum adds a recency confirmation. Together they construct a three-signal score that governs allocation between the leveraged ETF, large-cap stocks, and cash.",
+      "overfit_notes": "20-day momentum, 52-week proximity at 93% of 252-day max, median-of-200. The 93% threshold for 52w proximity is tuned. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day price momentum positive; price > 93% of 252-day rolling high"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "496": {
+      "name": "Mom60+52w+Top3 (cc3_497.py)",
+      "file": "cc3_497.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_497.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Uses a 60-day momentum combined with a 52-week high proximity filter and the 200-bar median regime gate. The quarterly momentum window captures intermediate-term trend while the 52-week proximity confirms longer-term strength. This pairing is designed to confirm that a medium-term uptrend is part of a broader sustained rally rather than a short-lived bounce.",
+      "overfit_notes": "60-day momentum, 93% of 252-day rolling high, median-of-200. Same thresholds as Mom20+52w. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "60-day price momentum positive; price > 93% of 252-day rolling high"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "497": {
+      "name": "Mom20+Skew+Top3 (cc3_498.py)",
+      "file": "cc3_498.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_498.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Combines a 20-day momentum signal with a return skewness filter computed over 60 days, under the standard 200-bar median regime. Positive skewness in returns suggests the distribution leans toward occasional large gains rather than frequent small ones, consistent with trending behavior. The 20-day momentum provides a direct price-level confirmation.",
+      "overfit_notes": "20-day momentum, 60-bar return skewness > 0, median-of-200 (computed from 252-day history). The skewness zero-crossing is a natural threshold. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day price momentum positive; 60-bar return skewness > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "498": {
+      "name": "Mom60+Skew+Top3 (cc3_499.py)",
+      "file": "cc3_499.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_499.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "The 60-day momentum version of the skewness-paired rotator. Uses quarterly price momentum alongside a 60-bar return skewness filter and the 200-bar median regime. The slower momentum window reduces noise while skewness tracks distributional regime shifts that often precede trend reversals. Graduated allocation shifts from leveraged ETF toward cash as signals weaken.",
+      "overfit_notes": "60-day momentum, 60-bar skewness > 0, median-of-200. Same skewness logic as Mom20+Skew. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "60-day price momentum positive; 60-bar return skewness > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "499": {
+      "name": "Mom20+VR+Top3 (cc3_500.py)",
+      "file": "cc3_500.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_500.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Pairs a 20-day momentum with a variance ratio test that compares 5-day to 1-day price variance, checking whether price moves exhibit trending rather than mean-reverting characteristics. Both signals serve complementary roles: momentum confirms directional move while the variance ratio tests whether the return process is structurally trending. The 200-bar median provides regime context.",
+      "overfit_notes": "20-day momentum, variance ratio (5-day vs 1-day, threshold > 1.0), median-of-200. VR threshold at 1.0 is the natural boundary. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day price momentum positive; 5-day/1-day variance ratio > 1.0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "500": {
+      "name": "Mom60+VR+Top3 (cc3_501.py)",
+      "file": "cc3_501.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_501.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "The 60-day version of the momentum plus variance ratio rotator. Quarterly momentum paired with a variance ratio test that identifies structurally trending return processes, all under the 200-bar median regime gate. The longer momentum lookback is designed to reduce unnecessary turnover while the variance ratio provides a market-microstructure-level confirmation of trend.",
+      "overfit_notes": "60-day momentum, 5-day/1-day variance ratio > 1.0, median-of-200. Same VR computation as Mom20+VR. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "60-day price momentum positive; 5-day/1-day variance ratio > 1.0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "501": {
+      "name": "Mom20+LR+Top3 (cc3_502.py)",
+      "file": "cc3_502.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_502.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Pairs a 20-day price momentum with a 50-bar linear regression slope signal on close prices, under the 200-bar median regime gate. The linear regression slope provides a statistically smoother trend direction estimate compared to a simple price comparison, reducing sensitivity to noise. Combined with the shorter 20-day momentum, this creates complementary short and medium-term trend confirmations.",
+      "overfit_notes": "20-day momentum, 50-bar OLS slope > 0, median-of-200. The 50-bar regression window is a moderately tuned parameter. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day price momentum positive; 50-bar linear regression slope on closes > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "502": {
+      "name": "Mom60+LR+Top3 (cc3_503.py)",
+      "file": "cc3_503.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_503.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Uses a 60-day momentum alongside a 50-bar linear regression slope under the 200-bar median regime. Both signals operate at intermediate timescales, making this one of the more internally consistent combiners in the family. The LR slope smooths out zigzag noise in the momentum signal's equivalent price comparison, providing a more robust trend direction measure.",
+      "overfit_notes": "60-day momentum, 50-bar LR slope > 0, median-of-200. Internally consistent intermediate-timeframe signals. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "60-day price momentum positive; 50-bar linear regression slope > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "503": {
+      "name": "Near60+Skew+Top3 (cc3_504.py)",
+      "file": "cc3_504.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_504.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Pairs a near-60-day-high filter (price proximity to the 60-day maximum) with a return skewness signal, under the 200-bar median regime. The proximity check rewards stocks holding near recent highs rather than those having just bounced from deep drawdowns. Positive skewness confirms a distributional regime consistent with sustained uptrending. Together they identify calm, high-momentum markets.",
+      "overfit_notes": "60-day proximity at 95% of 60-day high, 60-bar return skewness > 0, median-of-200. The 95% threshold is tuned. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Price > 95% of 60-day rolling high; 60-bar return skewness > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "504": {
+      "name": "Near60+Force+Top3 (cc3_505.py)",
+      "file": "cc3_505.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_505.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Combines a 60-day rolling-high proximity check with a Force Index volume-pressure sum under the 200-bar median regime. Price being near recent highs ensures the market has not pulled back deeply, while the positive Force Index confirms that recent price gains are backed by volume. This combination targets sustained trending markets with active volume participation.",
+      "overfit_notes": "60-day proximity at 95% of 60-day high, Force Index over 13 bars, median-of-200. Same parameters as other Near60/Force variants. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Price > 95% of 60-day rolling high; Force Index sum over 13 bars > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "505": {
+      "name": "Near60+VR+Top3 (cc3_506.py)",
+      "file": "cc3_506.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_506.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Pairs price proximity to the 60-day high with a variance ratio test, under the 200-bar median regime. The 60-day proximity filter ensures only non-corrected markets are engaged, while the variance ratio above 1.0 tests whether the price process is genuinely trending (positively autocorrelated returns) rather than mean-reverting. Together they aim to enter only structurally bullish trending conditions.",
+      "overfit_notes": "60-day proximity at 95% of max, variance ratio > 1.0 (5-day vs 1-day variance), median-of-200. Same thresholds as other VR variants. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Price > 95% of 60-day rolling high; 5-day/1-day variance ratio > 1.0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "506": {
+      "name": "Near60+LR+Top3 (cc3_507.py)",
+      "file": "cc3_507.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_507.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Combines a 60-day rolling-high proximity signal with a 50-bar linear regression slope and the 200-bar median regime gate. The proximity filter confirms no major drawdown, while the LR slope provides a smooth trend direction estimate free from endpoint noise. This pairing favors markets that are trending steadily upward without deep retracements.",
+      "overfit_notes": "60-day proximity at 95% of max, 50-bar LR slope > 0, median-of-200. Consistent intermediate-timeframe design. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Price > 95% of 60-day rolling high; 50-bar linear regression slope > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "507": {
+      "name": "Near60+RNG+Top3 (cc3_508.py)",
+      "file": "cc3_508.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_508.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Pairs the 60-day proximity filter with a range expansion signal and the 200-bar median regime. The proximity check ensures the market has not pulled back, while the range expansion (recent bar sizes exceeding the long-run average by 10%) indicates active trend participation. This combination targets trending markets where both drawdown protection and volatility expansion confirm the move.",
+      "overfit_notes": "60-day proximity at 95% of max, 25-bar vs 200-bar avg range with 1.1x threshold, median-of-200. Same range expansion logic as other RNG variants. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Price > 95% of 60-day rolling high; 25-bar avg daily range > 200-bar avg × 1.1"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "508": {
+      "name": "Mom5+Mom60+Top3 (cc3_509.py)",
+      "file": "cc3_509.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_509.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "A dual-momentum rotator that combines a very short 5-day price momentum (weekly) with a medium-term 60-day momentum, under the 200-bar median regime. Requiring both timeframes to be bullish reduces false signals — the short-term filter catches recent reversals while the medium-term filter ensures the broader trend is intact. The three signals vote into the standard four-tier allocation.",
+      "overfit_notes": "5-day and 60-day momentum (both non-canonical), median-of-200. Dual-momentum is a standard concept but the 5-day window is very short. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "5-day price momentum positive; 60-day price momentum positive"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "509": {
+      "name": "Mom5+Mom252+Top3 (cc3_510.py)",
+      "file": "cc3_510.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_510.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "A wide-span dual-momentum rotator combining a very short 5-day momentum with a full 252-day (annual) momentum, under a 200-bar median regime gate. The large gap between the two lookbacks means the short-term signal captures reversals while the annual signal identifies long-run trend survivors. This creates a wide-funnel confirmation requirement across very different timescales.",
+      "overfit_notes": "5-day and 252-day lookbacks. The 252-day comparison uses the oldest bar in the 252-bar history window. Median-of-200 regime. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "5-day price momentum positive; 252-day price momentum positive (price vs 252 bars ago)"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "510": {
+      "name": "Mom60+Mom252+Top3 (cc3_511.py)",
+      "file": "cc3_511.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_511.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "A dual-momentum rotator using medium-term (60-day) and long-term (252-day) price momentum signals alongside the 200-bar median regime. Requiring both quarterly and annual price momentum to be positive creates a high-confidence trend requirement that reduces early entry into recoveries and keeps the strategy in trends until a meaningful reversal occurs.",
+      "overfit_notes": "60-day and 252-day momentum, median-of-200 regime. These are commonly used timeframes in dual-momentum literature. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "60-day price momentum positive; 252-day price momentum positive"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "511": {
+      "name": "Mom20+Mom252+Top3 (cc3_512.py)",
+      "file": "cc3_512.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_512.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "A dual-momentum rotator requiring both monthly (20-day) and annual (252-day) momentum to be positive, alongside the 200-bar median regime. The monthly signal catches near-term reversals while the annual signal ensures entry only in established long-run uptrends. This creates a tight confirmation requirement spanning very different timescales with minimal overlap.",
+      "overfit_notes": "20-day and 252-day momentum, median-of-200. Wider span than Mom60+Mom252. Both are standard timeframes. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day price momentum positive; 252-day price momentum positive"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "512": {
+      "name": "VR+Skew+Top3 (cc3_513.py)",
+      "file": "cc3_513.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_513.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "A statistical-signals-only rotator combining a variance ratio test with a return skewness filter, under the 200-bar median regime. Unlike momentum-based strategies, neither signal uses a direct price level comparison — both characterize the statistical properties of the return distribution. Variance ratio above 1 indicates trending; positive skewness indicates fat right tails consistent with bullish trending.",
+      "overfit_notes": "Variance ratio > 1.0 (5-day/1-day variance scaled), 60-bar skewness > 0, median-of-200. Both thresholds are natural zero crossings or unit boundaries. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "5-day/1-day variance ratio > 1.0; 60-bar return skewness > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "513": {
+      "name": "VR+RNG+Top3 (cc3_514.py)",
+      "file": "cc3_514.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_514.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Pairs a variance ratio test (trending return process) with a range expansion signal (recent daily bars larger than the long-run average), under the 200-bar median regime. Both signals capture market dynamism from different angles: the VR addresses autocorrelation structure while range expansion measures realized volatility expansion. Together they identify trending markets with active price swings.",
+      "overfit_notes": "Variance ratio > 1.0, range expansion: 25-bar vs 200-bar with 1.1x threshold, median-of-200. Three distinct thresholds. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "5-day/1-day variance ratio > 1.0; 25-bar avg daily range > 200-bar avg × 1.1"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "514": {
+      "name": "LR+Skew+Top3 (cc3_515.py)",
+      "file": "cc3_515.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_515.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Combines a 50-bar linear regression slope signal with a 60-bar return skewness filter and the 200-bar median regime gate. The LR slope gives a smooth statistically-derived trend direction while skewness characterizes the return distribution's asymmetry, with positive skewness consistent with uptrending markets. Neither signal uses a price comparison directly, making both statistically derived.",
+      "overfit_notes": "50-bar LR slope > 0, 60-bar skewness > 0, median-of-200. Both thresholds are zero-crossings rather than tuned values. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "50-bar linear regression slope on closes > 0; 60-bar return skewness > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "515": {
+      "name": "Force+Skew+Top3 (cc3_516.py)",
+      "file": "cc3_516.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_516.py",
+      "source": "cc3 batch 94-98 diverse",
+      "description": "Pairs a volume-weighted Force Index signal (price-change times volume over 13 bars) with a 60-bar return skewness filter, under the 200-bar median regime. The Force Index captures short-term buying or selling pressure while skewness captures the distributional regime of recent returns. This is an unusual combination of a volume-pressure signal with a statistical return property.",
+      "overfit_notes": "Force Index over 13 bars (non-canonical), 60-bar skewness > 0, median-of-200. The 13-bar Force Index window is the most tuned parameter. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "Force Index (price-change × volume) sum over 13 bars > 0; 60-bar return skewness > 0"},
+        {"label": "Entry", "text": "Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "516": {
+      "name": "M20_M60_FI+Top3 (cc3_517.py)",
+      "file": "cc3_517.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_517.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A four-signal rotator that extends the standard three-signal family to include four binary conditions: median regime, 20-day momentum, 60-day momentum, and a Force Index volume sum. All four must be scored to determine a five-tier allocation plan (0–4 bullish signals). At full conviction all capital goes to the leveraged ETF; at zero conviction all goes to cash with no stock sleeve.",
+      "overfit_notes": "20-day momentum, 60-day momentum, Force Index over 13 bars, median-of-200. Four-signal scoring with a five-level plan introduces additional tuning through the 0.7/0.3 and 0.3/0.7 intermediate tiers. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day momentum positive; 60-day momentum positive; Force Index sum over 13 bars > 0"},
+        {"label": "Entry", "text": "Score 4 → 100% TQQQ; score 3 → 70% TQQQ + 30% Top 3; score 2 → 30% TQQQ + 70% Top 3; score 1 → 50% Top 3 + 50% BIL; score 0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "517": {
+      "name": "M20_M60_NEAR60+Top3 (cc3_518.py)",
+      "file": "cc3_518.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_518.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A four-signal variant combining median regime, 20-day momentum, 60-day momentum, and a 60-day high proximity check in a five-tier allocation plan. All three non-regime signals confirm the market from different angles: short-term direction, medium-term direction, and drawdown depth. The five-level scoring allows for finer-grained de-risking as signals turn bearish.",
+      "overfit_notes": "20-day momentum, 60-day momentum, 95% of 60-day high proximity, median-of-200. Five-tier allocation with 0.7/0.3 intermediate splits. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day momentum positive; 60-day momentum positive; price > 95% of 60-day rolling high"},
+        {"label": "Entry", "text": "Score 4 → 100% TQQQ; score 3 → 70% TQQQ + 30% Top 3; score 2 → 30% TQQQ + 70% Top 3; score 1 → 50% Top 3 + 50% BIL; score 0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "518": {
+      "name": "M20_M60_VOLCONT+Top3 (cc3_519.py)",
+      "file": "cc3_519.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_519.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A four-signal rotator combining median regime, 20-day momentum, 60-day momentum, and a volatility contraction filter in a five-tier plan. Volatility contraction (recent short-term realized vol falling below the 60-day baseline) is traditionally a setup signal for breakouts. Adding it to dual momentum creates a strategy that requires both trend strength and a volatility environment consistent with continued expansion.",
+      "overfit_notes": "20-day momentum, 60-day momentum, 10-bar vs 60-bar return stddev contraction, median-of-200. Five-tier plan. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day momentum positive; 60-day momentum positive; 10-bar return stddev < 60-bar return stddev"},
+        {"label": "Entry", "text": "Score 4 → 100% TQQQ; score 3 → 70% TQQQ + 30% Top 3; score 2 → 30% TQQQ + 70% Top 3; score 1 → 50% Top 3 + 50% BIL; score 0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "519": {
+      "name": "M20_M60_UPVOL+Top3 (cc3_520.py)",
+      "file": "cc3_520.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_520.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A four-signal rotator combining median regime, 20-day momentum, 60-day momentum, and an up-volume vs down-volume ratio over 20 days. The volume-flow signal confirms that rallies are accompanied by above-average buying volume. The dual momentum signals ensure both near-term and medium-term price direction is bullish. Five-tier allocation allows gradual position sizing as signals weaken.",
+      "overfit_notes": "20-day and 60-day momentum, 20-day up-volume > down-volume, median-of-200. Five-tier plan with 0.7/0.3 splits. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day momentum positive; 60-day momentum positive; 20-day up-volume > 20-day down-volume"},
+        {"label": "Entry", "text": "Score 4 → 100% TQQQ; score 3 → 70% TQQQ + 30% Top 3; score 2 → 30% TQQQ + 70% Top 3; score 1 → 50% Top 3 + 50% BIL; score 0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "520": {
+      "name": "M20_FI_NEAR60+Top3 (cc3_521.py)",
+      "file": "cc3_521.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_521.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A four-signal rotator combining median regime, 20-day momentum, a Force Index volume sum, and a 60-day proximity filter. The Force Index and proximity signals are shorter-horizon confirmations while the 20-day momentum provides a directional anchor. Together the four conditions form a moderately strict entry gate requiring both price strength and volume conviction near recent highs.",
+      "overfit_notes": "20-day momentum, Force Index over 13 bars, 95% of 60-day high proximity, median-of-200. Five-tier plan. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day momentum positive; Force Index sum over 13 bars > 0; price > 95% of 60-day rolling high"},
+        {"label": "Entry", "text": "Score 4 → 100% TQQQ; score 3 → 70% TQQQ + 30% Top 3; score 2 → 30% TQQQ + 70% Top 3; score 1 → 50% Top 3 + 50% BIL; score 0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "521": {
+      "name": "M20_FI_VOLCONT+Top3 (cc3_522.py)",
+      "file": "cc3_522.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_522.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "Combines four signals — median regime, 20-day momentum, Force Index sum, and volatility contraction — into a five-tier allocation. The Force Index confirms recent price moves have volume support while volatility contraction indicates a potential breakout setup. Together with the momentum and regime gate, this targets calm, volume-confirmed momentum conditions that often precede further trend continuation.",
+      "overfit_notes": "20-day momentum, Force Index over 13 bars, 10-bar vs 60-bar vol contraction, median-of-200. All four in five-tier plan. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day momentum positive; Force Index sum over 13 bars > 0; 10-bar return stddev < 60-bar return stddev"},
+        {"label": "Entry", "text": "Score 4 → 100% TQQQ; score 3 → 70% TQQQ + 30% Top 3; score 2 → 30% TQQQ + 70% Top 3; score 1 → 50% Top 3 + 50% BIL; score 0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "522": {
+      "name": "M20_FI_UPVOL+Top3 (cc3_523.py)",
+      "file": "cc3_523.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_523.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A four-signal volume-heavy rotator combining median regime, 20-day momentum, a Force Index sum, and an up-vs-down volume ratio. Two of the four signals are volume-based (Force Index and up/down volume), creating a strong emphasis on volume confirmation alongside price direction. Graduating allocation through five tiers allows partial exposure when volume signals are mixed.",
+      "overfit_notes": "20-day momentum, Force Index over 13 bars, 20-day up-volume > down-volume, median-of-200. Two distinct volume signals. Five-tier plan. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day momentum positive; Force Index sum over 13 bars > 0; 20-day up-volume > 20-day down-volume"},
+        {"label": "Entry", "text": "Score 4 → 100% TQQQ; score 3 → 70% TQQQ + 30% Top 3; score 2 → 30% TQQQ + 70% Top 3; score 1 → 50% Top 3 + 50% BIL; score 0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "523": {
+      "name": "M20_NEAR60_VOLCONT+Top3 (cc3_524.py)",
+      "file": "cc3_524.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_524.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "Combines four signals — median regime, 20-day momentum, 60-day high proximity, and volatility contraction — into a five-tier allocation. This variant emphasizes that the market should be close to recent highs (not in a drawdown) while simultaneously exhibiting volatility contraction (a potential breakout setup), with momentum confirming direction. The combination targets the quiet-but-strong trending phase.",
+      "overfit_notes": "20-day momentum, 95% of 60-day high, 10-bar vs 60-bar vol contraction, median-of-200. Five-tier plan with intermediate 0.7/0.3 allocations. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day momentum positive; price > 95% of 60-day rolling high; 10-bar return stddev < 60-bar return stddev"},
+        {"label": "Entry", "text": "Score 4 → 100% TQQQ; score 3 → 70% TQQQ + 30% Top 3; score 2 → 30% TQQQ + 70% Top 3; score 1 → 50% Top 3 + 50% BIL; score 0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "524": {
+      "name": "M20_NEAR60_UPVOL+Top3 (cc3_525.py)",
+      "file": "cc3_525.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_525.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A four-signal rotator combining median regime, 20-day momentum, 60-day high proximity, and a 20-day up-volume vs down-volume ratio. The proximity and volume signals both confirm market health from different dimensions: the proximity check ensures no meaningful drawdown, while the volume ratio confirms buying interest is dominant. With momentum and regime gate, these four signals together target strong sustained rallies.",
+      "overfit_notes": "20-day momentum, 95% of 60-day high, 20-day up-volume > down-volume, median-of-200. Five-tier plan. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day momentum positive; price > 95% of 60-day rolling high; 20-day up-volume > 20-day down-volume"},
+        {"label": "Entry", "text": "Score 4 → 100% TQQQ; score 3 → 70% TQQQ + 30% Top 3; score 2 → 30% TQQQ + 70% Top 3; score 1 → 50% Top 3 + 50% BIL; score 0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "525": {
+      "name": "M20_VOLCONT_UPVOL+Top3 (cc3_526.py)",
+      "file": "cc3_526.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_526.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A four-signal rotator using median regime, 20-day momentum, volatility contraction, and an up-vs-down volume ratio. Unlike the NEAR60-based variants, this strategy substitutes the proximity check with vol contraction, emphasizing the calm-before-breakout setup. Volume dominance from buyers adds a further confirmation layer. Together these four signals identify momentum conditions supported by both favorable volume flow and contracting realized volatility.",
+      "overfit_notes": "20-day momentum, 10-bar vs 60-bar vol contraction, 20-day up-volume > down-volume, median-of-200. Five-tier plan. Rated 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median of last 200 closes"},
+        {"label": "Strength filter", "text": "20-day momentum positive; 10-bar return stddev < 60-bar return stddev; 20-day up-volume > 20-day down-volume"},
+        {"label": "Entry", "text": "Score 4 → 100% TQQQ; score 3 → 70% TQQQ + 30% Top 3; score 2 → 30% TQQQ + 70% Top 3; score 1 → 50% Top 3 + 50% BIL; score 0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → Top 3 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    }
+  }
+}

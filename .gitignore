@@ -11,3 +11,4 @@ node_modules/
 dist/
 embedded/
 strategies_results_fresh.json
+.playwright-mcp

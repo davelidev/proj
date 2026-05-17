@@ -4,9 +4,9 @@ Generate cc<N>.md from cc<N>.json + backtest_cc<N>.json.
 If backtest_cc<N>.json is missing, runs backtests via QuantConnect API first.
 
 Usage:
-    python3 cc/generate_md.py cc/cc3.json            # cc/cc3.json → cc/cc3.md
-    python3 cc/generate_md.py cc/cc3.json --skip-bt  # skip backtests, md only
-    python3 cc/generate_md.py                        # defaults to cc/cc1.json
+    python3 cc/generate_md.py json/cc3.json            # json/cc3.json → md/cc3.md
+    python3 cc/generate_md.py json/cc3.json --skip-bt  # skip backtests, md only
+    python3 cc/generate_md.py                          # defaults to json/cc1.json
 """
 
 import os, sys, json, time
@@ -29,9 +29,8 @@ def save_json(path, data):
 
 def resolve_paths(cc_json_path):
     base = os.path.splitext(os.path.basename(cc_json_path))[0]
-    d = os.path.dirname(cc_json_path) or SCRIPT_DIR
-    backtest_path = os.path.join(d, f"backtest_{base}.json")
-    md_path = os.path.join(d, f"{base}.md")
+    backtest_path = os.path.join(SCRIPT_DIR, "backtests", f"backtest_{base}.json")
+    md_path = os.path.join(SCRIPT_DIR, "md", f"{base}.md")
     return backtest_path, md_path
 
 
@@ -312,7 +311,7 @@ def main():
             cc_json_path = a
 
     if not cc_json_path:
-        cc_json_path = os.path.join(SCRIPT_DIR, "cc1.json")
+        cc_json_path = os.path.join(SCRIPT_DIR, "json", "cc1.json")
 
     if not os.path.exists(cc_json_path):
         print(f"Error: {cc_json_path} not found")

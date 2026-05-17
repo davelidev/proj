@@ -1,0 +1,937 @@
+{
+  "strategies": {
+    "201": {
+      "name": "Bullish Engulfing (cc3_202.py)",
+      "file": "cc3_202.py",
+      "category": "Candle",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_202.py",
+      "source": "cc3 batch 41 Candles",
+      "description": "A candlestick pattern trend-follower that waits for a bullish engulfing candle on QQQ before entering. A 200-bar median price filter acts as the regime gate, keeping the strategy in cash during downtrends. Execution is in leveraged Nasdaq (TQQQ) when the pattern fires in a bull regime, and in cash-equivalent (BIL) otherwise.",
+      "overfit_notes": "Median-200 regime gate uses index 100 of a sorted 200-bar window (exact median). Exit triggers when price reaches 99.9% of the 10-day high (0.999 multiplier). Candle pattern logic uses strict inequality comparisons with no tolerance buffer. 3/10: two standard components (candlestick pattern + median trend filter), each at conceptually canonical thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Entry", "text": "Bullish engulfing pattern on QQQ AND in trend → 100% TQQQ"},
+        {"label": "Exit", "text": "Price ≥ 10-day high × 0.999 OR trend gate fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "202": {
+      "name": "Hammer (cc3_203.py)",
+      "file": "cc3_203.py",
+      "category": "Candle",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_203.py",
+      "source": "cc3 batch 41 Candles",
+      "description": "A candlestick pattern trend-follower that detects hammer candles on QQQ as a bullish reversal signal. A 200-bar median price filter provides the regime gate, restricting entries to uptrends. Leveraged Nasdaq (TQQQ) is held after a valid hammer, and cash (BIL) is used when the trend or proximity to recent high signals exit.",
+      "overfit_notes": "Hammer definition: lower shadow ≥ 2× body, upper shadow ≤ 0.5× body — these ratios are specific thresholds. Exit uses 10-day high × 0.999. Median computed as sorted-index 100 of 200 bars. 3/10: one canonical candlestick pattern plus one standard trend filter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Entry", "text": "Hammer candle on QQQ (lower shadow ≥ 2× body, upper shadow ≤ 0.5× body) AND in trend → 100% TQQQ"},
+        {"label": "Exit", "text": "Price ≥ 10-day high × 0.999 OR trend gate fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "203": {
+      "name": "Marubozu Up (cc3_204.py)",
+      "file": "cc3_204.py",
+      "category": "Candle",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_204.py",
+      "source": "cc3 batch 41 Candles",
+      "description": "A candlestick trend-follower that looks for bullish marubozu candles on QQQ — strong up days with almost no wicks. The 200-bar median price filter acts as a regime gate to avoid entering during downtrends. TQQQ is held after a valid marubozu in an uptrend; BIL is used during bear regime or at exit conditions.",
+      "overfit_notes": "Marubozu threshold: upper and lower wick each < 5% of total range (0.05 ratio). Exit uses 10-day high × 0.999. 3/10: one specific candlestick definition with a tight wick threshold plus a standard median filter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Entry", "text": "Bullish marubozu on QQQ (up day, upper wick < 5% of range, lower wick < 5% of range) AND in trend → 100% TQQQ"},
+        {"label": "Exit", "text": "Price ≥ 10-day high × 0.999 OR trend gate fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "204": {
+      "name": "Morning Star (cc3_205.py)",
+      "file": "cc3_205.py",
+      "category": "Candle",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_205.py",
+      "source": "cc3 batch 41 Candles",
+      "description": "A three-bar candlestick trend-follower that identifies the morning star reversal pattern on QQQ. The 200-bar median price acts as a regime filter to only take longs in bullish market conditions. TQQQ is held after a confirmed morning star; BIL is used when the regime is bearish or exit is triggered.",
+      "overfit_notes": "Morning star middle bar body must be < 30% of the first bar's body. Close on day 3 must exceed midpoint of day 1's open/close. Exit uses 10-day high × 0.999. 3/10: three-bar pattern with two specific ratio thresholds plus a standard trend filter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Entry", "text": "Morning star pattern (bearish bar, small-body bar < 30% of first bar, bullish bar closing above midpoint of first bar) AND in trend → 100% TQQQ"},
+        {"label": "Exit", "text": "Price ≥ 10-day high × 0.999 OR trend gate fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "205": {
+      "name": "Piercing Line (cc3_206.py)",
+      "file": "cc3_206.py",
+      "category": "Candle",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_206.py",
+      "source": "cc3 batch 41 Candles",
+      "description": "A two-bar candlestick trend-follower based on the piercing line reversal pattern on QQQ. A 200-bar median price regime filter restricts entries to bull markets. TQQQ is held after a confirmed piercing line in an uptrend; BIL is used otherwise.",
+      "overfit_notes": "Piercing line: day 2 opens below day 1's low and closes above the midpoint of day 1's body. Exit at 10-day high × 0.999. 3/10: canonical two-bar reversal pattern plus standard median filter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes"},
+        {"label": "Entry", "text": "Piercing line pattern (day 1 bearish, day 2 opens below day 1's low, closes above midpoint of day 1 body) AND in trend → 100% TQQQ"},
+        {"label": "Exit", "text": "Price ≥ 10-day high × 0.999 OR trend gate fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "206": {
+      "name": "Williams %R + Median-200 (cc3_207.py)",
+      "file": "cc3_207.py",
+      "category": "Oscillator",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_207.py",
+      "source": "cc3 batch 42",
+      "description": "A three-state trend-follower combining a 200-bar median price regime filter with the Williams %R oscillator on QQQ. When both signals agree bullish, the strategy holds 100% TQQQ; when only one agrees, it holds a 50/50 split; when both are bearish, it holds 100% BIL. This graduated exposure reduces whipsaw by partially staying invested during mixed signals.",
+      "overfit_notes": "Williams %R threshold at midline −50 (above = bullish). Median-200 uses exact sorted midpoint. 3/10: two textbook indicators at canonical midline thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "in_trend AND Williams %R(14) > −50 → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "in_trend XOR Williams %R > −50 → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "207": {
+      "name": "Stochastic + Median-200 (cc3_208.py)",
+      "file": "cc3_208.py",
+      "category": "Oscillator",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_208.py",
+      "source": "cc3 batch 42",
+      "description": "A three-state trend-follower pairing a 200-bar median price regime filter with Stochastic oscillator readings on QQQ. Full TQQQ exposure requires both the trend filter and stochastic to be bullish; partial exposure is taken when only one is bullish; full BIL when both are bearish. The stochastic bullish condition requires K to be both above D and above 50.",
+      "overfit_notes": "Stochastic parameters: 14/3/3 (standard). Bullish condition: K > D AND K > 50. The K > 50 midline filter is a slightly tuned compound condition. 3/10: two standard oscillator components with textbook thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "in_trend AND Stochastic K(14,3,3) > D AND K > 50 → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "in_trend XOR Stochastic bullish → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "208": {
+      "name": "ADX(14) DI + Median-200 (cc3_209.py)",
+      "file": "cc3_209.py",
+      "category": "Oscillator",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_209.py",
+      "source": "cc3 batch 42",
+      "description": "A three-state trend-follower combining a 200-bar median price filter with ADX directional indicators on QQQ. The ADX bullish condition requires trend strength above 20 with positive DI leading negative DI. Both signals must agree for full TQQQ; one signal gives a 50/50 split; neither gives full BIL.",
+      "overfit_notes": "ADX threshold at 20 (canonical strong trend level). DI cross condition (+DI > −DI) is standard. 3/10: two textbook components at canonical thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Strength filter", "text": "ADX(14) > 20 AND +DI > −DI (a_bull)"},
+        {"label": "Entry (trend)", "text": "in_trend AND a_bull → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "in_trend XOR a_bull → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "209": {
+      "name": "NR7 + Median-200 Regime (cc3_210.py)",
+      "file": "cc3_210.py",
+      "category": "Pattern",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_210.py",
+      "source": "cc3 batch 42",
+      "description": "A breakout pattern strategy that waits for an NR7 bar (the narrowest range of the last 7 days) on QQQ, then enters on a breakout above the NR7 high in an uptrend. The 200-bar median price filter controls the regime gate. An armed window of 3 days gives the breakout time to trigger after the NR7 is identified.",
+      "overfit_notes": "NR7 window is exactly 7 days (textbook definition). Armed period is 3 days post-NR7. Exit uses 5-day low × 1.001. Median-200 exact midpoint gate. 3/10: one canonical pattern with a specific armed-window parameter plus a standard median filter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry", "text": "Current bar is NR7 (narrowest 7-day range) AND in_trend AND price > NR7 high within 3 days → 100% TQQQ"},
+        {"label": "Exit", "text": "Price ≤ 5-day low × 1.001 OR trend gate fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "210": {
+      "name": "MFI(14) + Median-200 (cc3_211.py)",
+      "file": "cc3_211.py",
+      "category": "Oscillator",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_211.py",
+      "source": "cc3 batch 42",
+      "description": "A three-state trend-follower combining a 200-bar median price filter with the Money Flow Index on QQQ. Full TQQQ allocation requires both the trend regime and MFI to be bullish; partial allocation (50/50) when only one is positive; full BIL when both are bearish. The MFI uses the midline of 50 as the bullish threshold.",
+      "overfit_notes": "MFI period is 14 (standard). Bullish threshold at MFI > 50 (canonical midline). Median-200 exact midpoint. 3/10: two standard indicators at canonical thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "in_trend AND MFI(14) > 50 → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "in_trend XOR MFI > 50 → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "211": {
+      "name": "Percentile Rank 100d (cc3_212.py)",
+      "file": "cc3_212.py",
+      "category": "Statistical",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_212.py",
+      "source": "cc3 batch 43",
+      "description": "A three-state trend-follower that ranks QQQ's current price against its own 100-day distribution. A secondary 200-bar median filter provides a longer-term regime gate. When both signals are bullish (percentile above the 70th percentile and price above 200-bar median), the strategy holds 100% TQQQ; mixed signals yield 50/50; both bearish yields 100% BIL.",
+      "overfit_notes": "Percentile rank threshold at 70% (slightly above midline). Lookback is 100 days for percentile, 200 for median gate. 3/10: two statistical trend components, percentile threshold slightly above canonical 50%.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "Percentile rank of current price within 100-day window > 70% AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Percentile > 70% XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "212": {
+      "name": "Variance Ratio Test (cc3_213.py)",
+      "file": "cc3_213.py",
+      "category": "Statistical",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_213.py",
+      "source": "cc3 batch 43",
+      "description": "A three-state trend-follower that uses the variance ratio test to detect trending versus mean-reverting price behavior in QQQ. When variance of 5-day returns exceeds 5 times the variance of 1-day returns, the series is trending (VR > 1). This signal is combined with a 200-bar median filter for a three-state allocation between TQQQ and BIL.",
+      "overfit_notes": "Variance ratio threshold at 1.0 (neutral, not tuned). Lookback of 100 days for variance calculation, 200 for median. 5-day aggregation period is standard for VR tests. 3/10: econometric technique at a natural breakeven threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "Variance ratio(100d, 5d/1d) > 1.0 (trending) AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "VR > 1 XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "213": {
+      "name": "Z-Score MAD 50d (cc3_214.py)",
+      "file": "cc3_214.py",
+      "category": "Statistical",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_214.py",
+      "source": "cc3 batch 43",
+      "description": "A trend-follower that computes a robust Z-score of QQQ's current price using the median absolute deviation of the 50-day price distribution. When the Z-score exceeds a positive threshold the strategy buys TQQQ; when it falls below a negative threshold it moves to BIL; otherwise it holds current position. Using MAD instead of standard deviation reduces sensitivity to outliers.",
+      "overfit_notes": "Z-score threshold at ±0.3 MAD units (non-canonical, slightly tuned near zero). 50-day lookback for MAD. 3/10: one statistical measure with a close-to-zero but specific threshold.",
+      "rules": [
+        {"label": "Entry", "text": "Z-score (price vs 50-day median / MAD) > 0.3 → 100% TQQQ"},
+        {"label": "Exit", "text": "Z-score < −0.3 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "214": {
+      "name": "Hurst Exponent (cc3_215.py)",
+      "file": "cc3_215.py",
+      "category": "Statistical",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_215.py",
+      "source": "cc3 batch 43",
+      "description": "A three-state trend-follower that estimates the Hurst exponent of QQQ using a simplified rescaled range (R/S) analysis across multiple sub-periods. A Hurst exponent above 0.5 indicates persistent trending behavior. This signal is combined with a 200-bar median price filter for a three-state allocation between TQQQ and BIL.",
+      "overfit_notes": "Hurst threshold at H > 0.55 (slightly above the random walk boundary of 0.5). R/S computed at sub-periods of 10, 20, 40, 80 days. Log-log regression for slope estimate. 4/10: non-standard statistical technique with a non-canonical threshold (0.55 vs 0.5), plus median filter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "Hurst exponent (R/S over 10/20/40/80d) > 0.55 AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Hurst > 0.55 XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "215": {
+      "name": "Median 50 vs 200 Cross (cc3_216.py)",
+      "file": "cc3_216.py",
+      "category": "Statistical",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_216.py",
+      "source": "cc3 batch 43",
+      "description": "A three-state trend-follower analogous to a dual moving average crossover, but using rolling medians instead of means. When the 50-day median crosses above the 200-day median and price is above the 200-day median, full TQQQ is held; either condition alone gives 50/50; neither gives full BIL. Using medians makes the signal more robust to price spikes.",
+      "overfit_notes": "Lookbacks at 50 and 200 days (textbook SMA crossover periods adapted to medians). Dual condition uses both price vs median-200 and median-50 vs median-200. 3/10: two standard-period components adapted to a related but non-standard indicator.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes AND 50-day median > 200-day median"},
+        {"label": "Entry (trend)", "text": "Both trend gates true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Either condition true → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "216": {
+      "name": "LR Slope-50 + Median-200 (cc3_217.py)",
+      "file": "cc3_217.py",
+      "category": "Regression",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_217.py",
+      "source": "cc3 batch 44",
+      "description": "A three-state trend-follower that pairs a 200-bar median price regime filter with the slope of a 50-day linear regression on QQQ prices. A positive regression slope confirms short-to-medium term upward momentum. Full TQQQ when both signals are bullish, 50/50 when one agrees, and full BIL when both are bearish.",
+      "overfit_notes": "Linear regression slope threshold at > 0 (natural zero crossing, not tuned). Lookbacks: 50d for LR slope, 200d for median. 3/10: two standard-length trend components at zero-crossing thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "50-day linear regression slope > 0 AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "LR slope > 0 XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "217": {
+      "name": "LR Channel Breakout (cc3_218.py)",
+      "file": "cc3_218.py",
+      "category": "Regression",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_218.py",
+      "source": "cc3 batch 44",
+      "description": "A breakout trend-follower that constructs a linear regression channel on QQQ over 100 days and buys TQQQ when price breaks above the upper band. The channel is defined as the regression line plus/minus one standard deviation of residuals. The strategy exits to BIL when price falls below the lower band.",
+      "overfit_notes": "Channel width is ±1 standard deviation of residuals (canonical). Lookback is 100 days. No second filter. 3/10: single regression indicator at natural 1-sigma threshold.",
+      "rules": [
+        {"label": "Entry", "text": "QQQ price > 100-day linear regression upper band (fitted + 1σ residual) → 100% TQQQ"},
+        {"label": "Exit", "text": "Price < lower band (fitted − 1σ) → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "218": {
+      "name": "LR Slope + R² (cc3_219.py)",
+      "file": "cc3_219.py",
+      "category": "Regression",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_219.py",
+      "source": "cc3 batch 44",
+      "description": "A trend-follower that requires both a positive 60-day linear regression slope and a strong fit quality (R² > 0.5) before entering QQQ via TQQQ. The R² filter ensures that the trend is directional and consistent, not just a noisy up-slope. The strategy exits to BIL whenever either condition fails.",
+      "overfit_notes": "R² threshold at 0.5 (moderate fit quality, slightly above random). Lookback is 60 days. Two regression-derived conditions. 3/10: two conditions from a single model; R² threshold is specific but interpretable.",
+      "rules": [
+        {"label": "Entry", "text": "60-day linear regression slope > 0 AND R² > 0.5 → 100% TQQQ"},
+        {"label": "Exit", "text": "Slope ≤ 0 OR R² ≤ 0.5 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "219": {
+      "name": "Dual LR Slope (short+long) (cc3_220.py)",
+      "file": "cc3_220.py",
+      "category": "Regression",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_220.py",
+      "source": "cc3 batch 44",
+      "description": "A three-state trend-follower that computes two linear regression slopes on QQQ — a 20-day short-term and a 100-day long-term slope — and uses their agreement for a graduated allocation. Both slopes positive yields full TQQQ; one positive yields a 50/50 split; both negative yields full BIL. This is a regression-based dual momentum crossover.",
+      "overfit_notes": "Slope periods at 20 and 100 days (non-matched to SMA canonical 50/200 but plausible). Zero crossing is the threshold for both. 3/10: two standard regression indicators at natural zero-crossing thresholds.",
+      "rules": [
+        {"label": "Entry (trend)", "text": "100-day LR slope > 0 AND 20-day LR slope > 0 → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Either slope > 0 → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both slopes ≤ 0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "220": {
+      "name": "LR Forecast Deviation (cc3_221.py)",
+      "file": "cc3_221.py",
+      "category": "Regression",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_221.py",
+      "source": "cc3 batch 44",
+      "description": "A three-state trend-follower that compares QQQ's current price to the endpoint of a 200-day linear regression forecast. A positive deviation (price above the forecast line) combined with a positive slope produces full TQQQ; one condition met yields 50/50; neither yields full BIL. The strategy rewards being both above the trend line and in an upward trend.",
+      "overfit_notes": "Price-vs-forecast comparison uses zero deviation as threshold (natural). Slope threshold also at zero. 200-day lookback for LR. 3/10: two conditions from one model at natural thresholds.",
+      "rules": [
+        {"label": "Entry (trend)", "text": "200-day LR slope > 0 AND QQQ price > regression forecast endpoint → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "One condition met → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions fail → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "221": {
+      "name": "Force Index 13d Sum (cc3_222.py)",
+      "file": "cc3_222.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_222.py",
+      "source": "cc3 batch 45",
+      "description": "A three-state trend-follower combining a 200-bar median price regime filter with a 13-day force index sum on QQQ. The force index captures buying/selling pressure by weighting daily price changes by volume. A positive 13-day force index sum, combined with the uptrend regime, drives full TQQQ allocation; mixed signals give 50/50; bearish gives full BIL.",
+      "overfit_notes": "Force index summed over exactly 13 days (Alexander Elder's standard period). Zero crossing threshold. Median-200 at exact midpoint. 3/10: two components at natural zero-crossing thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "13-day force index sum (Σ price_change × volume) > 0 AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Force index > 0 XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "222": {
+      "name": "A/D Line Slope (cc3_223.py)",
+      "file": "cc3_223.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_223.py",
+      "source": "cc3 batch 45",
+      "description": "A three-state trend-follower that measures the slope of the Accumulation/Distribution line over a 30-day window on QQQ, combined with a 200-bar median regime filter. A rising A/D line indicates accumulation and confirms the uptrend. Both signals must be bullish for full TQQQ; one signal gives 50/50; neither gives full BIL.",
+      "overfit_notes": "A/D slope window is 30 days. Zero crossing threshold for slope. Median-200 regime. 3/10: two standard volume/price components at natural thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "A/D line linear slope (30d) > 0 AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "A/D slope > 0 XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "223": {
+      "name": "OBV Slope (cc3_224.py)",
+      "file": "cc3_224.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_224.py",
+      "source": "cc3 batch 45",
+      "description": "A three-state trend-follower that measures the slope of On-Balance Volume over a 30-day window on QQQ, combined with a 200-bar median price regime filter. A rising OBV slope signals increasing buying pressure and confirms the price trend. Full TQQQ when both signals are bullish; 50/50 when one is; full BIL when neither.",
+      "overfit_notes": "OBV slope window is 30 days. Zero crossing threshold. Median-200 regime. 3/10: two standard volume/price components at natural thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "OBV linear slope (30d) > 0 AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "OBV slope > 0 XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "224": {
+      "name": "Volume Slope 20d (cc3_225.py)",
+      "file": "cc3_225.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_225.py",
+      "source": "cc3 batch 45",
+      "description": "A three-state trend-follower that pairs the slope of raw QQQ trading volume over a 20-day window with a 200-bar median price regime filter. Rising volume trend is taken as a bullish confirmation signal alongside the price trend. Full TQQQ when both signals agree; 50/50 when they diverge; full BIL when both are bearish.",
+      "overfit_notes": "Volume slope window is 20 days. Zero crossing threshold. Median-200 price regime. 3/10: two components at natural thresholds; volume trend alone is an unusual primary signal.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "20-day volume linear slope > 0 AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Volume slope > 0 XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "225": {
+      "name": "Chaikin Money Flow 20 (cc3_226.py)",
+      "file": "cc3_226.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_226.py",
+      "source": "cc3 batch 45",
+      "description": "A three-state trend-follower that combines the Chaikin Money Flow indicator over a 20-day window with a 200-bar median price regime filter on QQQ. A positive CMF indicates net accumulation. Full TQQQ when both regime and CMF are positive; 50/50 when signals diverge; full BIL when both are negative.",
+      "overfit_notes": "CMF window is 20 days (standard). Zero crossing threshold for CMF. Median-200 regime. 3/10: two standard volume/price components at canonical zero thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "CMF(20) > 0 AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "CMF > 0 XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "226": {
+      "name": "Vol Percentile Bottom-30 (cc3_227.py)",
+      "file": "cc3_227.py",
+      "category": "Volatility",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_227.py",
+      "source": "cc3 batch 46",
+      "description": "A three-state trend-follower that uses a 252-day history to compute rolling 20-day realized volatility percentile on QQQ. When current volatility is in the bottom 30th percentile (a calm regime) and price is above the 252-day median, the strategy holds 100% TQQQ. Mixed signals yield 50/50; both bearish yields 100% BIL.",
+      "overfit_notes": "Volatility percentile threshold at 30% (tuned below the median). 20-day rolling vol window. 252-day history for percentile ranking and median. 3/10: two components with one slightly-tuned percentile threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 252 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "20-day realized vol percentile (within 252d history) < 30% AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Low vol XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "227": {
+      "name": "Vol Contraction Regime (cc3_228.py)",
+      "file": "cc3_228.py",
+      "category": "Volatility",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_228.py",
+      "source": "cc3 batch 46",
+      "description": "A three-state trend-follower that detects volatility contraction on QQQ by comparing short-term realized volatility to long-term realized volatility. When the 10-day volatility is below the 60-day volatility (vol is contracting), the market is considered calm. This condition is combined with a 200-bar median price filter for a three-state TQQQ/BIL allocation.",
+      "overfit_notes": "Short vol window: 10 days; long vol window: 60 days. Threshold is zero (short < long = contraction). Median-200 regime. 3/10: two components at natural ratio threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "10-day realized vol < 60-day realized vol (contracting) AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Vol contraction XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "228": {
+      "name": "Downside Deviation Calm (cc3_229.py)",
+      "file": "cc3_229.py",
+      "category": "Volatility",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_229.py",
+      "source": "cc3 batch 46",
+      "description": "A three-state trend-follower that measures downside deviation (the RMS of negative daily returns) over the last 20 days on QQQ. When downside deviation is below a calm threshold and price is above the 200-day median, the strategy holds 100% TQQQ. Mixed signals yield 50/50; both bearish yields 100% BIL.",
+      "overfit_notes": "Downside deviation threshold at 1.2% (0.012) — a non-rounded, specifically tuned value. 20-day window for downside returns. Median-200 regime. 3/10 (borderline for the non-rounded threshold, but still two components).",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "20-day downside deviation < 1.2% AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Low downside dev XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "229": {
+      "name": "Vol-of-Vol Regime (cc3_230.py)",
+      "file": "cc3_230.py",
+      "category": "Volatility",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_230.py",
+      "source": "cc3 batch 46",
+      "description": "A three-state trend-follower that measures the second-order volatility (volatility of volatility) on QQQ using a 252-day history of rolling 20-day realized volatility. When the standard deviation of the last 20 volatility readings is below a stability threshold, the market regime is considered stable. This is combined with a 252-day median price filter.",
+      "overfit_notes": "Vol-of-vol threshold at 0.003 (0.3%) — a precisely tuned, non-rounded value for daily return space. 20-day vol window, 252-day lookback. 3/10: non-canonical but interpretable threshold for a two-component regime filter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 252 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "Std dev of last 20 rolling-vol readings < 0.003 AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Stable vol XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "230": {
+      "name": "Garman-Klass Volatility (cc3_231.py)",
+      "file": "cc3_231.py",
+      "category": "Volatility",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_231.py",
+      "source": "cc3 batch 46",
+      "description": "A three-state trend-follower that uses the Garman-Klass volatility estimator — which incorporates OHLC data for a more efficient vol estimate — averaged over 20 days on QQQ. Low Garman-Klass volatility combined with a price above the 200-day median triggers full TQQQ; mixed signals give 50/50; bearish gives full BIL.",
+      "overfit_notes": "Garman-Klass vol threshold at 1.5% (0.015) — a specific non-rounded daily level. 20-day averaging window. Median-200 regime. 3/10: advanced estimator at a specific threshold; two components overall.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "20-day average Garman-Klass vol < 1.5% AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Low GK vol XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "231": {
+      "name": "Within 5% of 60d High (cc3_232.py)",
+      "file": "cc3_232.py",
+      "category": "Drawdown",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_232.py",
+      "source": "cc3 batch 47",
+      "description": "A trend-follower that stays long TQQQ as long as QQQ is within 5% of its 60-day high, and moves to BIL once it drops further. This near-high condition acts as a simple momentum and regime filter — the market is considered healthy as long as it has not fallen far from its recent peak.",
+      "overfit_notes": "Drawdown threshold of −5% from 60-day high. Single parameter, standard lookback. 3/10: one canonical momentum concept with a clean percentage threshold.",
+      "rules": [
+        {"label": "Entry", "text": "QQQ ≥ 60-day high × 0.95 → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ < 60-day high × 0.95 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "232": {
+      "name": "3-State DD60+DD200 (cc3_233.py)",
+      "file": "cc3_233.py",
+      "category": "Drawdown",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_233.py",
+      "source": "cc3 batch 47",
+      "description": "A three-state drawdown regime strategy that simultaneously tracks QQQ's distance from its 60-day and 200-day highs. Full TQQQ is held when both drawdowns are very small (near-high regime); 50/50 when either is moderate; full BIL when both indicate a deeper correction. This combines two drawdown horizons for a smooth regime transition.",
+      "overfit_notes": "Four specific drawdown thresholds: −3% and −5% for full-bull, −10% for mixed cutoffs. Non-rounded −3% and −5% thresholds. 4/10: four tuned parameters across two drawdown windows.",
+      "rules": [
+        {"label": "Entry (trend)", "text": "DD from 60d high > −3% AND DD from 200d high > −5% → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "DD60 > −10% OR DD200 > −10% → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both DDs exceed −10% → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "233": {
+      "name": "Within 7% of 52w High (cc3_234.py)",
+      "file": "cc3_234.py",
+      "category": "Drawdown",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_234.py",
+      "source": "cc3 batch 47",
+      "description": "A momentum trend-follower that holds TQQQ as long as QQQ is within 7% of its 52-week high, and switches to BIL once it has fallen further. Near-52-week-high momentum is a well-established predictor of continued strength. A single clean drawdown gate with no secondary filters.",
+      "overfit_notes": "Single threshold: −7% from 252-day high. Slightly more generous than the −5% variant. 3/10: one canonical near-high momentum concept at a clean percentage threshold.",
+      "rules": [
+        {"label": "Entry", "text": "QQQ ≥ 52-week high × 0.93 → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ < 52-week high × 0.93 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "234": {
+      "name": "Drawdown + Williams %R (cc3_235.py)",
+      "file": "cc3_235.py",
+      "category": "Drawdown",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_235.py",
+      "source": "cc3 batch 47",
+      "description": "A three-state trend-follower that combines a drawdown-from-100d-high regime filter with the Williams %R oscillator on QQQ. The drawdown filter checks whether QQQ is within 7% of its 100-day high, while %R above −50 signals short-term momentum strength. Full TQQQ when both are bullish; 50/50 when one agrees; full BIL when both are bearish.",
+      "overfit_notes": "Drawdown threshold: −7% from 100-day high. Williams %R threshold at midline −50. 100-day and 14-day lookbacks. 3/10: two standard components at clean thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ ≥ 100-day high × 0.93 (within 7% drawdown)"},
+        {"label": "Entry (trend)", "text": "Drawdown gate AND Williams %R(14) > −50 → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Either condition → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "235": {
+      "name": "Clean Year + Near-High (cc3_236.py)",
+      "file": "cc3_236.py",
+      "category": "Drawdown",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_236.py",
+      "source": "cc3 batch 47",
+      "description": "A trend-follower with a quality regime filter that requires the past year to have been a 'clean' trend — fewer than 20% of trading days spent in a drawdown exceeding 10%. Additionally, the strategy requires QQQ to be within 5% of the 252-day high to enter. Both conditions must be met to hold TQQQ; otherwise the strategy holds BIL.",
+      "overfit_notes": "Clean year: bad_days fraction < 20%, drawdown threshold at −10%. Near-high: within 5% (−0.05). Two non-canonical thresholds (20% and 10%) tuned together. 3/10: two custom conditions with clean percentage thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "< 20% of past 252 days spent below 10% from rolling peak (clean_year)"},
+        {"label": "Entry", "text": "clean_year AND current price ≥ 252-day high × 0.95 → 100% TQQQ"},
+        {"label": "Exit", "text": "Either condition fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "236": {
+      "name": "MFI(20) + Median (cc3_237.py)",
+      "file": "cc3_237.py",
+      "category": "Oscillator",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_237.py",
+      "source": "cc3 batch 48",
+      "description": "A three-state trend-follower that pairs the Money Flow Index with a 20-day period alongside a 200-bar median price regime filter on QQQ. Full TQQQ when both MFI and regime are bullish; 50/50 when only one is; full BIL when both are bearish. Using a 20-day MFI is slightly slower than the standard 14-day version.",
+      "overfit_notes": "MFI period is 20 (vs standard 14). Midline threshold at 50. Median-200 regime. 3/10: two standard components; the 20-day period is a slight departure from canonical 14.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "MFI(20) > 50 AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "MFI > 50 XOR in_trend → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "237": {
+      "name": "MFI + Williams %R 4-state (cc3_238.py)",
+      "file": "cc3_238.py",
+      "category": "Oscillator",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_238.py",
+      "source": "cc3 batch 48",
+      "description": "A four-state trend-follower combining MFI(14), Williams %R(14), and a 200-bar median price filter on QQQ to produce a graduated allocation between TQQQ and BIL. All three bullish yields 100% TQQQ; two bullish yields 70/30; one bullish yields 40/60; none yields 100% BIL. The additional allocation states add granularity versus simpler three-state strategies.",
+      "overfit_notes": "Three indicators (MFI, %R, median). Specific split weights 70/30 and 40/60 for intermediate states. MFI at 14, %R at 14, median-200. 4/10: three components with tuned intermediate allocation weights.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "in_trend AND MFI(14) > 50 AND Williams %R(14) > −50 → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "in_trend AND (MFI > 50 OR %R > −50) → 70% TQQQ / 30% BIL"},
+        {"label": "Entry (MR)", "text": "One of three conditions → 40% TQQQ / 60% BIL"},
+        {"label": "Exit", "text": "All conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "238": {
+      "name": "Variance Ratio + MFI (cc3_239.py)",
+      "file": "cc3_239.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_239.py",
+      "source": "cc3 batch 48",
+      "description": "A trend-follower that requires three conditions to align for full exposure: a 200-bar median price regime, a variance ratio above 1 (trending market structure), and MFI(14) above 50 (money flow confirmation). The strategy uses a two-tier intermediate state — in trend with either confirming signal gives 60/40 — then drops to zero exposure if neither secondary condition is met.",
+      "overfit_notes": "Three conditions: median-200, VR > 1.0, MFI(14) > 50. Intermediate allocation weight at 60/40 (tuned). VR lookback 200 days. 4/10: three components with a tuned intermediate weight.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "in_trend AND VR(200d, 5d/1d) > 1 AND MFI(14) > 50 → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "in_trend AND (VR > 1 OR MFI > 50) → 60% TQQQ / 40% BIL"},
+        {"label": "Exit", "text": "Not in_trend → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "239": {
+      "name": "OBV Slope + Median 3-state (cc3_240.py)",
+      "file": "cc3_240.py",
+      "category": "Volume",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_240.py",
+      "source": "cc3 batch 48",
+      "description": "A three-state trend-follower that pairs OBV slope over 30 days with a 200-bar median price filter on QQQ, using a skewed intermediate allocation. When both signals are bullish, the strategy holds 100% TQQQ; when only one is bullish, it holds 70/30 TQQQ/BIL (more aggressive than the symmetric 50/50 used in similar strategies); when both are bearish, it holds 100% BIL.",
+      "overfit_notes": "OBV slope window 30 days. Intermediate allocation at 70/30 vs 50/50 in comparable algos — this is a specifically tuned weight. Median-200 regime. 3/10: two standard components with one tuned intermediate allocation.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "OBV slope (30d) > 0 AND in_trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "OBV slope > 0 XOR in_trend → 70% TQQQ / 30% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "240": {
+      "name": "OBV + MFI 3-state (cc3_241.py)",
+      "file": "cc3_241.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_241.py",
+      "source": "cc3 batch 48",
+      "description": "A three-state trend-follower that combines OBV slope (30 days) with MFI(14) on QQQ, without a separate price regime gate. When both OBV slope is positive and MFI is above 50, the strategy holds 100% TQQQ; when only one is bullish, 50/50; when both are bearish, 100% BIL. This is a pure volume-flow momentum strategy.",
+      "overfit_notes": "OBV slope 30 days, MFI 14 days. Both thresholds at zero/midline (canonical). No median regime filter. 3/10: two standard volume-based components at canonical thresholds.",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV slope (30d) > 0 AND MFI(14) > 50 → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "OBV slope > 0 XOR MFI > 50 → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "241": {
+      "name": "Best Months + Median (cc3_242.py)",
+      "file": "cc3_242.py",
+      "category": "Seasonality",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_242.py",
+      "source": "cc3 batch 49",
+      "description": "A seasonal trend-follower that combines the classic 'best months' calendar effect (November through April) with a 200-bar median price regime filter on QQQ. Full TQQQ when both seasonal tailwind and trend regime are active; reduced TQQQ when only the trend holds; small equity allocation when only seasonal window is active; full BIL in the worst case.",
+      "overfit_notes": "Best months: November–April (canonical 'Sell in May' effect). Four-state allocation with tuned weights 1.0/0.5/0.3/0.0. Median-200 regime. 3/10: one textbook seasonality rule combined with a standard trend filter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "in_trend AND month ∈ {Nov, Dec, Jan, Feb, Mar, Apr} → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "in_trend only → 50% TQQQ / 50% BIL"},
+        {"label": "Entry (MR)", "text": "Seasonal window only → 30% TQQQ / 70% BIL"},
+        {"label": "Exit", "text": "Neither condition → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "242": {
+      "name": "TOM + Median 3-state (cc3_243.py)",
+      "file": "cc3_243.py",
+      "category": "Seasonality",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_243.py",
+      "source": "cc3 batch 49",
+      "description": "A seasonal trend-follower exploiting the turn-of-month effect — the tendency for equity markets to rise at the transition between months. The strategy opens a window 2 days before month-end and closes it 4 trading days into the new month. This window is combined with a 200-bar median regime gate; outside the TOM window the strategy reduces to 50/50.",
+      "overfit_notes": "TOM window: 2 days before month-end to 4 days after month-start. Median-200 regime. Three-state allocation (100/50/0). Window boundaries are slightly tuned but based on the well-documented TOM anomaly. 3/10: one documented seasonality effect plus a standard trend filter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "in_trend AND in TOM window (2d before month-end to 4d after month-start) → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "in_trend outside TOM window → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Not in trend → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "243": {
+      "name": "Avoid Mid-Month + Median (cc3_244.py)",
+      "file": "cc3_244.py",
+      "category": "Seasonality",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_244.py",
+      "source": "cc3 batch 49",
+      "description": "A seasonal trend-follower that avoids trading during the middle third of each month (calendar days 10–20), where equity markets have historically shown weaker performance. The avoidance window is combined with a 200-bar median regime filter. Full TQQQ outside the mid-month window in an uptrend; 50/50 otherwise; full BIL in downtrend and mid-month.",
+      "overfit_notes": "Mid-month exclusion window: calendar days 10–20 (11 days). Exact day boundaries are tuned. Median-200 regime. 3/10: one tuned calendar rule plus a standard trend filter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "in_trend AND calendar day NOT in 10–20 → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "in_trend OR day not in 10–20 → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both conditions bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "244": {
+      "name": "Year-End Rally + Median (cc3_245.py)",
+      "file": "cc3_245.py",
+      "category": "Seasonality",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_245.py",
+      "source": "cc3 batch 49",
+      "description": "A seasonal trend-follower that exploits the year-end Santa Claus rally window (December 15 through January 5) on QQQ, combined with a 200-bar median price regime filter. A four-state allocation gives highest TQQQ exposure when both seasonality and trend agree, with specific intermediate weights otherwise. The strategy is most aggressive during the seasonal window in an uptrend.",
+      "overfit_notes": "Santa window: Dec 15 – Jan 5 (specific start/end dates, 21 calendar days). Four-state weights: 1.0/0.6/0.3/0.0. The Dec 15 start date and Jan 5 end date are precisely chosen. 4/10: tuned date boundaries with specifically set intermediate allocation weights.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "in_trend AND Santa window (Dec 15–Jan 5) → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "in_trend only → 60% TQQQ / 40% BIL"},
+        {"label": "Entry (MR)", "text": "Santa window only → 30% TQQQ / 70% BIL"},
+        {"label": "Exit", "text": "Neither condition → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "245": {
+      "name": "First Days of Month + Median (cc3_246.py)",
+      "file": "cc3_246.py",
+      "category": "Seasonality",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_246.py",
+      "source": "cc3 batch 49",
+      "description": "A seasonal trend-follower that targets the first few trading days of each month — a well-known seasonal anomaly driven by institutional rebalancing flows. A window opens on the first trading day of the month and closes 3 days later, combined with a 200-bar median regime gate. Full TQQQ during the window in an uptrend; 50/50 outside the window; full BIL in downtrend.",
+      "overfit_notes": "Window: trading days 1–3 of each month (3-day specific window). Median-200 regime. 3/10: one documented seasonal anomaly at a clean 3-day window plus a standard trend filter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Entry (trend)", "text": "in_trend AND first 1–3 trading days of month → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "in_trend outside first days → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Not in trend → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "246": {
+      "name": "Top-2 Mega-Cap + Median Gate (cc3_247.py)",
+      "file": "cc3_247.py",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_247.py",
+      "source": "cc3 batch 50",
+      "description": "A trend-following rotator that concentrates into the two largest-market-cap US stocks when QQQ is in an uptrend (above the 200-bar median). The universe is dynamically selected using QuantConnect's fundamental data — top 100 by dollar volume, then top 2 by market cap. When the trend gate fails, the strategy moves entirely to BIL.",
+      "overfit_notes": "Top N = 2 mega-caps. Universe pre-filter: top 100 by dollar volume. Median-200 regime. Equal weight among top 2. 3/10: single trend filter with clean N selection; mega-cap concentration is a plausible but specific choice.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Universe", "text": "Dynamic: top 100 by dollar volume → top 2 by market cap"},
+        {"label": "Entry", "text": "in_trend → equal weight in top-2 mega-cap stocks"},
+        {"label": "Exit", "text": "Not in_trend → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: top-2 mega-caps / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "247": {
+      "name": "Top-5 + 50% TQQQ + Median (cc3_248.py)",
+      "file": "cc3_248.py",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_248.py",
+      "source": "cc3 batch 50",
+      "description": "A trend-following rotator that blends a dynamic mega-cap stock portfolio with a fixed TQQQ allocation when QQQ is in an uptrend. The top 5 largest-market-cap stocks receive 50% of the portfolio (equally weighted), while the other 50% is allocated to leveraged Nasdaq (TQQQ). During downtrends the strategy moves entirely to BIL.",
+      "overfit_notes": "50/50 fixed split between mega-cap basket and TQQQ is a specifically tuned weight. Top N = 5. Median-200 regime. 3/10: one trend filter with a clean but specific blending ratio.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Universe", "text": "Dynamic: top 100 by dollar volume → top 5 by market cap"},
+        {"label": "Allocation", "text": "50% equally split across top-5 mega-caps, 50% TQQQ"},
+        {"label": "Exit", "text": "Not in_trend → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: top-5 mega-caps + TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "248": {
+      "name": "Top-5 Risk-Parity + Median (cc3_249.py)",
+      "file": "cc3_249.py",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_249.py",
+      "source": "cc3 batch 50",
+      "description": "A trend-following rotator that allocates to the top 5 US mega-cap stocks using inverse-volatility (risk parity) weighting when QQQ is in an uptrend. Each stock's weight is proportional to the inverse of its 30-day realized volatility, so lower-volatility stocks receive larger allocations. The strategy exits entirely to BIL when the trend gate fails.",
+      "overfit_notes": "Top N = 5 mega-caps. Risk parity via inverse 30-day realized vol. Monthly rebalance. Median-200 regime. 3/10: one trend filter plus a standard risk parity methodology.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Universe", "text": "Dynamic: top 100 by dollar volume → top 5 by market cap"},
+        {"label": "Allocation", "text": "Inverse-volatility weights based on 30-day realized vol per stock"},
+        {"label": "Exit", "text": "Not in_trend → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: top-5 mega-caps / BIL"},
+        {"label": "Rebalance", "text": "Monthly (month start), 30 min after market open"}
+      ]
+    },
+    "249": {
+      "name": "Top-3 of Top-5 ROC + Median (cc3_250.py)",
+      "file": "cc3_250.py",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_250.py",
+      "source": "cc3 batch 50",
+      "description": "A trend-following momentum rotator that first selects the top 5 US mega-cap stocks by market cap, then further filters to the top 3 by 20-day rate of change when QQQ is in an uptrend. Equal weight is applied to the top 3 momentum winners. The strategy exits to BIL when the trend regime fails.",
+      "overfit_notes": "Two-stage selection: top 5 by market cap → top 3 by 20-day ROC. N values of 5 and 3 are specific but plausible. Median-200 regime. 3/10: two-stage momentum filter with clean N values plus a standard trend gate.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Universe", "text": "Dynamic: top 100 by dollar volume → top 5 by market cap"},
+        {"label": "Entry", "text": "in_trend → top 3 of top-5 by 20-day return, equal weight"},
+        {"label": "Exit", "text": "Not in_trend → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: top-3 momentum mega-caps / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "250": {
+      "name": "Top-1 Mega-Cap + Median (cc3_251.py)",
+      "file": "cc3_251.py",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_251.py",
+      "source": "cc3 batch 50",
+      "description": "A trend-following concentrated rotator that holds a 100% position in the single largest-market-cap US stock when QQQ is in an uptrend. The universe is dynamically updated via QuantConnect's fundamental data. When the trend gate fails, the strategy exits entirely to BIL. This is the most concentrated version of the mega-cap rotation family.",
+      "overfit_notes": "Top N = 1 (maximum concentration). Universe pre-filter: top 100 by dollar volume. Median-200 regime. 3/10: single trend filter with a clean N=1 selection; concentration risk is the primary concern.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ close > median of last 200 daily closes (in_trend)"},
+        {"label": "Universe", "text": "Dynamic: top 100 by dollar volume → top 1 by market cap"},
+        {"label": "Entry", "text": "in_trend → 100% in the single largest-cap stock"},
+        {"label": "Exit", "text": "Not in_trend → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: top-1 mega-cap / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    }
+  }
+}

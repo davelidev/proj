@@ -1,0 +1,881 @@
+{
+  "strategies": {
+    "1": {
+      "name": "Donchian 20/10 Breakout (cc3_001.py)",
+      "category": "Breakout",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_001.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_001.py",
+      "source": "cc3 batch 1",
+      "description": "A classic Donchian channel breakout trend follower applied to a leveraged Nasdaq ETF. It enters a long position in a 3x Nasdaq ETF when the index ETF breaks above its 20-day high, and exits to a short-term bond ETF when the price falls below its 10-day low. The asymmetric entry/exit window (20-day high vs. 10-day low) gives the trade room to breathe before stopping out.",
+      "overfit_notes": "Uses only the textbook Donchian 20/10 breakout channel — the period split (20 for entry, 10 for exit) is a minor deviation from the classic 20/20 rule but still a commonly cited variant. Low overfit.",
+      "rules": [
+        {"label": "Entry", "text": "QQQ price ≥ 20-day high → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ price ≤ 10-day low → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "2": {
+      "name": "ROC(60) Momentum (cc3_002.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_002.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_002.py",
+      "source": "cc3 batch 1",
+      "description": "A momentum trend follower that uses the 60-day rate-of-change of the Nasdaq ETF as its signal. When 60-day momentum exceeds a small positive threshold the strategy holds a leveraged Nasdaq ETF, and when it falls below a small negative threshold it switches to a short-term bond ETF. The dead-band around zero prevents whipsawing on flat markets.",
+      "overfit_notes": "Single ROC indicator at a 60-day lookback with a ±2% dead-band threshold. The 2% threshold is a minor non-canonical tuning; the 60-day period is a standard momentum window.",
+      "rules": [
+        {"label": "Entry", "text": "ROC(60) > 0.02 → 100% TQQQ"},
+        {"label": "Exit", "text": "ROC(60) < −0.02 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "3": {
+      "name": "Aroon(25) Trend (cc3_003.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_003.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_003.py",
+      "source": "cc3 batch 1",
+      "description": "A trend follower using the Aroon indicator with a 25-day period applied to the Nasdaq ETF. It buys a leveraged Nasdaq ETF when AroonUp exceeds 70 and leads AroonDown, indicating a recent high has been set within the window. It exits to a short-term bond ETF when AroonDown exceeds 70 and leads AroonUp.",
+      "overfit_notes": "Single Aroon indicator at the textbook 25-period with the textbook 70 threshold. Very low overfit.",
+      "rules": [
+        {"label": "Entry", "text": "AroonUp(25) > 70 AND AroonUp > AroonDown → 100% TQQQ"},
+        {"label": "Exit", "text": "AroonDown(25) > 70 AND AroonDown > AroonUp → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "4": {
+      "name": "Turn-of-Month Seasonality (cc3_004.py)",
+      "category": "Seasonality",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_004.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_004.py",
+      "source": "cc3 batch 1",
+      "description": "A seasonality strategy that exploits the well-documented turn-of-month effect in equities. It enters a leveraged Nasdaq ETF two trading days before each month-end and exits four trading days into the new month, capturing the historically strong period spanning the month boundary. Outside this window it holds a short-term bond ETF.",
+      "overfit_notes": "The exact window offsets (2 days before month end, exit 4 days into month start) are slightly tuned versus the classic 1/3-day variant, adding modest overfit risk.",
+      "rules": [
+        {"label": "Entry", "text": "2 trading days before month end → 100% TQQQ"},
+        {"label": "Exit", "text": "4 trading days after month start → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: calendar. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Event-driven: MonthEnd(−2) and MonthStart(+4), 30 min after open"}
+      ]
+    },
+    "5": {
+      "name": "Williams %R(14) Oversold Reversal (cc3_005.py)",
+      "category": "Mean Reversion",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_005.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_005.py",
+      "source": "cc3 batch 1",
+      "description": "A mean-reversion strategy using the Williams %R oscillator on the Nasdaq ETF. It buys a leveraged Nasdaq ETF when %R crosses into oversold territory (below −80) and exits to a short-term bond ETF when %R reaches overbought levels (above −20). The 14-day lookback matches the original Larry Williams specification.",
+      "overfit_notes": "Single indicator at the textbook 14-period with the canonical oversold/overbought thresholds of −80/−20. Very low overfit.",
+      "rules": [
+        {"label": "Entry", "text": "Williams %R(14) < −80 → 100% TQQQ"},
+        {"label": "Exit", "text": "Williams %R(14) > −20 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "6": {
+      "name": "Aroon(50) Trend (cc3_006.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_006.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_006.py",
+      "source": "cc3 batch 2",
+      "description": "A trend follower identical in logic to the Aroon(25) variant but using a slower 50-day Aroon indicator. The longer lookback makes the signal more deliberate, reducing whipsaws at the cost of slower response to regime changes. It switches between a leveraged Nasdaq ETF and a short-term bond ETF based on Aroon directional dominance.",
+      "overfit_notes": "Single Aroon indicator at a 50-day period with the canonical 70 threshold. The 50-day lookback is a minor variant of the standard 25-day; still low overfit.",
+      "rules": [
+        {"label": "Entry", "text": "AroonUp(50) > 70 AND AroonUp > AroonDown → 100% TQQQ"},
+        {"label": "Exit", "text": "AroonDown(50) > 70 AND AroonDown > AroonUp → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "7": {
+      "name": "Aroon(25) + Chandelier Exit (cc3_007.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_007.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_007.py",
+      "source": "cc3 batch 2",
+      "description": "A trend follower that enters on an Aroon(25) bullish signal and exits via whichever comes first: a Chandelier trailing stop or an Aroon bearish flip. The Chandelier stop is computed as the 22-day high minus three ATRs and ratchets upward while the position is held. This two-exit mechanism provides both volatility-scaled protection and signal-based reversal.",
+      "overfit_notes": "Combines Aroon(25) with a Chandelier Exit using ATR(22, Wilder) and a 3× ATR multiplier. The 22-day ATR window is slightly non-standard (14 or 20 are more common) and the 3× multiplier is the published default, giving a mild overfit.",
+      "rules": [
+        {"label": "Entry", "text": "AroonUp(25) > 70 AND AroonUp > AroonDown → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ price < Chandelier stop (22-day high − 3×ATR(22)) OR AroonDown(25) > 70 and dominant → 100% BIL"},
+        {"label": "Stop-loss", "text": "Chandelier trailing stop ratchets up as new highs are set; never moves down"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "8": {
+      "name": "Parabolic SAR Trend (cc3_008.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_008.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_008.py",
+      "source": "cc3 batch 2",
+      "description": "A trend follower using the Parabolic SAR indicator on the Nasdaq ETF to determine position direction. When price is above the SAR value it holds a leveraged Nasdaq ETF; when price falls below the SAR it switches to a short-term bond ETF. The SAR's self-accelerating stop provides a built-in trailing exit.",
+      "overfit_notes": "Single Parabolic SAR at the textbook Wilder defaults (step 0.02, start 0.02, max 0.20). Canonical parameters throughout. Very low overfit.",
+      "rules": [
+        {"label": "Entry", "text": "QQQ price > PSAR → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ price ≤ PSAR → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "9": {
+      "name": "Vortex(14) Trend (cc3_009.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_009.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_009.py",
+      "source": "cc3 batch 2",
+      "description": "A trend follower built around the Vortex Indicator, implemented manually via rolling 14-day sums of upward and downward movement vectors. It enters a leveraged Nasdaq ETF when VI+ exceeds VI− and both conditions exceed 1.0 (indicating trending movement above baseline), and exits to a short-term bond ETF on the opposite condition.",
+      "overfit_notes": "Single Vortex Indicator at the textbook 14-period; the threshold of VI > 1.0 is the published interpretation. Low overfit.",
+      "rules": [
+        {"label": "Entry", "text": "VI+(14) > VI−(14) AND VI+(14) > 1.0 → 100% TQQQ"},
+        {"label": "Exit", "text": "VI−(14) > VI+(14) AND VI−(14) > 1.0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ (manual calculation). Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "10": {
+      "name": "Choppiness-Gated ROC(30) (cc3_010.py)",
+      "category": "Trend/Filter",
+      "overfit": "3/10",
+      "file": "cc3_010.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_010.py",
+      "source": "cc3 batch 2",
+      "description": "A trend follower that only acts when the Choppiness Index indicates a trending (non-choppy) market environment. ROC(30) determines direction while the Choppiness Index gates whether any trade should be made at all. When the market is choppy the strategy sits on its existing position rather than adding whipsaw trades.",
+      "overfit_notes": "Combines ROC(30) with a manually computed Choppiness Index using ATR(14) and 14-day high/low range. The CI threshold of 50 is a slightly tuned midpoint between the published trending (<38) and choppy (>62) zones, adding modest overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "Choppiness Index(14) < 50 → trending regime; ≥ 50 → hold current position"},
+        {"label": "Entry", "text": "CI < 50 AND ROC(30) > 0 → 100% TQQQ"},
+        {"label": "Exit", "text": "CI < 50 AND ROC(30) < 0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "11": {
+      "name": "MACD(12,26,9) Cross (cc3_011.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_011.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_011.py",
+      "source": "cc3 batch 3",
+      "description": "A trend follower using the classic MACD indicator to signal direction. When the MACD line is above its signal line the strategy holds a leveraged Nasdaq ETF; when MACD crosses below its signal line it switches to a short-term bond ETF. All parameters are the textbook Gerald Appel defaults.",
+      "overfit_notes": "Single MACD at the textbook (12, 26, 9) EMA parameters with zero threshold. Completely canonical; virtually no overfit.",
+      "rules": [
+        {"label": "Entry", "text": "MACD(12,26,9) > Signal line → 100% TQQQ"},
+        {"label": "Exit", "text": "MACD(12,26,9) ≤ Signal line → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "12": {
+      "name": "Stochastic %K/%D Cross (cc3_012.py)",
+      "category": "Mean Reversion",
+      "overfit": "2/10",
+      "file": "cc3_012.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_012.py",
+      "source": "cc3 batch 3",
+      "description": "A mean-reversion strategy using Lane's classic slow stochastic oscillator on the Nasdaq ETF. It enters a leveraged Nasdaq ETF when %K crosses above %D below the overbought zone, and exits to a short-term bond ETF when %K crosses below %D above the oversold zone. The overbought/oversold guards prevent chasing momentum at extremes.",
+      "overfit_notes": "Stochastic(14, 3, 3) at the textbook Lane parameters; the 80/20 filter levels are canonical. Very low overfit.",
+      "rules": [
+        {"label": "Entry", "text": "%K > %D AND %K < 80 → 100% TQQQ"},
+        {"label": "Exit", "text": "%K < %D AND %K > 20 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "13": {
+      "name": "ADX(14) Directional (cc3_013.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_013.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_013.py",
+      "source": "cc3 batch 3",
+      "description": "A trend follower implementing Wilder's Directional Movement System. It goes long a leveraged Nasdaq ETF when the ADX confirms trend strength (above 20) and +DI leads −DI, and exits to a short-term bond ETF when ADX confirms and −DI leads. Without ADX confirmation, no trade is made.",
+      "overfit_notes": "ADX(14) with the canonical ADX>20 strength threshold and standard Wilder DI crossover logic. Completely textbook parameters; very low overfit.",
+      "rules": [
+        {"label": "Strength filter", "text": "ADX(14) > 20 required for any trade"},
+        {"label": "Entry", "text": "ADX > 20 AND +DI > −DI → 100% TQQQ"},
+        {"label": "Exit", "text": "ADX > 20 AND −DI > +DI → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "14": {
+      "name": "Ichimoku Cloud (cc3_014.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_014.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_014.py",
+      "source": "cc3 batch 3",
+      "description": "A trend follower using the Ichimoku Cloud (Kumo) as the only filter. When the Nasdaq ETF price is above the cloud top (the higher of Senkou A and Senkou B), the strategy holds a leveraged Nasdaq ETF. When price falls below the cloud bottom, it switches to a short-term bond ETF. Within the cloud, no new trades are initiated.",
+      "overfit_notes": "Classic Hosoda parameters (9, 26, 52) with no additional filters. Completely canonical Ichimoku setup; very low overfit.",
+      "rules": [
+        {"label": "Entry", "text": "QQQ price > max(Senkou A, Senkou B) → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ price < min(Senkou A, Senkou B) → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "15": {
+      "name": "CCI(20) (cc3_015.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_015.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_015.py",
+      "source": "cc3 batch 3",
+      "description": "A trend-following strategy using the Commodity Channel Index on the Nasdaq ETF. It enters a leveraged Nasdaq ETF when CCI rises above +100 (indicating bullish momentum above the typical price range), and exits to a short-term bond ETF when CCI falls below −100. The ±100 thresholds are Lambert's original overbought/oversold levels.",
+      "overfit_notes": "CCI(20) at the textbook Lambert period and ±100 thresholds. Completely canonical; very low overfit.",
+      "rules": [
+        {"label": "Entry", "text": "CCI(20) > 100 → 100% TQQQ"},
+        {"label": "Exit", "text": "CCI(20) < −100 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "16": {
+      "name": "EMA(200) Trend (cc3_016.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_016.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_016.py",
+      "source": "cc3 batch 4",
+      "description": "A trend follower using the 200-day Exponential Moving Average of the Nasdaq ETF as the regime filter. When price is above the EMA the strategy holds a leveraged Nasdaq ETF; below the EMA it shifts to a short-term bond ETF. The EMA gives more weight to recent prices than a simple moving average of the same length.",
+      "overfit_notes": "Single EMA at the canonical 200-day period with a price-crossover signal — identical logic to the textbook SMA(200) filter but with an exponential weighting. Very low overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > EMA(200)"},
+        {"label": "Entry", "text": "QQQ > EMA(200) → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ ≤ EMA(200) → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "17": {
+      "name": "Hull MA(50) Trend (cc3_017.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_017.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_017.py",
+      "source": "cc3 batch 4",
+      "description": "A trend follower using the 50-day Hull Moving Average, which minimizes lag relative to traditional moving averages. When the Nasdaq ETF price exceeds the HMA the strategy holds a leveraged Nasdaq ETF; below the HMA it holds a short-term bond ETF. The shorter HMA period compensates for the reduced lag of the Hull formula.",
+      "overfit_notes": "Single HMA at 50-day period. The 50-day lookback is a common choice for the Hull MA; the price-crossover logic is textbook. Very low overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > HMA(50)"},
+        {"label": "Entry", "text": "QQQ > HMA(50) → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ ≤ HMA(50) → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "18": {
+      "name": "KAMA(20,2,30) Trend (cc3_018.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_018.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_018.py",
+      "source": "cc3 batch 4",
+      "description": "A trend follower using Kaufman's Adaptive Moving Average, which self-adjusts its smoothing speed based on market efficiency. The KAMA responds quickly in trending markets and slows down in choppy conditions, providing built-in noise filtering. When the Nasdaq ETF price is above the KAMA the strategy holds a leveraged Nasdaq ETF; otherwise a short-term bond ETF.",
+      "overfit_notes": "KAMA at Kaufman's 1995 published parameters (period=20, fast=2, slow=30). These are the original textbook values, making overfit minimal despite having three parameters.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > KAMA(20, fast=2, slow=30)"},
+        {"label": "Entry", "text": "QQQ > KAMA → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ ≤ KAMA → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "19": {
+      "name": "Donchian-200 Midline (cc3_019.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_019.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_019.py",
+      "source": "cc3 batch 4",
+      "description": "A trend follower using the midpoint of the 200-day Donchian channel (average of the 200-day high and 200-day low) as a dynamic trend filter. When the Nasdaq ETF price is above this midline it holds a leveraged Nasdaq ETF; below it holds a short-term bond ETF. The midline serves as a slow, price-extremes-anchored moving average.",
+      "overfit_notes": "Single Donchian midline at 200 days — a textbook period applied to the midpoint instead of the breakout levels. Very low overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > (200d high + 200d low) / 2"},
+        {"label": "Entry", "text": "QQQ > Donchian-200 midline → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ ≤ Donchian-200 midline → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "20": {
+      "name": "TEMA(50) Trend (cc3_020.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_020.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_020.py",
+      "source": "cc3 batch 4",
+      "description": "A trend follower using the Triple Exponential Moving Average, which reduces lag by applying triple-smoothing to the EMA. When the Nasdaq ETF price exceeds the TEMA it holds a leveraged Nasdaq ETF; below it holds a short-term bond ETF. The 50-day period provides faster responsiveness due to the reduced lag of the TEMA formula.",
+      "overfit_notes": "Single TEMA at 50-day period with a simple price-crossover. The 50-day period is a common mid-range choice; the TEMA's nature effectively acts like a shorter-period MA. Very low overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > TEMA(50)"},
+        {"label": "Entry", "text": "QQQ > TEMA(50) → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ ≤ TEMA(50) → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "21": {
+      "name": "Donchian-100 Midline (cc3_021.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_021.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_021.py",
+      "source": "cc3 batch 5",
+      "description": "A trend follower using the midpoint of the 100-day Donchian channel as the regime signal. When the Nasdaq ETF price is above the 100-day high/low midline the strategy holds a leveraged Nasdaq ETF, otherwise a short-term bond ETF. The 100-day window is faster than the 200-day variant, producing more frequent signal changes.",
+      "overfit_notes": "Single Donchian midline at 100 days. The 100-day period is a standard alternative to 200; very low overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > (100d high + 100d low) / 2"},
+        {"label": "Entry", "text": "QQQ > Donchian-100 midline → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ ≤ Donchian-100 midline → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "22": {
+      "name": "Donchian-300 Midline (cc3_023.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_023.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_023.py",
+      "source": "cc3 batch 5",
+      "description": "A trend follower using the midpoint of the 300-day Donchian channel as a very slow regime signal. The longer lookback captures only major multi-month trends and produces very few signal changes. When the Nasdaq ETF price is above the midline it holds a leveraged Nasdaq ETF; otherwise a short-term bond ETF.",
+      "overfit_notes": "Single Donchian midline at 300 days — an unusually long period beyond the standard 200-day anchor, but still a simple single-parameter rule. Low overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > (300d high + 300d low) / 2"},
+        {"label": "Entry", "text": "QQQ > Donchian-300 midline → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ ≤ Donchian-300 midline → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "23": {
+      "name": "Donchian-200 Midline + VIX<30 (cc3_024.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_024.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_024.py",
+      "source": "cc3 batch 5",
+      "description": "A trend follower combining the 200-day Donchian midline with a VIX panic filter. Both conditions must hold — price above the Donchian midline and VIX below 30 — to stay invested in a leveraged Nasdaq ETF. If either condition fails the strategy retreats to a short-term bond ETF.",
+      "overfit_notes": "Donchian-200 midline plus a VIX<30 filter. The VIX 30 threshold is a commonly cited panic level; both components are standard. Modest overfit from combining two independently validated rules.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > Donchian-200 midline AND VIX < 30"},
+        {"label": "Entry", "text": "Both conditions met → 100% TQQQ"},
+        {"label": "Exit", "text": "Either condition fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ + VIX. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "24": {
+      "name": "LWMA(200) Trend (cc3_025.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_025.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_025.py",
+      "source": "cc3 batch 5",
+      "description": "A trend follower using the 200-day Linearly Weighted Moving Average on the Nasdaq ETF. The LWMA assigns linearly increasing weight to more recent bars compared to older ones, making it more responsive than a simple MA of the same length. When price is above the LWMA it holds a leveraged Nasdaq ETF; below it holds a short-term bond ETF.",
+      "overfit_notes": "Single LWMA at the canonical 200-day period. Simple price-crossover logic with a standard lookback. Very low overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > LWMA(200)"},
+        {"label": "Entry", "text": "QQQ > LWMA(200) → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ ≤ LWMA(200) → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "25": {
+      "name": "DEMA(100) Trend (cc3_026.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_026.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_026.py",
+      "source": "cc3 batch 5",
+      "description": "A trend follower using the 100-day Double Exponential Moving Average on the Nasdaq ETF. The DEMA reduces lag relative to a single EMA of the same period by subtracting the EMA-of-EMA component. When price is above the DEMA it holds a leveraged Nasdaq ETF; below it holds a short-term bond ETF.",
+      "overfit_notes": "Single DEMA at 100-day period. Standard price-crossover logic with a common lookback. Very low overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > DEMA(100)"},
+        {"label": "Entry", "text": "QQQ > DEMA(100) → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ ≤ DEMA(100) → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "26": {
+      "name": "Donchian-50 Midline (cc3_027.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_027.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_027.py",
+      "source": "cc3 batch 6",
+      "description": "A trend follower using the midpoint of the 50-day Donchian channel as a faster regime signal. The 50-day high/low midline updates more rapidly than the 100- or 200-day variants, resulting in more frequent position changes. When price is above the midline it holds a leveraged Nasdaq ETF; otherwise a short-term bond ETF.",
+      "overfit_notes": "Single Donchian midline at 50 days. Very standard period choice with simple midpoint logic. Very low overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > (50d high + 50d low) / 2"},
+        {"label": "Entry", "text": "QQQ > Donchian-50 midline → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ ≤ Donchian-50 midline → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "27": {
+      "name": "Donchian-150 Midline (cc3_028.py)",
+      "category": "Trend",
+      "overfit": "2/10",
+      "file": "cc3_028.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_028.py",
+      "source": "cc3 batch 6",
+      "description": "A trend follower using the midpoint of the 150-day Donchian channel, positioned between the 100-day and 200-day variants for an intermediate response speed. When the Nasdaq ETF price is above the 150-day high/low midline it holds a leveraged Nasdaq ETF; below it switches to a short-term bond ETF.",
+      "overfit_notes": "Single Donchian midline at 150 days — a standard intermediate lookback sitting between the commonly cited 100 and 200-day anchors. Very low overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > (150d high + 150d low) / 2"},
+        {"label": "Entry", "text": "QQQ > Donchian-150 midline → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ ≤ Donchian-150 midline → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "28": {
+      "name": "Donchian-200 + Drawdown Stop (cc3_029.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_029.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_029.py",
+      "source": "cc3 batch 6",
+      "description": "A trend follower combining the 200-day Donchian midline with an emergency drawdown stop. Both conditions must hold — price above the midline and less than 15% below its 20-day high — to remain in a leveraged Nasdaq ETF. If either fails, the strategy moves to a short-term bond ETF. The drawdown stop provides faster protection during sharp declines.",
+      "overfit_notes": "Donchian-200 midline plus a 15% drawdown-from-20d-high stop. The 15% threshold and 20-day high lookback are the non-canonical tuned parameters; the Donchian midline component is standard.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > Donchian-200 midline"},
+        {"label": "Stop-loss", "text": "QQQ price < 20-day high × 0.85 (−15% drawdown trigger)"},
+        {"label": "Entry", "text": "Trend gate holds AND no drawdown breach → 100% TQQQ"},
+        {"label": "Exit", "text": "Either condition fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "29": {
+      "name": "Top-5 Mega-Cap Equal Weight Monthly (cc3_030.py)",
+      "category": "Rotation",
+      "overfit": "2/10",
+      "file": "cc3_030.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_030.py",
+      "source": "cc3 batch 6",
+      "description": "A buy-and-hold rotator that holds the five largest US stocks by market capitalization in an equal-weight portfolio. The universe is refreshed monthly by screening the top 100 stocks by dollar volume and selecting the top 5 by market cap. There is no trend filter or exit condition; the strategy is always fully invested in large-cap equities.",
+      "overfit_notes": "Universe size fixed at top-5 by market cap, refreshed monthly. The N=5 selection is a simple round number; no price-based parameters. Very low overfit.",
+      "rules": [
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 5 by market cap"},
+        {"label": "Allocation", "text": "Equal weight (20% each)"},
+        {"label": "Rebalance", "text": "Monthly, first trading day, 30 min after open"}
+      ]
+    },
+    "30": {
+      "name": "Top-5 Mega-Cap + QQQ Donchian-200 Gate (cc3_031.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_031.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_031.py",
+      "source": "cc3 batch 6",
+      "description": "A rotator that holds the top-5 mega-cap stocks equally weighted when the Nasdaq ETF is in a bull regime, and retreats to a short-term bond ETF in bear conditions. The regime is determined by comparing the Nasdaq ETF price to the midpoint of its 200-day Donchian channel. This combines large-cap equity exposure with a macro trend gate.",
+      "overfit_notes": "Top-5 market-cap universe plus a Donchian-200 midline regime filter. Both components are standard; the combination adds modest overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "In trend → top-5 mega-cap equal weight (20% each)"},
+        {"label": "Exit", "text": "Not in trend → 100% BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 5 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: top-5 mega-caps / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "31": {
+      "name": "Top-3 Mega-Cap Monthly (cc3_032.py)",
+      "category": "Rotation",
+      "overfit": "2/10",
+      "file": "cc3_032.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_032.py",
+      "source": "cc3 batch 7",
+      "description": "A buy-and-hold rotator that holds the three largest US stocks by market capitalization in an equal-weight portfolio, refreshed monthly. A more concentrated version of the top-5 variant, this strategy accepts higher single-name concentration in exchange for potentially higher returns from the most dominant mega-caps.",
+      "overfit_notes": "Universe size fixed at top-3 by market cap, refreshed monthly. The N=3 selection is a simple round number. Very low overfit.",
+      "rules": [
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap"},
+        {"label": "Allocation", "text": "Equal weight (~33% each)"},
+        {"label": "Rebalance", "text": "Monthly, first trading day, 30 min after open"}
+      ]
+    },
+    "32": {
+      "name": "Top-5 Mega-Cap Momentum-Weighted (cc3_033.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_033.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_033.py",
+      "source": "cc3 batch 7",
+      "description": "A momentum-weighted rotator that selects the top-5 mega-cap stocks by market capitalization and then tilts allocation toward recent winners. The five names are rank-weighted by their 60-day return so the best performer receives the largest weight, refreshed monthly. Unlike the equal-weight variant this dynamically sizes positions toward near-term momentum.",
+      "overfit_notes": "Top-5 market-cap universe with a 60-day momentum rank-weighting scheme. The 60-day lookback is a standard momentum window; the linear rank weighting (5,4,3,2,1) is a simple non-extreme choice. Modest overfit from combining market-cap selection with momentum weighting.",
+      "rules": [
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 5 by market cap"},
+        {"label": "Allocation", "text": "Rank-weighted by 60-day return: best→5 units, worst→1 unit, normalized"},
+        {"label": "Rebalance", "text": "Monthly, first trading day, 30 min after open"}
+      ]
+    },
+    "33": {
+      "name": "TQQQ-in-Trend / Top-5 Defensive (cc3_034.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_034.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_034.py",
+      "source": "cc3 batch 7",
+      "description": "A two-regime rotator that holds a leveraged Nasdaq ETF during bull markets and rotates to an equal-weight basket of the top-5 mega-cap stocks as a defensive alternative when the trend falters. The regime is determined by the Nasdaq ETF's position relative to the midpoint of its 200-day Donchian channel. This avoids cash during bear markets by staying in large-cap equities.",
+      "overfit_notes": "Donchian-200 midline gate combined with a top-5 market-cap defensive basket. The Donchian midline is standard; using mega-caps as the defensive leg rather than bonds or cash is a deliberate design choice that adds modest overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > Donchian-200 midline"},
+        {"label": "Entry (trend)", "text": "In bull regime → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Not in bull regime → top-5 mega-cap equal weight (20% each)"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 5 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 mega-caps"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "34": {
+      "name": "Sell-in-May TQQQ (cc3_035.py)",
+      "category": "Seasonality",
+      "overfit": "2/10",
+      "file": "cc3_035.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_035.py",
+      "source": "cc3 batch 7",
+      "description": "A calendar-based seasonality strategy that applies the 'sell in May and go away' effect to a leveraged Nasdaq ETF. It holds the leveraged ETF from November through April — the historically stronger six months — and shifts to a short-term bond ETF from May through October. No price indicators are used; the signal is purely the calendar month.",
+      "overfit_notes": "Pure calendar seasonality using the textbook November–April / May–October split. No price parameters. Very low overfit.",
+      "rules": [
+        {"label": "Entry", "text": "Month in {Nov, Dec, Jan, Feb, Mar, Apr} → 100% TQQQ"},
+        {"label": "Exit", "text": "Month in {May, Jun, Jul, Aug, Sep, Oct} → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: calendar. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "35": {
+      "name": "Drawdown-Buy TQQQ (60d) (cc3_036.py)",
+      "category": "Mean Reversion",
+      "overfit": "3/10",
+      "file": "cc3_036.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_036.py",
+      "source": "cc3 batch 7",
+      "description": "A mean-reversion dip buyer that enters a leveraged Nasdaq ETF after the index ETF has pulled back at least 12% from its 60-day high. It exits when the index recovers to approximately its 60-day high, capturing the bounce. Otherwise it holds a short-term bond ETF while waiting for a meaningful dip.",
+      "overfit_notes": "Entry threshold of −12% from the 60-day high and exit near the 60-day high (≥ 99.9%) are the tuned parameters; the 60-day lookback is a standard intermediate window.",
+      "rules": [
+        {"label": "Entry", "text": "QQQ drawdown from 60d high ≤ −12% → 100% TQQQ"},
+        {"label": "Exit", "text": "QQQ price ≥ 60d high × 0.999 (new 60d high) → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "36": {
+      "name": "Aroon-TQQQ / Top-5 Defensive (cc3_037.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_037.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_037.py",
+      "source": "cc3 batch 8",
+      "description": "A two-regime rotator that uses the Aroon(25) indicator on the Nasdaq ETF to switch between a leveraged Nasdaq ETF in bull conditions and an equal-weight basket of the top-5 largest US stocks as a defensive position. It replaces the traditional cash/bond refuge with large-cap equities to reduce cash drag during non-bull periods.",
+      "overfit_notes": "Aroon(25) at the textbook 70 threshold combined with a top-5 market-cap defensive basket. The Aroon parameters are canonical; the mega-cap defensive choice is a design variant that adds modest overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "AroonUp(25) > 70 AND AroonUp > AroonDown"},
+        {"label": "Entry (trend)", "text": "Aroon bullish → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Not bullish → top-5 mega-cap equal weight (20% each)"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 5 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 mega-caps"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "37": {
+      "name": "Donchian-100 TQQQ / Top-5 Defensive (cc3_038.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_038.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_038.py",
+      "source": "cc3 batch 8",
+      "description": "A two-regime rotator using the 100-day Donchian midline on the Nasdaq ETF to alternate between a leveraged Nasdaq ETF and an equal-weight top-5 mega-cap basket. The faster 100-day window compared to the 200-day variant produces quicker regime switches, and the mega-cap basket serves as the defensive leg rather than bonds.",
+      "overfit_notes": "Donchian-100 midline gate combined with a top-5 market-cap defensive basket. The 100-day period is standard; using mega-caps as defense is a design variant adding modest overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > Donchian-100 midline"},
+        {"label": "Entry (trend)", "text": "In trend → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Not in trend → top-5 mega-cap equal weight (20% each)"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 5 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 mega-caps"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "38": {
+      "name": "Top-5 Mega-Cap Aroon-Weighted (cc3_039.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_039.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_039.py",
+      "source": "cc3 batch 8",
+      "description": "A momentum-weighted rotator that selects the top-5 mega-cap stocks and allocates proportionally to each stock's Aroon differential (AroonUp minus AroonDown, floored at zero). Stocks with stronger internal trends receive higher weight, refreshed monthly. A neutral score of 50 is assigned when the indicator is not ready.",
+      "overfit_notes": "Top-5 market-cap universe with Aroon(25) per-name differential weighting and a 50-point neutral fallback. The Aroon period is textbook; combining individual-stock Aroon weighting with market-cap universe selection adds modest overfit.",
+      "rules": [
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 5 by market cap"},
+        {"label": "Allocation", "text": "Weight = max(AroonUp(25) − AroonDown(25), 0) + 1 per name, normalized; neutral score = 50 when not ready"},
+        {"label": "Rebalance", "text": "Monthly, first trading day, 30 min after open"}
+      ]
+    },
+    "39": {
+      "name": "TQQQ 50% + Top-5 50% Blend (cc3_040.py)",
+      "category": "Rotation",
+      "overfit": "2/10",
+      "file": "cc3_040.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_040.py",
+      "source": "cc3 batch 8",
+      "description": "A static blend rotator that always holds half its portfolio in a leveraged Nasdaq ETF and the other half equally distributed across the top-5 mega-cap stocks. There is no trend filter or defensive shift; the strategy is permanently positioned with a fixed leverage/large-cap mix, rebalanced monthly.",
+      "overfit_notes": "Fixed 50/50 blend between TQQQ and a top-5 market-cap basket. The 50/50 split is a simple round number with no tuned parameters. Very low overfit.",
+      "rules": [
+        {"label": "Allocation", "text": "50% TQQQ + 50% top-5 mega-cap equal weight (10% each)"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 5 by market cap"},
+        {"label": "Symbols", "text": "Execution: TQQQ + top-5 mega-caps (always invested)"},
+        {"label": "Rebalance", "text": "Monthly, first trading day, 30 min after open"}
+      ]
+    },
+    "40": {
+      "name": "Top-1 Mega-Cap Monthly (cc3_041.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_041.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_041.py",
+      "source": "cc3 batch 8",
+      "description": "A maximum-concentration rotator that holds 100% in the single largest US stock by market capitalization, refreshed monthly. By concentrating entirely in the number-one mega-cap, the strategy bets on the continued dominance of the largest company in the market. No trend filter or diversification is applied.",
+      "overfit_notes": "N=1 universe selection by market cap — extreme concentration creates path dependency on which single stock dominates each month. The N=1 choice is a deliberate design extreme, not a tuned parameter, but it creates substantial realization bias.",
+      "rules": [
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 1 by market cap"},
+        {"label": "Allocation", "text": "100% in the single largest mega-cap"},
+        {"label": "Rebalance", "text": "Monthly, first trading day, 30 min after open"}
+      ]
+    },
+    "41": {
+      "name": "Consensus Aroon+Donchian-200 TQQQ (cc3_042.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_042.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_042.py",
+      "source": "cc3 batch 9",
+      "description": "A conservative trend follower that requires both Aroon(25) and the 200-day Donchian midline to simultaneously signal a bull regime before entering a leveraged Nasdaq ETF. When either indicator turns bearish the strategy exits to a short-term bond ETF. The AND logic makes this more selective and reduces time in the leveraged position.",
+      "overfit_notes": "Aroon(25) at threshold 70 combined with Donchian-200 midline; both are standard textbook parameters. The AND-logic combination of two indicators adds modest overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "AroonUp(25) > 70 AND AroonUp > AroonDown AND QQQ > Donchian-200 midline (both required)"},
+        {"label": "Entry", "text": "Both signals bullish → 100% TQQQ"},
+        {"label": "Exit", "text": "Either signal bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "42": {
+      "name": "Permissive Aroon|Donchian-200 TQQQ (cc3_043.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_043.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_043.py",
+      "source": "cc3 batch 9",
+      "description": "A permissive trend follower that requires only one of two indicators — Aroon(25) or the 200-day Donchian midline — to be bullish before entering a leveraged Nasdaq ETF. The OR logic keeps the strategy invested more often than the AND-version, at the cost of potentially acting on weaker signals. It exits to a short-term bond ETF only when both signals are bearish.",
+      "overfit_notes": "Aroon(25) at threshold 70 combined with Donchian-200 midline; both are textbook. The OR-logic combination adds modest overfit versus single-indicator strategies.",
+      "rules": [
+        {"label": "Trend gate", "text": "AroonUp(25) > 70 AND AroonUp > AroonDown OR QQQ > Donchian-200 midline (either sufficient)"},
+        {"label": "Entry", "text": "At least one signal bullish → 100% TQQQ"},
+        {"label": "Exit", "text": "Both signals bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "43": {
+      "name": "3-State TQQQ Sizing (cc3_044.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_044.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_044.py",
+      "source": "cc3 batch 9",
+      "description": "A three-state trend follower that sizes its leveraged Nasdaq ETF position based on how many of two indicators agree. When both Aroon(25) and the Donchian-200 midline are bullish the strategy goes fully into the leveraged ETF; when only one agrees it holds a 50/50 split between the leveraged ETF and a short-term bond ETF; and when both are bearish it holds only the bond ETF.",
+      "overfit_notes": "Aroon(25) and Donchian-200 midline with a 50% intermediate TQQQ allocation. The 50/50 mixed-state weight is a simple round number; both filter parameters are textbook.",
+      "rules": [
+        {"label": "Trend gate", "text": "Aroon(25) bullish: AroonUp > 70 AND AroonUp > AroonDown; Donchian bullish: QQQ > 200d midline"},
+        {"label": "Entry", "text": "Both bullish → 100% TQQQ; one bullish → 50% TQQQ + 50% BIL; neither → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ]
+    },
+    "44": {
+      "name": "Top-3 Mega-Cap + Donchian-200 Gate (cc3_045.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_045.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_045.py",
+      "source": "cc3 batch 9",
+      "description": "A rotator that holds the top-3 mega-cap stocks equally weighted when the Nasdaq ETF is above its 200-day Donchian midline, and shifts to a short-term bond ETF during bear regimes. A more concentrated version of the top-5 gated rotator, this strategy accepts higher single-name risk in exchange for potentially amplified returns from the dominant mega-caps.",
+      "overfit_notes": "Donchian-200 midline gate with a top-3 market-cap universe. Both components are standard; the N=3 concentration is a modest design choice.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "In trend → top-3 mega-cap equal weight (~33% each)"},
+        {"label": "Exit", "text": "Not in trend → 100% BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: top-3 mega-caps / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "45": {
+      "name": "Aroon-TQQQ / Top-1 Defense (cc3_046.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_046.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_046.py",
+      "source": "cc3 batch 9",
+      "description": "A two-regime rotator using Aroon(25) on the Nasdaq ETF to alternate between a leveraged Nasdaq ETF and the single largest US stock by market cap as the defensive position. By concentrating the defensive leg in one mega-cap instead of a diversified basket, this variant accepts higher single-name concentration risk outside of bull markets.",
+      "overfit_notes": "Aroon(25) at threshold 70 combined with a top-1 market-cap defensive single stock. The Aroon parameters are canonical; the N=1 defensive concentration adds overfit risk.",
+      "rules": [
+        {"label": "Trend gate", "text": "AroonUp(25) > 70 AND AroonUp > AroonDown"},
+        {"label": "Entry (trend)", "text": "Aroon bullish → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Not bullish → 100% top-1 mega-cap by market cap"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 1 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-1 mega-cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "46": {
+      "name": "3-State 70/30 Middle (cc3_047.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_047.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_047.py",
+      "source": "cc3 batch 10",
+      "description": "A three-state trend follower using Aroon(25) and the 200-day Donchian midline, but with a risk-on tilt in the mixed state: 70% in the leveraged Nasdaq ETF and 30% in bonds when only one indicator is bullish. This biases the intermediate regime toward equities, increasing expected returns at the cost of more risk during uncertain periods.",
+      "overfit_notes": "Same Aroon(25) + Donchian-200 midline framework as strategy 43, with the mixed-state weight shifted to 70/30 TQQQ/BIL. The 70/30 split is a tuned non-round alternative to 50/50.",
+      "rules": [
+        {"label": "Trend gate", "text": "Aroon(25) bullish AND/OR QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bullish → 100% TQQQ; one bullish → 70% TQQQ + 30% BIL; neither → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ]
+    },
+    "47": {
+      "name": "3-State 30/70 Middle (cc3_048.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_048.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_048.py",
+      "source": "cc3 batch 10",
+      "description": "A three-state trend follower using Aroon(25) and the 200-day Donchian midline, with a risk-off tilt in the mixed state: only 30% in the leveraged Nasdaq ETF and 70% in bonds when only one indicator is bullish. This biases the intermediate regime toward capital preservation, reducing drawdowns at the cost of lower participation in ambiguous trends.",
+      "overfit_notes": "Same Aroon(25) + Donchian-200 midline framework as strategy 43, with the mixed-state weight shifted to 30/70 TQQQ/BIL. The 30/70 split is a tuned non-round alternative to 50/50.",
+      "rules": [
+        {"label": "Trend gate", "text": "Aroon(25) bullish AND/OR QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bullish → 100% TQQQ; one bullish → 30% TQQQ + 70% BIL; neither → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ]
+    },
+    "48": {
+      "name": "Graceful TQQQ/Top-1 Step-Down (cc3_049.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_049.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_049.py",
+      "source": "cc3 batch 10",
+      "description": "A three-state rotator that gracefully steps down from a leveraged Nasdaq ETF to the largest single mega-cap stock as market conditions deteriorate. In the bull state it holds 100% TQQQ; in the mixed state it blends 50% TQQQ with 50% of the top-1 mega-cap; and in the bear state it holds 100% of the top-1 mega-cap. This avoids pure bond exposure by using a large-cap equity as the defensive anchor.",
+      "overfit_notes": "Aroon(25) + Donchian-200 midline three-state framework with a top-1 mega-cap as the defensive leg. The 50/50 mixed weight is a round number; the N=1 mega-cap defensive adds overfit. The combination of 4+ design choices elevates overfit.",
+      "rules": [
+        {"label": "Trend gate", "text": "Aroon(25) bullish AND/OR QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bullish → 100% TQQQ; one bullish → 50% TQQQ + 50% top-1 mega-cap; neither → 100% top-1 mega-cap"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 1 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-1 mega-cap"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ]
+    },
+    "49": {
+      "name": "3-State Aroon-25 + Donchian-100 (cc3_050.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_050.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_050.py",
+      "source": "cc3 batch 10",
+      "description": "A three-state trend follower pairing the faster Aroon(25) with the intermediate 100-day Donchian midline, producing a quicker-reacting variant of the standard three-state system. Both indicators must be bullish for full TQQQ exposure; one bullish gives a 50/50 blend; neither sends the portfolio to bonds.",
+      "overfit_notes": "Aroon(25) at threshold 70 combined with a Donchian-100 midline. The 100-day Donchian is faster than the 200-day, increasing signal frequency; the 50/50 mixed weight is a round number. Modest overfit from two-indicator combination.",
+      "rules": [
+        {"label": "Trend gate", "text": "Aroon(25) bullish AND/OR QQQ > Donchian-100 midline"},
+        {"label": "Entry", "text": "Both bullish → 100% TQQQ; one bullish → 50% TQQQ + 50% BIL; neither → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ]
+    },
+    "50": {
+      "name": "3-State Aroon-50 + Donchian-200 (cc3_051.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_051.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_051.py",
+      "source": "cc3 batch 10",
+      "description": "A three-state trend follower pairing the slower Aroon(50) with the 200-day Donchian midline, producing a more deliberate and infrequent-signaling variant of the three-state system. The longer Aroon lookback and the longer Donchian channel both reduce the frequency of state changes, resulting in fewer trades and potentially smoother equity curves.",
+      "overfit_notes": "Aroon(50) at threshold 70 combined with Donchian-200 midline. The 50-day Aroon is slower than the textbook 25-day but still a standard variant; the 50/50 mixed weight is a round number. Modest overfit from two-indicator combination.",
+      "rules": [
+        {"label": "Trend gate", "text": "Aroon(50) bullish AND/OR QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bullish → 100% TQQQ; one bullish → 50% TQQQ + 50% BIL; neither → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ]
+    }
+  }
+}

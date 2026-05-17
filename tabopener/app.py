@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Tab opener — list Terminal.app windows, bring them to front, show Claude stats."""
+"""Tab opener — list Terminal.app windows, bring them to front, show Claude/Gemini stats."""
 
 import http.server
+import hashlib
 import json
 import urllib.parse
 import subprocess
@@ -193,6 +194,184 @@ def get_claude_sessions_by_tty():
     return sessions
 
 
+# ── Gemini session parsing ───────────────────────────────────────────
+
+def get_gemini_project_hash(cwd):
+    """SHA-256 of the absolute directory path (matches Gemini CLI's project hash)."""
+    return hashlib.sha256(os.path.abspath(cwd).encode()).hexdigest()
+
+
+def parse_gemini_session_usage(jsonl_path):
+    """Return (total_tokens, model_id) from a Gemini session JSONL file."""
+    try:
+        total = 0
+        last_model = None
+        with open(jsonl_path) as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    d = json.loads(line)
+                except Exception:
+                    continue
+                m = d.get("model")
+                if isinstance(m, str) and m:
+                    last_model = m
+                t = d.get("tokens", {})
+                if isinstance(t, dict):
+                    total += t.get("total", 0)
+        return total, last_model
+    except Exception:
+        return 0, None
+
+
+def get_gemini_sessions_by_tty():
+    """Return dict mapping /dev/ttysXXX -> {model, ctx_pct, total_tokens, cwd} for running Gemini sessions."""
+    sessions = {}
+    try:
+        proc = subprocess.run(
+            ["ps", "-eo", "pid,tty,args"],
+            capture_output=True, text=True, timeout=5
+        )
+        home = os.path.expanduser("~")
+        for line in proc.stdout.strip().split("\n"):
+            line = line.strip()
+            if not line:
+                continue
+            parts = line.split(maxsplit=2)
+            if len(parts) != 3:
+                continue
+            pid, tty, args = parts
+            if tty in ("??", "console"):
+                continue
+            # Match gemini CLI but NOT the VS Code extension
+            if "gemini" not in args or "geminicodeassist" in args.lower() or "Code Helper" in args:
+                continue
+
+            model = ""
+            arg_parts = args.split()
+            for i, a in enumerate(arg_parts):
+                if a in ("--model", "-m") and i + 1 < len(arg_parts):
+                    model = arg_parts[i + 1]
+                    break
+
+            full_tty = "/dev/" + tty
+
+            # Get cwd via lsof
+            cwd = ""
+            try:
+                lsof = subprocess.run(
+                    ["lsof", "-a", "-d", "cwd", "-Fn", "-p", pid],
+                    capture_output=True, text=True, timeout=2,
+                )
+                for ln in lsof.stdout.split("\n"):
+                    if ln.startswith("n") and len(ln) > 1:
+                        cwd = ln[1:]
+                        break
+            except Exception:
+                pass
+
+            short_cwd = cwd.replace(home, "~") if cwd else ""
+
+            # Find session JSONL
+            total_tokens = 0
+            if cwd:
+                proj_hash = get_gemini_project_hash(cwd)
+                # Search all project tmp dirs for matching chats
+                tmp_dir = Path(os.path.expanduser("~/.gemini/tmp"))
+                if tmp_dir.exists():
+                    best_mtime = 0
+                    best_path = None
+                    for proj_dir in tmp_dir.iterdir():
+                        if not proj_dir.is_dir():
+                            continue
+                        chats_dir = proj_dir / "chats"
+                        if not chats_dir.exists():
+                            continue
+                        for sess_file in chats_dir.iterdir():
+                            if not sess_file.suffix == ".jsonl":
+                                continue
+                            try:
+                                with open(sess_file) as f:
+                                    first = json.loads(f.readline().strip())
+                                if first.get("projectHash") == proj_hash:
+                                    mtime = sess_file.stat().st_mtime
+                                    if mtime > best_mtime:
+                                        best_mtime = mtime
+                                        best_path = sess_file
+                            except Exception:
+                                pass
+                    if best_path:
+                        total_tokens, session_model = parse_gemini_session_usage(str(best_path))
+                        if session_model and not model:
+                            model = session_model
+
+            sessions[full_tty] = {
+                "model": model or "gemini",
+                "ctx_pct": 0,  # filled later by terminal read
+                "total_tokens": total_tokens,
+                "cache_read": 0,
+                "cwd": short_cwd or cwd,
+                "rate_5h_pct": None,
+                "rate_5h_resets": None,
+                "rate_7d_pct": None,
+                "rate_7d_resets": None,
+            }
+    except Exception:
+        pass
+    return sessions
+
+
+# ── End Gemini ───────────────────────────────────────────────────────
+
+
+def parse_gemini_statusline(win_id, tab_index):
+    """Read a Gemini tab's terminal history and extract model + quota from the statusline.
+    Returns (model_name, quota_pct) or (None, None) if unreadable.
+
+    The Gemini statusline footer looks like:
+        workspace (/directory)      branch     sandbox         /model                   quota
+        ~/Desktop/...               main       no sandbox      Auto (Gemini 2.5)        5% used
+    """
+    try:
+        script = (
+            'tell application "Terminal"\n'
+            f'    history of tab {tab_index} of window id {win_id}\n'
+            'end tell'
+        )
+        result = subprocess.run(
+            ["osascript", "-e", script],
+            capture_output=True, text=True, timeout=3
+        )
+        history = result.stdout
+        if not history:
+            return None, None
+        import re
+        lines = history.split("\n")
+        # Find the last line with "X% used" — that's the data row of the statusline
+        for i in range(len(lines) - 1, -1, -1):
+            line = lines[i]
+            m = re.search(r'(\d+)%\s*used', line)
+            if not m:
+                continue
+            quota = int(m.group(1))
+            # The model is the field just before the quota percentage.
+            # Split on 2+ spaces and pick the second-to-last field.
+            fields = re.split(r'\s{2,}', line.strip())
+            if len(fields) >= 2:
+                # Last field is "5% used", second-to-last is the model
+                model = fields[-2].strip()
+                return model, quota
+            return None, quota
+        return None, None
+    except Exception:
+        return None, None
+
+
+# ──────────────────────────────────────────────────────────────────────
+
+
 def get_tty_cwds(ttys):
     """Return dict mapping /dev/ttysXXX -> cwd by looking at processes on each tty."""
     cwds = {}
@@ -231,7 +410,7 @@ def get_tty_cwds(ttys):
 
 
 def get_terminals():
-    """Return list of Terminal.app windows/tabs via AppleScript, sorted by tty, with Claude model per tab."""
+    """Return list of Terminal.app windows/tabs via AppleScript, sorted by tty, with model/usage per tab."""
     script = """set out to ""
 tell application "Terminal"
     set winCount to count of windows
@@ -274,8 +453,11 @@ return out"""
                     "tabId": parts[3],  # use tabIndex as the stable id
                 })
 
-        # Cross-reference with running Claude processes for model + context usage
+        # Cross-reference with running Claude + Gemini processes for model + context usage
         sessions = get_claude_sessions_by_tty()
+        gemini_sessions = get_gemini_sessions_by_tty()
+        # Gemini takes priority on the same tty (a tab can't run both)
+        sessions.update(gemini_sessions)
         with _manual_lock:
             manual_ttys = set(_manual_titles.keys())
         for tab in tabs:
@@ -289,6 +471,16 @@ return out"""
             tab["rate_7d_pct"] = s.get("rate_7d_pct")
             tab["rate_7d_resets"] = s.get("rate_7d_resets")
             tab["manual"] = tab["tty"] in manual_ttys
+
+        # Enrich Gemini tabs with model + quota from terminal statusline
+        for tab in tabs:
+            model_lower = (tab.get("model") or "").lower()
+            if model_lower.startswith("gemini") or "gemini" in model_lower:
+                term_model, quota = parse_gemini_statusline(tab["winId"], tab["tabIndex"])
+                if quota is not None:
+                    tab["ctx_pct"] = quota
+                if term_model:
+                    tab["model"] = term_model
 
         # Fill missing cwds by looking up each tty's processes via lsof
         missing = {t["tty"] for t in tabs if not t["cwd"]}

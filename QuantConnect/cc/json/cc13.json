@@ -1,0 +1,319 @@
+{
+  "strategies": {
+    "526": {
+      "name": "M60_FI_NEAR60+Top3 (cc3_527.py)",
+      "file": "cc3_527.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_527.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator that uses QQQ as a regime signal and allocates across leveraged equity, large-cap stocks, and cash based on a composite score of four conditions. Each day it counts how many of four signals are true — a median-price trend gate, 60-day momentum, a positive force index, and proximity to the 60-day high — and maps that count to a graduated allocation ladder. The universe side-pocket holds the top three large-cap stocks by market cap, which absorb allocation in the middle-risk tiers.",
+      "overfit_notes": "Median uses the 101st value of the last 200 closes (not a round SMA); force index sums 13 bars; near-60 threshold is 95% of the 60-day high; the 5-level allocation ladder (100/0/0, 70/30/0, 30/70/0, 0/50/50, 0/0/100) is hand-tuned. Four combined signals and the TQQQ execution vehicle add overfit pressure.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[-61] (60-day momentum)"},
+        {"label": "Entry (trend)", "text": "f2: 13-bar price×volume force index > 0"},
+        {"label": "Entry (trend)", "text": "f3: QQQ price ≥ 95% of 60-day high"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "527": {
+      "name": "M60_FI_VOLCONT+Top3 (cc3_528.py)",
+      "file": "cc3_528.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_528.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator identical in structure to M60_FI_NEAR60 but replaces the near-60-high proximity filter with a volatility contraction condition. The third signal checks whether short-term realized volatility has compressed below its longer-term baseline, indicating a calmer market environment. Allocation flows across TQQQ, the top three large-cap stocks, and BIL on a five-level ladder driven by how many conditions are simultaneously true.",
+      "overfit_notes": "Volatility contraction compares 10-bar stddev against 60-bar stddev — both window lengths are non-canonical; force index uses 13 bars; median trend gate uses the 101st value of 200 closes; the 5-level allocation step function is hand-tuned. TQQQ as execution vehicle adds overfit pressure.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[-61] (60-day momentum)"},
+        {"label": "Entry (trend)", "text": "f2: 13-bar price×volume force index > 0"},
+        {"label": "Entry (trend)", "text": "f3: 10-bar realized vol < 60-bar realized vol (volatility contraction)"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "528": {
+      "name": "M60_FI_UPVOL+Top3 (cc3_529.py)",
+      "file": "cc3_529.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_529.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator that replaces the near-high proximity filter with an up-volume dominance condition. The third signal checks whether cumulative volume on up-days has exceeded cumulative volume on down-days over the recent period, indicating broad buying pressure. The same five-level ladder maps the composite score to allocations across TQQQ, the top three large-cap stocks, and cash.",
+      "overfit_notes": "Up-volume window is 20 bars; force index window is 13 bars; median trend gate uses the 101st value of 200 closes; 60-day momentum lookback; the 5-level allocation step function is hand-tuned. TQQQ execution adds overfit pressure.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[-61] (60-day momentum)"},
+        {"label": "Entry (trend)", "text": "f2: 13-bar price×volume force index > 0"},
+        {"label": "Entry (trend)", "text": "f3: sum of volume on up-days > sum of volume on down-days over last 20 bars"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "529": {
+      "name": "M60_NEAR60_VOLCONT+Top3 (cc3_530.py)",
+      "file": "cc3_530.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_530.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator that swaps the force index signal for a near-60-high proximity filter, retaining 60-day momentum and volatility contraction as the other two conditions. The strategy checks whether QQQ is trading near its recent high (strength) and whether short-term volatility has compressed (calm environment) before adding risk. The five-level allocation ladder blends TQQQ, the top three large-cap stocks, and BIL based on the composite score.",
+      "overfit_notes": "Near-60 threshold is 95% of the 60-day max; volatility contraction compares 10-bar and 60-bar stddev windows; median trend gate uses the 101st value of 200 closes; the 5-level allocation step function and TQQQ execution are non-generic choices.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[-61] (60-day momentum)"},
+        {"label": "Entry (trend)", "text": "f2: QQQ price ≥ 95% of 60-day high"},
+        {"label": "Entry (trend)", "text": "f3: 10-bar realized vol < 60-bar realized vol (volatility contraction)"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "530": {
+      "name": "M60_NEAR60_UPVOL+Top3 (cc3_531.py)",
+      "file": "cc3_531.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_531.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator combining 60-day momentum, near-60-day-high proximity, and up-volume dominance as its three confirmation signals alongside the median-price regime gate. The strategy requires the market to be both strong (near recent highs) and supported by buying-side volume pressure. Allocations step across TQQQ, the top three large-cap stocks, and BIL based on how many of the four conditions are met.",
+      "overfit_notes": "Near-60 threshold is 95% of the 60-day max; up-volume window is 20 bars; median trend gate uses the 101st value of 200 closes; 60-day momentum lookback; the 5-level allocation step function and TQQQ execution are non-generic choices.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[-61] (60-day momentum)"},
+        {"label": "Entry (trend)", "text": "f2: QQQ price ≥ 95% of 60-day high"},
+        {"label": "Entry (trend)", "text": "f3: sum of volume on up-days > sum of volume on down-days over last 20 bars"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "531": {
+      "name": "M60_VOLCONT_UPVOL+Top3 (cc3_532.py)",
+      "file": "cc3_532.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_532.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator pairing volatility contraction and up-volume dominance as its two confirmation signals alongside 60-day momentum and the median-price regime gate. The strategy requires a simultaneously calm (compressing volatility) and buyer-driven (up-volume excess) market before adding leveraged exposure. Allocations graduate across TQQQ, the top three large-cap stocks, and BIL based on the composite score.",
+      "overfit_notes": "Volatility contraction compares 10-bar and 60-bar stddev windows; up-volume window is 20 bars; median trend gate uses the 101st value of 200 closes; 60-day momentum lookback; the 5-level allocation step function and TQQQ execution are non-generic.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[-61] (60-day momentum)"},
+        {"label": "Entry (trend)", "text": "f2: 10-bar realized vol < 60-bar realized vol (volatility contraction)"},
+        {"label": "Entry (trend)", "text": "f3: sum of volume on up-days > sum of volume on down-days over last 20 bars"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "532": {
+      "name": "M20_RNG_NEAR60+Top3 (cc3_533.py)",
+      "file": "cc3_533.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_533.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator that uses a shorter 20-day momentum lookback and adds a daily-range expansion filter alongside a near-60-day-high proximity check. The range expansion signal fires when recent average true range exceeds the longer-term baseline, indicating elevated but not panicked activity. The same five-level ladder maps the composite score to allocations across TQQQ, the top three large-cap stocks, and BIL.",
+      "overfit_notes": "Range expansion compares 25-bar average H-L to the 200-bar average multiplied by 1.1 — both the window lengths and the 1.1 multiplier are tuned; near-60 threshold is 95%; 20-day momentum lookback is shorter than typical; median trend gate uses the 101st value of 200 closes.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[-21] (20-day momentum)"},
+        {"label": "Entry (trend)", "text": "f2: 25-bar avg daily range > 200-bar avg daily range × 1.1 (range expansion)"},
+        {"label": "Entry (trend)", "text": "f3: QQQ price ≥ 95% of 60-day high"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "533": {
+      "name": "M20_RNG_VOLCONT+Top3 (cc3_534.py)",
+      "file": "cc3_534.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_534.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator using 20-day momentum, range expansion, and volatility contraction as its three confirmation signals. The combination of expanding ranges alongside compressing short-term volatility attempts to identify calm breakout environments. Allocations move across TQQQ, the top three large-cap stocks, and BIL on a five-level ladder.",
+      "overfit_notes": "Range expansion compares 25-bar and 200-bar average H-L with a 1.1 multiplier; volatility contraction compares 10-bar and 60-bar stddev windows; 20-day momentum lookback; median trend gate uses the 101st value of 200 closes. Multiple tuned parameters push overfit toward 4/10.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[-21] (20-day momentum)"},
+        {"label": "Entry (trend)", "text": "f2: 25-bar avg daily range > 200-bar avg daily range × 1.1 (range expansion)"},
+        {"label": "Entry (trend)", "text": "f3: 10-bar realized vol < 60-bar realized vol (volatility contraction)"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "534": {
+      "name": "M20_WVF_NEAR60+Top3 (cc3_535.py)",
+      "file": "cc3_535.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_535.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator combining 20-day momentum with two strength filters: a Williams VIX Fix proxy (proximity to the 22-day high) and a near-60-day-high check. When QQQ is trading close to both its short-term and medium-term highs simultaneously, the strategy interprets this as a strong, sustained trend and maximizes leveraged exposure. Allocation steps down through TQQQ, large-cap stocks, and BIL as conditions weaken.",
+      "overfit_notes": "WVF threshold is within 5% of the 22-day high (non-canonical window); near-60 threshold is 95% of the 60-day max; 20-day momentum lookback; median trend gate uses the 101st value of 200 closes. The dual near-high combination is a specific structural choice.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[-21] (20-day momentum)"},
+        {"label": "Entry (trend)", "text": "f2: QQQ within 5% of 22-day high (Williams VIX Fix proxy)"},
+        {"label": "Entry (trend)", "text": "f3: QQQ price ≥ 95% of 60-day high"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "535": {
+      "name": "M20_WVF_VOLCONT+Top3 (cc3_536.py)",
+      "file": "cc3_536.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_536.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator that pairs a Williams VIX Fix proxy (near-22-day-high) with a volatility contraction filter alongside 20-day momentum and the median-price regime gate. The combination favors environments where QQQ is holding near short-term strength highs while market volatility is quieting, a setup associated with continuation moves. Allocations graduate across TQQQ, the top three large-cap stocks, and BIL.",
+      "overfit_notes": "WVF threshold is within 5% of the 22-day high; volatility contraction compares 10-bar and 60-bar stddev windows; 20-day momentum lookback; median trend gate uses the 101st value of 200 closes. Multiple non-canonical windows combine.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[-21] (20-day momentum)"},
+        {"label": "Entry (trend)", "text": "f2: QQQ within 5% of 22-day high (Williams VIX Fix proxy)"},
+        {"label": "Entry (trend)", "text": "f3: 10-bar realized vol < 60-bar realized vol (volatility contraction)"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "536": {
+      "name": "M60_RNG_NEAR60+Top3 (cc3_537.py)",
+      "file": "cc3_537.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_537.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator combining 60-day momentum with a daily-range expansion filter and a near-60-day-high proximity check. The range expansion signal identifies periods of above-average price activity, while the near-high filter confirms that the move is directional rather than volatile. The standard five-level ladder maps the composite score to allocations across TQQQ, the top three large-cap stocks, and BIL.",
+      "overfit_notes": "Range expansion compares 25-bar average H-L to the 200-bar average with a 1.1 multiplier; near-60 threshold is 95% of the 60-day max; 60-day momentum lookback; median trend gate uses the 101st value of 200 closes. The 1.1 range multiplier is a tuned threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[-61] (60-day momentum)"},
+        {"label": "Entry (trend)", "text": "f2: 25-bar avg daily range > 200-bar avg daily range × 1.1 (range expansion)"},
+        {"label": "Entry (trend)", "text": "f3: QQQ price ≥ 95% of 60-day high"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "537": {
+      "name": "M252_FI_NEAR60+Top3 (cc3_538.py)",
+      "file": "cc3_538.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_538.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator using a full-year momentum lookback alongside a force index and a near-60-day-high filter. By requiring that the current price exceed the price from one year ago, the strategy targets only strongly trending annual regimes before layering on shorter-term confirmation. The five-level allocation ladder steps through TQQQ, the top three large-cap stocks, and BIL based on how many conditions hold.",
+      "overfit_notes": "Momentum compares close[-1] vs close[0] over the full 252-bar history window (1-year lookback); force index sums 13 bars; near-60 threshold is 95% of the 60-day max; median trend gate uses the 101st value of 200 closes. The ladder structure and TQQQ execution are non-generic.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[0] (~252-day momentum, current vs. year-ago)"},
+        {"label": "Entry (trend)", "text": "f2: 13-bar price×volume force index > 0"},
+        {"label": "Entry (trend)", "text": "f3: QQQ price ≥ 95% of 60-day high"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "538": {
+      "name": "M252_NEAR60_VOLCONT+Top3 (cc3_539.py)",
+      "file": "cc3_539.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_539.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator combining a full-year momentum check with near-60-day-high strength confirmation and a volatility contraction condition. The yearly lookback selects for macro uptrends, while the shorter-term filters ensure the current price action is both strong and calm before adding risk. Allocations are spread across TQQQ, the top three large-cap stocks, and BIL on the standard five-level ladder.",
+      "overfit_notes": "Momentum compares close[-1] vs close[0] over 252 bars; near-60 threshold is 95%; volatility contraction compares 10-bar and 60-bar stddev windows; median trend gate uses the 101st value of 200 closes. The combination of a long-term momentum lookback with short-term vol filters is a specific structural choice.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[0] (~252-day momentum, current vs. year-ago)"},
+        {"label": "Entry (trend)", "text": "f2: QQQ price ≥ 95% of 60-day high"},
+        {"label": "Entry (trend)", "text": "f3: 10-bar realized vol < 60-bar realized vol (volatility contraction)"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "539": {
+      "name": "M252_UPVOL_VOLCONT+Top3 (cc3_540.py)",
+      "file": "cc3_540.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_540.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator that anchors on a full-year momentum gate and adds two market-structure conditions: up-volume dominance over down-volume and volatility contraction. The strategy looks for annual uptrends sustained by broad buyer participation while volatility is compressing — a setup associated with healthy, durable rallies. The five-level ladder steps exposure from TQQQ through large-cap stocks to cash.",
+      "overfit_notes": "Momentum compares close[-1] vs close[0] over 252 bars; up-volume window is 20 bars; volatility contraction compares 10-bar and 60-bar stddev windows; median trend gate uses the 101st value of 200 closes. Multiple non-canonical windows.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[0] (~252-day momentum, current vs. year-ago)"},
+        {"label": "Entry (trend)", "text": "f2: sum of volume on up-days > sum of volume on down-days over last 20 bars"},
+        {"label": "Entry (trend)", "text": "f3: 10-bar realized vol < 60-bar realized vol (volatility contraction)"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    },
+    "540": {
+      "name": "M252_RNG_WVF+Top3 (cc3_541.py)",
+      "file": "cc3_541.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_541.py",
+      "source": "cc3 batches 99-103 diverse",
+      "description": "A trend-following rotator anchoring on full-year momentum and combining a daily-range expansion signal with a Williams VIX Fix proxy to gauge short-term market health. The range expansion condition identifies heightened trading activity, while the near-22-day-high filter confirms that activity is directionally constructive rather than panicked. The five-level ladder allocates across TQQQ, the top three large-cap stocks, and BIL.",
+      "overfit_notes": "Momentum compares close[-1] vs close[0] over 252 bars; range expansion compares 25-bar and 200-bar average H-L with a 1.1 multiplier; WVF threshold is within 5% of the 22-day high; median trend gate uses the 101st value of 200 closes. Multiple tuned parameters.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > median close of last 200 days (f0)"},
+        {"label": "Entry (trend)", "text": "f1: QQQ close[-1] > close[0] (~252-day momentum, current vs. year-ago)"},
+        {"label": "Entry (trend)", "text": "f2: 25-bar avg daily range > 200-bar avg daily range × 1.1 (range expansion)"},
+        {"label": "Entry (trend)", "text": "f3: QQQ within 5% of 22-day high (Williams VIX Fix proxy)"},
+        {"label": "Allocation", "text": "n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open; only trades when score n changes"}
+      ]
+    }
+  }
+}

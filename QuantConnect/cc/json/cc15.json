@@ -1,0 +1,217 @@
+{
+  "strategies": {
+    "576": {
+      "name": "BB_PctB50 (cc15_576.py)",
+      "file": "cc15_576.py",
+      "category": "Volatility",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_576.py",
+      "source": "cc15 batch 1 BB",
+      "description": "Bollinger Band trend follower on QQQ — when %B sits above the midpoint (price above the SMA mid-band), goes long leveraged Nasdaq; below the midpoint, sits in cash equivalents. Single-threshold binary regime switch with no hysteresis.",
+      "overfit_notes": "Single BB(20,2) %B>0.5 threshold — canonical Bollinger settings; %B midpoint test is symmetric and untuned.",
+      "rules": [
+        {
+          "label": "Regime",
+          "text": "BB(20, 2σ) %B(QQQ)"
+        },
+        {
+          "label": "Entry",
+          "text": "%B > 0.5 → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "%B ≤ 0.5 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ. Execution: TQQQ / BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open"
+        }
+      ]
+    },
+    "577": {
+      "name": "BB_PctB65 (cc15_577.py)",
+      "file": "cc15_577.py",
+      "category": "Volatility",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_577.py",
+      "source": "cc15 batch 1 BB",
+      "description": "Bollinger %B trend follower on QQQ with a hysteresis band — enters TQQQ only when %B pushes above 0.65 and exits to cash only when %B drops below 0.35. Holds position inside the 0.35–0.65 dead zone to reduce whipsaw.",
+      "overfit_notes": "Adds two asymmetric thresholds (0.35 / 0.65) around the midpoint to BB(20,2). The dead-zone design is a reasonable anti-churn pattern; cutoffs are slightly tuned.",
+      "rules": [
+        {
+          "label": "Regime",
+          "text": "BB(20, 2σ) %B(QQQ)"
+        },
+        {
+          "label": "Entry",
+          "text": "%B > 0.65 → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "%B < 0.35 → 100% BIL"
+        },
+        {
+          "label": "Hold",
+          "text": "0.35 ≤ %B ≤ 0.65 → no change"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ. Execution: TQQQ / BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open"
+        }
+      ]
+    },
+    "578": {
+      "name": "BB_UpperBreak (cc15_578.py)",
+      "file": "cc15_578.py",
+      "category": "Breakout",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_578.py",
+      "source": "cc15 batch 1 BB",
+      "description": "Bollinger Band breakout strategy on QQQ — enters leveraged Nasdaq on an upper-band breakout, exits when price retraces back through the SMA mid-band. Asymmetric momentum-style entry with a mid-band stop.",
+      "overfit_notes": "Two asymmetric BB(20,2) breakpoints — upper band entry and mid-band exit. Canonical BB settings; rule shape is a textbook breakout-with-trailing-mean.",
+      "rules": [
+        {
+          "label": "Regime",
+          "text": "BB(20, 2σ) on QQQ"
+        },
+        {
+          "label": "Entry",
+          "text": "Price > upper band → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "Price < middle band → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ. Execution: TQQQ / BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open"
+        }
+      ]
+    },
+    "579": {
+      "name": "BB30_PctB50 (cc15_579.py)",
+      "file": "cc15_579.py",
+      "category": "Volatility",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_579.py",
+      "source": "cc15 batch 1 BB",
+      "description": "Same midpoint-%B regime switch as strategy 576 but with a longer, wider Bollinger Band (30-day SMA, 2.5σ). Smoother regime detection at the cost of slower response to trend changes.",
+      "overfit_notes": "Two non-canonical BB parameters (30 vs 20 length, 2.5 vs 2 stdev) — both slightly tuned from textbook defaults. Symmetric midpoint switch keeps it from being heavily fit.",
+      "rules": [
+        {
+          "label": "Regime",
+          "text": "BB(30, 2.5σ) %B(QQQ)"
+        },
+        {
+          "label": "Entry",
+          "text": "%B > 0.5 → 100% TQQQ"
+        },
+        {
+          "label": "Exit",
+          "text": "%B ≤ 0.5 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ. Execution: TQQQ / BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open"
+        }
+      ]
+    },
+    "580": {
+      "name": "BB_Top5 (cc15_580.py)",
+      "file": "cc15_580.py",
+      "category": "Volatility",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_580.py",
+      "source": "cc15 batch 1 BB",
+      "description": "Bollinger %B regime gate that rotates between a top-5 mega-cap basket (when bullish) and cash equivalents (when bearish). Universe is the 5 largest stocks by market cap drawn from the top-100 by dollar volume, refreshed daily.",
+      "overfit_notes": "BB(20,2) %B with asymmetric thresholds (>0.5 enter, <0.4 exit) plus a hindsight mega-cap universe (top-5 by market cap, which over 2014–2025 maps to AAPL/MSFT/AMZN/GOOGL/META/NVDA). The universe selection adds asset-class fit on top of the simple regime rule.",
+      "rules": [
+        {
+          "label": "Universe",
+          "text": "Top 100 stocks by dollar volume → top 5 by market cap (daily refresh)"
+        },
+        {
+          "label": "Regime",
+          "text": "BB(20, 2σ) %B(QQQ)"
+        },
+        {
+          "label": "Entry",
+          "text": "%B > 0.5 → 20% in each of top-5 mega-caps"
+        },
+        {
+          "label": "Exit",
+          "text": "%B < 0.4 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ. Execution: top-5 mega-caps / BIL"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open"
+        }
+      ]
+    },
+    "581": {"name": "MACD_SignalCross (cc15_581.py)", "file": "cc15_581.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_581.py", "source": "cc15 batch 2 MACD"},
+    "582": {"name": "MACD_ZeroCross (cc15_582.py)", "file": "cc15_582.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_582.py", "source": "cc15 batch 2 MACD"},
+    "583": {"name": "MACD_Fast_SignalCross (cc15_583.py)", "file": "cc15_583.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_583.py", "source": "cc15 batch 2 MACD"},
+    "584": {"name": "MACD_Slow_SignalCross (cc15_584.py)", "file": "cc15_584.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_584.py", "source": "cc15 batch 2 MACD"},
+    "585": {"name": "MACD_Top5 (cc15_585.py)", "file": "cc15_585.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_585.py", "source": "cc15 batch 2 MACD"},
+    "591": {"name": "STO14_K50 (cc15_591.py)", "file": "cc15_591.py", "category": "Oscillator", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_591.py", "source": "cc15 batch 3 Stochastic"},
+    "592": {"name": "STO14_KD_Cross (cc15_592.py)", "file": "cc15_592.py", "category": "Oscillator", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_592.py", "source": "cc15 batch 3 Stochastic"},
+    "593": {"name": "STO21_Slow (cc15_593.py)", "file": "cc15_593.py", "category": "Oscillator", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_593.py", "source": "cc15 batch 3 Stochastic"},
+    "594": {"name": "STO5_Fast (cc15_594.py)", "file": "cc15_594.py", "category": "Oscillator", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_594.py", "source": "cc15 batch 3 Stochastic"},
+    "595": {"name": "STO14_Top5 (cc15_595.py)", "file": "cc15_595.py", "category": "Oscillator", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_595.py", "source": "cc15 batch 3 Stochastic"},
+    "596": {"name": "AROON25_Osc (cc15_596.py)", "file": "cc15_596.py", "category": "Trend", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_596.py", "source": "cc15 batch 4 Aroon"},
+    "597": {"name": "AROON25_Hyst (cc15_597.py)", "file": "cc15_597.py", "category": "Trend", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_597.py", "source": "cc15 batch 4 Aroon"},
+    "598": {"name": "AROON14_Osc (cc15_598.py)", "file": "cc15_598.py", "category": "Trend", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_598.py", "source": "cc15 batch 4 Aroon"},
+    "599": {"name": "AROON50_Osc (cc15_599.py)", "file": "cc15_599.py", "category": "Trend", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_599.py", "source": "cc15 batch 4 Aroon"},
+    "600": {"name": "AROON25_Top5 (cc15_600.py)", "file": "cc15_600.py", "category": "Trend", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_600.py", "source": "cc15 batch 4 Aroon"},
+    "601": {"name": "ROC20_Zero (cc15_601.py)", "file": "cc15_601.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_601.py", "source": "cc15 batch 5 ROC"},
+    "602": {"name": "ROC60_Zero (cc15_602.py)", "file": "cc15_602.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_602.py", "source": "cc15 batch 5 ROC"},
+    "603": {"name": "ROC10_Zero (cc15_603.py)", "file": "cc15_603.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_603.py", "source": "cc15 batch 5 ROC"},
+    "604": {"name": "ROC_Dual20x60 (cc15_604.py)", "file": "cc15_604.py", "category": "Momentum", "overfit": "3/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_604.py", "source": "cc15 batch 5 ROC"},
+    "605": {"name": "ROC20_Top5 (cc15_605.py)", "file": "cc15_605.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_605.py", "source": "cc15 batch 5 ROC"},
+    "606": {"name": "PSAR_std (cc15_606.py)", "file": "cc15_606.py", "category": "Trend", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_606.py", "source": "cc15 batch 6 PSAR"},
+    "607": {"name": "PSAR_slow (cc15_607.py)", "file": "cc15_607.py", "category": "Trend", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_607.py", "source": "cc15 batch 6 PSAR"},
+    "608": {"name": "PSAR_fast (cc15_608.py)", "file": "cc15_608.py", "category": "Trend", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_608.py", "source": "cc15 batch 6 PSAR"},
+    "609": {"name": "PSAR_Top5 (cc15_609.py)", "file": "cc15_609.py", "category": "Trend", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_609.py", "source": "cc15 batch 6 PSAR"},
+    "610": {"name": "PSAR_aggr (cc15_610.py)", "file": "cc15_610.py", "category": "Trend", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_610.py", "source": "cc15 batch 6 PSAR"},
+    "616": {"name": "KCH20x2 (cc15_616.py)", "file": "cc15_616.py", "category": "Volatility", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_616.py", "source": "cc15 batch 7 KCH"},
+    "617": {"name": "KCH20x1p5 (cc15_617.py)", "file": "cc15_617.py", "category": "Volatility", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_617.py", "source": "cc15 batch 7 KCH"},
+    "618": {"name": "KCH14x2 (cc15_618.py)", "file": "cc15_618.py", "category": "Volatility", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_618.py", "source": "cc15 batch 7 KCH"},
+    "619": {"name": "KCH30x2 (cc15_619.py)", "file": "cc15_619.py", "category": "Volatility", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_619.py", "source": "cc15 batch 7 KCH"},
+    "620": {"name": "KCH20x2_Top5 (cc15_620.py)", "file": "cc15_620.py", "category": "Volatility", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_620.py", "source": "cc15 batch 7 KCH"},
+    "621": {"name": "MFI14_50 (cc15_621.py)", "file": "cc15_621.py", "category": "Volume", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_621.py", "source": "cc15 batch 8 MFI"},
+    "622": {"name": "MFI14_Hyst (cc15_622.py)", "file": "cc15_622.py", "category": "Volume", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_622.py", "source": "cc15 batch 8 MFI"},
+    "623": {"name": "MFI10_50 (cc15_623.py)", "file": "cc15_623.py", "category": "Volume", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_623.py", "source": "cc15 batch 8 MFI"},
+    "624": {"name": "MFI20_50 (cc15_624.py)", "file": "cc15_624.py", "category": "Volume", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_624.py", "source": "cc15 batch 8 MFI"},
+    "625": {"name": "MFI14_Top5 (cc15_625.py)", "file": "cc15_625.py", "category": "Volume", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_625.py", "source": "cc15 batch 8 MFI"},
+    "631": {"name": "FISH9_Zero (cc15_631.py)", "file": "cc15_631.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_631.py", "source": "cc15 batch 9 Fisher"},
+    "632": {"name": "FISH9_Hyst (cc15_632.py)", "file": "cc15_632.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_632.py", "source": "cc15 batch 9 Fisher"},
+    "633": {"name": "FISH14_Zero (cc15_633.py)", "file": "cc15_633.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_633.py", "source": "cc15 batch 9 Fisher"},
+    "634": {"name": "FISH9_Hyst05 (cc15_634.py)", "file": "cc15_634.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_634.py", "source": "cc15 batch 9 Fisher"},
+    "635": {"name": "FISH9_Top5 (cc15_635.py)", "file": "cc15_635.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_635.py", "source": "cc15 batch 9 Fisher"}
+  }
+}

@@ -1,0 +1,1854 @@
+{
+  "strategies": {
+    "401": {
+      "name": "Mom20+WILR14+Top5 w60 (cc3_402.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a short-term price momentum check, and a Williams %R reading — to assign one of three risk levels. When all signals align, it holds leveraged tech; partial agreement shifts into the top large-cap stocks; full disagreement mixes stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and WILR) plus a rate-of-change momentum check. The WILR threshold at -50 (midline) and the 200-day median-price regime filter are slightly unconventional. The mid-state blends (60/40 TQQQ/TopN) and BIL half-allocation at n=0 are tuned parameters.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Williams %R(14) on QQQ > -50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 (all signals bullish) → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-5 large-caps equally; Score 1 → 100% Top-5 large-caps; Score 0 → 50% Top-5 + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Williams %R. Execution: TQQQ / top-5 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 5 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_402.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_402.py",
+      "source": "cc3 batches 77-81"
+    },
+    "402": {
+      "name": "Mom20+ADX14+Top5 w70 (cc3_403.py)",
+      "description": "A hybrid trend-momentum rotator using three QQQ signals — a 200-day price-median trend gate, a 20-day price momentum check, and ADX directional-index comparison — to select one of three risk levels. Full bullish agreement goes to leveraged tech; mixed signals rotate into large-cap stocks or a blend; all bearish moves to half cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Two standard components (ADX and price-median trend). ADX criterion uses DI+ > DI- (directional cross, not a threshold level) which is a standard but mid-sensitivity signal. Mid-state weight at 70/30 (TQQQ/TopN) is more tuned than the w60 variant.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "ADX(14) positive directional index > negative directional index on QQQ"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 70% TQQQ + 30% Top-5 large-caps equally; Score 1 → 100% Top-5 large-caps; Score 0 → 50% Top-5 + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + ADX. Execution: TQQQ / top-5 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 5 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_403.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_403.py",
+      "source": "cc3 batches 77-81"
+    },
+    "403": {
+      "name": "Mom20+CCI20+Top5 w60 (cc3_404.py)",
+      "description": "A hybrid trend-momentum rotator scoring three QQQ signals — a 200-day price-median trend gate, a 20-day price momentum check, and a CCI midline cross — to select one of four risk levels. Full agreement goes to leveraged tech; partial agreement blends tech ETF with top large-cap stocks; no agreement holds half in cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend and CCI) plus a momentum lookback. CCI threshold at zero (midline) is canonical. The 60/40 TQQQ/TopN mid-state blend and BIL half-split at score 0 are tuned parameters.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "CCI(20, Simple) on QQQ > 0"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-5 large-caps equally; Score 1 → 100% Top-5 large-caps; Score 0 → 50% Top-5 + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + CCI. Execution: TQQQ / top-5 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 5 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_404.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_404.py",
+      "source": "cc3 batches 77-81"
+    },
+    "404": {
+      "name": "Mom30+MFI14+Top5 w60 (cc3_405.py)",
+      "description": "A hybrid trend-momentum rotator using three QQQ signals — a 200-day price-median trend gate, a 30-day price momentum check, and Money Flow Index above its midline — to select one of four risk levels. Strong agreement goes to leveraged tech; mixed signals rotate into large-cap stocks or blends; all bearish shifts fully to stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Two standard components (price-median trend and MFI) plus a momentum lookback. MFI threshold at 50 is the canonical midline. The 60/40 TQQQ/TopN mid-state split and 30-day momentum window are slightly tuned.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "MFI(14) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-5 large-caps equally; Score 1 → 100% Top-5 large-caps; Score 0 → 50% Top-5 + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + MFI. Execution: TQQQ / top-5 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 5 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_405.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_405.py",
+      "source": "cc3 batches 77-81"
+    },
+    "405": {
+      "name": "Mom60+MFI14+Top5 w60 (cc3_406.py)",
+      "description": "A hybrid trend-momentum rotator using three QQQ signals — a 200-day price-median trend gate, a 60-day price momentum check, and Money Flow Index above its midline — to select one of four risk levels. Full bullish agreement goes to leveraged tech; mixed conditions blend leveraged tech with large-cap stocks; bearish conditions rotate into stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Same structure as strategy 404 with a longer 60-day momentum window instead of 30-day. MFI midline at 50 is canonical; 60/40 blending and the specific momentum period are tuned.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "MFI(14) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-5 large-caps equally; Score 1 → 100% Top-5 large-caps; Score 0 → 50% Top-5 + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + MFI. Execution: TQQQ / top-5 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 5 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_406.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_406.py",
+      "source": "cc3 batches 77-81"
+    },
+    "406": {
+      "name": "4S Mom20+MFI14+Top3+BIL (cc3_407.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and Money Flow Index above its midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and MFI(14)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "MFI(14) > 50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_407.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_407.py",
+      "source": "cc3 batches 82-86"
+    },
+    "407": {
+      "name": "4S Mom20+WILR14+Top3+BIL (cc3_408.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and Williams %R above the midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Williams %R(14)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Williams %R(14) > -50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Williams %R(14). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_408.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_408.py",
+      "source": "cc3 batches 82-86"
+    },
+    "408": {
+      "name": "4S Mom20+ADX14+Top3+BIL (cc3_409.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and ADX directional index showing positive trend (DI+ > DI-) — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and ADX(14)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "ADX(14) DI+ > DI- on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_409.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_409.py",
+      "source": "cc3 batches 82-86"
+    },
+    "409": {
+      "name": "4S Mom20+CCI20+Top3+BIL (cc3_410.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and CCI above zero — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and CCI(20)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "CCI(20) > 0 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + CCI(20). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_410.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_410.py",
+      "source": "cc3 batches 82-86"
+    },
+    "410": {
+      "name": "4S Mom30+MFI14+Top3+BIL (cc3_411.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 30-day price momentum check, and Money Flow Index above its midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and MFI(14)) plus a 30-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "MFI(14) > 50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_411.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_411.py",
+      "source": "cc3 batches 82-86"
+    },
+    "411": {
+      "name": "4S Mom30+WILR14+Top3+BIL (cc3_412.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 30-day price momentum check, and Williams %R above the midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Williams %R(14)) plus a 30-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Williams %R(14) > -50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Williams %R(14). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_412.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_412.py",
+      "source": "cc3 batches 82-86"
+    },
+    "412": {
+      "name": "4S Mom30+ADX14+Top3+BIL (cc3_413.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 30-day price momentum check, and ADX directional index showing positive trend (DI+ > DI-) — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and ADX(14)) plus a 30-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "ADX(14) DI+ > DI- on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_413.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_413.py",
+      "source": "cc3 batches 82-86"
+    },
+    "413": {
+      "name": "4S Mom30+CCI20+Top3+BIL (cc3_414.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 30-day price momentum check, and CCI above zero — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and CCI(20)) plus a 30-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "CCI(20) > 0 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + CCI(20). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_414.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_414.py",
+      "source": "cc3 batches 82-86"
+    },
+    "414": {
+      "name": "4S Mom60+MFI14+Top3+BIL (cc3_415.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 60-day price momentum check, and Money Flow Index above its midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and MFI(14)) plus a 60-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "MFI(14) > 50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_415.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_415.py",
+      "source": "cc3 batches 82-86"
+    },
+    "415": {
+      "name": "4S Mom60+WILR14+Top3+BIL (cc3_416.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 60-day price momentum check, and Williams %R above the midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Williams %R(14)) plus a 60-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Williams %R(14) > -50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Williams %R(14). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_416.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_416.py",
+      "source": "cc3 batches 82-86"
+    },
+    "416": {
+      "name": "4S Mom60+ADX14+Top3+BIL (cc3_417.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 60-day price momentum check, and ADX directional index showing positive trend (DI+ > DI-) — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and ADX(14)) plus a 60-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "ADX(14) DI+ > DI- on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_417.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_417.py",
+      "source": "cc3 batches 82-86"
+    },
+    "417": {
+      "name": "4S Mom60+CCI20+Top3+BIL (cc3_418.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 60-day price momentum check, and CCI above zero — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and CCI(20)) plus a 60-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "CCI(20) > 0 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + CCI(20). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_418.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_418.py",
+      "source": "cc3 batches 82-86"
+    },
+    "418": {
+      "name": "4S Mom20+MFI14+Top2+BIL (cc3_419.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and Money Flow Index above its midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and MFI(14)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-2 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "MFI(14) > 50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-2 large-caps equally; Score 1 → 50% Top-2 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-2 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 2 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_419.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_419.py",
+      "source": "cc3 batches 82-86"
+    },
+    "419": {
+      "name": "4S Mom20+WILR14+Top2+BIL (cc3_420.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and Williams %R above the midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Williams %R(14)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-2 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Williams %R(14) > -50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-2 large-caps equally; Score 1 → 50% Top-2 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Williams %R(14). Execution: TQQQ / top-2 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 2 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_420.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_420.py",
+      "source": "cc3 batches 82-86"
+    },
+    "420": {
+      "name": "4S Mom20+ADX14+Top2+BIL (cc3_421.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and ADX directional index showing positive trend (DI+ > DI-) — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and ADX(14)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-2 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "ADX(14) DI+ > DI- on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-2 large-caps equally; Score 1 → 50% Top-2 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-2 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 2 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_421.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_421.py",
+      "source": "cc3 batches 82-86"
+    },
+    "421": {
+      "name": "4S Mom20+CCI20+Top2+BIL (cc3_422.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and CCI above zero — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and CCI(20)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-2 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "CCI(20) > 0 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-2 large-caps equally; Score 1 → 50% Top-2 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + CCI(20). Execution: TQQQ / top-2 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 2 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_422.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_422.py",
+      "source": "cc3 batches 82-86"
+    },
+    "422": {
+      "name": "4S Mom20+MFI14+Top1+BIL (cc3_423.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and Money Flow Index above its midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and MFI(14)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-1 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "MFI(14) > 50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-1 (largest market-cap stock) large-caps equally; Score 1 → 50% Top-1 (largest market-cap stock) large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-1 (largest by market cap) market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 1 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_423.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_423.py",
+      "source": "cc3 batches 82-86"
+    },
+    "423": {
+      "name": "4S Mom20+WILR14+Top1+BIL (cc3_424.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and Williams %R above the midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Williams %R(14)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-1 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Williams %R(14) > -50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-1 (largest market-cap stock) large-caps equally; Score 1 → 50% Top-1 (largest market-cap stock) large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Williams %R(14). Execution: TQQQ / top-1 (largest by market cap) market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 1 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_424.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_424.py",
+      "source": "cc3 batches 82-86"
+    },
+    "424": {
+      "name": "4S Mom20+ADX14+Top1+BIL (cc3_425.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and ADX directional index showing positive trend (DI+ > DI-) — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and ADX(14)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-1 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "ADX(14) DI+ > DI- on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-1 (largest market-cap stock) large-caps equally; Score 1 → 50% Top-1 (largest market-cap stock) large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-1 (largest by market cap) market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 1 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_425.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_425.py",
+      "source": "cc3 batches 82-86"
+    },
+    "425": {
+      "name": "4S Mom20+CCI20+Top1+BIL (cc3_426.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and CCI above zero — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and CCI(20)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-1 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "CCI(20) > 0 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-1 (largest market-cap stock) large-caps equally; Score 1 → 50% Top-1 (largest market-cap stock) large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + CCI(20). Execution: TQQQ / top-1 (largest by market cap) market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 1 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_426.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_426.py",
+      "source": "cc3 batches 82-86"
+    },
+    "426": {
+      "name": "4S Mom20+MFI14+Top5+BIL (cc3_427.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and Money Flow Index above its midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and MFI(14)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-5 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "MFI(14) > 50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-5 large-caps equally; Score 1 → 50% Top-5 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-5 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 5 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_427.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_427.py",
+      "source": "cc3 batches 82-86"
+    },
+    "427": {
+      "name": "4S Mom20+WILR14+Top5+BIL (cc3_428.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and Williams %R above the midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Williams %R(14)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-5 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Williams %R(14) > -50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-5 large-caps equally; Score 1 → 50% Top-5 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Williams %R(14). Execution: TQQQ / top-5 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 5 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_428.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_428.py",
+      "source": "cc3 batches 82-86"
+    },
+    "428": {
+      "name": "4S Mom20+ADX14+Top5+BIL (cc3_429.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and ADX directional index showing positive trend (DI+ > DI-) — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and ADX(14)) plus a 20-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-5 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "ADX(14) DI+ > DI- on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-5 large-caps equally; Score 1 → 50% Top-5 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + ADX(14). Execution: TQQQ / top-5 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 5 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_429.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_429.py",
+      "source": "cc3 batches 82-86"
+    },
+    "429": {
+      "name": "4S Mom40+MFI14+Top3+BIL (cc3_430.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 40-day price momentum check, and Money Flow Index above its midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and MFI(14)) plus a 40-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "MFI(14) > 50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + MFI(14). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_430.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_430.py",
+      "source": "cc3 batches 82-86"
+    },
+    "430": {
+      "name": "4S Mom40+WILR14+Top3+BIL (cc3_431.py)",
+      "description": "A four-state hybrid rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 40-day price momentum check, and Williams %R above the midline — to allocate between leveraged tech, large-cap stocks, and cash. The four states step down from full TQQQ when all signals agree to full cash when all disagree, with two intermediate blends.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Williams %R(14)) plus a 40-day momentum lookback. The four-state allocation ladder (100% TQQQ / 60-40 / 50-50 BIL split / 100% BIL) involves multiple tuned weight breakpoints. Top-3 holding count is a selected parameter.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Williams %R(14) > -50 on QQQ → bullish threshold"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 60% TQQQ + 40% Top-3 large-caps equally; Score 1 → 50% Top-3 large-caps + 50% BIL; Score 0 → 100% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Williams %R(14). Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_431.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_431.py",
+      "source": "cc3 batches 82-86"
+    },
+    "431": {
+      "name": "Mom20+Sto10+Top3 (cc3_432.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 20-day momentum lookback. The Stochastic period of 10 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(10,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_432.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_432.py",
+      "source": "cc3 batches 87-91"
+    },
+    "432": {
+      "name": "Mom20+Sto21+Top3 (cc3_433.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 20-day momentum lookback. The Stochastic period of 21 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(21,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_433.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_433.py",
+      "source": "cc3 batches 87-91"
+    },
+    "433": {
+      "name": "Mom20+Sto30+Top3 (cc3_434.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 20-day momentum lookback. The Stochastic period of 30 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(30,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_434.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_434.py",
+      "source": "cc3 batches 87-91"
+    },
+    "434": {
+      "name": "Mom30+Sto10+Top3 (cc3_435.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 30-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 30-day momentum lookback. The Stochastic period of 10 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(10,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_435.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_435.py",
+      "source": "cc3 batches 87-91"
+    },
+    "435": {
+      "name": "Mom30+Sto21+Top3 (cc3_436.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 30-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 30-day momentum lookback. The Stochastic period of 21 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(21,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_436.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_436.py",
+      "source": "cc3 batches 87-91"
+    },
+    "436": {
+      "name": "Mom30+Sto30+Top3 (cc3_437.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 30-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 30-day momentum lookback. The Stochastic period of 30 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(30,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_437.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_437.py",
+      "source": "cc3 batches 87-91"
+    },
+    "437": {
+      "name": "Mom60+Sto10+Top3 (cc3_438.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 60-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 60-day momentum lookback. The Stochastic period of 10 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(10,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_438.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_438.py",
+      "source": "cc3 batches 87-91"
+    },
+    "438": {
+      "name": "Mom60+Sto21+Top3 (cc3_439.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 60-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 60-day momentum lookback. The Stochastic period of 21 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(21,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_439.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_439.py",
+      "source": "cc3 batches 87-91"
+    },
+    "439": {
+      "name": "Mom60+Sto30+Top3 (cc3_440.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 60-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 60-day momentum lookback. The Stochastic period of 30 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(30,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_440.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_440.py",
+      "source": "cc3 batches 87-91"
+    },
+    "440": {
+      "name": "Mom20+Sto14+Top2 (cc3_441.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 20-day momentum lookback. The Stochastic period of 14 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(14,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-2 large-caps equally; Score 1 → 100% Top-2 large-caps; Score 0 → 50% Top-2 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-2 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 2 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_441.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_441.py",
+      "source": "cc3 batches 87-91"
+    },
+    "441": {
+      "name": "Mom30+Sto14+Top2 (cc3_442.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 30-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 30-day momentum lookback. The Stochastic period of 14 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(14,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-2 large-caps equally; Score 1 → 100% Top-2 large-caps; Score 0 → 50% Top-2 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-2 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 2 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_442.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_442.py",
+      "source": "cc3 batches 87-91"
+    },
+    "442": {
+      "name": "Mom60+Sto14+Top2 (cc3_443.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 60-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 60-day momentum lookback. The Stochastic period of 14 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(14,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-2 large-caps equally; Score 1 → 100% Top-2 large-caps; Score 0 → 50% Top-2 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-2 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 2 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_443.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_443.py",
+      "source": "cc3 batches 87-91"
+    },
+    "443": {
+      "name": "Mom20+Sto14+Top1 (cc3_444.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 20-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 20-day momentum lookback. The Stochastic period of 14 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(14,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-1 (largest market-cap stock) large-caps equally; Score 1 → 100% Top-1 (largest market-cap stock) large-caps; Score 0 → 50% Top-1 (largest market-cap stock) large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-1 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 1 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_444.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_444.py",
+      "source": "cc3 batches 87-91"
+    },
+    "444": {
+      "name": "Mom30+Sto14+Top1 (cc3_445.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 30-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 30-day momentum lookback. The Stochastic period of 14 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(14,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-1 (largest market-cap stock) large-caps equally; Score 1 → 100% Top-1 (largest market-cap stock) large-caps; Score 0 → 50% Top-1 (largest market-cap stock) large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-1 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 1 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_445.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_445.py",
+      "source": "cc3 batches 87-91"
+    },
+    "445": {
+      "name": "Mom60+Sto14+Top1 (cc3_446.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 60-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 60-day momentum lookback. The Stochastic period of 14 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(14,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-1 (largest market-cap stock) large-caps equally; Score 1 → 100% Top-1 (largest market-cap stock) large-caps; Score 0 → 50% Top-1 (largest market-cap stock) large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-1 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 1 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_446.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_446.py",
+      "source": "cc3 batches 87-91"
+    },
+    "446": {
+      "name": "Mom5+Sto14+Top3 (cc3_447.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 5-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 5-day momentum lookback. The Stochastic period of 14 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(14,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_447.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_447.py",
+      "source": "cc3 batches 87-91"
+    },
+    "447": {
+      "name": "Mom10+Sto14+Top3 (cc3_448.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 10-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 10-day momentum lookback. The Stochastic period of 14 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(14,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_448.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_448.py",
+      "source": "cc3 batches 87-91"
+    },
+    "448": {
+      "name": "Mom15+Sto14+Top3 (cc3_449.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 15-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 15-day momentum lookback. The Stochastic period of 14 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(14,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_449.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_449.py",
+      "source": "cc3 batches 87-91"
+    },
+    "449": {
+      "name": "Mom80+Sto14+Top3 (cc3_450.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 80-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 80-day momentum lookback. The Stochastic period of 14 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(14,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_450.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_450.py",
+      "source": "cc3 batches 87-91"
+    },
+    "450": {
+      "name": "Mom100+Sto14+Top3 (cc3_451.py)",
+      "description": "A hybrid trend-momentum rotator that scores three signals on QQQ — a 200-day price-median trend gate, a 100-day price momentum check, and Stochastic %K above its midline — to place capital across four risk levels. Full bullish agreement goes to leveraged tech; partial agreement mixes leveraged tech with large-cap stocks or holds stocks alone; full bearish splits between stocks and cash.",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "overfit_notes": "Uses two standard components (price-median trend gate and Stochastic oscillator) plus a 100-day momentum lookback. The Stochastic period of 14 bars is a selected parameter; the %K > 50 midline threshold is canonical. The four-state allocation ladder (100% / 50-50 TQQQ+TopN / 100% TopN / 50-50 TopN+BIL) involves multiple tuned breakpoints.",
+      "rules": [
+        {
+          "label": "Trend gate",
+          "text": "QQQ price > median of last 200 daily closes"
+        },
+        {
+          "label": "Strength filter",
+          "text": "Stochastic %K(14,3,3) on QQQ > 50"
+        },
+        {
+          "label": "Entry",
+          "text": "Score 3 → 100% TQQQ; Score 2 → 50% TQQQ + 50% Top-3 large-caps equally; Score 1 → 100% Top-3 large-caps; Score 0 → 50% Top-3 large-caps + 50% BIL"
+        },
+        {
+          "label": "Symbols",
+          "text": "Signal: QQQ + Stochastic. Execution: TQQQ / top-3 market-cap stocks from top-100 by dollar volume / BIL"
+        },
+        {
+          "label": "Universe",
+          "text": "Coarse: top 100 by dollar volume; Fine: top 3 by market cap"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open, on state change only"
+        }
+      ],
+      "algo_dir": "cc_algos",
+      "file": "cc3_451.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_451.py",
+      "source": "cc3 batches 87-91"
+    }
+  }
+}

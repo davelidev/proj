@@ -113,13 +113,25 @@
     <span class="badge bg-secondary fs-6" id="tabCount">0</span>
   </div>
   <div class="d-flex align-items-center gap-2 mb-3">
-    <input id="spawnCwd" class="form-control form-control-sm" type="text" value="~/Desktop/proj/QuantConnect" style="max-width:280px">
+    <input id="spawnCwd" class="form-control form-control-sm" type="text" value="" style="max-width:280px">
     <select id="modelSelect" class="form-select form-select-sm" style="max-width:160px">
-      <option value="claude-opus-4-7">Opus 4.7</option>
-      <option value="claude-sonnet-4-6">Sonnet 4.6</option>
-      <option value="claude-sonnet-4-5">Sonnet 4.5</option>
-      <option value="deepseek-v4-flash">DeepSeek Flash</option>
-      <option value="deepseek-v4-pro">DeepSeek Pro</option>
+      <optgroup label="Claude">
+        <option value="claude-opus-4-7">Opus 4.7</option>
+        <option value="claude-sonnet-4-6">Sonnet 4.6</option>
+        <option value="claude-sonnet-4-5">Sonnet 4.5</option>
+      </optgroup>
+      <optgroup label="DeepSeek">
+        <option value="deepseek-v4-flash">DeepSeek Flash</option>
+        <option value="deepseek-v4-pro">DeepSeek Pro</option>
+      </optgroup>
+      <optgroup label="Gemini">
+        <option value="auto">Auto (Gemini 3)</option>
+        <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+        <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+        <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash Lite</option>
+        <option value="gemini-3-pro-preview">Gemini 3 Pro (preview)</option>
+        <option value="gemini-3-flash-preview">Gemini 3 Flash (preview)</option>
+      </optgroup>
     </select>
     <button class="btn btn-sm btn-primary text-nowrap flex-shrink-0" type="button" onclick="spawnModel()">+ Spawn</button>
   </div>
@@ -215,8 +227,12 @@ function jsStr(s) {
 
 function spawnModel() {
   var model = document.getElementById('modelSelect').value;
+  var sel = document.getElementById('modelSelect');
+  var group = sel.options[sel.selectedIndex].parentNode.label || '';
   if (model.startsWith('deepseek')) {
     spawnTab('deepseek --model ' + model);
+  } else if (model.startsWith('gemini') || group === 'Gemini') {
+    spawnTab('gemini --model ' + model);
   } else {
     spawnTab('claude --dangerously-skip-permissions --model ' + model);
   }
@@ -287,6 +303,25 @@ function bar(pct, w) {
   return s;
 }
 
+function getProviderColor(model) {
+  if (!model) return null;
+  var m = model.toLowerCase();
+  if (m.includes('deepseek')) return '#0d6efd';
+  if (m.includes('gemini')) return '#8b5cf6';
+  if (m.includes('claude') || m.includes('opus') || m.includes('sonnet') || m.includes('haiku')) return '#fd7e14';
+  return null;
+}
+
+// Persist spawn cwd input
+(function() {
+  var el = document.getElementById('spawnCwd');
+  var saved = localStorage.getItem('spawnCwd');
+  el.value = saved || '~/Desktop/proj/QuantConnect';
+  el.addEventListener('input', function() {
+    localStorage.setItem('spawnCwd', el.value);
+  });
+})();
+
 function escapeHtml(text) {
   var d = document.createElement('div');
   d.textContent = text;
@@ -318,20 +353,20 @@ function metricBar(label, pct, resetTime) {
 }
 
 function renderRowInner(t, colorHex, isThinking) {
-  var modelColor = (t.model || '').toLowerCase().includes('deepseek') ? '#0d6efd'
-    : (t.model || '').toLowerCase().includes('opus') ? '#fd7e14'
-    : colorHex;
+  var modelColor = getProviderColor(t.model) || '#fd7e14';
   var title = t.title || '';
   var cwd = t.cwd || '';
-  var isDeepseek = (t.model || '').toLowerCase().includes('deepseek');
+  var isGemini = (t.model || '').toLowerCase().indexOf('gemini') !== -1;
+  var isDeepseek = (t.model || '').toLowerCase().includes('deepseek') || isGemini;
   var metrics = '<div class="d-flex align-items-start gap-3 ps-5 mt-1">';
-  metrics += metricBar('ctx', t.ctx_pct, null);
+  metrics += metricBar(isGemini ? 'quota' : 'ctx', t.ctx_pct, null);
   if (!isDeepseek) {
     metrics += metricBar('5h', t.rate_5h_pct, t.rate_5h_resets);
     metrics += metricBar('7d', t.rate_7d_pct, t.rate_7d_resets);
   }
   metrics += '</div>';
-  return '<div class="border rounded-3 bg-white px-3 py-2 small tab-row">' +
+  var frontBorder = t.frontWin ? ' border-start border-3 border-primary' : '';
+	  return '<div class="border rounded-3 bg-white px-3 py-2 small tab-row' + frontBorder + '">' +
     '<div class="d-flex align-items-center gap-2">' +
     '<div class="color-swatch" draggable="true" data-tty="' + t.tty + '" data-color="' + colorHex + '" style="background:' + colorHex + '" onclick="showPalette(this)"></div>' +
     '<div class="flex-grow-1 d-flex flex-column gap-1" style="min-width:0">' +
@@ -404,7 +439,7 @@ function loadTabs() {
           _lastTitleChange['ts_' + t.tty] = now;
         }
         var isThinking = (now - (_lastTitleChange['ts_' + t.tty] || 0)) < 3000;
-        var colorHex = tabColors[t.tty] || colors[i % colors.length];
+        var colorHex = tabColors[t.tty] || getProviderColor(t.model) || colors[i % colors.length];
         var inner = renderRowInner(t, colorHex, isThinking);
         var row = existing[t.tty];
         if (!row) {

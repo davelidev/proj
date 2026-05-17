@@ -1,0 +1,921 @@
+{
+  "strategies": {
+    "51": {
+      "name": "4-State 3-Filter TQQQ (cc3_052.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_052.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_052.py",
+      "source": "cc3 batch 11",
+      "description": "A four-state trend follower on QQQ that sizes TQQQ exposure proportional to how many of three bullish filters are active. The three filters are an Aroon oscillator, a Donchian-200 midline price test, and a rate-of-change momentum check. All four TQQQ/BIL allocations (100/0, 70/30, 30/70, 0/100) are tied to the filter count.",
+      "overfit_notes": "Three independently tuned filters: Aroon-25 with AroonUp>70 threshold, Donchian-200 midline, and ROC(60)>0. The AroonUp>70 threshold and the specific step-down weights (100/70/30/0%) are mildly tuned.",
+      "rules": [
+        {"label": "Trend gate", "text": "Three binary filters: (1) AroonUp(25)>70 AND AroonUp>AroonDown; (2) QQQ price > Donchian-200 midline; (3) ROC(60)>0"},
+        {"label": "Entry", "text": "n=3 → 100% TQQQ; n=2 → 70% TQQQ/30% BIL; n=1 → 30% TQQQ/70% BIL; n=0 → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on each filter-count change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "52": {
+      "name": "3-State 80/20 Middle (cc3_053.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_053.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_053.py",
+      "source": "cc3 batch 11",
+      "description": "A three-state trend follower using Aroon-25 and a Donchian-200 midline on QQQ to scale into TQQQ. The middle state (one of two filters bullish) holds a more aggressive 80/20 split rather than the typical 50/50. In bear mode (both filters bearish) it goes fully into cash.",
+      "overfit_notes": "Two standard indicators (Aroon-25, Donchian-200) with one slightly tuned middle allocation: 80/20 instead of 50/50. AroonUp>70 threshold is a common convention.",
+      "rules": [
+        {"label": "Trend gate", "text": "Aroon-25: AroonUp>70 AND AroonUp>AroonDown; Donchian-200 midline: QQQ price > midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 80% TQQQ/20% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "53": {
+      "name": "3-State TQQQ + Top-3 Defense (cc3_054.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_054.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_054.py",
+      "source": "cc3 batch 11",
+      "description": "A three-state trend-following rotator that uses Aroon-25 and a Donchian-200 midline on QQQ to shift capital between leveraged tech and large-cap equity. In bull mode it holds TQQQ; in mixed mode it splits evenly between TQQQ and the top-3 stocks by market cap; in bear mode it holds only the top-3 mega-caps as a defensive equity sleeve with no cash.",
+      "overfit_notes": "Standard Aroon-25 and Donchian-200 indicators. The choice of top-3 by market cap as a defensive basket and the 50/50 split are somewhat arbitrary; universe selects from top-100 by dollar volume then top-3 by market cap.",
+      "rules": [
+        {"label": "Trend gate", "text": "Aroon-25: AroonUp>70 AND AroonUp>AroonDown; Donchian-200 midline: QQQ price > midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 50% TQQQ + 50% top-3 mega-caps; both bear → 100% top-3 mega-caps"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Universe", "text": "Top-100 by dollar volume → top-3 by market cap (daily universe selection)"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-3 mega-cap stocks"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "54": {
+      "name": "3-State Aroon-25 + Donchian-150 (cc3_055.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_055.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_055.py",
+      "source": "cc3 batch 11",
+      "description": "A three-state trend follower that pairs Aroon-25 with a shorter Donchian-150 midline instead of the more common 200-day window. This makes the channel test somewhat more reactive to intermediate-term price changes. The three states map to 100% TQQQ, 50/50 TQQQ/BIL, and 100% BIL.",
+      "overfit_notes": "Standard Aroon-25 indicator. The Donchian window is 150 rather than the canonical 200, a mild tuning of one parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "Aroon-25: AroonUp>70 AND AroonUp>AroonDown; Donchian-150 midline: QQQ price > midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 50% TQQQ/50% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "55": {
+      "name": "3-State TQQQ + Top-5 Defense No Cash (cc3_056.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_056.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_056.py",
+      "source": "cc3 batch 11",
+      "description": "A three-state trend-following rotator that replaces cash with the top-5 mega-cap stocks as a defensive holding. The same Aroon-25 and Donchian-200 regime filters govern state transitions between full TQQQ, a 50/50 blend with mega-caps, and a full mega-cap defensive position.",
+      "overfit_notes": "Standard Aroon-25 and Donchian-200 indicators. The specific defensive basket size of 5 stocks and the equal-weight split in mixed state are design choices without canonical justification.",
+      "rules": [
+        {"label": "Trend gate", "text": "Aroon-25: AroonUp>70 AND AroonUp>AroonDown; Donchian-200 midline: QQQ price > midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 50% TQQQ + 50% top-5 mega-caps; both bear → 100% top-5 mega-caps"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Universe", "text": "Top-100 by dollar volume → top-5 by market cap (daily universe selection)"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 mega-cap stocks"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "56": {
+      "name": "4-State Aroon + D100 + D200 (cc3_057.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_057.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_057.py",
+      "source": "cc3 batch 12",
+      "description": "A four-state trend follower that counts how many of three independent regime filters are bullish: Aroon-25 momentum, a Donchian-100 midline, and a Donchian-200 midline. The TQQQ allocation steps from 100% down to 70%, 30%, and 0% as fewer filters confirm the uptrend.",
+      "overfit_notes": "Three filters with mildly tuned parameters: Aroon-25 with AroonUp>70 threshold, Donchian-100 and Donchian-200 midlines. Using two Donchian channels of different lengths is a non-canonical design choice.",
+      "rules": [
+        {"label": "Trend gate", "text": "Three filters: (1) AroonUp(25)>70 AND AroonUp>AroonDown; (2) QQQ > Donchian-100 midline; (3) QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "n=3 → 100% TQQQ; n=2 → 70% TQQQ/30% BIL; n=1 → 30% TQQQ/70% BIL; n=0 → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on filter-count change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "57": {
+      "name": "3-State 60/40 Middle (cc3_058.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_058.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_058.py",
+      "source": "cc3 batch 12",
+      "description": "A three-state trend follower on QQQ using Aroon-25 and Donchian-200 midline filters. The middle mixed state holds a more conservative 60/40 TQQQ/BIL split rather than 50/50. Full bull means 100% TQQQ and full bear means 100% BIL.",
+      "overfit_notes": "Two standard indicators with a slightly varied middle allocation: 60/40 instead of 50/50. Otherwise uses canonical Aroon-25 and Donchian-200.",
+      "rules": [
+        {"label": "Trend gate", "text": "Aroon-25: AroonUp>70 AND AroonUp>AroonDown; Donchian-200 midline: QQQ price > midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 60% TQQQ/40% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "58": {
+      "name": "4-State TQQQ/Top-1 Step-Down (cc3_059.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_059.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_059.py",
+      "source": "cc3 batch 12",
+      "description": "A four-state rotator that uses Aroon-25 and two Donchian channels to count bullish signals and step down from TQQQ into the largest mega-cap stock and finally cash. At full bull it holds 100% TQQQ; at two signals it splits evenly with Top-1; at one signal it goes fully into Top-1; at zero it splits Top-1 and cash.",
+      "overfit_notes": "Three regime filters: Aroon-25, Donchian-100, and Donchian-200 midlines. The particular step-down allocation schedule (100/50-50/100-Top1/50-50-BIL) is non-standard and involves several tuned design choices.",
+      "rules": [
+        {"label": "Trend gate", "text": "Three filters: (1) AroonUp(25)>70 AND AroonUp>AroonDown; (2) QQQ > Donchian-100 midline; (3) QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "n=3 → 100% TQQQ; n=2 → 50% TQQQ/50% Top-1; n=1 → 100% Top-1; n=0 → 50% Top-1/50% BIL"},
+        {"label": "Exit", "text": "Rebalance on filter-count change"},
+        {"label": "Universe", "text": "Top-100 by dollar volume → top-1 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-1 mega-cap / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "59": {
+      "name": "3-State Aroon-10 + Donchian-200 (cc3_060.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_060.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_060.py",
+      "source": "cc3 batch 12",
+      "description": "A three-state trend follower that swaps the standard Aroon-25 for a faster Aroon-10 paired with the canonical Donchian-200 midline. The shorter Aroon period makes the momentum signal more reactive to recent price extremes. Bull, mixed, and bear states map to 100% TQQQ, 50/50, and 100% BIL.",
+      "overfit_notes": "Aroon period shortened from the typical 25 to 10 — a mild tuning. Donchian-200 is standard. AroonUp>70 threshold is conventional.",
+      "rules": [
+        {"label": "Trend gate", "text": "Aroon-10: AroonUp>70 AND AroonUp>AroonDown; Donchian-200 midline: QQQ price > midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 50% TQQQ/50% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "60": {
+      "name": "3-State ROC(20) + Donchian-200 (cc3_061.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_061.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_061.py",
+      "source": "cc3 batch 12",
+      "description": "A three-state trend follower that replaces the Aroon oscillator with a 20-day rate-of-change indicator on QQQ alongside the standard Donchian-200 midline. When both momentum and the channel position are bullish it holds TQQQ fully; partial confirmation yields a 50/50 blend; both bearish yields full cash.",
+      "overfit_notes": "ROC(20)>0 is a canonical momentum threshold. Donchian-200 midline is standard. Two-indicator, textbook-level design.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ; QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 50% TQQQ/50% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "61": {
+      "name": "3-State ROC(10) + Donchian-200 (cc3_062.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_062.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_062.py",
+      "source": "cc3 batch 13",
+      "description": "A three-state trend follower that uses a shorter 10-day rate-of-change paired with the Donchian-200 midline on QQQ. The faster ROC makes the momentum signal more sensitive to short-term price moves. States map to 100% TQQQ, 50/50 TQQQ/BIL, and 100% BIL.",
+      "overfit_notes": "ROC period of 10 is shorter than the more typical 20 or 60, a mild tuning. Donchian-200 midline is standard. Both signals at canonical zero threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(10)>0 on QQQ; QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 50% TQQQ/50% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "62": {
+      "name": "3-State ROC(40) + Donchian-200 (cc3_063.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_063.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_063.py",
+      "source": "cc3 batch 13",
+      "description": "A three-state trend follower pairing a 40-day rate-of-change with the Donchian-200 midline on QQQ. The intermediate ROC period sits between the fast 10-day and slower 60-day variants. States map to 100% TQQQ, 50/50, and 100% BIL.",
+      "overfit_notes": "ROC period of 40 is a non-standard intermediate value between 20 and 60. Donchian-200 is standard. Both thresholds are canonical (zero crossing).",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(40)>0 on QQQ; QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 50% TQQQ/50% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "63": {
+      "name": "4-State ROC(20)+D100+D200 (cc3_064.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_064.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_064.py",
+      "source": "cc3 batch 13",
+      "description": "A four-state trend follower that counts three bullish conditions — positive 20-day momentum, price above a Donchian-100 midline, and price above a Donchian-200 midline — to step TQQQ exposure from 100% down to 0% as conditions deteriorate. This replaces the Aroon oscillator from earlier variants with ROC.",
+      "overfit_notes": "Three filters with standard zero-crossing thresholds for ROC. Using both Donchian-100 and Donchian-200 simultaneously is a non-canonical multi-channel design. Step-down weights (100/70/30/0%) are fixed.",
+      "rules": [
+        {"label": "Trend gate", "text": "Three filters: (1) ROC(20)>0; (2) QQQ > Donchian-100 midline; (3) QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "n=3 → 100% TQQQ; n=2 → 70% TQQQ/30% BIL; n=1 → 30% TQQQ/70% BIL; n=0 → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on filter-count change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "64": {
+      "name": "3-State ROC(20)+D200 70/30 (cc3_065.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_065.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_065.py",
+      "source": "cc3 batch 13",
+      "description": "A three-state trend follower using ROC(20) and Donchian-200 midline on QQQ, with a 70/30 allocation in the mixed state for more aggressive positioning. Full bull gives 100% TQQQ, full bear gives 100% BIL.",
+      "overfit_notes": "Standard ROC(20)>0 and Donchian-200 indicators. Middle allocation is 70/30 rather than 50/50 — a mild tuning of one parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ; QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 70% TQQQ/30% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "65": {
+      "name": "3-State ROC(20)+D200 + Top-1 Defense (cc3_066.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_066.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_066.py",
+      "source": "cc3 batch 13",
+      "description": "A three-state rotator that uses ROC(20) and Donchian-200 on QQQ to switch between TQQQ and the largest mega-cap stock as defensive holding. When both signals are bullish it goes fully into TQQQ; in mixed regime it splits evenly with Top-1; in bear regime it holds 100% Top-1 with no cash.",
+      "overfit_notes": "Standard ROC(20)>0 and Donchian-200 midline. The choice of a single mega-cap as defense and equal-split in mixed state are design choices; universe selects from top-100 by dollar volume then top-1 by market cap.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ; QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 50% TQQQ/50% Top-1 mega-cap; both bear → 100% Top-1"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Universe", "text": "Top-100 by dollar volume → top-1 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-1 mega-cap stock"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "66": {
+      "name": "3-State ROC(20)+D200 80/20 (cc3_067.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_067.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_067.py",
+      "source": "cc3 batch 14",
+      "description": "A three-state trend follower using ROC(20) and Donchian-200 midline on QQQ, with an aggressive 80/20 TQQQ/BIL split in the mixed state. This mirrors the 80/20 Aroon variant but substitutes momentum as the first filter.",
+      "overfit_notes": "Standard ROC(20)>0 and Donchian-200. Middle allocation set to 80/20 — more aggressive than the 50/50 baseline, a mild single-parameter tuning.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ; QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 80% TQQQ/20% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "67": {
+      "name": "4-State ROC(20)+D100+D200 + Top-1 (cc3_068.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_068.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_068.py",
+      "source": "cc3 batch 14",
+      "description": "A four-state rotator that counts three regime signals (ROC-20, Donchian-100, Donchian-200) and steps down from TQQQ into the top mega-cap stock and then cash as fewer conditions are met. It eliminates BIL from the partial-bull states and replaces it with a liquid mega-cap equity position.",
+      "overfit_notes": "Three filters with standard thresholds. The allocation schedule (100% TQQQ / 50-50 TQQQ-Top1 / 100% Top1 / 50-50 Top1-BIL) involves multiple tuned design choices across four states.",
+      "rules": [
+        {"label": "Trend gate", "text": "Three filters: (1) ROC(20)>0; (2) QQQ > Donchian-100 midline; (3) QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "n=3 → 100% TQQQ; n=2 → 50% TQQQ/50% Top-1; n=1 → 100% Top-1; n=0 → 50% Top-1/50% BIL"},
+        {"label": "Exit", "text": "Rebalance on filter-count change"},
+        {"label": "Universe", "text": "Top-100 by dollar volume → top-1 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-1 mega-cap / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "68": {
+      "name": "3-State ROC(60) + D200 (cc3_069.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_069.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_069.py",
+      "source": "cc3 batch 14",
+      "description": "A three-state trend follower using a slower 60-day rate-of-change and the Donchian-200 midline on QQQ. The longer ROC makes the momentum signal more sluggish and trend-confirmatory. States map to 100% TQQQ, 50/50, and 100% BIL.",
+      "overfit_notes": "ROC(60)>0 and Donchian-200 midline are both standard, textbook-level parameters. Two standard components at canonical thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(60)>0 on QQQ; QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 50% TQQQ/50% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "69": {
+      "name": "4-State ROC(20)+Aroon-25+D200 (cc3_070.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_070.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_070.py",
+      "source": "cc3 batch 14",
+      "description": "A four-state trend follower that combines three distinct signal types: rate-of-change momentum, Aroon directional strength, and a Donchian-200 price-channel position. The TQQQ allocation steps down proportionally to the number of bullish confirmations, from 100% to 0% in four increments.",
+      "overfit_notes": "Three diverse but standard indicators: ROC(20)>0, Aroon-25 with AroonUp>70, and Donchian-200. Using all three together is a non-canonical multi-indicator design. Step-down weights are fixed at 100/70/30/0%.",
+      "rules": [
+        {"label": "Trend gate", "text": "Three filters: (1) ROC(20)>0; (2) AroonUp(25)>70 AND AroonUp>AroonDown; (3) QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "n=3 → 100% TQQQ; n=2 → 70% TQQQ/30% BIL; n=1 → 30% TQQQ/70% BIL; n=0 → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on filter-count change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "70": {
+      "name": "3-State ROC(20)+D200 60/40 (cc3_071.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_071.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_071.py",
+      "source": "cc3 batch 14",
+      "description": "A three-state trend follower using ROC(20) and Donchian-200 midline on QQQ with a moderate 60/40 TQQQ/BIL split in the mixed state. This is a conservative middle-ground variant between the 50/50 and 70/30 versions.",
+      "overfit_notes": "Standard ROC(20)>0 and Donchian-200 midline. Middle allocation is 60/40 — a mild tuning between the most common 50/50 baseline and more aggressive variants.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ; QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 60% TQQQ/40% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "71": {
+      "name": "3-State VIX Bands (cc3_072.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_072.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_072.py",
+      "source": "cc3 batch 15",
+      "description": "A three-state trend follower that uses VIX level bands to determine market regime rather than price-based indicators. Low volatility (VIX below 20) signals full TQQQ exposure; elevated volatility (20–30) triggers a 50/50 blend; panic conditions (VIX above 30) move entirely to cash. No QQQ price filter is used.",
+      "overfit_notes": "The VIX band thresholds of 20 and 30 are widely cited round numbers, making this a textbook-level design. Single macro volatility signal with canonical thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "VIX level: <20 → bull; 20–30 → mixed; >30 → bear"},
+        {"label": "Entry", "text": "VIX<20 → 100% TQQQ; VIX 20–30 → 50% TQQQ/50% BIL; VIX>30 → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on VIX band change"},
+        {"label": "Symbols", "text": "Signal: CBOE VIX. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "72": {
+      "name": "3-State QQQ/SPY Relative Strength (cc3_073.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_073.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_073.py",
+      "source": "cc3 batch 15",
+      "description": "A three-state trend follower that uses the relative strength of QQQ versus SPY (comparing their 60-day rates-of-change) alongside a Donchian-200 channel position. When QQQ is outperforming SPY and above its channel midline, it goes fully into TQQQ; partial confirmation yields 50/50; both bearish yields full cash.",
+      "overfit_notes": "Relative strength via 60-day ROC difference is a standard momentum concept. Donchian-200 midline is canonical. The zero-threshold for relative strength is not tuned. Two standard components.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ ROC(60) > SPY ROC(60) (relative outperformance); QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 50% TQQQ/50% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ, SPY. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "73": {
+      "name": "Top-5 Momentum Rotation (cc3_074.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_074.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_074.py",
+      "source": "cc3 batch 15",
+      "description": "A momentum rotator that selects the top-5 stocks by market cap, then each month holds the top-3 of those by 60-day return in equal weight. There is no trend gate or cash position — it stays in equity at all times, rotating among mega-cap names.",
+      "overfit_notes": "Selection of top-5 by market cap then ranking by 60-day return are both simple standard approaches. Equal-weight among top-3 is conventional. No leveraged ETF or tuned threshold, so overfit risk is relatively low.",
+      "rules": [
+        {"label": "Universe", "text": "Top-100 by dollar volume → top-5 by market cap"},
+        {"label": "Entry", "text": "Hold the top-3 of the 5 by 60-day return, equal weight (≈33% each)"},
+        {"label": "Exit", "text": "Sell positions outside top-3 on monthly rebalance"},
+        {"label": "Symbols", "text": "Execution: top-3 mega-cap stocks (dynamic)"},
+        {"label": "Rebalance", "text": "Monthly, first trading day, 30 min after market open"}
+      ]
+    },
+    "74": {
+      "name": "Top-5 70% + 30% TQQQ Overlay (cc3_075.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_075.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_075.py",
+      "source": "cc3 batch 15",
+      "description": "A hybrid rotator that permanently holds 70% in the top-5 mega-cap stocks (equal-weighted) while conditionally layering a 30% TQQQ overlay when QQQ is above its Donchian-200 midline. When the trend condition fails, the TQQQ sleeve is liquidated and the mega-cap base remains unchanged.",
+      "overfit_notes": "Standard Donchian-200 midline gate. The 70/30 split between mega-cap basket and TQQQ overlay is a design choice without canonical precedent. Universe selects from top-100 by dollar volume then top-5 by market cap.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > Donchian-200 midline → add TQQQ overlay"},
+        {"label": "Entry", "text": "Always 70% top-5 mega-caps (equal weight). Bull: add 30% TQQQ. Bear: no TQQQ"},
+        {"label": "Exit", "text": "Liquidate TQQQ when QQQ crosses below Donchian-200 midline"},
+        {"label": "Universe", "text": "Top-100 by dollar volume → top-5 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: top-5 mega-cap stocks / TQQQ"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "75": {
+      "name": "3-State Momentum Accel ROC(20) (cc3_076.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_076.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_076.py",
+      "source": "cc3 batch 15",
+      "description": "A three-state trend follower that requires momentum to be both positive and accelerating for full bull exposure. It uses ROC(20) with a 10-day look-back to detect acceleration, combined with a Donchian-200 midline. The full bull state requires all three conditions; partial exposure if one or two are met.",
+      "overfit_notes": "Three tuned parameters: ROC period of 20, acceleration look-back of 10 days, and Donchian-200. The acceleration condition (current ROC > ROC from 10 days ago) is a non-standard, mildly tuned design.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ; ROC(20) > ROC(20) from 10 days ago (momentum accelerating); QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "All three bull → 100% TQQQ; one or two bull (partial) → 50% TQQQ/50% BIL; none → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "76": {
+      "name": "3-State ROC+D200 + VIX>35 Panic (cc3_077.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_077.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_077.py",
+      "source": "cc3 batch 16",
+      "description": "A three-state trend follower based on ROC(20) and Donchian-200 that adds a VIX panic override: whenever VIX exceeds a high threshold, the strategy forces 100% cash regardless of the trend signals. This creates four effective states but preserves the simple three-state logic when VIX is calm.",
+      "overfit_notes": "Standard ROC(20)>0 and Donchian-200 midline. The VIX panic threshold of 35 is a round number but higher than the conventional 30 used in simpler VIX filters — a mild single-parameter addition.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ; QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "VIX>35 → 100% BIL (panic override); otherwise: both bull → 100% TQQQ; one bull → 50% TQQQ/50% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ, CBOE VIX. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "77": {
+      "name": "Top-5 60% + 40% TQQQ/BIL Overlay (cc3_078.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_078.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_078.py",
+      "source": "cc3 batch 16",
+      "description": "A hybrid rotator that permanently holds 60% in the top-5 mega-cap stocks while switching a 40% overlay between TQQQ (bull) and BIL (bear) based on whether QQQ is above its Donchian-200 midline. This is the 60/40 analog to the 70/30 TQQQ overlay variant.",
+      "overfit_notes": "Standard Donchian-200 midline gate. The 60/40 base-to-overlay split is a design choice. Universe: top-100 by dollar volume → top-5 by market cap.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > Donchian-200 midline → 40% TQQQ overlay; otherwise 40% BIL"},
+        {"label": "Entry", "text": "Always 60% top-5 mega-caps (equal weight). Bull: 40% TQQQ. Bear: 40% BIL"},
+        {"label": "Exit", "text": "Swap overlay between TQQQ and BIL on regime change"},
+        {"label": "Universe", "text": "Top-100 by dollar volume → top-5 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: top-5 mega-cap stocks / TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "78": {
+      "name": "3-State ROC(20)>1% + D200 (cc3_079.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_079.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_079.py",
+      "source": "cc3 batch 16",
+      "description": "A three-state trend follower that raises the ROC momentum bar by requiring a 1% gain over 20 days rather than any positive return. This stricter threshold means the strategy stays out of TQQQ during tepid trend environments. Combined with a Donchian-200 midline for the second filter.",
+      "overfit_notes": "The ROC(20)>1% threshold is a non-canonical tuning above the standard zero-crossing. Donchian-200 is standard. Overall risk is still low because only one threshold is modified.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>1% on QQQ (stricter momentum); QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 50% TQQQ/50% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "79": {
+      "name": "4-State ROC10+ROC40+D200 (cc3_080.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_080.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_080.py",
+      "source": "cc3 batch 16",
+      "description": "A four-state trend follower that combines a short-term ROC(10), a medium-term ROC(40), and a Donchian-200 midline to count bullish signals. All three at zero-crossing confirm the bull; fewer confirmations progressively reduce TQQQ exposure from 100% to 0%.",
+      "overfit_notes": "Three filters using non-canonical ROC periods of 10 and 40 (neither is standard); Donchian-200 is standard. The specific pair of short and medium ROC periods represents a mildly tuned multi-period momentum design.",
+      "rules": [
+        {"label": "Trend gate", "text": "Three filters: (1) ROC(10)>0; (2) ROC(40)>0; (3) QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "n=3 → 100% TQQQ; n=2 → 70% TQQQ/30% BIL; n=1 → 30% TQQQ/70% BIL; n=0 → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on filter-count change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "80": {
+      "name": "3-State Momentum-Accel + Top-1 Defense (cc3_081.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_081.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_081.py",
+      "source": "cc3 batch 16",
+      "description": "A three-state rotator that pairs a momentum-acceleration filter with a Donchian-200 trend gate, and uses the largest mega-cap stock as the defensive holding instead of cash. Full bull (all three conditions) gives 100% TQQQ; mixed gives 50/50 with Top-1; bear gives 100% Top-1.",
+      "overfit_notes": "Three interacting parameters: ROC(20)>0, acceleration check over 10 days, and Donchian-200. The acceleration condition is non-standard, and combining it with a Top-1 defensive equity rotation adds additional design complexity.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0; ROC(20) > ROC(20) from 10 days ago (momentum accelerating); QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "All three bull → 100% TQQQ; one or two bull → 50% TQQQ/50% Top-1 mega-cap; none → 100% Top-1"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Universe", "text": "Top-100 by dollar volume → top-1 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-1 mega-cap stock"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "81": {
+      "name": "Regime-Gated Drawdown Buy (cc3_082.py)",
+      "category": "Mean Reversion",
+      "overfit": "4/10",
+      "file": "cc3_082.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_082.py",
+      "source": "cc3 batch 17",
+      "description": "A mean-reversion dip buyer that only activates within a bullish trend regime. It buys TQQQ when QQQ has pulled back from its 60-day high while still above the Donchian-200 midline, and exits when price recovers to near the 60-day high or the trend regime turns bearish.",
+      "overfit_notes": "Key tuned parameters: 12% drawdown threshold from 60-day high as the entry trigger, Donchian-200 for regime gate, and a 0.1% buffer on the exit high recovery. The 12% drawdown level is a non-canonical threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > Donchian-200 midline (regime must be bullish)"},
+        {"label": "Entry", "text": "In trend AND QQQ down ≥12% from 60-day high → 100% TQQQ"},
+        {"label": "Exit", "text": "Price recovers to within 0.1% of 60-day high OR trend turns bearish → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "82": {
+      "name": "Regime-Gated TOM (cc3_083.py)",
+      "category": "Seasonality",
+      "overfit": "4/10",
+      "file": "cc3_083.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_083.py",
+      "source": "cc3 batch 17",
+      "description": "A turn-of-month seasonality strategy that holds TQQQ during a specific trading window straddling month-end and month-start, but only when QQQ is in a bullish Donchian-200 regime. Outside the window or in a bear regime it stays in cash. The strategy exploits the well-known turn-of-month equity premium while filtering with a trend gate.",
+      "overfit_notes": "The turn-of-month window is defined as 2 trading days before month-end through 4 trading days after month-start — specific parameters that could be tuned. The Donchian-200 trend gate adds a second condition. Four interacting temporal and price parameters.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "In TOM window AND trend bullish → 100% TQQQ"},
+        {"label": "Exit", "text": "TOM window closes (4 trading days after month-start) → 100% BIL; or trend turns bearish during window → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Window start: 2 days before month-end; window end: 4 days after month-start; daily check within window"}
+      ]
+    },
+    "83": {
+      "name": "3-State ROC+D200 TLT Defense (cc3_084.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_084.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_084.py",
+      "source": "cc3 batch 17",
+      "description": "A three-state trend follower that substitutes long-duration Treasury bonds for cash as the defensive position. When both ROC(20) and Donchian-200 are bullish it holds TQQQ; in mixed it holds 50/50 TQQQ/TLT; in bear it holds 100% TLT. This exposes the strategy to duration risk during risk-off periods.",
+      "overfit_notes": "Standard ROC(20)>0 and Donchian-200. The substitution of TLT for BIL is a design-level choice; TLT adds duration risk and potential correlation breakdown risk. Two standard signals at canonical thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ; QQQ price > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 50% TQQQ/50% TLT; both bear → 100% TLT"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / TLT"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "84": {
+      "name": "Top-5 → Top-3 by 20d Return (cc3_085.py)",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "file": "cc3_085.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_085.py",
+      "source": "cc3 batch 17",
+      "description": "A momentum rotator that selects the top-5 stocks by market cap and then holds the three with the best 20-day returns in equal weight, rebalancing monthly. The shorter 20-day lookback compared to a 60-day variant makes it more responsive to near-term price action.",
+      "overfit_notes": "Standard momentum ranking approach. The 20-day lookback (vs. more common 60-day) is a mild tuning. Universe selection (top-5 by market cap, top-3 by short-term return) and monthly rebalance are simple design choices.",
+      "rules": [
+        {"label": "Universe", "text": "Top-100 by dollar volume → top-5 by market cap"},
+        {"label": "Entry", "text": "Hold top-3 of the 5 by 20-day return, equal weight (≈33% each)"},
+        {"label": "Exit", "text": "Sell positions outside top-3 on monthly rebalance"},
+        {"label": "Symbols", "text": "Execution: top-3 mega-cap stocks (dynamic)"},
+        {"label": "Rebalance", "text": "Monthly, first trading day, 30 min after market open"}
+      ]
+    },
+    "85": {
+      "name": "4-State ROC+D100+D300 (cc3_086.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_086.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_086.py",
+      "source": "cc3 batch 17",
+      "description": "A four-state trend follower that widens the channel timeframe spread by using a 100-day and a 300-day Donchian midline alongside ROC(20). The very long 300-day channel provides a structural trend anchor while the 100-day channel provides an intermediate signal.",
+      "overfit_notes": "The 300-day Donchian channel is a non-canonical choice (standard is 200). Three filters with mildly tuned channel lengths. Step-down weights are fixed at 100/70/30/0%.",
+      "rules": [
+        {"label": "Trend gate", "text": "Three filters: (1) ROC(20)>0; (2) QQQ > Donchian-100 midline; (3) QQQ > Donchian-300 midline"},
+        {"label": "Entry", "text": "n=3 → 100% TQQQ; n=2 → 70% TQQQ/30% BIL; n=1 → 30% TQQQ/70% BIL; n=0 → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on filter-count change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "86": {
+      "name": "5-State ROC+D100+D200+Top1 Fill (cc3_087.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_087.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_087.py",
+      "source": "cc3 batch 18",
+      "description": "A four-state rotator with three regime filters (ROC-20, Donchian-100, Donchian-200) that blends TQQQ with the largest mega-cap stock across all exposure levels, never going to cash. As bull signals diminish, it progressively replaces TQQQ with Top-1, maintaining full equity exposure throughout.",
+      "overfit_notes": "Three standard filters (ROC-20, D-100, D-200) with allocation steps across four states (100/70-30/30-70/0-100) entirely in equity. Using Top-1 mega-cap as perpetual ballast instead of BIL is a design choice that increases equity correlation.",
+      "rules": [
+        {"label": "Trend gate", "text": "Three filters: (1) ROC(20)>0; (2) QQQ > Donchian-100 midline; (3) QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "n=3 → 100% TQQQ; n=2 → 70% TQQQ/30% Top-1; n=1 → 30% TQQQ/70% Top-1; n=0 → 100% Top-1 (no cash)"},
+        {"label": "Exit", "text": "Rebalance on filter-count change"},
+        {"label": "Universe", "text": "Top-100 by dollar volume → top-1 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-1 mega-cap stock"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "87": {
+      "name": "ROC+D200 + 7% Trail Exit (cc3_088.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_088.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_088.py",
+      "source": "cc3 batch 18",
+      "description": "A trend follower that enters TQQQ when both ROC(20) and Donchian-200 are bullish, but adds a trailing drawdown exit: it closes the position if QQQ falls more than 7% below its 20-day high, even if the longer-term trend signal remains intact. This provides faster downside protection.",
+      "overfit_notes": "Standard ROC(20)>0 and Donchian-200 entry conditions. The 7% trailing drawdown from 20-day high is a non-canonical threshold — the specific percentage is tuned.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ AND QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both conditions true AND QQQ within 7% of 20-day high → 100% TQQQ"},
+        {"label": "Exit", "text": "Trend signal turns off OR QQQ drops >7% below 20-day high → 100% BIL"},
+        {"label": "Stop-loss", "text": "Trailing: exit if QQQ falls >7% from its 20-day high"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "88": {
+      "name": "3-State Aroon-15 + D200 (cc3_089.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_089.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_089.py",
+      "source": "cc3 batch 18",
+      "description": "A three-state trend follower that uses an Aroon-15 oscillator (intermediate between the fast 10-period and standard 25-period variants) paired with a Donchian-200 midline. States map to 100% TQQQ, 50/50, and 100% BIL based on whether zero, one, or both filters are bullish.",
+      "overfit_notes": "Aroon period of 15 sits between the canonical 10 and 25 variants — a mild intermediate tuning. Donchian-200 is standard. AroonUp>70 is a conventional threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "Aroon-15: AroonUp>70 AND AroonUp>AroonDown; Donchian-200 midline: QQQ price > midline"},
+        {"label": "Entry", "text": "Both bull → 100% TQQQ; one bull → 50% TQQQ/50% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "89": {
+      "name": "TQQQ Pyramid (10%/day) (cc3_090.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_090.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_090.py",
+      "source": "cc3 batch 18",
+      "description": "A pyramiding trend follower that gradually scales into TQQQ by adding 10% exposure per day while both ROC(20) and Donchian-200 remain bullish, reaching 100% after ten consecutive bull days. On the first bear signal it exits entirely to cash.",
+      "overfit_notes": "Key tuned parameter: the 10% daily increment rate (requiring 10 consecutive bull days for full exposure). Also uses standard ROC(20)>0 and Donchian-200. The pyramid step rate is non-canonical.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ AND QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "Bull: +10% TQQQ per day (up to 100%); remainder in BIL"},
+        {"label": "Exit", "text": "Bear signal → TQQQ to 0%, 100% BIL immediately"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "90": {
+      "name": "3-State Dual-ROC + D200 (cc3_091.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_091.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_091.py",
+      "source": "cc3 batch 18",
+      "description": "A three-state trend follower that requires consensus from both short-term ROC(20) and medium-term ROC(60) for the momentum leg, paired with a Donchian-200 midline. The dual-ROC requirement means both timeframes must agree for the strategy to treat momentum as bullish, reducing false positives.",
+      "overfit_notes": "ROC(20)>0 AND ROC(60)>0 as a consensus gate are both standard zero-crossing tests. Donchian-200 midline is standard. Two standard components with a straightforward AND logic.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 AND ROC(60)>0 on QQQ (dual-timeframe consensus); QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both filters bull → 100% TQQQ; one bull → 50% TQQQ/50% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "91": {
+      "name": "ROC+D200 + 5% Trail Exit (cc3_092.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_092.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_092.py",
+      "source": "cc3 batch 19",
+      "description": "A trend follower identical in structure to the 7%-trail variant but using a tighter 5% trailing drawdown from the 20-day high as the exit trigger. The tighter stop provides faster downside protection at the cost of more frequent exits during normal pullbacks.",
+      "overfit_notes": "Standard ROC(20)>0 and Donchian-200 entry. The 5% trailing drawdown threshold from 20-day high is a tighter, non-canonical tuned value.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ AND QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both conditions true AND QQQ within 5% of 20-day high → 100% TQQQ"},
+        {"label": "Exit", "text": "Trend signal off OR QQQ drops >5% below 20-day high → 100% BIL"},
+        {"label": "Stop-loss", "text": "Trailing: exit if QQQ falls >5% from its 20-day high"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "92": {
+      "name": "ROC+D200 + 10% Trail Exit (cc3_093.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_093.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_093.py",
+      "source": "cc3 batch 19",
+      "description": "A trend follower using the same ROC(20) and Donchian-200 entry logic but with a wider 10% trailing drawdown exit from the 20-day high. The looser stop tolerates larger short-term pullbacks before exiting, reducing whipsaw compared to the 5% or 7% variants.",
+      "overfit_notes": "Standard ROC(20)>0 and Donchian-200 entry. The 10% trailing drawdown threshold from 20-day high is a round number but non-canonical tuned exit parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ AND QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both conditions true AND QQQ within 10% of 20-day high → 100% TQQQ"},
+        {"label": "Exit", "text": "Trend signal off OR QQQ drops >10% below 20-day high → 100% BIL"},
+        {"label": "Stop-loss", "text": "Trailing: exit if QQQ falls >10% from its 20-day high"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "93": {
+      "name": "3-State Dual-ROC+D200 70/30 (cc3_094.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_094.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_094.py",
+      "source": "cc3 batch 19",
+      "description": "A three-state trend follower that requires both ROC(20) and ROC(60) to agree for the momentum signal, combined with a Donchian-200 midline. The mixed state uses a 70/30 TQQQ/BIL allocation for more aggressive partial exposure than the 50/50 baseline.",
+      "overfit_notes": "Standard dual-ROC consensus (20 and 60) and Donchian-200. The 70/30 mixed-state allocation is a mild single-parameter tuning versus the 50/50 default.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 AND ROC(60)>0 on QQQ; QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both filters bull → 100% TQQQ; one bull → 70% TQQQ/30% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "94": {
+      "name": "4-State Triple-ROC+D200 (cc3_095.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_095.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_095.py",
+      "source": "cc3 batch 19",
+      "description": "A four-state trend follower that requires consensus from three ROC timeframes (10, 30, 60 days) gated by a Donchian-200 price filter. The number of bullish ROC signals times whether price is above the Donchian midline determines exposure, with maximum TQQQ only when all three ROC periods are positive and price is bullish.",
+      "overfit_notes": "Three ROC periods (10, 30, 60) are non-standard intermediate values; the triple-ROC design with AND Donchian gate and irregular step-down logic (counting ROC consensus then applying price gate) is a notably tuned multi-parameter structure.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ > Donchian-200 midline (required for any bull state); ROC(10), ROC(30), ROC(60) all >0"},
+        {"label": "Entry", "text": "All 3 ROC>0 AND D200 bull → 100% TQQQ; ≥2 ROC>0 AND D200 bull → 70% TQQQ/30% BIL; ≥1 ROC>0 AND D200 bull → 30% TQQQ/70% BIL; otherwise → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on filter-count change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "95": {
+      "name": "TQQQ Pyramid 20%/day (cc3_096.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_096.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_096.py",
+      "source": "cc3 batch 19",
+      "description": "A pyramiding trend follower that scales into TQQQ at 20% per day while the trend is confirmed, reaching full exposure in five consecutive bull days. On any bear signal it exits entirely to cash. This is a faster-building variant of the 10%-per-day pyramid.",
+      "overfit_notes": "The 20% daily step rate (5 days to full exposure) is non-canonical and slightly tuned. Entry conditions (ROC(20)>0 and Donchian-200) are standard.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ AND QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "Bull: +20% TQQQ per day (up to 100%); remainder in BIL"},
+        {"label": "Exit", "text": "Bear signal → TQQQ to 0%, 100% BIL immediately"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "96": {
+      "name": "Dual-ROC+D200 + 5% Trail (cc3_097.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_097.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_097.py",
+      "source": "cc3 batch 20",
+      "description": "A trend follower that combines the dual-ROC(20 and 60) consensus filter and Donchian-200 midline entry with a 5% trailing drawdown exit from the 20-day high. All three conditions must be met simultaneously to stay in TQQQ, providing both trend confirmation and short-term downside protection.",
+      "overfit_notes": "Standard ROC(20)>0 AND ROC(60)>0 entry logic and Donchian-200. The 5% trailing drawdown from 20-day high is a tighter-than-typical exit threshold. Three interacting parameters.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 AND ROC(60)>0 on QQQ; QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "All three conditions met AND QQQ within 5% of 20-day high → 100% TQQQ"},
+        {"label": "Exit", "text": "Any condition fails OR QQQ drops >5% from 20-day high → 100% BIL"},
+        {"label": "Stop-loss", "text": "Trailing: exit if QQQ falls >5% from its 20-day high"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "97": {
+      "name": "3-State Triple-ROC+D200 70/30 (cc3_098.py)",
+      "category": "Trend",
+      "overfit": "4/10",
+      "file": "cc3_098.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_098.py",
+      "source": "cc3 batch 20",
+      "description": "A three-state trend follower that uses a triple-ROC consensus (at least 2 of ROC-10, ROC-30, ROC-60 positive) alongside a Donchian-200 midline, with a 70/30 mixed allocation. The majority-vote approach to ROC reduces reliance on any single timeframe.",
+      "overfit_notes": "Triple ROC with majority-vote (≥2 of 3) is a non-standard design. The three ROC periods (10, 30, 60) are non-canonical. The 70/30 mixed allocation is a mild tuning. Four combined design choices.",
+      "rules": [
+        {"label": "Trend gate", "text": "Majority of ROC(10), ROC(30), ROC(60) positive (≥2 of 3); QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "Both filters bull → 100% TQQQ; one bull → 70% TQQQ/30% BIL; both bear → 100% BIL"},
+        {"label": "Exit", "text": "Rebalance on state change"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "98": {
+      "name": "ROC+D200 + 5% Trail + Top-1 Defense (cc3_099.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_099.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_099.py",
+      "source": "cc3 batch 20",
+      "description": "A trend-following rotator that enters TQQQ when ROC(20), Donchian-200, and the trailing drawdown filter all align, and rotates fully into the largest mega-cap stock when any condition fails. This eliminates cash by always maintaining equity exposure through Top-1 as the defensive position.",
+      "overfit_notes": "Standard ROC(20)>0 and Donchian-200 entry with a 5% trailing drawdown from 20-day high. Top-1 as defensive equity (no BIL) is a design choice. Four interacting parameters.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ; QQQ > Donchian-200 midline; QQQ within 5% of 20-day high"},
+        {"label": "Entry", "text": "All three conditions met → 100% TQQQ"},
+        {"label": "Exit", "text": "Any condition fails → 100% Top-1 mega-cap (no cash)"},
+        {"label": "Stop-loss", "text": "Trailing: exit if QQQ falls >5% from its 20-day high"},
+        {"label": "Universe", "text": "Top-100 by dollar volume → top-1 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-1 mega-cap stock"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "99": {
+      "name": "TQQQ Pyramid 30%/day (cc3_100.py)",
+      "category": "Trend",
+      "overfit": "3/10",
+      "file": "cc3_100.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_100.py",
+      "source": "cc3 batch 20",
+      "description": "The fastest pyramiding variant, adding 30% TQQQ exposure per day while trend conditions hold, reaching full exposure in roughly four consecutive bull days. A single bear day triggers a complete exit to cash. The same ROC(20) and Donchian-200 trend conditions govern entry and exit.",
+      "overfit_notes": "The 30% daily step rate (approximately 4 days to full exposure) is non-canonical. Entry conditions (ROC(20)>0 and Donchian-200) are standard. One non-canonical tuned parameter on top of standard signals.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ AND QQQ > Donchian-200 midline"},
+        {"label": "Entry", "text": "Bull: +30% TQQQ per day (up to 100%); remainder in BIL"},
+        {"label": "Exit", "text": "Bear signal → TQQQ to 0%, 100% BIL immediately"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    },
+    "100": {
+      "name": "ROC+D200 + Trail + Top-1/BIL Fill (cc3_101.py)",
+      "category": "Rotation",
+      "overfit": "4/10",
+      "file": "cc3_101.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_101.py",
+      "source": "cc3 batch 20",
+      "description": "A trend-following rotator that enters TQQQ when ROC(20), Donchian-200, and a 5% trailing drawdown filter align, but upon exit splits capital between the top mega-cap stock (50%) and cash (50%). This hedges the defensive sleeve by holding both equity and cash during risk-off periods.",
+      "overfit_notes": "Standard ROC(20)>0 and Donchian-200 entry. The 5% trailing drawdown exit and the 50/50 Top-1/BIL defensive split are tuned design choices. Four interacting parameters across entry and defensive allocation.",
+      "rules": [
+        {"label": "Trend gate", "text": "ROC(20)>0 on QQQ; QQQ > Donchian-200 midline; QQQ within 5% of 20-day high"},
+        {"label": "Entry", "text": "All three conditions met → 100% TQQQ"},
+        {"label": "Exit", "text": "Any condition fails → 50% Top-1 mega-cap / 50% BIL"},
+        {"label": "Stop-loss", "text": "Trailing: exit if QQQ falls >5% from its 20-day high"},
+        {"label": "Universe", "text": "Top-100 by dollar volume → top-1 by market cap"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-1 mega-cap stock / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ]
+    }
+  }
+}

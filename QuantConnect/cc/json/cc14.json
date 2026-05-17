@@ -1,0 +1,671 @@
+{
+  "strategies": {
+    "541": {
+      "name": "ADX14_3St (cc14_541.py)",
+      "file": "cc14_541.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_541.py",
+      "source": "cc14 batch 1 ADX",
+      "description": "ADX directional regime switcher on QQQ that routes between leveraged Nasdaq, a large-cap basket, and T-bills. Uses ADX with +DI/-DI direction to classify the market into bull, neutral, or bear, then sizes accordingly.",
+      "overfit_notes": "Single ADX(14) indicator with canonical ADX>25 strength threshold; non-canonical part is the three-bucket regime mapping and TQQQ/BIL execution choice",
+      "rules": [
+        {"label": "Strength filter", "text": "ADX(14) > 25 classifies as trending; otherwise neutral"},
+        {"label": "Entry (trend)", "text": "ADX > 25 AND +DI > -DI: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "ADX ≤ 25: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "ADX > 25 AND -DI > +DI: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap (refreshed via coarse/fine)"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "542": {
+      "name": "ADX20_3St (cc14_542.py)",
+      "file": "cc14_542.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_542.py",
+      "source": "cc14 batch 1 ADX",
+      "description": "Slower-period ADX regime switcher on QQQ. Routes between leveraged Nasdaq in confirmed uptrends, a large-cap basket when trendless, and T-bills in confirmed downtrends.",
+      "overfit_notes": "Single ADX(20) at canonical ADX>25 threshold; the longer period is a mild parameter shift from the standard ADX(14)",
+      "rules": [
+        {"label": "Strength filter", "text": "ADX(20) > 25 classifies as trending"},
+        {"label": "Entry (trend)", "text": "ADX > 25 AND +DI > -DI: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "ADX ≤ 25: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "ADX > 25 AND -DI > +DI: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "543": {
+      "name": "ADX14_Strong (cc14_543.py)",
+      "file": "cc14_543.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_543.py",
+      "source": "cc14 batch 1 ADX",
+      "description": "ADX regime switcher that requires a stronger threshold for bullish entry than bearish exit. Uses a higher bar to commit to leveraged Nasdaq while keeping the standard threshold for risk-off.",
+      "overfit_notes": "Asymmetric thresholds: ADX>30 for long, ADX>25 for short — two tuned levels rather than a single canonical cutoff",
+      "rules": [
+        {"label": "Strength filter", "text": "Long needs ADX(14) > 30; bearish needs ADX > 25"},
+        {"label": "Entry (trend)", "text": "ADX > 30 AND +DI > -DI: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Otherwise: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "ADX > 25 AND -DI > +DI: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "544": {
+      "name": "ADX10_3St (cc14_544.py)",
+      "file": "cc14_544.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_544.py",
+      "source": "cc14 batch 1 ADX",
+      "description": "Faster-period ADX regime switcher on QQQ. Reacts more quickly to trend changes by shortening the ADX lookback while keeping the standard strength threshold.",
+      "overfit_notes": "Single ADX(10) at canonical ADX>25 threshold; faster lookback is a mild parameter tweak from the standard ADX(14)",
+      "rules": [
+        {"label": "Strength filter", "text": "ADX(10) > 25 classifies as trending"},
+        {"label": "Entry (trend)", "text": "ADX > 25 AND +DI > -DI: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "ADX ≤ 25: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "ADX > 25 AND -DI > +DI: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "545": {
+      "name": "ADX14_DILvl (cc14_545.py)",
+      "file": "cc14_545.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_545.py",
+      "source": "cc14 batch 1 ADX",
+      "description": "Directional regime switcher driven by the absolute level of +DI/-DI rather than ADX strength plus direction. Routes to leveraged Nasdaq when bullish DI dominates, to T-bills when bearish DI dominates, and to a large-cap basket otherwise.",
+      "overfit_notes": "Uses raw +DI/-DI > 25 levels (instead of ADX+direction); single threshold but non-standard signal construction",
+      "rules": [
+        {"label": "Entry (trend)", "text": "+DI > 25: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Neither DI > 25: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "-DI > 25: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "546": {
+      "name": "CCI20_Basic (cc14_546.py)",
+      "file": "cc14_546.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_546.py",
+      "source": "cc14 batch 2 CCI",
+      "description": "CCI-driven regime switcher on QQQ with asymmetric bull/bear cutoffs. Goes into leveraged Nasdaq above the zero line, dumps into T-bills only on a deep oversold reading, and parks in a large-cap basket in between.",
+      "overfit_notes": "Asymmetric CCI thresholds (>0 long, <-100 cash) — two cutoffs of which one is non-canonical (CCI>0 instead of CCI>100)",
+      "rules": [
+        {"label": "Entry (trend)", "text": "CCI(20) > 0: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "-100 ≤ CCI ≤ 0: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "CCI < -100: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "547": {
+      "name": "CCI20_Strict (cc14_547.py)",
+      "file": "cc14_547.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_547.py",
+      "source": "cc14 batch 2 CCI",
+      "description": "Stricter CCI regime switcher that requires a textbook strong bullish reading to commit to leveraged Nasdaq. Holds a large-cap basket within the normal CCI band and rotates to T-bills on deep weakness.",
+      "overfit_notes": "Two symmetric canonical CCI thresholds (±100) — close to a textbook setup",
+      "rules": [
+        {"label": "Entry (trend)", "text": "CCI(20) > 100: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "|CCI| ≤ 100: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "CCI < -100: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "548": {
+      "name": "CCI14_Basic (cc14_548.py)",
+      "file": "cc14_548.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_548.py",
+      "source": "cc14 batch 2 CCI",
+      "description": "Faster CCI regime switcher on QQQ with asymmetric cutoffs. Uses a short CCI lookback so it reacts quicker into leveraged Nasdaq above zero and into T-bills on deep oversold readings.",
+      "overfit_notes": "Asymmetric CCI thresholds (>0 long, <-100 cash) on a non-standard CCI(14) lookback",
+      "rules": [
+        {"label": "Entry (trend)", "text": "CCI(14) > 0: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "-100 ≤ CCI ≤ 0: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "CCI < -100: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "549": {
+      "name": "CCI40_Slow (cc14_549.py)",
+      "file": "cc14_549.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_549.py",
+      "source": "cc14 batch 2 CCI",
+      "description": "Slower CCI regime switcher on QQQ. The long CCI lookback smooths whipsaws, keeping the position in leveraged Nasdaq above zero, in a large-cap basket in the neutral band, and in T-bills on deep oversold readings.",
+      "overfit_notes": "Asymmetric CCI thresholds (>0 long, <-100 cash) with non-standard CCI(40) lookback",
+      "rules": [
+        {"label": "Entry (trend)", "text": "CCI(40) > 0: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "-100 ≤ CCI ≤ 0: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "CCI < -100: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "550": {
+      "name": "CCI20_ADX14 (cc14_550.py)",
+      "file": "cc14_550.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_550.py",
+      "source": "cc14 batch 2 CCI",
+      "description": "Combines CCI momentum with ADX directional bias on QQQ. Requires both indicators bullish for leveraged Nasdaq exposure and treats either deep-oversold CCI or a confirmed bearish ADX as a risk-off signal.",
+      "overfit_notes": "Three tuned components: CCI>0, +DI vs -DI direction, plus an ADX>25 floor for the bearish leg",
+      "rules": [
+        {"label": "Strength filter", "text": "Bearish trigger requires ADX(14) > 25 AND -DI > +DI"},
+        {"label": "Entry (trend)", "text": "CCI(20) > 0 AND +DI > -DI: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Mixed signals: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "CCI < -100 OR (ADX > 25 AND -DI > +DI): 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "551": {
+      "name": "Don20_10 (cc14_551.py)",
+      "file": "cc14_551.py",
+      "category": "Breakout",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_551.py",
+      "source": "cc14 batch 3 Donchian",
+      "description": "Asymmetric Donchian channel breakout on QQQ. Enters leveraged Nasdaq on a 20-day high, exits to T-bills on a 10-day low, and parks in a large-cap basket in between.",
+      "overfit_notes": "Two standard Donchian channel parameters (20/10) — common in classic breakout systems",
+      "rules": [
+        {"label": "Entry (trend)", "text": "QQQ close > 20-day high: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Between channels: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "QQQ close < 10-day low: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "552": {
+      "name": "Don55_20 (cc14_552.py)",
+      "file": "cc14_552.py",
+      "category": "Breakout",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_552.py",
+      "source": "cc14 batch 3 Donchian",
+      "description": "Classic Turtle-style Donchian breakout on QQQ. Enters leveraged Nasdaq on a 55-day high, exits to T-bills on a 20-day low, and holds a large-cap basket while inside the channels.",
+      "overfit_notes": "Canonical Turtle Trader parameters (55/20) lifted directly from the original Donchian system",
+      "rules": [
+        {"label": "Entry (trend)", "text": "QQQ close > 55-day high: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Between channels: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "QQQ close < 20-day low: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "553": {
+      "name": "Don40_15 (cc14_553.py)",
+      "file": "cc14_553.py",
+      "category": "Breakout",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_553.py",
+      "source": "cc14 batch 3 Donchian",
+      "description": "Medium-horizon Donchian breakout on QQQ. Enters leveraged Nasdaq on a 40-day high, exits to T-bills on a 15-day low, and parks in a large-cap basket between channels.",
+      "overfit_notes": "Two Donchian parameters (40/15) slightly tuned away from the canonical Turtle 55/20",
+      "rules": [
+        {"label": "Entry (trend)", "text": "QQQ close > 40-day high: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Between channels: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "QQQ close < 15-day low: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "554": {
+      "name": "Don20_20 (cc14_554.py)",
+      "file": "cc14_554.py",
+      "category": "Breakout",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_554.py",
+      "source": "cc14 batch 3 Donchian",
+      "description": "Symmetric Donchian breakout on QQQ using the same lookback for entry and exit. Enters leveraged Nasdaq on a 20-day high, exits to T-bills on a 20-day low, and otherwise holds a large-cap basket.",
+      "overfit_notes": "Single textbook Donchian(20) channel used for both signals — minimal parameter tuning",
+      "rules": [
+        {"label": "Entry (trend)", "text": "QQQ close > 20-day high: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Between channels: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "QQQ close < 20-day low: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "555": {
+      "name": "Don20_CCI20 (cc14_555.py)",
+      "file": "cc14_555.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_555.py",
+      "source": "cc14 batch 3 Donchian",
+      "description": "Combines a Donchian breakout with CCI momentum confirmation on QQQ. Requires both a new 20-day high and CCI above zero for leveraged Nasdaq exposure, and falls back to T-bills on either a channel break or a deep CCI oversold.",
+      "overfit_notes": "Three tuned levers: Don(20) breakout, Don(10) breakdown, and CCI(20) ±0/-100 thresholds combined with AND/OR logic",
+      "rules": [
+        {"label": "Entry (trend)", "text": "QQQ > 20-day high AND CCI(20) > 0: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Mixed signals: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "QQQ < 10-day low OR CCI < -100: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "556": {
+      "name": "OBV1_Bin (cc14_556.py)",
+      "file": "cc14_556.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_556.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Binary OBV-direction switcher on QQQ. Compares On-Balance Volume one day apart and is either fully long leveraged Nasdaq or fully in T-bills based on the volume-flow direction.",
+      "overfit_notes": "Single OBV indicator with a 1-day comparison — minimal parameters but very noisy (binary on/off, no neutral band)",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(today) > OBV(1 day ago): 100% TQQQ"},
+        {"label": "Exit", "text": "Otherwise: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ (OBV from close/volume). Execution: TQQQ / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap (carried but unused in binary path)"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "557": {
+      "name": "OBV5_Bin (cc14_557.py)",
+      "file": "cc14_557.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_557.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Binary OBV-direction switcher on QQQ using a one-week lookback. Goes fully long leveraged Nasdaq when OBV is higher than 5 days ago and fully T-bills otherwise.",
+      "overfit_notes": "Single OBV indicator with a 5-day comparison; mildly tuned lookback but binary allocation",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(today) > OBV(5 days ago): 100% TQQQ"},
+        {"label": "Exit", "text": "Otherwise: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ (OBV from close/volume). Execution: TQQQ / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap (carried but unused in binary path)"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "558": {
+      "name": "OBV10_Bin (cc14_558.py)",
+      "file": "cc14_558.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_558.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Binary OBV-direction switcher on QQQ using a two-week lookback. Allocates 100% to leveraged Nasdaq when OBV is rising over 10 days, and 100% to T-bills otherwise.",
+      "overfit_notes": "Single OBV indicator with a 10-day comparison; one tuned lookback, binary allocation",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(today) > OBV(10 days ago): 100% TQQQ"},
+        {"label": "Exit", "text": "Otherwise: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ (OBV from close/volume). Execution: TQQQ / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap (carried but unused in binary path)"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "559": {
+      "name": "OBV20_Bin (cc14_559.py)",
+      "file": "cc14_559.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_559.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Binary OBV-direction switcher on QQQ with a monthly lookback. Fully long leveraged Nasdaq when OBV is higher than 20 days ago and fully in T-bills otherwise.",
+      "overfit_notes": "Single OBV indicator with a canonical 20-day comparison",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(today) > OBV(20 days ago): 100% TQQQ"},
+        {"label": "Exit", "text": "Otherwise: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ (OBV from close/volume). Execution: TQQQ / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap (carried but unused in binary path)"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "560": {
+      "name": "OBV30_Bin (cc14_560.py)",
+      "file": "cc14_560.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_560.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Binary OBV-direction switcher on QQQ over a ~6-week lookback. Goes fully long leveraged Nasdaq when OBV is rising over 30 days, and fully T-bills otherwise.",
+      "overfit_notes": "Single OBV indicator with a 30-day comparison; non-canonical lookback but only one parameter",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(today) > OBV(30 days ago): 100% TQQQ"},
+        {"label": "Exit", "text": "Otherwise: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ (OBV from close/volume). Execution: TQQQ / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap (carried but unused in binary path)"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "561": {
+      "name": "OBV60_Bin (cc14_561.py)",
+      "file": "cc14_561.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_561.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Binary OBV-direction switcher on QQQ over a quarterly horizon. Allocates fully to leveraged Nasdaq when OBV is higher than 60 days ago and fully to T-bills otherwise.",
+      "overfit_notes": "Single OBV indicator with a 60-day comparison; slow lookback gives infrequent flips",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(today) > OBV(60 days ago): 100% TQQQ"},
+        {"label": "Exit", "text": "Otherwise: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ (OBV from close/volume). Execution: TQQQ / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap (carried but unused in binary path)"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "562": {
+      "name": "OBV_Dual (cc14_562.py)",
+      "file": "cc14_562.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_562.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Dual-timeframe OBV regime switcher on QQQ. Requires both short- and intermediate-term OBV to be rising for leveraged Nasdaq, exits to T-bills if the short-term flow turns down, and holds a large-cap basket when signals disagree.",
+      "overfit_notes": "Two OBV lookbacks (5 and 20) combined with AND/OR logic — three-state allocation adds mild structure",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(5)-up AND OBV(20)-up: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "OBV(5)-up AND OBV(20)-down: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "OBV(5)-down: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ (OBV from close/volume). Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "563": {
+      "name": "OBV5_Don10 (cc14_563.py)",
+      "file": "cc14_563.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_563.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Combines short-term OBV with a Donchian low exit on QQQ. Requires OBV rising over 5 days plus price above the 10-day low for leveraged Nasdaq, otherwise either holds a large-cap basket or rotates to T-bills on a channel break.",
+      "overfit_notes": "Two combined indicators (OBV(5) and Don low(10)) with AND/OR logic — moderate tuning",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(5)-up AND QQQ > 10-day low: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "OBV(5)-down AND QQQ > 10-day low: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "QQQ < 10-day low: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "564": {
+      "name": "OBV10_Don10 (cc14_564.py)",
+      "file": "cc14_564.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_564.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Combines two-week OBV momentum with a 10-day Donchian low exit on QQQ. Goes leveraged Nasdaq when both volume flow and price are constructive, holds a large-cap basket when OBV weakens but price holds, and falls back to T-bills on a channel break.",
+      "overfit_notes": "Two combined indicators (OBV(10) and Don low(10)) with AND/OR logic",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(10)-up AND QQQ > 10-day low: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "OBV(10)-down AND QQQ > 10-day low: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "QQQ < 10-day low: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "565": {
+      "name": "OBV20_Don10 (cc14_565.py)",
+      "file": "cc14_565.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_565.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Combines monthly OBV momentum with a 10-day Donchian low exit on QQQ. Holds leveraged Nasdaq when OBV is rising over 20 days and price remains above the 10-day low, with T-bills on a downside break.",
+      "overfit_notes": "Two combined indicators (OBV(20) and Don low(10)) with AND/OR logic — moderate tuning",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(20)-up AND QQQ > 10-day low: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "OBV(20)-down AND QQQ > 10-day low: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "QQQ < 10-day low: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "566": {
+      "name": "OBV5_Don20 (cc14_566.py)",
+      "file": "cc14_566.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_566.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Pairs short-term OBV with a slower 20-day Donchian low exit on QQQ. Enters leveraged Nasdaq when OBV is rising over 5 days and price holds above the 20-day low; rotates to T-bills only on a deeper channel break.",
+      "overfit_notes": "Two combined indicators (OBV(5) and Don low(20)) with AND/OR logic",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(5)-up AND QQQ > 20-day low: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "OBV(5)-down AND QQQ > 20-day low: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "QQQ < 20-day low: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "567": {
+      "name": "OBV10_Don20 (cc14_567.py)",
+      "file": "cc14_567.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_567.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Combines two-week OBV momentum with a 20-day Donchian low exit on QQQ. Holds leveraged Nasdaq when both OBV is rising and price is above the slower channel low; rotates to a large-cap basket or T-bills on weakness.",
+      "overfit_notes": "Two combined indicators (OBV(10) and Don low(20)) with AND/OR logic",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(10)-up AND QQQ > 20-day low: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "OBV(10)-down AND QQQ > 20-day low: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "QQQ < 20-day low: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "568": {
+      "name": "OBV20_Don20 (cc14_568.py)",
+      "file": "cc14_568.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_568.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Symmetric monthly OBV with a 20-day Donchian low exit on QQQ. Enters leveraged Nasdaq when OBV is rising over 20 days and price is above the 20-day low; otherwise large-cap basket or T-bills on a channel break.",
+      "overfit_notes": "Two matched-lookback indicators (OBV(20) and Don low(20)) — mild tuning, fewer free parameters",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(20)-up AND QQQ > 20-day low: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "OBV(20)-down AND QQQ > 20-day low: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "QQQ < 20-day low: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "569": {
+      "name": "OBV20_DonEntry (cc14_569.py)",
+      "file": "cc14_569.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_569.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Requires both OBV confirmation and a fresh Donchian breakout to commit to leveraged Nasdaq on QQQ. Exits to T-bills on a faster 10-day low, otherwise holds a large-cap basket.",
+      "overfit_notes": "Three tuned levers: OBV(20)-up gate, Don high(20) entry, and Don low(10) exit — asymmetric channels add structure",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(20)-up AND QQQ > 20-day high: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Mixed: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "QQQ < 10-day low: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "570": {
+      "name": "OBV10_CCI20 (cc14_570.py)",
+      "file": "cc14_570.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_570.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Pairs two-week OBV momentum with CCI on QQQ. Requires OBV rising plus CCI > 0 for leveraged Nasdaq, and falls back to T-bills on either OBV weakness or deeply oversold CCI.",
+      "overfit_notes": "Three tuned levers: OBV(10)-up, CCI(20)>0, and CCI<-100 with AND/OR logic",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(10)-up AND CCI(20) > 0: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Mixed: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "OBV(10)-down OR CCI < -100: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "571": {
+      "name": "OBV20_CCI20 (cc14_571.py)",
+      "file": "cc14_571.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_571.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Pairs monthly OBV momentum with CCI on QQQ. Requires OBV rising over 20 days plus CCI > 0 for leveraged Nasdaq, and rotates to T-bills on either OBV weakness or deeply oversold CCI.",
+      "overfit_notes": "Three tuned levers: OBV(20)-up, CCI(20)>0, and CCI<-100 with AND/OR logic",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(20)-up AND CCI(20) > 0: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Mixed: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "OBV(20)-down OR CCI < -100: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "572": {
+      "name": "OBV10_CCI14 (cc14_572.py)",
+      "file": "cc14_572.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_572.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Pairs two-week OBV momentum with a faster CCI on QQQ. Requires both volume flow rising and CCI > 0 for leveraged Nasdaq, and rotates to T-bills on either OBV weakness or deeply oversold CCI.",
+      "overfit_notes": "Three tuned levers: OBV(10)-up, CCI(14)>0, and CCI<-100 — non-standard CCI lookback adds slight tuning",
+      "rules": [
+        {"label": "Entry (trend)", "text": "OBV(10)-up AND CCI(14) > 0: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Mixed: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "OBV(10)-down OR CCI < -100: 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "573": {
+      "name": "OBV20_ADX14 (cc14_573.py)",
+      "file": "cc14_573.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_573.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Combines monthly OBV momentum with ADX directional bias on QQQ. Requires OBV rising plus +DI > -DI for leveraged Nasdaq, and exits to T-bills on either OBV weakness or a confirmed bearish ADX regime.",
+      "overfit_notes": "Four tuned components: OBV(20)-up, +DI vs -DI direction, ADX(14)>25 bearish floor, and AND/OR combination",
+      "rules": [
+        {"label": "Strength filter", "text": "Bearish trigger requires ADX(14) > 25 AND -DI > +DI"},
+        {"label": "Entry (trend)", "text": "OBV(20)-up AND +DI > -DI: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Mixed: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "OBV(20)-down OR (ADX > 25 AND -DI > +DI): 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "574": {
+      "name": "OBV10_ADX14 (cc14_574.py)",
+      "file": "cc14_574.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_574.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Combines two-week OBV momentum with ADX directional bias on QQQ. Requires OBV rising plus +DI > -DI for leveraged Nasdaq; exits to T-bills on OBV weakness or a confirmed bearish ADX regime.",
+      "overfit_notes": "Four tuned components: OBV(10)-up, +DI vs -DI direction, ADX(14)>25 bearish floor, and AND/OR combination",
+      "rules": [
+        {"label": "Strength filter", "text": "Bearish trigger requires ADX(14) > 25 AND -DI > +DI"},
+        {"label": "Entry (trend)", "text": "OBV(10)-up AND +DI > -DI: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Mixed: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "OBV(10)-down OR (ADX > 25 AND -DI > +DI): 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    },
+    "575": {
+      "name": "OBV30_ADX20 (cc14_575.py)",
+      "file": "cc14_575.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc14_575.py",
+      "source": "cc14 batch 4 OBV",
+      "description": "Slow-horizon OBV with a slower ADX directional gate on QQQ. Requires OBV rising over 30 days plus +DI > -DI for leveraged Nasdaq; exits to T-bills on OBV weakness or a confirmed bearish ADX regime.",
+      "overfit_notes": "Four tuned components: OBV(30)-up, +DI vs -DI direction, ADX(20)>25 bearish floor, plus AND/OR logic with two non-standard lookbacks",
+      "rules": [
+        {"label": "Strength filter", "text": "Bearish trigger requires ADX(20) > 25 AND -DI > +DI"},
+        {"label": "Entry (trend)", "text": "OBV(30)-up AND +DI > -DI: 100% TQQQ"},
+        {"label": "Entry (neutral)", "text": "Mixed: equal-weight top-5 large-caps"},
+        {"label": "Exit", "text": "OBV(30)-down OR (ADX > 25 AND -DI > +DI): 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL"},
+        {"label": "Universe", "text": "Top 100 by dollar volume, then top 5 by market cap"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open (only on regime change)"}
+      ]
+    }
+  }
+}

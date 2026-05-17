@@ -1,0 +1,887 @@
+{
+  "strategies": {
+    "101": {
+      "name": "ROC+D200 + 3% Trail (cc3_102.py)",
+      "description": "A trend-following strategy on QQQ that switches between leveraged tech exposure and cash. Three conditions must all be true to hold TQQQ: short-term momentum is positive, price is above the midpoint of its long-term range, and the pullback from the recent high is within a trailing stop tolerance. When any condition fails the portfolio moves entirely to a short-term Treasury ETF.",
+      "overfit_notes": "Three tuned parameters combine for a 3/10 rating: ROC(20) for momentum, the 200-day high/low midpoint as a regime filter, and a 3% trailing drawdown stop from the 20-day high. The 3% trail is the most specific, non-standard threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry", "text": "ROC(20) > 0 AND price > D200 mid AND drawdown from 20d high > -3% → 100% TQQQ"},
+        {"label": "Exit", "text": "Any condition fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_102.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_102.py",
+      "source": "cc3 batch 21"
+    },
+    "102": {
+      "name": "ROC+D200 + 4% Trail (cc3_103.py)",
+      "description": "A trend-following strategy on QQQ identical in structure to the 3% trail variant but with a looser trailing stop threshold. Holding TQQQ requires positive short-term momentum, price above the long-term range midpoint, and a pullback from the recent high within the tolerance. Failure of any condition rotates the portfolio to short-term Treasuries.",
+      "overfit_notes": "Same three-component structure as cc3_102 with the trailing stop widened to 4% from the 20-day high. Three tuned parameters: ROC(20), D200 midpoint regime, and 4% trail threshold.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry", "text": "ROC(20) > 0 AND price > D200 mid AND drawdown from 20d high > -4% → 100% TQQQ"},
+        {"label": "Exit", "text": "Any condition fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_103.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_103.py",
+      "source": "cc3 batch 21"
+    },
+    "103": {
+      "name": "ROC+D200 + 6% Trail (cc3_104.py)",
+      "description": "A trend-following strategy on QQQ that gates TQQQ exposure behind positive short-term momentum, a long-term range regime filter, and a trailing drawdown tolerance. This variant uses a 6% trailing stop from the recent high, allowing deeper retracements before exiting. When the combined signal is negative the portfolio holds short-term Treasuries.",
+      "overfit_notes": "Three tuned parameters: ROC(20) threshold at zero, 200-day high/low midpoint regime, and 6% trailing drawdown stop from the 20-day high. Non-standard midpoint regime adds specificity.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry", "text": "ROC(20) > 0 AND price > D200 mid AND drawdown from 20d high > -6% → 100% TQQQ"},
+        {"label": "Exit", "text": "Any condition fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_104.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_104.py",
+      "source": "cc3 batch 21"
+    },
+    "104": {
+      "name": "ROC+D200 + 8% Trail (cc3_105.py)",
+      "description": "A trend-following strategy on QQQ that applies three filters before holding a leveraged tech ETF: positive short-term momentum, price above the midpoint of the long-term price range, and a loose trailing drawdown tolerance. This variant uses the widest trailing stop of the series at 8% below the recent high, minimizing whipsaw exits.",
+      "overfit_notes": "Three tuned parameters: ROC(20), 200-day midpoint regime, and 8% trailing stop from the 20-day high. The 8% threshold is the loosest of the trail variants, introducing a curve-fit choice on stop width.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry", "text": "ROC(20) > 0 AND price > D200 mid AND drawdown from 20d high > -8% → 100% TQQQ"},
+        {"label": "Exit", "text": "Any condition fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_105.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_105.py",
+      "source": "cc3 batch 21"
+    },
+    "105": {
+      "name": "Dual-ROC + 6% Trail (cc3_106.py)",
+      "description": "A trend-following strategy that strengthens the momentum gate by requiring both short- and medium-term rate-of-change indicators to be positive, in addition to a long-term range regime filter and a trailing drawdown tolerance. Both ROC signals and the drawdown guard must agree before holding the leveraged Nasdaq ETF. Cash equivalent is held on any failure.",
+      "overfit_notes": "Four tuned components: ROC(20), ROC(60), the 200-day midpoint regime, and a 6% trailing stop from the 20-day high. The dual-ROC and specific trail combine for a 3/10 rating.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0 AND ROC(60) > 0"},
+        {"label": "Entry", "text": "Both ROCs > 0 AND price > D200 mid AND drawdown from 20d high > -6% → 100% TQQQ"},
+        {"label": "Exit", "text": "Any condition fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_106.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_106.py",
+      "source": "cc3 batch 21"
+    },
+    "106": {
+      "name": "3-State 30/70 + 6% Trail (cc3_107.py)",
+      "description": "A three-state trend-following strategy on QQQ that adjusts leverage in a graded way based on two signals: a short-term momentum indicator and a long-term price range regime, combined with a trailing stop tolerance. When both signals and the drawdown guard are positive the portfolio is fully in TQQQ; when only one signal agrees it holds a partial allocation; otherwise cash. This variant's mixed state holds 30% TQQQ / 70% BIL.",
+      "overfit_notes": "Three parameters: ROC(20), D200 midpoint, and 6% trailing stop. The 30/70 mixed-state split is a tuned allocation choice not derived from first principles.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry (trend)", "text": "ROC(20) > 0 AND price > D200 mid AND trail > -6% → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Only one of ROC/D200 true AND trail > -6% → 30% TQQQ / 70% BIL"},
+        {"label": "Exit", "text": "Both signals fail OR trail breached → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_107.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_107.py",
+      "source": "cc3 batch 22"
+    },
+    "107": {
+      "name": "ROC+D200 + SHV Defense (cc3_108.py)",
+      "description": "A three-state trend-following strategy on QQQ that swaps the defensive cash vehicle from BIL to SHV (short-term Treasury bills). The three states are fully invested in the leveraged Nasdaq ETF, half-and-half between that ETF and SHV, or entirely in SHV. Regime is determined by the combination of a momentum indicator and a long-term price range midpoint.",
+      "overfit_notes": "Two standard components: ROC(20) and D200 midpoint. The 50/50 mixed-state split and choice of SHV over BIL add slight specificity. Rated 3/10 for the three-state allocation tuning.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry (trend)", "text": "ROC(20) > 0 AND price > D200 mid → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Only one signal true → 50% TQQQ / 50% SHV"},
+        {"label": "Exit", "text": "Both signals false → 100% SHV"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / SHV"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_108.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_108.py",
+      "source": "cc3 batch 22"
+    },
+    "108": {
+      "name": "Triple-AND ROC+Aroon+D200 (cc3_109.py)",
+      "description": "A trend-following strategy that requires three independent indicators to agree before holding the leveraged Nasdaq ETF: positive short-term momentum, an Aroon oscillator confirming the uptrend with the up line dominant, and price above the long-term range midpoint. All three must align simultaneously; otherwise the portfolio holds cash.",
+      "overfit_notes": "Three components gated by a triple-AND: ROC(20) > 0, Aroon(25) up > 70 and up > down, and D200 midpoint. The Aroon(25) period and 70 threshold are specific parameter choices.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0 AND Aroon(25) up > 70 AND Aroon up > Aroon down"},
+        {"label": "Entry", "text": "All three conditions true → 100% TQQQ"},
+        {"label": "Exit", "text": "Any condition fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_109.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_109.py",
+      "source": "cc3 batch 22"
+    },
+    "109": {
+      "name": "ROC+D100 + 5% Trail (cc3_110.py)",
+      "description": "A trend-following strategy on QQQ that uses a shorter 100-day price range midpoint as the regime filter instead of the more common 200-day window. Positive momentum, price above the midpoint of the 100-day range, and a 5% trailing stop from the 20-day high must all hold to stay invested in the leveraged Nasdaq ETF.",
+      "overfit_notes": "Three tuned parameters: ROC(20), D100 midpoint (non-standard period), and 5% trailing stop from the 20-day high. The 100-day window is less canonical than the 200-day.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 100-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry", "text": "ROC(20) > 0 AND price > D100 mid AND drawdown from 20d high > -5% → 100% TQQQ"},
+        {"label": "Exit", "text": "Any condition fails → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_110.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_110.py",
+      "source": "cc3 batch 22"
+    },
+    "110": {
+      "name": "Top-5 50% + 50% TQQQ Overlay (cc3_111.py)",
+      "description": "A hybrid rotator that combines an equal-weighted basket of the five largest US mega-cap stocks with a TQQQ trend overlay. Half the portfolio is always allocated equally across the top-five market-cap names; the other half is in TQQQ when QQQ is above the midpoint of its 200-day range, or in BIL when below. Both legs rebalance daily on regime change.",
+      "overfit_notes": "Two standard components: top-5 market-cap universe selection and D200 midpoint regime. The fixed 50/50 split between mega-caps and TQQQ is a tuned allocation choice.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Universe", "text": "Top 5 stocks by market cap from the top 100 by dollar volume"},
+        {"label": "Allocation", "text": "50% equally across top-5 mega-caps (always); 50% TQQQ in bull / 50% BIL in bear"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: top-5 mega-caps + TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on regime change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_111.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_111.py",
+      "source": "cc3 batch 22"
+    },
+    "111": {
+      "name": "OBV Slope (cc3_112.py)",
+      "description": "A volume-based trend follower on QQQ that uses On-Balance Volume as its sole signal. The strategy computes a rolling OBV and checks whether the current reading is above its value from twenty bars ago; a rising OBV indicates accumulation and triggers a full allocation to the leveraged Nasdaq ETF, while a falling OBV shifts to cash.",
+      "overfit_notes": "Single textbook indicator (OBV) with a 21-bar window comparing current OBV to 20 bars prior. The 21-bar lookback is slightly tuned but OBV itself is canonical. Rated 3/10 for the specific window length.",
+      "rules": [
+        {"label": "Entry", "text": "OBV(current) > OBV(20 bars ago) → 100% TQQQ"},
+        {"label": "Exit", "text": "OBV(current) ≤ OBV(20 bars ago) → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ (OBV). Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_112.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_112.py",
+      "source": "cc3 batch 23"
+    },
+    "112": {
+      "name": "Day-of-Week TQQQ (cc3_113.py)",
+      "description": "A seasonality strategy that layers a day-of-week filter on top of a trend gate. When QQQ is above the midpoint of its 200-day high/low range, the portfolio holds TQQQ only on Tuesday through Friday and switches to BIL on Mondays. In a bear regime BIL is held regardless of the day.",
+      "overfit_notes": "Two parameters: D200 midpoint regime and an explicit Monday exclusion (day-of-week index >= 1). The Monday exclusion is a calendar-specific, hindsight-selected rule.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Entry", "text": "In trend AND day-of-week is Tue–Fri → 100% TQQQ"},
+        {"label": "Exit", "text": "Bear regime OR Monday → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_113.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_113.py",
+      "source": "cc3 batch 23"
+    },
+    "113": {
+      "name": "Mega-Cap Breakout-20d Rotation (cc3_114.py)",
+      "description": "A breakout rotator that screens the ten largest US stocks by market cap monthly and buys those whose current close has hit a new 20-day high. Up to five qualifying names are held in an equal-weight portfolio; positions are liquidated when they leave the breakout set at the next monthly rebalance.",
+      "overfit_notes": "Two tuned parameters: the 20-day breakout lookback and capping the universe at the top-10 market-cap names then top-5 breakouts. Monthly rebalance on month-start is a standard choice.",
+      "rules": [
+        {"label": "Universe", "text": "Top 10 stocks by market cap from the top 100 by dollar volume"},
+        {"label": "Entry", "text": "Current close >= 20-day prior high → enters the equal-weight pool (up to 5 names)"},
+        {"label": "Exit", "text": "No longer in the breakout set at next monthly rebalance"},
+        {"label": "Symbols", "text": "Signal + Execution: top-10 mega-caps (screened for 20d breakout)"},
+        {"label": "Rebalance", "text": "Monthly on month-start, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_114.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_114.py",
+      "source": "cc3 batch 23"
+    },
+    "114": {
+      "name": "VIX 252d Percentile (cc3_115.py)",
+      "description": "A volatility-regime strategy that holds TQQQ when the VIX is in the bottom 30th percentile of its trailing year of readings, indicating a calm market, and shifts to BIL otherwise. The VIX percentile rank over a 252-day rolling window serves as the sole signal.",
+      "overfit_notes": "One tuned parameter: the 30th-percentile threshold for VIX (pct < 0.3). The 252-day window is standard (trading year), but the 30% cutoff is a specific choice.",
+      "rules": [
+        {"label": "Entry", "text": "VIX 252-day percentile rank < 30% → 100% TQQQ"},
+        {"label": "Exit", "text": "VIX percentile rank ≥ 30% → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: CBOE VIX. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_115.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_115.py",
+      "source": "cc3 batch 23"
+    },
+    "115": {
+      "name": "QQQ Range Position (cc3_116.py)",
+      "description": "A statistical mean-reversion/trend strategy that measures where QQQ's current price sits within its 200-day high-to-low range, expressed as a normalized position from 0 to 1. When price is in the upper half of the range the portfolio holds TQQQ; when in the lower half it holds BIL.",
+      "overfit_notes": "Single textbook indicator: price position within a 200-day range with a 0.5 (midpoint) threshold. This is an essentially canonical range-position filter. Rated 2/10 as a single standard component at a natural threshold.",
+      "rules": [
+        {"label": "Entry", "text": "(price − 200d low) / (200d high − 200d low) > 0.5 → 100% TQQQ"},
+        {"label": "Exit", "text": "Range position ≤ 0.5 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_116.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_116.py",
+      "source": "cc3 batch 23"
+    },
+    "116": {
+      "name": "3 Down Days + D200 Buy (cc3_117.py)",
+      "description": "A mean-reversion dip-buyer on QQQ that enters TQQQ after three consecutive lower daily closes while the longer-term trend is intact. The position exits when the trend regime breaks or price recovers to near its 5-day high, functioning as a short-term bounce trade within an uptrend.",
+      "overfit_notes": "Three parameters: three consecutive down days as the entry trigger, D200 midpoint as the trend gate, and a 5-day high recovery exit (with a 0.1% buffer). The consecutive-day count is a specific, tuned choice.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Entry (MR)", "text": "Three consecutive lower closes AND in trend → 100% TQQQ"},
+        {"label": "Exit (MR)", "text": "Trend breaks OR price ≥ 5-day high × 0.999 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_117.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_117.py",
+      "source": "cc3 batch 24"
+    },
+    "117": {
+      "name": "Mega-Cap Dispersion Regime (cc3_118.py)",
+      "description": "A breadth-based trend follower that adds a cohesion filter to the standard D200 regime: it only holds TQQQ when both QQQ is in an uptrend and the five largest US stocks are moving together, as measured by the standard deviation of their 20-day returns being below a threshold. High dispersion among mega-caps signals stress and triggers a shift to cash.",
+      "overfit_notes": "Three parameters: D200 midpoint regime, the top-5 market-cap universe, and a 5% cross-sectional standard deviation threshold on 20-day returns. The 5% dispersion cutoff is a specific tuned value.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "Std dev of 20-day returns across top-5 mega-caps < 5%"},
+        {"label": "Entry", "text": "In trend AND dispersion < 5% → 100% TQQQ"},
+        {"label": "Exit", "text": "Trend breaks OR dispersion ≥ 5% → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ + top-5 mega-cap dispersion. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_118.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_118.py",
+      "source": "cc3 batch 24"
+    },
+    "118": {
+      "name": "Outside-Bar Expansion + D200 (cc3_119.py)",
+      "description": "A pattern-recognition dip-buyer that enters the leveraged Nasdaq ETF when QQQ forms a bullish outside bar (current day's high exceeds the prior day's and low is below, with a closing gain) while the longer-term trend is intact. The position is exited when the trend breaks or price rallies back to the recent high.",
+      "overfit_notes": "Two main components: outside-bar candlestick pattern with a bullish close, and D200 midpoint trend gate. Exit uses a 10-day high with a 0.1% buffer. The specific buffer is a minor tuned detail.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Entry (MR)", "text": "Bullish outside bar (current high > prev high AND current low < prev low AND close > open) AND in trend → 100% TQQQ"},
+        {"label": "Exit (MR)", "text": "Trend breaks OR price ≥ 10-day high × 0.999 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ candlestick pattern. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_119.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_119.py",
+      "source": "cc3 batch 24"
+    },
+    "119": {
+      "name": "Low Realized Vol Regime (cc3_120.py)",
+      "description": "A volatility-regime trend follower that holds TQQQ only when both a long-term price range filter is bullish and realized short-term volatility is low. Volatility is measured as the 20-day price standard deviation divided by price; when this normalized measure drops below a threshold, confirming a calm environment, and the trend is intact, the strategy takes full leveraged exposure.",
+      "overfit_notes": "Three parameters: D200 midpoint regime, STD(20) of price, and a 1.2% normalized volatility threshold. The 1.2% cutoff is a specific, non-canonical value.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "20-day price std dev / price < 1.2%"},
+        {"label": "Entry", "text": "Low vol AND in trend → 100% TQQQ"},
+        {"label": "Exit", "text": "Vol rises above threshold OR trend breaks → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_120.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_120.py",
+      "source": "cc3 batch 24"
+    },
+    "120": {
+      "name": "Higher-Highs Streak + D200 (cc3_121.py)",
+      "description": "A pattern-based trend follower that enters TQQQ when QQQ has posted three consecutive higher closes while in an established long-term uptrend. The streak of higher closes acts as a short-term momentum confirmation entry, and the position is exited when the trend breaks or price touches its recent 10-day low.",
+      "overfit_notes": "Two main components: a three-consecutive-higher-closes streak entry, and D200 midpoint trend gate. Exit uses a 10-day low with a 0.1% buffer. The streak count and buffer are specific tuned values.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Entry (trend)", "text": "Three consecutive higher closes AND in trend → 100% TQQQ"},
+        {"label": "Exit (trend)", "text": "Trend breaks OR price ≤ 10-day low × 1.001 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ price pattern. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_121.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_121.py",
+      "source": "cc3 batch 24"
+    },
+    "121": {
+      "name": "3 Down Days Buy (cc3_122.py)",
+      "description": "A mean-reversion dip-buyer on QQQ that enters TQQQ after three consecutive lower daily closes, regardless of the broader trend. This version removes the D200 trend gate present in cc3_117, making it a standalone reversal strategy. It exits when price recovers near its recent 5-day high.",
+      "overfit_notes": "Two parameters: three consecutive down closes as entry trigger, and 5-day high recovery exit with a 0.1% buffer. The absence of a trend gate increases the number of trades and the risk of entering during true downtrends.",
+      "rules": [
+        {"label": "Entry (MR)", "text": "Three consecutive lower closes → 100% TQQQ"},
+        {"label": "Exit (MR)", "text": "Price ≥ 5-day high × 0.999 OR trend breaks → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_122.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_122.py",
+      "source": "cc3 batch 25"
+    },
+    "122": {
+      "name": "Outside-Bar Expansion (cc3_123.py)",
+      "description": "A candlestick pattern mean-reversion strategy that enters TQQQ whenever QQQ forms a bullish outside bar, without requiring any trend gate. A bullish outside bar engulfs the prior day's range with a positive close. The position exits when price recovers to the recent 10-day high.",
+      "overfit_notes": "One specific pattern (bullish outside bar) as the sole entry signal. Exit uses the 10-day high with a 0.1% buffer. No trend filter means entries can occur in both bull and bear markets.",
+      "rules": [
+        {"label": "Entry (MR)", "text": "Bullish outside bar (current H > prev H AND current L < prev L AND close > open) → 100% TQQQ"},
+        {"label": "Exit (MR)", "text": "Price ≥ 10-day high × 0.999 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ candlestick pattern. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_123.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_123.py",
+      "source": "cc3 batch 25"
+    },
+    "123": {
+      "name": "Higher-Highs Streak (cc3_124.py)",
+      "description": "A pattern-based momentum strategy that enters TQQQ whenever QQQ closes higher for three consecutive days, without any long-term trend filter. The position exits when price falls back to the 10-day low, signaling that the short-term momentum has reversed.",
+      "overfit_notes": "One specific pattern (three consecutive higher closes) as the entry with no trend gate. Exit uses the 10-day low with a 0.1% buffer. The streak count is a tuned parameter.",
+      "rules": [
+        {"label": "Entry (trend)", "text": "Three consecutive higher closes → 100% TQQQ"},
+        {"label": "Exit (trend)", "text": "Price ≤ 10-day low × 1.001 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ price pattern. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_124.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_124.py",
+      "source": "cc3 batch 25"
+    },
+    "124": {
+      "name": "Mega-Cap Dispersion <3% (cc3_125.py)",
+      "description": "A breadth-regime trend follower that tightens the dispersion requirement compared to the 5% variant. It holds TQQQ only when QQQ is in a long-term uptrend and the cross-sectional standard deviation of 20-day returns among the top-five mega-cap stocks is below 3%. This stricter cohesion threshold generates fewer bull signals.",
+      "overfit_notes": "Three parameters: D200 midpoint regime, top-5 market-cap universe, and a 3% cross-sectional standard deviation threshold. The tighter 3% cutoff is more curve-fit than the 5% variant.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "Std dev of 20-day returns across top-5 mega-caps < 3%"},
+        {"label": "Entry", "text": "In trend AND dispersion < 3% → 100% TQQQ"},
+        {"label": "Exit", "text": "Trend breaks OR dispersion ≥ 3% → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ + top-5 mega-cap dispersion. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_125.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_125.py",
+      "source": "cc3 batch 25"
+    },
+    "125": {
+      "name": "Volume Spike + D200 (cc3_126.py)",
+      "description": "A volume-confirmation dip-buyer that enters TQQQ when QQQ experiences an unusually high-volume up day while in an established long-term uptrend. A volume spike is defined as volume exceeding one and a half times the 20-day average on a day that closes above its open. The position exits on trend breakdown or when price reaches the 10-day high.",
+      "overfit_notes": "Three parameters: 1.5× volume spike threshold, D200 midpoint trend gate, and 10-day high exit with 0.1% buffer. The 1.5× multiplier is a specific tuned value.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Entry", "text": "Volume > 1.5× 20-day avg volume AND close > open AND in trend → 100% TQQQ"},
+        {"label": "Exit", "text": "Trend breaks OR price ≥ 10-day high × 0.999 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ volume. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_126.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_126.py",
+      "source": "cc3 batch 25"
+    },
+    "126": {
+      "name": "Top-5 50% + 50% TQQQ Always-In (cc3_127.py)",
+      "description": "A hybrid rotator that is always invested and never holds cash. Half the portfolio is allocated equally across the five largest US mega-cap stocks. The other half is in TQQQ during a bull regime and is added to the equal-weight mega-cap allocation during a bear regime, meaning the entire portfolio moves to the top-5 stocks when QQQ is below the D200 midpoint.",
+      "overfit_notes": "Two standard components: top-5 market-cap universe and D200 midpoint regime. The always-invested structure and 50/50 split with TQQQ overlay are design choices rather than specific numeric thresholds.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Universe", "text": "Top 5 stocks by market cap from the top 100 by dollar volume"},
+        {"label": "Allocation", "text": "Bull: 50% equally across top-5 + 50% TQQQ; Bear: 100% equally across top-5 (no TQQQ, no cash)"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: top-5 mega-caps + TQQQ"},
+        {"label": "Rebalance", "text": "Daily on regime change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_127.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_127.py",
+      "source": "cc3 batch 26"
+    },
+    "127": {
+      "name": "Top-5 70% + TQQQ/BIL Overlay (cc3_128.py)",
+      "description": "A hybrid rotator that always maintains 70% of the portfolio equally across the five largest US mega-cap stocks. The remaining 30% is a trend overlay: TQQQ in a bull regime or BIL in a bear regime, determined by whether QQQ is above the midpoint of its 200-day high/low range.",
+      "overfit_notes": "Two standard components: top-5 market-cap universe and D200 midpoint regime. The 70/30 mega-cap-to-overlay split is a tuned allocation choice.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Universe", "text": "Top 5 stocks by market cap from the top 100 by dollar volume"},
+        {"label": "Allocation", "text": "70% equally across top-5 (always); 30% TQQQ in bull / 30% BIL in bear"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: top-5 mega-caps + TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on regime change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_128.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_128.py",
+      "source": "cc3 batch 26"
+    },
+    "128": {
+      "name": "3-of-5 Down Days Buy (cc3_129.py)",
+      "description": "A mean-reversion dip-buyer on QQQ that relaxes the three-consecutive-down-days rule to a more permissive condition: three or more down closes out of the most recent five trading days. This looser pattern fires more frequently and is combined with the D200 midpoint trend gate. The position exits on trend breakdown or recovery to the 10-day high.",
+      "overfit_notes": "Three parameters: at-least-3-of-5 down days threshold, D200 midpoint trend gate, and 10-day high exit with 0.1% buffer. The three-out-of-five count is a specific, tuned condition.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Entry (MR)", "text": "≥ 3 of the last 5 daily closes are lower than the prior close AND in trend → 100% TQQQ"},
+        {"label": "Exit (MR)", "text": "Trend breaks OR price ≥ 10-day high × 0.999 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_129.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_129.py",
+      "source": "cc3 batch 26"
+    },
+    "129": {
+      "name": "Inside-Day Pattern + D200 (cc3_130.py)",
+      "description": "A candlestick pattern strategy that enters TQQQ when QQQ prints an inside day — a bar whose high and low are fully contained within the prior bar's range — while the long-term trend is intact. The inside day signals a consolidation pause potentially preceding a continuation move. The position exits when the trend breaks or price drops to the 5-day low.",
+      "overfit_notes": "Two main components: inside-day candlestick pattern and D200 midpoint trend gate. Exit uses the 5-day low with a 0.1% buffer. The 5-day exit window is a specific tuned parameter.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Entry (MR)", "text": "Inside day (current H < prev H AND current L > prev L) AND in trend → 100% TQQQ"},
+        {"label": "Exit (MR)", "text": "Trend breaks OR price ≤ 5-day low × 1.001 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ candlestick pattern. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_130.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_130.py",
+      "source": "cc3 batch 26"
+    },
+    "130": {
+      "name": "Top-3 of Top-5 by 20d Return (cc3_131.py)",
+      "description": "A monthly rotator that selects the top-five US stocks by market cap and then further concentrates into the three with the strongest 20-day price return. The three winners are held in an equal-weight portfolio until the next monthly rebalance, at which point the ranking is refreshed.",
+      "overfit_notes": "Two tuned parameters: the top-5 market-cap then top-3 by 20-day return selection funnel, and the monthly rebalance cadence. The two-tier selection is a specific design choice.",
+      "rules": [
+        {"label": "Universe", "text": "Top 5 stocks by market cap from the top 100 by dollar volume"},
+        {"label": "Entry", "text": "Top 3 of the 5 by 20-day price return → equal-weight (33% each)"},
+        {"label": "Exit", "text": "Not in top-3 at next monthly rebalance"},
+        {"label": "Symbols", "text": "Signal + Execution: top-5 mega-caps ranked by 20d return"},
+        {"label": "Rebalance", "text": "Monthly on month-start, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_131.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_131.py",
+      "source": "cc3 batch 26"
+    },
+    "131": {
+      "name": "Top-5 Risk-Parity (cc3_132.py)",
+      "description": "A risk-parity rotator that allocates across the five largest US stocks by market cap with weights inversely proportional to each stock's 30-day realized return volatility. Lower-volatility names receive larger allocations. The portfolio is rebalanced monthly on month-start.",
+      "overfit_notes": "Two standard components: top-5 market-cap universe and inverse-volatility (risk parity) weighting using a 30-day lookback. The 30-day volatility window is a moderately tuned choice.",
+      "rules": [
+        {"label": "Universe", "text": "Top 5 stocks by market cap from the top 100 by dollar volume"},
+        {"label": "Allocation", "text": "Weights proportional to 1/vol (30-day daily return std dev), normalized to sum to 100%"},
+        {"label": "Symbols", "text": "Signal + Execution: top-5 mega-caps"},
+        {"label": "Rebalance", "text": "Monthly on month-start, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_132.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_132.py",
+      "source": "cc3 batch 27"
+    },
+    "132": {
+      "name": "Top-5 Highest-ROC60 Single Name (cc3_133.py)",
+      "description": "A concentrated monthly rotator that selects one single stock from the top-five US mega-caps — the one with the highest 60-day price return — and allocates 100% to it. This is a winner-take-all momentum strategy with no diversification within the mega-cap universe.",
+      "overfit_notes": "Two tuned parameters: top-5 market-cap universe and 60-day return as the ranking signal. The 60-day lookback and concentration into a single name are specific design choices.",
+      "rules": [
+        {"label": "Universe", "text": "Top 5 stocks by market cap from the top 100 by dollar volume"},
+        {"label": "Entry", "text": "Name with highest 60-day return → 100%"},
+        {"label": "Exit", "text": "No longer the top-ROC60 name at next monthly rebalance"},
+        {"label": "Symbols", "text": "Signal + Execution: top-5 mega-caps ranked by 60d return"},
+        {"label": "Rebalance", "text": "Monthly on month-start, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_133.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_133.py",
+      "source": "cc3 batch 27"
+    },
+    "133": {
+      "name": "Top-5 Positive-ROC60 Filter (cc3_134.py)",
+      "description": "A monthly rotator that selects the five largest US stocks by market cap and holds only those with a positive 60-day return, equal-weighted. Names with negative 60-day momentum are filtered out; when all five are negative the portfolio shifts entirely to a short-term Treasury ETF.",
+      "overfit_notes": "Two parameters: top-5 market-cap universe and a positive-ROC60 filter at a natural zero threshold. The 60-day lookback is a specific choice; otherwise the zero threshold is canonical.",
+      "rules": [
+        {"label": "Universe", "text": "Top 5 stocks by market cap from the top 100 by dollar volume"},
+        {"label": "Entry", "text": "60-day return > 0 → equal-weight among qualifying names"},
+        {"label": "Exit", "text": "60-day return ≤ 0 → dropped; if all fail → 100% BIL"},
+        {"label": "Symbols", "text": "Signal + Execution: top-5 mega-caps + BIL defensive"},
+        {"label": "Rebalance", "text": "Monthly on month-start, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_134.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_134.py",
+      "source": "cc3 batch 27"
+    },
+    "134": {
+      "name": "QQQ 10d Dip 10% Buy (cc3_135.py)",
+      "description": "A mean-reversion dip-buyer on QQQ that enters TQQQ only after a significant pullback — a decline of at least 10% from the 10-day high. There is no long-term trend gate; the strategy bets purely on a sharp short-term rebound. The position exits when price fully recovers to the 10-day high.",
+      "overfit_notes": "Two parameters: 10-day high lookback and a 10% drawdown entry threshold. The 10% dip threshold is a specific and restrictive entry trigger that fires infrequently.",
+      "rules": [
+        {"label": "Entry (MR)", "text": "Price ≤ 10-day high × 0.90 (drawdown ≥ 10%) → 100% TQQQ"},
+        {"label": "Exit (MR)", "text": "Price ≥ 10-day high × 0.999 → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_135.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_135.py",
+      "source": "cc3 batch 27"
+    },
+    "135": {
+      "name": "Donchian-60 Breakout + Mid Exit (cc3_136.py)",
+      "description": "A breakout trend follower on QQQ that enters TQQQ when price reaches a new 60-day high, indicating a channel breakout. The position is exited when price falls below the midpoint of the same 60-day channel, a more permissive exit that keeps the strategy invested through minor retracements within the channel.",
+      "overfit_notes": "Two parameters: 60-day Donchian channel for both entry and exit, with the midpoint as the exit threshold. The 60-day window is non-standard (Donchian traditionally uses 20 or 55 days).",
+      "rules": [
+        {"label": "Entry", "text": "QQQ price ≥ 60-day high × 0.999 → 100% TQQQ"},
+        {"label": "Exit", "text": "Price < midpoint of 60-day high/low range → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_136.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_136.py",
+      "source": "cc3 batch 27"
+    },
+    "136": {
+      "name": "3-State ROC(15)+D200 (cc3_137.py)",
+      "description": "A three-state trend follower on QQQ that uses a 15-day rate-of-change indicator and a 200-day price range midpoint. When both signals are positive the portfolio is 100% in TQQQ; when exactly one is positive it holds a partial TQQQ/BIL split; when both are negative it moves fully to BIL. This is the shortest ROC variant in the three-state family.",
+      "overfit_notes": "Two standard components in a three-state structure: ROC(15) and D200 midpoint. The 15-day ROC period is shorter than canonical and the 50/50 mixed allocation is a design choice.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(15) > 0"},
+        {"label": "Entry (trend)", "text": "Both true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one true → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_137.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_137.py",
+      "source": "cc3 batch 28"
+    },
+    "137": {
+      "name": "3-State ROC(25)+D200 (cc3_138.py)",
+      "description": "A three-state trend follower that uses a 25-day rate-of-change indicator paired with a 200-day price range midpoint to classify the market into three regimes: fully bullish, mixed, and bearish. Allocations cascade from 100% TQQQ to a 50/50 blend to 100% BIL based on how many signals agree.",
+      "overfit_notes": "Two standard components in a three-state structure: ROC(25) and D200 midpoint. The 25-day ROC period and 50/50 mixed split are tuned choices.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(25) > 0"},
+        {"label": "Entry (trend)", "text": "Both true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one true → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_138.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_138.py",
+      "source": "cc3 batch 28"
+    },
+    "138": {
+      "name": "3-State ROC(45)+D200 (cc3_139.py)",
+      "description": "A three-state trend follower that uses a 45-day rate-of-change indicator and a 200-day price range midpoint to determine market regime. The three-state structure cascades from full TQQQ exposure to a partial blend to full BIL depending on signal agreement. The 45-day ROC gives a medium-term momentum read.",
+      "overfit_notes": "Two standard components: ROC(45) and D200 midpoint. The 45-day period is a moderately non-standard lookback; the 50/50 mixed allocation is a design choice.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(45) > 0"},
+        {"label": "Entry (trend)", "text": "Both true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one true → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_139.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_139.py",
+      "source": "cc3 batch 28"
+    },
+    "139": {
+      "name": "3-State ROC(80)+D200 (cc3_140.py)",
+      "description": "A three-state trend follower using a long 80-day rate-of-change indicator and a 200-day price range midpoint. The extended ROC lookback provides a slower-turning momentum signal, reducing trade frequency. The three-state cascade allocates 100% TQQQ, 50/50 TQQQ/BIL, or 100% BIL based on signal agreement.",
+      "overfit_notes": "Two standard components: ROC(80) and D200 midpoint. The 80-day lookback is longer than conventional and is a tuned parameter; the 50/50 mixed allocation is a design choice.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(80) > 0"},
+        {"label": "Entry (trend)", "text": "Both true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one true → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_140.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_140.py",
+      "source": "cc3 batch 28"
+    },
+    "140": {
+      "name": "Top-5 Daily Rotate by ROC20 (cc3_141.py)",
+      "description": "A daily momentum rotator that each day selects the top-three stocks by 20-day return from the five largest US mega-caps and holds them in equal weight. Unlike the monthly variants, this strategy refreshes its ranking every single trading day, generating much higher turnover.",
+      "overfit_notes": "Two tuned parameters: top-5 market-cap universe with daily top-3 by ROC20 selection. Daily rebalance with a momentum signal creates high turnover; the 20-day lookback is a specific choice.",
+      "rules": [
+        {"label": "Universe", "text": "Top 5 stocks by market cap from the top 100 by dollar volume"},
+        {"label": "Entry", "text": "Top 3 of the 5 by 20-day return → equal-weight (33% each), refreshed daily"},
+        {"label": "Exit", "text": "No longer in top-3 at next daily rebalance"},
+        {"label": "Symbols", "text": "Signal + Execution: top-5 mega-caps ranked by ROC20"},
+        {"label": "Rebalance", "text": "Daily, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_141.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_141.py",
+      "source": "cc3 batch 28"
+    },
+    "141": {
+      "name": "3-State ROC(35)+D200 (cc3_142.py)",
+      "description": "A three-state trend follower on QQQ using a 35-day rate-of-change and a 200-day price range midpoint. The three-state framework grades leverage from 100% TQQQ through a 50/50 blend to 100% BIL based on whether zero, one, or both signals are positive.",
+      "overfit_notes": "Two standard components: ROC(35) and D200 midpoint. The 35-day lookback is a non-standard period choice; the 50/50 mixed-state split is a design decision.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(35) > 0"},
+        {"label": "Entry (trend)", "text": "Both true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one true → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_142.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_142.py",
+      "source": "cc3 batch 29"
+    },
+    "142": {
+      "name": "3-State ROC(50)+D200 (cc3_143.py)",
+      "description": "A three-state trend follower on QQQ using a 50-day rate-of-change and a 200-day price range midpoint. The medium-long ROC captures roughly a quarter-year of price momentum. The three-state structure produces a 50/50 blend in ambiguous regimes.",
+      "overfit_notes": "Two standard components: ROC(50) and D200 midpoint. The 50-day period is a conventional intermediate-term momentum window; this is the most standard ROC choice in the family.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(50) > 0"},
+        {"label": "Entry (trend)", "text": "Both true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one true → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_143.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_143.py",
+      "source": "cc3 batch 29"
+    },
+    "143": {
+      "name": "3-State Dual-ROC(20,45)+D200 (cc3_144.py)",
+      "description": "A three-state trend follower that strengthens the momentum gate by requiring both a 20-day and a 45-day rate-of-change to be positive simultaneously, in addition to the 200-day price range midpoint. The momentum condition is the logical AND of the two ROC readings. This tighter joint condition reduces false positives relative to single-ROC variants.",
+      "overfit_notes": "Three components: dual ROC(20) AND ROC(45) and D200 midpoint. The dual-ROC AND condition and the 45-day period are specific choices that reduce trade frequency. Rated 3/10 for the extra component.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 200-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0 AND ROC(45) > 0"},
+        {"label": "Entry (trend)", "text": "Both ROCs positive AND price > D200 mid → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one of (dual-ROC, D200) true → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_144.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_144.py",
+      "source": "cc3 batch 29"
+    },
+    "144": {
+      "name": "3-State ROC(20)+D175 (cc3_145.py)",
+      "description": "A three-state trend follower that uses a 20-day rate-of-change paired with a shorter-than-usual 175-day price range midpoint instead of the canonical 200-day window. The three-state structure allocates 100% TQQQ, a 50/50 blend, or 100% BIL based on signal agreement.",
+      "overfit_notes": "Two components: ROC(20) and D175 midpoint. The 175-day window is a non-standard, tuned alternative to the conventional 200-day range.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 175-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry (trend)", "text": "Both true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one true → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_145.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_145.py",
+      "source": "cc3 batch 29"
+    },
+    "145": {
+      "name": "3-State ROC(20)+D250 (cc3_146.py)",
+      "description": "A three-state trend follower that uses a 20-day rate-of-change paired with a longer 250-day price range midpoint — approximately one trading year. The extended range window makes the regime filter slower to respond to trend changes. The three-state structure otherwise follows the same 100%/50%/0% TQQQ cascade.",
+      "overfit_notes": "Two components: ROC(20) and D250 midpoint. The 250-day window is a longer-than-standard choice that smooths the regime signal.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 250-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry (trend)", "text": "Both true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one true → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_146.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_146.py",
+      "source": "cc3 batch 29"
+    },
+    "146": {
+      "name": "3-State ROC20+D175 70/30 (cc3_147.py)",
+      "description": "A three-state trend follower using ROC(20) and a 175-day range midpoint that varies the mixed-state allocation: instead of the canonical 50/50 split the ambiguous regime holds 70% TQQQ and 30% BIL. This gives a more aggressive posture in uncertain markets compared to the 50/50 baseline.",
+      "overfit_notes": "Three tuned elements: ROC(20), D175 midpoint (non-standard window), and a 70/30 mixed-state allocation. The combination of a non-standard range period and a specific mixed-state split adds overfit specificity.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 175-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry (trend)", "text": "Both true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one true → 70% TQQQ / 30% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_147.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_147.py",
+      "source": "cc3 batch 30"
+    },
+    "147": {
+      "name": "3-State ROC20+D250 60/40 (cc3_148.py)",
+      "description": "A three-state trend follower using ROC(20) and a 250-day range midpoint with a 60/40 TQQQ/BIL split in the mixed state. The longer range window slows regime detection and the intermediate mixed allocation sits between the 50/50 and 70/30 variants.",
+      "overfit_notes": "Three tuned elements: ROC(20), D250 midpoint (longer window), and a 60/40 mixed-state allocation. The choice of 60/40 versus the standard 50/50 or other splits is a specific design decision.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 250-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry (trend)", "text": "Both true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one true → 60% TQQQ / 40% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_148.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_148.py",
+      "source": "cc3 batch 30"
+    },
+    "148": {
+      "name": "3-State ROC20+D125 50/50 (cc3_149.py)",
+      "description": "A three-state trend follower using ROC(20) and a shorter 125-day price range midpoint. The half-year range window makes the regime filter more responsive than the 200-day or 250-day variants. The mixed state holds a 50/50 TQQQ/BIL split.",
+      "overfit_notes": "Two components: ROC(20) and D125 midpoint. The 125-day window (roughly a half-year) is a specific non-canonical period choice that sits shorter than the conventional 200-day range.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 125-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry (trend)", "text": "Both true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one true → 50% TQQQ / 50% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_149.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_149.py",
+      "source": "cc3 batch 30"
+    },
+    "149": {
+      "name": "3-State ROC20+D175 80/20 (cc3_150.py)",
+      "description": "A three-state trend follower using ROC(20) and a 175-day range midpoint with a notably aggressive 80/20 TQQQ/BIL split in the mixed state. This configuration maintains substantial leveraged exposure even in ambiguous regimes, making it the most aggressive of the mixed-state variants.",
+      "overfit_notes": "Three tuned elements: ROC(20), D175 midpoint (non-standard), and an 80/20 mixed-state allocation that is more aggressive than canonical. The 80% TQQQ in the mixed state is a specific tuned choice.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 175-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry (trend)", "text": "Both true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one true → 80% TQQQ / 20% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_150.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_150.py",
+      "source": "cc3 batch 30"
+    },
+    "150": {
+      "name": "3-State ROC20+D225 70/30 (cc3_151.py)",
+      "description": "A three-state trend follower using ROC(20) and a 225-day price range midpoint with a 70/30 TQQQ/BIL allocation in the mixed state. The 225-day window sits between the standard 200-day and the longer 250-day variants, offering a slightly smoother regime signal. The 70/30 mixed allocation matches the 70/30 D175 variant in aggressiveness.",
+      "overfit_notes": "Three tuned elements: ROC(20), D225 midpoint (non-standard window), and a 70/30 mixed-state allocation. The 225-day period is a specific, non-canonical selection between standard periods.",
+      "rules": [
+        {"label": "Trend gate", "text": "QQQ price > midpoint of 225-day high/low range"},
+        {"label": "Strength filter", "text": "ROC(20) > 0"},
+        {"label": "Entry (trend)", "text": "Both true → 100% TQQQ"},
+        {"label": "Entry (MR)", "text": "Exactly one true → 70% TQQQ / 30% BIL"},
+        {"label": "Exit", "text": "Both false → 100% BIL"},
+        {"label": "Symbols", "text": "Signal: QQQ. Execution: TQQQ / BIL"},
+        {"label": "Rebalance", "text": "Daily on state change, 30 min after market open"}
+      ],
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "file": "cc3_151.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_151.py",
+      "source": "cc3 batch 30"
+    }
+  }
+}
