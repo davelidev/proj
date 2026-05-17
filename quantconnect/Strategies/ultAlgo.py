@@ -8,6 +8,7 @@ from expanding_breakout import ExpandingBreakoutSub
 from tqqq_sma150 import TQQQSMA150Sub
 from ibs_atr_stop import IBSATRStopSub
 from mktcap_ibs_regime import MktCapIBSRegimeSub
+from tech_dip_tqqq import TQQQTechDipSub
 
 
 # ---------------------------------------------------------------------------
