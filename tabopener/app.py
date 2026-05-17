@@ -12,7 +12,7 @@ import time
 from pathlib import Path
 
 HOST = "0.0.0.0"
-PORT = int(os.environ.get("TABOPENER_PORT", 5071))
+PORT = int(os.environ.get("TABOPENER_PORT", 5072))
 HERE = Path(__file__).parent
 
 # Saved global tab order: [tty1, tty2, ...]
@@ -450,16 +450,15 @@ return out"""
                     "tabIndex": int(parts[3]),
                     "title": parts[4],
                     "tty": parts[5],
-                    "tabId": parts[3],  # use tabIndex as the stable id
+                    "tabId": parts[3],
                 })
 
-        # Cross-reference with running Claude + Gemini processes for model + context usage
         sessions = get_claude_sessions_by_tty()
         gemini_sessions = get_gemini_sessions_by_tty()
-        # Gemini takes priority on the same tty (a tab can't run both)
         sessions.update(gemini_sessions)
         with _manual_lock:
             manual_ttys = set(_manual_titles.keys())
+            
         for tab in tabs:
             s = sessions.get(tab["tty"], {})
             tab["model"] = s.get("model")
@@ -472,17 +471,18 @@ return out"""
             tab["rate_7d_resets"] = s.get("rate_7d_resets")
             tab["manual"] = tab["tty"] in manual_ttys
 
-        # Enrich Gemini tabs with model + quota from terminal statusline
-        for tab in tabs:
+        # OPTIMIZATION: Enrich Gemini tabs in parallel
+        import concurrent.futures
+        def enrich_tab(tab):
             model_lower = (tab.get("model") or "").lower()
-            if model_lower.startswith("gemini") or "gemini" in model_lower:
+            if model_lower.startswith("gemini") or "gemini" in model_lower or model_lower == "auto":
                 term_model, quota = parse_gemini_statusline(tab["winId"], tab["tabIndex"])
-                if quota is not None:
-                    tab["ctx_pct"] = quota
-                if term_model:
-                    tab["model"] = term_model
+                if quota is not None: tab["ctx_pct"] = quota
+                if term_model: tab["model"] = term_model
+        
+        with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+            executor.map(enrich_tab, tabs)
 
-        # Fill missing cwds by looking up each tty's processes via lsof
         missing = {t["tty"] for t in tabs if not t["cwd"]}
         if missing:
             tty_cwds = get_tty_cwds(missing)
@@ -492,7 +492,6 @@ return out"""
                     raw = tty_cwds.get(tab["tty"], "")
                     tab["cwd"] = raw.replace(home, "~") if raw else ""
 
-        # Sort by global drag-and-drop order; fallback to winId+tabIndex
         global _global_order
         def sorter(t):
             if t["tty"] in _global_order:
@@ -502,7 +501,6 @@ return out"""
         return tabs
     except Exception as e:
         return {"error": str(e)}
-
 
 def read_statusline_cache():
     """Read statusline cache files, return dict keyed by lowercased model name."""
@@ -661,12 +659,12 @@ class Handler(http.server.BaseHTTPRequestHandler):
             win_id = data.get("winId")
             if win_id:
                 script = (
-                    f'tell application "Terminal"\n'
+                    'tell application "Terminal"\n'
                     f'    set frontmost of window id {win_id} to true\n'
-                    f'    activate\n'
-                    f'end tell'
+                    '    activate\n'
+                    'end tell'
                 )
-                threading.Thread(target=lambda: subprocess.run(["osascript", "-e", script], timeout=5), daemon=True).start()
+                subprocess.Popen(["osascript", "-e", script])
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.end_headers()

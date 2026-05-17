@@ -1,0 +1,804 @@
+{
+  "strategies": {
+    "651": {
+      "name": "DCH20_Mid (cc16_651.py)",
+      "file": "cc16_651.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_651.py"
+    },
+    "652": {
+      "name": "DCH55_Mid (cc16_652.py)",
+      "file": "cc16_652.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_652.py"
+    },
+    "653": {
+      "name": "DCH20_Breakout (cc16_653.py)",
+      "file": "cc16_653.py",
+      "category": "Breakout",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_653.py"
+    },
+    "654": {
+      "name": "DCH10_Mid (cc16_654.py)",
+      "file": "cc16_654.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_654.py"
+    },
+    "655": {
+      "name": "DCH20_Top5 (cc16_655.py)",
+      "file": "cc16_655.py",
+      "category": "Rotation",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_655.py"
+    },
+    "656": {
+      "name": "WILR14+63_Bull (cc16_656.py)",
+      "file": "cc16_656.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_656.py"
+    },
+    "657": {
+      "name": "WILR63_Regime (cc16_657.py)",
+      "file": "cc16_657.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_657.py"
+    },
+    "658": {
+      "name": "WILR_DipInTrend (cc16_658.py)",
+      "file": "cc16_658.py",
+      "category": "Dip Buy",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_658.py"
+    },
+    "659": {
+      "name": "WILR_ROC_Score (cc16_659.py)",
+      "file": "cc16_659.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_659.py"
+    },
+    "660": {
+      "name": "WILR63+ROC_Top5 (cc16_660.py)",
+      "file": "cc16_660.py",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_660.py"
+    },
+    "661": {
+      "name": "Stoch14D_Regime (cc16_661.py)",
+      "file": "cc16_661.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_661.py"
+    },
+    "662": {
+      "name": "Stoch63D_Regime (cc16_662.py)",
+      "file": "cc16_662.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_662.py"
+    },
+    "663": {
+      "name": "Stoch_KDCross+63 (cc16_663.py)",
+      "file": "cc16_663.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_663.py"
+    },
+    "664": {
+      "name": "Stoch_OversoldInTrend (cc16_664.py)",
+      "file": "cc16_664.py",
+      "category": "Dip Buy",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_664.py"
+    },
+    "665": {
+      "name": "Stoch63+ROC_Top5 (cc16_665.py)",
+      "file": "cc16_665.py",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_665.py"
+    },
+    "666": {
+      "name": "ADX_DI_Direction (cc16_666.py)",
+      "file": "cc16_666.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_666.py"
+    },
+    "667": {
+      "name": "ADX20+DI (cc16_667.py)",
+      "file": "cc16_667.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_667.py"
+    },
+    "668": {
+      "name": "ADX+DI+Stoch63 (cc16_668.py)",
+      "file": "cc16_668.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_668.py"
+    },
+    "669": {
+      "name": "ADX+DI+ROC20 (cc16_669.py)",
+      "file": "cc16_669.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_669.py"
+    },
+    "670": {
+      "name": "ADX+Stoch63_Top5 (cc16_670.py)",
+      "file": "cc16_670.py",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_670.py"
+    },
+    "671": {
+      "name": "ROC63_Regime (cc16_671.py)",
+      "file": "cc16_671.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_671.py"
+    },
+    "672": {
+      "name": "ROC126_Regime (cc16_672.py)",
+      "file": "cc16_672.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_672.py"
+    },
+    "673": {
+      "name": "ROC20+ROC63 (cc16_673.py)",
+      "file": "cc16_673.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_673.py"
+    },
+    "674": {
+      "name": "Stoch63+ROC20 (cc16_674.py)",
+      "file": "cc16_674.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_674.py"
+    },
+    "675": {
+      "name": "ROC63+20_Top5 (cc16_675.py)",
+      "file": "cc16_675.py",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_675.py"
+    },
+    "676": {
+      "name": "OBV63_Trend (cc16_676.py)",
+      "file": "cc16_676.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_676.py"
+    },
+    "677": {
+      "name": "OBV20+ROC63 (cc16_677.py)",
+      "file": "cc16_677.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_677.py"
+    },
+    "678": {
+      "name": "OBV63+Stoch63 (cc16_678.py)",
+      "file": "cc16_678.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_678.py"
+    },
+    "679": {
+      "name": "OBV63+ROC20 (cc16_679.py)",
+      "file": "cc16_679.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_679.py"
+    },
+    "680": {
+      "name": "OBV63+ROC20_Top5 (cc16_680.py)",
+      "file": "cc16_680.py",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_680.py"
+    },
+    "681": {
+      "name": "PSAR_Regime (cc16_681.py)",
+      "file": "cc16_681.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_681.py"
+    },
+    "682": {
+      "name": "PSAR+Stoch63 (cc16_682.py)",
+      "file": "cc16_682.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_682.py"
+    },
+    "683": {
+      "name": "PSAR+ROC63 (cc16_683.py)",
+      "file": "cc16_683.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_683.py"
+    },
+    "684": {
+      "name": "PSAR_Slow+Stoch63 (cc16_684.py)",
+      "file": "cc16_684.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_684.py"
+    },
+    "685": {
+      "name": "CCI20+Stoch63_Top5 (cc16_685.py)",
+      "file": "cc16_685.py",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_685.py"
+    },
+    "686": {
+      "name": "ATR_CCI20 (cc16_686.py)",
+      "file": "cc16_686.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_686.py"
+    },
+    "687": {
+      "name": "ATR_Stoch63 (cc16_687.py)",
+      "file": "cc16_687.py",
+      "category": "Hybrid",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_687.py"
+    },
+    "688": {
+      "name": "CCI20+ROC20+ATR (cc16_688.py)",
+      "file": "cc16_688.py",
+      "category": "Hybrid",
+      "overfit": "4/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_688.py"
+    },
+    "689": {
+      "name": "ATR14_Below63 (cc16_689.py)",
+      "file": "cc16_689.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_689.py"
+    },
+    "690": {
+      "name": "ATR_CCI20_Top5 (cc16_690.py)",
+      "file": "cc16_690.py",
+      "category": "Rotation",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_690.py"
+    },
+    "691": {
+      "name": "ATR14_Tight (cc16_691.py)",
+      "file": "cc16_691.py",
+      "category": "Volatility",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_691.py"
+    },
+    "692": {
+      "name": "Ichimoku_Cloud (cc16_692.py)",
+      "file": "cc16_692.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_692.py"
+    },
+    "693": {
+      "name": "DCH20_CloseBreakout (cc16_693.py)",
+      "file": "cc16_693.py",
+      "category": "Breakout",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_693.py"
+    },
+    "694": {
+      "name": "Seasonal_BestSix (cc16_694.py)",
+      "file": "cc16_694.py",
+      "category": "Seasonal",
+      "overfit": "1/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_694.py"
+    },
+    "695": {
+      "name": "QQQ_SPY_RelStrength (cc16_695.py)",
+      "file": "cc16_695.py",
+      "category": "Relative Strength",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_695.py"
+    },
+    "696": {
+      "name": "VIXY_ROC20 (cc16_696.py)",
+      "file": "cc16_696.py",
+      "category": "Fear",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_696.py"
+    },
+    "697": {
+      "name": "CMO20_Regime (cc16_697.py)",
+      "file": "cc16_697.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_697.py"
+    },
+    "698": {
+      "name": "Price52W_Percentile (cc16_698.py)",
+      "file": "cc16_698.py",
+      "category": "Price Position",
+      "overfit": "1/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_698.py"
+    },
+    "699": {
+      "name": "QQQ_SPY_Rel20 (cc16_699.py)",
+      "file": "cc16_699.py",
+      "category": "Relative Strength",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_699.py"
+    },
+    "700": {
+      "name": "CCI14_Regime (cc16_700.py)",
+      "file": "cc16_700.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_700.py"
+    },
+    "701": {
+      "name": "CMO10_Regime (cc16_701.py)",
+      "file": "cc16_701.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_701.py"
+    },
+    "702": {
+      "name": "Aroon25_Regime (cc16_702.py)",
+      "file": "cc16_702.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_702.py"
+    },
+    "703": {
+      "name": "Price63W_Percentile (cc16_703.py)",
+      "file": "cc16_703.py",
+      "category": "Price Position",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_703.py"
+    },
+    "704": {
+      "name": "ROC_Acceleration (cc16_704.py)",
+      "file": "cc16_704.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_704.py"
+    },
+    "705": {
+      "name": "UpDay_Count20 (cc16_705.py)",
+      "file": "cc16_705.py",
+      "category": "Breadth",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_705.py"
+    },
+    "706": {
+      "name": "TLT_ROC20 (cc16_706.py)",
+      "file": "cc16_706.py",
+      "category": "Cross-Asset",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_706.py"
+    },
+    "707": {
+      "name": "GLD_ROC20_Fear (cc16_707.py)",
+      "file": "cc16_707.py",
+      "category": "Cross-Asset",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_707.py"
+    },
+    "708": {
+      "name": "QQQ_GLD_Relative (cc16_708.py)",
+      "file": "cc16_708.py",
+      "category": "Relative Strength",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_708.py"
+    },
+    "709": {
+      "name": "IEF_ROC20 (cc16_709.py)",
+      "file": "cc16_709.py",
+      "category": "Cross-Asset",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_709.py"
+    },
+    "710": {
+      "name": "Aroon14_Regime (cc16_710.py)",
+      "file": "cc16_710.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_710.py"
+    },
+    "711": {
+      "name": "CMO30_Regime (cc16_711.py)",
+      "file": "cc16_711.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_711.py"
+    },
+    "712": {
+      "name": "CCI30_Regime (cc16_712.py)",
+      "file": "cc16_712.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_712.py"
+    },
+    "713": {
+      "name": "UpDay_Count15 (cc16_713.py)",
+      "file": "cc16_713.py",
+      "category": "Breadth",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_713.py"
+    },
+    "714": {
+      "name": "Aroon40_Regime (cc16_714.py)",
+      "file": "cc16_714.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_714.py"
+    },
+    "715": {
+      "name": "Price126D_Percentile (cc16_715.py)",
+      "file": "cc16_715.py",
+      "category": "Price Position",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_715.py"
+    },
+    "716": {
+      "name": "LR_Slope20 (cc16_716.py)",
+      "file": "cc16_716.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_716.py"
+    },
+    "717": {
+      "name": "GainLoss_Ratio20 (cc16_717.py)",
+      "file": "cc16_717.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_717.py"
+    },
+    "718": {
+      "name": "ConsecWeeks_3Up (cc16_718.py)",
+      "file": "cc16_718.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_718.py"
+    },
+    "719": {
+      "name": "CCI20_Bull50 (cc16_719.py)",
+      "file": "cc16_719.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_719.py"
+    },
+    "720": {
+      "name": "Aroon25_Strong50 (cc16_720.py)",
+      "file": "cc16_720.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_720.py"
+    },
+    "721": {
+      "name": "CMO20_Asym (cc16_721.py)",
+      "file": "cc16_721.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_721.py"
+    },
+    "722": {
+      "name": "CCI20_Asym (cc16_722.py)",
+      "file": "cc16_722.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_722.py"
+    },
+    "723": {
+      "name": "Efficiency_Ratio (cc16_723.py)",
+      "file": "cc16_723.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_723.py"
+    },
+    "724": {
+      "name": "ReturnSkew20 (cc16_724.py)",
+      "file": "cc16_724.py",
+      "category": "Statistical",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_724.py"
+    },
+    "725": {
+      "name": "Aroon25_Asym (cc16_725.py)",
+      "file": "cc16_725.py",
+      "category": "Trend",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_725.py"
+    },
+    "726": {
+      "name": "Efficiency_Loose (cc16_726.py)",
+      "file": "cc16_726.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_726.py"
+    },
+    "727": {
+      "name": "HighClose_Ratio (cc16_727.py)",
+      "file": "cc16_727.py",
+      "category": "Breadth",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_727.py"
+    },
+    "728": {
+      "name": "ROC20_Percentile (cc16_728.py)",
+      "file": "cc16_728.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_728.py"
+    },
+    "729": {
+      "name": "Near20DayHigh (cc16_729.py)",
+      "file": "cc16_729.py",
+      "category": "Breakout",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_729.py"
+    },
+    "730": {
+      "name": "Weekly3of4Up (cc16_730.py)",
+      "file": "cc16_730.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_730.py"
+    },
+    "731": {
+      "name": "Range20_Position (cc16_731.py)",
+      "file": "cc16_731.py",
+      "category": "Price Position",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_731.py"
+    },
+    "732": {
+      "name": "CMO_Weekly (cc16_732.py)",
+      "file": "cc16_732.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_732.py"
+    },
+    "733": {
+      "name": "ROC20_GT3pct (cc16_733.py)",
+      "file": "cc16_733.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_733.py"
+    },
+    "734": {
+      "name": "Near20High_5pct (cc16_734.py)",
+      "file": "cc16_734.py",
+      "category": "Breakout",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_734.py"
+    },
+    "735": {
+      "name": "Aroon25_Mid30 (cc16_735.py)",
+      "file": "cc16_735.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_735.py"
+    },
+    "736": {
+      "name": "HH_HL_Count (cc16_736.py)",
+      "file": "cc16_736.py",
+      "category": "Trend",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_736.py"
+    },
+    "737": {
+      "name": "IntradayUp_Count (cc16_737.py)",
+      "file": "cc16_737.py",
+      "category": "Breadth",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_737.py"
+    },
+    "738": {
+      "name": "SPY_CMO20 (cc16_738.py)",
+      "file": "cc16_738.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_738.py"
+    },
+    "739": {
+      "name": "GapUp_Count (cc16_739.py)",
+      "file": "cc16_739.py",
+      "category": "Breadth",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_739.py"
+    },
+    "740": {
+      "name": "Near20High_7pct (cc16_740.py)",
+      "file": "cc16_740.py",
+      "category": "Breakout",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_740.py"
+    },
+    "741": {
+      "name": "Near52WkHigh_10pct (cc16_741.py)",
+      "file": "cc16_741.py",
+      "category": "Price Position",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_741.py"
+    },
+    "742": {
+      "name": "ROC_Composite (cc16_742.py)",
+      "file": "cc16_742.py",
+      "category": "Momentum",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_742.py"
+    },
+    "743": {
+      "name": "Price84D_Percentile (cc16_743.py)",
+      "file": "cc16_743.py",
+      "category": "Price Position",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_743.py"
+    },
+    "744": {
+      "name": "CMO20_GT5 (cc16_744.py)",
+      "file": "cc16_744.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_744.py"
+    },
+    "745": {
+      "name": "UpDay_Count55pct (cc16_745.py)",
+      "file": "cc16_745.py",
+      "category": "Breadth",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_745.py"
+    },
+    "746": {
+      "name": "RollingSharpe20 (cc16_746.py)",
+      "file": "cc16_746.py",
+      "category": "Statistical",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_746.py"
+    },
+    "747": {
+      "name": "ATR14_Percentile (cc16_747.py)",
+      "file": "cc16_747.py",
+      "category": "Volatility",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_747.py"
+    },
+    "748": {
+      "name": "UpDay_Count10 (cc16_748.py)",
+      "file": "cc16_748.py",
+      "category": "Breadth",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_748.py"
+    },
+    "749": {
+      "name": "TQQQ_CMO20 (cc16_749.py)",
+      "file": "cc16_749.py",
+      "category": "Momentum",
+      "overfit": "2/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_749.py"
+    },
+    "750": {
+      "name": "Momentum_vs_RandWalk (cc16_750.py)",
+      "file": "cc16_750.py",
+      "category": "Statistical",
+      "overfit": "3/10",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc16_750.py"
+    }
+  }
+}

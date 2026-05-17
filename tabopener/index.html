@@ -6,110 +6,37 @@
 <title>Tab Opener</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
-  body {
-    background: #f5f6fa;
-    user-select: none;
-    -webkit-user-select: none;
-  }
+  body { background: #f5f6fa; user-select: none; -webkit-user-select: none; }
   [contenteditable="true"] { user-select: text; -webkit-user-select: text; }
-  .tab-row {
-    cursor: pointer;
-    transition: box-shadow .15s, border-color .15s;
-  }
-  .tab-row:hover {
-    border-color: #0d6efd !important;
-    box-shadow: 0 0 0 3px rgba(13,110,253,.12);
-  }
+  .tab-row { cursor: pointer; transition: box-shadow .15s, border-color .15s; }
+  .tab-row:hover { border-color: #0d6efd !important; box-shadow: 0 0 0 3px rgba(13,110,253,.12); }
   .tab-row:active { transform: scale(.997); }
   .tab-dragging { opacity: .4; }
   .tab-drag-over { border-color: #0d6efd !important; box-shadow: 0 0 0 3px rgba(13,110,253,.2) !important; }
   .tab-title { min-width: 0; }
-  .tab-title-text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    min-width: 0;
-  }
-  .color-swatch {
-    width: 24px;
-    height: 24px;
-    border: 2px solid transparent;
-    border-radius: 50%;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: border-color .15s, transform .15s;
-    position: relative;
-  }
+  .tab-title-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .color-swatch { width: 24px; height: 24px; border: 2px solid transparent; border-radius: 50%; cursor: pointer; flex-shrink: 0; transition: border-color .15s, transform .15s; position: relative; }
   .color-swatch:hover { border-color: #0d6efd; transform: scale(1.1); }
   .mono { font-family: SF Mono, Menlo, monospace; }
-  /* Color palette popup */
-  .palette-popup {
-    position: fixed;
-    z-index: 9999;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 8px 30px rgba(0,0,0,.2);
-    padding: 10px;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 5px;
-  }
-  .palette-popup .c {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: transform .12s, border-color .12s;
-  }
-  .palette-popup .c:hover {
-    transform: scale(1.25);
-    border-color: #0d6efd;
-  }
-  .palette-popup .c.active {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 2px rgba(13,110,253,.3);
-  }
-  .move-arrows .btn { line-height: 1; font-size: 11px; padding: 0 4px; color: #6c757d; }
-  .move-arrows .btn:hover { color: #212529; background: #e9ecef; }
-  .focus-btn {
-    cursor: pointer;
-    opacity: .35;
-    font-size: 14px;
-    line-height: 1;
-    transition: opacity .12s;
-    flex-shrink: 0;
-  }
+  .palette-popup { position: fixed; z-index: 9999; background: #fff; border-radius: 10px; box-shadow: 0 8px 30px rgba(0,0,0,.2); padding: 10px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+  .palette-popup .c { width: 28px; height: 28px; border-radius: 6px; cursor: pointer; border: 2px solid transparent; transition: transform .12s, border-color .12s; }
+  .palette-popup .c:hover { transform: scale(1.25); border-color: #0d6efd; }
+  .palette-popup .c.active { border-color: #0d6efd; box-shadow: 0 0 0 2px rgba(13,110,253,.3); }
+  .focus-btn { cursor: pointer; opacity: .35; font-size: 14px; line-height: 1; transition: opacity .12s; flex-shrink: 0; }
   .focus-btn:hover { opacity: .85; }
-  .pin-btn {
-    cursor: pointer;
-    opacity: .75;
-    font-size: 15px;
-    line-height: 1;
-    transition: opacity .12s, color .12s;
-    flex-shrink: 0;
-    color: #495057;
-  }
+  .pin-btn { cursor: pointer; opacity: .75; font-size: 15px; line-height: 1; transition: opacity .12s, color .12s; flex-shrink: 0; color: #495057; }
   .pin-btn:hover { opacity: 1; color: #0d6efd; }
   .pin-btn.pinned { opacity: 1; color: #0d6efd; }
   .pin-btn.spin { animation: spin 1s linear infinite; display: inline-block; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .pencil-btn {
-    cursor: pointer;
-    opacity: .7;
-    font-size: 13px;
-    line-height: 1;
-    transition: opacity .12s, color .12s;
-    flex-shrink: 0;
-    color: #495057;
-  }
+  .pencil-btn { cursor: pointer; opacity: .7; font-size: 13px; line-height: 1; transition: opacity .12s, color .12s; flex-shrink: 0; color: #495057; }
   .pencil-btn:hover { opacity: 1; color: #0d6efd; }
 </style>
 </head>
 <body>
 <div class="container py-4" style="max-width:820px">
   <div class="d-flex align-items-center gap-2 mb-3">
-    <h1 class="h5 mb-0">Terminal Tabs <span style="font-size:10px;color:#aaa" id="ver">v19</span></h1>
+    <h1 class="h5 mb-0">Terminal Tabs <span style="font-size:10px;color:#aaa" id="ver">v23</span></h1>
     <span class="badge bg-secondary fs-6" id="tabCount">0</span>
   </div>
   <div class="d-flex align-items-center gap-2 mb-3">
@@ -141,29 +68,16 @@
 <script>
 var isDragging = false;
 var lastReorderAt = 0;
+var _spawnAnchor = null;
+var _lastActiveFrontTty = null;
 var _lastTitleChange = {};
 var colors = ['#0d6efd','#dc3545','#198754','#fd7e14','#6f42c1','#d63384','#0dcaf0','#ffc107'];
+var paletteColors = ['#ef4444','#f97316','#f59e0b','#eab308','#84cc16','#22c55e','#10b981','#14b8a6','#06b6d4','#0ea5e9','#3b82f6','#6366f1','#8b5cf6','#a855f7','#d946ef','#ec4899','#f43f5e','#64748b','#6b7280','#78716c'];
 
-var paletteColors = [
-  '#ef4444','#f97316','#f59e0b','#eab308','#84cc16',
-  '#22c55e','#10b981','#14b8a6','#06b6d4','#0ea5e9',
-  '#3b82f6','#6366f1','#8b5cf6','#a855f7','#d946ef',
-  '#ec4899','#f43f5e','#64748b','#6b7280','#78716c',
-];
-
-function getTabColors() {
-  try { return JSON.parse(localStorage.getItem('tabColors') || '{}'); } catch(e) { return {}; }
-}
-function saveTabColors(c) {
-  localStorage.setItem('tabColors', JSON.stringify(c));
-}
-
-function getTabOrder() {
-  try { return JSON.parse(localStorage.getItem('tabOrder') || '[]'); } catch(e) { return []; }
-}
-function saveTabOrder(o) {
-  localStorage.setItem('tabOrder', JSON.stringify(o));
-}
+function getTabColors() { try { return JSON.parse(localStorage.getItem('tabColors') || '{}'); } catch(e) { return {}; } }
+function saveTabColors(c) { localStorage.setItem('tabColors', JSON.stringify(c)); }
+function getTabOrder() { try { return JSON.parse(localStorage.getItem('tabOrder') || '[]'); } catch(e) { return []; } }
+function saveTabOrder(o) { localStorage.setItem('tabOrder', JSON.stringify(o)); }
 
 function focusWindow(winId) {
   fetch('/api/focus', {
@@ -176,398 +90,152 @@ function focusWindow(winId) {
 function showPalette(swatchEl) {
   var oldPopup = document.querySelector('.palette-popup');
   if (oldPopup) oldPopup.remove();
-
   var tty = swatchEl.dataset.tty;
   var currentColor = swatchEl.dataset.color;
-
   var popup = document.createElement('div');
   popup.className = 'palette-popup';
-
-  for (var i = 0; i < paletteColors.length; i++) {
+  paletteColors.forEach(function(hex) {
     var c = document.createElement('div');
-    c.className = 'c' + (paletteColors[i] === currentColor ? ' active' : '');
-    c.style.background = paletteColors[i];
-    c.dataset.hex = paletteColors[i];
+    c.className = 'c' + (hex === currentColor ? ' active' : '');
+    c.style.background = hex;
     c.onclick = function() {
-      var hex = this.dataset.hex;
-      var col = getTabColors();
-      col[tty] = hex;
-      saveTabColors(col);
-      swatchEl.style.background = hex;
-      swatchEl.dataset.color = hex;
+      var col = getTabColors(); col[tty] = hex; saveTabColors(col);
+      swatchEl.style.background = hex; swatchEl.dataset.color = hex;
       popup.remove();
     };
     popup.appendChild(c);
-  }
-
+  });
   document.body.appendChild(popup);
-
-  // Position below the swatch
   var rect = swatchEl.getBoundingClientRect();
   popup.style.left = Math.min(rect.left, window.innerWidth - popup.offsetWidth - 10) + 'px';
   popup.style.top = (rect.bottom + 6) + 'px';
-
-  // Close on click outside
-  setTimeout(function() {
-    document.addEventListener('click', closePalette);
-  }, 10);
-}
-
-function closePalette(e) {
-  if (!e.target.closest('.palette-popup') && !e.target.closest('.color-swatch')) {
-    var popup = document.querySelector('.palette-popup');
-    if (popup) popup.remove();
-    document.removeEventListener('click', closePalette);
-  }
-}
-
-function jsStr(s) {
-  return (s || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  setTimeout(function() { document.addEventListener('click', function close(e) {
+    if (!e.target.closest('.palette-popup') && !e.target.closest('.color-swatch')) {
+      if (popup.parentNode) popup.remove();
+      document.removeEventListener('click', close);
+    }
+  }); }, 10);
 }
 
 function spawnModel() {
   var model = document.getElementById('modelSelect').value;
   var sel = document.getElementById('modelSelect');
   var group = sel.options[sel.selectedIndex].parentNode.label || '';
-  if (model.startsWith('deepseek')) {
-    spawnTab('deepseek --model ' + model);
-  } else if (model.startsWith('gemini') || group === 'Gemini') {
-    spawnTab('gemini --model ' + model);
-  } else {
-    spawnTab('claude --dangerously-skip-permissions --model ' + model);
-  }
+  var cmd = (model.startsWith('deepseek')) ? 'deepseek --model ' + model : (model.startsWith('gemini') || group === 'Gemini') ? 'gemini --model ' + model : 'claude --dangerously-skip-permissions --model ' + model;
+  spawnTab(cmd);
 }
 
 function spawnTab(cmd) {
   var cwd = (document.getElementById('spawnCwd').value || '').trim();
-  fetch('/api/spawn', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({cwd: cwd, cmd: cmd})
-  }).catch(function(){});
+  _spawnAnchor = _lastActiveFrontTty || (document.querySelector('[data-active="1"]') ? document.querySelector('[data-active="1"]').dataset.tty : null);
+  fetch('/api/spawn', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({cwd: cwd, cmd: cmd}) }).catch(function(){});
 }
 
 function toggleTitleMode(tty, mode, winId, tabId, title) {
   var body = {tty: tty, mode: mode, winId: winId, tabId: tabId};
   if (mode === 'manual') body.title = title || '';
-  fetch('/api/title-mode', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(body)
-  }).catch(function(){});
+  fetch('/api/title-mode', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) }).catch(function(){});
 }
 
 function renameTab(winId, tabId, title, tty) {
-  fetch('/api/rename', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({winId: winId, tabId: tabId, title: title, tty: tty})
-  }).catch(function(){});
+  fetch('/api/rename', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({winId: winId, tabId: tabId, title: title, tty: tty}) }).catch(function(){});
 }
 
 function makeEditable(span, winId, tabId, tty) {
-  span.contentEditable = true;
-  span.focus();
-  var r = document.createRange();
-  r.selectNodeContents(span);
-  var s = window.getSelection();
-  s.removeAllRanges();
-  s.addRange(r);
+  span.contentEditable = true; span.focus();
+  var r = document.createRange(); r.selectNodeContents(span);
+  var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
   span.onblur = function() {
     span.contentEditable = false;
     var t = span.textContent.trim();
     if (t) renameTab(winId, tabId, t, tty);
-    span.onblur = null;
   };
-  span.onkeydown = function(e) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      span.blur();
-    }
-  };
-}
-
-function fmtRemaining(ts) {
-  if (!ts) return '';
-  var s = ts - Math.floor(Date.now() / 1000);
-  if (s <= 0) return 'now';
-  var h = Math.floor(s / 3600);
-  var m = Math.floor((s % 3600) / 60);
-  return (h > 0 ? h + 'h ' : '') + (m < 10 ? '0' : '') + m + 'm';
-}
-
-function bar(pct, w) {
-  var n = Math.round((pct||0) / (100/w));
-  var s = '';
-  for (var j = 0; j < w; j++) s += j < n ? '█' : '░';
-  return s;
+  span.onkeydown = function(e) { if (e.key === 'Enter') { e.preventDefault(); span.blur(); } };
 }
 
 function getProviderColor(model) {
   if (!model) return null;
   var m = model.toLowerCase();
   if (m.includes('deepseek')) return '#0d6efd';
-  if (m.includes('gemini')) return '#8b5cf6';
+  if (m.includes('gemini') || m === 'auto') return '#8b5cf6';
   if (m.includes('claude') || m.includes('opus') || m.includes('sonnet') || m.includes('haiku')) return '#fd7e14';
   return null;
 }
 
-// Persist spawn cwd input
-(function() {
-  var el = document.getElementById('spawnCwd');
-  var saved = localStorage.getItem('spawnCwd');
-  el.value = saved || '~/Desktop/proj/QuantConnect';
-  el.addEventListener('input', function() {
-    localStorage.setItem('spawnCwd', el.value);
-  });
-})();
+function escapeHtml(text) { var d = document.createElement('div'); d.textContent = text; return d.innerHTML; }
+function barColor(pct) { return pct > 70 ? 'bg-danger' : pct > 50 ? 'bg-warning' : 'bg-success'; }
 
-function escapeHtml(text) {
-  var d = document.createElement('div');
-  d.textContent = text;
-  return d.innerHTML;
-}
-
-function barColor(pct) {
-  if (pct > 70) return 'bg-danger';
-  if (pct > 50) return 'bg-warning';
-  return 'bg-success';
-}
-
-function metricBar(label, pct, resetTime) {
+function metricBar(label, pct) {
   if (pct == null) return '';
-  var color = barColor(pct);
-  var reset = resetTime
-    ? '<div class="text-muted small mono" style="margin-left:18px;line-height:1;margin-top:2px">' + fmtRemaining(resetTime) + '</div>'
-    : '';
-  return '<div class="d-flex flex-column">' +
-    '<div class="d-flex align-items-center gap-1">' +
-      '<span class="text-muted small mono">' + label + '</span>' +
-      '<div class="progress" style="height:6px;width:50px">' +
-        '<div class="progress-bar ' + color + '" role="progressbar" style="width:' + pct + '%"></div>' +
-      '</div>' +
-      '<span class="text-muted small mono">' + pct + '%</span>' +
-    '</div>' +
-    reset +
-  '</div>';
+  return '<div class="d-flex align-items-center gap-1"><span class="text-muted small mono">' + label + '</span><div class="progress" style="height:6px;width:50px"><div class="progress-bar ' + barColor(pct) + '" style="width:' + pct + '%"></div></div><span class="text-muted small mono">' + pct + '%</span></div>';
 }
 
-function renderRowInner(t, colorHex, isThinking) {
+function renderRowInner(t, colorHex, isThinking, stickyTty) {
   var modelColor = getProviderColor(t.model) || '#fd7e14';
-  var title = t.title || '';
-  var cwd = t.cwd || '';
-  var isGemini = (t.model || '').toLowerCase().indexOf('gemini') !== -1;
+  var isGemini = (t.model || '').toLowerCase().includes('gemini') || (t.model || '').toLowerCase() === 'auto';
   var isDeepseek = (t.model || '').toLowerCase().includes('deepseek') || isGemini;
-  var metrics = '<div class="d-flex align-items-start gap-3 ps-5 mt-1">';
-  metrics += metricBar(isGemini ? 'quota' : 'ctx', t.ctx_pct, null);
-  if (!isDeepseek) {
-    metrics += metricBar('5h', t.rate_5h_pct, t.rate_5h_resets);
-    metrics += metricBar('7d', t.rate_7d_pct, t.rate_7d_resets);
-  }
+  var metrics = '<div class="d-flex align-items-start gap-3 ps-5 mt-1">' + metricBar(isGemini ? 'quota' : 'ctx', t.ctx_pct);
+  if (!isDeepseek) { metrics += metricBar('5h', t.rate_5h_pct) + metricBar('7d', t.rate_7d_pct); }
   metrics += '</div>';
-  var frontBorder = t.frontWin ? ' border-start border-3 border-primary' : '';
-	  return '<div class="border rounded-3 bg-white px-3 py-2 small tab-row' + frontBorder + '">' +
+  var frontBorder = t.tty === stickyTty ? ' border-start border-3 border-primary' : '';
+  return '<div class="border rounded-3 bg-white px-3 py-2 small tab-row' + frontBorder + '">' +
     '<div class="d-flex align-items-center gap-2">' +
-    '<div class="color-swatch" draggable="true" data-tty="' + t.tty + '" data-color="' + colorHex + '" style="background:' + colorHex + '" onclick="showPalette(this)"></div>' +
+    '<div class="color-swatch" data-tty="' + t.tty + '" data-color="' + colorHex + '" style="background:' + colorHex + '" onclick="event.stopPropagation();showPalette(this)"></div>' +
     '<div class="flex-grow-1 d-flex flex-column gap-1" style="min-width:0">' +
       '<div class="tab-title d-flex align-items-center">' +
-        '<span class="tab-title-text" ondblclick="makeEditable(this,\'' + t.winId + '\',\'' + t.tabId + '\',\'' + t.tty + '\')">' + escapeHtml(title) + '</span>' +
-        '<span class="pencil-btn ms-1" title="Rename tab" onclick="event.stopPropagation();var s=this.parentNode.querySelector(\'.tab-title-text\');makeEditable(s,\'' + t.winId + '\',\'' + t.tabId + '\',\'' + t.tty + '\')">✎</span>' +
-        (t.manual
-          ? '<span class="pin-btn pinned ms-1" title="Pinned — title stays fixed" onclick="event.stopPropagation();toggleTitleMode(\'' + t.tty + '\',\'auto\',\'' + t.winId + '\',\'' + t.tabId + '\')">⦿</span>'
-          : '<span class="pin-btn ms-1' + (isThinking ? ' spin' : '') + '" title="Auto — title updates from process" onclick="event.stopPropagation();toggleTitleMode(\'' + t.tty + '\',\'manual\',\'' + t.winId + '\',\'' + t.tabId + '\',\'' + jsStr(t.title) + '\')">↻</span>'
-        ) +
+        '<span class="tab-title-text" ondblclick="event.stopPropagation();makeEditable(this,\'' + t.winId + '\',\'' + t.tabId + '\',\'' + t.tty + '\')">' + escapeHtml(t.title || '') + '</span>' +
+        '<span class="pencil-btn ms-1" onclick="event.stopPropagation();makeEditable(this.parentNode.querySelector(\'.tab-title-text\'),\'' + t.winId + '\',\'' + t.tabId + '\',\'' + t.tty + '\')">✎</span>' +
+        (t.manual ? '<span class="pin-btn pinned ms-1" onclick="event.stopPropagation();toggleTitleMode(\'' + t.tty + '\',\'auto\',\'' + t.winId + '\',\'' + t.tabId + '\')">⦿</span>' : '<span class="pin-btn ms-1' + (isThinking ? ' spin' : '') + '" onclick="event.stopPropagation();toggleTitleMode(\'' + t.tty + '\',\'manual\',\'' + t.winId + '\',\'' + t.tabId + '\',\'' + (t.title || '').replace(/'/g, "\\'") + '\')">↻</span>') +
       '</div>' +
       '<div class="d-flex align-items-center gap-2">' +
-        (t.model
-          ? '<span class="badge rounded-1 fw-normal px-2" style="background:' + modelColor + '22;color:' + modelColor + ';border:1px solid ' + modelColor + '66">' + escapeHtml(t.model) + '</span>'
-          : '<span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-1 fw-normal px-2">—</span>'
-        ) +
-        (cwd ? '<span class="text-muted small mono tab-title-text">' + escapeHtml(cwd) + '</span>' : '') +
+        (t.model ? '<span class="badge rounded-1 fw-normal px-2" style="background:' + modelColor + '22;color:' + modelColor + ';border:1px solid ' + modelColor + '66">' + escapeHtml(t.model) + '</span>' : '<span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-1 fw-normal px-2">—</span>') +
+        (t.cwd ? '<span class="text-muted small mono tab-title-text">' + escapeHtml(t.cwd) + '</span>' : '') +
       '</div>' +
     '</div>' +
-    '</div>' +
-    metrics +
-  '</div>';
+    '</div>' + metrics + '</div>';
 }
 
+var lastSuccessfulData = null;
 function loadTabs() {
   if (isDragging) return;
-  if (Date.now() - lastReorderAt < 1500) return;
-  fetch('/api/tabs', { cache: 'no-store' })
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (isDragging) return;
-      if (Date.now() - lastReorderAt < 1500) return;
-      var list = document.getElementById('tabList');
-      var tabColors = getTabColors();
-      if (data.error) {
-        list.innerHTML = '<div class="empty-state">Error: ' + data.error + '</div>';
-        return;
+  fetch('/api/tabs', { cache: 'no-store' }).then(function(r) { return r.json(); }).then(function(data) {
+    if (isDragging || !data || data.error) return;
+    lastSuccessfulData = data;
+    var list = document.getElementById('tabList');
+    var tabColors = getTabColors();
+    var tabOrder = getTabOrder();
+    if (tabOrder.length) { data.sort(function(a, b) { var ai = tabOrder.indexOf(a.tty), bi = tabOrder.indexOf(b.tty); return (ai !== -1 && bi !== -1) ? ai - bi : (ai !== -1) ? -1 : (bi !== -1) ? 1 : 0; }); }
+    document.getElementById('tabCount').textContent = data.length;
+    var now = Date.now(), highlightTty = null;
+    for (var i = 0; i < data.length; i++) { if (data[i].frontWin && data[i].isActive) { highlightTty = data[i].tty; break; } }
+    if (!highlightTty) highlightTty = _lastActiveFrontTty;
+    var seen = {}, prev = null;
+    data.forEach(function(t, idx) {
+      seen[t.tty] = true;
+      if (t.title !== _lastTitleChange['t_' + t.tty]) { _lastTitleChange['t_' + t.tty] = t.title; _lastTitleChange['ts_' + t.tty] = now; }
+      var isThinking = (now - (_lastTitleChange['ts_' + t.tty] || 0)) < 3000;
+      var colorHex = tabColors[t.tty] || getProviderColor(t.model) || colors[idx % colors.length];
+      var inner = renderRowInner(t, colorHex, isThinking, highlightTty);
+      var row = list.querySelector('[data-tty="' + t.tty + '"]');
+      if (!row) {
+        row = document.createElement('div'); row.className = 'w-100 mb-1'; row.dataset.tty = t.tty;
+        row.onclick = function() { focusWindow(t.winId); };
+        row.innerHTML = inner; row.dataset.lastInner = inner;
+      } else {
+        if (row.dataset.lastInner !== inner) { row.innerHTML = inner; row.dataset.lastInner = inner; }
+        row.onclick = function() { focusWindow(t.winId); };
       }
-      var tabOrder = getTabOrder();
-      if (tabOrder.length) {
-        data.sort(function(a, b) {
-          var ai = tabOrder.indexOf(a.tty);
-          var bi = tabOrder.indexOf(b.tty);
-          if (ai !== -1 && bi !== -1) return ai - bi;
-          if (ai !== -1) return -1;
-          if (bi !== -1) return 1;
-          return 0;
-        });
-      }
-      if (!data.length) {
-        list.innerHTML = '<div class="text-center text-muted py-5">No terminal windows found</div>';
-        document.getElementById('tabCount').textContent = '0';
-        return;
-      }
-      document.getElementById('tabCount').textContent = data.length;
-
-      var existing = {};
-      list.querySelectorAll('[data-tty]').forEach(function(r) {
-        if (r.parentNode === list) existing[r.dataset.tty] = r;
-      });
-
-      var now = Date.now();
-      var seen = {};
-      var prev = null;
-      for (var i = 0; i < data.length; i++) {
-        var t = data[i];
-        seen[t.tty] = true;
-        if (t.title !== _lastTitleChange['t_' + t.tty]) {
-          _lastTitleChange['t_' + t.tty] = t.title;
-          _lastTitleChange['ts_' + t.tty] = now;
-        }
-        var isThinking = (now - (_lastTitleChange['ts_' + t.tty] || 0)) < 3000;
-        var colorHex = tabColors[t.tty] || getProviderColor(t.model) || colors[i % colors.length];
-        var inner = renderRowInner(t, colorHex, isThinking);
-        var row = existing[t.tty];
-        if (!row) {
-          row = document.createElement('div');
-          row.className = 'w-100 mb-1';
-          row.dataset.win = t.winId;
-          row.dataset.tty = t.tty;
-          row.innerHTML = inner;
-          row.dataset.lastInner = inner;
-        } else {
-          if (row.dataset.lastInner !== inner) {
-            row.innerHTML = inner;
-            row.dataset.lastInner = inner;
-          }
-          if (row.dataset.win !== t.winId) row.dataset.win = t.winId;
-        }
-        var expectedPos = prev ? prev.nextSibling : list.firstChild;
-        if (expectedPos !== row) {
-          list.insertBefore(row, expectedPos);
-        }
-        prev = row;
-      }
-
-      Array.prototype.slice.call(list.children).forEach(function(r) {
-        if (r.dataset && r.dataset.tty && !seen[r.dataset.tty]) r.remove();
-      });
-    })
-    .catch(function() {
-      document.getElementById('tabList').innerHTML = '<div class="empty-state">Could not connect</div>';
+      var expectedPos = prev ? prev.nextSibling : list.firstChild;
+      if (expectedPos !== row) list.insertBefore(row, expectedPos);
+      prev = row;
     });
-}
-
-// One-time event setup (not on every poll tick)
-(function() {
-  var list = document.getElementById('tabList');
-  list.addEventListener('dragstart', function(e) {
-    var swatch = e.target.closest('.color-swatch');
-    if (!swatch) return;
-    isDragging = true;
-    var row = swatch.closest('[data-win]');
-    if (row) {
-      e.dataTransfer.setData('text/plain', row.dataset.tty);
-      e.dataTransfer.effectAllowed = 'move';
-      row.classList.add('tab-dragging');
-    }
-  });
-  list.addEventListener('dragover', function(e) {
-    var row = e.target.closest('[data-win]');
-    if (!row) return;
-    e.preventDefault();
-    list.querySelectorAll('.tab-drag-over').forEach(function(x) { x.classList.remove('tab-drag-over'); });
-    row.classList.add('tab-drag-over');
-    e.dataTransfer.dropEffect = 'move';
-  });
-  list.addEventListener('dragleave', function(e) {
-    var row = e.target.closest('[data-win]');
-    if (row) row.classList.remove('tab-drag-over');
-  });
-  list.addEventListener('drop', function(e) {
-    e.preventDefault();
-    var srcTty = e.dataTransfer.getData('text/plain');
-    var dstRow = e.target.closest('[data-win]');
-    if (!srcTty || !dstRow) return;
-    var srcRow = list.querySelector('[data-tty="' + srcTty + '"]');
-    if (!srcRow || srcRow === dstRow) return;
-    var items = list.querySelectorAll('[data-win]');
-    var srcIdx = Array.prototype.indexOf.call(items, srcRow);
-    var dstIdx = Array.prototype.indexOf.call(items, dstRow);
-    if (srcIdx < dstIdx) {
-      list.insertBefore(srcRow, dstRow.nextSibling);
-    } else {
-      list.insertBefore(srcRow, dstRow);
-    }
-    var ttyOrder = [];
-    list.querySelectorAll('[data-win]').forEach(function(x) {
-      ttyOrder.push(x.dataset.tty);
-    });
-    saveTabOrder(ttyOrder);
-    lastReorderAt = Date.now();
-    fetch('/api/reorder', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ttyOrder: ttyOrder})
-    }).catch(function(){});
-  });
-  list.addEventListener('dragend', function() {
-    isDragging = false;
-    list.querySelectorAll('.tab-dragging, .tab-drag-over').forEach(function(x) {
-      x.classList.remove('tab-dragging', 'tab-drag-over');
-    });
-  });
-  list.addEventListener('click', function(e) {
-    var moveBtn = e.target.closest('.move-btn');
-    if (moveBtn) { e.stopPropagation(); moveTab(moveBtn, moveBtn.dataset.dir); return; }
-    if (e.target.closest('.color-swatch')) { e.stopPropagation(); return; }
-    if (e.target.closest('.pin-btn')) { e.stopPropagation(); return; }
-    var el = e.target.closest('[data-win]');
-    if (el) focusWindow(el.dataset.win);
-  });
-})();
-
-function loadClaude() {
-  fetch('/api/claude')
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      var info = document.getElementById('claudeInfo');
-      var sessDiv = document.getElementById('claudeSessions');
-      info.textContent = data.today_tokens ? 'today: ' + fmtTokens(data.today_tokens) : '';
-      var rows = '';
-      if (data.sessions && data.sessions.length) {
-        for (var i = 0; i < data.sessions.length; i++) {
-          var s = data.sessions[i];
-          var rhs = 'ctx: ' + bar(s.ctx_pct, 16) + ' ' + (s.ctx_pct||0) + '%';
-          if (s.rate_5h_pct != null) rhs += ' &nbsp; 5h: ' + bar(s.rate_5h_pct, 8) + ' ' + s.rate_5h_pct + '%';
-          if (s.rate_7d_pct != null) rhs += ' &nbsp; 7d: ' + s.rate_7d_pct + '%';
-          rows += '<div class="d-flex align-items-center gap-3 border rounded-3 bg-white px-3 py-2 mb-2">' +
-            '<span class="fw-medium small">' + escapeHtml(s.model || '—') + '</span>' +
-            '<span class="mono text-muted small flex-grow-1 text-end">' + rhs + '</span>' +
-          '</div>';
-        }
-      }
-      sessDiv.innerHTML = rows;
-    })
-    .catch(function(){});
+    Array.prototype.slice.call(list.children).forEach(function(r) { if (r.dataset && r.dataset.tty && !seen[r.dataset.tty]) r.remove(); });
+    _lastActiveFrontTty = highlightTty;
+  }).catch(function(err) { console.warn(err); });
 }
 
 loadTabs();
-setInterval(loadTabs, 1000);
+setInterval(loadTabs, 500);
 </script>
 </body>
 </html>

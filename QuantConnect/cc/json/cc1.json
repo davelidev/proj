@@ -1787,167 +1787,147 @@
     },
     "51": {
       "name": "8 Leveraged ETF EW Permanent + Monthly Rebalance (algo_039.py — algos3)",
-      "description": "**Note: cc1.json's name field for this strategy is stale.** The actual source code at `cc_037.py` is the same IBS extreme + 3-day max hold mean-reversion as Strategy 37 — it is *not* an '8 Leveraged ETF Permanent Rebalance' as the name suggests. The file was shared between two original metadata entries during cleanup; this strategy is functionally identical to Strategy 37.",
-      "rules": [
-        {
-          "label": "Entry",
-          "text": "IBS < 0.1 → 100% TQQQ; entry bar recorded"
-        },
-        {
-          "label": "Exit (IBS)",
-          "text": "IBS > 0.9 → liquidate"
-        },
-        {
-          "label": "Exit (time)",
-          "text": "Holding for ≥ 3 trading days → liquidate"
-        },
-        {
-          "label": "Symbols",
-          "text": "TQQQ"
-        },
-        {
-          "label": "Rebalance",
-          "text": "Daily, 30 min after market open"
-        },
-        {
-          "label": "⚠ Metadata note",
-          "text": "cc1.json `name` field says '8 Leveraged ETF EW Permanent + Monthly Rebalance' but the source code at cc_037.py is Strategy 37's IBS + 3-day hold logic. Either rename or drop the entry."
-        }
-      ],
-      "category": "Rotation",
-      "file": "cc_037.py",
-      "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_037.py",
-      "overfit": "5/10",
-      "overfit_notes": "Identical code to Strategy 37 → identical rating. The metadata mismatch (name vs code) is a data-quality concern, not an overfit concern. Worth deleting this entry from cc1.json since it's a true duplicate."
-    },
-    "52": {
-      "name": "5x 3x-Leveraged ETF Basket + QQQ Vol Gate (algo_048.py — algos3)",
-      "description": "**Note: cc1.json's name field for this strategy is stale.** The actual source code at `cc_043.py` is the QLD-based SMA(150) + IBS<0.05 hybrid from Strategy 43 — it is *not* a '5x 3x-Leveraged ETF Basket + QQQ Vol Gate'. File shared during cleanup; functionally identical to Strategy 43.",
-      "rules": [
-        {
-          "label": "Trend gate",
-          "text": "QQQ > SMA(150) → 'trend' mode; else → 'MR' mode"
-        },
-        {
-          "label": "Entry (trend)",
-          "text": "Trend mode active AND not invested → 100% QLD"
-        },
-        {
-          "label": "Entry (MR)",
-          "text": "MR mode active AND QLD IBS < 0.05 → 100% QLD"
-        },
-        {
-          "label": "Exit (trend)",
-          "text": "Trend flips off → liquidate"
-        },
-        {
-          "label": "Exit (MR)",
-          "text": "MR position held AND QLD IBS > 0.7 → liquidate"
-        },
-        {
-          "label": "Symbols",
-          "text": "QLD (execution); QQQ (signal)"
-        },
-        {
-          "label": "Rebalance",
-          "text": "Daily, 30 min after market open"
-        },
-        {
-          "label": "⚠ Metadata note",
-          "text": "cc1.json `name` field says '5x 3x-Leveraged ETF Basket + QQQ Vol Gate' but the source code at cc_043.py is Strategy 43's hybrid on QLD. Either rename or drop the entry."
-        }
-      ],
-      "category": "Rotation",
-      "file": "cc_043.py",
-      "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_043.py",
-      "overfit": "4/10",
-      "overfit_notes": "Identical code to Strategy 43 → identical rating. The metadata mismatch is a catalog issue, not a code issue."
-    },
-    "53": {
-      "name": "Dynamic Top-5 EW + Adaptive Vol Gate (algo_057.py — algos3)",
-      "description": "**Note: cc1.json's name field for this strategy is stale.** The actual source code at `cc_051.py` is a simple equal-weight monthly rebalance of the top 5 US stocks by market cap — there is *no* adaptive vol gate as the name suggests. The 'vol gate' from the original algos3 source was lost during file dedup.",
+      "description": "Equal-weight permanent basket of 8 leveraged ETFs (TQQQ, UPRO, SOXL, TECL, QLD, SSO, DDM, FAS), rebalanced monthly back to 1/8 each. Pure cross-sectional rebalance harvesting — no timing signal, no trend gate. Captures the rebalancing premium from holding a basket of correlated but distinct leveraged exposures.",
       "rules": [
         {
           "label": "Universe",
-          "text": "Top 5 US stocks by market cap (all sectors, dynamic, monthly selection)"
+          "text": "Fixed 8-name basket: TQQQ, UPRO, SOXL, TECL, QLD, SSO, DDM, FAS"
         },
         {
           "label": "Allocation",
-          "text": "Equal weight (20% per name)"
+          "text": "Equal weight (12.5% per name)"
         },
         {
           "label": "Entry",
-          "text": "None (permanent monthly rebalance)"
+          "text": "None (permanent monthly rebalance back to EW)"
         },
         {
           "label": "Exit",
-          "text": "Per-name: liquidated when no longer in top 5"
+          "text": "None — always invested"
         },
         {
           "label": "Rebalance",
-          "text": "Monthly (first trading day at 10:00 ET)"
-        },
-        {
-          "label": "Symbols",
-          "text": "Dynamic — typically AAPL/MSFT/NVDA/GOOG/AMZN etc."
-        },
-        {
-          "label": "⚠ Metadata note",
-          "text": "cc1.json `name` field claims an 'Adaptive Vol Gate' but cc_051.py is just a monthly equal-weight rebalance with no vol gate. Original algos3 source was lost during file dedup."
+          "text": "Monthly, 30 min after market open on first trading day"
         }
       ],
-      "category": "Mean Reversion",
+      "category": "Rotation",
       "file": "cc_051.py",
       "algo_dir": "cc_algos",
       "vault_path": "vault://QuantConnect/cc/cc_algos/cc_051.py",
       "overfit": "2/10",
-      "overfit_notes": "The actual code is a textbook monthly mega-cap basket — zero tuned parameters, dynamic universe. The 'adaptive vol gate' that would justify a higher overfit rating doesn't exist in this file."
+      "overfit_notes": "Zero tuned parameters, fixed basket, fixed equal weights, fixed monthly cadence. The rebalancing premium is a well-documented effect; the basket choice (large-cap-tilt leveraged ETFs) is the only real degree of freedom and it's reasonable as a thematic group rather than an optimization."
     },
-    "54": {
-      "name": "Dynamic Top-5 Momentum + TQQQ Sleeve + Vol Gate (algo_060.py — algos3)",
-      "description": "**Note: cc1.json's name field for this strategy is stale.** The actual source code at `cc_047.py` is the TQQQ self-SMA(200) + IBS<0.05 hybrid from Strategy 47 — there is *no* dynamic top-5 momentum sleeve or vol gate as the name claims. File shared during cleanup; functionally identical to Strategy 47.",
+    "52": {
+      "name": "5x 3x-Leveraged ETF Basket + QQQ Vol Gate (algo_048.py — algos3)",
+      "description": "Equal-weight basket of 5 3x-leveraged ETFs (TQQQ, TECL, SOXL, UPRO, FAS), held only when QQQ's 20-day annualized log-return volatility is below 20%. Tight vol gate — flips entirely in or entirely out based on a single threshold check daily. Re-enters as soon as vol returns under threshold.",
       "rules": [
         {
-          "label": "Trend gate",
-          "text": "TQQQ > SMA(200) of TQQQ → 'trend' mode; else → 'MR' mode"
+          "label": "Universe",
+          "text": "Fixed 5-name 3x-leveraged basket: TQQQ, TECL, SOXL, UPRO, FAS"
         },
         {
-          "label": "Entry (trend)",
-          "text": "Trend mode active AND not invested → 100% TQQQ"
+          "label": "Vol gate",
+          "text": "QQQ 20d annualized log-return vol < 20% → in market; else → cash"
         },
         {
-          "label": "Entry (MR)",
-          "text": "MR mode active AND IBS < 0.05 → 100% TQQQ"
+          "label": "Allocation",
+          "text": "Equal weight (20% per name) when in market"
         },
         {
-          "label": "Exit (trend)",
-          "text": "Trend flips off → liquidate"
+          "label": "Entry",
+          "text": "Vol gate flips on → set all 5 names to 20%"
         },
         {
-          "label": "Exit (MR)",
-          "text": "MR position held AND IBS > 0.7 → liquidate"
-        },
-        {
-          "label": "Symbols",
-          "text": "TQQQ (signal and execution)"
+          "label": "Exit",
+          "text": "Vol gate flips off → liquidate entire portfolio"
         },
         {
           "label": "Rebalance",
-          "text": "Daily, 30 min after market open"
+          "text": "Daily, 30 min after market open (checks gate only)"
+        }
+      ],
+      "category": "Rotation",
+      "file": "cc_052.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_052.py",
+      "overfit": "4/10",
+      "overfit_notes": "Two tuned parameters — the 20-day vol lookback and the 20% threshold — applied to a fixed 5-name basket. The threshold is round-numbered but a tight binary gate on a single vol number is exactly the kind of cliff-edge rule that fits a specific regime; in the 2020 vol spike a 20% threshold would have caused multiple whipsaws."
+    },
+    "53": {
+      "name": "Dynamic Top-5 EW + Adaptive Vol Gate (algo_057.py — algos3)",
+      "description": "Dynamic Top-5 by market cap, equal-weighted, held only when the basket's own short-term vol is below its long-term vol. Compares the basket's 20-day vs 252-day annualized vol of mean returns daily; in market on calm-relative-to-history, in cash when short-term vol exceeds long-term. The gate is self-adaptive — no fixed threshold — so it scales with the basket's own regime.",
+      "rules": [
+        {
+          "label": "Universe",
+          "text": "Top 5 US stocks by market cap (HasFundamentalData, Price > 5)"
         },
         {
-          "label": "⚠ Metadata note",
-          "text": "cc1.json `name` field describes a top-5 momentum + TQQQ sleeve + vol gate strategy, but the source code at cc_047.py is Strategy 47's self-SMA200 + IBS hybrid. Either rename or drop the entry."
+          "label": "Vol gate",
+          "text": "Basket 20d annualized vol of mean returns < basket 252d annualized vol → in market; else cash"
+        },
+        {
+          "label": "Allocation",
+          "text": "Equal weight (20% per name) when gate is on"
+        },
+        {
+          "label": "Entry",
+          "text": "Gate turns on AND not in market → set all top-5 to 20%"
+        },
+        {
+          "label": "Exit",
+          "text": "Gate turns off → liquidate all top-5 positions"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily, 30 min after market open (checks gate only)"
+        }
+      ],
+      "category": "Mean Reversion",
+      "file": "cc_053.py",
+      "algo_dir": "cc_algos",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_053.py",
+      "overfit": "3/10",
+      "overfit_notes": "Two lookback windows (20 and 252) — both conventional. The self-adaptive comparison (short vs long vol) removes the cliff-edge threshold concern that hurts Strategy 52. The dynamic universe (top-5 by mkt cap) avoids ticker cherry-picking. Main concern: the gate flips quickly and may whipsaw in transitional regimes."
+    },
+    "54": {
+      "name": "Dynamic Top-5 Momentum + TQQQ Sleeve + Vol Gate (algo_060.py — algos3)",
+      "description": "Two-sleeve strategy gated by TQQQ vol. When TQQQ's 20-day annualized vol < 60%: holds 80% in a momentum-weighted Top-5 basket (weights proportional to 63-day return, normalized) and 20% in TQQQ. When vol breaks above 60%: 100% cash. Monthly re-weight of the momentum sleeve, with a 3% drift band to avoid churn.",
+      "rules": [
+        {
+          "label": "Universe",
+          "text": "Top 5 US stocks by market cap (HasFundamentalData, Price > 5) + TQQQ"
+        },
+        {
+          "label": "Vol gate",
+          "text": "TQQQ 20d annualized log-return vol < 60% → in market; else 100% cash"
+        },
+        {
+          "label": "Top-5 sleeve (80%)",
+          "text": "Weights ∝ 63-day return (negative clipped to 0); equal-weight fallback if all returns ≤ 0; re-weighted monthly"
+        },
+        {
+          "label": "TQQQ sleeve (20%)",
+          "text": "Fixed 20% allocation while gate is on"
+        },
+        {
+          "label": "Drift band",
+          "text": "Skip rebalance for a name if |target − current| ≤ 3%"
+        },
+        {
+          "label": "Exit",
+          "text": "Vol gate flips off → liquidate top-5 and TQQQ"
+        },
+        {
+          "label": "Rebalance",
+          "text": "Daily gate check, monthly sleeve re-weight, both 30 min after market open"
         }
       ],
       "category": "Momentum",
-      "file": "cc_047.py",
+      "file": "cc_054.py",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_047.py",
-      "overfit": "5/10",
-      "overfit_notes": "Identical code to Strategy 47 → identical rating. The metadata mismatch is a catalog issue, not a code issue."
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_054.py",
+      "overfit": "6/10",
+      "overfit_notes": "Five tuned parameters: 63-day momo lookback, 20-day vol lookback, 60% vol threshold, 80/20 sleeve mix, 3% drift band. The 60% vol threshold is wide enough to be permissive but the combination of sleeve mix + drift band + momentum lookback is a lot of knobs for one strategy. The two-sleeve design (momentum basket + fixed TQQQ slug) is a real choice rather than a swept parameter, which keeps this from rating higher."
     }
   }
 }
