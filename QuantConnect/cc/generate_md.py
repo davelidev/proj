@@ -9,7 +9,7 @@ Usage:
     python3 cc/generate_md.py                          # defaults to json/cc1.json
 """
 
-import os, sys, json, time
+import argparse, os, sys, json, time
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJ_ROOT = os.path.dirname(SCRIPT_DIR)
@@ -34,7 +34,7 @@ def resolve_paths(cc_json_path):
     return backtest_path, md_path
 
 
-def run_missing_backtests(strategies, backtest_path, md_path=None):
+def run_missing_backtests(strategies, backtest_path, md_path=None, show_all=False):
     """Run backtests for strategies that lack results. Saves incrementally.
 
     If md_path is provided, regenerate the markdown after each completed
@@ -52,7 +52,7 @@ def run_missing_backtests(strategies, backtest_path, md_path=None):
     def _regen_md():
         if md_path:
             try:
-                generate_markdown(strategies, results, md_path)
+                generate_markdown(strategies, results, md_path, show_all)
             except Exception as e:
                 print(f"  [warn] live md regen failed: {e}")
 
@@ -140,11 +140,14 @@ def derive_trade_stats(bt):
     return out
 
 
-def _is_displayable(meta, r):
+def _is_displayable(meta, r, show_all=False):
     """Show a strategy in the markdown if it passes the cutoff, or fails very narrowly
-    while still having an extremely low drawdown (<= 30%)."""
+    while still having an extremely low drawdown (<= 30%). If show_all, include any
+    strategy with a completed backtest."""
     if not r or "error" in r:
         return False
+    if show_all:
+        return r.get("status") == "completed"
     cagr_val = r.get("cagr_val", 0) or 0
     maxdd_val = r.get("maxdd_val", 0) or 0
     if cagr_val >= 28 and maxdd_val <= 58:
@@ -155,11 +158,11 @@ def _is_displayable(meta, r):
     return False
 
 
-def generate_markdown(strategies, backtest_results, output_path):
+def generate_markdown(strategies, backtest_results, output_path, show_all=False):
     """Generate cc<N>.md from strategy metadata + backtest results."""
     all_ordered = sorted(strategies.items(), key=lambda x: int(x[0]))
     ordered = [(sid, meta) for sid, meta in all_ordered
-               if _is_displayable(meta, backtest_results.get(sid, {}))]
+               if _is_displayable(meta, backtest_results.get(sid, {}), show_all)]
     lines = []
 
     # --- Header ---
@@ -302,14 +305,20 @@ def generate_markdown(strategies, backtest_results, output_path):
 
 
 def main():
-    cc_json_path = None
-    skip_bt = False
-    for a in sys.argv[1:]:
-        if a == "--skip-bt":
-            skip_bt = True
-        else:
-            cc_json_path = a
+    parser = argparse.ArgumentParser(
+        description="Generate cc<N>.md from cc<N>.json + backtest_cc<N>.json"
+    )
+    parser.add_argument(
+        "cc_json", nargs="?", default=None,
+        help="Path to cc<N>.json (default: json/cc1.json)"
+    )
+    parser.add_argument(
+        "--skip-bt", action="store_true",
+        help="Skip backtests, regenerate markdown only"
+    )
+    args = parser.parse_args()
 
+    cc_json_path = args.cc_json
     if not cc_json_path:
         cc_json_path = os.path.join(SCRIPT_DIR, "json", "cc1.json")
 
@@ -325,12 +334,14 @@ def main():
         print("Error: no 'strategies' key found in JSON")
         sys.exit(1)
 
-    if skip_bt:
+    show_all = not data.get("filter", True)  # filter=true by default, false → show_all
+
+    if args.skip_bt:
         backtest_results = load_json(backtest_path) if os.path.exists(backtest_path) else {}
     else:
-        backtest_results = run_missing_backtests(strategies, backtest_path, md_path=md_path)
+        backtest_results = run_missing_backtests(strategies, backtest_path, md_path=md_path, show_all=show_all)
 
-    generate_markdown(strategies, backtest_results, md_path)
+    generate_markdown(strategies, backtest_results, md_path, show_all)
 
 
 if __name__ == "__main__":

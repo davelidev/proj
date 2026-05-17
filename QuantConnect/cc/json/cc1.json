@@ -1,4 +1,5 @@
 {
+  "filter": false,
   "strategies": {
     "1": {
       "category": "Breakout",
