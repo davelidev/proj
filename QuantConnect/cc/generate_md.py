@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Generate cc<N>.md from cc<N>.json + backtest_cc<N>.json.
-If backtest_cc<N>.json is missing, runs backtests via QuantConnect API first.
+Generate cc<NNN>.md from cc<NNN>.json + backtest_cc<NNN>.json.
+If backtest_cc<NNN>.json is missing, runs backtests via QuantConnect API first.
 
 Usage:
-    python3 cc/generate_md.py json/cc3.json            # json/cc3.json → md/cc3.md
-    python3 cc/generate_md.py json/cc3.json --skip-bt  # skip backtests, md only
-    python3 cc/generate_md.py                          # defaults to json/cc1.json
+    python3 cc/generate_md.py json/cc003.json            # json/cc003.json → md/cc003.md
+    python3 cc/generate_md.py json/cc003.json --skip-bt  # skip backtests, md only
+    python3 cc/generate_md.py                          # defaults to json/cc001.json
 """
 
 import argparse, os, sys, json, time
@@ -107,7 +107,7 @@ def derive_trade_stats(bt):
     """Compute win_count / loss_count / wl_ratio / profit_ratio from a backtest
     result dict. Returns dict of strings (or '—' if data unavailable).
 
-    Logic verified against the historical cc1.json stats block:
+    Logic verified against the historical cc001.json stats block:
       orders=2654, win_pct=38% → win=1009, loss=1645, wl=0.61, pl=2.14
     """
     out = {"win_count": "—", "loss_count": "—", "wl_ratio": "—", "profit_ratio": "—"}
@@ -306,11 +306,11 @@ def generate_markdown(strategies, backtest_results, output_path, show_all=False)
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Generate cc<N>.md from cc<N>.json + backtest_cc<N>.json"
+        description="Generate cc<NNN>.md from cc<NNN>.json + backtest_cc<NNN>.json"
     )
     parser.add_argument(
         "cc_json", nargs="?", default=None,
-        help="Path to cc<N>.json (default: json/cc1.json)"
+        help="Path to cc<NNN>.json (default: json/cc001.json)"
     )
     parser.add_argument(
         "--skip-bt", action="store_true",
@@ -320,7 +320,7 @@ def main():
 
     cc_json_path = args.cc_json
     if not cc_json_path:
-        cc_json_path = os.path.join(SCRIPT_DIR, "json", "cc1.json")
+        cc_json_path = os.path.join(SCRIPT_DIR, "json", "cc001.json")
 
     if not os.path.exists(cc_json_path):
         print(f"Error: {cc_json_path} not found")
