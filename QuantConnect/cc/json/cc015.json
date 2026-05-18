@@ -6,7 +6,7 @@
       "category": "Volatility",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_576.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_001.py",
       "source": "cc15 batch 1 BB",
       "description": "Bollinger Band trend follower on QQQ — when %B sits above the midpoint (price above the SMA mid-band), goes long leveraged Nasdaq; below the midpoint, sits in cash equivalents. Single-threshold binary regime switch with no hysteresis.",
       "overfit_notes": "Single BB(20,2) %B>0.5 threshold — canonical Bollinger settings; %B midpoint test is symmetric and untuned.",
@@ -39,7 +39,7 @@
       "category": "Volatility",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_577.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_002.py",
       "source": "cc15 batch 1 BB",
       "description": "Bollinger %B trend follower on QQQ with a hysteresis band — enters TQQQ only when %B pushes above 0.65 and exits to cash only when %B drops below 0.35. Holds position inside the 0.35–0.65 dead zone to reduce whipsaw.",
       "overfit_notes": "Adds two asymmetric thresholds (0.35 / 0.65) around the midpoint to BB(20,2). The dead-zone design is a reasonable anti-churn pattern; cutoffs are slightly tuned.",
@@ -76,7 +76,7 @@
       "category": "Breakout",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_578.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_003.py",
       "source": "cc15 batch 1 BB",
       "description": "Bollinger Band breakout strategy on QQQ — enters leveraged Nasdaq on an upper-band breakout, exits when price retraces back through the SMA mid-band. Asymmetric momentum-style entry with a mid-band stop.",
       "overfit_notes": "Two asymmetric BB(20,2) breakpoints — upper band entry and mid-band exit. Canonical BB settings; rule shape is a textbook breakout-with-trailing-mean.",
@@ -109,7 +109,7 @@
       "category": "Volatility",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_579.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_004.py",
       "source": "cc15 batch 1 BB",
       "description": "Same midpoint-%B regime switch as strategy 576 but with a longer, wider Bollinger Band (30-day SMA, 2.5σ). Smoother regime detection at the cost of slower response to trend changes.",
       "overfit_notes": "Two non-canonical BB parameters (30 vs 20 length, 2.5 vs 2 stdev) — both slightly tuned from textbook defaults. Symmetric midpoint switch keeps it from being heavily fit.",
@@ -142,7 +142,7 @@
       "category": "Volatility",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_580.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_005.py",
       "source": "cc15 batch 1 BB",
       "description": "Bollinger %B regime gate that rotates between a top-5 mega-cap basket (when bullish) and cash equivalents (when bearish). Universe is the 5 largest stocks by market cap drawn from the top-100 by dollar volume, refreshed daily.",
       "overfit_notes": "BB(20,2) %B with asymmetric thresholds (>0.5 enter, <0.4 exit) plus a hindsight mega-cap universe (top-5 by market cap, which over 2014–2025 maps to AAPL/MSFT/AMZN/GOOGL/META/NVDA). The universe selection adds asset-class fit on top of the simple regime rule.",
@@ -179,7 +179,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_581.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_006.py",
       "source": "cc15 batch 2 MACD"
     },
     "582": {
@@ -188,7 +188,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_582.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_007.py",
       "source": "cc15 batch 2 MACD"
     },
     "583": {
@@ -197,7 +197,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_583.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_008.py",
       "source": "cc15 batch 2 MACD"
     },
     "584": {
@@ -206,7 +206,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_584.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_009.py",
       "source": "cc15 batch 2 MACD"
     },
     "585": {
@@ -215,7 +215,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_585.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_010.py",
       "source": "cc15 batch 2 MACD"
     },
     "591": {
@@ -224,7 +224,7 @@
       "category": "Oscillator",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_591.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_011.py",
       "source": "cc15 batch 3 Stochastic"
     },
     "592": {
@@ -233,7 +233,7 @@
       "category": "Oscillator",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_592.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_012.py",
       "source": "cc15 batch 3 Stochastic"
     },
     "593": {
@@ -242,7 +242,7 @@
       "category": "Oscillator",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_593.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_013.py",
       "source": "cc15 batch 3 Stochastic"
     },
     "594": {
@@ -251,7 +251,7 @@
       "category": "Oscillator",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_594.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_014.py",
       "source": "cc15 batch 3 Stochastic"
     },
     "595": {
@@ -260,7 +260,7 @@
       "category": "Oscillator",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_595.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_015.py",
       "source": "cc15 batch 3 Stochastic"
     },
     "596": {
@@ -269,7 +269,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_596.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_016.py",
       "source": "cc15 batch 4 Aroon"
     },
     "597": {
@@ -278,7 +278,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_597.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_017.py",
       "source": "cc15 batch 4 Aroon"
     },
     "598": {
@@ -287,7 +287,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_598.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_018.py",
       "source": "cc15 batch 4 Aroon"
     },
     "599": {
@@ -296,7 +296,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_599.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_019.py",
       "source": "cc15 batch 4 Aroon"
     },
     "600": {
@@ -305,7 +305,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_600.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_020.py",
       "source": "cc15 batch 4 Aroon"
     },
     "601": {
@@ -314,7 +314,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_601.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_021.py",
       "source": "cc15 batch 5 ROC"
     },
     "602": {
@@ -323,7 +323,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_602.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_022.py",
       "source": "cc15 batch 5 ROC"
     },
     "603": {
@@ -332,7 +332,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_603.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_023.py",
       "source": "cc15 batch 5 ROC"
     },
     "604": {
@@ -341,7 +341,7 @@
       "category": "Momentum",
       "overfit": "3/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_604.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_024.py",
       "source": "cc15 batch 5 ROC"
     },
     "605": {
@@ -350,7 +350,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_605.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_025.py",
       "source": "cc15 batch 5 ROC"
     },
     "606": {
@@ -359,7 +359,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_606.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_026.py",
       "source": "cc15 batch 6 PSAR"
     },
     "607": {
@@ -368,7 +368,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_607.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_027.py",
       "source": "cc15 batch 6 PSAR"
     },
     "608": {
@@ -377,7 +377,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_608.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_028.py",
       "source": "cc15 batch 6 PSAR"
     },
     "609": {
@@ -386,7 +386,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_609.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_029.py",
       "source": "cc15 batch 6 PSAR"
     },
     "610": {
@@ -395,7 +395,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_610.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_030.py",
       "source": "cc15 batch 6 PSAR"
     },
     "616": {
@@ -404,7 +404,7 @@
       "category": "Volatility",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_616.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_031.py",
       "source": "cc15 batch 7 KCH"
     },
     "617": {
@@ -413,7 +413,7 @@
       "category": "Volatility",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_617.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_032.py",
       "source": "cc15 batch 7 KCH"
     },
     "618": {
@@ -422,7 +422,7 @@
       "category": "Volatility",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_618.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_033.py",
       "source": "cc15 batch 7 KCH"
     },
     "619": {
@@ -431,7 +431,7 @@
       "category": "Volatility",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_619.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_034.py",
       "source": "cc15 batch 7 KCH"
     },
     "620": {
@@ -440,7 +440,7 @@
       "category": "Volatility",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_620.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_035.py",
       "source": "cc15 batch 7 KCH"
     },
     "621": {
@@ -449,7 +449,7 @@
       "category": "Volume",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_621.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_036.py",
       "source": "cc15 batch 8 MFI"
     },
     "622": {
@@ -458,7 +458,7 @@
       "category": "Volume",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_622.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_037.py",
       "source": "cc15 batch 8 MFI"
     },
     "623": {
@@ -467,7 +467,7 @@
       "category": "Volume",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_623.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_038.py",
       "source": "cc15 batch 8 MFI"
     },
     "624": {
@@ -476,7 +476,7 @@
       "category": "Volume",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_624.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_039.py",
       "source": "cc15 batch 8 MFI"
     },
     "625": {
@@ -485,7 +485,7 @@
       "category": "Volume",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_625.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_040.py",
       "source": "cc15 batch 8 MFI"
     },
     "631": {
@@ -494,7 +494,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_631.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_041.py",
       "source": "cc15 batch 9 Fisher"
     },
     "632": {
@@ -503,7 +503,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_632.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_042.py",
       "source": "cc15 batch 9 Fisher"
     },
     "633": {
@@ -512,7 +512,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_633.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_043.py",
       "source": "cc15 batch 9 Fisher"
     },
     "634": {
@@ -521,7 +521,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_634.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_044.py",
       "source": "cc15 batch 9 Fisher"
     },
     "635": {
@@ -530,7 +530,7 @@
       "category": "Momentum",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_635.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_045.py",
       "source": "cc15 batch 9 Fisher"
     },
     "636": {
@@ -539,7 +539,7 @@
       "category": "Oscillator",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_636.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_046.py",
       "source": "cc15 batch 10 CCI"
     },
     "637": {
@@ -548,7 +548,7 @@
       "category": "Oscillator",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_637.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_047.py",
       "source": "cc15 batch 10 CCI"
     },
     "638": {
@@ -557,7 +557,7 @@
       "category": "Oscillator",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_638.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_048.py",
       "source": "cc15 batch 10 CCI"
     },
     "639": {
@@ -566,7 +566,7 @@
       "category": "Oscillator",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_639.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_049.py",
       "source": "cc15 batch 10 CCI"
     },
     "640": {
@@ -575,7 +575,7 @@
       "category": "Oscillator",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_640.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_050.py",
       "source": "cc15 batch 10 CCI"
     },
     "641": {
@@ -584,7 +584,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_641.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_051.py",
       "source": "cc15 batch 11 ADX"
     },
     "642": {
@@ -593,7 +593,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_642.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_052.py",
       "source": "cc15 batch 11 ADX"
     },
     "643": {
@@ -602,7 +602,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_643.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_053.py",
       "source": "cc15 batch 11 ADX"
     },
     "644": {
@@ -611,7 +611,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_644.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_054.py",
       "source": "cc15 batch 11 ADX"
     },
     "645": {
@@ -620,7 +620,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_645.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_055.py",
       "source": "cc15 batch 11 ADX"
     },
     "646": {
@@ -629,7 +629,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_646.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_056.py",
       "source": "cc15 batch 12 WillR"
     },
     "647": {
@@ -638,7 +638,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_647.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_057.py",
       "source": "cc15 batch 12 WillR"
     },
     "648": {
@@ -647,7 +647,7 @@
       "category": "Trend",
       "overfit": "3/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_648.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_058.py",
       "source": "cc15 batch 12 WillR"
     },
     "649": {
@@ -656,7 +656,7 @@
       "category": "Trend",
       "overfit": "2/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_649.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_059.py",
       "source": "cc15 batch 12 WillR"
     },
     "650": {
@@ -665,7 +665,7 @@
       "category": "Rotation",
       "overfit": "3/10",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc15_650.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_060.py",
       "source": "cc15 batch 12 WillR"
     }
   }

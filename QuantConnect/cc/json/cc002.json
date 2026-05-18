@@ -203,7 +203,7 @@
       ],
       "algo_dir": "cc_algos",
       "file": "cc002_001.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc2_014.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc002_001.py",
       "source": "cc2.json #14"
     },
     "7": {
@@ -236,7 +236,7 @@
       ],
       "algo_dir": "cc_algos",
       "file": "cc002_002.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_022.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc002_002.py",
       "source": "cc3.json #22"
     },
     "8": {
@@ -269,7 +269,7 @@
       ],
       "algo_dir": "cc_algos",
       "file": "cc002_003.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc4_007.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc002_003.py",
       "source": "cc4.json #7"
     },
     "9": {
@@ -306,7 +306,7 @@
       ],
       "algo_dir": "cc_algos",
       "file": "cc002_004.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc4_010.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc002_004.py",
       "source": "cc4.json #10"
     }
   }

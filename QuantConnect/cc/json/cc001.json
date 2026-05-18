@@ -35,7 +35,7 @@
       ],
       "algo_dir": "cc_algos",
       "file": "cc001_001.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_001.py"
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_001.py"
     },
     "2": {
       "category": "Breakout",
@@ -79,7 +79,7 @@
       ],
       "algo_dir": "cc_algos",
       "file": "cc001_002.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_002.py"
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_002.py"
     },
     "3": {
       "category": "Breakout",
@@ -119,7 +119,7 @@
       ],
       "algo_dir": "cc_algos",
       "file": "cc001_003.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_003.py"
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_003.py"
     },
     "4": {
       "category": "Breakout",
@@ -159,7 +159,7 @@
       ],
       "algo_dir": "cc_algos",
       "file": "cc001_004.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_004.py"
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_004.py"
     },
     "5": {
       "name": "Research S31 - Expanding Breakout + ADX + 3.0 ATR (strategy_31.py)",
@@ -196,7 +196,7 @@
           "text": "TQQQ (execution); QQQ (signal)"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_005.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_005.py",
       "algo_dir": "cc_algos",
       "file": "cc001_005.py",
       "category": "Breakout"
@@ -236,7 +236,7 @@
           "text": "TQQQ (execution); QQQ (signal)"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_006.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_006.py",
       "algo_dir": "cc_algos",
       "file": "cc001_006.py",
       "category": "Breakout"
@@ -280,7 +280,7 @@
           "text": "QQQ, XLK, KMLM, CORP, IYT, SPY"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_007.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_007.py",
       "algo_dir": "cc_algos",
       "file": "cc001_007.py",
       "category": "Dip Buy"
@@ -312,7 +312,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_008.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_008.py",
       "algo_dir": "cc_algos",
       "file": "cc001_008.py",
       "category": "Dip Buy"
@@ -348,7 +348,7 @@
           "text": "Daily, 35 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_009.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_009.py",
       "algo_dir": "cc_algos",
       "file": "cc001_009.py",
       "category": "Dip Buy"
@@ -376,7 +376,7 @@
           "text": "Daily, 35 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_010.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_010.py",
       "algo_dir": "cc_algos",
       "file": "cc001_010.py",
       "category": "Rotation"
@@ -408,7 +408,7 @@
           "text": "Dynamic — typically AAPL/MSFT/NVDA/GOOG/AVGO etc."
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_011.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_011.py",
       "algo_dir": "cc_algos",
       "file": "cc001_011.py",
       "category": "Mean Reversion"
@@ -444,7 +444,7 @@
           "text": "Dynamic — typically AAPL/MSFT/NVDA/GOOG/AMZN etc."
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_012.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_012.py",
       "algo_dir": "cc_algos",
       "file": "cc001_012.py",
       "category": "Mean Reversion"
@@ -480,7 +480,7 @@
           "text": "LQD, IEF, SHY"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_013.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_013.py",
       "algo_dir": "cc_algos",
       "file": "cc001_013.py",
       "category": "Momentum"
@@ -520,7 +520,7 @@
           "text": "SOXL, SOXS, UVXY, BIL"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_014.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_014.py",
       "algo_dir": "cc_algos",
       "file": "cc001_014.py",
       "category": "Rotation"
@@ -536,7 +536,7 @@
           "text": "Identical to Strategy 14 — same source code, same rules. Marked 'Duplicate' in the metadata name."
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_015.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_015.py",
       "algo_dir": "cc_algos",
       "file": "cc001_015.py",
       "category": "Rotation"
@@ -572,7 +572,7 @@
           "text": "Daily, 35 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_016.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_016.py",
       "algo_dir": "cc_algos",
       "file": "cc001_016.py",
       "category": "Rotation"
@@ -608,7 +608,7 @@
           "text": "Daily, 35 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_017.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_017.py",
       "algo_dir": "cc_algos",
       "file": "cc001_017.py",
       "category": "Rotation"
@@ -644,7 +644,7 @@
           "text": "Daily, 35 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_018.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_018.py",
       "algo_dir": "cc_algos",
       "file": "cc001_018.py",
       "category": "Dip Buy"
@@ -692,7 +692,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_019.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_019.py",
       "algo_dir": "cc_algos",
       "file": "cc001_019.py",
       "category": "Trend"
@@ -724,7 +724,7 @@
           "text": "Dynamic — typically AAPL/MSFT/NVDA/GOOG/AVGO etc."
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_020.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_020.py",
       "algo_dir": "cc_algos",
       "file": "cc001_020.py",
       "category": "Trend"
@@ -764,7 +764,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_021.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_021.py",
       "file": "cc001_021.py",
       "algo_dir": "cc_algos",
       "category": "Trend"
@@ -798,7 +798,7 @@
       ],
       "algo_dir": "cc_algos",
       "file": "cc001_022.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_022.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_022.py",
       "overfit": "4/10"
     },
     "23": {
@@ -831,7 +831,7 @@
       ],
       "algo_dir": "cc_algos",
       "file": "cc001_023.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_023.py"
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_023.py"
     },
     "24": {
       "category": "Trend",
@@ -863,7 +863,7 @@
       ],
       "algo_dir": "cc_algos",
       "file": "cc001_024.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_024.py"
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_024.py"
     },
     "25": {
       "category": "Trend",
@@ -895,7 +895,7 @@
       ],
       "algo_dir": "cc_algos",
       "file": "cc001_025.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_025.py"
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_025.py"
     },
     "26": {
       "category": "Trend",
@@ -927,7 +927,7 @@
       ],
       "algo_dir": "cc_algos",
       "file": "cc001_026.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_026.py"
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_026.py"
     },
     "27": {
       "name": "SMA200 75% cap (algo_011.py)",
@@ -956,7 +956,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_027.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_027.py",
       "algo_dir": "cc_algos",
       "file": "cc001_027.py",
       "category": "Trend"
@@ -984,7 +984,7 @@
           "text": "Daily, 30 min after market open (signals computed on previous bar's H/L/C)"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_028.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_028.py",
       "algo_dir": "cc_algos",
       "file": "cc001_028.py",
       "category": "Mean Reversion"
@@ -1024,7 +1024,7 @@
           "text": "Interactive Brokers margin account (required for 1.5x)"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_029.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_029.py",
       "algo_dir": "cc_algos",
       "file": "cc001_029.py",
       "category": "Rotation"
@@ -1052,7 +1052,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_030.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_030.py",
       "algo_dir": "cc_algos",
       "file": "cc001_030.py",
       "category": "Mean Reversion"
@@ -1080,7 +1080,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_031.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_031.py",
       "algo_dir": "cc_algos",
       "file": "cc001_031.py",
       "category": "Mean Reversion"
@@ -1112,7 +1112,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_032.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_032.py",
       "algo_dir": "cc_algos",
       "file": "cc001_032.py",
       "category": "Mean Reversion"
@@ -1144,7 +1144,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_033.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_033.py",
       "algo_dir": "cc_algos",
       "file": "cc001_033.py",
       "category": "Mean Reversion"
@@ -1172,7 +1172,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_034.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_034.py",
       "algo_dir": "cc_algos",
       "file": "cc001_034.py",
       "category": "Mean Reversion"
@@ -1200,7 +1200,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_035.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_035.py",
       "algo_dir": "cc_algos",
       "file": "cc001_035.py",
       "category": "Mean Reversion"
@@ -1236,7 +1236,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_036.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_036.py",
       "algo_dir": "cc_algos",
       "file": "cc001_036.py",
       "category": "Mean Reversion"
@@ -1268,7 +1268,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_037.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_037.py",
       "algo_dir": "cc_algos",
       "file": "cc001_037.py",
       "category": "Mean Reversion"
@@ -1308,7 +1308,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_038.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_038.py",
       "algo_dir": "cc_algos",
       "file": "cc001_038.py",
       "category": "Trend/MR Hybrid"
@@ -1352,7 +1352,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_039.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_039.py",
       "algo_dir": "cc_algos",
       "file": "cc001_039.py",
       "category": "Trend/MR Hybrid"
@@ -1396,7 +1396,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_040.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_040.py",
       "algo_dir": "cc_algos",
       "file": "cc001_040.py",
       "category": "Trend/MR Hybrid"
@@ -1436,7 +1436,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_041.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_041.py",
       "algo_dir": "cc_algos",
       "file": "cc001_041.py",
       "category": "Mean Reversion"
@@ -1484,7 +1484,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_042.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_042.py",
       "algo_dir": "cc_algos",
       "file": "cc001_042.py",
       "category": "Trend/MR Hybrid"
@@ -1524,7 +1524,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_043.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_043.py",
       "algo_dir": "cc_algos",
       "file": "cc001_043.py",
       "category": "Trend/MR Hybrid"
@@ -1552,7 +1552,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_044.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_044.py",
       "algo_dir": "cc_algos",
       "file": "cc001_044.py",
       "category": "Mean Reversion"
@@ -1584,7 +1584,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_045.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_045.py",
       "algo_dir": "cc_algos",
       "file": "cc001_045.py",
       "category": "Trend"
@@ -1624,7 +1624,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_046.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_046.py",
       "algo_dir": "cc_algos",
       "file": "cc001_046.py",
       "category": "Trend/MR Hybrid"
@@ -1664,7 +1664,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_047.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_047.py",
       "algo_dir": "cc_algos",
       "file": "cc001_047.py",
       "category": "Trend/MR Hybrid"
@@ -1696,7 +1696,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_048.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_048.py",
       "algo_dir": "cc_algos",
       "file": "cc001_048.py",
       "category": "Trend"
@@ -1736,7 +1736,7 @@
           "text": "Daily at 10:30 ET"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_049.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_049.py",
       "algo_dir": "cc_algos",
       "file": "cc001_049.py",
       "category": "Trend/MR Hybrid"
@@ -1780,7 +1780,7 @@
           "text": "Daily, 30 min after market open"
         }
       ],
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_050.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_050.py",
       "algo_dir": "cc_algos",
       "file": "cc001_050.py",
       "category": "Trend/MR Hybrid"
@@ -1813,7 +1813,7 @@
       "category": "Rotation",
       "file": "cc001_051.py",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_051.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_051.py",
       "overfit": "2/10",
       "overfit_notes": "Zero tuned parameters, fixed basket, fixed equal weights, fixed monthly cadence. The rebalancing premium is a well-documented effect; the basket choice (large-cap-tilt leveraged ETFs) is the only real degree of freedom and it's reasonable as a thematic group rather than an optimization."
     },
@@ -1849,7 +1849,7 @@
       "category": "Rotation",
       "file": "cc001_052.py",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_052.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_052.py",
       "overfit": "4/10",
       "overfit_notes": "Two tuned parameters — the 20-day vol lookback and the 20% threshold — applied to a fixed 5-name basket. The threshold is round-numbered but a tight binary gate on a single vol number is exactly the kind of cliff-edge rule that fits a specific regime; in the 2020 vol spike a 20% threshold would have caused multiple whipsaws."
     },
@@ -1885,7 +1885,7 @@
       "category": "Mean Reversion",
       "file": "cc001_053.py",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_053.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_053.py",
       "overfit": "3/10",
       "overfit_notes": "Two lookback windows (20 and 252) — both conventional. The self-adaptive comparison (short vs long vol) removes the cliff-edge threshold concern that hurts Strategy 52. The dynamic universe (top-5 by mkt cap) avoids ticker cherry-picking. Main concern: the gate flips quickly and may whipsaw in transitional regimes."
     },
@@ -1925,7 +1925,7 @@
       "category": "Momentum",
       "file": "cc001_054.py",
       "algo_dir": "cc_algos",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc_054.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc001_054.py",
       "overfit": "6/10",
       "overfit_notes": "Five tuned parameters: 63-day momo lookback, 20-day vol lookback, 60% vol threshold, 80/20 sleeve mix, 3% drift band. The 60% vol threshold is wide enough to be permissive but the combination of sleeve mix + drift band + momentum lookback is a lot of knobs for one strategy. The two-sleeve design (momentum basket + fixed TQQQ slug) is a real choice rather than a swept parameter, which keeps this from rating higher."
     }

@@ -33,7 +33,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_001.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_152.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_001.py",
       "source": "cc3 batch 31"
     },
     "152": {
@@ -69,7 +69,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_002.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_153.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_002.py",
       "source": "cc3 batch 31"
     },
     "153": {
@@ -101,7 +101,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_003.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_154.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_003.py",
       "source": "cc3 batch 31"
     },
     "154": {
@@ -133,7 +133,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_004.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_155.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_004.py",
       "source": "cc3 batch 31"
     },
     "155": {
@@ -165,7 +165,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_005.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_156.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_005.py",
       "source": "cc3 batch 31"
     },
     "156": {
@@ -193,7 +193,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_006.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_157.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_006.py",
       "source": "cc3 batch 32"
     },
     "157": {
@@ -221,7 +221,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_007.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_158.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_007.py",
       "source": "cc3 batch 32"
     },
     "158": {
@@ -253,7 +253,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_008.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_159.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_008.py",
       "source": "cc3 batch 32"
     },
     "159": {
@@ -285,7 +285,7 @@
       "overfit": "2/10",
       "algo_dir": "cc_algos",
       "file": "cc006_009.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_160.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_009.py",
       "source": "cc3 batch 32"
     },
     "160": {
@@ -313,7 +313,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_010.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_161.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_010.py",
       "source": "cc3 batch 32"
     },
     "161": {
@@ -341,7 +341,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_011.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_162.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_011.py",
       "source": "cc3 batch 33"
     },
     "162": {
@@ -369,7 +369,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_012.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_163.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_012.py",
       "source": "cc3 batch 33"
     },
     "163": {
@@ -397,7 +397,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_013.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_164.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_013.py",
       "source": "cc3 batch 33"
     },
     "164": {
@@ -433,7 +433,7 @@
       "overfit": "4/10",
       "algo_dir": "cc_algos",
       "file": "cc006_014.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_165.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_014.py",
       "source": "cc3 batch 33"
     },
     "165": {
@@ -469,7 +469,7 @@
       "overfit": "4/10",
       "algo_dir": "cc_algos",
       "file": "cc006_015.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_166.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_015.py",
       "source": "cc3 batch 33"
     },
     "166": {
@@ -505,7 +505,7 @@
       "overfit": "4/10",
       "algo_dir": "cc_algos",
       "file": "cc006_016.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_167.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_016.py",
       "source": "cc3 batch 34"
     },
     "167": {
@@ -533,7 +533,7 @@
       "overfit": "2/10",
       "algo_dir": "cc_algos",
       "file": "cc006_017.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_168.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_017.py",
       "source": "cc3 batch 34"
     },
     "168": {
@@ -561,7 +561,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_018.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_169.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_018.py",
       "source": "cc3 batch 34"
     },
     "169": {
@@ -597,7 +597,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_019.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_170.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_019.py",
       "source": "cc3 batch 34"
     },
     "170": {
@@ -625,7 +625,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_020.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_171.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_020.py",
       "source": "cc3 batch 34"
     },
     "171": {
@@ -661,7 +661,7 @@
       "overfit": "4/10",
       "algo_dir": "cc_algos",
       "file": "cc006_021.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_172.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_021.py",
       "source": "cc3 batch 35"
     },
     "172": {
@@ -689,7 +689,7 @@
       "overfit": "2/10",
       "algo_dir": "cc_algos",
       "file": "cc006_022.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_173.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_022.py",
       "source": "cc3 batch 35"
     },
     "173": {
@@ -717,7 +717,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_023.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_174.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_023.py",
       "source": "cc3 batch 35"
     },
     "174": {
@@ -745,7 +745,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_024.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_175.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_024.py",
       "source": "cc3 batch 35"
     },
     "175": {
@@ -781,7 +781,7 @@
       "overfit": "4/10",
       "algo_dir": "cc_algos",
       "file": "cc006_025.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_176.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_025.py",
       "source": "cc3 batch 35"
     },
     "176": {
@@ -809,7 +809,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_026.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_177.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_026.py",
       "source": "cc3 batch 36"
     },
     "177": {
@@ -837,7 +837,7 @@
       "overfit": "4/10",
       "algo_dir": "cc_algos",
       "file": "cc006_027.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_178.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_027.py",
       "source": "cc3 batch 36"
     },
     "178": {
@@ -869,7 +869,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_028.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_179.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_028.py",
       "source": "cc3 batch 36"
     },
     "179": {
@@ -897,7 +897,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_029.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_180.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_029.py",
       "source": "cc3 batch 36"
     },
     "180": {
@@ -929,7 +929,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_030.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_181.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_030.py",
       "source": "cc3 batch 36"
     },
     "181": {
@@ -957,7 +957,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_031.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_182.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_031.py",
       "source": "cc3 batch 37 Crabel"
     },
     "182": {
@@ -985,7 +985,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_032.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_183.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_032.py",
       "source": "cc3 batch 37 Crabel"
     },
     "183": {
@@ -1013,7 +1013,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_033.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_184.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_033.py",
       "source": "cc3 batch 37 Crabel"
     },
     "184": {
@@ -1041,7 +1041,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_034.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_185.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_034.py",
       "source": "cc3 batch 37 Crabel"
     },
     "185": {
@@ -1069,7 +1069,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_035.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_186.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_035.py",
       "source": "cc3 batch 37 Crabel"
     },
     "186": {
@@ -1101,7 +1101,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_036.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_187.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_036.py",
       "source": "cc3 batch 38 Connors"
     },
     "187": {
@@ -1133,7 +1133,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_037.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_188.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_037.py",
       "source": "cc3 batch 38 Connors"
     },
     "188": {
@@ -1165,7 +1165,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_038.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_189.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_038.py",
       "source": "cc3 batch 38 Connors"
     },
     "189": {
@@ -1197,7 +1197,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_039.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_190.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_039.py",
       "source": "cc3 batch 38 Connors"
     },
     "190": {
@@ -1229,7 +1229,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_040.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_191.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_040.py",
       "source": "cc3 batch 38 Connors"
     },
     "191": {
@@ -1261,7 +1261,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_041.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_192.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_041.py",
       "source": "cc3 batch 39 Vol"
     },
     "192": {
@@ -1289,7 +1289,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_042.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_193.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_042.py",
       "source": "cc3 batch 39 Vol"
     },
     "193": {
@@ -1321,7 +1321,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_043.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_194.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_043.py",
       "source": "cc3 batch 39 Vol"
     },
     "194": {
@@ -1353,7 +1353,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_044.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_195.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_044.py",
       "source": "cc3 batch 39 Vol"
     },
     "195": {
@@ -1389,7 +1389,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_045.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_196.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_045.py",
       "source": "cc3 batch 39 Vol"
     },
     "196": {
@@ -1417,7 +1417,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_046.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_197.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_046.py",
       "source": "cc3 batch 40 CrossAsset"
     },
     "197": {
@@ -1445,7 +1445,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_047.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_198.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_047.py",
       "source": "cc3 batch 40 CrossAsset"
     },
     "198": {
@@ -1473,7 +1473,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_048.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_199.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_048.py",
       "source": "cc3 batch 40 CrossAsset"
     },
     "199": {
@@ -1501,7 +1501,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_049.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_200.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_049.py",
       "source": "cc3 batch 40 CrossAsset"
     },
     "200": {
@@ -1529,7 +1529,7 @@
       "overfit": "3/10",
       "algo_dir": "cc_algos",
       "file": "cc006_050.py",
-      "vault_path": "vault://QuantConnect/cc/cc_algos/cc3_201.py",
+      "vault_path": "vault://QuantConnect/cc/cc_algos/cc006_050.py",
       "source": "cc3 batch 40 CrossAsset"
     }
   }
