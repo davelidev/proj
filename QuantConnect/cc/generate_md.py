@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Generate cc<NNN>.md from cc<NNN>.json + backtest_cc<NNN>.json.
+Generate cc<NNN>.md from cc<NNN>.jsonl + backtest_cc<NNN>.json.
 If backtest_cc<NNN>.json is missing, runs backtests via QuantConnect API first.
 
 Usage:
-    python3 cc/generate_md.py json/cc003.json            # json/cc003.json → md/cc003.md
-    python3 cc/generate_md.py json/cc003.json --skip-bt  # skip backtests, md only
-    python3 cc/generate_md.py                          # defaults to json/cc001.json
+    python3 cc/generate_md.py json/cc003.jsonl            # json/cc003.jsonl → md/cc003.md
+    python3 cc/generate_md.py json/cc003.jsonl --skip-bt  # skip backtests, md only
+    python3 cc/generate_md.py                           # defaults to json/cc001.jsonl
 """
 
 import argparse, os, sys, json, time
@@ -22,14 +22,60 @@ def load_json(path):
         return json.load(f)
 
 
+def load_jsonl(path):
+    """Load JSONL into (metadata, strategies_dict)."""
+    metadata = {}
+    strategies = {}
+    with open(path) as f:
+        for line in f:
+            if not line.strip(): continue
+            obj = json.loads(line)
+            if obj.get("type") == "metadata":
+                metadata = obj
+            elif obj.get("type") == "strategy":
+                sid = obj.pop("id")
+                strategies[sid] = obj
+    return metadata, strategies
+
+
 def save_json(path, data):
     with open(path, "w") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
 
-def resolve_paths(cc_json_path):
-    base = os.path.splitext(os.path.basename(cc_json_path))[0]
-    backtest_path = os.path.join(SCRIPT_DIR, "backtests", f"backtest_{base}.json")
+def load_backtest(path):
+    """Load backtest results from .jsonl or .json path. Tries .jsonl first."""
+    jsonl = path if path.endswith(".jsonl") else path.replace(".json", ".jsonl")
+    json_ = path if path.endswith(".json") else path.replace(".jsonl", ".json")
+    if os.path.exists(jsonl):
+        results = {}
+        with open(jsonl) as f:
+            for line in f:
+                line = line.strip()
+                if not line: continue
+                obj = json.loads(line)
+                sid = obj.pop("id")
+                results[sid] = obj
+        return results
+    if os.path.exists(json_):
+        return load_json(json_)
+    return {}
+
+
+def save_backtest(path, results):
+    """Save backtest results as .jsonl (canonicalize path to .jsonl)."""
+    out = path if path.endswith(".jsonl") else path.replace(".json", ".jsonl")
+    with open(out, "w") as f:
+        for sid, res in results.items():
+            f.write(json.dumps({"id": sid, **res}, ensure_ascii=False) + "\n")
+
+
+def resolve_paths(cc_jsonl_path):
+    base = os.path.splitext(os.path.basename(cc_jsonl_path))[0]
+    # Prefer .jsonl, fall back to .json for older catalogs
+    jsonl_bt = os.path.join(SCRIPT_DIR, "backtests", f"backtest_{base}.jsonl")
+    json_bt  = os.path.join(SCRIPT_DIR, "backtests", f"backtest_{base}.json")
+    backtest_path = jsonl_bt if os.path.exists(jsonl_bt) else json_bt
     md_path = os.path.join(SCRIPT_DIR, "md", f"{base}.md")
     return backtest_path, md_path
 
@@ -42,11 +88,7 @@ def run_missing_backtests(strategies, backtest_path, md_path=None, show_all=Fals
     """
     from batch_runner import run_backtest
 
-    existing = {}
-    if os.path.exists(backtest_path):
-        existing = load_json(backtest_path)
-
-    results = dict(existing)
+    results = dict(load_backtest(backtest_path))
     ran_any = False
 
     def _regen_md():
@@ -94,7 +136,7 @@ def run_missing_backtests(strategies, backtest_path, md_path=None, show_all=Fals
             pf = "PASS" if result.get("passed") else "FAIL"
             print(f"  [{pf}] {name}: CAGR={result.get('cagr')}, MaxDD={result.get('maxdd')}")
 
-        save_json(backtest_path, results)
+        save_backtest(backtest_path, results)
         _regen_md()
         time.sleep(1)
 
@@ -306,11 +348,11 @@ def generate_markdown(strategies, backtest_results, output_path, show_all=False)
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Generate cc<NNN>.md from cc<NNN>.json + backtest_cc<NNN>.json"
+        description="Generate cc<NNN>.md from cc<NNN>.jsonl + backtest_cc<NNN>.json"
     )
     parser.add_argument(
-        "cc_json", nargs="?", default=None,
-        help="Path to cc<NNN>.json (default: json/cc001.json)"
+        "cc_jsonl", nargs="?", default=None,
+        help="Path to cc<NNN>.jsonl (default: json/cc001.jsonl)"
     )
     parser.add_argument(
         "--skip-bt", action="store_true",
@@ -318,26 +360,25 @@ def main():
     )
     args = parser.parse_args()
 
-    cc_json_path = args.cc_json
-    if not cc_json_path:
-        cc_json_path = os.path.join(SCRIPT_DIR, "json", "cc001.json")
+    cc_jsonl_path = args.cc_jsonl
+    if not cc_jsonl_path:
+        cc_jsonl_path = os.path.join(SCRIPT_DIR, "json", "cc001.jsonl")
 
-    if not os.path.exists(cc_json_path):
-        print(f"Error: {cc_json_path} not found")
+    if not os.path.exists(cc_jsonl_path):
+        print(f"Error: {cc_jsonl_path} not found")
         sys.exit(1)
 
-    backtest_path, md_path = resolve_paths(cc_json_path)
+    backtest_path, md_path = resolve_paths(cc_jsonl_path)
 
-    data = load_json(cc_json_path)
-    strategies = data.get("strategies", {})
+    metadata, strategies = load_jsonl(cc_jsonl_path)
     if not strategies:
-        print("Error: no 'strategies' key found in JSON")
+        print("Error: no strategies found in JSONL")
         sys.exit(1)
 
-    show_all = not data.get("filter", True)  # filter=true by default, false → show_all
+    show_all = not metadata.get("filter", True)  # filter=true by default, false → show_all
 
     if args.skip_bt:
-        backtest_results = load_json(backtest_path) if os.path.exists(backtest_path) else {}
+        backtest_results = load_backtest(backtest_path)
     else:
         backtest_results = run_missing_backtests(strategies, backtest_path, md_path=md_path, show_all=show_all)
 

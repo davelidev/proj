@@ -1,0 +1,6 @@
+{"type": "metadata", "filter": false}
+{"type": "strategy", "id": "596", "name": "AROON25_Osc (cc15_596.py)", "file": "cc015_016.py", "category": "Trend", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_016.py", "source": "cc15 batch 4 Aroon"}
+{"type": "strategy", "id": "601", "name": "ROC20_Zero (cc15_601.py)", "file": "cc015_021.py", "category": "Momentum", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_021.py", "source": "cc15 batch 5 ROC"}
+{"type": "strategy", "id": "617", "name": "KCH20x1p5 (cc15_617.py)", "file": "cc015_032.py", "category": "Volatility", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_032.py", "source": "cc15 batch 7 KCH"}
+{"type": "strategy", "id": "622", "name": "MFI14_Hyst (cc15_622.py)", "file": "cc015_037.py", "category": "Volume", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_037.py", "source": "cc15 batch 8 MFI"}
+{"type": "strategy", "id": "624", "name": "MFI20_50 (cc15_624.py)", "file": "cc015_039.py", "category": "Volume", "overfit": "2/10", "algo_dir": "cc_algos", "vault_path": "vault://QuantConnect/cc/cc_algos/cc015_039.py", "source": "cc15 batch 8 MFI"}
