@@ -1,0 +1,12 @@
+/* Only styles that Tailwind can't handle via class names */
+
+[contenteditable="true"] { user-select: text !important; -webkit-user-select: text !important; }
+
+/* Dynamic state classes toggled by JS */
+.tab-row.selected { outline: 2px solid #3b82f6; outline-offset: -1px; }
+.tab-row.front { border-left: 3px solid #3b82f6 !important; }
+.tab-row.dragging { opacity: 0.4 !important; }
+.tab-row.drag-over { border-top: 2px solid #3b82f6 !important; }
+
+/* Palette grid layout */
+.palette-popup { display: grid; grid-template-columns: repeat(5, 1fr); }
