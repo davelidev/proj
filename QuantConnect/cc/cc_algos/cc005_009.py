@@ -1,27 +1,46 @@
 from AlgorithmImports import *
 
-class ROCD100_Trail5(QCAlgorithm):
+class ThreeState_Aroon10(QCAlgorithm):
+    """3-state with Aroon-10 (faster Aroon) + Donchian-200."""
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
-        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
-        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
-        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self.roc=self.ROC(self.qqq,20,Resolution.Daily)
-        self.hi100=self.MAX(self.qqq,100,Resolution.Daily); self.lo100=self.MIN(self.qqq,100,Resolution.Daily)
-        self.hi20=self.MAX(self.qqq,20,Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
-        self.SetWarmUp(120, Resolution.Daily)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100000)
+
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
+
+        self.aroon = self.AROON(self.qqq, 10, Resolution.Daily)
+        self.hi200 = self.MAX(self.qqq, 200, Resolution.Daily)
+        self.lo200 = self.MIN(self.qqq, 200, Resolution.Daily)
+
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
+                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
+                         self.Rebalance)
+        self.SetWarmUp(220, Resolution.Daily)
+        self.state = None
 
     def Rebalance(self):
-        if self.IsWarmingUp or not(self.roc.IsReady and self.hi100.IsReady and self.lo100.IsReady and self.hi20.IsReady): return
-        mid=(self.hi100.Current.Value+self.lo100.Current.Value)/2.0
-        price=self.Securities[self.qqq].Price; dd=price/self.hi20.Current.Value-1.0
-        bull=self.roc.Current.Value>0 and price>mid and dd>-0.05
-        if bull:
-            if not self.Portfolio[self.tqqq].Invested:
-                self.Liquidate(self.bil); self.SetHoldings(self.tqqq,1.0)
+        if self.IsWarmingUp or not (self.aroon.IsReady and self.hi200.IsReady and self.lo200.IsReady):
+            return
+        up = self.aroon.AroonUp.Current.Value
+        dn = self.aroon.AroonDown.Current.Value
+        mid = (self.hi200.Current.Value + self.lo200.Current.Value) / 2.0
+        price = self.Securities[self.qqq].Price
+        a = up > 70 and up > dn
+        d = price > mid
+
+        if a and d:
+            ns, wt, wb = "BULL", 1.0, 0.0
+        elif a or d:
+            ns, wt, wb = "MIXED", 0.5, 0.5
         else:
-            if not self.Portfolio[self.bil].Invested:
-                self.Liquidate(self.tqqq); self.SetHoldings(self.bil,1.0)
+            ns, wt, wb = "BEAR", 0.0, 1.0
+
+        if ns != self.state:
+            self.SetHoldings(self.tqqq, wt)
+            self.SetHoldings(self.bil, wb)
+            self.state = ns
 
     def OnData(self, data): pass

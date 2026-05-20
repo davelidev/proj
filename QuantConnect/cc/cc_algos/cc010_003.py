@@ -1,6 +1,6 @@
 from AlgorithmImports import *
 
-class Mom40_CCI_Top3(QCAlgorithm):
+class Mom2060_Top1Step(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
         self.UniverseSettings.Resolution=Resolution.Daily
@@ -8,37 +8,34 @@ class Mom40_CCI_Top3(QCAlgorithm):
         self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
         self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
         self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self.ind=self.CCI(self.qqq, 20, MovingAverageType.Simple, Resolution.Daily)
         self.SetWarmUp(220, Resolution.Daily); self.symbols=[]; self.state=None
         self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
 
     def CoarseSelection(self, coarse):
         return [x.Symbol for x in sorted(coarse, key=lambda x: x.DollarVolume, reverse=True)[:100]]
     def FineSelection(self, fine):
-        self.symbols=[x.Symbol for x in sorted(fine, key=lambda x: x.MarketCap, reverse=True)[:3]]
+        self.symbols=[x.Symbol for x in sorted(fine, key=lambda x: x.MarketCap, reverse=True)[:1]]
         return self.symbols
 
     def Rebalance(self):
-        if self.IsWarmingUp or not self.ind.IsReady or not self.symbols: return
+        if self.IsWarmingUp or not self.symbols: return
+        top1=self.symbols[0]
         h=self.History(self.qqq, 200, Resolution.Daily)
         if h.empty or len(h)<200: return
         c=[float(x) for x in h["close"].values]; med=sorted(c)[100]
         in_trend=self.Securities[self.qqq].Price>med
-        m = c[-1] > c[-40-1]
-        i_b = self.ind.Current.Value > 0
-        n = int(in_trend)+int(m)+int(i_b)
+        m20 = c[-1] > c[-21]; m60=c[-1]>c[-61]
+        n = int(in_trend)+int(m20)+int(m60)
         if n==3: plan=(1.0,0.0,0.0)
-        elif n==2: plan=(0.5,0.5,0.0)
-        elif n==1: plan=(0.0,1.0,0.0)
-        else: plan=(0.0,0.5,0.5)
+        elif n==2: plan=(0.7,0.3,0.0)
+        elif n==1: plan=(0.0,0.5,0.5)
+        else: plan=(0.0,0.0,1.0)
         wt,wm,wc=plan
         if n!=self.state:
             for sym in list(self.Securities.Keys):
-                if sym in (self.qqq, self.tqqq, self.bil) or sym in self.symbols: continue
+                if sym in (self.qqq, self.tqqq, self.bil, top1): continue
                 if self.Portfolio[sym].Invested: self.Liquidate(sym)
-            self.SetHoldings(self.tqqq,wt)
-            per = wm/len(self.symbols) if wm>0 else 0
-            for s in self.symbols: self.SetHoldings(s, per)
-            self.SetHoldings(self.bil,wc); self.state=n
+            self.SetHoldings(self.tqqq,wt); self.SetHoldings(top1,wm); self.SetHoldings(self.bil,wc)
+            self.state=n
 
     def OnData(self, data): pass

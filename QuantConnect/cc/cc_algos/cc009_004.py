@@ -1,37 +1,26 @@
 from AlgorithmImports import *
 
-class Mom252_Med_Top1(QCAlgorithm):
+class MFI14_40_5050(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
-        self.UniverseSettings.Resolution=Resolution.Daily
-        self.AddUniverse(self.CoarseSelection, self.FineSelection)
         self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
         self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
-        self.SetWarmUp(280, Resolution.Daily); self.symbols=[]; self.state=None
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self.mfi=self.MFI(self.qqq, 14, Resolution.Daily)
         self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
-
-    def CoarseSelection(self, coarse):
-        return [x.Symbol for x in sorted(coarse, key=lambda x: x.DollarVolume, reverse=True)[:100]]
-    def FineSelection(self, fine):
-        self.symbols=[x.Symbol for x in sorted(fine, key=lambda x: x.MarketCap, reverse=True)[:1]]
-        return self.symbols
+        self.SetWarmUp(220, Resolution.Daily); self.state=None
 
     def Rebalance(self):
-        if self.IsWarmingUp or not self.symbols: return
-        top1=self.symbols[0]
-        h=self.History(self.qqq, 252, Resolution.Daily)
-        if h.empty or len(h)<252: return
-        c=[float(x) for x in h["close"].values]
-        med=sorted(c[-200:])[100]
+        if self.IsWarmingUp or not self.mfi.IsReady: return
+        h=self.History(self.qqq, 200, Resolution.Daily)
+        if h.empty or len(h)<200: return
+        c=[float(x) for x in h["close"].values]; med=sorted(c)[100]
         in_trend=self.Securities[self.qqq].Price>med
-        m252 = c[-1] > c[0]
-        if in_trend and m252: ns,wt,wm="BULL",1.0,0.0
-        elif in_trend or m252: ns,wt,wm="MIXED",0.5,0.5
-        else: ns,wt,wm="BEAR",0.0,1.0
+        m_bull=self.mfi.Current.Value>40
+        if in_trend and m_bull: ns,wt,wb="BULL",1.0,0.0
+        elif in_trend or m_bull: ns,wt,wb="MIXED",0.5,0.5
+        else: ns,wt,wb="BEAR",0.0,1.0
         if ns!=self.state:
-            for sym in list(self.Securities.Keys):
-                if sym in (self.qqq, self.tqqq, top1): continue
-                if self.Portfolio[sym].Invested: self.Liquidate(sym)
-            self.SetHoldings(self.tqqq, wt); self.SetHoldings(top1, wm); self.state=ns
+            self.SetHoldings(self.tqqq,wt); self.SetHoldings(self.bil,wb); self.state=ns
 
     def OnData(self, data): pass

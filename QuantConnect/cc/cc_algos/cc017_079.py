@@ -1,24 +1,22 @@
 from AlgorithmImports import *
-class CC17_079(QCAlgorithm):
+class CC16_729(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
-        self.tix=['AAPL', 'MSFT', 'AMZN', 'NVDA', 'GOOGL']
-        self.syms={t:self.AddEquity(t,Resolution.Daily).Symbol for t in self.tix}
-        self.b=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self._n=20; self.SetWarmUp(25,Resolution.Daily)
-        self.Schedule.On(self.DateRules.MonthStart("AAPL"),self.TimeRules.AfterMarketOpen("AAPL",30),self.R)
-    def R(self):
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
+        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self._st=None; self.SetWarmUp(30,Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
+    def Rebalance(self):
         if self.IsWarmingUp: return
-        bulls=[]
-        for t in self.tix:
-            h=self.History(self.syms[t],self._n+1,Resolution.Daily)
-            if h.empty or len(h)<self._n+1: continue
-            hi=float(h['high'].iloc[:-1].max())
-            lo=float(h['low'].iloc[:-1].min())
-            cl=float(h['close'].iloc[-1])
-            mid=(hi+lo)/2
-            if cl>mid: bulls.append(t)
-        n=len(bulls)
-        for t in self.tix: self.SetHoldings(self.syms[t],1.0/n if t in bulls else 0)
-        self.SetHoldings(self.b,0 if bulls else 1.0)
-    def OnData(self,d): pass
+        h=self.History(self.qqq,25,Resolution.Daily)
+        if h.empty or len(h)<22: return
+        closes=[float(h['close'].iloc[i]) for i in range(len(h))]
+        high20=max(closes[-20:])
+        # price within 3% of 20-day high = strong upward momentum
+        st=1 if closes[-1]>=high20*0.97 else 0
+        if st==self._st: return
+        self._st=st
+        if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)
+        else: self.SetHoldings(self.tqqq,0); self.SetHoldings(self.bil,1.0)
+    def OnData(self,data): pass

@@ -1,51 +1,36 @@
 from AlgorithmImports import *
-
-
-class Algo042(QCAlgorithm):
-    """#42 — #40 (SMA150 hybrid) + ATR stop on MR positions only."""
-
+class CC18_100(QCAlgorithm):
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1)
-        self.SetEndDate(2025, 12, 31)
-        self.SetCash(100_000)
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.sma  = self.SMA(self.qqq, 150, Resolution.Daily)
-        self.atr  = self.ATR(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
-        self.SetWarmUp(170, Resolution.Daily)
-        self.in_trend_pos = False
-        self.in_mr_pos = False
-        self.entry_price = None
-        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
-                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
-                         self.Rebalance)
-
-    def Rebalance(self):
-        if self.IsWarmingUp or not self.sma.IsReady or not self.atr.IsReady: return
-        bar = self.Securities[self.tqqq]
-        h, l, c = bar.High, bar.Low, bar.Close
-        if h <= l: return
-        ibs = (c - l) / (h - l)
-        in_trend = self.Securities[self.qqq].Price > self.sma.Current.Value
-        invested = self.Portfolio[self.tqqq].Invested
-        atr_v = self.atr.Current.Value
-
-        if in_trend:
-            if not invested:
-                self.SetHoldings(self.tqqq, 1.0)
-                self.in_trend_pos = True
-                self.in_mr_pos = False
-        else:
-            if self.in_trend_pos and invested:
-                self.Liquidate(self.tqqq)
-                self.in_trend_pos = False
-            if not invested and ibs < 0.05:
-                self.SetHoldings(self.tqqq, 1.0)
-                self.in_mr_pos = True
-                self.entry_price = c
-            elif invested and self.in_mr_pos:
-                stop = self.entry_price - 3.0 * atr_v if self.entry_price else 0
-                if ibs > 0.9 or c < stop:
-                    self.Liquidate(self.tqqq)
-                    self.in_mr_pos = False
-                    self.entry_price = None
+        self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
+        self.UniverseSettings.Resolution=Resolution.Daily
+        self.AddUniverse(self.CoarseSelection,self.FineSelection)
+        self.syms=[]
+        self.b=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self._p=20; self.SetWarmUp(150,Resolution.Daily)
+        self.Schedule.On(self.DateRules.MonthStart("BIL"),self.TimeRules.AfterMarketOpen("BIL",30),self.R)
+    def _cci(self,sym):
+        h=self.History(sym,self._p+1,Resolution.Daily)
+        if h.empty or len(h)<self._p: return None
+        hi=[float(x) for x in h["high"].values[-self._p:]]
+        lo=[float(x) for x in h["low"].values[-self._p:]]
+        cl=[float(x) for x in h["close"].values[-self._p:]]
+        tp=[(hi[i]+lo[i]+cl[i])/3 for i in range(self._p)]
+        ma=sum(tp)/self._p
+        md=sum(abs(t-ma) for t in tp)/self._p
+        return (tp[-1]-ma)/(0.015*md) if md else 0
+    def R(self):
+        if self.IsWarmingUp or not self.syms: return
+        bulls=[]
+        for sym in self.syms:
+            v=self._cci(sym)
+            price=self.Securities[sym].Price
+            if v is not None and v>0:
+                bulls.append(sym)
+        n=len(bulls)
+        for sym in self.syms: self.SetHoldings(sym,1.0/n if sym in bulls else 0)
+        self.SetHoldings(self.b,0 if bulls else 1.0)
+    def CoarseSelection(self,c):
+        return [x.Symbol for x in sorted(c,key=lambda x:x.DollarVolume,reverse=True)[:100]]
+    def FineSelection(self,f):
+        self.syms=[x.Symbol for x in sorted(f,key=lambda x:x.MarketCap,reverse=True)[:5]]; return self.syms
+    def OnData(self,d): pass

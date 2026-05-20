@@ -1,45 +1,36 @@
-from datetime import datetime, timedelta
-from AlgorithmImports import *                                                                                        
- 
-class DualRegimeRSIRotation(QCAlgorithm):                                                                               
-                                                                
+from AlgorithmImports import *
+
+class ROCD200_Trail5(QCAlgorithm):
     def Initialize(self):
-        start_date = datetime.now() - timedelta(days=12*365)
-        self.SetStartDate(start_date.year, start_date.month, start_date.day)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
         self.SetCash(100000)
-        self.SetBenchmark("QQQ")
-        self.aggressive = ["TQQQ", "SOXL", "TECL"]
-        self.defensive = ["TLT", "GLD", "IEF", "AGG", "BND", "SGOV", "BSV"]
-        for ticker in set(self.aggressive + self.defensive + ['QQQ']):
-            self.AddEquity(ticker, Resolution.Daily)
-        # RSI(2) on TQQQ for regime signal
-        self.qqq_rsi2 = self.RSI("QQQ", 2, MovingAverageType.Wilders, Resolution.Daily)
-        # RSI(10) on each defensive asset for ranking
-        self.defensive_rsi10 = {
-            ticker: self.RSI(ticker, 10, MovingAverageType.Wilders, Resolution.Daily)
-            for ticker in self.defensive
-        }
-        self.Schedule.On(
-            self.DateRules.EveryDay("QQQ"),
-            self.TimeRules.AfterMarketOpen("QQQ", 35),
-            self.Rebalance,
-        )
-        self.is_long = None
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
+        self.roc   = self.ROC(self.qqq, 20, Resolution.Daily)
+        self.hi200 = self.MAX(self.qqq, 200, Resolution.Daily)
+        self.lo200 = self.MIN(self.qqq, 200, Resolution.Daily)
+        self.hi20  = self.MAX(self.qqq, 20,  Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
+                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
+                         self.Rebalance)
+        self.SetWarmUp(220, Resolution.Daily)
 
     def Rebalance(self):
-        if not self.qqq_rsi2.IsReady:
+        if self.IsWarmingUp or not (self.roc.IsReady and self.hi200.IsReady and self.lo200.IsReady and self.hi20.IsReady):
             return
-        
-        prev_is_long = self.is_long
-        self.is_long = self.qqq_rsi2.Current.Value < 25
-        
-        if prev_is_long != self.is_long:
-            self.Liquidate()
-            if self.is_long:
-                for ticker in self.aggressive:
-                    self.SetHoldings(ticker, 1 / len(self.aggressive))
-            else:
-                return
-                ready = {t: rsi for t, rsi in self.defensive_rsi10.items() if rsi.IsReady}
-                if selected := min(ready, key=lambda t: ready[t].Current.Value, default=None):
-                    self.SetHoldings(selected, 1)
+        mid = (self.hi200.Current.Value + self.lo200.Current.Value) / 2.0
+        price = self.Securities[self.qqq].Price
+        dd_20 = price / self.hi20.Current.Value - 1.0
+        bull = self.roc.Current.Value > 0 and price > mid
+        if bull and dd_20 > -0.05:
+            if not self.Portfolio[self.tqqq].Invested:
+                self.Liquidate(self.bil)
+                self.SetHoldings(self.tqqq, 1.0)
+        else:
+            if not self.Portfolio[self.bil].Invested:
+                self.Liquidate(self.tqqq)
+                self.SetHoldings(self.bil, 1.0)
+
+    def OnData(self, data): pass

@@ -1,6 +1,6 @@
 from AlgorithmImports import *
 
-class RangeExp_T10_loose(QCAlgorithm):
+class OBV_Median_3State(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
         self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
@@ -13,13 +13,22 @@ class RangeExp_T10_loose(QCAlgorithm):
         if self.IsWarmingUp: return
         h=self.History(self.qqq, 200, Resolution.Daily)
         if h.empty or len(h)<200: return
-        c=[float(x) for x in h["close"].values]; med=sorted(c)[100]
+        c=[float(x) for x in h["close"].values]; v=[float(x) for x in h["volume"].values]
+        obv=0.0; obvs=[]
+        for i in range(1,len(c)):
+            sign = 1 if c[i]>c[i-1] else (-1 if c[i]<c[i-1] else 0)
+            obv += sign*v[i]; obvs.append(obv)
+        n=30; ys=obvs[-n:]; xs=list(range(n))
+        mx=sum(xs)/n; my=sum(ys)/n
+        num=sum((xs[i]-mx)*(ys[i]-my) for i in range(n))
+        den=sum((xs[i]-mx)**2 for i in range(n))
+        if den<=0: return
+        slope=num/den
+        med=sorted(c)[100]
         in_trend=self.Securities[self.qqq].Price>med
-        recent_r=[float(h["high"].iloc[i])-float(h["low"].iloc[i]) for i in range(-25,0)]
-        all_r=[float(h["high"].iloc[i])-float(h["low"].iloc[i]) for i in range(-200,0)]
-        compressed = (sum(recent_r)/25) > (sum(all_r)/200) * 1.0
-        if in_trend and compressed: ns,wt,wb="BULL",1.0,0.0
-        elif in_trend or compressed: ns,wt,wb="MIXED",0.5,0.5
+        ob_bull = slope > 0
+        if in_trend and ob_bull: ns,wt,wb="BULL",1.0,0.0
+        elif in_trend or ob_bull: ns,wt,wb="MIXED",0.7,0.3
         else: ns,wt,wb="BEAR",0.0,1.0
         if ns!=self.state:
             self.SetHoldings(self.tqqq,wt); self.SetHoldings(self.bil,wb); self.state=ns

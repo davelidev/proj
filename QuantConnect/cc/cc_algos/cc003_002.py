@@ -1,33 +1,40 @@
 from AlgorithmImports import *
 
-class ROC60Momentum(QCAlgorithm):
+class TrendVolHybrid(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100000)
-
-        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        
+        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
         self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
-
-        self.roc = self.ROC(self.qqq, 60, Resolution.Daily)
-
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
-                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
+        self.vix = self.AddData(CBOE, "VIX", Resolution.Daily).Symbol
+        self.bil = self.AddEquity("BIL", Resolution.Daily).Symbol
+        
+        self.sma = self.SMA(self.qqq, 200, Resolution.Daily)
+        
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq), 
+                         self.TimeRules.AfterMarketOpen(self.qqq, 30), 
                          self.Rebalance)
-        self.SetWarmUp(70, Resolution.Daily)
+                         
+        self.SetWarmUp(200)
 
     def Rebalance(self):
-        if self.IsWarmingUp or not self.roc.IsReady:
-            return
-        r = self.roc.Current.Value
-
-        if r > 0.02:
+        if not (self.sma.IsReady and self.Securities.ContainsKey(self.vix)): return
+        
+        price_q = self.Securities[self.qqq].Price
+        sma_val = self.sma.Current.Value
+        vix_val = self.Securities[self.vix].Price
+        
+        # Signal: Trend is UP AND No Panic
+        if price_q > sma_val and vix_val < 30:
             if not self.Portfolio[self.tqqq].Invested:
+                self.Log(f"[{self.Time}] SIGNAL ON: Trend UP + VIX Low. Entering TQQQ.")
                 self.Liquidate(self.bil)
                 self.SetHoldings(self.tqqq, 1.0)
-        elif r < -0.02:
-            if not self.Portfolio[self.bil].Invested:
+        else:
+            if self.Portfolio[self.tqqq].Invested:
+                self.Log(f"[{self.Time}] SIGNAL OFF: Trend DOWN or VIX Panic. Exiting.")
                 self.Liquidate(self.tqqq)
                 self.SetHoldings(self.bil, 1.0)
 

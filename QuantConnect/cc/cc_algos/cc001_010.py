@@ -1,59 +1,42 @@
-from datetime import datetime, timedelta
 from AlgorithmImports import *
 
-class RotationStrategy(QCAlgorithm):
+
+class Algo066(QCAlgorithm):
+    """#66 — TQQQ + SMA200 + IBS<0.05 hybrid + 3xATR stop on MR pos."""
 
     def Initialize(self):
-        
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
+        self.s = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.sma = self.SMA(self.s, 200, Resolution.Daily)
+        self.atr = self.ATR(self.s, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.SetWarmUp(220, Resolution.Daily)
+        self.in_trend_pos = False
+        self.in_mr_pos = False
+        self.entry_price = None
+        self.Schedule.On(self.DateRules.EveryDay(self.s),
+                         self.TimeRules.AfterMarketOpen(self.s, 30), self.R)
 
-        self.Schedule.On(
-            self.DateRules.EveryDay("QQQ"),
-            self.TimeRules.AfterMarketOpen("QQQ", 35),
-            self.Rebalance,
-        )
+    def R(self):
+        if self.IsWarmingUp or not self.sma.IsReady or not self.atr.IsReady: return
+        bar = self.Securities[self.s]
+        h, l, c = bar.High, bar.Low, bar.Close
+        if h <= l: return
+        ibs = (c - l) / (h - l)
+        in_trend = c > self.sma.Current.Value
+        invested = self.Portfolio[self.s].Invested
+        atr_v = self.atr.Current.Value
 
-        # Subscribe only to tickers actively used in the strategy
-        tickers = ["SPY", "QQQ", "TQQQ", "SQQQ"]
-        self.syms = {t: self.AddEquity(t, Resolution.Daily).Symbol for t in tickers}
-
-        self.rsi10 = {
-            t: self.RSI(self.syms[t], 10, MovingAverageType.Wilders, Resolution.Daily)
-            for t in tickers
-        }
-        self.sma_spy200 = self.SMA(self.syms["SPY"],  200, Resolution.Daily)
-        self.sma_tqqq20 = self.SMA(self.syms["TQQQ"], 20,  Resolution.Daily)
-
-        self.SetWarmUp(200, Resolution.Daily)
-
-    def _pick(self) -> str:
-        rsi10 = self.rsi10
-        spy_price  = self.Securities[self.syms["SPY"]].Price
-        tqqq_price = self.Securities[self.syms["TQQQ"]].Price
-
-        sharp_crash = (rsi10["QQQ"].Current.Value < 30 or rsi10["SPY"].Current.Value < 30)
-        short_term_bear = tqqq_price < self.sma_tqqq20.Current.Value
-        long_term_bear = spy_price < self.sma_spy200.Current.Value
-
-        # Ride the trend down during long term and short term bear market, but not a sharp crash
-        if long_term_bear and short_term_bear and not sharp_crash:
-            return "SQQQ"
-
-        # Default to buy
-        return "TQQQ"
-
-    def Rebalance(self):
-        if (self.IsWarmingUp 
-            or not self.sma_spy200.IsReady 
-            or not self.sma_tqqq20.IsReady 
-            or not all(i.IsReady for i in self.rsi10.values())):
-            return
-
-        pick = self._pick()
-        self.Debug(f"[Rebalance] → {pick}")
-        self.SetHoldings(self.syms[pick], 1.0, liquidateExistingHoldings=True)
-
-    def OnData(self, data):
-        pass
+        if in_trend:
+            if not invested:
+                self.SetHoldings(self.s, 1.0); self.in_trend_pos = True; self.in_mr_pos = False
+        else:
+            if self.in_trend_pos and invested:
+                self.Liquidate(self.s); self.in_trend_pos = False
+            if not invested and ibs < 0.05:
+                self.SetHoldings(self.s, 1.0); self.in_mr_pos = True; self.entry_price = c
+            elif invested and self.in_mr_pos:
+                stop = self.entry_price - 3.0 * atr_v if self.entry_price else 0
+                if ibs > 0.7 or c < stop:
+                    self.Liquidate(self.s); self.in_mr_pos = False; self.entry_price = None

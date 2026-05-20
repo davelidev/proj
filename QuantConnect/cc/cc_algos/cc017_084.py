@@ -1,29 +1,22 @@
 from AlgorithmImports import *
-class CC17_084(QCAlgorithm):
+class CC16_734(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
-        self.tix=['AAPL', 'MSFT', 'AMZN', 'NVDA', 'GOOGL']
-        self.syms={t:self.AddEquity(t,Resolution.Daily).Symbol for t in self.tix}
-        self.b=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self._atr={t:self.ATR(self.syms[t],20,MovingAverageType.Simple,Resolution.Daily) for t in self.tix}
-        self._lb=100; self._pct=60; self._atrhist={t:[] for t in self.tix}
-        self.SetWarmUp(125,Resolution.Daily)
-        self.Schedule.On(self.DateRules.MonthStart("AAPL"),self.TimeRules.AfterMarketOpen("AAPL",30),self.R)
-    def R(self):
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
+        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self._st=None; self.SetWarmUp(30,Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
+    def Rebalance(self):
         if self.IsWarmingUp: return
-        import numpy as np
-        for t in self.tix:
-            if self._atr[t].IsReady:
-                self._atrhist[t].append(self._atr[t].Current.Value)
-                if len(self._atrhist[t])>self._lb*2: self._atrhist[t]=self._atrhist[t][-self._lb*2:]
-        bulls=[]
-        for t in self.tix:
-            hist=self._atrhist[t]
-            if len(hist)<self._lb: continue
-            cur=hist[-1]; ref=hist[-self._lb:]
-            pct=100*sum(1 for x in ref if cur>x)/len(ref)
-            if pct<self._pct: bulls.append(t)
-        n=len(bulls)
-        for t in self.tix: self.SetHoldings(self.syms[t],1.0/n if t in bulls else 0)
-        self.SetHoldings(self.b,0 if bulls else 1.0)
-    def OnData(self,d): pass
+        h=self.History(self.qqq,25,Resolution.Daily)
+        if h.empty or len(h)<22: return
+        closes=[float(h['close'].iloc[i]) for i in range(len(h))]
+        high20=max(closes[-20:])
+        # within 5% of 20-day high = in strong momentum territory
+        st=1 if closes[-1]>=high20*0.95 else 0
+        if st==self._st: return
+        self._st=st
+        if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)
+        else: self.SetHoldings(self.tqqq,0); self.SetHoldings(self.bil,1.0)
+    def OnData(self,data): pass

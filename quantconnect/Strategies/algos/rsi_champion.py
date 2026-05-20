@@ -14,6 +14,7 @@ class RSIDipChampionSub(BaseSubAlgo):
         prev = dict(self.targets)
         if self.rsi2.Current.Value < 20:
             self.targets = {s: 1 / len(self.syms) for s in self.syms}
+            self.force_rebalance = True  # rebalance daily to maintain equal weight
         else:
             self.targets = {}
         return self.targets != prev

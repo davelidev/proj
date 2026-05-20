@@ -1,35 +1,18 @@
 from AlgorithmImports import *
-
-
-class Algo018(QCAlgorithm):
-    """#18 — 5 most market capital companies @ 1.5x leverage (margin), monthly rebalance."""
-
+class CC15_601(QCAlgorithm):
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1)
-        self.SetEndDate(2025, 12, 31)
-        self.SetCash(100_000)
-        self.SetBrokerageModel(BrokerageName.InteractiveBrokersBrokerage, AccountType.Margin)
-        self.UniverseSettings.Resolution = Resolution.Daily
-        self.AddUniverse(self.SelectTop5)
-        self.SetWarmUp(20, Resolution.Daily)
-        self.top5 = []
-        self.Schedule.On(self.DateRules.MonthStart(),
-                         self.TimeRules.At(10, 0),
-                         self.Rebalance)
-
-    def SelectTop5(self, fundamental):
-        eligible = [f for f in fundamental
-                    if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
-        eligible.sort(key=lambda f: f.MarketCap, reverse=True)
-        self.top5 = [f.Symbol for f in eligible[:5]]
-        return self.top5
-
+        self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
+        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self._roc=self.ROC("QQQ",20,Resolution.Daily)
+        self.SetWarmUp(30,Resolution.Daily); self._st=None
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
     def Rebalance(self):
-        if self.IsWarmingUp: return
-        if not self.top5: return
-        weight = 1.5 / len(self.top5)
-        for sym in list(self.Portfolio.Keys):
-            if self.Portfolio[sym].Invested and sym not in self.top5:
-                self.Liquidate(sym)
-        for sym in self.top5:
-            self.SetHoldings(sym, weight)
+        if self.IsWarmingUp or not self._roc.IsReady: return
+        st=1 if self._roc.Current.Value>0 else 0
+        if st==self._st: return
+        self._st=st
+        if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)
+        else: self.SetHoldings(self.tqqq,0); self.SetHoldings(self.bil,1.0)
+    def OnData(self,data): pass

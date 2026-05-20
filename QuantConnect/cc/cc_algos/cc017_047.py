@@ -1,27 +1,29 @@
 from AlgorithmImports import *
-class CC17_047(QCAlgorithm):
+class CC16_697(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
-        self.q=self.AddEquity("QQQ",Resolution.Daily).Symbol
-        self.t=self.AddEquity("TQQQ",Resolution.Daily).Symbol
-        self.b=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self._n=14; self._thresh=0.5; self._st=None
-        self.SetWarmUp(19,Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.q),self.TimeRules.AfterMarketOpen(self.q,30),self.R)
-    def R(self):
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
+        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self._st=None; self.SetWarmUp(30,Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
+    def _cmo(self,h,n):
+        closes=[float(h['close'].iloc[i]) for i in range(len(h))]
+        changes=[closes[i]-closes[i-1] for i in range(1,len(closes))]
+        if len(changes)<n: return None
+        ups=sum(c for c in changes[-n:] if c>0)
+        downs=sum(abs(c) for c in changes[-n:] if c<0)
+        total=ups+downs
+        return 0 if total==0 else 100*(ups-downs)/total
+    def Rebalance(self):
         if self.IsWarmingUp: return
-        import math
-        h=self.History(self.q,self._n,Resolution.Daily)
-        if h.empty or len(h)<self._n: return
-        hi=float(h['high'].max()); lo=float(h['low'].min())
-        cl=float(h['close'].iloc[-1])
-        rng=hi-lo if hi!=lo else 1e-10
-        val=2*((cl-lo)/rng-0.5)
-        val=max(-0.999,min(0.999,val))
-        fisher=0.5*math.log((1+val)/(1-val))
-        st=1 if fisher>self._thresh else 0
+        h=self.History(self.qqq,30,Resolution.Daily)
+        if h.empty or len(h)<22: return
+        cmo=self._cmo(h,20)
+        if cmo is None: return
+        st=1 if cmo>0 else 0
         if st==self._st: return
         self._st=st
-        if st==1: self.SetHoldings(self.b,0); self.SetHoldings(self.t,1.0)
-        else: self.SetHoldings(self.t,0); self.SetHoldings(self.b,1.0)
-    def OnData(self,d): pass
+        if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)
+        else: self.SetHoldings(self.tqqq,0); self.SetHoldings(self.bil,1.0)
+    def OnData(self,data): pass

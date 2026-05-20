@@ -1,27 +1,30 @@
-from datetime import datetime, timedelta
 from AlgorithmImports import *
 
-class Rebalance(QCAlgorithm):
+class CMO20(QCAlgorithm):
     def Initialize(self):
-        start_date = datetime.now() - timedelta(days=12*365)
-        self.SetStartDate(start_date.year, start_date.month, start_date.day)
-        self.weights = {None:4, "TQQQ": 2, "SOXL": 2, "TECL": 2}
-        self.period = 'year'
+        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
+        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
+        self.SetWarmUp(40, Resolution.Daily)
 
-        self.last = None
-        for t in self.weights:
-            if t is None: continue
-            self.AddEquity(t, Resolution.Minute)
+    def Rebalance(self):
+        if self.IsWarmingUp: return
+        h=self.History(self.qqq, 21, Resolution.Daily)
+        if h.empty or len(h)<21: return
+        c=[float(x) for x in h["close"].values]
+        changes=[c[i]-c[i-1] for i in range(1,len(c))]
+        sum_up=sum(x for x in changes if x>0)
+        sum_dn=sum(-x for x in changes if x<0)
+        total = sum_up + sum_dn
+        if total<=0: return
+        cmo = 100.0 * (sum_up - sum_dn) / total
+        if cmo > 0:
+            if not self.Portfolio[self.tqqq].Invested:
+                self.Liquidate(self.bil); self.SetHoldings(self.tqqq,1.0)
+        else:
+            if not self.Portfolio[self.bil].Invested:
+                self.Liquidate(self.tqqq); self.SetHoldings(self.bil,1.0)
 
-    def OnData(self, data):
-        if self.Time.hour < 11: return
-        # rebalance on start of week/month/year
-        t = getattr(self.Time, self.period)
-        if t == self.last: return
-        self.last = t
-
-
-        total = sum(self.weights.values())
-        for sym, weight in self.weights.items():
-            if sym is None: continue
-            self.SetHoldings(sym, weight / total)
+    def OnData(self, data): pass

@@ -1,18 +1,24 @@
 from AlgorithmImports import *
 
-class ThreeState_DualROC_70_30(QCAlgorithm):
-    """3-state ROC(20)>0 AND ROC(60)>0 + Donchian-200 mid, 70/30 middle."""
+class ThreeStateTQQQ(QCAlgorithm):
+    """3-state sizing:
+       full bull (Aroon AND Donchian-200 both bullish)  → 100% TQQQ
+       mixed     (exactly one of the two bullish)       → 50% TQQQ + 50% BIL
+       bear      (both bearish)                         → 100% BIL
+    """
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100000)
+
         self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
         self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
         self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
-        self.roc20 = self.ROC(self.qqq, 20, Resolution.Daily)
-        self.roc60 = self.ROC(self.qqq, 60, Resolution.Daily)
+
+        self.aroon = self.AROON(self.qqq, 25, Resolution.Daily)
         self.hi200 = self.MAX(self.qqq, 200, Resolution.Daily)
         self.lo200 = self.MIN(self.qqq, 200, Resolution.Daily)
+
         self.Schedule.On(self.DateRules.EveryDay(self.qqq),
                          self.TimeRules.AfterMarketOpen(self.qqq, 30),
                          self.Rebalance)
@@ -20,18 +26,29 @@ class ThreeState_DualROC_70_30(QCAlgorithm):
         self.state = None
 
     def Rebalance(self):
-        if self.IsWarmingUp or not (self.roc20.IsReady and self.roc60.IsReady and self.hi200.IsReady and self.lo200.IsReady):
+        if self.IsWarmingUp or not (self.aroon.IsReady and self.hi200.IsReady and self.lo200.IsReady):
             return
+        up = self.aroon.AroonUp.Current.Value
+        dn = self.aroon.AroonDown.Current.Value
         mid = (self.hi200.Current.Value + self.lo200.Current.Value) / 2.0
         price = self.Securities[self.qqq].Price
-        m = self.roc20.Current.Value > 0 and self.roc60.Current.Value > 0
-        d = price > mid
-        if m and d: ns, wt, wb = "BULL", 1.0, 0.0
-        elif m or d: ns, wt, wb = "MIXED", 0.7, 0.3
-        else: ns, wt, wb = "BEAR", 0.0, 1.0
-        if ns != self.state:
-            self.SetHoldings(self.tqqq, wt)
-            self.SetHoldings(self.bil, wb)
-            self.state = ns
+
+        aroon_bull = up > 70 and up > dn
+        donch_bull = price > mid
+
+        if aroon_bull and donch_bull:
+            new_state = "BULL"
+            w_tqqq, w_bil = 1.0, 0.0
+        elif aroon_bull or donch_bull:
+            new_state = "MIXED"
+            w_tqqq, w_bil = 0.5, 0.5
+        else:
+            new_state = "BEAR"
+            w_tqqq, w_bil = 0.0, 1.0
+
+        if new_state != self.state:
+            self.SetHoldings(self.tqqq, w_tqqq)
+            self.SetHoldings(self.bil, w_bil)
+            self.state = new_state
 
     def OnData(self, data): pass

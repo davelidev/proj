@@ -1,60 +1,41 @@
 from AlgorithmImports import *
 
-class VortexTrend(QCAlgorithm):
-    def Initialize(self):
-        self.SetStartDate(2014, 1, 1)
-        self.SetEndDate(2025, 12, 31)
-        self.SetCash(100000)
+class NasdaqBreadthRotation(QCAlgorithm):
+    def initialize(self):
+        self.set_start_date(2014, 1, 1)
+        self.set_end_date(2025, 12, 31)
+        self.set_cash(100000)
+        self.tqqq = self.add_equity("TQQQ", Resolution.DAILY).symbol
+        self.universe_settings.resolution = Resolution.DAILY
+        self.add_universe(self.coarse_selection, self.fine_selection)
+        self.symbols = []
+        self.emas = {}
+        
+    def coarse_selection(self, coarse):
+        return [x.symbol for x in sorted(coarse, key=lambda x: x.dollar_volume, reverse=True)[:100]]
 
-        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
+    def fine_selection(self, fine):
+        self.symbols = [x.symbol for x in sorted(fine, key=lambda x: x.market_cap, reverse=True)[:10]]
+        for symbol in self.symbols:
+            self.add_equity(symbol, Resolution.DAILY)
+            if symbol not in self.emas:
+                self.emas[symbol] = self.ema(symbol, 50, Resolution.DAILY)
+        return self.symbols
 
-        # Manual Vortex Indicator (period 14): sums of |H-L_prev| and |L-H_prev| over TR.
-        self.period = 14
-        self.prev_bar = None  # (high, low, close)
-        self.vm_plus  = RollingWindow[float](self.period)
-        self.vm_minus = RollingWindow[float](self.period)
-        self.tr_win   = RollingWindow[float](self.period)
-
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
-                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
-                         self.Rebalance)
-        self.SetWarmUp(25, Resolution.Daily)
-
-    def _ingest_bar(self, bar):
-        if self.prev_bar is None:
-            self.prev_bar = bar
-            return
-        ph, pl, pc = self.prev_bar
-        h, l, c    = bar
-        vmp = abs(h - pl)
-        vmm = abs(l - ph)
-        tr  = max(h - l, abs(h - pc), abs(l - pc))
-        self.vm_plus.Add(vmp)
-        self.vm_minus.Add(vmm)
-        self.tr_win.Add(tr)
-        self.prev_bar = bar
-
-    def OnData(self, data):
-        if self.qqq in data.Bars:
-            b = data.Bars[self.qqq]
-            self._ingest_bar((b.High, b.Low, b.Close))
-
-    def Rebalance(self):
-        if self.IsWarmingUp or not (self.vm_plus.IsReady and self.vm_minus.IsReady and self.tr_win.IsReady):
-            return
-        sum_tr = sum(self.tr_win[i] for i in range(self.period))
-        if sum_tr <= 0:
-            return
-        vi_plus  = sum(self.vm_plus[i]  for i in range(self.period)) / sum_tr
-        vi_minus = sum(self.vm_minus[i] for i in range(self.period)) / sum_tr
-
-        if vi_plus > vi_minus and vi_plus > 1.0:
-            if not self.Portfolio[self.tqqq].Invested:
-                self.Liquidate(self.bil)
-                self.SetHoldings(self.tqqq, 1.0)
-        elif vi_minus > vi_plus and vi_minus > 1.0:
-            if not self.Portfolio[self.bil].Invested:
-                self.Liquidate(self.tqqq)
-                self.SetHoldings(self.bil, 1.0)
+    def on_data(self, data):
+        if not self.emas: return
+        
+        above_count = 0
+        ready_count = 0
+        for symbol in self.symbols:
+            if symbol in self.emas and self.emas[symbol].is_ready:
+                ready_count += 1
+                if self.securities[symbol].price > self.emas[symbol].current.value:
+                    above_count += 1
+        
+        if ready_count > 0:
+            breadth = above_count / ready_count
+            if breadth > 0.6:
+                self.set_holdings(self.tqqq, 1.0)
+            elif breadth < 0.4:
+                self.liquidate(self.tqqq)

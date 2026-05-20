@@ -1,19 +1,35 @@
 from AlgorithmImports import *
-class CC15_608(QCAlgorithm):
+class CC14_OBV20_Don20(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
+        self.UniverseSettings.Resolution=Resolution.Daily
+        self.AddUniverse(self.CoarseSelection,self.FineSelection)
         self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
         self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
         self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self._psar=self.PSAR("QQQ",0.03,0.3)
-        self.SetWarmUp(20,Resolution.Daily); self._st=None
+        self.SetWarmUp(60,Resolution.Daily); self.symbols=[]; self._st=None
         self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
+    def CoarseSelection(self,c): return [x.Symbol for x in sorted(c,key=lambda x:x.DollarVolume,reverse=True)[:100]]
+    def FineSelection(self,f): self.symbols=[x.Symbol for x in sorted(f,key=lambda x:x.MarketCap,reverse=True)[:5]]; return self.symbols
+    def _set(self,wt,wm,wc):
+        for sym in list(self.Securities.Keys):
+            if sym in (self.qqq,self.tqqq,self.bil) or sym in self.symbols: continue
+            if self.Portfolio[sym].Invested: self.Liquidate(sym)
+        self.SetHoldings(self.tqqq,wt); per=wm/len(self.symbols) if wm>0 else 0
+        for s in self.symbols: self.SetHoldings(s,per)
+        self.SetHoldings(self.bil,wc)
     def Rebalance(self):
-        if self.IsWarmingUp or not self._psar.IsReady: return
-        price=self.Securities[self.qqq].Price
-        st=1 if self._psar.Current.Value<price else 0
+        if self.IsWarmingUp or not self.symbols: return
+        h=self.History(self.qqq,25,Resolution.Daily)
+        if h.empty or len(h)<25: return
+        c=[float(x) for x in h['close'].values]; v=[float(x) for x in h['volume'].values]
+        obv=[0.0]
+        for i in range(1,len(c)): obv.append(obv[-1]+(v[i] if c[i]>c[i-1] else -v[i] if c[i]<c[i-1] else 0.0))
+        obv_up=obv[-1]>obv[-20-1]
+        lo=float(h['low'].iloc[-20:].min()); p=self.Securities[self.qqq].Price
+        if obv_up and p>lo: st=2
+        elif p<lo: st=0
+        else: st=1
         if st==self._st: return
-        self._st=st
-        if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)
-        else: self.SetHoldings(self.tqqq,0); self.SetHoldings(self.bil,1.0)
+        self._st=st; self._set(*{2:(1,0,0),1:(0,1,0),0:(0,0,1)}[st])
     def OnData(self,data): pass

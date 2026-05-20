@@ -1,23 +1,31 @@
 from AlgorithmImports import *
-class CC17_038(QCAlgorithm):
+class CC16_688(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
-        self.q=self.AddEquity("QQQ",Resolution.Daily).Symbol
-        self.t=self.AddEquity("TQQQ",Resolution.Daily).Symbol
-        self.b=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self._ema=self.EMA(self.q,25,Resolution.Daily)
-        self._atr=self.ATR(self.q,14,MovingAverageType.Simple,Resolution.Daily)
-        self._mult=2.5; self._st=None
-        self.SetWarmUp(max(25,14)+5,Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.q),self.TimeRules.AfterMarketOpen(self.q,30),self.R)
-    def R(self):
-        if self.IsWarmingUp or not self._ema.IsReady or not self._atr.IsReady: return
-        mid=self._ema.Current.Value; atr=self._atr.Current.Value
-        upper=mid+self._mult*atr
-        p=self.Securities[self.q].Price
-        st=1 if p>mid else 0
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
+        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self._cci=self.CCI(self.qqq,20,MovingAverageType.Simple,Resolution.Daily)
+        self._st=None; self.SetWarmUp(70,Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
+    def _atr(self,h,n):
+        trs=[]
+        for i in range(1,len(h)):
+            hi=float(h['high'].iloc[i]); lo=float(h['low'].iloc[i]); pc=float(h['close'].iloc[i-1])
+            trs.append(max(hi-lo,abs(hi-pc),abs(lo-pc)))
+        return sum(trs[-n:])/n if len(trs)>=n else None
+    def Rebalance(self):
+        if self.IsWarmingUp or not self._cci.IsReady: return
+        h=self.History(self.qqq,70,Resolution.Daily)
+        if h.empty or len(h)<65: return
+        cl=float(h['close'].iloc[-1]); roc20=cl/float(h['close'].iloc[-21])-1
+        atr14=self._atr(h,14); atr63=self._atr(h,63)
+        if atr14 is None or atr63 is None: return
+        low_vol=atr14<atr63*1.3
+        cci=self._cci.Current.Value
+        st=1 if cci>0 and roc20>0 and low_vol else 0
         if st==self._st: return
         self._st=st
-        if st==1: self.SetHoldings(self.b,0); self.SetHoldings(self.t,1.0)
-        else: self.SetHoldings(self.t,0); self.SetHoldings(self.b,1.0)
-    def OnData(self,d): pass
+        if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)
+        else: self.SetHoldings(self.tqqq,0); self.SetHoldings(self.bil,1.0)
+    def OnData(self,data): pass

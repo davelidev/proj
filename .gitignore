@@ -12,3 +12,6 @@ dist/
 embedded/
 strategies_results_fresh.json
 .playwright-mcp
+.gstack/
+.gstack
+.playwright-mcp

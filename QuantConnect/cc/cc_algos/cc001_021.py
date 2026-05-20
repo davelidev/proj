@@ -1,66 +1,28 @@
-from datetime import datetime, timedelta
 from AlgorithmImports import *
 
-
-class TQQQDynamicCompounding(QCAlgorithm):
-    """
-    Strategy 7: TQQQ Dynamic Compounding
-    
-    Core Concept:
-    - Varies leverage based on market regime and volatility.
-    - Bull Regime (Price > 200 SMA): 
-        - 100% leverage on RSI(2) < 30 (Dip Buy).
-        - 20% leverage on RSI(10) > 80 (Profit Protection).
-    - Bear Regime (Price < 200 SMA): 
-        - 0% exposure (Cash).
-    """
+class FS_R20_D200_Trail7(QCAlgorithm):
     def Initialize(self):
-        
-        self.SetStartDate(2014, 1, 1)
-        self.SetEndDate(2025, 12, 31)
-        self.SetCash(100_000)
-        
-        self.sym = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        
-        # Growth and Safety Indicators
-        self.rsi2 = self.RSI(self.sym, 2, MovingAverageType.Wilders, Resolution.Daily)
-        self.rsi10 = self.RSI(self.sym, 10, MovingAverageType.Wilders, Resolution.Daily)
-        self.sma200 = self.SMA(self.sym, 200, Resolution.Daily)
-        
-        self.SetWarmUp(200, Resolution.Daily)
-        
-        # Dynamic adjustment: check daily
-        self.Schedule.On(
-            self.DateRules.EveryDay(self.sym),
-            self.TimeRules.AfterMarketOpen(self.sym, 30),
-            self.Rebalance,
-        )
+        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol; self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self.roc=self.ROC(self.qqq,20,Resolution.Daily)
+        self.h1=self.MAX(self.qqq,200,Resolution.Daily); self.l1=self.MIN(self.qqq,200,Resolution.Daily)
+        self.h2=self.MAX(self.qqq,200,Resolution.Daily); self.l2=self.MIN(self.qqq,200,Resolution.Daily)
+        self.hi20=self.MAX(self.qqq,20,Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
+        self.SetWarmUp(220, Resolution.Daily)
 
     def Rebalance(self):
-        if self.IsWarmingUp or not self.rsi2.IsReady or not self.sma200.IsReady:
-            return
-
-        price = self.Securities[self.sym].Price
-        sma_val = self.sma200.Current.Value
-        r2 = self.rsi2.Current.Value
-        r10 = self.rsi10.Current.Value
-
-        # BULL MARKET MODE (Growth Focus)
-        if price > sma_val:
-            if r10 > 80:
-                # De-leverage on extreme overbought to protect capital
-                self.SetHoldings(self.sym, 0.2)
-                self.Debug(f"BULL: De-leveraging at {price}")
-            elif r2 < 30:
-                # Full leverage on dips to drive compounding
-                self.SetHoldings(self.sym, 1.0)
-                self.Debug(f"BULL: Re-leveraging at {price}")
-            elif not self.Portfolio.Invested:
-                # Default bull entry if we missed the dip
-                self.SetHoldings(self.sym, 0.5)
-        
-        # BEAR MARKET MODE (Survival Focus)
+        if self.IsWarmingUp or not(self.roc.IsReady and self.h1.IsReady and self.l1.IsReady and self.h2.IsReady and self.l2.IsReady and self.hi20.IsReady): return
+        m1=(self.h1.Current.Value+self.l1.Current.Value)/2.0
+        m2=(self.h2.Current.Value+self.l2.Current.Value)/2.0
+        price=self.Securities[self.qqq].Price; dd_20=price/self.hi20.Current.Value-1.0
+        bull=self.roc.Current.Value>0 and price>m1 and price>m2 and dd_20 > -0.0700
+        if bull:
+            if not self.Portfolio[self.tqqq].Invested:
+                self.Liquidate(self.bil); self.SetHoldings(self.tqqq,1.0)
         else:
-            if self.Portfolio.Invested:
-                self.Liquidate(self.sym)
-                self.Debug(f"BEAR: Exiting to Cash at {price}")
+            if not self.Portfolio[self.bil].Invested:
+                self.Liquidate(self.tqqq); self.SetHoldings(self.bil,1.0)
+
+    def OnData(self, data): pass

@@ -1,6 +1,6 @@
 from AlgorithmImports import *
 
-class D3_M20_RNG_VOLCONT_17(QCAlgorithm):
+class LR_Tenkan_Top3(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
         self.UniverseSettings.Resolution=Resolution.Daily
@@ -8,8 +8,9 @@ class D3_M20_RNG_VOLCONT_17(QCAlgorithm):
         self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
         self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
         self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self.hi22=self.MAX(self.qqq, 22, Resolution.Daily)
-        self.SetWarmUp(280, Resolution.Daily); self.symbols=[]; self.state=None
+        self.h9=self.MAX(self.qqq,9,Resolution.Daily); self.l9=self.MIN(self.qqq,9,Resolution.Daily)
+        self.h26=self.MAX(self.qqq,26,Resolution.Daily); self.l26=self.MIN(self.qqq,26,Resolution.Daily)
+        self.SetWarmUp(220, Resolution.Daily); self.symbols=[]; self.state=None
         self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
     def CoarseSelection(self, coarse):
         return [x.Symbol for x in sorted(coarse, key=lambda x: x.DollarVolume, reverse=True)[:100]]
@@ -17,21 +18,26 @@ class D3_M20_RNG_VOLCONT_17(QCAlgorithm):
         self.symbols=[x.Symbol for x in sorted(fine, key=lambda x: x.MarketCap, reverse=True)[:3]]
         return self.symbols
     def Rebalance(self):
-        if self.IsWarmingUp or not self.symbols: return
-        h=self.History(self.qqq, 252, Resolution.Daily)
-        if h.empty or len(h)<252: return
-        c=[float(x) for x in h["close"].values]
-        v=[float(x) for x in h["volume"].values]
-        med=sorted(c[-200:])[100]
+        if self.IsWarmingUp or not (self.h9.IsReady and self.l9.IsReady and self.h26.IsReady and self.l26.IsReady) or not self.symbols: return
+        h=self.History(self.qqq, 200, Resolution.Daily)
+        if h.empty or len(h)<200: return
+        c=[float(x) for x in h["close"].values]; med=sorted(c)[100]
         in_trend=self.Securities[self.qqq].Price>med
-        try:
-            f1 = c[-1]>c[-21]
-            f2 = sum(float(h['high'].iloc[i])-float(h['low'].iloc[i]) for i in range(-25,0))/25 > sum(float(h['high'].iloc[i])-float(h['low'].iloc[i]) for i in range(-200,0))/200 * 1.1
-            f3 = (lambda r=[c[i]/c[i-1]-1.0 for i in range(1,len(c))]: ((sum((x-sum(r[-10:])/10)**2 for x in r[-10:])/10)**0.5 < (sum((x-sum(r[-60:])/60)**2 for x in r[-60:])/60)**0.5))()
-        except Exception: return
-        n = int(in_trend)+int(f1)+int(f2)+int(f3)
-        plan={4:(1.0,0.0,0.0),3:(0.7,0.3,0.0),2:(0.3,0.7,0.0),1:(0.0,0.5,0.5),0:(0.0,0.0,1.0)}
-        wt,wm,wc=plan[n]
+        ys=c[-50:]; nL=50; xs=list(range(nL))
+        mx=sum(xs)/nL; my=sum(ys)/nL
+        num=sum((xs[i]-mx)*(ys[i]-my) for i in range(nL))
+        den=sum((xs[i]-mx)**2 for i in range(nL))
+        slope=num/den if den>0 else 0
+        lr_b = slope > 0
+        tenkan=(self.h9.Current.Value+self.l9.Current.Value)/2.0
+        kijun=(self.h26.Current.Value+self.l26.Current.Value)/2.0
+        ich_b = tenkan > kijun
+        n = int(in_trend)+int(lr_b)+int(ich_b)
+        if n==3: plan=(1.0,0.0,0.0)
+        elif n==2: plan=(0.5,0.5,0.0)
+        elif n==1: plan=(0.0,1.0,0.0)
+        else: plan=(0.0,0.5,0.5)
+        wt,wm,wc=plan
         if n!=self.state:
             for sym in list(self.Securities.Keys):
                 if sym in (self.qqq, self.tqqq, self.bil) or sym in self.symbols: continue

@@ -1,31 +1,35 @@
 from AlgorithmImports import *
 
-class VIXPercentile(QCAlgorithm):
+class ThreeState_ROC20_70_30(QCAlgorithm):
+    """3-state ROC(20) + Donchian-200 with 70/30 middle (more aggressive)."""
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
-        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
-        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
-        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self.vix=self.AddData(CBOE,"VIX",Resolution.Daily).Symbol
-        self.vix_win=RollingWindow[float](252)
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
-
-    def OnData(self, data):
-        if self.vix in data and data[self.vix] is not None:
-            self.vix_win.Add(data[self.vix].Price)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100000)
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
+        self.roc   = self.ROC(self.qqq, 20, Resolution.Daily)
+        self.hi200 = self.MAX(self.qqq, 200, Resolution.Daily)
+        self.lo200 = self.MIN(self.qqq, 200, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
+                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
+                         self.Rebalance)
+        self.SetWarmUp(220, Resolution.Daily)
+        self.state = None
 
     def Rebalance(self):
-        if not self.vix_win.IsReady: return
-        cur=self.vix_win[0]
-        vals=[self.vix_win[i] for i in range(252)]
-        srt=sorted(vals)
-        pct=srt.index(cur)/252.0 if cur in srt else sum(1 for v in vals if v<=cur)/252.0
-        bull = pct < 0.3
-        if bull:
-            if not self.Portfolio[self.tqqq].Invested:
-                self.Liquidate(self.bil); self.SetHoldings(self.tqqq,1.0)
-        else:
-            if not self.Portfolio[self.bil].Invested:
-                self.Liquidate(self.tqqq); self.SetHoldings(self.bil,1.0)
+        if self.IsWarmingUp or not (self.roc.IsReady and self.hi200.IsReady and self.lo200.IsReady):
+            return
+        mid = (self.hi200.Current.Value + self.lo200.Current.Value) / 2.0
+        m = self.roc.Current.Value > 0
+        d = self.Securities[self.qqq].Price > mid
+        if m and d: ns, wt, wb = "BULL", 1.0, 0.0
+        elif m or d: ns, wt, wb = "MIXED", 0.7, 0.3
+        else: ns, wt, wb = "BEAR", 0.0, 1.0
+        if ns != self.state:
+            self.SetHoldings(self.tqqq, wt)
+            self.SetHoldings(self.bil, wb)
+            self.state = ns
 
     def OnData(self, data): pass

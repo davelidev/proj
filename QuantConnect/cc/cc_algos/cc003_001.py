@@ -1,35 +1,39 @@
 from AlgorithmImports import *
 
-class Donchian2010Breakout(QCAlgorithm):
+class TQQQSMATrend(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100000)
-
-        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        
         self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
-
-        self.high20 = self.MAX(self.qqq, 20, Resolution.Daily)
-        self.low10  = self.MIN(self.qqq, 10, Resolution.Daily)
-
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
-                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
+        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
+        self.bil = self.AddEquity("BIL", Resolution.Daily).Symbol # Cash proxy
+        
+        # 200-day SMA on the underlying index (QQQ)
+        self.sma = self.SMA(self.qqq, 200, Resolution.Daily)
+        
+        # Schedule the check daily
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq), 
+                         self.TimeRules.AfterMarketOpen(self.qqq, 30), 
                          self.Rebalance)
-        self.SetWarmUp(30, Resolution.Daily)
+                         
+        self.SetWarmUp(200)
 
     def Rebalance(self):
-        if self.IsWarmingUp or not (self.high20.IsReady and self.low10.IsReady):
-            return
-        price  = self.Securities[self.qqq].Price
-        hi, lo = self.high20.Current.Value, self.low10.Current.Value
-
-        if price >= hi:
+        if not self.sma.IsReady: return
+        
+        price = self.Securities[self.qqq].Price
+        sma_val = self.sma.Current.Value
+        
+        if price > sma_val:
             if not self.Portfolio[self.tqqq].Invested:
+                self.Log(f"[{self.Time}] TREND: BULLISH (QQQ > SMA200) | Price: {price:.2f} | SMA: {sma_val:.2f}")
                 self.Liquidate(self.bil)
                 self.SetHoldings(self.tqqq, 1.0)
-        elif price <= lo:
+        else:
             if not self.Portfolio[self.bil].Invested:
+                self.Log(f"[{self.Time}] TREND: BEARISH (QQQ < SMA200) | Price: {price:.2f} | SMA: {sma_val:.2f}")
                 self.Liquidate(self.tqqq)
                 self.SetHoldings(self.bil, 1.0)
 

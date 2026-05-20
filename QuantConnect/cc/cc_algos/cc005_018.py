@@ -1,31 +1,35 @@
 from AlgorithmImports import *
 
-class OutsideBarExpansion(QCAlgorithm):
+class ThreeState_ROC60(QCAlgorithm):
+    """3-state ROC(60) + Donchian-200 midline (longer momentum)."""
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
-        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
-        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
-        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self.hi200=self.MAX(self.qqq,200,Resolution.Daily); self.lo200=self.MIN(self.qqq,200,Resolution.Daily)
-        self.hi10=self.MAX(self.qqq,10,Resolution.Daily)
-        self.bars=RollingWindow[TradeBar](3)
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100000)
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
+        self.roc   = self.ROC(self.qqq, 60, Resolution.Daily)
+        self.hi200 = self.MAX(self.qqq, 200, Resolution.Daily)
+        self.lo200 = self.MIN(self.qqq, 200, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
+                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
+                         self.Rebalance)
         self.SetWarmUp(220, Resolution.Daily)
-
-    def OnData(self, data):
-        if self.qqq in data.Bars: self.bars.Add(data.Bars[self.qqq])
+        self.state = None
 
     def Rebalance(self):
-        if self.IsWarmingUp or not(self.bars.IsReady and self.hi200.IsReady and self.lo200.IsReady and self.hi10.IsReady): return
-        b0=self.bars[0]; b1=self.bars[1]
-        outside_up = b0.High > b1.High and b0.Low < b1.Low and b0.Close > b0.Open
-        mid=(self.hi200.Current.Value+self.lo200.Current.Value)/2.0
-        in_trend=self.Securities[self.qqq].Price>mid
-        if not self.Portfolio[self.tqqq].Invested:
-            if outside_up and in_trend:
-                self.Liquidate(self.bil); self.SetHoldings(self.tqqq,1.0)
-        else:
-            if (not in_trend) or self.Securities[self.qqq].Price>=self.hi10.Current.Value*0.999:
-                self.Liquidate(self.tqqq); self.SetHoldings(self.bil,1.0)
+        if self.IsWarmingUp or not (self.roc.IsReady and self.hi200.IsReady and self.lo200.IsReady):
+            return
+        mid = (self.hi200.Current.Value + self.lo200.Current.Value) / 2.0
+        m = self.roc.Current.Value > 0
+        d = self.Securities[self.qqq].Price > mid
+        if m and d: ns, wt, wb = "BULL", 1.0, 0.0
+        elif m or d: ns, wt, wb = "MIXED", 0.5, 0.5
+        else: ns, wt, wb = "BEAR", 0.0, 1.0
+        if ns != self.state:
+            self.SetHoldings(self.tqqq, wt)
+            self.SetHoldings(self.bil, wb)
+            self.state = ns
 
     def OnData(self, data): pass

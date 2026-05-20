@@ -1,17 +1,24 @@
 from AlgorithmImports import *
-class CC17_065(QCAlgorithm):
+class CC16_715(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
-        self.tix=['AAPL', 'MSFT', 'AMZN', 'NVDA', 'GOOGL']
-        self.syms={t:self.AddEquity(t,Resolution.Daily).Symbol for t in self.tix}
-        self.b=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self._roc={t:self.ROC(self.syms[t],12,Resolution.Daily) for t in self.tix}
-        self._thresh=1; self.SetWarmUp(17,Resolution.Daily)
-        self.Schedule.On(self.DateRules.MonthStart("AAPL"),self.TimeRules.AfterMarketOpen("AAPL",30),self.R)
-    def R(self):
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
+        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self._st=None; self.SetWarmUp(135,Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
+    def Rebalance(self):
         if self.IsWarmingUp: return
-        bulls=[t for t in self.tix if self._roc[t].IsReady and self._roc[t].Current.Value>self._thresh]
-        n=len(bulls)
-        for t in self.tix: self.SetHoldings(self.syms[t],1.0/n if t in bulls else 0)
-        self.SetHoldings(self.b,0 if bulls else 1.0)
-    def OnData(self,d): pass
+        h=self.History(self.qqq,126,Resolution.Daily)
+        if h.empty or len(h)<126: return
+        closes=[float(h['close'].iloc[i]) for i in range(len(h))]
+        lo=min(closes); hi=max(closes)
+        if hi==lo: return
+        # price above median of 6-month range = bullish
+        pct=(closes[-1]-lo)/(hi-lo)
+        st=1 if pct>0.5 else 0
+        if st==self._st: return
+        self._st=st
+        if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)
+        else: self.SetHoldings(self.tqqq,0); self.SetHoldings(self.bil,1.0)
+    def OnData(self,data): pass

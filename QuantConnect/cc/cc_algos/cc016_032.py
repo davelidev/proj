@@ -1,23 +1,20 @@
 from AlgorithmImports import *
-class CC16_682(QCAlgorithm):
+class CC15_617(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
         self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
         self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
         self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self._cci=self.CCI(self.qqq,14,MovingAverageType.Simple,Resolution.Daily)
-        self._st=None; self.SetWarmUp(135,Resolution.Daily)
+        self._kch=self.KCH("QQQ",20,1.5,MovingAverageType.Simple,Resolution.Daily)
+        self.SetWarmUp(40,Resolution.Daily); self._st=None
         self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
     def Rebalance(self):
-        if self.IsWarmingUp or not self._cci.IsReady: return
-        h=self.History(self.qqq,132,Resolution.Daily)
-        if h.empty or len(h)<129: return
-        cl=float(h['close'].iloc[-1])
-        hi63=float(h.iloc[-63:]['high'].max()); lo63=float(h.iloc[-63:]['low'].min())
-        k63=(cl-lo63)/(hi63-lo63)*100 if hi63>lo63 else 50
-        cci=self._cci.Current.Value; roc20=cl/float(h['close'].iloc[-21])-1
-        score=int(cci>0)+int(k63>50)+int(roc20>0)
-        st=1 if score>=2 else 0
+        if self.IsWarmingUp or not self._kch.IsReady: return
+        price=self.Securities[self.qqq].Price
+        upper=self._kch.UpperBand.Current.Value; lower=self._kch.LowerBand.Current.Value
+        if price>upper: st=1
+        elif price<lower: st=0
+        else: return
         if st==self._st: return
         self._st=st
         if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)

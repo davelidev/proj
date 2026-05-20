@@ -1,34 +1,28 @@
 from AlgorithmImports import *
 
-class PiercingLine(QCAlgorithm):
+class FS_R20_D200_Trail4(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
-        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
-        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol; self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
         self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self.hi_ex=self.MAX(self.qqq, 10, Resolution.Daily)
+        self.roc=self.ROC(self.qqq,20,Resolution.Daily)
+        self.h1=self.MAX(self.qqq,200,Resolution.Daily); self.l1=self.MIN(self.qqq,200,Resolution.Daily)
+        self.h2=self.MAX(self.qqq,200,Resolution.Daily); self.l2=self.MIN(self.qqq,200,Resolution.Daily)
+        self.hi20=self.MAX(self.qqq,20,Resolution.Daily)
         self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
         self.SetWarmUp(220, Resolution.Daily)
 
     def Rebalance(self):
-        if self.IsWarmingUp or not self.hi_ex.IsReady: return
-        h=self.History(self.qqq, 200, Resolution.Daily)
-        if h.empty or len(h)<200: return
-        c=[float(x) for x in h["close"].values]
-        med=sorted(c)[100]
-        in_trend = self.Securities[self.qqq].Price > med
-        h2=self.History(self.qqq, 4, Resolution.Daily)
-        if h2.empty or len(h2)<4: return
-        opens=[float(x) for x in h2["open"].values]
-        highs=[float(x) for x in h2["high"].values]
-        lows=[float(x) for x in h2["low"].values]
-        closes=[float(x) for x in h2["close"].values]
-        bullish_signal = (closes[-2]<opens[-2]) and (opens[-1]<lows[-2]) and (closes[-1]>opens[-1]) and (closes[-1] > (opens[-2]+closes[-2])/2)
-        if not self.Portfolio[self.tqqq].Invested:
-            if bullish_signal and in_trend:
-                self.Liquidate(self.bil); self.SetHoldings(self.tqqq, 1.0)
+        if self.IsWarmingUp or not(self.roc.IsReady and self.h1.IsReady and self.l1.IsReady and self.h2.IsReady and self.l2.IsReady and self.hi20.IsReady): return
+        m1=(self.h1.Current.Value+self.l1.Current.Value)/2.0
+        m2=(self.h2.Current.Value+self.l2.Current.Value)/2.0
+        price=self.Securities[self.qqq].Price; dd_20=price/self.hi20.Current.Value-1.0
+        bull=self.roc.Current.Value>0 and price>m1 and price>m2 and dd_20 > -0.0400
+        if bull:
+            if not self.Portfolio[self.tqqq].Invested:
+                self.Liquidate(self.bil); self.SetHoldings(self.tqqq,1.0)
         else:
-            if (not in_trend) or self.Securities[self.qqq].Price >= self.hi_ex.Current.Value*0.999:
-                self.Liquidate(self.tqqq); self.SetHoldings(self.bil, 1.0)
+            if not self.Portfolio[self.bil].Invested:
+                self.Liquidate(self.tqqq); self.SetHoldings(self.bil,1.0)
 
     def OnData(self, data): pass

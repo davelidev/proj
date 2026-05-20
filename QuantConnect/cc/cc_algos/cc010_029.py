@@ -1,6 +1,6 @@
 from AlgorithmImports import *
 
-class Mom20_MFI30_Top3_23(QCAlgorithm):
+class Mom60_WR14_Top3(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
         self.UniverseSettings.Resolution=Resolution.Daily
@@ -8,7 +8,7 @@ class Mom20_MFI30_Top3_23(QCAlgorithm):
         self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
         self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
         self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self.ind=self.MFI(self.qqq, 30, Resolution.Daily)
+        self.wilr=self.WILR(self.qqq, 14, Resolution.Daily)
         self.SetWarmUp(220, Resolution.Daily); self.symbols=[]; self.state=None
         self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
 
@@ -19,14 +19,14 @@ class Mom20_MFI30_Top3_23(QCAlgorithm):
         return self.symbols
 
     def Rebalance(self):
-        if self.IsWarmingUp or not self.ind.IsReady or not self.symbols: return
+        if self.IsWarmingUp or not self.wilr.IsReady or not self.symbols: return
         h=self.History(self.qqq, 200, Resolution.Daily)
         if h.empty or len(h)<200: return
         c=[float(x) for x in h["close"].values]; med=sorted(c)[100]
         in_trend=self.Securities[self.qqq].Price>med
-        m = c[-1] > c[-20-1]
-        i_b = self.ind.Current.Value > 50
-        n = int(in_trend)+int(m)+int(i_b)
+        m = c[-1] > c[-60-1]
+        w_b = self.wilr.Current.Value > -50
+        n = int(in_trend)+int(m)+int(w_b)
         if n==3: plan=(1.0,0.0,0.0)
         elif n==2: plan=(0.5,0.5,0.0)
         elif n==1: plan=(0.0,1.0,0.0)

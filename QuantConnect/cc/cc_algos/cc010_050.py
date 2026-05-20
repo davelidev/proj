@@ -1,6 +1,6 @@
 from AlgorithmImports import *
 
-class Mom20_MFI14_Top5_w70_19(QCAlgorithm):
+class Mom40_MFI_Top3(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
         self.UniverseSettings.Resolution=Resolution.Daily
@@ -15,7 +15,7 @@ class Mom20_MFI14_Top5_w70_19(QCAlgorithm):
     def CoarseSelection(self, coarse):
         return [x.Symbol for x in sorted(coarse, key=lambda x: x.DollarVolume, reverse=True)[:100]]
     def FineSelection(self, fine):
-        self.symbols=[x.Symbol for x in sorted(fine, key=lambda x: x.MarketCap, reverse=True)[:5]]
+        self.symbols=[x.Symbol for x in sorted(fine, key=lambda x: x.MarketCap, reverse=True)[:3]]
         return self.symbols
 
     def Rebalance(self):
@@ -24,12 +24,11 @@ class Mom20_MFI14_Top5_w70_19(QCAlgorithm):
         if h.empty or len(h)<200: return
         c=[float(x) for x in h["close"].values]; med=sorted(c)[100]
         in_trend=self.Securities[self.qqq].Price>med
-        m = c[-1] > c[-20-1]
+        m = c[-1] > c[-40-1]
         i_b = self.ind.Current.Value > 50
         n = int(in_trend)+int(m)+int(i_b)
-        # adjust middle weight: w_full TQQQ when 3, w_mix in mid
         if n==3: plan=(1.0,0.0,0.0)
-        elif n==2: plan=(0.7,0.30,0.0)
+        elif n==2: plan=(0.5,0.5,0.0)
         elif n==1: plan=(0.0,1.0,0.0)
         else: plan=(0.0,0.5,0.5)
         wt,wm,wc=plan

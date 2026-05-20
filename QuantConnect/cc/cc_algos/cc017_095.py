@@ -1,23 +1,22 @@
 from AlgorithmImports import *
-class CC17_095(QCAlgorithm):
+class CC16_745(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
-        self.q=self.AddEquity("QQQ",Resolution.Daily).Symbol
-        self.t=self.AddEquity("TQQQ",Resolution.Daily).Symbol
-        self.b=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self._fast=5; self._slow=34; self._thresh=1.0; self._st=None
-        self.SetWarmUp(39,Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.q),self.TimeRules.AfterMarketOpen(self.q,30),self.R)
-    def R(self):
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
+        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self._st=None; self.SetWarmUp(30,Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
+    def Rebalance(self):
         if self.IsWarmingUp: return
-        h=self.History(self.q,self._slow+1,Resolution.Daily)
-        if h.empty or len(h)<self._slow: return
-        import numpy as np
-        mid=(h['high'].values+h['low'].values)/2
-        ao=np.mean(mid[-self._fast:])-np.mean(mid[-self._slow:])
-        st=1 if ao>self._thresh else 0
+        h=self.History(self.qqq,25,Resolution.Daily)
+        if h.empty or len(h)<22: return
+        closes=[float(h['close'].iloc[i]) for i in range(len(h))]
+        # 55% up days in 20 trading days = decisively bullish
+        up_days=sum(1 for i in range(len(closes)-20,len(closes)) if closes[i]>closes[i-1])
+        st=1 if up_days>=11 else 0
         if st==self._st: return
         self._st=st
-        if st==1: self.SetHoldings(self.b,0); self.SetHoldings(self.t,1.0)
-        else: self.SetHoldings(self.t,0); self.SetHoldings(self.b,1.0)
-    def OnData(self,d): pass
+        if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)
+        else: self.SetHoldings(self.tqqq,0); self.SetHoldings(self.bil,1.0)
+    def OnData(self,data): pass

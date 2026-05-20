@@ -86,6 +86,7 @@ def run_missing_backtests(strategies, backtest_path, md_path=None, show_all=Fals
     If md_path is provided, regenerate the markdown after each completed
     backtest so cc<N>.md reflects live progress.
     """
+    import sys, os; sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'api'))
     from batch_runner import run_backtest
 
     results = dict(load_backtest(backtest_path))
@@ -262,6 +263,9 @@ def generate_markdown(strategies, backtest_results, output_path, show_all=False)
         lines.append(f"## Strategy-{sid}")
 
         name = meta.get("name", f"Strategy {sid}")
+        file_name = meta.get("file", "")
+        if file_name and not name.endswith(f"({file_name})"):
+            name = f"{name} ({file_name})"
         lines.append(f"### {name}")
         lines.append("")
 

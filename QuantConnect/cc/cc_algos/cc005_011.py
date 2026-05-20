@@ -1,36 +1,35 @@
 from AlgorithmImports import *
 
-class OBVSlope(QCAlgorithm):
+class ThreeState_ROC10(QCAlgorithm):
+    """3-state ROC(10) > 0 + Donchian-200 midline."""
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
-        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
-        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
-        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        # On-Balance Volume rolling window
-        self.obv_win=RollingWindow[float](21)
-        self.cum_obv=0.0
-        self.prev_close=None
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
-        self.SetWarmUp(40, Resolution.Daily)
-
-    def OnData(self, data):
-        if self.qqq in data.Bars:
-            b=data.Bars[self.qqq]
-            if self.prev_close is not None:
-                sign = 1 if b.Close>self.prev_close else (-1 if b.Close<self.prev_close else 0)
-                self.cum_obv += sign * b.Volume
-            self.obv_win.Add(self.cum_obv)
-            self.prev_close=b.Close
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100000)
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
+        self.roc   = self.ROC(self.qqq, 10, Resolution.Daily)
+        self.hi200 = self.MAX(self.qqq, 200, Resolution.Daily)
+        self.lo200 = self.MIN(self.qqq, 200, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
+                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
+                         self.Rebalance)
+        self.SetWarmUp(220, Resolution.Daily)
+        self.state = None
 
     def Rebalance(self):
-        if self.IsWarmingUp or not self.obv_win.IsReady: return
-        obv_now=self.obv_win[0]; obv_20=self.obv_win[20]
-        bull = obv_now > obv_20  # OBV rising = accumulation
-        if bull:
-            if not self.Portfolio[self.tqqq].Invested:
-                self.Liquidate(self.bil); self.SetHoldings(self.tqqq,1.0)
-        else:
-            if not self.Portfolio[self.bil].Invested:
-                self.Liquidate(self.tqqq); self.SetHoldings(self.bil,1.0)
+        if self.IsWarmingUp or not (self.roc.IsReady and self.hi200.IsReady and self.lo200.IsReady):
+            return
+        mid = (self.hi200.Current.Value + self.lo200.Current.Value) / 2.0
+        m = self.roc.Current.Value > 0
+        d = self.Securities[self.qqq].Price > mid
+        if m and d: ns, wt, wb = "BULL", 1.0, 0.0
+        elif m or d: ns, wt, wb = "MIXED", 0.5, 0.5
+        else: ns, wt, wb = "BEAR", 0.0, 1.0
+        if ns != self.state:
+            self.SetHoldings(self.tqqq, wt)
+            self.SetHoldings(self.bil, wb)
+            self.state = ns
 
     def OnData(self, data): pass

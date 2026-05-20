@@ -1,124 +1,38 @@
-# SOXL.SOXS SeeSaw
-# Converted from Composer symphony to QuantConnect
-#
-# Logic tree:
-#   1. RSI(SOXS, 25) > 62.5
-#        → select-bottom 1 by 1-day return from [SOXL, UVXY]
-#   2. Else RSI(SOXL, 32) > 66
-#        → select-bottom 1 by 1-day return from [SOXS, UVXY]
-#   3. Else cumret(SOXL, 6) > 34%
-#        → SOXS 100%  (select-top 1 from single-asset list)
-#   4. Else cumret(SOXS, 6) > 26.5%:
-#        If cumret(SOXS, 1) < -3%  → SOXS 100%  (select-bottom 1 from [SOXS])
-#        Else                      → SOXL 100%  (select-bottom 1 from [SOXL])
-#   5. Else → BIL 100%
-#
-# Rebalances only when any holding drifts > 10% from target (rebalance-threshold 0.10).
-
 from AlgorithmImports import *
-from datetime import datetime, timedelta
 
-
-class SOXLSOXSSeeSaw(QCAlgorithm):
-
-    RSI_SOXS_WINDOW     = 25
-    RSI_SOXL_WINDOW     = 32
-    REBALANCE_THRESHOLD = 0.10
-
+class ROCD200_TrailExit(QCAlgorithm):
+    """ROC+D200 entry, with 7% drawdown-from-20d-high trailing exit while invested."""
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100000)
-        self.SetBrokerageModel(BrokerageName.InteractiveBrokersBrokerage, AccountType.Margin)
-
-        for ticker in ["SOXL", "SOXS", "UVXY", "BIL"]:
-            self.AddEquity(ticker, Resolution.Daily)
-
-        self.rsi_soxs = self.RSI("SOXS", self.RSI_SOXS_WINDOW, MovingAverageType.Wilders, Resolution.Daily)
-        self.rsi_soxl = self.RSI("SOXL", self.RSI_SOXL_WINDOW, MovingAverageType.Wilders, Resolution.Daily)
-
-        self.SetWarmUp(max(self.RSI_SOXS_WINDOW, self.RSI_SOXL_WINDOW) + 10, Resolution.Daily)
-
-        self.Schedule.On(
-            self.DateRules.EveryDay("SOXL"),
-            self.TimeRules.AfterMarketOpen("SOXL", 1),
-            self.Rebalance,
-        )
-
-    def _cumret(self, ticker, window):
-        """Percentage cumulative return over `window` trading days."""
-        history = list(self.History(ticker, window + 1, Resolution.Daily))
-        if len(history) < window + 1:
-            return None
-        closes = [x.Close for x in history]
-        return (closes[-1] / closes[0] - 1) * 100
-
-    def _bottom_1_by_1d(self, tickers):
-        """Ticker with the lowest 1-day return among candidates."""
-        scores = {t: r for t in tickers if (r := self._cumret(t, 1)) is not None}
-        return min(scores, key=scores.get) if scores else None
-
-    def _get_target(self):
-        if self.rsi_soxs.Current.Value > 62.5:
-            selected = self._bottom_1_by_1d(["SOXL", "UVXY"])
-            return {selected: 1.0} if selected else None
-
-        if self.rsi_soxl.Current.Value > 66:
-            selected = self._bottom_1_by_1d(["SOXS", "UVXY"])
-            return {selected: 1.0} if selected else None
-
-        cr_soxl_6 = self._cumret("SOXL", 6)
-        if cr_soxl_6 is None:
-            return None
-        if cr_soxl_6 > 34:
-            return {"SOXS": 1.0}
-
-        cr_soxs_6 = self._cumret("SOXS", 6)
-        if cr_soxs_6 is None:
-            return None
-        if cr_soxs_6 > 26.5:
-            cr_soxs_1 = self._cumret("SOXS", 1)
-            if cr_soxs_1 is None:
-                return None
-            return {"SOXS": 1.0} if cr_soxs_1 < -3 else {"SOXL": 1.0}
-
-        return {"BIL": 1.0}
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
+        self.roc   = self.ROC(self.qqq, 20, Resolution.Daily)
+        self.hi200 = self.MAX(self.qqq, 200, Resolution.Daily)
+        self.lo200 = self.MIN(self.qqq, 200, Resolution.Daily)
+        self.hi20  = self.MAX(self.qqq, 20,  Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
+                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
+                         self.Rebalance)
+        self.SetWarmUp(220, Resolution.Daily)
 
     def Rebalance(self):
-        if self.IsWarmingUp:
+        if self.IsWarmingUp or not (self.roc.IsReady and self.hi200.IsReady and self.lo200.IsReady and self.hi20.IsReady):
             return
-        if not self.rsi_soxs.IsReady or not self.rsi_soxl.IsReady:
-            return
+        mid = (self.hi200.Current.Value + self.lo200.Current.Value) / 2.0
+        price = self.Securities[self.qqq].Price
+        dd_20 = price / self.hi20.Current.Value - 1.0
+        bull = self.roc.Current.Value > 0 and price > mid
 
-        target = self._get_target()
-        if target is None:
-            self.Debug("Insufficient history — skipping rebalance.")
-            return
+        if bull and dd_20 > -0.07:
+            if not self.Portfolio[self.tqqq].Invested:
+                self.Liquidate(self.bil)
+                self.SetHoldings(self.tqqq, 1.0)
+        else:
+            if not self.Portfolio[self.bil].Invested:
+                self.Liquidate(self.tqqq)
+                self.SetHoldings(self.bil, 1.0)
 
-        total_value = self.Portfolio.TotalPortfolioValue
-        if total_value == 0:
-            return
-
-        needs_rebalance = any(
-            h.Invested and h.Symbol.Value not in target
-            for h in self.Portfolio.Values
-        )
-        if not needs_rebalance:
-            for ticker, target_weight in target.items():
-                current_weight = self.Portfolio[ticker].HoldingsValue / total_value
-                if abs(current_weight - target_weight) > self.REBALANCE_THRESHOLD:
-                    needs_rebalance = True
-                    break
-
-        if not needs_rebalance:
-            return
-
-        for h in self.Portfolio.Values:
-            if h.Invested and h.Symbol.Value not in target:
-                self.Liquidate(h.Symbol)
-
-        for ticker, weight in target.items():
-            self.SetHoldings(ticker, weight)
-
-    def OnData(self, data):
-        pass
+    def OnData(self, data): pass

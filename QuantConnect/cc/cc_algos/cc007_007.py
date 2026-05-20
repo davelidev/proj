@@ -1,29 +1,30 @@
 from AlgorithmImports import *
 
-class Stochastic_Median200(QCAlgorithm):
+class CMO20(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
         self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
         self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
         self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self.sto=self.STO(self.qqq, 14, 3, 3, Resolution.Daily)
         self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
-        self.SetWarmUp(220, Resolution.Daily)
-        self.state=None
+        self.SetWarmUp(40, Resolution.Daily)
 
     def Rebalance(self):
-        if self.IsWarmingUp or not self.sto.IsReady: return
-        h=self.History(self.qqq, 200, Resolution.Daily)
-        if h.empty or len(h)<200: return
+        if self.IsWarmingUp: return
+        h=self.History(self.qqq, 21, Resolution.Daily)
+        if h.empty or len(h)<21: return
         c=[float(x) for x in h["close"].values]
-        med=sorted(c)[100]
-        in_trend=self.Securities[self.qqq].Price>med
-        k=self.sto.StochK.Current.Value; d=self.sto.StochD.Current.Value
-        sto_bull = k > d and k > 50
-        if in_trend and sto_bull: ns,wt,wb="BULL",1.0,0.0
-        elif in_trend or sto_bull: ns,wt,wb="MIXED",0.5,0.5
-        else: ns,wt,wb="BEAR",0.0,1.0
-        if ns!=self.state:
-            self.SetHoldings(self.tqqq,wt); self.SetHoldings(self.bil,wb); self.state=ns
+        changes=[c[i]-c[i-1] for i in range(1,len(c))]
+        sum_up=sum(x for x in changes if x>0)
+        sum_dn=sum(-x for x in changes if x<0)
+        total = sum_up + sum_dn
+        if total<=0: return
+        cmo = 100.0 * (sum_up - sum_dn) / total
+        if cmo > 0:
+            if not self.Portfolio[self.tqqq].Invested:
+                self.Liquidate(self.bil); self.SetHoldings(self.tqqq,1.0)
+        else:
+            if not self.Portfolio[self.bil].Invested:
+                self.Liquidate(self.tqqq); self.SetHoldings(self.bil,1.0)
 
     def OnData(self, data): pass

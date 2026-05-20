@@ -1,31 +1,22 @@
 from AlgorithmImports import *
-
-
-class Algo035(QCAlgorithm):
-    """#35 — IBS extreme + 200d trend; in down-trend, only enter on IBS<0.05 (very rare)."""
-
+class CC16_705(QCAlgorithm):
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1)
-        self.SetEndDate(2025, 12, 31)
-        self.SetCash(100_000)
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.sma  = self.SMA(self.qqq, 200, Resolution.Daily)
-        self.SetWarmUp(220, Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
-                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
-                         self.Rebalance)
-
+        self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
+        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self._st=None; self.SetWarmUp(30,Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
     def Rebalance(self):
-        if self.IsWarmingUp or not self.sma.IsReady: return
-        bar = self.Securities[self.tqqq]
-        h, l, c = bar.High, bar.Low, bar.Close
-        if h <= l: return
-        ibs = (c - l) / (h - l)
-        in_trend = self.Securities[self.qqq].Price > self.sma.Current.Value
-        invested = self.Portfolio[self.tqqq].Invested
-        threshold = 0.1 if in_trend else 0.03
-        if not invested and ibs < threshold:
-            self.SetHoldings(self.tqqq, 1.0)
-        elif invested and ibs > 0.9:
-            self.Liquidate(self.tqqq)
+        if self.IsWarmingUp: return
+        h=self.History(self.qqq,25,Resolution.Daily)
+        if h.empty or len(h)<22: return
+        closes=[float(h['close'].iloc[i]) for i in range(len(h))]
+        # count up-days in last 20 trading days
+        up_days=sum(1 for i in range(len(closes)-20,len(closes)) if closes[i]>closes[i-1])
+        st=1 if up_days>10 else 0
+        if st==self._st: return
+        self._st=st
+        if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)
+        else: self.SetHoldings(self.tqqq,0); self.SetHoldings(self.bil,1.0)
+    def OnData(self,data): pass

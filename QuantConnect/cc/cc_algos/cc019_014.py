@@ -1,38 +1,40 @@
 from AlgorithmImports import *
-class CC19_014(QCAlgorithm):
+class CC18_014(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
         self.UniverseSettings.Resolution=Resolution.Daily
         self.AddUniverse(self.CoarseSelection,self.FineSelection)
-        self.q=self.AddEquity("QQQ",Resolution.Daily).Symbol
+        self.syms=[]
         self.b=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self.P=25; self.thr=26.5
-        self.k=2.0/10; self.e1=None; self.e2=None
-        self.mbuf=RollingWindow[float](self.P+1)
-        self.syms=[]; self.st=None; self.SetWarmUp(self.P+100,Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.q),self.TimeRules.AfterMarketOpen(self.q,30),self.R)
+        self._p=15; self.SetWarmUp(150,Resolution.Daily)
+        self.Schedule.On(self.DateRules.MonthStart("BIL"),self.TimeRules.AfterMarketOpen("BIL",30),self.R)
+    def _trix(self,sym):
+        n=self._p*3+5
+        h=self.History(sym,n,Resolution.Daily)
+        if h.empty or len(h)<n: return None
+        c=[float(x) for x in h["close"].values]
+        k=2.0/(self._p+1)
+        e1=[c[0]]
+        for v in c[1:]: e1.append(v*k+e1[-1]*(1-k))
+        e2=[e1[0]]
+        for v in e1[1:]: e2.append(v*k+e2[-1]*(1-k))
+        e3=[e2[0]]
+        for v in e2[1:]: e3.append(v*k+e3[-1]*(1-k))
+        if len(e3)<2 or e3[-2]==0: return None
+        return (e3[-1]-e3[-2])/e3[-2]*100
+    def R(self):
+        if self.IsWarmingUp or not self.syms: return
+        bulls=[]
+        for sym in self.syms:
+            v=self._trix(sym)
+            price=self.Securities[sym].Price
+            if v is not None and v>0:
+                bulls.append(sym)
+        n=len(bulls)
+        for sym in self.syms: self.SetHoldings(sym,1.0/n if sym in bulls else 0)
+        self.SetHoldings(self.b,0 if bulls else 1.0)
     def CoarseSelection(self,c):
         return [x.Symbol for x in sorted(c,key=lambda x:x.DollarVolume,reverse=True)[:100]]
     def FineSelection(self,f):
         self.syms=[x.Symbol for x in sorted(f,key=lambda x:x.MarketCap,reverse=True)[:5]]; return self.syms
-    def R(self):
-        if self.IsWarmingUp or not self.mbuf.IsReady or not self.syms: return
-        mi=sum(self.mbuf[i] for i in range(self.P))
-        s=1 if mi<self.thr else 0
-        if s==self.st: return
-        self.st=s
-        if s:
-            self.SetHoldings(self.b,0)
-            w=1.0/len(self.syms)
-            for sym in self.syms: self.SetHoldings(sym,w)
-        else:
-            for sym in self.syms: self.SetHoldings(sym,0)
-            self.SetHoldings(self.b,1.0)
-    def OnData(self,d):
-        if not d.Bars.ContainsKey(self.q): return
-        bar=d.Bars[self.q]; hl=bar.High-bar.Low
-        if self.e1 is None: self.e1=hl; self.e2=hl
-        else:
-            self.e1=self.k*hl+(1-self.k)*self.e1
-            self.e2=self.k*self.e1+(1-self.k)*self.e2
-        if self.e2>0: self.mbuf.Add(self.e1/self.e2)
+    def OnData(self,d): pass

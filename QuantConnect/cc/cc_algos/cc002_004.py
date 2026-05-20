@@ -1,41 +1,70 @@
+from datetime import datetime, timedelta
 from AlgorithmImports import *
 
-class NasdaqBreadthRotation(QCAlgorithm):
-    def initialize(self):
-        self.set_start_date(2014, 1, 1)
-        self.set_end_date(2025, 12, 31)
-        self.set_cash(100000)
-        self.tqqq = self.add_equity("TQQQ", Resolution.DAILY).symbol
-        self.universe_settings.resolution = Resolution.DAILY
-        self.add_universe(self.coarse_selection, self.fine_selection)
-        self.symbols = []
-        self.emas = {}
-        
-    def coarse_selection(self, coarse):
-        return [x.symbol for x in sorted(coarse, key=lambda x: x.dollar_volume, reverse=True)[:100]]
+class TQQQExpandingSoxlRotator(QCAlgorithm):
+    """
+    Strategy 35: Expanding SOXL Rotator
 
-    def fine_selection(self, fine):
-        self.symbols = [x.symbol for x in sorted(fine, key=lambda x: x.market_cap, reverse=True)[:10]]
-        for symbol in self.symbols:
-            self.add_equity(symbol, Resolution.DAILY)
-            if symbol not in self.emas:
-                self.emas[symbol] = self.ema(symbol, 50, Resolution.DAILY)
-        return self.symbols
+Core Concept:
+- Focused rotation between TQQQ and SOXL based on volatility expansion.
+- Includes an ADX > 30 'Turbo' filter to identify high-momentum trends.
+- Exits on 2.5 ATR trailing stop.
+    """
+    def Initialize(self):
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100_000)
+        self.SetBenchmark("QQQ")
+        
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.soxl = self.AddEquity("SOXL", Resolution.Daily).Symbol
+        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
+        
+        self.adx = self.ADX(self.qqq, 10, Resolution.Daily)
+        self.sma200 = self.SMA(self.qqq, 200, Resolution.Daily)
+        self.atr_tqqq = self.ATR(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.atr_soxl = self.ATR(self.soxl, 14, MovingAverageType.Wilders, Resolution.Daily)
+        
+        self.mom_tqqq = self.MOMP(self.tqqq, 21, Resolution.Daily)
+        self.mom_soxl = self.MOMP(self.soxl, 21, Resolution.Daily)
+        
+        self.SetWarmUp(200, Resolution.Daily)
+        self.trailing_stop = 0
 
-    def on_data(self, data):
-        if not self.emas: return
+    def OnData(self, data):
+        if self.IsWarmingUp or not self.adx.IsReady or not self.sma200.IsReady:
+            return
+
+        qqq_price = self.Securities[self.qqq].Price
+        s200 = self.sma200.Current.Value
+        adx_val = self.adx.Current.Value
         
-        above_count = 0
-        ready_count = 0
-        for symbol in self.symbols:
-            if symbol in self.emas and self.emas[symbol].is_ready:
-                ready_count += 1
-                if self.securities[symbol].price > self.emas[symbol].current.value:
-                    above_count += 1
+        hist_qqq = self.History(self.qqq, 3, Resolution.Daily)
+        if len(hist_qqq) < 3: return
         
-        if ready_count > 0:
-            breadth = above_count / ready_count
-            if breadth > 0.6:
-                self.set_holdings(self.tqqq, 1.0)
-            elif breadth < 0.4:
-                self.liquidate(self.tqqq)
+        r2 = hist_qqq.iloc[-3].high - hist_qqq.iloc[-3].low
+        r1 = hist_qqq.iloc[-2].high - hist_qqq.iloc[-2].low
+        
+        if not self.Portfolio.Invested:
+            if qqq_price > s200 and r1 > r2 and adx_val > 25:
+                if adx_val > 30 and self.mom_soxl.Current.Value > self.mom_tqqq.Current.Value:
+                    self.SetHoldings(self.soxl, 1.0)
+                    self.trailing_stop = self.Securities[self.soxl].Price - (3.0 * self.atr_soxl.Current.Value)
+                else:
+                    self.SetHoldings(self.tqqq, 1.0)
+                    self.trailing_stop = self.Securities[self.tqqq].Price - (3.0 * self.atr_tqqq.Current.Value)
+        else:
+            if self.Portfolio[self.soxl].Invested:
+                price = self.Securities[self.soxl].Price
+                new_stop = price - (3.0 * self.atr_soxl.Current.Value)
+                if new_stop > self.trailing_stop:
+                    self.trailing_stop = new_stop
+                if price < self.trailing_stop or qqq_price < s200:
+                    self.Liquidate()
+            elif self.Portfolio[self.tqqq].Invested:
+                price = self.Securities[self.tqqq].Price
+                new_stop = price - (3.0 * self.atr_tqqq.Current.Value)
+                if new_stop > self.trailing_stop:
+                    self.trailing_stop = new_stop
+                if price < self.trailing_stop or qqq_price < s200:
+                    self.Liquidate()

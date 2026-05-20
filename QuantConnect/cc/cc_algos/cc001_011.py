@@ -1,47 +1,51 @@
-from datetime import datetime, timedelta
 from AlgorithmImports import *
 
 
-class LargeCapTechStrategy(QCAlgorithm):
+class Algo064(QCAlgorithm):
+    """#64 — 5 most market capital companies + IBS regime mix (IBS<0.2 when QQQ < SMA200)."""
 
-    def initialize(self):
-        start_date = datetime.now() - timedelta(days=12*365)
-        self.SetStartDate(start_date.year, start_date.month, start_date.day)
-        self.set_cash(100_000)
-        self.universe_settings.resolution = Resolution.DAILY
-        self.settings.automatic_indicator_warm_up = True
-        self.settings.seed_initial_prices = True
-        self._selection_data = {}        
-        self._universe = self.add_universe(self._select)
-        self.schedule.on(
-            self.date_rules.week_start("SPY"),
-            self.time_rules.at(10, 5),
-            self._rebalance,
-        )
-    
-    def _select(self, fundamental):
-        filtered = [
-            f for f in fundamental
-            if (f.has_fundamental_data and 
-                f.asset_classification.morningstar_sector_code == MorningstarSectorCode.TECHNOLOGY)
-        ]
-        return [f.symbol for f in sorted(filtered, key=lambda f: f.market_cap,)[-5:]] 
-    
-    def on_securities_changed(self, changes):
-        for security in changes.added_securities:
-            security.rsi = self.rsi(security, 2)
-            security.max = self.max(security, 252)
-        for security in changes.removed_securities:
-            self.liquidate(security)
-    
-    def _rebalance(self):
-        for symbol in self._universe.selected:   
-            security = self.securities[symbol]
-            if not security.max.is_ready:
-                continue                        
-            # Buy signal: price below rsi and not invested
-            if not security.invested and security.rsi.current.value < 25:
-                self.set_holdings(security, 1 / len(self._universe.selected))
-            # Sell signal: price at or above 1yr-high and invested
-            elif security.invested and security.price >= security.max.current.value:
-                self.liquidate(security)
+    def Initialize(self):
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100_000)
+        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
+        self.sma = self.SMA(self.qqq, 200, Resolution.Daily)
+        self.UniverseSettings.Resolution = Resolution.Daily
+        self.AddUniverse(self.Sel)
+        self.SetWarmUp(220, Resolution.Daily)
+        self.top5 = []
+        self.Schedule.On(self.DateRules.EveryDay(),
+                         self.TimeRules.At(10, 30), self.R)
+
+    def Sel(self, fund):
+        elig = [f for f in fund if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
+        elig.sort(key=lambda f: f.MarketCap, reverse=True)
+        self.top5 = [f.Symbol for f in elig[:5]]
+        return self.top5
+
+    def R(self):
+        if self.IsWarmingUp or not self.sma.IsReady or not self.top5: return
+        in_trend = self.Securities[self.qqq].Price > self.sma.Current.Value
+        if in_trend:
+            w = 1.0 / len(self.top5)
+            for sym in list(self.Portfolio.Keys):
+                if self.Portfolio[sym].Invested and sym not in self.top5:
+                    self.Liquidate(sym)
+            for s in self.top5:
+                cur_w = self.Portfolio[s].HoldingsValue / self.Portfolio.TotalPortfolioValue if self.Portfolio.TotalPortfolioValue > 0 else 0
+                if abs(cur_w - w) > 0.05:
+                    self.SetHoldings(s, w)
+        else:
+            targets = []
+            for s in self.top5:
+                bar = self.Securities[s]
+                h, l, c = bar.High, bar.Low, bar.Close
+                if h <= l: continue
+                ibs = (c - l) / (h - l)
+                if ibs < 0.2: targets.append(s)
+            for s in self.Portfolio.Keys:
+                if self.Portfolio[s].Invested and s not in targets:
+                    self.Liquidate(s)
+            if targets:
+                w = 1.0 / len(targets)
+                for s in targets: self.SetHoldings(s, w)

@@ -1,6 +1,6 @@
 from AlgorithmImports import *
 
-class D_Force_Skew_T3_24(QCAlgorithm):
+class S_M20_K14_T2_9(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
         self.UniverseSettings.Resolution=Resolution.Daily
@@ -8,27 +8,25 @@ class D_Force_Skew_T3_24(QCAlgorithm):
         self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
         self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
         self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        
-        self.SetWarmUp(280, Resolution.Daily); self.symbols=[]; self.state=None
+        self.sto=self.STO(self.qqq, 14, 3, 3, Resolution.Daily)
+        self.SetWarmUp(220, Resolution.Daily); self.symbols=[]; self.state=None
         self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
+
     def CoarseSelection(self, coarse):
         return [x.Symbol for x in sorted(coarse, key=lambda x: x.DollarVolume, reverse=True)[:100]]
     def FineSelection(self, fine):
-        self.symbols=[x.Symbol for x in sorted(fine, key=lambda x: x.MarketCap, reverse=True)[:3]]
+        self.symbols=[x.Symbol for x in sorted(fine, key=lambda x: x.MarketCap, reverse=True)[:2]]
         return self.symbols
+
     def Rebalance(self):
-        if self.IsWarmingUp or not self.symbols: return
-        h=self.History(self.qqq, 252, Resolution.Daily)
-        if h.empty or len(h)<252: return
-        c=[float(x) for x in h["close"].values]
-        v=[float(x) for x in h["volume"].values]
-        med=sorted(c[-200:])[100]
+        if self.IsWarmingUp or not self.sto.IsReady or not self.symbols: return
+        h=self.History(self.qqq, 200, Resolution.Daily)
+        if h.empty or len(h)<200: return
+        c=[float(x) for x in h["close"].values]; med=sorted(c)[100]
         in_trend=self.Securities[self.qqq].Price>med
-        try:
-            f1 = sum((c[i]-c[i-1])*v[i] for i in range(-13,0)) > 0
-            f2 = (lambda r=[c[i]/c[i-1]-1.0 for i in range(-60,0)]: ((lambda m=sum(r)/60, sd=(sum((x-sum(r)/60)**2 for x in r)/60)**0.5: (sum((x-sum(r)/60)**3 for x in r)/60/(sd**3) > 0 if sd>0 else False))()))()
-        except Exception: return
-        n = int(in_trend)+int(f1)+int(f2)
+        m = c[-1] > c[-20-1]
+        s_b = self.sto.StochK.Current.Value > 50
+        n = int(in_trend)+int(m)+int(s_b)
         if n==3: plan=(1.0,0.0,0.0)
         elif n==2: plan=(0.5,0.5,0.0)
         elif n==1: plan=(0.0,1.0,0.0)
@@ -38,7 +36,8 @@ class D_Force_Skew_T3_24(QCAlgorithm):
             for sym in list(self.Securities.Keys):
                 if sym in (self.qqq, self.tqqq, self.bil) or sym in self.symbols: continue
                 if self.Portfolio[sym].Invested: self.Liquidate(sym)
-            self.SetHoldings(self.tqqq,wt); per=wm/len(self.symbols) if wm>0 else 0
+            self.SetHoldings(self.tqqq,wt)
+            per = wm/len(self.symbols) if wm>0 else 0
             for s in self.symbols: self.SetHoldings(s, per)
             self.SetHoldings(self.bil,wc); self.state=n
 

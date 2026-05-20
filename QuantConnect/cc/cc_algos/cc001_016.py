@@ -1,82 +1,39 @@
-from datetime import datetime, timedelta
 from AlgorithmImports import *
 
-class RotationStrategy(QCAlgorithm):
-
+class TQQQPyramid(QCAlgorithm):
+    """Pyramid: each consecutive day with QQQ > D200 midline AND ROC(20)>0 adds 10% TQQQ exposure, up to 100%.
+    On bear signal, immediate 0%.
+    """
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
-        self.SetCash(100_000)
-
-        self.Schedule.On(
-            self.DateRules.EveryDay("QQQ"),
-            self.TimeRules.AfterMarketOpen("QQQ", 35),
-            self.Rebalance,
-        )
-
-        tickers = ["SPY", "QQQ", "TQQQ", "SPXL", "UVXY", "TECL", "UPRO", "SQQQ", "TLT"]
-        self.syms = {t: self.AddEquity(t, Resolution.Daily).Symbol for t in tickers}
-
-        self.rsi10 = {
-            t: self.RSI(self.syms[t], 10, MovingAverageType.Wilders, Resolution.Daily)
-            for t in tickers
-        }
-        self.sma_spy200 = self.SMA(self.syms["SPY"],  200, Resolution.Daily)
-        self.sma_tqqq20 = self.SMA(self.syms["TQQQ"], 20,  Resolution.Daily)
-
-        self.SetWarmUp(200, Resolution.Daily)
-
-    def _pick(self) -> str:
-        rsi10 = self.rsi10
-        spy_price  = self.Securities[self.syms["SPY"]].Price
-        tqqq_price = self.Securities[self.syms["TQQQ"]].Price
-
-        bull = (
-            self.sma_spy200.IsReady
-            and spy_price > self.sma_spy200.Current.Value
-        )
-
-        if bull:
-            # ── BULL: SPY above 200-day MA ─────────────────────────────────
-            # if rsi10["QQQ"].Current.Value < 20 or rsi10["SPY"].Current.Value < 20:
-            #     # "UVXY"
-            #     # "TLT"
-            #     return "SQQQ"
-            
-            # Ride long term trend
-            return "TQQQ"
-
-        else:
-            # ── BEAR: SPY at or below 200-day MA ──────────────────────────
-            
-            # Crash buy during long term bear market(mean reversion)
-            if rsi10["QQQ"].Current.Value < 30 or rsi10["SPY"].Current.Value < 30:
-                return "TQQQ"
-
-            tqqq_below_20sma = (
-                self.sma_tqqq20.IsReady
-                and tqqq_price < self.sma_tqqq20.Current.Value)
-
-            # Ride the trend if both long and short team is slowing dropping
-            if tqqq_below_20sma:
-                # max(["SQQQ", "TLT"], key=lambda t: rsi10[t].Current.Value)
-                # max(["TECS", "BSV"], key=lambda t: rsi10[t].Current.Value)
-                return "SQQQ"
-
-            return "TQQQ"
-
-            # # Mean reversion if not a sharp fall
-            # if rsi10["TQQQ"].Current.Value > 30:
-            #     return "TQQQ"
-            # return "SQQQ"
+        self.SetCash(100000)
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
+        self.roc   = self.ROC(self.qqq, 20, Resolution.Daily)
+        self.hi200 = self.MAX(self.qqq, 200, Resolution.Daily)
+        self.lo200 = self.MIN(self.qqq, 200, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
+                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
+                         self.Rebalance)
+        self.SetWarmUp(220, Resolution.Daily)
+        self.exposure = 0.0  # current TQQQ exposure (0..1)
 
     def Rebalance(self):
-        if self.IsWarmingUp or not self.sma_spy200.IsReady or not all(i.IsReady for i in self.rsi10.values()):
+        if self.IsWarmingUp or not (self.roc.IsReady and self.hi200.IsReady and self.lo200.IsReady):
             return
+        mid = (self.hi200.Current.Value + self.lo200.Current.Value) / 2.0
+        bull = self.roc.Current.Value > 0 and self.Securities[self.qqq].Price > mid
 
-        pick = self._pick()
-        self.Debug(f"[Rebalance] → {pick}")
-        self.SetHoldings(self.syms[pick], 1.0, liquidateExistingHoldings=True)
+        if bull:
+            new_exp = min(1.0, self.exposure + 0.1)
+        else:
+            new_exp = 0.0
 
-    def OnData(self, data):
-        pass
+        if abs(new_exp - self.exposure) > 0.01:
+            self.SetHoldings(self.tqqq, new_exp)
+            self.SetHoldings(self.bil, 1.0 - new_exp)
+            self.exposure = new_exp
+
+    def OnData(self, data): pass

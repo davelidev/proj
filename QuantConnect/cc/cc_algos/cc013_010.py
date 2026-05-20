@@ -1,6 +1,6 @@
 from AlgorithmImports import *
 
-class D3_M20_WVF_VOLCONT_19(QCAlgorithm):
+class VR_Skew_Top3(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
         self.UniverseSettings.Resolution=Resolution.Daily
@@ -8,8 +8,7 @@ class D3_M20_WVF_VOLCONT_19(QCAlgorithm):
         self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
         self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
         self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self.hi22=self.MAX(self.qqq, 22, Resolution.Daily)
-        self.SetWarmUp(280, Resolution.Daily); self.symbols=[]; self.state=None
+        self.SetWarmUp(220, Resolution.Daily); self.symbols=[]; self.state=None
         self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
     def CoarseSelection(self, coarse):
         return [x.Symbol for x in sorted(coarse, key=lambda x: x.DollarVolume, reverse=True)[:100]]
@@ -18,20 +17,24 @@ class D3_M20_WVF_VOLCONT_19(QCAlgorithm):
         return self.symbols
     def Rebalance(self):
         if self.IsWarmingUp or not self.symbols: return
-        h=self.History(self.qqq, 252, Resolution.Daily)
-        if h.empty or len(h)<252: return
-        c=[float(x) for x in h["close"].values]
-        v=[float(x) for x in h["volume"].values]
-        med=sorted(c[-200:])[100]
+        h=self.History(self.qqq, 200, Resolution.Daily)
+        if h.empty or len(h)<200: return
+        c=[float(x) for x in h["close"].values]; med=sorted(c)[100]
         in_trend=self.Securities[self.qqq].Price>med
-        try:
-            f1 = c[-1]>c[-21]
-            f2 = (self.hi22.Current.Value - self.Securities[self.qqq].Price)/self.hi22.Current.Value*100 < 5 if self.hi22.IsReady else False
-            f3 = (lambda r=[c[i]/c[i-1]-1.0 for i in range(1,len(c))]: ((sum((x-sum(r[-10:])/10)**2 for x in r[-10:])/10)**0.5 < (sum((x-sum(r[-60:])/60)**2 for x in r[-60:])/60)**0.5))()
-        except Exception: return
-        n = int(in_trend)+int(f1)+int(f2)+int(f3)
-        plan={4:(1.0,0.0,0.0),3:(0.7,0.3,0.0),2:(0.3,0.7,0.0),1:(0.0,0.5,0.5),0:(0.0,0.0,1.0)}
-        wt,wm,wc=plan[n]
+        r=[c[i]/c[i-1]-1.0 for i in range(1,len(c))]
+        mn=sum(r)/len(r); var1=sum((x-mn)**2 for x in r)/len(r)
+        r5=[c[i]/c[i-5]-1.0 for i in range(5,len(c))]
+        m5=sum(r5)/len(r5); var5=sum((x-m5)**2 for x in r5)/len(r5)
+        vr_b = var1>0 and var5/(5*var1) > 1.0
+        # skewness over last 60 returns
+        r60=r[-60:]; mn60=sum(r60)/len(r60); sd60=(sum((x-mn60)**2 for x in r60)/len(r60))**0.5
+        sk_b = sd60>0 and sum((x-mn60)**3 for x in r60)/len(r60)/(sd60**3) > 0
+        n = int(in_trend)+int(vr_b)+int(sk_b)
+        if n==3: plan=(1.0,0.0,0.0)
+        elif n==2: plan=(0.5,0.5,0.0)
+        elif n==1: plan=(0.0,1.0,0.0)
+        else: plan=(0.0,0.5,0.5)
+        wt,wm,wc=plan
         if n!=self.state:
             for sym in list(self.Securities.Keys):
                 if sym in (self.qqq, self.tqqq, self.bil) or sym in self.symbols: continue

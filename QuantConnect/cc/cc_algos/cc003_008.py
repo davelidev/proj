@@ -1,36 +1,34 @@
 from AlgorithmImports import *
 
-class ParabolicSARTrend(QCAlgorithm):
-    def Initialize(self):
-        self.SetStartDate(2014, 1, 1)
-        self.SetEndDate(2025, 12, 31)
-        self.SetCash(100000)
+class MegaCapDipBuy(QCAlgorithm):
+    def initialize(self):
+        self.set_start_date(2014, 1, 1)
+        self.set_end_date(2025, 12, 31)
+        self.set_cash(100000)
+        self.universe_settings.resolution = Resolution.DAILY
+        self.add_universe(self.coarse_selection, self.fine_selection)
+        self.symbols = []
+        
+    def coarse_selection(self, coarse):
+        return [x.symbol for x in sorted(coarse, key=lambda x: x.dollar_volume, reverse=True)[:100]]
 
-        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
+    def fine_selection(self, fine):
+        self.symbols = [x.symbol for x in sorted(fine, key=lambda x: x.market_cap, reverse=True)[:5]]
+        return self.symbols
 
-        self.psar = self.PSAR(self.qqq, 0.02, 0.02, 0.2, Resolution.Daily)
-
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
-                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
-                         self.Rebalance)
-        self.SetWarmUp(40, Resolution.Daily)
-
-    def Rebalance(self):
-        if self.IsWarmingUp or not self.psar.IsReady:
-            return
-        price = self.Securities[self.qqq].Price
-        sar   = self.psar.Current.Value
-
-        if price > sar:
-            if not self.Portfolio[self.tqqq].Invested:
-                self.Liquidate(self.bil)
-                self.SetHoldings(self.tqqq, 1.0)
-        else:
-            if not self.Portfolio[self.bil].Invested:
-                self.Liquidate(self.tqqq)
-                self.SetHoldings(self.bil, 1.0)
-
-    def OnData(self, data):
-        pass
+    def on_data(self, data):
+        for symbol in self.symbols:
+            if not data.contains_key(symbol) or data[symbol] is None: continue
+            
+            hist = self.history(symbol, 20, Resolution.DAILY)
+            if len(hist) < 20: continue
+            
+            high_20 = hist['high'].max()
+            price = data[symbol].price
+            
+            if not self.portfolio[symbol].invested:
+                if price < high_20 * 0.95:
+                    self.set_holdings(symbol, 0.2)
+            else:
+                if price >= high_20:
+                    self.liquidate(symbol)
