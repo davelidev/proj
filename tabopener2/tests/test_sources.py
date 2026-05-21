@@ -13,7 +13,9 @@ def test_format_model_display_claude():
 
 
 def test_format_model_display_passthrough():
-    assert sources.format_model_display("gemini-2.5-pro") == "gemini-2.5-pro"
+    assert sources.format_model_display("gemini-3.5-flash") == "gemini-3.5-flash"
+    assert sources.format_model_display("gemini-3.1-pro-preview") == "gemini-3.1-pro-preview"
+    assert sources.format_model_display("gemini-3.1-flash-lite-preview") == "gemini-3.1-flash-lite-preview"
     assert sources.format_model_display("") == ""
     assert sources.format_model_display(None) == ""
 

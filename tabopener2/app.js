@@ -142,7 +142,7 @@ window.spawnModel = function() {
   var cmd;
   if (model.startsWith('deepseek')) cmd = 'deepseek --model ' + model;
   else if (model.startsWith('gemini') || model === 'auto' || group === 'Gemini')
-    cmd = 'gemini' + (model !== 'auto' ? ' --model ' + model : '');
+    cmd = 'agy' + (group === 'Gemini' ? ' --prompt-interactive " "' : '');
   else cmd = 'claude --dangerously-skip-permissions --model ' + model;
   var cwd = (document.getElementById('spawnCwd').value || '').trim();
   _spawnAfterTty = _lastActiveFrontTty;

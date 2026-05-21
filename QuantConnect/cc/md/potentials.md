@@ -1,6 +1,4 @@
-# Archived Strategy Backtests
-
-*Strategies removed from active tracking if: CAGR < 28%, MaxDD > 58%, or Overfit ≥ 8/10.*
+# potentials
 
 | #                    | Pass | Category        | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
 | :------------------- | :--- | :-------------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
@@ -42,9 +40,10 @@
 | [36](#strategy-36)   | ✅    | Breadth         | 33%  | -53%  | 0.803  | 209   | 246   | 0.85     | 2.96         | 2/10   |
 | [37](#strategy-37)   | ✅    | Price Position  | 35%  | -54%  | 0.785  | 70    | 83    | 0.84     | 4.80         | 2/10   |
 | [38](#strategy-38)   | ✅    | Breadth         | 33%  | -53%  | 0.803  | 209   | 246   | 0.85     | 2.96         | 2/10   |
-| [39](#strategy-39)   | ❌    | Commodity Channel Index | 19%  | -38%  | 0.681  | 411   | 222   | 1.85     | 1.28         | 3/10   |
 | [40](#strategy-40)   | ✅    | TII             | 30%  | -44%  | 0.711  | 545   | 446   | 1.22     | 1.44         | 2/10   |
 | [41](#strategy-41)   | ✅    | Psychological Line | 33%  | -53%  | 0.803  | 209   | 246   | 0.85     | 2.96         | 2/10   |
+| [42](#strategy-42)   | ✅    | Breakout        | 43%  | -37%  | 0.986  | 192   | 341   | 0.56     | 3.45         | 3/10   |
+| [43](#strategy-43)   | ❌    | Dip Buy         | 28%  | -40%  | 0.856  | 32    | 26    | 1.23     | 3.20         | 2/10   |
 
 
 ---
@@ -72,7 +71,7 @@
 
 > [!code]- Click to view: cc001_001.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_001.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_001.py"
 > ```
 
 
@@ -102,7 +101,7 @@
 
 > [!code]- Click to view: cc001_002.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_002.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_002.py"
 > ```
 
 
@@ -132,7 +131,7 @@
 
 > [!code]- Click to view: cc001_003.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_003.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_003.py"
 > ```
 
 
@@ -162,7 +161,7 @@
 
 > [!code]- Click to view: cc001_004.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_004.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_004.py"
 > ```
 
 
@@ -191,7 +190,7 @@
 
 > [!code]- Click to view: cc001_005.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_005.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_005.py"
 > ```
 
 
@@ -220,7 +219,7 @@
 
 > [!code]- Click to view: cc001_006.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_006.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_006.py"
 > ```
 
 
@@ -249,7 +248,7 @@
 
 > [!code]- Click to view: cc001_007.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_007.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_007.py"
 > ```
 
 
@@ -279,7 +278,7 @@
 
 > [!code]- Click to view: cc001_008.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_008.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_008.py"
 > ```
 
 
@@ -307,7 +306,7 @@
 
 > [!code]- Click to view: cc001_009.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_009.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_009.py"
 > ```
 
 
@@ -339,7 +338,7 @@
 
 > [!code]- Click to view: cc001_010.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_010.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_010.py"
 > ```
 
 
@@ -370,7 +369,7 @@
 
 > [!code]- Click to view: cc001_011.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_011.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_011.py"
 > ```
 
 
@@ -400,7 +399,7 @@
 
 > [!code]- Click to view: cc001_012.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_012.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_012.py"
 > ```
 
 
@@ -429,7 +428,7 @@
 
 > [!code]- Click to view: cc001_013.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_013.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_013.py"
 > ```
 
 
@@ -458,7 +457,7 @@
 
 > [!code]- Click to view: cc001_014.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_014.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_014.py"
 > ```
 
 
@@ -488,7 +487,7 @@
 
 > [!code]- Click to view: cc001_015.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_015.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_015.py"
 > ```
 
 
@@ -517,7 +516,7 @@
 
 > [!code]- Click to view: cc001_016.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_016.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_016.py"
 > ```
 
 
@@ -546,7 +545,7 @@
 
 > [!code]- Click to view: cc001_017.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_017.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_017.py"
 > ```
 
 
@@ -576,7 +575,7 @@
 
 > [!code]- Click to view: cc001_018.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_018.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_018.py"
 > ```
 
 
@@ -605,7 +604,7 @@
 
 > [!code]- Click to view: cc001_019.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_019.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_019.py"
 > ```
 
 
@@ -635,7 +634,7 @@
 
 > [!code]- Click to view: cc001_020.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_020.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_020.py"
 > ```
 
 
@@ -664,7 +663,7 @@
 
 > [!code]- Click to view: cc001_021.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_021.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_021.py"
 > ```
 
 
@@ -692,7 +691,7 @@
 
 > [!code]- Click to view: cc001_022.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_022.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_022.py"
 > ```
 
 
@@ -722,7 +721,7 @@
 
 > [!code]- Click to view: cc001_023.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_023.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_023.py"
 > ```
 
 
@@ -752,7 +751,7 @@
 
 > [!code]- Click to view: cc001_024.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_024.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_024.py"
 > ```
 
 
@@ -782,7 +781,7 @@
 
 > [!code]- Click to view: cc001_025.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_025.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_025.py"
 > ```
 
 
@@ -812,7 +811,7 @@
 
 > [!code]- Click to view: cc001_026.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_026.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_026.py"
 > ```
 
 
@@ -842,7 +841,7 @@
 
 > [!code]- Click to view: cc001_027.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_027.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_027.py"
 > ```
 
 
@@ -874,7 +873,7 @@
 
 > [!code]- Click to view: cc001_028.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_028.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_028.py"
 > ```
 
 
@@ -902,7 +901,7 @@
 
 > [!code]- Click to view: cc001_029.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_029.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_029.py"
 > ```
 
 
@@ -932,7 +931,7 @@
 
 > [!code]- Click to view: cc001_030.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_030.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_030.py"
 > ```
 
 
@@ -963,7 +962,7 @@
 
 > [!code]- Click to view: cc001_031.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_031.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_031.py"
 > ```
 
 
@@ -992,7 +991,7 @@
 
 > [!code]- Click to view: cc001_032.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_032.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_032.py"
 > ```
 
 
@@ -1020,7 +1019,7 @@
 
 > [!code]- Click to view: cc001_033.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_033.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_033.py"
 > ```
 
 
@@ -1048,7 +1047,7 @@
 
 > [!code]- Click to view: cc001_034.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_034.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_034.py"
 > ```
 
 
@@ -1076,7 +1075,7 @@
 
 > [!code]- Click to view: cc001_035.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_035.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_035.py"
 > ```
 
 
@@ -1104,7 +1103,7 @@
 
 > [!code]- Click to view: cc001_036.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_036.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_036.py"
 > ```
 
 
@@ -1132,7 +1131,7 @@
 
 > [!code]- Click to view: cc001_037.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_037.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_037.py"
 > ```
 
 
@@ -1160,36 +1159,7 @@
 
 > [!code]- Click to view: cc001_038.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_038.py"
-> ```
-
-
----
-
-## Strategy-39
-### CCI(20) >0 Bull (cc001_039.py)
-
-**Description:** CCI(20) combined with a 50-day EMA price filter. Typical price must deviate positively from its mean AND the close must be above its trend line for a stock to qualify.
-
-*Overfit 3/10 — CCI(20) + EMA(50) — two indicators with AND logic*
-
-- **Entry:** CCI(20) > 0 AND price > EMA(50) per stock: equal-weight among bullish
-- **Exit:** Either condition fails: remove stock
-- **Symbols:** Signal+Execution: AAPL, MSFT, AMZN, NVDA, GOOGL / BIL
-- **Universe:** Fixed basket of 5 large-cap tech stocks
-- **Rebalance:** Monthly, first trading day, 30 min after open
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 19% | -38% | 0.681 | 411 | 222 | 1.85 | 1.28 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 22% | 🟢 4% | 🔴 -1% | 🟢 32% | 🟢 4% | 🟢 28% | 🟢 48% | 🟢 36% | 🔴 -35% | 🟢 23% | 🟢 62% | 🟢 33% |
-
-> [!code]- Click to view: cc001_039.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_039.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_038.py"
 > ```
 
 
@@ -1217,7 +1187,7 @@
 
 > [!code]- Click to view: cc001_040.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_040.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_040.py"
 > ```
 
 
@@ -1245,7 +1215,64 @@
 
 > [!code]- Click to view: cc001_041.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc001_041.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_041.py"
+> ```
+
+
+---
+
+## Strategy-42
+### TQQQ Intrabar Vol Breakout (cc001_042.py)
+
+**Description:** Uses a 240-bar average intrabar volatility (|open−close|/open) on TQQQ minute bars to identify low-vol regimes, entering 100% when vol < 0.1 and price is within 2% of the 240-minute high. Exits on vol spike > 0.15 or a 3% hard stop from entry.
+
+*Overfit 3/10 — Three thresholds: vol entry 0.1, vol exit 0.15, proximity to high 98%, 3% stop. The vol entry/exit pair is calibrated to a specific breakout pattern and is somewhat arbitrary; the proximity filter is reasonable.*
+
+- **Entry:** Avg intrabar vol (240-bar) < 0.1 AND price ≥ 240-min high × 0.98: 100% TQQQ
+- **Exit vol:** Avg intrabar vol > 0.15: liquidate
+- **Stop loss:** Price ≤ entry × 0.97: liquidate
+- **Resolution:** Minute bars; active only after 10:00 AM ET
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 43% | -37% | 0.986 | 192 | 341 | 0.56 | 3.45 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 43% | 🟢 5% | 🟢 22% | 🟢 101% | 🟢 23% | 🟢 105% | 🟢 151% | 🟢 24% | 🔴 -33% | 🟢 107% | 🟢 52% | 🟢 18% |
+
+> [!code]- Click to view: cc001_042.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_042.py"
+> ```
+
+
+---
+
+## Strategy-43
+### Tech Dip Buy (cc001_043.py)
+
+**Description:** Buys the top 5 US technology stocks by market cap when they pull back hard during an uptrend, then holds until they recover to new highs or the loss gets too large. Universe rotates automatically as market caps shift. Equal-weight across held positions up to 20% per slot.
+
+*Overfit 2/10 — Textbook RSI(2)/SMA(50) entry with a clean 15% hard stop; dynamic universe removes hindsight symbol selection. Only mild concern is the small trade count (~80 trades over 11 years).*
+
+- **Universe:** Top 5 US tech stocks by market cap (Morningstar Technology sector)
+- **Entry:** RSI(2) < 30 AND price > SMA(50): up to 20% per name
+- **Stop loss:** Price ≤ avg cost × 0.85: liquidate
+- **Take profit:** Price ≥ 252-day high: liquidate
+- **Rebalance:** Weekly (Mondays), 30 min after market open
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 28% | -40% | 0.856 | 32 | 26 | 1.23 | 3.20 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 19% | ⚪ 0% | 🟢 7% | 🟢 37% | 🟢 6% | 🟢 40% | 🟢 39% | 🟢 52% | 🔴 -34% | 🟢 98% | 🟢 100% | 🟢 32% |
+
+> [!code]- Click to view: cc001_043.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_043.py"
 > ```
 
 

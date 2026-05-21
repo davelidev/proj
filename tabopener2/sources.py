@@ -239,7 +239,7 @@ def _parse_gemini_session(pid: str, args: str) -> dict:
                     model = session_model
 
     return {
-        "model": model or "gemini",
+        "model": model or "agy",
         "ctx_pct": 0,
         "total_tokens": total_tokens,
         "cache_read": 0,
@@ -273,8 +273,7 @@ def get_sessions() -> dict:
             full_tty = "/dev/" + tty
             if "claude" in args and "--dangerously-skip-permissions" in args:
                 sessions[full_tty] = _parse_claude_session(pid, args, statusline_cache)
-            elif ("gemini" in args
-                  and "geminicodeassist" not in args.lower()
+            elif ("agy" in args
                   and "Code Helper" not in args):
                 sessions[full_tty] = _parse_gemini_session(pid, args)
     except Exception:

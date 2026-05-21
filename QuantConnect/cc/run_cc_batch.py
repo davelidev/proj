@@ -11,7 +11,31 @@ import os, sys, time, json
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'api'))
 from batch_runner import run_backtest
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+SCRIPT_DIR   = os.path.dirname(os.path.abspath(__file__))
+CONFIG_PATH  = os.path.join(SCRIPT_DIR, 'json', 'config.json')
+
+
+def _get_folder(batch, cfg):
+    files = cfg.get('files', [])
+    try:
+        n = int(batch[2:])
+        if 0 <= n < len(files):
+            return files[n]
+    except (ValueError, TypeError):
+        pass
+    return batch
+
+
+def load_config(batch):
+    if not os.path.exists(CONFIG_PATH):
+        return {}
+    with open(CONFIG_PATH) as f:
+        cfg = json.load(f)
+    folder = _get_folder(batch, cfg)
+    resolved = dict(cfg.get('global', {}))
+    resolved.update(cfg.get(folder, {}))
+    resolved['_folder'] = folder
+    return resolved
 
 
 def load_catalog(batch):
@@ -85,7 +109,8 @@ def main():
         nums = parse_nums(sys.argv[2:])
         catalog = [e for e in catalog if int(e['file'].split('_')[1].replace('.py', '')) in nums]
 
-    algos_dir = os.path.join(SCRIPT_DIR, 'cc_algos')
+    batch_cfg = load_config(batch)
+    algos_dir = os.path.join(SCRIPT_DIR, 'cc_algos', batch_cfg.get('_folder', batch))
     outpath   = os.path.join(SCRIPT_DIR, 'backtests', f'backtest_{batch}.jsonl')
     results   = load_results(outpath)
 

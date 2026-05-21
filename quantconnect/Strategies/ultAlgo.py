@@ -30,8 +30,6 @@ class UltimateAlgo(QCAlgorithm):
         self.last_prices = {}
 
         self.sub_algos = [
-            # VolatilityBreakoutSub(self, "VolBreakout"),  # disabled: minute-resolution signals get clipped by daily-only ExecuteAggregation; net-negative in ensemble (28% vs 30% baseline)
-            # TechDipBuySub(self,           "TechDip"),
             LeveragedRebalanceSub(self,   "LevRebal"),
             RSIDipChampionSub(self,       "RSIDip"),
             TQQQDynamicSub(self,           "TQQQDyn"),

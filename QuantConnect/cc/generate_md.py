@@ -17,9 +17,37 @@ sys.path.insert(0, SCRIPT_DIR)
 sys.path.insert(0, os.path.join(PROJ_ROOT, "api"))
 
 
+CONFIG_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "json", "config.json")
+
+
 def load_json(path):
     with open(path) as f:
         return json.load(f)
+
+
+def _get_folder(batch_name, cfg):
+    """Map batch name (e.g. 'cc000') to its folder via config files[]."""
+    files = cfg.get("files", [])
+    try:
+        n = int(batch_name[2:])
+        if 0 <= n < len(files):
+            return files[n]
+    except (ValueError, TypeError):
+        pass
+    return batch_name
+
+
+def load_batch_config(batch_name):
+    """Merge global + per-folder config. Returns resolved dict with '_folder' key."""
+    if not os.path.exists(CONFIG_PATH):
+        return {}
+    with open(CONFIG_PATH) as f:
+        cfg = json.load(f)
+    folder = _get_folder(batch_name, cfg)
+    resolved = dict(cfg.get("global", {}))
+    resolved.update(cfg.get(folder, {}))
+    resolved["_folder"] = folder
+    return resolved
 
 
 def load_jsonl(path):
@@ -80,7 +108,7 @@ def resolve_paths(cc_jsonl_path):
     return backtest_path, md_path
 
 
-def run_missing_backtests(strategies, backtest_path, md_path=None, show_all=False):
+def run_missing_backtests(strategies, backtest_path, md_path=None, show_all=False, batch_cfg=None):
     """Run backtests for strategies that lack results. Saves incrementally.
 
     If md_path is provided, regenerate the markdown after each completed
@@ -95,7 +123,7 @@ def run_missing_backtests(strategies, backtest_path, md_path=None, show_all=Fals
     def _regen_md():
         if md_path:
             try:
-                generate_markdown(strategies, results, md_path, show_all)
+                generate_markdown(strategies, results, md_path, show_all, batch_cfg)
             except Exception as e:
                 print(f"  [warn] live md regen failed: {e}")
 
@@ -201,18 +229,21 @@ def _is_displayable(meta, r, show_all=False):
     return False
 
 
-def generate_markdown(strategies, backtest_results, output_path, show_all=False):
+def generate_markdown(strategies, backtest_results, output_path, show_all=False, batch_cfg=None):
     """Generate cc<N>.md from strategy metadata + backtest results."""
+    batch_cfg = batch_cfg or {}
     all_ordered = sorted(strategies.items(), key=lambda x: int(x[0]))
     ordered = [(sid, meta) for sid, meta in all_ordered
                if _is_displayable(meta, backtest_results.get(sid, {}), show_all)]
     lines = []
 
     # --- Header ---
-    lines.append("# Archived Strategy Backtests")
+    title = batch_cfg.get("name", batch_cfg.get("_folder", "Archived Strategy Backtests"))
+    lines.append(f"# {title}")
     lines.append("")
-    lines.append("*Strategies removed from active tracking if: CAGR < 28%, MaxDD > 58%, or Overfit ≥ 8/10.*")
-    lines.append("")
+    if not show_all:
+        lines.append("*Strategies removed from active tracking if: CAGR < 28%, MaxDD > 58%, or Overfit ≥ 8/10.*")
+        lines.append("")
 
     # --- Summary Table ---
     H = "| #                    | Pass | Category        | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |"
@@ -379,14 +410,23 @@ def main():
         print("Error: no strategies found in JSONL")
         sys.exit(1)
 
-    show_all = not metadata.get("filter", True)  # filter=true by default, false → show_all
+    # Resolve config: config.json (global + per-batch) takes precedence over legacy
+    # per-file 'filter' field. batch name = stem of the jsonl file (e.g. 'cc000').
+    batch_name = os.path.splitext(os.path.basename(cc_jsonl_path))[0]
+    batch_cfg  = load_batch_config(batch_name)
+    folder     = batch_cfg.get("_folder", batch_name)
+    if "prune" in batch_cfg:
+        show_all = not batch_cfg["prune"]
+    else:
+        show_all = not metadata.get("filter", True)
+    md_path = os.path.join(SCRIPT_DIR, "md", f"{folder}.md")
 
     if args.skip_bt:
         backtest_results = load_backtest(backtest_path)
     else:
-        backtest_results = run_missing_backtests(strategies, backtest_path, md_path=md_path, show_all=show_all)
+        backtest_results = run_missing_backtests(strategies, backtest_path, md_path=md_path, show_all=show_all, batch_cfg=batch_cfg)
 
-    generate_markdown(strategies, backtest_results, md_path, show_all)
+    generate_markdown(strategies, backtest_results, md_path, show_all, batch_cfg)
 
 
 if __name__ == "__main__":

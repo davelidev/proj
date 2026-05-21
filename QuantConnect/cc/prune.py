@@ -11,7 +11,30 @@ Usage:
 
 import argparse, json, os, sys, glob
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
+CONFIG_PATH = os.path.join(SCRIPT_DIR, "json", "config.json")
+
+
+def _get_folder(cc, cfg):
+    files = cfg.get("files", [])
+    try:
+        n = int(cc[2:])
+        if 0 <= n < len(files):
+            return files[n]
+    except (ValueError, TypeError):
+        pass
+    return cc
+
+
+def is_prunable(cc):
+    """Return True if this batch should be pruned, per config.json."""
+    if not os.path.exists(CONFIG_PATH):
+        return True
+    with open(CONFIG_PATH) as f:
+        cfg = json.load(f)
+    global_prune = cfg.get("global", {}).get("prune", True)
+    folder       = _get_folder(cc, cfg)
+    return cfg.get(folder, {}).get("prune", global_prune)
 
 
 def load_backtest(cc):
@@ -83,7 +106,13 @@ def save_catalog(metadata, strategies, path):
 
 
 def find_algo_files(cc):
-    return sorted(glob.glob(os.path.join(SCRIPT_DIR, "cc_algos", f"{cc}_*.py")))
+    if os.path.exists(CONFIG_PATH):
+        with open(CONFIG_PATH) as f:
+            cfg = json.load(f)
+        folder = _get_folder(cc, cfg)
+    else:
+        folder = cc
+    return sorted(glob.glob(os.path.join(SCRIPT_DIR, "cc_algos", folder, f"{cc}_*.py")))
 
 
 def prune(cc, dry_run=False):
@@ -164,6 +193,9 @@ def main():
     total = {"bt_remove": 0, "catalog_remove": 0, "algo_delete": 0}
 
     for cc in ccs:
+        if not is_prunable(cc):
+            print(f"{cc}: skipped (prune: false in config.json)")
+            continue
         result = prune(cc, dry_run=args.dry_run)
         if "error" in result:
             print(f"{cc}: {result['error']}")

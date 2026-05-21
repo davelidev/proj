@@ -123,7 +123,7 @@ def enrich_gemini_tabs(tabs: list) -> None:
     """Mutate tabs in place: fill model + ctx_pct for Gemini tabs via AppleScript."""
     def _enrich(tab):
         model_lower = (tab.get("model") or "").lower()
-        if "gemini" in model_lower or model_lower == "auto":
+        if "gemini" in model_lower or model_lower == "auto" or "agy" in model_lower:
             term_model, quota = _parse_gemini_statusline(tab["winId"], tab["tabIndex"])
             if quota is not None:
                 tab["ctx_pct"] = quota

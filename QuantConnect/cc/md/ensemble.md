@@ -1,78 +1,17 @@
-# Archived Strategy Backtests
-
-*Strategies removed from active tracking if: CAGR < 28%, MaxDD > 58%, or Overfit ≥ 8/10.*
+# ensemble
 
 | #                    | Pass | Category        | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
 | :------------------- | :--- | :-------------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
-| [1](#strategy-1)     | ✅    | Breakout        | 43%  | -37%  | 0.986  | 192   | 341   | 0.56     | 3.45         | 3/10   |
-| [2](#strategy-2)     | ❌    | Dip Buy         | 27%  | -38%  | 0.832  | 37    | 22    | 1.68     | 2.88         | 2/10   |
 | [3](#strategy-3)     | ✅    | Buy & Hold      | 28%  | -51%  | 0.727  | 12    | 0     | —        | —            | 1/10   |
-| [4](#strategy-4)     | ✅    | Mean Reversion  | 40%  | -32%  | 0.954  | 1224  | 525   | 2.33     | 0.88         | 2/10   |
+| [4](#strategy-4)     | ✅    | Mean Reversion  | 40%  | -32%  | 0.952  | 1276  | 687   | 1.86     | 1.08         | 2/10   |
 | [5](#strategy-5)     | ✅    | Trend Following | 31%  | -49%  | 0.738  | 65    | 57    | 1.14     | 2.69         | 4/10   |
 | [6](#strategy-6)     | ✅    | Breakout        | 38%  | -49%  | 0.886  | 94    | 76    | 1.24     | 2.19         | 4/10   |
 | [7](#strategy-7)     | ✅    | Trend Following | 40%  | -55%  | 0.871  | 21    | 36    | 0.58     | 14.75        | 2/10   |
 | [8](#strategy-8)     | ✅    | Mean Reversion  | 46%  | -43%  | 1.049  | 271   | 106   | 2.56     | 0.96         | 3/10   |
-| [9](#strategy-9)     | ❌    | Mean Reversion  | 24%  | -26%  | 0.916  | 711   | 558   | 1.27     | 1.83         | 3/10   |
+| [10](#strategy-10)   | ✅    | Ensemble        | 40%  | -35%  | 1.034  | 1580  | 677   | 2.33     | 1.20         | N/A    |
 
 
 ---
-## Strategy-1
-### TQQQ Intrabar Vol Breakout (cc000_001.py)
-
-**Description:** Uses a 240-bar average intrabar volatility (|open−close|/open) on TQQQ minute bars to identify low-vol regimes, entering 100% when vol < 0.1 and price is within 2% of the 240-minute high. Exits on vol spike > 0.15 or a 3% hard stop from entry.
-
-*Overfit 3/10 — Three thresholds: vol entry 0.1, vol exit 0.15, proximity to high 98%, 3% stop. The vol entry/exit pair is calibrated to a specific breakout pattern and is somewhat arbitrary; the proximity filter is reasonable.*
-
-- **Entry:** Avg intrabar vol (240-bar) < 0.1 AND price ≥ 240-min high × 0.98: 100% TQQQ
-- **Exit vol:** Avg intrabar vol > 0.15: liquidate
-- **Stop loss:** Price ≤ entry × 0.97: liquidate
-- **Resolution:** Minute bars; active only after 10:00 AM ET
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 43% | -37% | 0.986 | 192 | 341 | 0.56 | 3.45 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 43% | 🟢 5% | 🟢 22% | 🟢 101% | 🟢 23% | 🟢 105% | 🟢 151% | 🟢 24% | 🔴 -33% | 🟢 107% | 🟢 52% | 🟢 18% |
-
-> [!code]- Click to view: cc000_001.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc000_001.py"
-> ```
-
-
----
-
-## Strategy-2
-### Tech Dip Buy (cc000_002.py)
-
-**Description:** Buys the top 5 US technology stocks by market cap when they pull back hard during an uptrend, then holds until they recover to new highs or the loss gets too large. Universe rotates automatically as market caps shift. Equal-weight across held positions up to 20% per slot.
-
-*Overfit 2/10 — Textbook RSI(2)/SMA(50) entry with a clean 15% hard stop; dynamic universe removes hindsight symbol selection. Only mild concern is the small trade count (~80 trades over 11 years).*
-
-- **Universe:** Top 5 US tech stocks by market cap (Morningstar Technology sector)
-- **Entry:** RSI(2) < 30 AND price > SMA(50): up to 20% per name
-- **Stop loss:** Price ≤ avg cost × 0.85: liquidate
-- **Take profit:** Price ≥ 252-day high: liquidate
-- **Rebalance:** Weekly (Mondays), 30 min after market open
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 27% | -38% | 0.832 | 37 | 22 | 1.68 | 2.88 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 22% | 🟢 4% | 🟢 6% | 🟢 38% | 🟢 7% | 🟢 41% | 🟢 35% | 🟢 48% | 🔴 -33% | 🟢 86% | 🟢 86% | 🟢 31% |
-
-> [!code]- Click to view: cc000_002.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc000_002.py"
-> ```
-
-
----
-
 ## Strategy-3
 ### TQQQ 60% Annual Rebalance (cc000_003.py)
 
@@ -94,7 +33,7 @@
 
 > [!code]- Click to view: cc000_003.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc000_003.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/cc000_003.py"
 > ```
 
 
@@ -114,15 +53,15 @@
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 40% | -32% | 0.954 | 1224 | 525 | 2.33 | 0.88 |
+| 40% | -32% | 0.952 | 1276 | 687 | 1.86 | 1.08 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 39% | 🟢 1% | 🔴 -18% | 🟢 46% | 🟢 12% | 🟢 34% | 🟢 81% | 🟢 110% | 🟢 33% | 🟢 60% | 🟢 72% | 🟢 61% |
+| 🟢 38% | 🟢 1% | 🔴 -18% | 🟢 46% | 🟢 12% | 🟢 34% | 🟢 81% | 🟢 110% | 🟢 32% | 🟢 60% | 🟢 72% | 🟢 62% |
 
 > [!code]- Click to view: cc000_004.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc000_004.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/cc000_004.py"
 > ```
 
 
@@ -151,7 +90,7 @@
 
 > [!code]- Click to view: cc000_005.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc000_005.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/cc000_005.py"
 > ```
 
 
@@ -180,7 +119,7 @@
 
 > [!code]- Click to view: cc000_006.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc000_006.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/cc000_006.py"
 > ```
 
 
@@ -208,7 +147,7 @@
 
 > [!code]- Click to view: cc000_007.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc000_007.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/cc000_007.py"
 > ```
 
 
@@ -236,35 +175,34 @@
 
 > [!code]- Click to view: cc000_008.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc000_008.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/cc000_008.py"
 > ```
 
 
 ---
 
-## Strategy-9
-### Top-5 Market Cap + IBS Bear Dip / Bull Equal-Weight (cc000_009.py)
+## Strategy-10
+### Mini Ensemble (cc000_003–008) (cc000_010.py)
 
-**Description:** Dynamically selects the top 5 US stocks by market cap. In a bull regime (QQQ above SMA 200), holds them equal-weighted. In a bear regime, applies an IBS filter — only holds names closing near their daily low (IBS < 0.2), equal-weighted among those that qualify.
+**Description:** Equal-weight ensemble of the six core strategies: LeveragedRebalance, RSIDipChampion, TQQQDynamic, ExpandingBreakout, TQQQSMA150, and IBSATRStop. Sub-algo equities start equal and drift with performance; reset annually.
 
-*Overfit 3/10 — Three parameters: top-5 universe, SMA 200, IBS bear threshold 0.2. The IBS threshold (0.2 vs the more extreme 0.1) in bear mode is the main fitting risk; 0.2 allows more positions than a pure extremes-only filter.*
+*Overfit N/A — Ensemble of independently-designed strategies. No combined parameter tuning.*
 
-- **Universe:** Top 5 US stocks by market cap (HasFundamentalData, Price > 5)
-- **Bull (QQQ > SMA200):** Equal weight all 5 names (20% each)
-- **Bear (QQQ ≤ SMA200):** Equal weight names with IBS < 0.2; cash if none qualify
-- **Rebalance:** Daily, 30 min after market open
+- **Components:** cc000_003 LeveragedRebalance, cc000_004 RSIDipChampion, cc000_005 TQQQDynamic, cc000_006 ExpandingBreakout, cc000_007 TQQQSMA150, cc000_008 IBSATRStop
+- **Weighting:** Equal virtual equity split at start; aggregated proportionally each day
+- **Rebalance:** Daily, 45 min after market open (SPY)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 24% | -26% | 0.916 | 711 | 558 | 1.27 | 1.83 |
+| 40% | -35% | 1.034 | 1580 | 677 | 2.33 | 1.20 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 7% | 🟢 9% | 🟢 3% | 🟢 31% | 🟢 2% | 🟢 45% | 🟢 88% | 🟢 44% | 🔴 -14% | 🟢 43% | 🟢 29% | 🟢 34% |
+| 🟢 46% | 🟢 9% | 🔴 -1% | 🟢 85% | 🟢 2% | 🟢 41% | 🟢 115% | 🟢 81% | 🔴 -18% | 🟢 94% | 🟢 45% | 🟢 45% |
 
-> [!code]- Click to view: cc000_009.py
+> [!code]- Click to view: cc000_010.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/cc000_009.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/cc000_010.py"
 > ```
 
 
