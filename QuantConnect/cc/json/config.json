@@ -11,6 +11,7 @@
     "prune": false
   },
   "potentials": {
-    "prune": false
+    "prune": false,
+    "catalog": "strategies"
   }
 }

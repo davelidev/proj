@@ -26,6 +26,10 @@ def _get_folder(cc, cfg):
     return cc
 
 
+def _get_catalog_name(folder, cfg):
+    return cfg.get(folder, {}).get("catalog", folder)
+
+
 def is_prunable(cc):
     """Return True if this batch should be pruned, per config.json."""
     if not os.path.exists(CONFIG_PATH):
@@ -79,7 +83,14 @@ def load_json(path):
 
 def load_catalog(cc):
     """Load catalog JSONL. Returns (metadata_entries, strategy_entries)."""
-    path = os.path.join(SCRIPT_DIR, "json", f"{cc}.jsonl")
+    if os.path.exists(CONFIG_PATH):
+        with open(CONFIG_PATH) as f:
+            cfg = json.load(f)
+        folder  = _get_folder(cc, cfg)
+        catalog = _get_catalog_name(folder, cfg)
+    else:
+        catalog = cc
+    path = os.path.join(SCRIPT_DIR, "json", f"{catalog}.jsonl")
     if not os.path.exists(path):
         return [], [], path
     metadata = []
@@ -112,7 +123,7 @@ def find_algo_files(cc):
         folder = _get_folder(cc, cfg)
     else:
         folder = cc
-    return sorted(glob.glob(os.path.join(SCRIPT_DIR, "cc_algos", folder, f"{cc}_*.py")))
+    return sorted(glob.glob(os.path.join(SCRIPT_DIR, "cc_algos", folder, "*.py")))
 
 
 def prune(cc, dry_run=False):
@@ -166,7 +177,46 @@ def prune(cc, dry_run=False):
     for f in delete_files:
         os.remove(f)
 
+    # Resequence: renumber IDs and rename files to fill gaps
+    resequence(cc, keep_strategies, bt_keep, bt_path, bt_fmt, catalog_path, metadata)
+
     return result
+
+
+def resequence(cc, strategies, bt_entries, bt_path, bt_fmt, catalog_path, metadata):
+    """Renumber strategy IDs and rename files to 001.py, 002.py, ... with no gaps."""
+    if os.path.exists(CONFIG_PATH):
+        with open(CONFIG_PATH) as f:
+            cfg = json.load(f)
+        folder = _get_folder(cc, cfg)
+    else:
+        folder = cc
+    algo_dir = os.path.join(SCRIPT_DIR, "cc_algos", folder)
+
+    id_map = {}
+    for i, s in enumerate(strategies):
+        new_id   = str(i + 1)
+        new_file = f"{i + 1:03d}.py"
+        old_id   = s["id"]
+        old_file = s["file"]
+        id_map[old_id] = new_id
+
+        if old_file != new_file:
+            old_path = os.path.join(algo_dir, old_file)
+            new_path = os.path.join(algo_dir, new_file)
+            if os.path.exists(old_path):
+                os.rename(old_path, new_path)
+            s["file"] = new_file
+            if "vault_path" in s:
+                import re
+                s["vault_path"] = re.sub(r'[^/]+\.py$', new_file, s["vault_path"])
+        s["id"] = new_id
+
+    # Update backtest IDs
+    for e in bt_entries:
+        e["id"] = id_map.get(e["id"], e["id"])
+    save_backtest(bt_entries, bt_path, bt_fmt)
+    save_catalog(metadata, strategies, catalog_path)
 
 
 def main():

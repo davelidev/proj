@@ -21,11 +21,11 @@
 | [17](#strategy-17)   | ✅    | Trend           | 33%  | -44%  | 0.81   | 294   | 231   | 1.27     | 2.47         | 3/10   |
 | [18](#strategy-18)   | ✅    | Trend           | 31%  | -40%  | 0.806  | 204   | 249   | 0.82     | 3.01         | 3/10   |
 | [19](#strategy-19)   | ✅    | Trend           | 32%  | -43%  | 0.846  | 386   | 492   | 0.78     | 3.88         | 3/10   |
-| [20](#strategy-20)   | ✅    | —               | 39%  | -46%  | 0.892  | 290   | 247   | 1.17     | 2.06         | 4/10   |
-| [21](#strategy-21)   | ✅    | —               | 31%  | -43%  | 0.794  | 193   | 256   | 0.75     | 3.27         | 3/10   |
-| [22](#strategy-22)   | ✅    | —               | 35%  | -50%  | 0.843  | 218   | 267   | 0.82     | 3.13         | 3/10   |
-| [23](#strategy-23)   | ✅    | —               | 37%  | -49%  | 0.87   | 312   | 255   | 1.22     | 2.56         | 4/10   |
-| [24](#strategy-24)   | ✅    | —               | 38%  | -50%  | 0.886  | 292   | 239   | 1.22     | 2.67         | 3/10   |
+| [20](#strategy-20)   | ✅    | Regime          | 39%  | -46%  | 0.892  | 290   | 247   | 1.17     | 2.06         | 4/10   |
+| [21](#strategy-21)   | ✅    | Trend           | 31%  | -43%  | 0.794  | 193   | 256   | 0.75     | 3.27         | 3/10   |
+| [22](#strategy-22)   | ✅    | Momentum        | 35%  | -50%  | 0.843  | 218   | 267   | 0.82     | 3.13         | 3/10   |
+| [23](#strategy-23)   | ✅    | Momentum        | 37%  | -49%  | 0.87   | 312   | 255   | 1.22     | 2.56         | 4/10   |
+| [24](#strategy-24)   | ✅    | Momentum        | 38%  | -50%  | 0.886  | 292   | 239   | 1.22     | 2.67         | 3/10   |
 | [25](#strategy-25)   | ✅    | Range           | 34%  | -41%  | 0.824  | 136   | 91    | 1.49     | 3.23         | 3/10   |
 | [26](#strategy-26)   | ✅    | Hybrid          | 31%  | -44%  | 0.754  | 914   | 661   | 1.38     | 1.48         | 4/10   |
 | [27](#strategy-27)   | ✅    | Hybrid          | 33%  | -45%  | 0.802  | 850   | 615   | 1.38     | 1.57         | 4/10   |
@@ -40,15 +40,15 @@
 | [36](#strategy-36)   | ✅    | Breadth         | 33%  | -53%  | 0.803  | 209   | 246   | 0.85     | 2.96         | 2/10   |
 | [37](#strategy-37)   | ✅    | Price Position  | 35%  | -54%  | 0.785  | 70    | 83    | 0.84     | 4.80         | 2/10   |
 | [38](#strategy-38)   | ✅    | Breadth         | 33%  | -53%  | 0.803  | 209   | 246   | 0.85     | 2.96         | 2/10   |
-| [40](#strategy-40)   | ✅    | TII             | 30%  | -44%  | 0.711  | 545   | 446   | 1.22     | 1.44         | 2/10   |
-| [41](#strategy-41)   | ✅    | Psychological Line | 33%  | -53%  | 0.803  | 209   | 246   | 0.85     | 2.96         | 2/10   |
-| [42](#strategy-42)   | ✅    | Breakout        | 43%  | -37%  | 0.986  | 192   | 341   | 0.56     | 3.45         | 3/10   |
-| [43](#strategy-43)   | ❌    | Dip Buy         | 28%  | -40%  | 0.856  | 32    | 26    | 1.23     | 3.20         | 2/10   |
+| [39](#strategy-39)   | ✅    | TII             | 30%  | -44%  | 0.711  | 545   | 446   | 1.22     | 1.44         | 2/10   |
+| [40](#strategy-40)   | ✅    | Psychological Line | 33%  | -53%  | 0.803  | 209   | 246   | 0.85     | 2.96         | 2/10   |
+| [41](#strategy-41)   | ✅    | Breakout        | 43%  | -37%  | 0.986  | 192   | 341   | 0.56     | 3.45         | 3/10   |
+| [42](#strategy-42)   | ❌    | Dip Buy         | 28%  | -40%  | 0.856  | 32    | 26    | 1.23     | 3.20         | 2/10   |
 
 
 ---
 ## Strategy-1
-### Research S11 - Cheat Code Rotator TQQQ (cc001_001.py)
+### Research S11 - Cheat Code Rotator TQQQ (001.py)
 
 **Description:** Kevin Davey's 'cheat code' formula: enter a leveraged Nasdaq ETF on dips when both the long-term trend and short-term volatility are favorable. Three gates must hold simultaneously — QQQ above its 200-day SMA, VIX below 28, and QQQ RSI(2) below 30. Exits on either short-term overbought readings, a trend break, or a VIX spike above 32.
 
@@ -69,16 +69,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 68% | 🟢 8% | 🔴 -25% | 🟢 137% | 🔴 -16% | 🟢 20% | 🟢 69% | 🟢 61% | 🔴 -27% | 🟢 104% | 🟢 64% | 🟢 32% |
 
-> [!code]- Click to view: cc001_001.py
+> [!code]- Click to view: 001.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_001.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/001.py"
 > ```
 
 
 ---
 
 ## Strategy-2
-### Giant Sniper Mean-Reversion (cc001_002.py)
+### Giant Sniper Mean-Reversion (002.py)
 
 **Description:** Same shape as Strategy 11 — top-5 mega-caps + RSI(2) dip entry — but with two structural differences. (1) Universe is the top 5 by market cap *across all sectors*, not tech-only, so the basket can include non-tech leaders. (2) Has an explicit bear-market shield: when QQQ falls below its 200-day SMA, the strategy liquidates everything regardless of individual-name signals. Exits are per-name on RSI(2) > 70 instead of price highs.
 
@@ -99,16 +99,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 15% | 🟢 49% | 🔴 -13% | 🟢 48% | 🔴 -16% | 🟢 7% | 🟢 34% | 🟢 80% | 🔴 -10% | 🟢 43% | 🟢 40% | 🟢 94% |
 
-> [!code]- Click to view: cc001_002.py
+> [!code]- Click to view: 002.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_002.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/002.py"
 > ```
 
 
 ---
 
 ## Strategy-3
-### Defensive Rotation (cc001_003.py)
+### Defensive Rotation (003.py)
 
 **Description:** A four-state regime rotation. The state machine: (1) any RSI(10) crash signal → all cash; (2) bull market (TQQQ > SMA200) + uptrend or short-term dip → TQQQ; (3) bear market (TQQQ ≤ SMA200) + downtrend or overbought bounce → SQQQ; (4) anything else → all cash. The crash gate at the top sidesteps the dangerous mid-crash zones where mean-reversion entries blow up.
 
@@ -129,16 +129,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 25% | 🔴 -25% | 🔴 -28% | 🟢 99% | 🟢 5% | 🟢 11% | 🟢 225% | 🟢 82% | 🟢 119% | 🟢 30% | 🟢 41% | 🟢 25% |
 
-> [!code]- Click to view: cc001_003.py
+> [!code]- Click to view: 003.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_003.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/003.py"
 > ```
 
 
 ---
 
 ## Strategy-4
-### IBS regime-adaptive (cc001_004.py)
+### IBS regime-adaptive (004.py)
 
 **Description:** Regime-adaptive IBS strategy. Standard IBS < 0.1 entry in uptrends (QQQ > 200d SMA), but tightens to IBS < 0.03 in downtrends — only buying extreme panic closes when the broader market is bearish. Exit is unchanged at IBS > 0.9 regardless of regime.
 
@@ -159,16 +159,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 12% | 🟢 1% | 🟢 26% | 🟢 71% | 🔴 -31% | 🟢 35% | 🟢 303% | 🟢 75% | 🔴 -23% | 🟢 84% | 🟢 17% | 🟢 92% |
 
-> [!code]- Click to view: cc001_004.py
+> [!code]- Click to view: 004.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_004.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/004.py"
 > ```
 
 
 ---
 
 ## Strategy-5
-### Trend Stretch Exit (cc001_005.py)
+### Trend Stretch Exit (005.py)
 
 **Description:** Trend following with mean-reversion "stretch" thresholds for exits.
 
@@ -188,16 +188,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 60% | 🟢 1% | 🔴 -12% | 🟢 118% | 🔴 -23% | 🟢 50% | 🟢 136% | 🟢 77% | 🔴 -44% | 🟢 108% | 🟢 86% | 🟢 24% |
 
-> [!code]- Click to view: cc001_005.py
+> [!code]- Click to view: 005.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_005.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/005.py"
 > ```
 
 
 ---
 
 ## Strategy-6
-### TQQQ Anti-Martingale Pyramid (cc001_006.py)
+### TQQQ Anti-Martingale Pyramid (006.py)
 
 **Description:** Starts at 50% TQQQ when QQQ > SMA(200). For every 5% gain above the entry price, adds another 15% allocation until reaching 100%. Liquidates on trend break. Implements the 'let winners run / cut losers' principle discussed in the 'Antifragile / 2025 best year' thread — pyramiding into strength rather than averaging into weakness.
 
@@ -217,16 +217,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 33% | 🔴 -6% | 🔴 -6% | 🟢 111% | 🔴 -5% | 🟢 35% | 🟢 83% | 🟢 88% | 🔴 -36% | 🟢 90% | 🟢 62% | 🟢 7% |
 
-> [!code]- Click to view: cc001_006.py
+> [!code]- Click to view: 006.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_006.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/006.py"
 > ```
 
 
 ---
 
 ## Strategy-7
-### Mega-Cap Value Averaging (cc001_007.py)
+### Mega-Cap Value Averaging (007.py)
 
 **Description:** Universe-driven dip-buy on the five largest-cap U.S. stocks (selected from the top 100 by dollar volume, then ranked by market cap each universe refresh). Whenever a name pulls back more than 5% from its 20-day high it gets a 20% portfolio allocation, and the position is liquidated the moment price prints a new 20-day high. The construction sidesteps single-stock bets by spreading 100% nominal exposure across five mega-caps, and only sells into strength — never on weakness — so a position can sit in drawdown indefinitely until a fresh high releases it.
 
@@ -246,16 +246,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 22% | 🟢 16% | 🟢 14% | 🟢 49% | 🔴 -4% | 🟢 61% | 🟢 57% | 🟢 50% | 🔴 -34% | 🟢 76% | 🟢 75% | 🟢 28% |
 
-> [!code]- Click to view: cc001_007.py
+> [!code]- Click to view: 007.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_007.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/007.py"
 > ```
 
 
 ---
 
 ## Strategy-8
-### 5x 3x-Leveraged ETF Basket + QQQ Vol Gate (cc001_008.py)
+### 5x 3x-Leveraged ETF Basket + QQQ Vol Gate (008.py)
 
 **Description:** Equal-weight basket of 5 3x-leveraged ETFs (TQQQ, TECL, SOXL, UPRO, FAS), held only when QQQ's 20-day annualized log-return volatility is below 20%. Tight vol gate — flips entirely in or entirely out based on a single threshold check daily. Re-enters as soon as vol returns under threshold.
 
@@ -276,16 +276,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 28% | 🔴 -1% | 🟢 21% | 🟢 106% | 🔴 -7% | 🟢 59% | 🟢 7% | 🟢 49% | 🟢 5% | 🟢 62% | 🟢 44% | ⚪ 0% |
 
-> [!code]- Click to view: cc001_008.py
+> [!code]- Click to view: 008.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_008.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/008.py"
 > ```
 
 
 ---
 
 ## Strategy-9
-### 8 Leveraged ETF EW Permanent + Monthly Rebalance (cc001_009.py)
+### 8 Leveraged ETF EW Permanent + Monthly Rebalance (009.py)
 
 **Description:** Holds an equal-weighted basket of 8 3×-leveraged ETFs (TQQQ, SOXL, TECL, UPRO, FAS, TNA, CURE, ERX) with no market-timing logic. Rebalances back to equal weight on the first trading day of each month, capturing volatility-decay recovery and sector dispersion benefits.
 
@@ -304,16 +304,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 40% | 🔴 -9% | 🟢 39% | 🟢 76% | 🔴 -30% | 🟢 116% | 🟢 2% | 🟢 106% | 🔴 -52% | 🟢 80% | 🟢 31% | 🟢 33% |
 
-> [!code]- Click to view: cc001_009.py
+> [!code]- Click to view: 009.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_009.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/009.py"
 > ```
 
 
 ---
 
 ## Strategy-10
-### TQQQ hybrid + ATR (cc001_010.py)
+### TQQQ hybrid + ATR (010.py)
 
 **Description:** TQQQ self-SMA(200) trend + IBS<0.05 dip-buy hybrid with an added 3× ATR stop-loss on the MR sleeve. Same shape as Strategy 47 but with risk management on the bear-market dips — if the dip extends another 3× ATR below the entry, the trade is cut.
 
@@ -336,16 +336,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 52% | 🟢 9% | 🔴 -2% | 🟢 118% | 🔴 -1% | 🟢 36% | 🟢 259% | 🟢 88% | 🔴 -11% | 🟢 75% | 🟢 59% | 🟢 48% |
 
-> [!code]- Click to view: cc001_010.py
+> [!code]- Click to view: 010.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_010.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/010.py"
 > ```
 
 
 ---
 
 ## Strategy-11
-### 5 most mkt cap + IBS regime mix (cc001_011.py)
+### 5 most mkt cap + IBS regime mix (011.py)
 
 **Description:** Two-regime rotation on the top 5 US stocks by market cap. **Uptrend** (QQQ > 200d SMA): hold all 5 mega-caps equal-weight (20% each). **Downtrend** (QQQ ≤ 200d SMA): rotate into only those names whose IBS < 0.2 (close near day's low — buying weakness in mega-caps only when the broader market is bearish). Position weights adjust daily based on how many names meet the bear-mode filter.
 
@@ -367,16 +367,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 11% | 🟢 5% | 🟢 4% | 🟢 38% | 🟢 15% | 🟢 47% | 🟢 95% | 🟢 46% | 🔴 -11% | 🟢 51% | 🟢 38% | 🟢 50% |
 
-> [!code]- Click to view: cc001_011.py
+> [!code]- Click to view: 011.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_011.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/011.py"
 > ```
 
 
 ---
 
 ## Strategy-12
-### Nasdaq-100 Breadth Rotation (cc001_012.py)
+### Nasdaq-100 Breadth Rotation (012.py)
 
 **Description:** Uses participation across the 10 largest-cap U.S. stocks (drawn from the top 100 by dollar volume) as a breadth regime gate for TQQQ. Each constituent runs a 50-day EMA, and the strategy measures the fraction trading above its EMA: above 60% it goes 100% long TQQQ, below 40% it liquidates, and in the 40–60% no-man's-land it holds whatever it had. The mega-cap basket acts as a proxy for Nasdaq leadership health — when participation is broad the engine ramps full 3× exposure, and when it deteriorates it steps fully aside.
 
@@ -397,16 +397,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 11% | 🟢 2% | 🔴 -7% | 🟢 118% | 🔴 -29% | 🟢 33% | 🟢 108% | 🟢 53% | 🔴 -34% | 🟢 73% | 🟢 46% | 🟢 95% |
 
-> [!code]- Click to view: cc001_012.py
+> [!code]- Click to view: 012.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_012.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/012.py"
 > ```
 
 
 ---
 
 ## Strategy-13
-### Donchian-200 Midline (cc001_013.py)
+### Donchian-200 Midline (013.py)
 
 **Description:** A trend follower using the midpoint of the 200-day Donchian channel (average of the 200-day high and 200-day low) as a dynamic trend filter. When the Nasdaq ETF price is above this midline it holds a leveraged Nasdaq ETF; below it holds a short-term bond ETF. The midline serves as a slow, price-extremes-anchored moving average.
 
@@ -426,16 +426,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 56% | 🟢 22% | 🔴 -5% | 🟢 118% | 🔴 -19% | 🟢 80% | 🟢 97% | 🟢 88% | 🔴 -47% | 🟢 93% | 🟢 62% | 🟢 20% |
 
-> [!code]- Click to view: cc001_013.py
+> [!code]- Click to view: 013.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_013.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/013.py"
 > ```
 
 
 ---
 
 ## Strategy-14
-### 3-State ROC(20) + Donchian-200 (cc001_014.py)
+### 3-State ROC(20) + Donchian-200 (014.py)
 
 **Description:** A three-state trend follower that replaces the Aroon oscillator with a 20-day rate-of-change indicator on QQQ alongside the standard Donchian-200 midline. When both momentum and the channel position are bullish it holds TQQQ fully; partial confirmation yields a 50/50 blend; both bearish yields full cash.
 
@@ -455,16 +455,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 41% | 🟢 6% | ⚪ 0% | 🟢 101% | 🔴 -12% | 🟢 84% | 🟢 138% | 🟢 62% | 🔴 -32% | 🟢 92% | 🟢 44% | 🟢 33% |
 
-> [!code]- Click to view: cc001_014.py
+> [!code]- Click to view: 014.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_014.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/014.py"
 > ```
 
 
 ---
 
 ## Strategy-15
-### ROC+D200 + 7% Trail Exit (cc001_015.py)
+### ROC+D200 + 7% Trail Exit (015.py)
 
 **Description:** A trend follower that enters TQQQ when both ROC(20) and Donchian-200 are bullish, but adds a trailing drawdown exit: it closes the position if QQQ falls more than 7% below its 20-day high, even if the longer-term trend signal remains intact. This provides faster downside protection.
 
@@ -485,16 +485,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -15% | 🟢 66% | 🟢 185% | 🟢 39% | 🔴 -19% | 🟢 56% | 🟢 23% | 🟢 42% |
 
-> [!code]- Click to view: cc001_015.py
+> [!code]- Click to view: 015.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_015.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/015.py"
 > ```
 
 
 ---
 
 ## Strategy-16
-### TQQQ Pyramid (10%/day) (cc001_016.py)
+### TQQQ Pyramid (10%/day) (016.py)
 
 **Description:** A pyramiding trend follower that gradually scales into TQQQ by adding 10% exposure per day while both ROC(20) and Donchian-200 remain bullish, reaching 100% after ten consecutive bull days. On the first bear signal it exits entirely to cash.
 
@@ -514,16 +514,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 22% | 🔴 -9% | 🟢 4% | 🟢 51% | 🔴 -7% | 🟢 64% | 🟢 118% | 🟢 27% | 🔴 -9% | 🟢 45% | 🟢 52% | 🟢 46% |
 
-> [!code]- Click to view: cc001_016.py
+> [!code]- Click to view: 016.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_016.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/016.py"
 > ```
 
 
 ---
 
 ## Strategy-17
-### 3-State Dual-ROC + D200 (cc001_017.py)
+### 3-State Dual-ROC + D200 (017.py)
 
 **Description:** A three-state trend follower that requires consensus from both short-term ROC(20) and medium-term ROC(60) for the momentum leg, paired with a Donchian-200 midline. The dual-ROC requirement means both timeframes must agree for the strategy to treat momentum as bullish, reducing false positives.
 
@@ -543,16 +543,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 32% | 🟢 1% | 🔴 -3% | 🟢 101% | 🔴 -8% | 🟢 82% | 🟢 96% | 🟢 62% | 🔴 -33% | 🟢 99% | 🟢 38% | 🟢 17% |
 
-> [!code]- Click to view: cc001_017.py
+> [!code]- Click to view: 017.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_017.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/017.py"
 > ```
 
 
 ---
 
 ## Strategy-18
-### ROC+D200 + 5% Trail Exit (cc001_018.py)
+### ROC+D200 + 5% Trail Exit (018.py)
 
 **Description:** A trend follower identical in structure to the 7%-trail variant but using a tighter 5% trailing drawdown from the 20-day high as the exit trigger. The tighter stop provides faster downside protection at the cost of more frequent exits during normal pullbacks.
 
@@ -573,16 +573,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🔴 -14% | 🔴 -2% | 🟢 85% | 🔴 -15% | 🟢 66% | 🟢 188% | 🟢 39% | 🔴 -19% | 🟢 64% | 🟢 23% | 🟢 42% |
 
-> [!code]- Click to view: cc001_018.py
+> [!code]- Click to view: 018.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_018.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/018.py"
 > ```
 
 
 ---
 
 ## Strategy-19
-### TQQQ Pyramid 30%/day (cc001_019.py)
+### TQQQ Pyramid 30%/day (019.py)
 
 **Description:** The fastest pyramiding variant, adding 30% TQQQ exposure per day while trend conditions hold, reaching full exposure in roughly four consecutive bull days. A single bear day triggers a complete exit to cash. The same ROC(20) and Donchian-200 trend conditions govern entry and exit.
 
@@ -602,16 +602,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 28% | 🔴 -7% | 🟢 2% | 🟢 70% | 🔴 -4% | 🟢 70% | 🟢 128% | 🟢 41% | 🔴 -16% | 🟢 50% | 🟢 44% | 🟢 43% |
 
-> [!code]- Click to view: cc001_019.py
+> [!code]- Click to view: 019.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_019.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/019.py"
 > ```
 
 
 ---
 
 ## Strategy-20
-### Mega-Cap Dispersion Regime (cc001_020.py)
+### Mega-Cap Dispersion Regime (020.py)
 
 **Description:** A breadth-based trend follower that adds a cohesion filter to the standard D200 regime: it only holds TQQQ when both QQQ is in an uptrend and the five largest US stocks are moving together, as measured by the standard deviation of their 20-day returns being below a threshold. High dispersion among mega-caps signals stress and triggers a shift to cash.
 
@@ -632,16 +632,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 37% | 🟢 38% | 🔴 -6% | 🟢 118% | 🔴 -6% | 🟢 110% | 🟢 15% | 🟢 158% | 🔴 -40% | 🟢 106% | 🟢 60% | 🟢 18% |
 
-> [!code]- Click to view: cc001_020.py
+> [!code]- Click to view: 020.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_020.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/020.py"
 > ```
 
 
 ---
 
 ## Strategy-21
-### ROC+D200 + 7% Trail Binary (cc001_021.py)
+### ROC+D200 + 7% Trail Binary (021.py)
 
 **Description:** A trend follower on QQQ that requires a positive 20-day rate-of-change, price above the 200-day high/low channel midpoint, and that the current price is no more than 7% below its 20-day high before buying TQQQ. The 7% trailing drawdown acts as an exit trigger as well, keeping the strategy out when a meaningful pullback from a recent peak occurs.
 
@@ -661,16 +661,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -15% | 🟢 66% | 🟢 185% | 🟢 39% | 🔴 -19% | 🟢 56% | 🟢 23% | 🟢 42% |
 
-> [!code]- Click to view: cc001_021.py
+> [!code]- Click to view: 021.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_021.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/021.py"
 > ```
 
 
 ---
 
 ## Strategy-22
-### CMO(20) Momentum (cc001_022.py)
+### CMO(20) Momentum (022.py)
 
 **Description:** A momentum trend follower that uses the Chande Momentum Oscillator computed over 20 days on QQQ. A positive CMO value indicates that upward daily moves have dominated downward moves over the period, triggering a full allocation to TQQQ. When CMO turns negative the strategy exits to BIL.
 
@@ -689,16 +689,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 170% | 🟢 39% | 🔴 -18% | 🟢 88% | 🟢 28% | 🟢 42% |
 
-> [!code]- Click to view: cc001_022.py
+> [!code]- Click to view: 022.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_022.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/022.py"
 > ```
 
 
 ---
 
 ## Strategy-23
-### 3-State CMO+Median200 (cc001_023.py)
+### 3-State CMO+Median200 (023.py)
 
 **Description:** A three-state trend follower that combines CMO(20) momentum with a 200-day median price filter on QQQ. When both signals are bullish the portfolio goes fully into TQQQ; when one is bullish the portfolio splits 50/50; when both are bearish it exits to BIL. Trading only occurs on state changes.
 
@@ -719,16 +719,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 41% | 🟢 6% | 🔴 -4% | 🟢 101% | 🔴 -11% | 🟢 75% | 🟢 139% | 🟢 62% | 🔴 -32% | 🟢 101% | 🟢 40% | 🟢 27% |
 
-> [!code]- Click to view: cc001_023.py
+> [!code]- Click to view: 023.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_023.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/023.py"
 > ```
 
 
 ---
 
 ## Strategy-24
-### 3-State CMO+52w-High Gate (cc001_024.py)
+### 3-State CMO+52w-High Gate (024.py)
 
 **Description:** A three-state trend follower that combines CMO(20) momentum with a 52-week high drawdown gate. When CMO is positive and QQQ is within 15% of its 52-week high both signals agree and the portfolio goes fully into TQQQ. One bullish signal yields a 50/50 split; neither exits to BIL.
 
@@ -749,16 +749,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 41% | 🟢 6% | ⚪ 0% | 🟢 101% | 🔴 -13% | 🟢 99% | 🟢 138% | 🟢 62% | 🔴 -33% | 🟢 90% | 🟢 44% | 🟢 30% |
 
-> [!code]- Click to view: cc001_024.py
+> [!code]- Click to view: 024.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_024.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/024.py"
 > ```
 
 
 ---
 
 ## Strategy-25
-### Range Expanded 110% (cc001_025.py)
+### Range Expanded 110% (025.py)
 
 **Description:** A volatility-expansion trend follower that enters TQQQ when QQQ's recent 25-day average range exceeds 110% of the 200-day average, indicating elevated volatility, combined with a median trend gate. This tests whether periods of rising volatility in an uptrend produce strong forward returns.
 
@@ -779,16 +779,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 23% | 🟢 6% | 🔴 -10% | 🟢 99% | 🟢 1% | 🟢 63% | 🟢 109% | 🟢 62% | 🔴 -34% | 🟢 135% | 🟢 56% | 🟢 8% |
 
-> [!code]- Click to view: cc001_025.py
+> [!code]- Click to view: 025.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_025.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/025.py"
 > ```
 
 
 ---
 
 ## Strategy-26
-### UpDnVol+52w+Top3 (cc001_026.py)
+### UpDnVol+52w+Top3 (026.py)
 
 **Description:** A volume-breadth rotator that measures whether buying pressure (up-day volume) exceeds selling pressure (down-day volume) over 20 days, combined with a 52-week proximity filter (price within 7% of the one-year high). Both signals assess market health from different angles — participation from the volume side and strength from the drawdown side — alongside the 200-bar median regime gate.
 
@@ -809,16 +809,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 33% | 🟢 10% | 🔴 -8% | 🟢 93% | 🔴 -22% | 🟢 72% | 🟢 96% | 🟢 50% | 🔴 -26% | 🟢 117% | 🟢 37% | 🟢 10% |
 
-> [!code]- Click to view: cc001_026.py
+> [!code]- Click to view: 026.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_026.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/026.py"
 > ```
 
 
 ---
 
 ## Strategy-27
-### Mom20+52w+Top3 (cc001_027.py)
+### Mom20+52w+Top3 (027.py)
 
 **Description:** Combines a 20-day momentum signal with a 52-week high proximity filter and a 200-bar median regime gate. Being near the 52-week high is a well-known indicator of trend strength. The short-term momentum adds a recency confirmation. Together they construct a three-signal score that governs allocation between the leveraged ETF, large-cap stocks, and cash.
 
@@ -839,16 +839,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 39% | 🟢 7% | 🔴 -7% | 🟢 106% | 🔴 -22% | 🟢 72% | 🟢 133% | 🟢 60% | 🔴 -36% | 🟢 103% | 🟢 47% | 🟢 17% |
 
-> [!code]- Click to view: cc001_027.py
+> [!code]- Click to view: 027.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_027.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/027.py"
 > ```
 
 
 ---
 
 ## Strategy-28
-### M252_NEAR60_VOLCONT+Top3 (cc001_028.py)
+### M252_NEAR60_VOLCONT+Top3 (028.py)
 
 **Description:** A trend-following rotator combining a full-year momentum check with near-60-day-high strength confirmation and a volatility contraction condition. The yearly lookback selects for macro uptrends, while the shorter-term filters ensure the current price action is both strong and calm before adding risk. Allocations are spread across TQQQ, the top three large-cap stocks, and BIL on the standard five-level ladder.
 
@@ -871,16 +871,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 38% | 🟢 11% | 🔴 -15% | 🟢 102% | 🔴 -4% | 🟢 49% | 🟢 151% | 🟢 60% | 🔴 -46% | 🟢 105% | 🟢 41% | 🟢 11% |
 
-> [!code]- Click to view: cc001_028.py
+> [!code]- Click to view: 028.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_028.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/028.py"
 > ```
 
 
 ---
 
 ## Strategy-29
-### ROC20_Zero (cc001_029.py)
+### ROC20_Zero (029.py)
 
 **Description:** Applies a 20-day rate-of-change momentum signal on QQQ with a zero-line crossover. Holds leveraged Nasdaq while trailing momentum is positive and shifts entirely to T-bills when rate of change turns negative.
 
@@ -899,16 +899,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 170% | 🟢 39% | 🔴 -18% | 🟢 88% | 🟢 28% | 🟢 42% |
 
-> [!code]- Click to view: cc001_029.py
+> [!code]- Click to view: 029.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_029.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/029.py"
 > ```
 
 
 ---
 
 ## Strategy-30
-### OBV20_CCI20 (cc001_030.py)
+### OBV20_CCI20 (030.py)
 
 **Description:** Pairs monthly OBV momentum with CCI on QQQ. Requires OBV rising over 20 days plus CCI > 0 for leveraged Nasdaq, and rotates to T-bills on either OBV weakness or deeply oversold CCI.
 
@@ -929,16 +929,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 2% | 🔴 -4% | 🔴 -2% | 🟢 37% | 🔴 -4% | 🟢 95% | 🟢 156% | 🟢 25% | 🟢 14% | 🟢 116% | 🟢 7% | 🟢 23% |
 
-> [!code]- Click to view: cc001_030.py
+> [!code]- Click to view: 030.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_030.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/030.py"
 > ```
 
 
 ---
 
 ## Strategy-31
-### OBV20_ADX14 (cc001_031.py)
+### OBV20_ADX14 (031.py)
 
 **Description:** Combines monthly OBV momentum with ADX directional bias on QQQ. Requires OBV rising plus +DI > -DI for leveraged Nasdaq, and exits to T-bills on either OBV weakness or a confirmed bearish ADX regime.
 
@@ -960,16 +960,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 11% | 🔴 -15% | 🔴 -7% | 🟢 43% | 🟢 5% | 🟢 78% | 🟢 209% | 🟢 22% | 🟢 12% | 🟢 98% | 🟢 5% | 🟢 31% |
 
-> [!code]- Click to view: cc001_031.py
+> [!code]- Click to view: 031.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_031.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/031.py"
 > ```
 
 
 ---
 
 ## Strategy-32
-### MFI14_Hyst (cc001_032.py)
+### MFI14_Hyst (032.py)
 
 **Description:** Applies a 14-period Money Flow Index on QQQ with hysteresis bands to reduce whipsaw. Enters leveraged Nasdaq when buying pressure dominates (MFI > 60), exits to T-bills when selling pressure takes over (MFI < 40), and holds the current position in the neutral zone.
 
@@ -989,16 +989,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🔴 -11% | 🟢 2% | 🟢 11% | 🟢 71% | 🟢 8% | 🟢 120% | 🟢 121% | 🟢 29% | 🔴 -20% | 🟢 41% | 🟢 36% | 🟢 40% |
 
-> [!code]- Click to view: cc001_032.py
+> [!code]- Click to view: 032.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_032.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/032.py"
 > ```
 
 
 ---
 
 ## Strategy-33
-### CCI20+ROC20+ATR (cc001_033.py)
+### CCI20+ROC20+ATR (033.py)
 
 **Description:** Extends the CCI+ROC momentum stack with an ATR-based volatility gate on QQQ. Holds leveraged Nasdaq only when both momentum indicators are positive and short-term volatility is contained below 1.3× the 63-day average range; exits to T-bills if any condition breaks.
 
@@ -1017,16 +1017,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🔴 -8% | 🔴 -16% | 🔴 -10% | 🟢 45% | 🔴 -3% | 🟢 97% | 🟢 227% | 🟢 58% | 🔴 -19% | 🟢 140% | 🔴 -1% | 🟢 12% |
 
-> [!code]- Click to view: cc001_033.py
+> [!code]- Click to view: 033.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_033.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/033.py"
 > ```
 
 
 ---
 
 ## Strategy-34
-### CMO20_Regime (cc001_034.py)
+### CMO20_Regime (034.py)
 
 **Description:** Computes a 20-day Chande Momentum Oscillator on QQQ by comparing the sum of up-moves to down-moves over the lookback. Holds leveraged Nasdaq while buying pressure dominates (CMO > 0) and switches to T-bills when momentum turns net negative.
 
@@ -1045,16 +1045,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 170% | 🟢 39% | 🔴 -18% | 🟢 88% | 🟢 28% | 🟢 42% |
 
-> [!code]- Click to view: cc001_034.py
+> [!code]- Click to view: 034.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_034.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/034.py"
 > ```
 
 
 ---
 
 ## Strategy-35
-### Price52W_Percentile (cc001_035.py)
+### Price52W_Percentile (035.py)
 
 **Description:** Measures QQQ's current price as a percentile within its 52-week (252-day) high-low range. Holds leveraged Nasdaq when price sits in the upper half of the annual range and exits to T-bills when it falls into the lower half.
 
@@ -1073,16 +1073,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 56% | 🔴 -9% | 🔴 -5% | 🟢 118% | 🔴 -15% | 🟢 73% | 🟢 97% | 🟢 88% | 🔴 -51% | 🟢 92% | 🟢 62% | 🔴 -2% |
 
-> [!code]- Click to view: cc001_035.py
+> [!code]- Click to view: 035.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_035.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/035.py"
 > ```
 
 
 ---
 
 ## Strategy-36
-### UpDay_Count20 (cc001_036.py)
+### UpDay_Count20 (036.py)
 
 **Description:** Counts the number of positive-close days in the trailing 20 trading sessions on QQQ as a simple market breadth proxy. Holds leveraged Nasdaq when more than half the recent sessions are up-days and exits to T-bills when down-days dominate.
 
@@ -1101,16 +1101,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 81% | 🟢 147% | 🟢 41% | 🟢 28% | 🟢 94% | 🟢 8% | 🔴 -1% |
 
-> [!code]- Click to view: cc001_036.py
+> [!code]- Click to view: 036.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_036.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/036.py"
 > ```
 
 
 ---
 
 ## Strategy-37
-### Price126D_Percentile (cc001_037.py)
+### Price126D_Percentile (037.py)
 
 **Description:** Applies the same range-percentile logic as the 52-week variant (698) but over a 6-month (126-day) lookback. Holds leveraged Nasdaq when QQQ is in the upper half of its recent 6-month range and exits to T-bills when it falls below the midpoint.
 
@@ -1129,16 +1129,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 46% | 🟢 25% | 🔴 -5% | 🟢 118% | 🔴 -25% | 🟢 59% | 🟢 119% | 🟢 68% | 🔴 -40% | 🟢 87% | 🟢 26% | 🟢 53% |
 
-> [!code]- Click to view: cc001_037.py
+> [!code]- Click to view: 037.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_037.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/037.py"
 > ```
 
 
 ---
 
 ## Strategy-38
-### UpDay_Count55pct (cc001_038.py)
+### UpDay_Count55pct (038.py)
 
 **Description:** Near-identical to UpDay_Count20 (705) but raises the threshold to a strict 55% majority. Holds leveraged Nasdaq when at least 11 of the last 20 sessions close up and switches to T-bills when down-days match or outnumber up-days.
 
@@ -1157,16 +1157,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 81% | 🟢 147% | 🟢 41% | 🟢 28% | 🟢 94% | 🟢 8% | 🔴 -1% |
 
-> [!code]- Click to view: cc001_038.py
+> [!code]- Click to view: 038.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_038.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/038.py"
 > ```
 
 
 ---
 
-## Strategy-40
-### TII(20) >50.0 Bull (cc001_040.py)
+## Strategy-39
+### TII(20) >50.0 Bull (039.py)
 
 **Description:** Uses the Trend Intensity Index to gauge whether QQQ closes above its 20-day SMA on a majority of recent sessions. Holds leveraged Nasdaq when more than half of the past 20 bars close above the SMA, switching to T-bills otherwise.
 
@@ -1185,16 +1185,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 21% | 🔴 -6% | 🟢 29% | 🟢 55% | 🟢 49% | 🟢 40% | 🟢 84% | 🟢 2% | 🟢 15% | ⚪ 0% | 🟢 37% | 🟢 63% |
 
-> [!code]- Click to view: cc001_040.py
+> [!code]- Click to view: 039.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_040.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/039.py"
 > ```
 
 
 ---
 
-## Strategy-41
-### Psych Line(20) >50.0 Bull (cc001_041.py)
+## Strategy-40
+### Psych Line(20) >50.0 Bull (040.py)
 
 **Description:** Uses the Psychological Line to count the proportion of up-days in QQQ over a 20-day window. Holds leveraged Nasdaq when more than half of the last 20 days had gains, and T-bills when momentum weakens.
 
@@ -1213,16 +1213,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 81% | 🟢 147% | 🟢 41% | 🟢 28% | 🟢 94% | 🟢 8% | 🔴 -1% |
 
-> [!code]- Click to view: cc001_041.py
+> [!code]- Click to view: 040.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_041.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/040.py"
 > ```
 
 
 ---
 
-## Strategy-42
-### TQQQ Intrabar Vol Breakout (cc001_042.py)
+## Strategy-41
+### TQQQ Intrabar Vol Breakout (041.py)
 
 **Description:** Uses a 240-bar average intrabar volatility (|open−close|/open) on TQQQ minute bars to identify low-vol regimes, entering 100% when vol < 0.1 and price is within 2% of the 240-minute high. Exits on vol spike > 0.15 or a 3% hard stop from entry.
 
@@ -1241,16 +1241,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 43% | 🟢 5% | 🟢 22% | 🟢 101% | 🟢 23% | 🟢 105% | 🟢 151% | 🟢 24% | 🔴 -33% | 🟢 107% | 🟢 52% | 🟢 18% |
 
-> [!code]- Click to view: cc001_042.py
+> [!code]- Click to view: 041.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_042.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/041.py"
 > ```
 
 
 ---
 
-## Strategy-43
-### Tech Dip Buy (cc001_043.py)
+## Strategy-42
+### Tech Dip Buy (042.py)
 
 **Description:** Buys the top 5 US technology stocks by market cap when they pull back hard during an uptrend, then holds until they recover to new highs or the loss gets too large. Universe rotates automatically as market caps shift. Equal-weight across held positions up to 20% per slot.
 
@@ -1270,9 +1270,9 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 19% | ⚪ 0% | 🟢 7% | 🟢 37% | 🟢 6% | 🟢 40% | 🟢 39% | 🟢 52% | 🔴 -34% | 🟢 98% | 🟢 100% | 🟢 32% |
 
-> [!code]- Click to view: cc001_043.py
+> [!code]- Click to view: 042.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/cc001_043.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/042.py"
 > ```
 
 

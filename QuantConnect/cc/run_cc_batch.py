@@ -26,6 +26,10 @@ def _get_folder(batch, cfg):
     return batch
 
 
+def _get_catalog_name(folder, cfg):
+    return cfg.get(folder, {}).get('catalog', folder)
+
+
 def load_config(batch):
     if not os.path.exists(CONFIG_PATH):
         return {}
@@ -35,11 +39,19 @@ def load_config(batch):
     resolved = dict(cfg.get('global', {}))
     resolved.update(cfg.get(folder, {}))
     resolved['_folder'] = folder
+    resolved['_catalog'] = _get_catalog_name(folder, cfg)
     return resolved
 
 
 def load_catalog(batch):
-    path = os.path.join(SCRIPT_DIR, 'json', f'{batch}.jsonl')
+    if os.path.exists(CONFIG_PATH):
+        with open(CONFIG_PATH) as f:
+            cfg = json.load(f)
+        folder  = _get_folder(batch, cfg)
+        catalog = _get_catalog_name(folder, cfg)
+    else:
+        catalog = batch
+    path = os.path.join(SCRIPT_DIR, 'json', f'{catalog}.jsonl')
     entries = []
     with open(path) as f:
         for line in f:
@@ -107,7 +119,7 @@ def main():
 
     if len(sys.argv) > 2:
         nums = parse_nums(sys.argv[2:])
-        catalog = [e for e in catalog if int(e['file'].split('_')[1].replace('.py', '')) in nums]
+        catalog = [e for e in catalog if int(e['file'].replace('.py', '')) in nums]
 
     batch_cfg = load_config(batch)
     algos_dir = os.path.join(SCRIPT_DIR, 'cc_algos', batch_cfg.get('_folder', batch))
@@ -117,7 +129,7 @@ def main():
     for entry in catalog:
         sid   = entry['id']
         fname = entry['file']
-        n     = int(fname.split('_')[1].replace('.py', ''))
+        n     = int(fname.replace('.py', ''))
 
         if sid in results and 'error' not in results[sid] and results[sid].get('status') == 'completed':
             r  = results[sid]
