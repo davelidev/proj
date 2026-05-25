@@ -9,7 +9,18 @@ from tqqq_sma150 import TQQQSMA150Sub
 from ibs_atr_stop import IBSATRStopSub
 from mktcap_ibs_regime import MktCapIBSRegimeSub
 from tech_dip_tqqq import TQQQTechDipSub
-
+from trend_stretch_exit import TrendStretchExitSub
+from anti_martingale import AntiMartingaleSub
+from donchian200_midline import Donchian200MidlineSub
+from roc_d200_trail import ROCD200TrailSub
+from tqqq_pyramid import TQQQPyramidSub
+from range_expanded import RangeExpandedSub
+from mfi14_hyst import MFI14HystSub
+from cmo20 import CMO20Sub
+from roc20 import ROC20Sub
+from upday20 import UpDay20Sub
+from tii20 import TII20Sub
+from price126d import Price126DSub
 
 # ---------------------------------------------------------------------------
 # Combined Ensemble Algo
@@ -37,6 +48,18 @@ class UltimateAlgo(QCAlgorithm):
             TQQQSMA150Sub(self,            "TQQQSMA150"),
             IBSATRStopSub(self,            "IBSATRStop"),
             MktCapIBSRegimeSub(self,       "MktCapIBS"),
+            CMO20Sub(self,                 "CMO20"),
+            ROC20Sub(self,                 "ROC20"),
+            UpDay20Sub(self,               "UpDay20"),
+            TII20Sub(self,                 "TII20"),
+            Price126DSub(self,             "Price126D"),
+            TrendStretchExitSub(self,      "StretchExit"),
+            AntiMartingaleSub(self,        "AntiMartin"),
+            Donchian200MidlineSub(self,    "D200Mid"),
+            ROCD200TrailSub(self,          "ROCD200Trail"),
+            TQQQPyramidSub(self,           "TQQQPyramid"),
+            RangeExpandedSub(self,         "RangeExp"),
+            MFI14HystSub(self,             "MFI14Hyst"),
         ]
 
         start_equity = INITIAL_CASH / len(self.sub_algos)

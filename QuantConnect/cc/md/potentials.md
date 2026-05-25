@@ -10,40 +10,37 @@
 | [6](#strategy-6)     | ✅    | Trend           | 30%  | -51%  | 0.715  | 120   | 70    | 1.71     | 4.25         | 3/10   |
 | [7](#strategy-7)     | ✅    | Dip Buy         | 30%  | -39%  | 0.864  | 54    | 10    | 5.40     | 5.11         | 4/10   |
 | [8](#strategy-8)     | ❌    | Rotation        | 27%  | -43%  | 0.709  | 219   | 166   | 1.32     | 2.50         | 4/10   |
-| [9](#strategy-9)     | ❌    | Buy & Hold      | 25%  | -80%  | 0.601  | 818   | 112   | 7.30     | 1.44         | 1/10   |
-| [10](#strategy-10)   | ✅    | Trend/MR Hybrid | 49%  | -48%  | 0.991  | 71    | 58    | 1.22     | 4.32         | 5/10   |
-| [11](#strategy-11)   | ✅    | Trend/MR Hybrid | 30%  | -23%  | 1.073  | 827   | 650   | 1.27     | 2.06         | 3/10   |
-| [12](#strategy-12)   | ✅    | Rotation        | 29%  | -48%  | 0.7    | 69    | 66    | 1.05     | 3.15         | 5/10   |
-| [13](#strategy-13)   | ✅    | Trend           | 37%  | -57%  | 0.796  | 34    | 51    | 0.67     | 9.51         | 2/10   |
-| [14](#strategy-14)   | ✅    | Trend           | 38%  | -49%  | 0.885  | 309   | 252   | 1.23     | 2.65         | 3/10   |
-| [15](#strategy-15)   | ✅    | Trend           | 31%  | -43%  | 0.794  | 193   | 256   | 0.75     | 3.27         | 3/10   |
-| [16](#strategy-16)   | ✅    | Trend           | 29%  | -43%  | 0.814  | 741   | 711   | 1.04     | 3.24         | 4/10   |
-| [17](#strategy-17)   | ✅    | Trend           | 33%  | -44%  | 0.81   | 294   | 231   | 1.27     | 2.47         | 3/10   |
-| [18](#strategy-18)   | ✅    | Trend           | 31%  | -40%  | 0.806  | 204   | 249   | 0.82     | 3.01         | 3/10   |
-| [19](#strategy-19)   | ✅    | Trend           | 32%  | -43%  | 0.846  | 386   | 492   | 0.78     | 3.88         | 3/10   |
-| [20](#strategy-20)   | ✅    | Regime          | 39%  | -46%  | 0.892  | 290   | 247   | 1.17     | 2.06         | 4/10   |
-| [21](#strategy-21)   | ✅    | Trend           | 31%  | -43%  | 0.794  | 193   | 256   | 0.75     | 3.27         | 3/10   |
-| [22](#strategy-22)   | ✅    | Momentum        | 35%  | -50%  | 0.843  | 218   | 267   | 0.82     | 3.13         | 3/10   |
-| [23](#strategy-23)   | ✅    | Momentum        | 37%  | -49%  | 0.87   | 312   | 255   | 1.22     | 2.56         | 4/10   |
-| [24](#strategy-24)   | ✅    | Momentum        | 38%  | -50%  | 0.886  | 292   | 239   | 1.22     | 2.67         | 3/10   |
-| [25](#strategy-25)   | ✅    | Range           | 34%  | -41%  | 0.824  | 136   | 91    | 1.49     | 3.23         | 3/10   |
-| [26](#strategy-26)   | ✅    | Hybrid          | 31%  | -44%  | 0.754  | 914   | 661   | 1.38     | 1.48         | 4/10   |
-| [27](#strategy-27)   | ✅    | Hybrid          | 33%  | -45%  | 0.802  | 850   | 615   | 1.38     | 1.57         | 4/10   |
-| [28](#strategy-28)   | ✅    | Hybrid          | 31%  | -50%  | 0.752  | 1055  | 733   | 1.44     | 1.39         | 4/10   |
-| [29](#strategy-29)   | ✅    | Momentum        | 35%  | -50%  | 0.843  | 218   | 267   | 0.82     | 3.13         | 2/10   |
-| [30](#strategy-30)   | ✅    | Hybrid          | 31%  | -29%  | 0.831  | 744   | 745   | 1.00     | 2.10         | 4/10   |
-| [31](#strategy-31)   | ✅    | Hybrid          | 31%  | -33%  | 0.864  | 817   | 642   | 1.27     | 1.73         | 4/10   |
-| [32](#strategy-32)   | ✅    | Volume          | 31%  | -44%  | 0.783  | 110   | 73    | 1.51     | 2.44         | 2/10   |
-| [33](#strategy-33)   | ✅    | Hybrid          | 29%  | -42%  | 0.772  | 238   | 303   | 0.79     | 3.03         | 4/10   |
-| [34](#strategy-34)   | ✅    | Momentum        | 35%  | -50%  | 0.843  | 218   | 267   | 0.82     | 3.13         | 2/10   |
-| [35](#strategy-35)   | ✅    | Price Position  | 30%  | -55%  | 0.697  | 40    | 65    | 0.62     | 8.15         | 1/10   |
+| [9](#strategy-9)     | ✅    | Trend/MR Hybrid | 49%  | -48%  | 0.991  | 71    | 58    | 1.22     | 4.32         | 5/10   |
+| [10](#strategy-10)   | ✅    | Trend/MR Hybrid | 30%  | -23%  | 1.073  | 827   | 650   | 1.27     | 2.06         | 3/10   |
+| [11](#strategy-11)   | ✅    | Rotation        | 29%  | -48%  | 0.7    | 69    | 66    | 1.05     | 3.15         | 5/10   |
+| [12](#strategy-12)   | ✅    | Trend           | 37%  | -57%  | 0.796  | 34    | 51    | 0.67     | 9.51         | 2/10   |
+| [13](#strategy-13)   | ✅    | Trend           | 38%  | -49%  | 0.885  | 309   | 252   | 1.23     | 2.65         | 3/10   |
+| [14](#strategy-14)   | ✅    | Trend           | 31%  | -43%  | 0.794  | 193   | 256   | 0.75     | 3.27         | 3/10   |
+| [15](#strategy-15)   | ✅    | Trend           | 29%  | -43%  | 0.814  | 741   | 711   | 1.04     | 3.24         | 4/10   |
+| [16](#strategy-16)   | ✅    | Trend           | 33%  | -44%  | 0.81   | 294   | 231   | 1.27     | 2.47         | 3/10   |
+| [17](#strategy-17)   | ✅    | Trend           | 31%  | -40%  | 0.806  | 204   | 249   | 0.82     | 3.01         | 3/10   |
+| [18](#strategy-18)   | ✅    | Trend           | 32%  | -43%  | 0.846  | 386   | 492   | 0.78     | 3.88         | 3/10   |
+| [19](#strategy-19)   | ✅    | Regime          | 39%  | -46%  | 0.892  | 290   | 247   | 1.17     | 2.06         | 4/10   |
+| [20](#strategy-20)   | ✅    | Trend           | 31%  | -43%  | 0.794  | 193   | 256   | 0.75     | 3.27         | 3/10   |
+| [21](#strategy-21)   | ✅    | Momentum        | 35%  | -50%  | 0.843  | 218   | 267   | 0.82     | 3.13         | 3/10   |
+| [22](#strategy-22)   | ✅    | Momentum        | 37%  | -49%  | 0.87   | 312   | 255   | 1.22     | 2.56         | 4/10   |
+| [23](#strategy-23)   | ✅    | Momentum        | 38%  | -50%  | 0.886  | 292   | 239   | 1.22     | 2.67         | 3/10   |
+| [24](#strategy-24)   | ✅    | Range           | 34%  | -41%  | 0.824  | 136   | 91    | 1.49     | 3.23         | 3/10   |
+| [25](#strategy-25)   | ✅    | Hybrid          | 31%  | -44%  | 0.754  | 914   | 661   | 1.38     | 1.48         | 4/10   |
+| [26](#strategy-26)   | ✅    | Hybrid          | 33%  | -45%  | 0.802  | 850   | 615   | 1.38     | 1.57         | 4/10   |
+| [27](#strategy-27)   | ✅    | Hybrid          | 31%  | -50%  | 0.752  | 1055  | 733   | 1.44     | 1.39         | 4/10   |
+| [28](#strategy-28)   | ✅    | Momentum        | 35%  | -50%  | 0.843  | 218   | 267   | 0.82     | 3.13         | 2/10   |
+| [29](#strategy-29)   | ✅    | Hybrid          | 31%  | -29%  | 0.831  | 744   | 745   | 1.00     | 2.10         | 4/10   |
+| [30](#strategy-30)   | ✅    | Hybrid          | 31%  | -33%  | 0.864  | 817   | 642   | 1.27     | 1.73         | 4/10   |
+| [31](#strategy-31)   | ✅    | Volume          | 31%  | -44%  | 0.783  | 110   | 73    | 1.51     | 2.44         | 2/10   |
+| [32](#strategy-32)   | ✅    | Hybrid          | 29%  | -42%  | 0.772  | 238   | 303   | 0.79     | 3.03         | 4/10   |
+| [33](#strategy-33)   | ✅    | Price Position  | 30%  | -55%  | 0.697  | 40    | 65    | 0.62     | 8.15         | 1/10   |
+| [34](#strategy-34)   | ✅    | Breadth         | 33%  | -53%  | 0.803  | 209   | 246   | 0.85     | 2.96         | 2/10   |
+| [35](#strategy-35)   | ✅    | Price Position  | 35%  | -54%  | 0.785  | 70    | 83    | 0.84     | 4.80         | 2/10   |
 | [36](#strategy-36)   | ✅    | Breadth         | 33%  | -53%  | 0.803  | 209   | 246   | 0.85     | 2.96         | 2/10   |
-| [37](#strategy-37)   | ✅    | Price Position  | 35%  | -54%  | 0.785  | 70    | 83    | 0.84     | 4.80         | 2/10   |
-| [38](#strategy-38)   | ✅    | Breadth         | 33%  | -53%  | 0.803  | 209   | 246   | 0.85     | 2.96         | 2/10   |
-| [39](#strategy-39)   | ✅    | TII             | 30%  | -44%  | 0.711  | 545   | 446   | 1.22     | 1.44         | 2/10   |
-| [40](#strategy-40)   | ✅    | Psychological Line | 33%  | -53%  | 0.803  | 209   | 246   | 0.85     | 2.96         | 2/10   |
-| [41](#strategy-41)   | ✅    | Breakout        | 43%  | -37%  | 0.986  | 192   | 341   | 0.56     | 3.45         | 3/10   |
-| [42](#strategy-42)   | ❌    | Dip Buy         | 28%  | -40%  | 0.856  | 32    | 26    | 1.23     | 3.20         | 2/10   |
+| [37](#strategy-37)   | ✅    | TII             | 30%  | -44%  | 0.711  | 545   | 446   | 1.22     | 1.44         | 2/10   |
+| [38](#strategy-38)   | ✅    | Breakout        | 43%  | -37%  | 0.986  | 192   | 341   | 0.56     | 3.45         | 3/10   |
+| [39](#strategy-39)   | ❌    | Dip Buy         | 28%  | -40%  | 0.856  | 32    | 26    | 1.23     | 3.20         | 2/10   |
 
 
 ---
@@ -285,34 +282,6 @@
 ---
 
 ## Strategy-9
-### 8 Leveraged ETF EW Permanent + Monthly Rebalance (009.py)
-
-**Description:** Holds an equal-weighted basket of 8 3×-leveraged ETFs (TQQQ, SOXL, TECL, UPRO, FAS, TNA, CURE, ERX) with no market-timing logic. Rebalances back to equal weight on the first trading day of each month, capturing volatility-decay recovery and sector dispersion benefits.
-
-*Overfit 1/10 — No tuned parameters — equal weight is a principled default and monthly rebalance is a conventional cadence. The only choice is the 8-name basket, which diversifies across sectors without fitting to returns.*
-
-- **Universe:** Fixed 8-name 3× leveraged basket: TQQQ, SOXL, TECL, UPRO, FAS, TNA, CURE, ERX
-- **Allocation:** Equal weight (12.5% per name) at all times
-- **Rebalance:** Monthly — first trading day of each month, 30 min after open
-- **No signal:** No entry/exit logic; pure static allocation with drift correction
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 25% | -80% | 0.601 | 818 | 112 | 7.30 | 1.44 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 40% | 🔴 -9% | 🟢 39% | 🟢 76% | 🔴 -30% | 🟢 116% | 🟢 2% | 🟢 106% | 🔴 -52% | 🟢 80% | 🟢 31% | 🟢 33% |
-
-> [!code]- Click to view: 009.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/009.py"
-> ```
-
-
----
-
-## Strategy-10
 ### TQQQ hybrid + ATR (010.py)
 
 **Description:** TQQQ self-SMA(200) trend + IBS<0.05 dip-buy hybrid with an added 3× ATR stop-loss on the MR sleeve. Same shape as Strategy 47 but with risk management on the bear-market dips — if the dip extends another 3× ATR below the entry, the trade is cut.
@@ -344,7 +313,7 @@
 
 ---
 
-## Strategy-11
+## Strategy-10
 ### 5 most mkt cap + IBS regime mix (011.py)
 
 **Description:** Two-regime rotation on the top 5 US stocks by market cap. **Uptrend** (QQQ > 200d SMA): hold all 5 mega-caps equal-weight (20% each). **Downtrend** (QQQ ≤ 200d SMA): rotate into only those names whose IBS < 0.2 (close near day's low — buying weakness in mega-caps only when the broader market is bearish). Position weights adjust daily based on how many names meet the bear-mode filter.
@@ -375,7 +344,7 @@
 
 ---
 
-## Strategy-12
+## Strategy-11
 ### Nasdaq-100 Breadth Rotation (012.py)
 
 **Description:** Uses participation across the 10 largest-cap U.S. stocks (drawn from the top 100 by dollar volume) as a breadth regime gate for TQQQ. Each constituent runs a 50-day EMA, and the strategy measures the fraction trading above its EMA: above 60% it goes 100% long TQQQ, below 40% it liquidates, and in the 40–60% no-man's-land it holds whatever it had. The mega-cap basket acts as a proxy for Nasdaq leadership health — when participation is broad the engine ramps full 3× exposure, and when it deteriorates it steps fully aside.
@@ -405,7 +374,7 @@
 
 ---
 
-## Strategy-13
+## Strategy-12
 ### Donchian-200 Midline (013.py)
 
 **Description:** A trend follower using the midpoint of the 200-day Donchian channel (average of the 200-day high and 200-day low) as a dynamic trend filter. When the Nasdaq ETF price is above this midline it holds a leveraged Nasdaq ETF; below it holds a short-term bond ETF. The midline serves as a slow, price-extremes-anchored moving average.
@@ -434,7 +403,7 @@
 
 ---
 
-## Strategy-14
+## Strategy-13
 ### 3-State ROC(20) + Donchian-200 (014.py)
 
 **Description:** A three-state trend follower that replaces the Aroon oscillator with a 20-day rate-of-change indicator on QQQ alongside the standard Donchian-200 midline. When both momentum and the channel position are bullish it holds TQQQ fully; partial confirmation yields a 50/50 blend; both bearish yields full cash.
@@ -463,7 +432,7 @@
 
 ---
 
-## Strategy-15
+## Strategy-14
 ### ROC+D200 + 7% Trail Exit (015.py)
 
 **Description:** A trend follower that enters TQQQ when both ROC(20) and Donchian-200 are bullish, but adds a trailing drawdown exit: it closes the position if QQQ falls more than 7% below its 20-day high, even if the longer-term trend signal remains intact. This provides faster downside protection.
@@ -493,7 +462,7 @@
 
 ---
 
-## Strategy-16
+## Strategy-15
 ### TQQQ Pyramid (10%/day) (016.py)
 
 **Description:** A pyramiding trend follower that gradually scales into TQQQ by adding 10% exposure per day while both ROC(20) and Donchian-200 remain bullish, reaching 100% after ten consecutive bull days. On the first bear signal it exits entirely to cash.
@@ -522,7 +491,7 @@
 
 ---
 
-## Strategy-17
+## Strategy-16
 ### 3-State Dual-ROC + D200 (017.py)
 
 **Description:** A three-state trend follower that requires consensus from both short-term ROC(20) and medium-term ROC(60) for the momentum leg, paired with a Donchian-200 midline. The dual-ROC requirement means both timeframes must agree for the strategy to treat momentum as bullish, reducing false positives.
@@ -551,7 +520,7 @@
 
 ---
 
-## Strategy-18
+## Strategy-17
 ### ROC+D200 + 5% Trail Exit (018.py)
 
 **Description:** A trend follower identical in structure to the 7%-trail variant but using a tighter 5% trailing drawdown from the 20-day high as the exit trigger. The tighter stop provides faster downside protection at the cost of more frequent exits during normal pullbacks.
@@ -581,7 +550,7 @@
 
 ---
 
-## Strategy-19
+## Strategy-18
 ### TQQQ Pyramid 30%/day (019.py)
 
 **Description:** The fastest pyramiding variant, adding 30% TQQQ exposure per day while trend conditions hold, reaching full exposure in roughly four consecutive bull days. A single bear day triggers a complete exit to cash. The same ROC(20) and Donchian-200 trend conditions govern entry and exit.
@@ -610,7 +579,7 @@
 
 ---
 
-## Strategy-20
+## Strategy-19
 ### Mega-Cap Dispersion Regime (020.py)
 
 **Description:** A breadth-based trend follower that adds a cohesion filter to the standard D200 regime: it only holds TQQQ when both QQQ is in an uptrend and the five largest US stocks are moving together, as measured by the standard deviation of their 20-day returns being below a threshold. High dispersion among mega-caps signals stress and triggers a shift to cash.
@@ -640,7 +609,7 @@
 
 ---
 
-## Strategy-21
+## Strategy-20
 ### ROC+D200 + 7% Trail Binary (021.py)
 
 **Description:** A trend follower on QQQ that requires a positive 20-day rate-of-change, price above the 200-day high/low channel midpoint, and that the current price is no more than 7% below its 20-day high before buying TQQQ. The 7% trailing drawdown acts as an exit trigger as well, keeping the strategy out when a meaningful pullback from a recent peak occurs.
@@ -669,7 +638,7 @@
 
 ---
 
-## Strategy-22
+## Strategy-21
 ### CMO(20) Momentum (022.py)
 
 **Description:** A momentum trend follower that uses the Chande Momentum Oscillator computed over 20 days on QQQ. A positive CMO value indicates that upward daily moves have dominated downward moves over the period, triggering a full allocation to TQQQ. When CMO turns negative the strategy exits to BIL.
@@ -697,7 +666,7 @@
 
 ---
 
-## Strategy-23
+## Strategy-22
 ### 3-State CMO+Median200 (023.py)
 
 **Description:** A three-state trend follower that combines CMO(20) momentum with a 200-day median price filter on QQQ. When both signals are bullish the portfolio goes fully into TQQQ; when one is bullish the portfolio splits 50/50; when both are bearish it exits to BIL. Trading only occurs on state changes.
@@ -727,7 +696,7 @@
 
 ---
 
-## Strategy-24
+## Strategy-23
 ### 3-State CMO+52w-High Gate (024.py)
 
 **Description:** A three-state trend follower that combines CMO(20) momentum with a 52-week high drawdown gate. When CMO is positive and QQQ is within 15% of its 52-week high both signals agree and the portfolio goes fully into TQQQ. One bullish signal yields a 50/50 split; neither exits to BIL.
@@ -757,7 +726,7 @@
 
 ---
 
-## Strategy-25
+## Strategy-24
 ### Range Expanded 110% (025.py)
 
 **Description:** A volatility-expansion trend follower that enters TQQQ when QQQ's recent 25-day average range exceeds 110% of the 200-day average, indicating elevated volatility, combined with a median trend gate. This tests whether periods of rising volatility in an uptrend produce strong forward returns.
@@ -787,7 +756,7 @@
 
 ---
 
-## Strategy-26
+## Strategy-25
 ### UpDnVol+52w+Top3 (026.py)
 
 **Description:** A volume-breadth rotator that measures whether buying pressure (up-day volume) exceeds selling pressure (down-day volume) over 20 days, combined with a 52-week proximity filter (price within 7% of the one-year high). Both signals assess market health from different angles — participation from the volume side and strength from the drawdown side — alongside the 200-bar median regime gate.
@@ -817,7 +786,7 @@
 
 ---
 
-## Strategy-27
+## Strategy-26
 ### Mom20+52w+Top3 (027.py)
 
 **Description:** Combines a 20-day momentum signal with a 52-week high proximity filter and a 200-bar median regime gate. Being near the 52-week high is a well-known indicator of trend strength. The short-term momentum adds a recency confirmation. Together they construct a three-signal score that governs allocation between the leveraged ETF, large-cap stocks, and cash.
@@ -847,7 +816,7 @@
 
 ---
 
-## Strategy-28
+## Strategy-27
 ### M252_NEAR60_VOLCONT+Top3 (028.py)
 
 **Description:** A trend-following rotator combining a full-year momentum check with near-60-day-high strength confirmation and a volatility contraction condition. The yearly lookback selects for macro uptrends, while the shorter-term filters ensure the current price action is both strong and calm before adding risk. Allocations are spread across TQQQ, the top three large-cap stocks, and BIL on the standard five-level ladder.
@@ -879,7 +848,7 @@
 
 ---
 
-## Strategy-29
+## Strategy-28
 ### ROC20_Zero (029.py)
 
 **Description:** Applies a 20-day rate-of-change momentum signal on QQQ with a zero-line crossover. Holds leveraged Nasdaq while trailing momentum is positive and shifts entirely to T-bills when rate of change turns negative.
@@ -907,7 +876,7 @@
 
 ---
 
-## Strategy-30
+## Strategy-29
 ### OBV20_CCI20 (030.py)
 
 **Description:** Pairs monthly OBV momentum with CCI on QQQ. Requires OBV rising over 20 days plus CCI > 0 for leveraged Nasdaq, and rotates to T-bills on either OBV weakness or deeply oversold CCI.
@@ -937,7 +906,7 @@
 
 ---
 
-## Strategy-31
+## Strategy-30
 ### OBV20_ADX14 (031.py)
 
 **Description:** Combines monthly OBV momentum with ADX directional bias on QQQ. Requires OBV rising plus +DI > -DI for leveraged Nasdaq, and exits to T-bills on either OBV weakness or a confirmed bearish ADX regime.
@@ -968,7 +937,7 @@
 
 ---
 
-## Strategy-32
+## Strategy-31
 ### MFI14_Hyst (032.py)
 
 **Description:** Applies a 14-period Money Flow Index on QQQ with hysteresis bands to reduce whipsaw. Enters leveraged Nasdaq when buying pressure dominates (MFI > 60), exits to T-bills when selling pressure takes over (MFI < 40), and holds the current position in the neutral zone.
@@ -997,7 +966,7 @@
 
 ---
 
-## Strategy-33
+## Strategy-32
 ### CCI20+ROC20+ATR (033.py)
 
 **Description:** Extends the CCI+ROC momentum stack with an ATR-based volatility gate on QQQ. Holds leveraged Nasdaq only when both momentum indicators are positive and short-term volatility is contained below 1.3× the 63-day average range; exits to T-bills if any condition breaks.
@@ -1025,35 +994,7 @@
 
 ---
 
-## Strategy-34
-### CMO20_Regime (034.py)
-
-**Description:** Computes a 20-day Chande Momentum Oscillator on QQQ by comparing the sum of up-moves to down-moves over the lookback. Holds leveraged Nasdaq while buying pressure dominates (CMO > 0) and switches to T-bills when momentum turns net negative.
-
-*Overfit 2/10 — Single momentum indicator at a standard period (20) with a zero-line threshold — minimal tuning*
-
-- **Entry:** CMO(20) > 0 (sum of up-moves > sum of down-moves): 100% TQQQ
-- **Exit:** CMO(20) ≤ 0: 100% BIL
-- **Symbols:** Signal & Execution: QQQ / TQQQ / BIL
-- **Rebalance:** Daily, 30 min after market open (only on regime change)
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 35% | -50% | 0.843 | 218 | 267 | 0.82 | 3.13 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 170% | 🟢 39% | 🔴 -18% | 🟢 88% | 🟢 28% | 🟢 42% |
-
-> [!code]- Click to view: 034.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/034.py"
-> ```
-
-
----
-
-## Strategy-35
+## Strategy-33
 ### Price52W_Percentile (035.py)
 
 **Description:** Measures QQQ's current price as a percentile within its 52-week (252-day) high-low range. Holds leveraged Nasdaq when price sits in the upper half of the annual range and exits to T-bills when it falls into the lower half.
@@ -1081,7 +1022,7 @@
 
 ---
 
-## Strategy-36
+## Strategy-34
 ### UpDay_Count20 (036.py)
 
 **Description:** Counts the number of positive-close days in the trailing 20 trading sessions on QQQ as a simple market breadth proxy. Holds leveraged Nasdaq when more than half the recent sessions are up-days and exits to T-bills when down-days dominate.
@@ -1109,7 +1050,7 @@
 
 ---
 
-## Strategy-37
+## Strategy-35
 ### Price126D_Percentile (037.py)
 
 **Description:** Applies the same range-percentile logic as the 52-week variant (698) but over a 6-month (126-day) lookback. Holds leveraged Nasdaq when QQQ is in the upper half of its recent 6-month range and exits to T-bills when it falls below the midpoint.
@@ -1137,7 +1078,7 @@
 
 ---
 
-## Strategy-38
+## Strategy-36
 ### UpDay_Count55pct (038.py)
 
 **Description:** Near-identical to UpDay_Count20 (705) but raises the threshold to a strict 55% majority. Holds leveraged Nasdaq when at least 11 of the last 20 sessions close up and switches to T-bills when down-days match or outnumber up-days.
@@ -1165,7 +1106,7 @@
 
 ---
 
-## Strategy-39
+## Strategy-37
 ### TII(20) >50.0 Bull (039.py)
 
 **Description:** Uses the Trend Intensity Index to gauge whether QQQ closes above its 20-day SMA on a majority of recent sessions. Holds leveraged Nasdaq when more than half of the past 20 bars close above the SMA, switching to T-bills otherwise.
@@ -1193,35 +1134,7 @@
 
 ---
 
-## Strategy-40
-### Psych Line(20) >50.0 Bull (040.py)
-
-**Description:** Uses the Psychological Line to count the proportion of up-days in QQQ over a 20-day window. Holds leveraged Nasdaq when more than half of the last 20 days had gains, and T-bills when momentum weakens.
-
-*Overfit 2/10 — Single indicator (Psychological Line, n=20) with canonical 50% threshold — minimal tuning*
-
-- **Entry:** Psychological Line(20) > 50% (majority of last 20 days were up-days): 100% TQQQ
-- **Exit:** Psychological Line(20) ≤ 50%: 100% BIL
-- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
-- **Rebalance:** Daily, 30 min after market open (only on regime change)
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 33% | -53% | 0.803 | 209 | 246 | 0.85 | 2.96 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 81% | 🟢 147% | 🟢 41% | 🟢 28% | 🟢 94% | 🟢 8% | 🔴 -1% |
-
-> [!code]- Click to view: 040.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/040.py"
-> ```
-
-
----
-
-## Strategy-41
+## Strategy-38
 ### TQQQ Intrabar Vol Breakout (041.py)
 
 **Description:** Uses a 240-bar average intrabar volatility (|open−close|/open) on TQQQ minute bars to identify low-vol regimes, entering 100% when vol < 0.1 and price is within 2% of the 240-minute high. Exits on vol spike > 0.15 or a 3% hard stop from entry.
@@ -1249,7 +1162,7 @@
 
 ---
 
-## Strategy-42
+## Strategy-39
 ### Tech Dip Buy (042.py)
 
 **Description:** Buys the top 5 US technology stocks by market cap when they pull back hard during an uptrend, then holds until they recover to new highs or the loss gets too large. Universe rotates automatically as market caps shift. Equal-weight across held positions up to 20% per slot.

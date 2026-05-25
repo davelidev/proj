@@ -8,7 +8,7 @@ Usage:
     python3 cc/generate_md.py                                # defaults to strategies.jsonl
 """
 
-import argparse, os, sys, json, time
+import argparse, os, sys, json, re, time
 
 SCRIPT_DIR  = os.path.dirname(os.path.abspath(__file__))
 PROJ_ROOT   = os.path.dirname(SCRIPT_DIR)
@@ -204,7 +204,7 @@ def _is_displayable(r, show_all):
 
 def generate_markdown(strategies, backtest_results, output_path, show_all=False, batch_cfg=None):
     batch_cfg  = batch_cfg or {}
-    all_rows   = sorted(strategies.items(), key=lambda x: int(x[0]))
+    all_rows   = list(strategies.items())
     visible    = [(sid, meta) for sid, meta in all_rows
                   if _is_displayable(backtest_results.get(sid, {}), show_all)]
     lines      = []
@@ -349,6 +349,15 @@ def main():
         backtest_results = load_backtest(backtest_path)
     else:
         backtest_results = run_missing_backtests(strategies, backtest_path, md_path, show_all, batch_cfg)
+
+    if re.match(r'^cc\d+$', batch_id) and int(batch_id[2:]) >= 1:
+        from prune import prune as _prune, is_prunable as _is_prunable
+        if _is_prunable(batch_id):
+            result = _prune(batch_id)
+            if "error" not in result:
+                print(f"Pruned {batch_id}: kept {result['catalog_keep']}/{result['catalog_total']} strategies")
+                metadata, strategies = load_jsonl(cc_jsonl_path)
+                backtest_results = load_backtest(backtest_path)
 
     generate_markdown(strategies, backtest_results, md_path, show_all, batch_cfg)
 
