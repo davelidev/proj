@@ -1,26 +1,26 @@
 # ensemble
 
-| #                  | Pass | Category        | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
-| :----------------- | :--- | :-------------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
-| [1](#strategy-1)   | ✅    | Buy & Hold      | 28%  | -51%  | 0.727  | 12    | 0      | —         | —            | 1/10    |
-| [2](#strategy-2)   | ✅    | Mean Reversion  | 40%  | -32%  | 0.952  | 1276  | 687    | 1.86      | 1.08         | 2/10    |
-| [3](#strategy-3)   | ✅    | Trend Following | 31%  | -49%  | 0.738  | 65    | 57     | 1.14      | 2.69         | 4/10    |
-| [4](#strategy-4)   | ✅    | Breakout        | 38%  | -49%  | 0.886  | 94    | 76     | 1.24      | 2.19         | 4/10    |
-| [5](#strategy-5)   | ✅    | Trend Following | 40%  | -55%  | 0.871  | 21    | 36     | 0.58      | 14.75        | 2/10    |
-| [6](#strategy-6)   | ✅    | Mean Reversion  | 46%  | -43%  | 1.049  | 271   | 106    | 2.56      | 0.96         | 3/10    |
-| [7](#strategy-7)   | ✅    | Momentum        | 35%  | -50%  | 0.843  | 218   | 267    | 0.82      | 3.13         | 2/10    |
-| [8](#strategy-8)   | ✅    | Momentum        | 35%  | -50%  | 0.843  | 218   | 267    | 0.82      | 3.13         | 2/10    |
-| [9](#strategy-9)   | ✅    | Breadth         | 33%  | -53%  | 0.803  | 209   | 246    | 0.85      | 2.96         | 2/10    |
-| [10](#strategy-10) | ✅    | Trend           | 30%  | -44%  | 0.711  | 545   | 446    | 1.22      | 1.44         | 2/10    |
-| [11](#strategy-11) | ✅    | Price Position  | 35%  | -54%  | 0.785  | 70    | 83     | 0.84      | 4.80         | 1/10    |
-| [12](#strategy-12) | ✅    | Mean Reversion  | 40%  | -56%  | 0.925  | 52    | 85     | 0.61      | 8.62         | 3/10    |
-| [13](#strategy-13) | ✅    | Trend           | 30%  | -51%  | 0.715  | 120   | 70     | 1.71      | 4.25         | 3/10    |
-| [14](#strategy-14) | ✅    | Trend           | 37%  | -57%  | 0.796  | 34    | 51     | 0.67      | 9.51         | 2/10    |
-| [15](#strategy-15) | ✅    | Trend           | 31%  | -43%  | 0.794  | 193   | 256    | 0.75      | 3.27         | 3/10    |
-| [16](#strategy-16) | ✅    | Trend           | 29%  | -43%  | 0.814  | 741   | 711    | 1.04      | 3.24         | 4/10    |
-| [17](#strategy-17) | ✅    | Range           | 34%  | -41%  | 0.824  | 136   | 91     | 1.49      | 3.23         | 3/10    |
-| [18](#strategy-18) | ✅    | Volume          | 31%  | -44%  | 0.783  | 110   | 73     | 1.51      | 2.44         | 2/10    |
-| [19](#strategy-19) | ✅    | Ensemble        | 36%  | -33%  | 0.982  | 3791  | 2324   | 1.63      | 1.83         | N/A     |
+| #                    | Pass | Category        | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
+| :------------------- | :--- | :-------------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
+| [1](#strategy-1)     | ✅    | Buy & Hold      | 28%  | -51%  | 0.727  | 12    | 0     | —        | —            | 1/10   |
+| [2](#strategy-2)     | ✅    | Mean Reversion  | 40%  | -32%  | 0.953  | 1281  | 928   | 1.38     | 1.47         | 2/10   |
+| [3](#strategy-3)     | ✅    | Trend Following | 31%  | -49%  | 0.738  | 65    | 57    | 1.14     | 2.69         | 4/10   |
+| [4](#strategy-4)     | ✅    | Breakout        | 38%  | -49%  | 0.886  | 94    | 76    | 1.24     | 2.19         | 4/10   |
+| [5](#strategy-5)     | ✅    | Trend Following | 40%  | -55%  | 0.871  | 22    | 36    | 0.61     | 13.35        | 2/10   |
+| [6](#strategy-6)     | ✅    | Mean Reversion  | 46%  | -43%  | 1.049  | 271   | 106   | 2.56     | 0.96         | 3/10   |
+| [7](#strategy-7)     | ✅    | Momentum        | 35%  | -50%  | 0.834  | 112   | 131   | 0.85     | 3.02         | 2/10   |
+| [8](#strategy-8)     | ✅    | Momentum        | 35%  | -50%  | 0.834  | 112   | 131   | 0.85     | 3.02         | 2/10   |
+| [9](#strategy-9)     | ✅    | Breadth         | 32%  | -53%  | 0.792  | 98    | 129   | 0.76     | 3.31         | 2/10   |
+| [10](#strategy-10)   | ✅    | Trend           | 29%  | -45%  | 0.695  | 302   | 193   | 1.56     | 1.09         | 2/10   |
+| [11](#strategy-11)   | ✅    | Price Position  | 34%  | -55%  | 0.78   | 22    | 55    | 0.40     | 10.02        | 1/10   |
+| [12](#strategy-12)   | ✅    | Mean Reversion  | 40%  | -56%  | 0.925  | 49    | 80    | 0.61     | 8.62         | 3/10   |
+| [13](#strategy-13)   | ✅    | Trend           | 30%  | -51%  | 0.715  | 120   | 70    | 1.71     | 4.25         | 3/10   |
+| [14](#strategy-14)   | ✅    | Trend           | 37%  | -57%  | 0.796  | 34    | 51    | 0.67     | 9.51         | 2/10   |
+| [15](#strategy-15)   | ✅    | Trend           | 31%  | -43%  | 0.794  | 193   | 256   | 0.75     | 3.27         | 3/10   |
+| [16](#strategy-16)   | ✅    | Trend           | 29%  | -43%  | 0.814  | 741   | 711   | 1.04     | 3.24         | 4/10   |
+| [17](#strategy-17)   | ✅    | Range           | 34%  | -41%  | 0.824  | 136   | 91    | 1.49     | 3.23         | 3/10   |
+| [18](#strategy-18)   | ✅    | Volume          | 31%  | -44%  | 0.783  | 110   | 73    | 1.51     | 2.44         | 2/10   |
+| [19](#strategy-19)   | ✅    | Ensemble        | 36%  | -33%  | 0.982  | 3791  | 2324  | 1.63     | 1.83         | N/A    |
 
 
 ---
@@ -65,7 +65,7 @@
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 40% | -32% | 0.952 | 1276 | 687 | 1.86 | 1.08 |
+| 40% | -32% | 0.953 | 1281 | 928 | 1.38 | 1.47 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -151,7 +151,7 @@
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 40% | -55% | 0.871 | 21 | 36 | 0.58 | 14.75 |
+| 40% | -55% | 0.871 | 22 | 36 | 0.61 | 13.35 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -194,7 +194,7 @@
 ---
 
 ## Strategy-7
-### CMO(20) Momentum (cmo20.py)
+### CMO(20) Momentum (008.py)
 
 **Description:** Holds TQQQ when the 20-day Chande Momentum Oscillator on QQQ is positive (net up-moves exceed net down-moves) and switches to BIL otherwise. Only trades on regime change.
 
@@ -207,22 +207,22 @@
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 35% | -50% | 0.843 | 218 | 267 | 0.82 | 3.13 |
+| 35% | -50% | 0.834 | 112 | 131 | 0.85 | 3.02 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 170% | 🟢 39% | 🔴 -18% | 🟢 88% | 🟢 28% | 🟢 42% |
+| 🟢 26% | 🔴 -10% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 85% | 🟢 169% | 🟢 40% | 🔴 -18% | 🟢 85% | 🟢 27% | 🟢 40% |
 
-> [!code]- Click to view: cmo20.py
+> [!code]- Click to view: 008.py
 > ```embed-python
-> PATH: "vault://QuantConnect/strategies/algos/cmo20.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/008.py"
 > ```
 
 
 ---
 
 ## Strategy-8
-### ROC(20) Zero Cross (roc20.py)
+### ROC(20) Zero Cross (009.py)
 
 **Description:** Holds TQQQ when QQQ's 20-day rate of change is positive (today's close above close 20 days ago) and switches to BIL otherwise. Only trades on regime change.
 
@@ -235,22 +235,22 @@
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 35% | -50% | 0.843 | 218 | 267 | 0.82 | 3.13 |
+| 35% | -50% | 0.834 | 112 | 131 | 0.85 | 3.02 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 170% | 🟢 39% | 🔴 -18% | 🟢 88% | 🟢 28% | 🟢 42% |
+| 🟢 26% | 🔴 -10% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 85% | 🟢 169% | 🟢 40% | 🔴 -18% | 🟢 85% | 🟢 27% | 🟢 40% |
 
-> [!code]- Click to view: roc20.py
+> [!code]- Click to view: 009.py
 > ```embed-python
-> PATH: "vault://QuantConnect/strategies/algos/roc20.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/009.py"
 > ```
 
 
 ---
 
 ## Strategy-9
-### Up-Day Count(20) (upday20.py)
+### Up-Day Count(20) (010.py)
 
 **Description:** Holds TQQQ when more than half of the last 20 trading sessions closed higher than the previous day, and switches to BIL when down-days dominate. Only trades on regime change.
 
@@ -263,22 +263,22 @@
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 33% | -53% | 0.803 | 209 | 246 | 0.85 | 2.96 |
+| 32% | -53% | 0.792 | 98 | 129 | 0.76 | 3.31 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 81% | 🟢 147% | 🟢 41% | 🟢 28% | 🟢 94% | 🟢 8% | 🔴 -1% |
+| 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 80% | 🟢 147% | 🟢 41% | 🟢 27% | 🟢 92% | 🟢 8% | 🔴 -3% |
 
-> [!code]- Click to view: upday20.py
+> [!code]- Click to view: 010.py
 > ```embed-python
-> PATH: "vault://QuantConnect/strategies/algos/upday20.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/010.py"
 > ```
 
 
 ---
 
 ## Strategy-10
-### TII(20) Trend Intensity (tii20.py)
+### TII(20) Trend Intensity (011.py)
 
 **Description:** Holds TQQQ when more than half of the last 20 daily closes are above the 20-day SMA, indicating sustained trend participation, and switches to BIL otherwise. Only trades on regime change.
 
@@ -291,22 +291,22 @@
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 30% | -44% | 0.711 | 545 | 446 | 1.22 | 1.44 |
+| 29% | -45% | 0.695 | 302 | 193 | 1.56 | 1.09 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 21% | 🔴 -6% | 🟢 29% | 🟢 55% | 🟢 49% | 🟢 40% | 🟢 84% | 🟢 2% | 🟢 15% | ⚪ 0% | 🟢 37% | 🟢 63% |
+| 🟢 21% | 🔴 -6% | 🟢 30% | 🟢 55% | 🟢 48% | 🟢 39% | 🟢 84% | 🟢 2% | 🟢 14% | 🔴 -2% | 🟢 34% | 🟢 59% |
 
-> [!code]- Click to view: tii20.py
+> [!code]- Click to view: 011.py
 > ```embed-python
-> PATH: "vault://QuantConnect/strategies/algos/tii20.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/011.py"
 > ```
 
 
 ---
 
 ## Strategy-11
-### Price 126D Percentile (price126d.py)
+### Price 126D Percentile (012.py)
 
 **Description:** Holds TQQQ when QQQ's current price is in the upper half of its 126-day (6-month) high-low range and switches to BIL otherwise. Only trades on regime change.
 
@@ -319,15 +319,15 @@
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 35% | -54% | 0.785 | 70 | 83 | 0.84 | 4.80 |
+| 34% | -55% | 0.78 | 22 | 55 | 0.40 | 10.02 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 46% | 🟢 25% | 🔴 -5% | 🟢 118% | 🔴 -25% | 🟢 59% | 🟢 119% | 🟢 68% | 🔴 -40% | 🟢 87% | 🟢 26% | 🟢 53% |
+| 🟢 46% | 🟢 25% | 🔴 -5% | 🟢 118% | 🔴 -25% | 🟢 59% | 🟢 119% | 🟢 68% | 🔴 -41% | 🟢 86% | 🟢 26% | 🟢 52% |
 
-> [!code]- Click to view: price126d.py
+> [!code]- Click to view: 012.py
 > ```embed-python
-> PATH: "vault://QuantConnect/strategies/algos/price126d.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/012.py"
 > ```
 
 
@@ -348,7 +348,7 @@
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 40% | -56% | 0.925 | 52 | 85 | 0.61 | 8.62 |
+| 40% | -56% | 0.925 | 49 | 80 | 0.61 | 8.62 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |

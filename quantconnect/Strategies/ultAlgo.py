@@ -1,13 +1,10 @@
 from AlgorithmImports import *
-from base import START_DATE, END_DATE, INITIAL_CASH, WARMUP_DAYS, SCHEDULE_TICKER, DAILY_OPEN_MIN, BaseSubAlgo
-from vol_breakout import VolatilityBreakoutSub
-from leveraged_rebalance import LeveragedRebalanceSub
+from base import START_DATE, END_DATE, INITIAL_CASH, WARMUP_DAYS, SCHEDULE_TICKER, DAILY_OPEN_MIN, BaseSubAlgofrom leveraged_rebalance import LeveragedRebalanceSub
 from rsi_champion import RSIDipChampionSub
 from tqqq_dynamic import TQQQDynamicSub
 from expanding_breakout import ExpandingBreakoutSub
 from tqqq_sma150 import TQQQSMA150Sub
 from ibs_atr_stop import IBSATRStopSub
-from mktcap_ibs_regime import MktCapIBSRegimeSub
 from tech_dip_tqqq import TQQQTechDipSub
 from trend_stretch_exit import TrendStretchExitSub
 from anti_martingale import AntiMartingaleSub
@@ -47,7 +44,6 @@ class UltimateAlgo(QCAlgorithm):
             ExpandingBreakoutSub(self,     "ExpandBreak"),
             TQQQSMA150Sub(self,            "TQQQSMA150"),
             IBSATRStopSub(self,            "IBSATRStop"),
-            MktCapIBSRegimeSub(self,       "MktCapIBS"),
             CMO20Sub(self,                 "CMO20"),
             ROC20Sub(self,                 "ROC20"),
             UpDay20Sub(self,               "UpDay20"),
