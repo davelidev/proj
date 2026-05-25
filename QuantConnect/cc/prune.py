@@ -194,6 +194,19 @@ def resequence(cc, strategies, bt_entries, bt_path, bt_fmt, catalog_path, metada
     algo_dir = os.path.join(SCRIPT_DIR, "cc_algos", folder)
 
     id_map = {}
+    # Stage 1: rename to temp names to avoid collisions (e.g. 008→007 when 007 exists)
+    temp_map = {}  # old_file -> temp_name
+    for i, s in enumerate(strategies):
+        new_file = f"{i + 1:03d}.py"
+        old_file = s["file"]
+        if old_file != new_file:
+            old_path = os.path.join(algo_dir, old_file)
+            if os.path.exists(old_path):
+                tmp = os.path.join(algo_dir, f"_tmp_{old_file}")
+                os.rename(old_path, tmp)
+                temp_map[old_file] = tmp
+
+    # Stage 2: rename from temp names to final names
     for i, s in enumerate(strategies):
         new_id   = str(i + 1)
         new_file = f"{i + 1:03d}.py"
@@ -201,15 +214,13 @@ def resequence(cc, strategies, bt_entries, bt_path, bt_fmt, catalog_path, metada
         old_file = s["file"]
         id_map[old_id] = new_id
 
-        if old_file != new_file:
-            old_path = os.path.join(algo_dir, old_file)
+        if old_file != new_file and old_file in temp_map:
             new_path = os.path.join(algo_dir, new_file)
-            if os.path.exists(old_path):
-                os.rename(old_path, new_path)
-            s["file"] = new_file
-            if "vault_path" in s:
-                import re
-                s["vault_path"] = re.sub(r'[^/]+\.py$', new_file, s["vault_path"])
+            os.rename(temp_map[old_file], new_path)
+        s["file"] = new_file
+        if "vault_path" in s:
+            import re
+            s["vault_path"] = re.sub(r'[^/]+\.py$', new_file, s["vault_path"])
         s["id"] = new_id
 
     # Update backtest IDs
@@ -241,17 +252,25 @@ def main():
         sys.exit(1)
 
     total = {"bt_remove": 0, "catalog_remove": 0, "algo_delete": 0}
+    status = "[DRY RUN] " if args.dry_run else ""
 
     for cc in ccs:
         if not is_prunable(cc):
-            print(f"{cc}: skipped (prune: false in config.json)")
+            # Pruning disabled but still resequence to fill gaps
+            bt_entries, bt_path, bt_fmt = load_backtest(cc)
+            metadata, strategies, catalog_path = load_catalog(cc)
+            if strategies:
+                if not args.dry_run:
+                    resequence(cc, strategies, bt_entries, bt_path, bt_fmt, catalog_path, metadata)
+                print(f"{status}{cc}: resequenced (prune: false)")
+            else:
+                print(f"{status}{cc}: skipped (no catalog entries)")
             continue
         result = prune(cc, dry_run=args.dry_run)
         if "error" in result:
             print(f"{cc}: {result['error']}")
             continue
 
-        status = "[DRY RUN] " if args.dry_run else ""
         print(f"{status}{cc}: {result['bt_passing']}/{result['bt_total']} backtests pass, "
               f"keeping {result['catalog_keep']}/{result['catalog_total']} catalog, "
               f"keeping {result['algo_keep']}/{result['algo_total']} algos")

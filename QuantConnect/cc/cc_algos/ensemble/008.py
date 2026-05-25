@@ -1,22 +1,18 @@
 from AlgorithmImports import *
+from base import BaseSubAlgo, _make_standalone
 
-class CMO20(QCAlgorithm):
-    def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
-        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.SetWarmUp(252, Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq, 45), self.Rebalance)
 
-    def Rebalance(self):
-        if self.IsWarmingUp: return
-        h = self.History(self.qqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return
-        c = [float(x) for x in h["close"].values]
-        changes = [c[i] - c[i-1] for i in range(1, len(c))]
-        up  = sum(x for x in changes if x > 0)
-        dn  = sum(-x for x in changes if x < 0)
-        tot = up + dn
-        cmo = 0 if tot == 0 else 100 * (up - dn) / tot
-        if cmo > 0: self.SetHoldings(self.tqqq, 1.0)
-        elif self.Portfolio[self.tqqq].Invested: self.Liquidate(self.tqqq)
+class ROC20Sub(BaseSubAlgo):
+    def initialize(self):
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self._roc = self.algo.ROC("QQQ", 20, Resolution.Daily)
+
+    def update_targets(self):
+        if not self._roc.IsReady: return False
+        prev = dict(self.targets)
+        self.targets = {self.tqqq: 1.0} if self._roc.Current.Value > 0 else {}
+        return self.targets != prev
+
+
+ROC20Algo = _make_standalone(ROC20Sub)

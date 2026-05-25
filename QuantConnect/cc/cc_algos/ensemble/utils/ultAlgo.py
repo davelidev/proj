@@ -1,15 +1,22 @@
 from AlgorithmImports import *
 from base import START_DATE, END_DATE, INITIAL_CASH, WARMUP_DAYS, SCHEDULE_TICKER, DAILY_OPEN_MIN, BaseSubAlgo
-from vol_breakout import VolatilityBreakoutSub
 from leveraged_rebalance import LeveragedRebalanceSub
 from rsi_champion import RSIDipChampionSub
 from tqqq_dynamic import TQQQDynamicSub
 from expanding_breakout import ExpandingBreakoutSub
 from tqqq_sma150 import TQQQSMA150Sub
 from ibs_atr_stop import IBSATRStopSub
-from mktcap_ibs_regime import MktCapIBSRegimeSub
-from tech_dip_tqqq import TQQQTechDipSub
-
+from roc20 import ROC20Sub
+from upday20 import UpDay20Sub
+from tii20 import TII20Sub
+from price126d import Price126DSub
+from trend_stretch_exit import TrendStretchExitSub
+from anti_martingale import AntiMartingaleSub
+from donchian200_midline import Donchian200MidlineSub
+from roc_d200_trail import ROCD200TrailSub
+from tqqq_pyramid import TQQQPyramidSub
+from range_expanded import RangeExpandedSub
+from mfi14_hyst import MFI14HystSub
 
 # ---------------------------------------------------------------------------
 # Combined Ensemble Algo
@@ -30,15 +37,23 @@ class UltimateAlgo(QCAlgorithm):
         self.last_prices = {}
 
         self.sub_algos = [
-            # VolatilityBreakoutSub(self, "VolBreakout"),  # disabled: minute-resolution signals get clipped by daily-only ExecuteAggregation; net-negative in ensemble (28% vs 30% baseline)
-            # TechDipBuySub(self,           "TechDip"),
             LeveragedRebalanceSub(self,   "LevRebal"),
             RSIDipChampionSub(self,       "RSIDip"),
             TQQQDynamicSub(self,           "TQQQDyn"),
             ExpandingBreakoutSub(self,     "ExpandBreak"),
             TQQQSMA150Sub(self,            "TQQQSMA150"),
             IBSATRStopSub(self,            "IBSATRStop"),
-            MktCapIBSRegimeSub(self,       "MktCapIBS"),
+            ROC20Sub(self,                 "ROC20"),
+            UpDay20Sub(self,               "UpDay20"),
+            TII20Sub(self,                 "TII20"),
+            Price126DSub(self,             "Price126D"),
+            TrendStretchExitSub(self,      "StretchExit"),
+            AntiMartingaleSub(self,        "AntiMartin"),
+            Donchian200MidlineSub(self,    "D200Mid"),
+            ROCD200TrailSub(self,          "ROCD200Trail"),
+            TQQQPyramidSub(self,           "TQQQPyramid"),
+            RangeExpandedSub(self,         "RangeExp"),
+            MFI14HystSub(self,             "MFI14Hyst"),
         ]
 
         start_equity = INITIAL_CASH / len(self.sub_algos)
@@ -127,7 +142,6 @@ class UltimateAlgo(QCAlgorithm):
         self.UpdateVirtualAccounting()
 
         if not hasattr(self, "_last_year") or self.Time.year != self._last_year:
-            # Report previous-year trade activity before resetting the counters.
             if hasattr(self, "_last_year"):
                 prev_yr = self._last_year
                 rows    = [f"  {sub.id}: {sub.trade_count_year} trades"
@@ -143,11 +157,6 @@ class UltimateAlgo(QCAlgorithm):
                 sub.trade_count_year = 0
             self.Log(f"YEARLY REBALANCE: All sub-algos reset to ${reset_val:,.0f}")
 
-        # Each sub's update_targets returns True iff self.targets changed.
-        # Subs that need a rebalance even without a target change set
-        # self.force_rebalance themselves. ExecuteAggregation always runs and
-        # uses its own drift gate to skip cheap days; the drift-detection is
-        # an alpha source (vol harvesting across cash-heavy vs risk-heavy subs).
         update_signaled = {}
         for sub in self.sub_algos:
             signaled = sub.update_targets()
@@ -155,11 +164,6 @@ class UltimateAlgo(QCAlgorithm):
             if signaled:
                 sub.force_rebalance = True
 
-        # Trade-activity tally — a "trade-day" is recorded if EITHER:
-        #   (a) update_targets() returned True (catches no-weight-change re-asserts
-        #       like LevRebal's annual rebalance flag), OR
-        #   (b) targets dict differs from yesterday's snapshot (catches subs that
-        #       mutate self.targets from on_data, e.g. IBSATRStop).
         for sub in self.sub_algos:
             cur          = {s: round(w, 6) for s, w in sub.targets.items() if w != 0}
             dict_changed = cur != sub._prev_targets_snap
@@ -169,7 +173,7 @@ class UltimateAlgo(QCAlgorithm):
                 if sub.last_trade_date is None:
                     self.Log(f"FIRST TRADE: {sub.id} on {self.Time.strftime('%Y-%m-%d')}")
                 sub.last_trade_date    = self.Time
-            sub._prev_targets_snap = cur  # always refresh so the next diff is current
+            sub._prev_targets_snap = cur
 
         self.ExecuteAggregation()
 
@@ -184,7 +188,6 @@ class UltimateAlgo(QCAlgorithm):
         total_virtual = sum(sub.equity for sub in self.sub_algos)
         if total_virtual <= 0: return
 
-        # Check if any sub-algo is forcing a rebalance
         force = any(sub.force_rebalance for sub in self.sub_algos)
 
         agg_weights = {}
@@ -201,9 +204,7 @@ class UltimateAlgo(QCAlgorithm):
         if total_w > 1.0:
             for s in agg_weights: agg_weights[s] /= total_w
 
-        # [Change Detection] Compare with previous aggregate weights
         if not force and hasattr(self, "_prev_agg_weights"):
-            # Check if all keys match and weights are within tolerance
             if set(agg_weights.keys()) == set(self._prev_agg_weights.keys()):
                 significant_change = False
                 for sym, weight in agg_weights.items():
@@ -212,7 +213,7 @@ class UltimateAlgo(QCAlgorithm):
                         significant_change = True
                         break
                 if not significant_change:
-                    return # Skip execution
+                    return
 
         self._prev_agg_weights = agg_weights.copy()
 
@@ -225,7 +226,6 @@ class UltimateAlgo(QCAlgorithm):
             if x.Invested and x.Symbol not in agg_weights:
                 self.Liquidate(x.Symbol)
 
-        # Reset force flags
         for sub in self.sub_algos:
             sub.force_rebalance = False
 
@@ -244,4 +244,3 @@ class UltimateAlgo(QCAlgorithm):
             flag     = "  <-- NEVER TRADED" if sub.trade_count == 0 else ""
             rows.append(f"  {sub.id}: total trades={sub.trade_count}  last={last_str}{flag}")
         self.Log("=== FINAL TRADE ACTIVITY REPORT ===\n" + "\n".join(rows))
-

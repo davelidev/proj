@@ -1,23 +1,36 @@
 from AlgorithmImports import *
 
 
-class Algo053(QCAlgorithm):
-    """#53 — Williams %R(2) MR on TQQQ. Buy %R<-90, sell %R>-10."""
+class Algo060(QCAlgorithm):
+    """#60 — TQQQ + SMA200 + IBS<0.05 dip-add (re-enter on extreme dip even if below SMA)."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-        self.t = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.wpr = self.WILR(self.t, 2, Resolution.Daily)
-        self.SetWarmUp(10, Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.t),
-                         self.TimeRules.AfterMarketOpen(self.t, 30),
-                         self.R)
+        self.s = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.sma = self.SMA(self.s, 200, Resolution.Daily)
+        self.SetWarmUp(220, Resolution.Daily)
+        self.in_trend_pos = False
+        self.in_mr_pos = False
+        self.Schedule.On(self.DateRules.EveryDay(self.s),
+                         self.TimeRules.AfterMarketOpen(self.s, 30), self.R)
 
     def R(self):
-        if self.IsWarmingUp or not self.wpr.IsReady: return
-        v = self.wpr.Current.Value
-        invested = self.Portfolio[self.t].Invested
-        if not invested and v < -90: self.SetHoldings(self.t, 1.0)
-        elif invested and v > -10: self.Liquidate(self.t)
+        if self.IsWarmingUp or not self.sma.IsReady: return
+        bar = self.Securities[self.s]
+        h, l, c = bar.High, bar.Low, bar.Close
+        if h <= l: return
+        ibs = (c - l) / (h - l)
+        in_trend = c > self.sma.Current.Value
+        invested = self.Portfolio[self.s].Invested
+        if in_trend:
+            if not invested:
+                self.SetHoldings(self.s, 1.0); self.in_trend_pos = True; self.in_mr_pos = False
+        else:
+            if self.in_trend_pos and invested:
+                self.Liquidate(self.s); self.in_trend_pos = False
+            if not invested and ibs < 0.05:
+                self.SetHoldings(self.s, 1.0); self.in_mr_pos = True
+            elif invested and self.in_mr_pos and ibs > 0.7:
+                self.Liquidate(self.s); self.in_mr_pos = False

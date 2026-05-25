@@ -8,7 +8,6 @@
 | [4](#strategy-4)     | ✅    | Breakout        | 38%  | -49%  | 0.886  | 94    | 76    | 1.24     | 2.19         | 4/10   |
 | [5](#strategy-5)     | ✅    | Trend Following | 40%  | -55%  | 0.871  | 22    | 36    | 0.61     | 13.35        | 2/10   |
 | [6](#strategy-6)     | ✅    | Mean Reversion  | 46%  | -43%  | 1.049  | 271   | 106   | 2.56     | 0.96         | 3/10   |
-| [7](#strategy-7)     | ✅    | Momentum        | 35%  | -50%  | 0.834  | 112   | 131   | 0.85     | 3.02         | 2/10   |
 | [8](#strategy-8)     | ✅    | Momentum        | 35%  | -50%  | 0.834  | 112   | 131   | 0.85     | 3.02         | 2/10   |
 | [9](#strategy-9)     | ✅    | Breadth         | 32%  | -53%  | 0.792  | 98    | 129   | 0.76     | 3.31         | 2/10   |
 | [10](#strategy-10)   | ✅    | Trend           | 29%  | -45%  | 0.695  | 302   | 193   | 1.56     | 1.09         | 2/10   |
@@ -20,7 +19,7 @@
 | [16](#strategy-16)   | ✅    | Trend           | 29%  | -43%  | 0.814  | 741   | 711   | 1.04     | 3.24         | 4/10   |
 | [17](#strategy-17)   | ✅    | Range           | 34%  | -41%  | 0.824  | 136   | 91    | 1.49     | 3.23         | 3/10   |
 | [18](#strategy-18)   | ✅    | Volume          | 31%  | -44%  | 0.783  | 110   | 73    | 1.51     | 2.44         | 2/10   |
-| [19](#strategy-19)   | ✅    | Ensemble        | 36%  | -33%  | 0.982  | 3791  | 2324  | 1.63     | 1.83         | N/A    |
+| [18](#strategy-18)   | ✅    | Ensemble        | 37%  | -34%  | 0.978  | 315   | 170   | 1.85     | 1.68         | N/A    |
 
 
 ---
@@ -193,15 +192,15 @@
 
 ---
 
-## Strategy-7
-### CMO(20) Momentum (008.py)
+## Strategy-8
+### ROC(20) Zero Cross (008.py)
 
-**Description:** Holds TQQQ when the 20-day Chande Momentum Oscillator on QQQ is positive (net up-moves exceed net down-moves) and switches to BIL otherwise. Only trades on regime change.
+**Description:** Holds TQQQ when QQQ's 20-day rate of change is positive (today's close above close 20 days ago) and switches to BIL otherwise. Only trades on regime change.
 
 *Overfit 2/10 — Single momentum indicator at a standard period (20) with a zero-line threshold — minimal tuning.*
 
-- **Entry:** CMO(20) > 0: 100% TQQQ
-- **Exit:** CMO(20) ≤ 0: 100% BIL
+- **Entry:** ROC(20) > 0: 100% TQQQ
+- **Exit:** ROC(20) ≤ 0: 100% BIL
 - **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
 - **Rebalance:** Daily, 30 min after market open (only on regime change)
 
@@ -221,36 +220,8 @@
 
 ---
 
-## Strategy-8
-### ROC(20) Zero Cross (009.py)
-
-**Description:** Holds TQQQ when QQQ's 20-day rate of change is positive (today's close above close 20 days ago) and switches to BIL otherwise. Only trades on regime change.
-
-*Overfit 2/10 — Single momentum indicator at a standard period (20) with a zero-line threshold — minimal tuning.*
-
-- **Entry:** ROC(20) > 0: 100% TQQQ
-- **Exit:** ROC(20) ≤ 0: 100% BIL
-- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
-- **Rebalance:** Daily, 30 min after market open (only on regime change)
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 35% | -50% | 0.834 | 112 | 131 | 0.85 | 3.02 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 26% | 🔴 -10% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 85% | 🟢 169% | 🟢 40% | 🔴 -18% | 🟢 85% | 🟢 27% | 🟢 40% |
-
-> [!code]- Click to view: 009.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/009.py"
-> ```
-
-
----
-
 ## Strategy-9
-### Up-Day Count(20) (010.py)
+### Up-Day Count(20) (009.py)
 
 **Description:** Holds TQQQ when more than half of the last 20 trading sessions closed higher than the previous day, and switches to BIL when down-days dominate. Only trades on regime change.
 
@@ -269,16 +240,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 80% | 🟢 147% | 🟢 41% | 🟢 27% | 🟢 92% | 🟢 8% | 🔴 -3% |
 
-> [!code]- Click to view: 010.py
+> [!code]- Click to view: 009.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/010.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/009.py"
 > ```
 
 
 ---
 
 ## Strategy-10
-### TII(20) Trend Intensity (011.py)
+### TII(20) Trend Intensity (010.py)
 
 **Description:** Holds TQQQ when more than half of the last 20 daily closes are above the 20-day SMA, indicating sustained trend participation, and switches to BIL otherwise. Only trades on regime change.
 
@@ -297,16 +268,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 21% | 🔴 -6% | 🟢 30% | 🟢 55% | 🟢 48% | 🟢 39% | 🟢 84% | 🟢 2% | 🟢 14% | 🔴 -2% | 🟢 34% | 🟢 59% |
 
-> [!code]- Click to view: 011.py
+> [!code]- Click to view: 010.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/011.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/010.py"
 > ```
 
 
 ---
 
 ## Strategy-11
-### Price 126D Percentile (012.py)
+### Price 126D Percentile (011.py)
 
 **Description:** Holds TQQQ when QQQ's current price is in the upper half of its 126-day (6-month) high-low range and switches to BIL otherwise. Only trades on regime change.
 
@@ -325,16 +296,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 46% | 🟢 25% | 🔴 -5% | 🟢 118% | 🔴 -25% | 🟢 59% | 🟢 119% | 🟢 68% | 🔴 -41% | 🟢 86% | 🟢 26% | 🟢 52% |
 
-> [!code]- Click to view: 012.py
+> [!code]- Click to view: 011.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/012.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/011.py"
 > ```
 
 
 ---
 
 ## Strategy-12
-### Trend Stretch Exit (005.py)
+### Trend Stretch Exit (012.py)
 
 **Description:** Trend following with mean-reversion "stretch" thresholds for exits.
 
@@ -354,16 +325,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 70% | 🟢 1% | 🔴 -12% | 🟢 118% | 🔴 -23% | 🟢 50% | 🟢 96% | 🟢 92% | 🔴 -44% | 🟢 142% | 🟢 135% | 🟢 24% |
 
-> [!code]- Click to view: 005.py
+> [!code]- Click to view: 012.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/005.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/012.py"
 > ```
 
 
 ---
 
 ## Strategy-13
-### TQQQ Anti-Martingale Pyramid (006.py)
+### TQQQ Anti-Martingale Pyramid (013.py)
 
 **Description:** Starts at 50% TQQQ when QQQ > SMA(200). For every 5% gain above the entry price, adds another 15% allocation until reaching 100%. Implements the 'let winners run / cut losers' principle — pyramiding into strength.
 
@@ -383,16 +354,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 33% | 🔴 -6% | 🔴 -6% | 🟢 111% | 🔴 -5% | 🟢 35% | 🟢 83% | 🟢 88% | 🔴 -36% | 🟢 90% | 🟢 62% | 🟢 7% |
 
-> [!code]- Click to view: 006.py
+> [!code]- Click to view: 013.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/006.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/013.py"
 > ```
 
 
 ---
 
 ## Strategy-14
-### Donchian-200 Midline (013.py)
+### Donchian-200 Midline (014.py)
 
 **Description:** A trend follower using the midpoint of the 200-day Donchian channel (average of the 200-day high and 200-day low) as a dynamic trend filter. When QQQ price is above this midline it holds TQQQ; below it holds BIL.
 
@@ -412,9 +383,9 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 56% | 🟢 22% | 🔴 -5% | 🟢 118% | 🔴 -19% | 🟢 80% | 🟢 97% | 🟢 88% | 🔴 -47% | 🟢 93% | 🟢 62% | 🟢 20% |
 
-> [!code]- Click to view: 013.py
+> [!code]- Click to view: 014.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/013.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/014.py"
 > ```
 
 
@@ -480,7 +451,7 @@
 ---
 
 ## Strategy-17
-### Range Expanded 110% (025.py)
+### Range Expanded 110% (017.py)
 
 **Description:** A volatility-expansion trend follower that enters TQQQ when QQQ's recent 25-day average range exceeds 110% of the 200-day average, indicating elevated volatility, combined with a median trend gate.
 
@@ -501,16 +472,16 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 23% | 🟢 6% | 🔴 -10% | 🟢 99% | 🟢 1% | 🟢 63% | 🟢 109% | 🟢 62% | 🔴 -34% | 🟢 135% | 🟢 56% | 🟢 8% |
 
-> [!code]- Click to view: 025.py
+> [!code]- Click to view: 017.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/025.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/017.py"
 > ```
 
 
 ---
 
 ## Strategy-18
-### MFI14_Hyst (032.py)
+### MFI14_Hyst (018.py)
 
 **Description:** Applies a 14-period Money Flow Index on QQQ with hysteresis bands to reduce whipsaw. Enters TQQQ when buying pressure dominates (MFI > 60), exits to BIL when selling pressure takes over (MFI < 40), holds current position in the neutral zone.
 
@@ -530,36 +501,36 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🔴 -11% | 🟢 2% | 🟢 11% | 🟢 71% | 🟢 8% | 🟢 120% | 🟢 121% | 🟢 29% | 🔴 -20% | 🟢 41% | 🟢 36% | 🟢 40% |
 
-> [!code]- Click to view: 032.py
+> [!code]- Click to view: 018.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/032.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/018.py"
 > ```
 
 
 ---
 
-## Strategy-19
+## Strategy-18
 ### Full Ensemble (ultAlgo) (ultAlgo.py)
 
-**Description:** Equal-weight ensemble of 19 sub-algos: LeveragedRebalance, RSIDipChampion, TQQQDynamic, ExpandingBreakout, TQQQSMA150, IBSATRStop, MktCapIBSRegime, CMO20, ROC20, UpDay20, TII20, Price126D, TrendStretchExit, AntiMartingale, Donchian200Midline, ROCD200Trail, TQQQPyramid, RangeExpanded, and MFI14Hyst. Sub-algo equities start equal and drift with performance; reset annually.
+**Description:** Equal-weight ensemble of 17 sub-algos: LeveragedRebalance, RSIDipChampion, TQQQDynamic, ExpandingBreakout, TQQQSMA150, IBSATRStop, ROC20, UpDay20, TII20, Price126D, TrendStretchExit, AntiMartingale, Donchian200Midline, ROCD200Trail, TQQQPyramid, RangeExpanded, MFI14Hyst. Sub-algo equities start equal and drift with performance; reset annually.
 
 *Overfit N/A — Ensemble of independently-designed strategies. No combined parameter tuning.*
 
-- **Components:** LeveragedRebalance, RSIDipChampion, TQQQDynamic, ExpandingBreakout, TQQQSMA150, IBSATRStop, MktCapIBSRegime, CMO20, ROC20, UpDay20, TII20, Price126D, TrendStretchExit, AntiMartingale, Donchian200Midline, ROCD200Trail, TQQQPyramid, RangeExpanded, MFI14Hyst
+- **Components:** LeveragedRebalance, RSIDipChampion, TQQQDynamic, ExpandingBreakout, TQQQSMA150, IBSATRStop, ROC20, UpDay20, TII20, Price126D, TrendStretchExit, AntiMartingale, Donchian200Midline, ROCD200Trail, TQQQPyramid, RangeExpanded, MFI14Hyst
 - **Weighting:** Equal virtual equity split at start; aggregated proportionally each day
 - **Rebalance:** Daily, 45 min after market open (SPY)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 36% | -33% | 0.982 | 3791 | 2324 | 1.63 | 1.83 |
+| 37% | -34% | 0.978 | 315 | 170 | 1.85 | 1.68 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 36% | 🟢 3% | 🟢 1% | 🟢 85% | 🔴 -3% | 🟢 59% | 🟢 120% | 🟢 59% | 🔴 -18% | 🟢 83% | 🟢 45% | 🟢 36% |
+| 🟢 38% | 🟢 4% | 🟢 1% | 🟢 87% | 🔴 -3% | 🟢 59% | 🟢 119% | 🟢 61% | 🔴 -19% | 🟢 85% | 🟢 47% | 🟢 36% |
 
 > [!code]- Click to view: ultAlgo.py
 > ```embed-python
-> PATH: "vault://QuantConnect/strategies/ultAlgo.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/utils/ultAlgo.py"
 > ```
 
 

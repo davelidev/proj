@@ -1,87 +1,83 @@
-# region imports
-from AlgorithmImports import *
 from datetime import datetime, timedelta
-# endregion
+from AlgorithmImports import *
 
-class VolatilitySqueezeAlpha(QCAlgorithm):
+class TQQQSOXLVixRatio110(QCAlgorithm):
+    """
+    Strategy 38: Alpha-Max Expanding Rotator
     
-    def initialize(self) -> None:
-        self.set_start_date(2014, 1, 1)
-        self.set_end_date(2025, 12, 31)
-        self.set_cash(2000)
+    Core Concept:
+    - Entering trades based on Expanding Volatility (Range1 > Range2) and strong ADX (>20).
+    - Rotates between TQQQ and SOXL based on 21-day momentum.
+    - Features a structural 'Kill Switch' based on VIX/VIX3M Ratio > 1.10 (Backwardation).
+    """
+    def Initialize(self):
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100_000)
+        self.SetBenchmark("QQQ")
+        
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.soxl = self.AddEquity("SOXL", Resolution.Daily).Symbol
+        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
+        
+        self.vix = self.AddData(CBOE, "VIX").Symbol
+        self.vix3m = self.AddData(CBOE, "VIX3M").Symbol
+        
+        self.adx = self.ADX(self.qqq, 10, Resolution.Daily)
+        self.sma200 = self.SMA(self.qqq, 200, Resolution.Daily)
+        self.atr_tqqq = self.ATR(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.atr_soxl = self.ATR(self.soxl, 14, MovingAverageType.Wilders, Resolution.Daily)
+        
+        self.mom_tqqq = self.MOMP(self.tqqq, 21, Resolution.Daily)
+        self.mom_soxl = self.MOMP(self.soxl, 21, Resolution.Daily)
+        
+        self.SetWarmUp(200, Resolution.Daily)
+        self.trailing_stop = 0
 
-        self.max_equity = 2000 
-        self.base_risk = 0.025 
-        self.max_active_positions = 2 
-
-        self.data_objects = {}
-        for ticker in ["XAUUSD", "WTICOUSD"]:
-            symbol = self.add_cfd(ticker, Resolution.HOUR, Market.OANDA).symbol
-            self.data_objects[symbol] = SymbolData(self, symbol)
-
-        self.set_warm_up(200, Resolution.DAILY)
-
-    def on_data(self, data: Slice):
-        if self.is_warming_up: 
+    def OnData(self, data):
+        if self.IsWarmingUp or not self.adx.IsReady or not self.sma200.IsReady:
             return
+        if not (self.Securities.ContainsKey(self.vix) and self.Securities.ContainsKey(self.vix3m)): return
 
-        equity = self.portfolio.total_portfolio_value
-        self.max_equity = max(self.max_equity, equity)
+        qqq_price = self.Securities[self.qqq].Price
+        s200 = self.sma200.Current.Value
+        adx_val = self.adx.Current.Value
         
-        current_risk = self.base_risk * (1.0 if (self.max_equity - equity) / self.max_equity < 0.15 else 0.5)
-        active_positions = sum(1 for h in self.portfolio.values() if h.invested)
-
-        for symbol, sd in self.data_objects.items():
-            if not data.contains_key(symbol) or not sd.is_ready: 
-                continue
-
-            price = data[symbol].price
-            holdings = self.portfolio[symbol]
+        vix_val = self.Securities[self.vix].Price
+        vix3m_val = self.Securities[self.vix3m].Price
+        vix_ratio = vix_val / vix3m_val if vix3m_val != 0 else 1.0
+        
+        hist_qqq = self.History(self.qqq, 3, Resolution.Daily)
+        if len(hist_qqq) < 3: return
+        
+        r2 = hist_qqq.iloc[-3].high - hist_qqq.iloc[-3].low
+        r1 = hist_qqq.iloc[-2].high - hist_qqq.iloc[-2].low
+        
+        # Kill Switch at Extreme Backwardation (>1.10)
+        if vix_ratio > 1.10:
+            self.Liquidate()
+            return
             
-            if self.time < sd.next_entry_time: 
-                continue
-
-            if not holdings.invested:
-                if price > sd.daily_ema.current.value and sd.update_and_check_squeeze():
-                    if price > sd.bb.upper_band.current.value and active_positions < self.max_active_positions:
-                        stop_dist = sd.atr.current.value * 2.5
-                        if stop_dist > 0:
-                            self.market_order(symbol, (equity * current_risk) / stop_dist)
-                            sd.entry_price = sd.highest_price = price
-                            sd.stop_price = price - stop_dist
-                            active_positions += 1
-            else:
-                sd.highest_price = max(sd.highest_price, price)
-
-                profit_pct = (price - sd.entry_price) / sd.entry_price
-                multiplier = 1.5 if profit_pct > 0.02 else 2.5
-                sd.stop_price = max(sd.stop_price, sd.highest_price - (sd.atr.current.value * multiplier))
-
-                if price < sd.stop_price or price < sd.daily_ema.current.value:
-                    self.liquidate(symbol)
-                    sd.next_entry_time = self.time + timedelta(hours=12)
-                    active_positions -= 1
-
-class SymbolData:
-    def __init__(self, algo, symbol):
-        self.bb = algo.bb(symbol, 20, 2, MovingAverageType.SIMPLE, Resolution.HOUR)
-        self.atr = algo.atr(symbol, 14, MovingAverageType.SIMPLE, Resolution.HOUR)
-        self.daily_ema = algo.ema(symbol, 50, Resolution.DAILY)
-        
-        self.bw_window = RollingWindow[float](100)
-        self.entry_price = self.highest_price = self.stop_price = 0.0
-        self.next_entry_time = datetime.min
-
-    def update_and_check_squeeze(self):
-        middle = self.bb.middle_band.current.value
-        bw = (self.bb.upper_band.current.value - self.bb.lower_band.current.value) / middle if middle != 0 else 0
-        self.bw_window.add(bw)
-        
-        if not self.bw_window.is_ready: 
-            return True
-            
-        return bw < (sum(self.bw_window) / self.bw_window.count * 1.1)
-
-    @property
-    def is_ready(self):
-        return self.daily_ema.is_ready and self.bb.is_ready
+        if not self.Portfolio.Invested:
+            if qqq_price > s200 and r1 > r2 and adx_val > 25:
+                if adx_val > 30 and self.mom_soxl.Current.Value > self.mom_tqqq.Current.Value:
+                    self.SetHoldings(self.soxl, 1.0)
+                    self.trailing_stop = self.Securities[self.soxl].Price - (3.0 * self.atr_soxl.Current.Value)
+                else:
+                    self.SetHoldings(self.tqqq, 1.0)
+                    self.trailing_stop = self.Securities[self.tqqq].Price - (3.0 * self.atr_tqqq.Current.Value)
+        else:
+            if self.Portfolio[self.soxl].Invested:
+                price = self.Securities[self.soxl].Price
+                new_stop = price - (3.0 * self.atr_soxl.Current.Value)
+                if new_stop > self.trailing_stop:
+                    self.trailing_stop = new_stop
+                if price < self.trailing_stop or qqq_price < s200:
+                    self.Liquidate()
+            elif self.Portfolio[self.tqqq].Invested:
+                price = self.Securities[self.tqqq].Price
+                new_stop = price - (3.0 * self.atr_tqqq.Current.Value)
+                if new_stop > self.trailing_stop:
+                    self.trailing_stop = new_stop
+                if price < self.trailing_stop or qqq_price < s200:
+                    self.Liquidate()

@@ -1,23 +1,27 @@
 from AlgorithmImports import *
 
 
-class Algo008(QCAlgorithm):
-    """#8 — TQQQ self-trend on TQQQ 200d SMA."""
+class Algo016(QCAlgorithm):
+    """#16 — Internal Bar Strength MR on TQQQ. Buy when IBS<0.2, sell when IBS>0.7."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
         self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.sma  = self.SMA(self.tqqq, 200, Resolution.Daily)
-        self.SetWarmUp(220, Resolution.Daily)
+        self.SetWarmUp(5, Resolution.Daily)
         self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
                          self.TimeRules.AfterMarketOpen(self.tqqq, 30),
                          self.Rebalance)
 
     def Rebalance(self):
-        if self.IsWarmingUp or not self.sma.IsReady: return
-        in_trend = self.Securities[self.tqqq].Price > self.sma.Current.Value
+        if self.IsWarmingUp: return
+        bar = self.Securities[self.tqqq]
+        h, l, c = bar.High, bar.Low, bar.Close
+        if h <= l: return
+        ibs = (c - l) / (h - l)
         invested = self.Portfolio[self.tqqq].Invested
-        if in_trend and not invested: self.SetHoldings(self.tqqq, 1.0)
-        elif not in_trend and invested: self.Liquidate(self.tqqq)
+        if not invested and ibs < 0.2:
+            self.SetHoldings(self.tqqq, 1.0)
+        elif invested and ibs > 0.7:
+            self.Liquidate(self.tqqq)

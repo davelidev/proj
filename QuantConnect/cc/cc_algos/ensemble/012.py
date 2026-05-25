@@ -1,20 +1,28 @@
 from AlgorithmImports import *
+from base import BaseSubAlgo, _make_standalone
 
-class Price126D(QCAlgorithm):
-    def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
-        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.SetWarmUp(252, Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq, 45), self.Rebalance)
 
-    def Rebalance(self):
-        if self.IsWarmingUp: return
-        h = self.History(self.qqq, 126, Resolution.Daily)
-        if h.empty or len(h) < 126: return
-        closes = [float(x) for x in h["close"].values]
-        lo, hi = min(closes), max(closes)
-        if hi == lo: return
-        pct = (closes[-1] - lo) / (hi - lo)
-        if pct > 0.5: self.SetHoldings(self.tqqq, 1.0)
-        elif self.Portfolio[self.tqqq].Invested: self.Liquidate(self.tqqq)
+class TrendStretchExitSub(BaseSubAlgo):
+    """QQQ > SMA(200) AND stretch < 5% entry; exit on SMA breach or stretch > 20%."""
+    def initialize(self):
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self._sma = self.algo.SMA("QQQ", 200, Resolution.Daily)
+
+    def update_targets(self):
+        if not self._sma.IsReady: return False
+        price   = self.algo.Securities[self.qqq].Price
+        sma_val = self._sma.Current.Value
+        stretch = (price - sma_val) / sma_val if sma_val > 0 else 0
+        prev     = dict(self.targets)
+        invested = bool(self.targets)
+        if not invested:
+            if price > sma_val and stretch < 0.05:
+                self.targets = {self.tqqq: 1.0}
+        else:
+            if price < sma_val or stretch > 0.20:
+                self.targets = {}
+        return self.targets != prev
+
+
+TrendStretchExitAlgo = _make_standalone(TrendStretchExitSub)

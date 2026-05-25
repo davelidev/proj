@@ -1,8 +1,8 @@
 from AlgorithmImports import *
 
 
-class Algo042(QCAlgorithm):
-    """#42 — #40 (SMA150 hybrid) + ATR stop on MR positions only."""
+class Algo047(QCAlgorithm):
+    """#47 — #46 + ATR stop on trend pos to cut DD."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
@@ -16,6 +16,7 @@ class Algo042(QCAlgorithm):
         self.in_trend_pos = False
         self.in_mr_pos = False
         self.entry_price = None
+        self.peak_price = None
         self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
                          self.TimeRules.AfterMarketOpen(self.tqqq, 30),
                          self.Rebalance)
@@ -30,22 +31,26 @@ class Algo042(QCAlgorithm):
         invested = self.Portfolio[self.tqqq].Invested
         atr_v = self.atr.Current.Value
 
-        if in_trend:
-            if not invested:
-                self.SetHoldings(self.tqqq, 1.0)
-                self.in_trend_pos = True
-                self.in_mr_pos = False
-        else:
-            if self.in_trend_pos and invested:
+        if invested and self.in_trend_pos:
+            self.peak_price = max(self.peak_price or c, c)
+            trail_stop = self.peak_price - 5.0 * atr_v
+            if c < trail_stop:
                 self.Liquidate(self.tqqq)
                 self.in_trend_pos = False
+                self.peak_price = None
+                return
+
+        if in_trend:
+            if not invested:
+                self.SetHoldings(self.tqqq, 1.0); self.in_trend_pos = True; self.in_mr_pos = False
+                self.peak_price = c
+        else:
+            if self.in_trend_pos and invested:
+                self.Liquidate(self.tqqq); self.in_trend_pos = False; self.peak_price = None
             if not invested and ibs < 0.05:
-                self.SetHoldings(self.tqqq, 1.0)
-                self.in_mr_pos = True
+                self.SetHoldings(self.tqqq, 1.0); self.in_mr_pos = True
                 self.entry_price = c
             elif invested and self.in_mr_pos:
                 stop = self.entry_price - 3.0 * atr_v if self.entry_price else 0
-                if ibs > 0.9 or c < stop:
-                    self.Liquidate(self.tqqq)
-                    self.in_mr_pos = False
-                    self.entry_price = None
+                if ibs > 0.7 or c < stop:
+                    self.Liquidate(self.tqqq); self.in_mr_pos = False; self.entry_price = None

@@ -1,42 +1,36 @@
 from AlgorithmImports import *
+from base import BaseSubAlgo, _make_standalone
 
-class TrendStretchExit(QCAlgorithm):
-    def Initialize(self):
-        self.SetStartDate(2014, 1, 1)
-        self.SetEndDate(2025, 12, 31)
-        self.SetCash(100000)
-        
-        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.bil = self.AddEquity("BIL", Resolution.Daily).Symbol
-        
-        self.sma = self.SMA(self.qqq, 200, Resolution.Daily)
-        
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq), 
-                         self.TimeRules.AfterMarketOpen(self.qqq, 30), 
-                         self.Rebalance)
-                         
-        self.SetWarmUp(200)
 
-    def Rebalance(self):
-        if not self.sma.IsReady: return
-        
-        price = self.Securities[self.qqq].Price
-        sma_val = self.sma.Current.Value
-        stretch = (price - sma_val) / sma_val if sma_val > 0 else 0
-        
-        if not self.Portfolio[self.tqqq].Invested:
-            # Entry: Bullish Trend AND NOT Overextended
-            if price > sma_val and stretch < 0.05:
-                self.Log(f"[{self.Time}] TREND UP. Stretch {stretch:.1%}. Entering TQQQ.")
-                self.SetHoldings(self.tqqq, 1.0)
-                self.Liquidate(self.bil)
+class AntiMartingaleSub(BaseSubAlgo):
+    """QQQ > SMA(200) → 50% TQQQ; pyramid +15% per 5% gain above entry, cap 100%."""
+    def initialize(self):
+        self.qqq       = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq      = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self._sma      = self.algo.SMA("QQQ", 200, Resolution.Daily)
+        self._entry_px = None
+        self._cur_w    = 0.0
+
+    def update_targets(self):
+        if not self._sma.IsReady: return False
+        price = self.algo.Securities[self.qqq].Price
+        bull  = price > self._sma.Current.Value
+        prev  = dict(self.targets)
+        if not bull:
+            self.targets   = {}
+            self._entry_px = None
+            self._cur_w    = 0.0
+        elif not self.targets:
+            self.targets   = {self.tqqq: 0.5}
+            self._entry_px = price
+            self._cur_w    = 0.5
         else:
-            # Exit: Bearish Trend OR Overextended (Blow-off Top)
-            if price < sma_val or stretch > 0.20:
-                self.Log(f"[{self.Time}] EXIT. Stretch {stretch:.1%} | Trend: {'UP' if price > sma_val else 'DOWN'}")
-                self.Liquidate(self.tqqq)
-                self.SetHoldings(self.bil, 1.0)
+            steps  = (price / self._entry_px - 1) / 0.05 if self._entry_px else 0
+            target = min(1.0, 0.5 + max(0, int(steps)) * 0.15)
+            if abs(target - self._cur_w) > 0.05:
+                self.targets = {self.tqqq: target}
+                self._cur_w  = target
+        return self.targets != prev
 
-    def OnData(self, data):
-        pass
+
+AntiMartingaleAlgo = _make_standalone(AntiMartingaleSub)

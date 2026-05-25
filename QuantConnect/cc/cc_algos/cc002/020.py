@@ -1,47 +1,40 @@
-from datetime import datetime, timedelta
 from AlgorithmImports import *
 
 
-class LargeCapTechStrategy(QCAlgorithm):
+class Algo003(QCAlgorithm):
+    """
+    Algo #3 — TQQQ trend-following on QQQ 200d SMA (Gayed-style 'LFTL').
+    Hold 100% TQQQ when QQQ > 200d SMA, else flat.
 
-    def initialize(self):
+    Davey Cheat Code Chapter 5 regime filter applied as primary signal.
+    """
+
+    def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
-        self.set_cash(100_000)
-        self.universe_settings.resolution = Resolution.DAILY
-        self.settings.automatic_indicator_warm_up = True
-        self.settings.seed_initial_prices = True
-        self._selection_data = {}        
-        self._universe = self.add_universe(self._select)
-        self.schedule.on(
-            self.date_rules.week_start("SPY"),
-            self.time_rules.at(10, 5),
-            self._rebalance,
+        self.SetCash(100_000)
+
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+
+        self.sma  = self.SMA(self.qqq, 200, Resolution.Daily)
+        self.SetWarmUp(220, Resolution.Daily)
+
+        self.Schedule.On(
+            self.DateRules.EveryDay(self.tqqq),
+            self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+            self.Rebalance,
         )
-    
-    def _select(self, fundamental):
-        filtered = [
-            f for f in fundamental
-            if (f.has_fundamental_data and 
-                f.asset_classification.morningstar_sector_code == MorningstarSectorCode.TECHNOLOGY)
-        ]
-        return [f.symbol for f in sorted(filtered, key=lambda f: f.market_cap,)[-5:]] 
-    
-    def on_securities_changed(self, changes):
-        for security in changes.added_securities:
-            security.ema = self.ema(security, 100)
-            security.max = self.max(security, 252)
-        for security in changes.removed_securities:
-            self.liquidate(security)
-    
-    def _rebalance(self):
-        for symbol in self._universe.selected:   
-            security = self.securities[symbol]
-            if not security.max.is_ready:
-                continue                        
-            # Buy signal: price below EMA and not invested
-            if not security.invested and security.price < security.ema.current.value:
-                self.set_holdings(security, 1 / len(self._universe.selected))
-            # Sell signal: price at or above 1yr-high and invested
-            elif security.invested and security.price >= security.max.current.value:
-                self.liquidate(security)
+
+    def Rebalance(self):
+        if self.IsWarmingUp or not self.sma.IsReady:
+            return
+
+        qqq_px   = self.Securities[self.qqq].Price
+        in_trend = qqq_px > self.sma.Current.Value
+        invested = self.Portfolio[self.tqqq].Invested
+
+        if in_trend and not invested:
+            self.SetHoldings(self.tqqq, 1.0)
+        elif not in_trend and invested:
+            self.Liquidate(self.tqqq)

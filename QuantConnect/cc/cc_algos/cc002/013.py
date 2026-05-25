@@ -1,76 +1,82 @@
 from datetime import datetime, timedelta
 from AlgorithmImports import *
-import pandas as pd
 
-class VAALeveraged(QCAlgorithm):
+class RotationStrategy(QCAlgorithm):
 
     def Initialize(self):
-        # 12 year backtest
-        start_date = datetime.now() - timedelta(days=12*365)
-        self.SetStartDate(start_date.year, start_date.month, start_date.day)
-        self.SetCash(100000)
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100_000)
 
-        # VAA-G Offensive Assets (Including TQQQ for CAGR > 30%)
-        self.offensive = ["TQQQ", "EFA", "EEM", "AGG"]
-        # VAA-G Defensive Assets
-        self.defensive = ["LQD", "IEF", "SHY"]
-        
-        self.symbols = {}
-        for ticker in self.offensive + self.defensive:
-            symbol = self.AddEquity(ticker, Resolution.Daily).Symbol
-            self.symbols[ticker] = symbol
+        self.Schedule.On(
+            self.DateRules.EveryDay("QQQ"),
+            self.TimeRules.AfterMarketOpen("QQQ", 35),
+            self.Rebalance,
+        )
 
-        # Rebalance on the first trading day of each month
-        self.Schedule.On(self.DateRules.MonthStart("TQQQ"), 
-                         self.TimeRules.AfterMarketOpen("TQQQ", 35), 
-                         self.Rebalance)
-        
-        self.SetWarmUp(253)
+        tickers = ["SPY", "QQQ", "TQQQ", "SPXL", "UVXY", "TECL", "UPRO", "SQQQ", "TLT"]
+        self.syms = {t: self.AddEquity(t, Resolution.Daily).Symbol for t in tickers}
+
+        self.rsi10 = {
+            t: self.RSI(self.syms[t], 10, MovingAverageType.Wilders, Resolution.Daily)
+            for t in tickers
+        }
+        self.sma_spy200 = self.SMA(self.syms["SPY"],  200, Resolution.Daily)
+        self.sma_tqqq20 = self.SMA(self.syms["TQQQ"], 20,  Resolution.Daily)
+
+        self.SetWarmUp(200, Resolution.Daily)
+
+    def _pick(self) -> str:
+        rsi10 = self.rsi10
+        spy_price  = self.Securities[self.syms["SPY"]].Price
+        tqqq_price = self.Securities[self.syms["TQQQ"]].Price
+
+        bull = (
+            self.sma_spy200.IsReady
+            and spy_price > self.sma_spy200.Current.Value
+        )
+
+        if bull:
+            # ── BULL: SPY above 200-day MA ─────────────────────────────────
+            # if rsi10["QQQ"].Current.Value < 20 or rsi10["SPY"].Current.Value < 20:
+            #     # "UVXY"
+            #     # "TLT"
+            #     return "SQQQ"
+            
+            # Ride long term trend
+            return "TQQQ"
+
+        else:
+            # ── BEAR: SPY at or below 200-day MA ──────────────────────────
+            
+            # Crash buy during long term bear market(mean reversion)
+            if rsi10["QQQ"].Current.Value < 30 or rsi10["SPY"].Current.Value < 30:
+                return "TQQQ"
+
+            tqqq_below_20sma = (
+                self.sma_tqqq20.IsReady
+                and tqqq_price < self.sma_tqqq20.Current.Value)
+
+            # Ride the trend if both long and short team is slowing dropping
+            if tqqq_below_20sma:
+                # max(["SQQQ", "TLT"], key=lambda t: rsi10[t].Current.Value)
+                # max(["TECS", "BSV"], key=lambda t: rsi10[t].Current.Value)
+                return "SQQQ"
+
+            return "TQQQ"
+
+            # # Mean reversion if not a sharp fall
+            # if rsi10["TQQQ"].Current.Value > 30:
+            #     return "TQQQ"
+            # return "SQQQ"
 
     def Rebalance(self):
-        if self.IsWarmingUp:
+        if self.IsWarmingUp or not self.sma_spy200.IsReady or not all(i.IsReady for i in self.rsi10.values()):
             return
 
-        scores = {}
-        
-        # Calculate Momentum Scores (13612W) for all assets
-        # Score = (12 * r1) + (4 * r3) + (2 * r6) + (1 * r12)
-        for ticker, symbol in self.symbols.items():
-            history = self.History(symbol, 253, Resolution.Daily)
-            if history.empty or len(history) < 253:
-                continue
-            
-            prices = history['close']
-            p0 = prices.iloc[-1]
-            p1 = prices.iloc[-22]
-            p3 = prices.iloc[-64]
-            p6 = prices.iloc[-127]
-            p12 = prices.iloc[-253]
-            
-            r1 = (p0 / p1) - 1
-            r3 = (p0 / p3) - 1
-            r6 = (p0 / p6) - 1
-            r12 = (p0 / p12) - 1
-            
-            scores[ticker] = (12 * r1) + (4 * r3) + (2 * r6) + (1 * r12)
+        pick = self._pick()
+        self.Debug(f"[Rebalance] → {pick}")
+        self.SetHoldings(self.syms[pick], 1.0, liquidateExistingHoldings=True)
 
-        if not scores: return
-
-        # VAA-G Logic: Risk-on only if ALL offensive assets have positive momentum
-        all_offensive_positive = all(scores.get(t, -1) > 0 for t in self.offensive)
-
-        if all_offensive_positive:
-            # Risk-On: Pick the offensive asset with the highest score
-            best_ticker = max(self.offensive, key=lambda t: scores.get(t, -1000))
-            self.Log(f"RISK-ON: {best_ticker} (Score: {scores[best_ticker]:.2f})")
-        else:
-            # Risk-Off: Pick the defensive asset with the highest score
-            best_ticker = max(self.defensive, key=lambda t: scores.get(t, -1000))
-            self.Log(f"RISK-OFF: {best_ticker} (Score: {scores[best_ticker]:.2f})")
-
-        target_symbol = self.symbols[best_ticker]
-        
-        # Liquidate and switch to the new best asset
-        if not self.Portfolio[target_symbol].Invested:
-            self.Liquidate()
-            self.SetHoldings(target_symbol, 1.0)
+    def OnData(self, data):
+        pass

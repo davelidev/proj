@@ -1,27 +1,23 @@
-from datetime import datetime, timedelta
 from AlgorithmImports import *
 
-class Rebalance(QCAlgorithm):
+
+class Algo008(QCAlgorithm):
+    """#8 — TQQQ self-trend on TQQQ 200d SMA."""
+
     def Initialize(self):
-        start_date = datetime.now() - timedelta(days=12*365)
-        self.SetStartDate(start_date.year, start_date.month, start_date.day)
-        self.weights = {None:4, "TQQQ": 2, "SOXL": 2, "TECL": 2}
-        self.period = 'year'
+        self.SetStartDate(2014, 1, 1)
+        self.SetEndDate(2025, 12, 31)
+        self.SetCash(100_000)
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.sma  = self.SMA(self.tqqq, 200, Resolution.Daily)
+        self.SetWarmUp(220, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
+                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+                         self.Rebalance)
 
-        self.last = None
-        for t in self.weights:
-            if t is None: continue
-            self.AddEquity(t, Resolution.Minute)
-
-    def OnData(self, data):
-        if self.Time.hour < 11: return
-        # rebalance on start of week/month/year
-        t = getattr(self.Time, self.period)
-        if t == self.last: return
-        self.last = t
-
-
-        total = sum(self.weights.values())
-        for sym, weight in self.weights.items():
-            if sym is None: continue
-            self.SetHoldings(sym, weight / total)
+    def Rebalance(self):
+        if self.IsWarmingUp or not self.sma.IsReady: return
+        in_trend = self.Securities[self.tqqq].Price > self.sma.Current.Value
+        invested = self.Portfolio[self.tqqq].Invested
+        if in_trend and not invested: self.SetHoldings(self.tqqq, 1.0)
+        elif not in_trend and invested: self.Liquidate(self.tqqq)

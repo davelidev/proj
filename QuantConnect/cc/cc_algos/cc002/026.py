@@ -1,23 +1,35 @@
 from AlgorithmImports import *
 
 
-class Algo009(QCAlgorithm):
-    """#9 — TQQQ self-SMA150."""
+class Algo018(QCAlgorithm):
+    """#18 — 5 most market capital companies @ 1.5x leverage (margin), monthly rebalance."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.sma  = self.SMA(self.tqqq, 150, Resolution.Daily)
-        self.SetWarmUp(170, Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
-                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
+        self.SetBrokerageModel(BrokerageName.InteractiveBrokersBrokerage, AccountType.Margin)
+        self.UniverseSettings.Resolution = Resolution.Daily
+        self.AddUniverse(self.SelectTop5)
+        self.SetWarmUp(20, Resolution.Daily)
+        self.top5 = []
+        self.Schedule.On(self.DateRules.MonthStart(),
+                         self.TimeRules.At(10, 0),
                          self.Rebalance)
 
+    def SelectTop5(self, fundamental):
+        eligible = [f for f in fundamental
+                    if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
+        eligible.sort(key=lambda f: f.MarketCap, reverse=True)
+        self.top5 = [f.Symbol for f in eligible[:5]]
+        return self.top5
+
     def Rebalance(self):
-        if self.IsWarmingUp or not self.sma.IsReady: return
-        in_trend = self.Securities[self.tqqq].Price > self.sma.Current.Value
-        invested = self.Portfolio[self.tqqq].Invested
-        if in_trend and not invested: self.SetHoldings(self.tqqq, 1.0)
-        elif not in_trend and invested: self.Liquidate(self.tqqq)
+        if self.IsWarmingUp: return
+        if not self.top5: return
+        weight = 1.5 / len(self.top5)
+        for sym in list(self.Portfolio.Keys):
+            if self.Portfolio[sym].Invested and sym not in self.top5:
+                self.Liquidate(sym)
+        for sym in self.top5:
+            self.SetHoldings(sym, weight)

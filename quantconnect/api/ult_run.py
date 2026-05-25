@@ -7,7 +7,7 @@ import re
 # Path Configurations (Absolute)
 # ---------------------------------------------------------------------------
 PROJECT_ROOT = "/Users/daveli/Desktop/proj/QuantConnect"
-BUNDLE_SCRIPT = os.path.join(PROJECT_ROOT, "strategies/bundle.py")
+BUNDLE_SCRIPT = os.path.join(PROJECT_ROOT, "cc/cc_algos/ensemble/utils/bundle.py")
 RUN_SCRIPT = os.path.join(PROJECT_ROOT, "api/run_qc_backtest.py")
 POLL_SCRIPT = os.path.join(PROJECT_ROOT, "api/poll_backtest.py")
 STATS_SCRIPT = os.path.join(PROJECT_ROOT, "api/get_yearly_stats.py")
@@ -22,7 +22,7 @@ def main():
         print(f"Step 1: Bundling Standalone ({standalone_path})...")
         subprocess.run(["python3", BUNDLE_SCRIPT, standalone_path], check=True)
         
-        target_file = os.path.join(PROJECT_ROOT, "strategies/embedded/standalone.py")
+        target_file = os.path.join(PROJECT_ROOT, "cc/cc_algos/ensemble/merged/standalone.py")
         base_name = os.path.basename(standalone_path)
         test_name = f"Standalone Run: {base_name}"
     else:
@@ -30,7 +30,7 @@ def main():
         print("Step 1: Bundling Ensemble...")
         subprocess.run(["python3", BUNDLE_SCRIPT], check=True)
         
-        target_file = os.path.join(PROJECT_ROOT, "strategies/embedded/ensemble.py")
+        target_file = os.path.join(PROJECT_ROOT, "cc/cc_algos/ensemble/merged/ensemble.py")
         test_name = "UltimateAlgo Run"
 
     # 2. Run Backtest & Capture ID

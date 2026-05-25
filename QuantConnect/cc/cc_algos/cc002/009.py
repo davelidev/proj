@@ -1,62 +1,59 @@
 from datetime import datetime, timedelta
 from AlgorithmImports import *
 
+class RotationStrategy(QCAlgorithm):
 
-class TQQQCheatCodeRotator(QCAlgorithm):
-    """
-    Strategy 11: Cheat Code Rotator (TQQQ)
-    
-    Core Concept:
-    - Pure application of Kevin Davey's 'Cheat Code' filters.
-    - Structural Filter: QQQ > 200 SMA (Bull Regime).
-    - Volatility Shield: VIX < 28 (Safe Environment).
-    - Entry Trigger: RSI(2) < 30 (Extreme Short-Term Dip).
-    - Exit Trigger: RSI(10) > 80 (Overbought Exhaustion).
-    """
     def Initialize(self):
+        
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-        self.SetBenchmark("QQQ")
-        
-        self.sym = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
-        self.vix = self.AddData(CBOE, "VIX").Symbol
-        
-        # High-Conviction Cheat Code Indicators
-        self.sma200 = self.SMA(self.qqq, 200, Resolution.Daily)
-        self.rsi2 = self.RSI(self.qqq, 2, MovingAverageType.Wilders, Resolution.Daily)
-        self.rsi10 = self.RSI(self.qqq, 10, MovingAverageType.Wilders, Resolution.Daily)
-        
-        self.SetWarmUp(200, Resolution.Daily)
-        
+
         self.Schedule.On(
-            self.DateRules.EveryDay(self.qqq),
-            self.TimeRules.AfterMarketOpen(self.qqq, 35),
+            self.DateRules.EveryDay("QQQ"),
+            self.TimeRules.AfterMarketOpen("QQQ", 35),
             self.Rebalance,
         )
 
+        # Subscribe only to tickers actively used in the strategy
+        tickers = ["SPY", "QQQ", "TQQQ", "SQQQ"]
+        self.syms = {t: self.AddEquity(t, Resolution.Daily).Symbol for t in tickers}
+
+        self.rsi10 = {
+            t: self.RSI(self.syms[t], 10, MovingAverageType.Wilders, Resolution.Daily)
+            for t in tickers
+        }
+        self.sma_spy200 = self.SMA(self.syms["SPY"],  200, Resolution.Daily)
+        self.sma_tqqq20 = self.SMA(self.syms["TQQQ"], 20,  Resolution.Daily)
+
+        self.SetWarmUp(200, Resolution.Daily)
+
+    def _pick(self) -> str:
+        rsi10 = self.rsi10
+        spy_price  = self.Securities[self.syms["SPY"]].Price
+        tqqq_price = self.Securities[self.syms["TQQQ"]].Price
+
+        sharp_crash = (rsi10["QQQ"].Current.Value < 30 or rsi10["SPY"].Current.Value < 30)
+        short_term_bear = tqqq_price < self.sma_tqqq20.Current.Value
+        long_term_bear = spy_price < self.sma_spy200.Current.Value
+
+        # Ride the trend down during long term and short term bear market, but not a sharp crash
+        if long_term_bear and short_term_bear and not sharp_crash:
+            return "SQQQ"
+
+        # Default to buy
+        return "TQQQ"
+
     def Rebalance(self):
-        if self.IsWarmingUp or not self.sma200.IsReady:
+        if (self.IsWarmingUp 
+            or not self.sma_spy200.IsReady 
+            or not self.sma_tqqq20.IsReady 
+            or not all(i.IsReady for i in self.rsi10.values())):
             return
 
-        qqq_price = self.Securities[self.qqq].Price
-        vix_val = self.Securities[self.vix].Price
-        sma_val = self.sma200.Current.Value
-        r2 = self.rsi2.Current.Value
-        r10 = self.rsi10.Current.Value
+        pick = self._pick()
+        self.Debug(f"[Rebalance] → {pick}")
+        self.SetHoldings(self.syms[pick], 1.0, liquidateExistingHoldings=True)
 
-        # CHEAT CODE REGIME: Bull Trend + Safe Volatility
-        is_safe_bull = qqq_price > sma_val and vix_val < 28
-
-        if not self.Portfolio.Invested:
-            # ENTRY: Bull market dip
-            if is_safe_bull and r2 < 30:
-                self.SetHoldings(self.sym, 1.0)
-                self.Debug(f"CHEAT ENTRY: Bull Dip at {qqq_price}")
-        else:
-            # EXIT: Overbought exhaustion OR structural trend break OR Vol Panic
-            # RSI10 > 80 is a strong profit-taking signal for TQQQ
-            if r10 > 80 or qqq_price < sma_val or vix_val > 32:
-                self.Liquidate(self.sym)
-                self.Debug(f"CHEAT EXIT: Shield/Profit at {qqq_price}")
+    def OnData(self, data):
+        pass

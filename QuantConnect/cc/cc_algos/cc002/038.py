@@ -1,8 +1,8 @@
 from AlgorithmImports import *
 
 
-class Algo040(QCAlgorithm):
-    """#40 — Hybrid: SMA150 trend (full TQQQ) + IBS extreme MR overlay (also TQQQ)."""
+class Algo046(QCAlgorithm):
+    """#46 — #40 hybrid + faster MR exit (IBS>0.7) for higher turn-over."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
@@ -26,22 +26,13 @@ class Algo040(QCAlgorithm):
         ibs = (c - l) / (h - l)
         in_trend = self.Securities[self.qqq].Price > self.sma.Current.Value
         invested = self.Portfolio[self.tqqq].Invested
-
         if in_trend:
-            # Hold full TQQQ in trend
             if not invested:
-                self.SetHoldings(self.tqqq, 1.0)
-                self.in_trend_pos = True
-                self.in_mr_pos = False
+                self.SetHoldings(self.tqqq, 1.0); self.in_trend_pos = True; self.in_mr_pos = False
         else:
-            # Out of trend: liquidate trend pos, then look for MR opportunities
             if self.in_trend_pos and invested:
-                self.Liquidate(self.tqqq)
-                self.in_trend_pos = False
-            # MR overlay
+                self.Liquidate(self.tqqq); self.in_trend_pos = False
             if not invested and ibs < 0.05:
-                self.SetHoldings(self.tqqq, 1.0)
-                self.in_mr_pos = True
-            elif invested and self.in_mr_pos and ibs > 0.9:
-                self.Liquidate(self.tqqq)
-                self.in_mr_pos = False
+                self.SetHoldings(self.tqqq, 1.0); self.in_mr_pos = True
+            elif invested and self.in_mr_pos and ibs > 0.7:
+                self.Liquidate(self.tqqq); self.in_mr_pos = False

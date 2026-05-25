@@ -1,14 +1,14 @@
 from datetime import datetime, timedelta
 from AlgorithmImports import *
 
-class TQQQExpandingStrongTrend(QCAlgorithm):
+class TQQQExpandingBreakout(QCAlgorithm):
     """
-    Strategy 31: Expanding Strong Trend
+    Strategy 16: Classic Expanding Breakout
 
 Core Concept:
-- Heavy focus on trend strength via ADX > 25 filter.
-- Uses wider 3.0 ATR stops to allow leveraged assets more 'room to breathe'.
-- Built on the core Expanding Range (Range1 > Range2) entry logic.
+- Fundamental entry on volatility expansion: Yesterday's Range > Previous Day's Range.
+- Standard 200 SMA Bull Filter + ADX > 20 momentum confirmation.
+- 2.5 ATR trailing stop exit.
     """
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
@@ -38,15 +38,19 @@ Core Concept:
         hist = self.History(self.sym, 3, Resolution.Daily)
         if len(hist) < 3: return
         
+        # Calculate previous ranges
+        # [0] = 2 days ago, [1] = yesterday
         r2 = hist.iloc[-3].high - hist.iloc[-3].low
         r1 = hist.iloc[-2].high - hist.iloc[-2].low
         
         if not self.Portfolio.Invested:
-            if qqq_price > s200 and r1 > r2 and adx_val > 25:
+            # Bull Market + Expanding Range + Trending (ADX>20)
+            if qqq_price > s200 and r1 > r2 and adx_val > 20:
                 self.SetHoldings(self.sym, 1.0)
-                self.trailing_stop = price - (3.0 * self.atr.Current.Value)
+                self.trailing_stop = price - (2.5 * self.atr.Current.Value)
         else:
-            new_stop = price - (3.0 * self.atr.Current.Value)
+            # Update stop
+            new_stop = price - (2.5 * self.atr.Current.Value)
             if new_stop > self.trailing_stop:
                 self.trailing_stop = new_stop
                 

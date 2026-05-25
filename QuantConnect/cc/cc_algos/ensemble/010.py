@@ -1,18 +1,25 @@
 from AlgorithmImports import *
+from base import BaseSubAlgo, _make_standalone
 
-class UpDay20(QCAlgorithm):
-    def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
-        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.SetWarmUp(252, Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq, 45), self.Rebalance)
 
-    def Rebalance(self):
-        if self.IsWarmingUp: return
-        h = self.History(self.qqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return
-        c = [float(x) for x in h["close"].values]
-        up_days = sum(1 for i in range(1, len(c)) if c[i] > c[i-1])
-        if up_days > 10: self.SetHoldings(self.tqqq, 1.0)
-        elif self.Portfolio[self.tqqq].Invested: self.Liquidate(self.tqqq)
+class TII20Sub(BaseSubAlgo):
+    def initialize(self):
+        self.qqq   = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq  = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self._sma  = self.algo.SMA("QQQ", 20, Resolution.Daily)
+        self._wins = RollingWindow[float](20)
+
+    def update_targets(self):
+        if not self._sma.IsReady or not self._wins.IsReady: return False
+        sma = self._sma.Current.Value
+        tii = sum(1 for i in range(20) if self._wins[i] > sma)
+        prev = dict(self.targets)
+        self.targets = {self.tqqq: 1.0} if tii > 10 else {}
+        return self.targets != prev
+
+    def on_data(self, data):
+        if data.Bars.ContainsKey(self.qqq):
+            self._wins.Add(data.Bars[self.qqq].Close)
+
+
+TII20Algo = _make_standalone(TII20Sub)

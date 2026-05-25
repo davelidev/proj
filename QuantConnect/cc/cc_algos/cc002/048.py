@@ -1,22 +1,36 @@
 from AlgorithmImports import *
 
 
-class Algo061(QCAlgorithm):
-    """#61 — TQQQ + SMA150 (faster trend, may reduce DD further)."""
+class Algo055(QCAlgorithm):
+    """#055 — QQQ SMA(200) trend: 100% TQQQ above, 100% BIL below."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-        self.s = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.sma = self.SMA(self.s, 150, Resolution.Daily)
-        self.SetWarmUp(170, Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.s),
-                         self.TimeRules.AfterMarketOpen(self.s, 30), self.R)
 
-    def R(self):
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
+
+        self.sma = self.SMA(self.qqq, 200, Resolution.Daily)
+        self.SetWarmUp(200, Resolution.Daily)
+
+        self.Schedule.On(
+            self.DateRules.EveryDay(self.qqq),
+            self.TimeRules.AfterMarketOpen(self.qqq, 30),
+            self.Rebalance,
+        )
+
+    def Rebalance(self):
         if self.IsWarmingUp or not self.sma.IsReady: return
-        in_trend = self.Securities[self.s].Price > self.sma.Current.Value
-        invested = self.Portfolio[self.s].Invested
-        if in_trend and not invested: self.SetHoldings(self.s, 1.0)
-        elif not in_trend and invested: self.Liquidate(self.s)
+        if self.Securities[self.qqq].Price > self.sma.Current.Value:
+            if not self.Portfolio[self.tqqq].Invested:
+                self.Liquidate(self.bil)
+                self.SetHoldings(self.tqqq, 1.0)
+        else:
+            if not self.Portfolio[self.bil].Invested:
+                self.Liquidate(self.tqqq)
+                self.SetHoldings(self.bil, 1.0)
+
+    def OnData(self, data): pass

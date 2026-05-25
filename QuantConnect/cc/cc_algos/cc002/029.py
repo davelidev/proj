@@ -1,35 +1,30 @@
 from AlgorithmImports import *
 
 
-class Algo018(QCAlgorithm):
-    """#18 — 5 most market capital companies @ 1.5x leverage (margin), monthly rebalance."""
+class Algo030(QCAlgorithm):
+    """#30 — IBS extreme (#28) + 200d trend filter for re-entry only when in uptrend."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100_000)
-        self.SetBrokerageModel(BrokerageName.InteractiveBrokersBrokerage, AccountType.Margin)
-        self.UniverseSettings.Resolution = Resolution.Daily
-        self.AddUniverse(self.SelectTop5)
-        self.SetWarmUp(20, Resolution.Daily)
-        self.top5 = []
-        self.Schedule.On(self.DateRules.MonthStart(),
-                         self.TimeRules.At(10, 0),
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.sma  = self.SMA(self.qqq, 200, Resolution.Daily)
+        self.SetWarmUp(220, Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.tqqq),
+                         self.TimeRules.AfterMarketOpen(self.tqqq, 30),
                          self.Rebalance)
 
-    def SelectTop5(self, fundamental):
-        eligible = [f for f in fundamental
-                    if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
-        eligible.sort(key=lambda f: f.MarketCap, reverse=True)
-        self.top5 = [f.Symbol for f in eligible[:5]]
-        return self.top5
-
     def Rebalance(self):
-        if self.IsWarmingUp: return
-        if not self.top5: return
-        weight = 1.5 / len(self.top5)
-        for sym in list(self.Portfolio.Keys):
-            if self.Portfolio[sym].Invested and sym not in self.top5:
-                self.Liquidate(sym)
-        for sym in self.top5:
-            self.SetHoldings(sym, weight)
+        if self.IsWarmingUp or not self.sma.IsReady: return
+        bar = self.Securities[self.tqqq]
+        h, l, c = bar.High, bar.Low, bar.Close
+        if h <= l: return
+        ibs = (c - l) / (h - l)
+        in_trend = self.Securities[self.qqq].Price > self.sma.Current.Value
+        invested = self.Portfolio[self.tqqq].Invested
+        if not invested and ibs < 0.1 and in_trend:
+            self.SetHoldings(self.tqqq, 1.0)
+        elif invested and ibs > 0.9:
+            self.Liquidate(self.tqqq)

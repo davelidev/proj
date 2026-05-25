@@ -1,124 +1,100 @@
-# SOXL.SOXS SeeSaw
-# Converted from Composer symphony to QuantConnect
-#
-# Logic tree:
-#   1. RSI(SOXS, 25) > 62.5
-#        → select-bottom 1 by 1-day return from [SOXL, UVXY]
-#   2. Else RSI(SOXL, 32) > 66
-#        → select-bottom 1 by 1-day return from [SOXS, UVXY]
-#   3. Else cumret(SOXL, 6) > 34%
-#        → SOXS 100%  (select-top 1 from single-asset list)
-#   4. Else cumret(SOXS, 6) > 26.5%:
-#        If cumret(SOXS, 1) < -3%  → SOXS 100%  (select-bottom 1 from [SOXS])
-#        Else                      → SOXL 100%  (select-bottom 1 from [SOXL])
-#   5. Else → BIL 100%
-#
-# Rebalances only when any holding drifts > 10% from target (rebalance-threshold 0.10).
-
-from AlgorithmImports import *
 from datetime import datetime, timedelta
+from AlgorithmImports import *
 
-
-class SOXLSOXSSeeSaw(QCAlgorithm):
-
-    RSI_SOXS_WINDOW     = 25
-    RSI_SOXL_WINDOW     = 32
-    REBALANCE_THRESHOLD = 0.10
-
+class DefensiveRotation(QCAlgorithm):
+    """
+    Defensive Rotation: Tactical rotation strategy using cash gates and 
+    inverse positions to protect capital during high-volatility regimes 
+    and bear markets.
+    
+    Core Concept:
+    - Bull Market (TQQQ > SMA200): Hold TQQQ.
+    - Bear Market (TQQQ < SMA200):
+        - If TQQQ > SMA20 (Sideways/Bear Rally): Hold Cash.
+        - If TQQQ <= SMA20 (Active Downtrend): Hold SQQQ.
+    - Sharp Crash (RSI < 30): Hold Cash as a defensive gate.
+    """
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
-        self.SetCash(100000)
-        self.SetBrokerageModel(BrokerageName.InteractiveBrokersBrokerage, AccountType.Margin)
+        self.SetCash(100_000)
 
-        for ticker in ["SOXL", "SOXS", "UVXY", "BIL"]:
-            self.AddEquity(ticker, Resolution.Daily)
+        # Tickers for logic and trading
+        self.tickers = ["SPY", "QQQ", "TQQQ", "SQQQ"]
+        self.syms = {t: self.AddEquity(t, Resolution.Daily).Symbol for t in self.tickers}
 
-        self.rsi_soxs = self.RSI("SOXS", self.RSI_SOXS_WINDOW, MovingAverageType.Wilders, Resolution.Daily)
-        self.rsi_soxl = self.RSI("SOXL", self.RSI_SOXL_WINDOW, MovingAverageType.Wilders, Resolution.Daily)
+        # Indicators
+        self.rsi10 = {
+            t: self.RSI(self.syms[t], 10, MovingAverageType.Wilders, Resolution.Daily)
+            for t in ["SPY", "QQQ"]
+        }
+        self.sma_tqqq200 = self.SMA(self.syms["TQQQ"], 200, Resolution.Daily)
+        self.sma_tqqq20 = self.SMA(self.syms["TQQQ"], 20, Resolution.Daily)
 
-        self.SetWarmUp(max(self.RSI_SOXS_WINDOW, self.RSI_SOXL_WINDOW) + 10, Resolution.Daily)
+        self.SetWarmUp(200, Resolution.Daily)
 
         self.Schedule.On(
-            self.DateRules.EveryDay("SOXL"),
-            self.TimeRules.AfterMarketOpen("SOXL", 1),
+            self.DateRules.EveryDay("TQQQ"),
+            self.TimeRules.AfterMarketOpen("TQQQ", 35),
             self.Rebalance,
         )
 
-    def _cumret(self, ticker, window):
-        """Percentage cumulative return over `window` trading days."""
-        history = list(self.History(ticker, window + 1, Resolution.Daily))
-        if len(history) < window + 1:
+        # Indicators
+        self.rsi2 = self.RSI(self.syms["TQQQ"], 2, MovingAverageType.Wilders, Resolution.Daily)
+        self.rsi10 = {
+            t: self.RSI(self.syms[t], 10, MovingAverageType.Wilders, Resolution.Daily)
+            for t in ["SPY", "QQQ"]
+        }
+        self.sma_tqqq200 = self.SMA(self.syms["TQQQ"], 200, Resolution.Daily)
+        self.sma_tqqq20 = self.SMA(self.syms["TQQQ"], 20, Resolution.Daily)
+
+        self.SetWarmUp(200, Resolution.Daily)
+
+        self.Schedule.On(
+            self.DateRules.EveryDay("TQQQ"),
+            self.TimeRules.AfterMarketOpen("TQQQ", 35),
+            self.Rebalance,
+        )
+
+    def _pick(self) -> str:
+        tqqq_price = self.Securities[self.syms["TQQQ"]].Price
+        sma20 = self.sma_tqqq20.Current.Value
+        sma200 = self.sma_tqqq200.Current.Value
+        r2 = self.rsi2.Current.Value
+        r10 = self.rsi10["QQQ"].Current.Value
+        
+        # Sharp Crash Gate (RSI10 < 30) -> Rotate to Cash
+        if r10 < 30 or self.rsi10["SPY"].Current.Value < 30:
             return None
-        closes = [x.Close for x in history]
-        return (closes[-1] / closes[0] - 1) * 100
 
-    def _bottom_1_by_1d(self, tickers):
-        """Ticker with the lowest 1-day return among candidates."""
-        scores = {t: r for t in tickers if (r := self._cumret(t, 1)) is not None}
-        return min(scores, key=scores.get) if scores else None
+        # Long Term Regime Filter
+        bull_market = tqqq_price > sma200
+        bear_market = tqqq_price <= sma200
 
-    def _get_target(self):
-        if self.rsi_soxs.Current.Value > 62.5:
-            selected = self._bottom_1_by_1d(["SOXL", "UVXY"])
-            return {selected: 1.0} if selected else None
-
-        if self.rsi_soxl.Current.Value > 66:
-            selected = self._bottom_1_by_1d(["SOXS", "UVXY"])
-            return {selected: 1.0} if selected else None
-
-        cr_soxl_6 = self._cumret("SOXL", 6)
-        if cr_soxl_6 is None:
-            return None
-        if cr_soxl_6 > 34:
-            return {"SOXS": 1.0}
-
-        cr_soxs_6 = self._cumret("SOXS", 6)
-        if cr_soxs_6 is None:
-            return None
-        if cr_soxs_6 > 26.5:
-            cr_soxs_1 = self._cumret("SOXS", 1)
-            if cr_soxs_1 is None:
-                return None
-            return {"SOXS": 1.0} if cr_soxs_1 < -3 else {"SOXL": 1.0}
-
-        return {"BIL": 1.0}
+        # Logic: 
+        if bull_market:
+            # Buy TQQQ if trending up OR deep RSI(2) oversold bounce
+            if tqqq_price > sma20 or r2 < 20:
+                return "TQQQ"
+        elif bear_market:
+            # Buy SQQQ if trending down OR RSI(2) overbought exhaustion
+            if tqqq_price < sma20 or r2 > 80:
+                return "SQQQ"
+                
+        return None
 
     def Rebalance(self):
-        if self.IsWarmingUp:
-            return
-        if not self.rsi_soxs.IsReady or not self.rsi_soxl.IsReady:
-            return
-
-        target = self._get_target()
-        if target is None:
-            self.Debug("Insufficient history — skipping rebalance.")
+        if (self.IsWarmingUp 
+            or not self.sma_tqqq200.IsReady 
+            or not self.sma_tqqq20.IsReady 
+            or not self.rsi2.IsReady
+            or not all(i.IsReady for i in self.rsi10.values())):
             return
 
-        total_value = self.Portfolio.TotalPortfolioValue
-        if total_value == 0:
-            return
-
-        needs_rebalance = any(
-            h.Invested and h.Symbol.Value not in target
-            for h in self.Portfolio.Values
-        )
-        if not needs_rebalance:
-            for ticker, target_weight in target.items():
-                current_weight = self.Portfolio[ticker].HoldingsValue / total_value
-                if abs(current_weight - target_weight) > self.REBALANCE_THRESHOLD:
-                    needs_rebalance = True
-                    break
-
-        if not needs_rebalance:
-            return
-
-        for h in self.Portfolio.Values:
-            if h.Invested and h.Symbol.Value not in target:
-                self.Liquidate(h.Symbol)
-
-        for ticker, weight in target.items():
-            self.SetHoldings(ticker, weight)
-
-    def OnData(self, data):
-        pass
+        pick = self._pick()
+        self.Debug(f"[Rebalance] {self.Time} -> {pick}")
+        
+        if pick is None:
+            self.Liquidate()
+        else:
+            self.SetHoldings(self.syms[pick], 1.0, liquidateExistingHoldings=True)

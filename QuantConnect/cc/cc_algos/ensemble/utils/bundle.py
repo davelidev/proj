@@ -10,37 +10,22 @@ warnings.filterwarnings("ignore", message="urllib3 v2 only supports OpenSSL")
 # Configurations
 # ---------------------------------------------------------------------------
 
-BASE_FILE = "strategies/base.py"
-ORCHESTRATOR_FILE = "strategies/ultAlgo.py"
-ALGOS_DIR = "strategies/algos"
-OUTPUT_DIR = "strategies/embedded"
+BASE_FILE = "/Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/utils/base.py"
+ORCHESTRATOR_FILE = "/Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/utils/ultAlgo.py"
+ALGOS_DIR = "/Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble"
+OUTPUT_DIR = "/Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/merged"
 
 def detect_ensemble_files():
-    """Parses ultAlgo.py to find imported sub-algos and builds the file list."""
-    if not os.path.exists(ORCHESTRATOR_FILE):
-        print(f"Error: Orchestrator {ORCHESTRATOR_FILE} not found.")
-        return [BASE_FILE, ORCHESTRATOR_FILE]
-
-    with open(ORCHESTRATOR_FILE, "r") as f:
-        content = f.read()
-
-    # Find patterns like "from vol_breakout import ..."
-    # We assume these files live in strategies/algos/
-    imports = re.findall(r"^from\s+([\w_]+)\s+import", content, re.MULTILINE)
-    
-    # Filter out 'base' as it's handled separately
-    sub_algos = [i for i in imports if i != "base" and i != "AlgorithmImports"]
-    
-    file_list = [BASE_FILE]
-    for sa in sub_algos:
-        sa_path = os.path.join(ALGOS_DIR, f"{sa}.py")
-        if os.path.exists(sa_path):
-            file_list.append(sa_path)
-        else:
-            print(f"Warning: Detected import '{sa}' but file not found at {sa_path}")
-            
-    file_list.append(ORCHESTRATOR_FILE)
-    return file_list
+    """Finds NNN.py sub-algo files (those subclassing BaseSubAlgo) in ALGOS_DIR."""
+    algo_files = []
+    for fn in sorted(os.listdir(ALGOS_DIR)):
+        if not re.fullmatch(r"\d{3}\.py", fn):
+            continue
+        fpath = os.path.join(ALGOS_DIR, fn)
+        with open(fpath) as f:
+            if re.search(r"class \w+\(BaseSubAlgo\)", f.read()):
+                algo_files.append(fpath)
+    return [BASE_FILE] + algo_files + [ORCHESTRATOR_FILE]
 
 def bundle(files, output_path, ensemble=False):
     # Ensure directory exists
@@ -79,17 +64,17 @@ def bundle(files, output_path, ensemble=False):
     print("Bundle complete.")
 
 def main():
-    # Usage: 
-    #   python3 bundle.py                -> Dynamically bundles ensemble based on ultAlgo.py imports
-    #   python3 bundle.py strategies/X.py -> Bundles base.py + X.py (Standalone)
-    
+    # Usage:
+    #   python3 bundle.py                -> Bundles all NNN.py sub-algos + ultAlgo.py
+    #   python3 bundle.py path/to/NNN.py -> Bundles base.py + NNN.py (Standalone)
+
     if len(sys.argv) > 1:
         # Mini-Bundle (Standalone) mode
         target_file = sys.argv[1]
         output_name = os.path.join(OUTPUT_DIR, "standalone.py")
         bundle([BASE_FILE, target_file], output_name)
     else:
-        # Full Ensemble mode with Dynamic Detection
+        # Full Ensemble mode
         ensemble_files = detect_ensemble_files()
         output_name = os.path.join(OUTPUT_DIR, "ensemble.py")
         bundle(ensemble_files, output_name, ensemble=True)

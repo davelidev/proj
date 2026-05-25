@@ -1,8 +1,8 @@
 from AlgorithmImports import *
 
 
-class Algo029(QCAlgorithm):
-    """#29 — TQQQ IBS<0.15 buy, IBS>0.85 exit (between #16 and #28 thresholds)."""
+class Algo032(QCAlgorithm):
+    """#32 — IBS<0.05 (extreme oversold), exit IBS>0.9. Lower freq, very high quality."""
 
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
@@ -21,7 +21,7 @@ class Algo029(QCAlgorithm):
         if h <= l: return
         ibs = (c - l) / (h - l)
         invested = self.Portfolio[self.tqqq].Invested
-        if not invested and ibs < 0.15:
+        if not invested and ibs < 0.05:
             self.SetHoldings(self.tqqq, 1.0)
-        elif invested and ibs > 0.85:
+        elif invested and ibs > 0.9:
             self.Liquidate(self.tqqq)

@@ -1,14 +1,14 @@
 from datetime import datetime, timedelta
 from AlgorithmImports import *
 
-class TQQQSOXLVixRatio110(QCAlgorithm):
+class TQQQTECLSOXLRotator(QCAlgorithm):
     """
-    Strategy 38: Alpha-Max Expanding Rotator
-    
-    Core Concept:
-    - Entering trades based on Expanding Volatility (Range1 > Range2) and strong ADX (>20).
-    - Rotates between TQQQ and SOXL based on 21-day momentum.
-    - Features a structural 'Kill Switch' based on VIX/VIX3M Ratio > 1.10 (Backwardation).
+    Strategy 36: Triple-LETF Rotator (TQQQ/SOXL/TECL)
+
+Core Concept:
+- Multi-asset momentum rotation among three 3x leveraged ETFs.
+- Uses Expanding Range signals and ADX trend filters.
+- Rotates daily to the asset with strongest 21-day momentum.
     """
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
@@ -18,18 +18,19 @@ class TQQQSOXLVixRatio110(QCAlgorithm):
         
         self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
         self.soxl = self.AddEquity("SOXL", Resolution.Daily).Symbol
+        self.tecl = self.AddEquity("TECL", Resolution.Daily).Symbol
         self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
-        
-        self.vix = self.AddData(CBOE, "VIX").Symbol
-        self.vix3m = self.AddData(CBOE, "VIX3M").Symbol
         
         self.adx = self.ADX(self.qqq, 10, Resolution.Daily)
         self.sma200 = self.SMA(self.qqq, 200, Resolution.Daily)
+        
         self.atr_tqqq = self.ATR(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
         self.atr_soxl = self.ATR(self.soxl, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.atr_tecl = self.ATR(self.tecl, 14, MovingAverageType.Wilders, Resolution.Daily)
         
         self.mom_tqqq = self.MOMP(self.tqqq, 21, Resolution.Daily)
         self.mom_soxl = self.MOMP(self.soxl, 21, Resolution.Daily)
+        self.mom_tecl = self.MOMP(self.tecl, 21, Resolution.Daily)
         
         self.SetWarmUp(200, Resolution.Daily)
         self.trailing_stop = 0
@@ -37,15 +38,10 @@ class TQQQSOXLVixRatio110(QCAlgorithm):
     def OnData(self, data):
         if self.IsWarmingUp or not self.adx.IsReady or not self.sma200.IsReady:
             return
-        if not (self.Securities.ContainsKey(self.vix) and self.Securities.ContainsKey(self.vix3m)): return
 
         qqq_price = self.Securities[self.qqq].Price
         s200 = self.sma200.Current.Value
         adx_val = self.adx.Current.Value
-        
-        vix_val = self.Securities[self.vix].Price
-        vix3m_val = self.Securities[self.vix3m].Price
-        vix_ratio = vix_val / vix3m_val if vix3m_val != 0 else 1.0
         
         hist_qqq = self.History(self.qqq, 3, Resolution.Daily)
         if len(hist_qqq) < 3: return
@@ -53,31 +49,42 @@ class TQQQSOXLVixRatio110(QCAlgorithm):
         r2 = hist_qqq.iloc[-3].high - hist_qqq.iloc[-3].low
         r1 = hist_qqq.iloc[-2].high - hist_qqq.iloc[-2].low
         
-        # Kill Switch at Extreme Backwardation (>1.10)
-        if vix_ratio > 1.10:
-            self.Liquidate()
-            return
-            
         if not self.Portfolio.Invested:
             if qqq_price > s200 and r1 > r2 and adx_val > 25:
-                if adx_val > 30 and self.mom_soxl.Current.Value > self.mom_tqqq.Current.Value:
-                    self.SetHoldings(self.soxl, 1.0)
-                    self.trailing_stop = self.Securities[self.soxl].Price - (3.0 * self.atr_soxl.Current.Value)
+                # Find best momentum
+                m_t = self.mom_tqqq.Current.Value
+                m_s = self.mom_soxl.Current.Value
+                m_te = self.mom_tecl.Current.Value
+                
+                best_mom = max(m_t, m_s, m_te)
+                
+                if adx_val > 30:
+                    if best_mom == m_s:
+                        self.SetHoldings(self.soxl, 1.0)
+                        self.trailing_stop = self.Securities[self.soxl].Price - (3.0 * self.atr_soxl.Current.Value)
+                    elif best_mom == m_te:
+                        self.SetHoldings(self.tecl, 1.0)
+                        self.trailing_stop = self.Securities[self.tecl].Price - (3.0 * self.atr_tecl.Current.Value)
+                    else:
+                        self.SetHoldings(self.tqqq, 1.0)
+                        self.trailing_stop = self.Securities[self.tqqq].Price - (3.0 * self.atr_tqqq.Current.Value)
                 else:
                     self.SetHoldings(self.tqqq, 1.0)
                     self.trailing_stop = self.Securities[self.tqqq].Price - (3.0 * self.atr_tqqq.Current.Value)
         else:
-            if self.Portfolio[self.soxl].Invested:
-                price = self.Securities[self.soxl].Price
-                new_stop = price - (3.0 * self.atr_soxl.Current.Value)
+            invested_sym = None
+            for sym in [self.tqqq, self.soxl, self.tecl]:
+                if self.Portfolio[sym].Invested:
+                    invested_sym = sym
+                    break
+                    
+            if invested_sym:
+                price = self.Securities[invested_sym].Price
+                atr = self.atr_soxl if invested_sym == self.soxl else (self.atr_tecl if invested_sym == self.tecl else self.atr_tqqq)
+                
+                new_stop = price - (3.0 * atr.Current.Value)
                 if new_stop > self.trailing_stop:
                     self.trailing_stop = new_stop
-                if price < self.trailing_stop or qqq_price < s200:
-                    self.Liquidate()
-            elif self.Portfolio[self.tqqq].Invested:
-                price = self.Securities[self.tqqq].Price
-                new_stop = price - (3.0 * self.atr_tqqq.Current.Value)
-                if new_stop > self.trailing_stop:
-                    self.trailing_stop = new_stop
+                    
                 if price < self.trailing_stop or qqq_price < s200:
                     self.Liquidate()

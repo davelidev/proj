@@ -1,39 +1,31 @@
 from AlgorithmImports import *
+from base import BaseSubAlgo, _make_standalone
 
-class TQQQPyramid(QCAlgorithm):
-    """Pyramid: each consecutive day with QQQ > D200 midline AND ROC(20)>0 adds 10% TQQQ exposure, up to 100%.
-    On bear signal, immediate 0%.
-    """
-    def Initialize(self):
-        self.SetStartDate(2014, 1, 1)
-        self.SetEndDate(2025, 12, 31)
-        self.SetCash(100000)
-        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
-        self.roc   = self.ROC(self.qqq, 20, Resolution.Daily)
-        self.hi200 = self.MAX(self.qqq, 200, Resolution.Daily)
-        self.lo200 = self.MIN(self.qqq, 200, Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
-                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
-                         self.Rebalance)
-        self.SetWarmUp(220, Resolution.Daily)
-        self.exposure = 0.0  # current TQQQ exposure (0..1)
 
-    def Rebalance(self):
-        if self.IsWarmingUp or not (self.roc.IsReady and self.hi200.IsReady and self.lo200.IsReady):
-            return
-        mid = (self.hi200.Current.Value + self.lo200.Current.Value) / 2.0
-        bull = self.roc.Current.Value > 0 and self.Securities[self.qqq].Price > mid
+class RangeExpandedSub(BaseSubAlgo):
+    """Trend (price > 200d median) + range compressed (<110% avg) → 100%; mixed → 50%; else cash."""
+    def initialize(self):
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
 
-        if bull:
-            new_exp = min(1.0, self.exposure + 0.1)
+    def update_targets(self):
+        h = self.algo.History(self.qqq, 200, Resolution.Daily)
+        if h.empty or len(h) < 200: return False
+        closes    = [float(x) for x in h["close"].values]
+        med       = sorted(closes)[100]
+        in_trend  = self.algo.Securities[self.qqq].Price > med
+        recent_r  = [float(h["high"].iloc[i]) - float(h["low"].iloc[i]) for i in range(-25, 0)]
+        all_r     = [float(h["high"].iloc[i]) - float(h["low"].iloc[i]) for i in range(-200, 0)]
+        compressed = (sum(recent_r) / 25) < (sum(all_r) / 200) * 1.1
+        if in_trend and compressed:
+            wt = 1.0
+        elif in_trend or compressed:
+            wt = 0.5
         else:
-            new_exp = 0.0
+            wt = 0.0
+        prev         = dict(self.targets)
+        self.targets = {self.tqqq: wt} if wt > 0 else {}
+        return self.targets != prev
 
-        if abs(new_exp - self.exposure) > 0.01:
-            self.SetHoldings(self.tqqq, new_exp)
-            self.SetHoldings(self.bil, 1.0 - new_exp)
-            self.exposure = new_exp
 
-    def OnData(self, data): pass
+RangeExpandedAlgo = _make_standalone(RangeExpandedSub)

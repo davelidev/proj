@@ -1,84 +1,124 @@
-from datetime import datetime, timedelta
-from AlgorithmImports import *
+# SOXL.SOXS SeeSaw
+# Converted from Composer symphony to QuantConnect
+#
+# Logic tree:
+#   1. RSI(SOXS, 25) > 62.5
+#        → select-bottom 1 by 1-day return from [SOXL, UVXY]
+#   2. Else RSI(SOXL, 32) > 66
+#        → select-bottom 1 by 1-day return from [SOXS, UVXY]
+#   3. Else cumret(SOXL, 6) > 34%
+#        → SOXS 100%  (select-top 1 from single-asset list)
+#   4. Else cumret(SOXS, 6) > 26.5%:
+#        If cumret(SOXS, 1) < -3%  → SOXS 100%  (select-bottom 1 from [SOXS])
+#        Else                      → SOXL 100%  (select-bottom 1 from [SOXL])
+#   5. Else → BIL 100%
+#
+# Rebalances only when any holding drifts > 10% from target (rebalance-threshold 0.10).
 
-class GiantSniper(QCAlgorithm):
-    """
-    Giant Sniper (Mean-Reversion) - ARCHIVED
-    
-    Core Concept:
-    - High-conviction mean reversion in global leaders. 
-    - Dynamically selects the Top 5 largest companies by Market Cap every month.
-    - Entry: Deep daily dips (RSI2 < 20) in any of the Top 5 giants.
-    - Exit: Short-term strength (RSI2 > 70) or Broader Trend Break.
-    - Shield: QQQ > 200 SMA filter for structural safety.
-    """
+from AlgorithmImports import *
+from datetime import datetime, timedelta
+
+
+class SOXLSOXSSeeSaw(QCAlgorithm):
+
+    RSI_SOXS_WINDOW     = 25
+    RSI_SOXL_WINDOW     = 32
+    REBALANCE_THRESHOLD = 0.10
+
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
-        self.SetCash(100_000)
-        
-        # TREND SHIELD
-        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
-        self.sma200 = self.SMA(self.qqq, 200, Resolution.Daily)
-        
-        self.UniverseSettings.Resolution = Resolution.Daily
-        self.AddUniverse(self.SelectFundamental)
-        
-        self.data = {}
-        self.top5_symbols = []
-        
-        self.SetWarmUp(200, Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(), self.TimeRules.AfterMarketOpen(self.qqq, 30), self.Rebalance)
+        self.SetCash(100000)
+        self.SetBrokerageModel(BrokerageName.InteractiveBrokersBrokerage, AccountType.Margin)
 
-    def SelectFundamental(self, fundamental):
-        # Dynamically track Top 5 Market Cap
-        sorted_by_mcap = sorted([f for f in fundamental if f.MarketCap > 0], 
-                                key=lambda x: x.MarketCap, reverse=True)
-        self.top5_symbols = [f.Symbol for f in sorted_by_mcap[:5]]
-        return self.top5_symbols
+        for ticker in ["SOXL", "SOXS", "UVXY", "BIL"]:
+            self.AddEquity(ticker, Resolution.Daily)
 
-    def OnSecuritiesChanged(self, changes):
-        for security in changes.AddedSecurities:
-            symbol = security.Symbol
-            if symbol == self.qqq: continue
-            if symbol not in self.data:
-                self.data[symbol] = SymbolData(self, symbol)
+        self.rsi_soxs = self.RSI("SOXS", self.RSI_SOXS_WINDOW, MovingAverageType.Wilders, Resolution.Daily)
+        self.rsi_soxl = self.RSI("SOXL", self.RSI_SOXL_WINDOW, MovingAverageType.Wilders, Resolution.Daily)
+
+        self.SetWarmUp(max(self.RSI_SOXS_WINDOW, self.RSI_SOXL_WINDOW) + 10, Resolution.Daily)
+
+        self.Schedule.On(
+            self.DateRules.EveryDay("SOXL"),
+            self.TimeRules.AfterMarketOpen("SOXL", 1),
+            self.Rebalance,
+        )
+
+    def _cumret(self, ticker, window):
+        """Percentage cumulative return over `window` trading days."""
+        history = list(self.History(ticker, window + 1, Resolution.Daily))
+        if len(history) < window + 1:
+            return None
+        closes = [x.Close for x in history]
+        return (closes[-1] / closes[0] - 1) * 100
+
+    def _bottom_1_by_1d(self, tickers):
+        """Ticker with the lowest 1-day return among candidates."""
+        scores = {t: r for t in tickers if (r := self._cumret(t, 1)) is not None}
+        return min(scores, key=scores.get) if scores else None
+
+    def _get_target(self):
+        if self.rsi_soxs.Current.Value > 62.5:
+            selected = self._bottom_1_by_1d(["SOXL", "UVXY"])
+            return {selected: 1.0} if selected else None
+
+        if self.rsi_soxl.Current.Value > 66:
+            selected = self._bottom_1_by_1d(["SOXS", "UVXY"])
+            return {selected: 1.0} if selected else None
+
+        cr_soxl_6 = self._cumret("SOXL", 6)
+        if cr_soxl_6 is None:
+            return None
+        if cr_soxl_6 > 34:
+            return {"SOXS": 1.0}
+
+        cr_soxs_6 = self._cumret("SOXS", 6)
+        if cr_soxs_6 is None:
+            return None
+        if cr_soxs_6 > 26.5:
+            cr_soxs_1 = self._cumret("SOXS", 1)
+            if cr_soxs_1 is None:
+                return None
+            return {"SOXS": 1.0} if cr_soxs_1 < -3 else {"SOXL": 1.0}
+
+        return {"BIL": 1.0}
 
     def Rebalance(self):
-        if self.IsWarmingUp or not self.sma200.IsReady: return
-        
-        qqq_price = self.Securities[self.qqq].Price
-        is_bull = qqq_price > self.sma200.Current.Value
-        
-        if is_bull:
-            # Check for deep dips in any of the Top 5 giants
-            triggered = []
-            for s in self.top5_symbols:
-                if s in self.data and self.data[s].IsReady:
-                    if self.data[s].rsi.Current.Value < 20: # Aggressive dip buy
-                        triggered.append(s)
-            
-            if triggered:
-                # Enter top 5 equally
-                weight = 1.0 / len(triggered)
-                for s in triggered:
-                    if not self.Portfolio[s].Invested:
-                        self.SetHoldings(s, weight)
-            
-            # Dynamic Exit: RSI exhaustion OR QQQ Trend break
-            for s in self.top5_symbols:
-                if self.Portfolio[s].Invested:
-                    if self.data[s].rsi.Current.Value > 70:
-                        self.Liquidate(s)
-        else:
-            # Bear Shield
-            if self.Portfolio.Invested:
-                self.Liquidate()
+        if self.IsWarmingUp:
+            return
+        if not self.rsi_soxs.IsReady or not self.rsi_soxl.IsReady:
+            return
 
-class SymbolData:
-    def __init__(self, algo, symbol):
-        self.rsi = algo.RSI(symbol, 2, MovingAverageType.Wilders, Resolution.Daily)
-    
-    @property
-    def IsReady(self):
-        return self.rsi.IsReady
+        target = self._get_target()
+        if target is None:
+            self.Debug("Insufficient history — skipping rebalance.")
+            return
+
+        total_value = self.Portfolio.TotalPortfolioValue
+        if total_value == 0:
+            return
+
+        needs_rebalance = any(
+            h.Invested and h.Symbol.Value not in target
+            for h in self.Portfolio.Values
+        )
+        if not needs_rebalance:
+            for ticker, target_weight in target.items():
+                current_weight = self.Portfolio[ticker].HoldingsValue / total_value
+                if abs(current_weight - target_weight) > self.REBALANCE_THRESHOLD:
+                    needs_rebalance = True
+                    break
+
+        if not needs_rebalance:
+            return
+
+        for h in self.Portfolio.Values:
+            if h.Invested and h.Symbol.Value not in target:
+                self.Liquidate(h.Symbol)
+
+        for ticker, weight in target.items():
+            self.SetHoldings(ticker, weight)
+
+    def OnData(self, data):
+        pass

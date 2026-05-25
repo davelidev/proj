@@ -230,7 +230,11 @@ def generate_markdown(strategies, backtest_results, output_path, show_all=False,
             pass_cell = "✅"
         else:
             pass_cell = "❌"
-        link = f"[{row_num}](#strategy-{row_num})"
+        try:
+            file_num = int(meta.get("file", "").replace(".py", ""))
+        except (ValueError, AttributeError):
+            file_num = row_num
+        link = f"[{file_num}](#strategy-{file_num})"
         lines.append(
             f"| {link:<20} | {pass_cell:<4} | {meta.get('category','—'):<15} | "
             f"{r.get('cagr','—'):<4} | {r.get('maxdd','—'):<5} | {r.get('sharpe','—'):<6} | "
@@ -240,13 +244,17 @@ def generate_markdown(strategies, backtest_results, output_path, show_all=False,
 
     lines += ["", "", "---"]
 
-    # Detail sections — anchors match row_num
+    # Detail sections — anchors match file number
     for row_num, (sid, meta) in enumerate(visible, 1):
         r      = backtest_results.get(sid, {})
         stats  = _derive_trade_stats(r)
-        lines.append(f"## Strategy-{row_num}")
+        try:
+            file_num = int(meta.get("file", "").replace(".py", ""))
+        except (ValueError, AttributeError):
+            file_num = row_num
+        lines.append(f"## Strategy-{file_num}")
 
-        name      = meta.get("name", f"Strategy {row_num}")
+        name      = meta.get("name", f"Strategy {file_num}")
         file_name = meta.get("file", "")
         if file_name and not name.endswith(f"({file_name})"):
             name = f"{name} ({file_name})"
@@ -298,7 +306,7 @@ def generate_markdown(strategies, backtest_results, output_path, show_all=False,
             if meta.get("algo_dir") and file_name else ""
         )
         if vault_path:
-            display = vault_path.rsplit("/", 1)[-1]
+            display = file_name or vault_path.rsplit("/", 1)[-1]
             lines += [
                 f"> [!code]- Click to view: {display}",
                 "> ```embed-python",
