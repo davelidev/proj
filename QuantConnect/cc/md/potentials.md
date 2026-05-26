@@ -35,6 +35,7 @@
 | [41](#strategy-41)   | ✅    | Breakout        | 43%  | -37%  | 0.986  | 192   | 341   | 0.56     | 3.45         | 3/10   |
 | [42](#strategy-42)   | ❌    | Dip Buy         | 28%  | -40%  | 0.856  | 32    | 26    | 1.23     | 3.20         | 2/10   |
 | [43](#strategy-43)   | ❌    | Momentum        | 27%  | -26%  | 0.981  | 3552  | 888   | 4.00     | 0.59         | 2/10   |
+| [49](#strategy-49)   | ✅    | Momentum        | 33%  | -40%  | 0.837  | 194   | 247   | 0.79     | 3.46         | 2/10   |
 
 
 ---
@@ -1004,6 +1005,34 @@
 > [!code]- Click to view: 043.py
 > ```embed-python
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/043.py"
+> ```
+
+
+---
+
+## Strategy-49
+### 2-State CMO+52w-High Gate (049.py)
+
+**Description:** Two-state simplification of the 3-State CMO+52w-High Gate: requires BOTH CMO(20) positive AND QQQ within 15% of its 52-week high to hold TQQQ; exits entirely to BIL if either condition fails. Removes the mixed 50/50 state, making it a clean binary in-or-out signal.
+
+*Overfit 2/10 — Same two parameters as the 3-state parent (CMO20 zero-cross, 15% drawdown from 52w high) — no additional tuning introduced by collapsing the mixed state.*
+
+- **Entry:** CMO(20) > 0 AND drawdown from 52-week high > -15% → 100% TQQQ
+- **Exit:** Either condition fails → 100% BIL
+- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Rebalance:** Daily, 30 min after market open (only on state change)
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 33% | -40% | 0.837 | 194 | 247 | 0.79 | 3.46 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 161% | 🟢 39% | 🔴 -19% | 🟢 63% | 🟢 28% | 🟢 42% |
+
+> [!code]- Click to view: 049.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/049.py"
 > ```
 
 
