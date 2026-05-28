@@ -1,8 +1,27 @@
 {
   "files": [
-    "ensemble", "potentials",
-    "cc002", "cc003", "cc004", "cc005", "cc006", "cc007", "cc008", "cc009", "cc010",
-    "cc011", "cc012", "cc013", "cc014", "cc015", "cc016", "cc017", "cc018", "cc019", "cc020"
+    "ensemble",
+    "potentials",
+    "cc002",
+    "cc003",
+    "cc004",
+    "cc005",
+    "cc006",
+    "cc007",
+    "cc008",
+    "cc009",
+    "cc010",
+    "cc011",
+    "cc012",
+    "cc013",
+    "cc014",
+    "cc015",
+    "cc016",
+    "cc017",
+    "cc018",
+    "cc019",
+    "cc020",
+    "cc021"
   ],
   "global": {
     "prune": true

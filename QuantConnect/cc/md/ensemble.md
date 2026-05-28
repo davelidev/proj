@@ -327,7 +327,7 @@
 
 > [!code]- Click to view: 012.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/012.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/012.py"
 > ```
 
 
@@ -356,7 +356,7 @@
 
 > [!code]- Click to view: 013.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/013.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/013.py"
 > ```
 
 
@@ -385,7 +385,7 @@
 
 > [!code]- Click to view: 014.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/014.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/014.py"
 > ```
 
 
@@ -415,7 +415,7 @@
 
 > [!code]- Click to view: 015.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/015.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/015.py"
 > ```
 
 
@@ -444,7 +444,7 @@
 
 > [!code]- Click to view: 016.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/016.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/016.py"
 > ```
 
 
@@ -474,7 +474,7 @@
 
 > [!code]- Click to view: 017.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/017.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/017.py"
 > ```
 
 
@@ -503,7 +503,7 @@
 
 > [!code]- Click to view: 018.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/018.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/018.py"
 > ```
 
 
