@@ -2,21 +2,22 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class Donchian200MidlineSub(BaseSubAlgo):
-    """QQQ > midpoint of 200-day Donchian channel → 100% TQQQ; else cash."""
+class MFI14HystSub(BaseSubAlgo):
+    """MFI(14) > 60 → 100% TQQQ; MFI < 40 → cash; 40–60 hold (hysteresis)."""
     def initialize(self):
-        self.qqq    = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._hi200 = self.algo.MAX("QQQ", 200, Resolution.Daily)
-        self._lo200 = self.algo.MIN("QQQ", 200, Resolution.Daily)
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self._mfi = self.algo.MFI("QQQ", 14, Resolution.Daily)
 
     def update_targets(self):
-        if not (self._hi200.IsReady and self._lo200.IsReady): return False
-        price   = self.algo.Securities[self.qqq].Price
-        midline = (self._hi200.Current.Value + self._lo200.Current.Value) / 2.0
-        prev    = dict(self.targets)
-        self.targets = {self.tqqq: 1.0} if price > midline else {}
+        if not self._mfi.IsReady: return False
+        v    = self._mfi.Current.Value
+        prev = dict(self.targets)
+        if v > 60:
+            self.targets = {self.tqqq: 1.0}
+        elif v < 40:
+            self.targets = {}
         return self.targets != prev
 
 
-Donchian200MidlineAlgo = _make_standalone(Donchian200MidlineSub)
+MFI14HystAlgo = _make_standalone(MFI14HystSub)

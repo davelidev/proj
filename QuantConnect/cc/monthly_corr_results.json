@@ -1,0 +1,138 @@
+{
+  "S01": {
+    "name": "TQQQ 60% Annual Rebalance",
+    "file": "001.py",
+    "backtestId": "31193fff15120b70ea86951df47e565a",
+    "status": "completed",
+    "r": 0.9379,
+    "n": 144
+  },
+  "S02": {
+    "name": "QQQ RSI(2) Dip",
+    "file": "002.py",
+    "backtestId": "46d342b46faeb128cd0748d6e09f40c3",
+    "status": "completed",
+    "r": 0.2176,
+    "n": 144
+  },
+  "S03": {
+    "name": "TQQQ Dynamic Sizing",
+    "file": "003.py",
+    "backtestId": "fab0ece3a3e94c6dcef76568c156d181",
+    "status": "completed",
+    "r": 0.8862,
+    "n": 144
+  },
+  "S04": {
+    "name": "TQQQ Expanding Range Breakout",
+    "file": "004.py",
+    "backtestId": "c464362b8ecd383b3cff17831a94344a",
+    "status": "completed",
+    "r": 0.7692,
+    "n": 144
+  },
+  "S05": {
+    "name": "QQQ SMA(150) Trend → TQQQ",
+    "file": "005.py",
+    "backtestId": "9ef5ba11612d055df3008caf6f53ea9c",
+    "status": "completed",
+    "r": 0.949,
+    "n": 144
+  },
+  "S06": {
+    "name": "TQQQ IBS Extreme + ATR Stop",
+    "file": "006.py",
+    "backtestId": "f4b873113bbf8ad04f5c01a68e16f583",
+    "status": "completed",
+    "r": 0.4475,
+    "n": 144
+  },
+  "S08": {
+    "name": "ROC(20) Zero Cross",
+    "file": "008.py",
+    "backtestId": "bbb4ced1be86d123b5855bcd4f811126",
+    "status": "completed",
+    "r": 0.878,
+    "n": 144
+  },
+  "S09": {
+    "name": "Up-Day Count(20)",
+    "file": "009.py",
+    "backtestId": "8729880eb24e9be17da7b07380eeb074",
+    "status": "completed",
+    "r": 0.8478,
+    "n": 144
+  },
+  "S10": {
+    "name": "TII(20) Trend Intensity",
+    "file": "010.py",
+    "backtestId": "d269dd53b70c868bc4f77793f8500970",
+    "status": "completed",
+    "r": 0.5954,
+    "n": 144
+  },
+  "S11": {
+    "name": "Price 126D Percentile",
+    "file": "011.py",
+    "backtestId": "154bd5b8b16ebf7e78e013890dfd02aa",
+    "status": "completed",
+    "r": 0.9464,
+    "n": 144
+  },
+  "S12": {
+    "name": "Trend Stretch Exit",
+    "file": "012.py",
+    "backtestId": "e246e279aab4e1fec8038157066ecbec",
+    "status": "completed",
+    "r": 0.7615,
+    "n": 144
+  },
+  "S13": {
+    "name": "TQQQ Anti-Martingale Pyramid",
+    "file": "013.py",
+    "backtestId": "f5acc35c72967655177d3e6d7ffc6177",
+    "status": "completed",
+    "r": 0.9305,
+    "n": 144
+  },
+  "S14": {
+    "name": "Donchian-200 Midline",
+    "file": "014.py",
+    "backtestId": "76605b0f64b3f11ddcadf3d44ba9f55c",
+    "status": "completed",
+    "r": 0.9424,
+    "n": 144
+  },
+  "S15": {
+    "name": "ROC+D200 + 7% Trail Exit",
+    "file": "015.py",
+    "backtestId": "35af371bc0d0421c4c8f4a85b9bb3f18",
+    "status": "completed",
+    "r": 0.8969,
+    "n": 144
+  },
+  "S16": {
+    "name": "TQQQ Pyramid (10%/day)",
+    "file": "016.py",
+    "backtestId": "955b5f74d7c108880f195dc2c0012f69",
+    "status": "completed",
+    "r": 0.8372,
+    "n": 144
+  },
+  "S17": {
+    "name": "Range Expanded 110%",
+    "file": "017.py",
+    "backtestId": "51e2e20591c3b29162994b6918281632",
+    "status": "completed",
+    "r": 0.9225,
+    "n": 144
+  },
+  "S18": {
+    "name": "MFI14_Hyst",
+    "file": "018.py",
+    "backtestId": "d65b75afc5c67dc4210d1f3c68a6b96c",
+    "status": "completed",
+    "r": 0.8064,
+    "n": 144
+  }
+}

@@ -2,27 +2,40 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class TrendStretchExitSub(BaseSubAlgo):
-    """QQQ > SMA(200) AND stretch < 5% entry; exit on SMA breach or stretch > 20%."""
+class GoldenCrossATRSub(BaseSubAlgo):
+    """EMA(50) > EMA(200) entry; ratcheting 3×ATR(14) trailing stop on TQQQ."""
+
+    ATR_MULT = 3.0
+
     def initialize(self):
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._sma = self.algo.SMA("QQQ", 200, Resolution.Daily)
+        self.qqq     = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq    = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self._ema50  = self.algo.EMA(self.qqq, 50,  Resolution.Daily)
+        self._ema200 = self.algo.EMA(self.qqq, 200, Resolution.Daily)
+        self._atr    = self.algo.ATR(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self._trail  = 0.0
+
+    def on_data(self, data):
+        return self.update_targets()
 
     def update_targets(self):
-        if not self._sma.IsReady: return False
-        price   = self.algo.Securities[self.qqq].Price
-        sma_val = self._sma.Current.Value
-        stretch = (price - sma_val) / sma_val if sma_val > 0 else 0
-        prev     = dict(self.targets)
-        invested = bool(self.targets)
-        if not invested:
-            if price > sma_val and stretch < 0.05:
+        if not (self._ema50.IsReady and self._ema200.IsReady and self._atr.IsReady):
+            return False
+        tprice = self.algo.Securities[self.tqqq].Price
+        bull   = self._ema50.Current.Value > self._ema200.Current.Value
+        prev   = dict(self.targets)
+
+        if not self.targets:
+            if bull:
                 self.targets = {self.tqqq: 1.0}
+                self._trail  = tprice - self.ATR_MULT * self._atr.Current.Value
         else:
-            if price < sma_val or stretch > 0.20:
+            new_trail = tprice - self.ATR_MULT * self._atr.Current.Value
+            if new_trail > self._trail: self._trail = new_trail
+            if tprice < self._trail or not bull:
                 self.targets = {}
+                self._trail  = 0.0
         return self.targets != prev
 
 
-TrendStretchExitAlgo = _make_standalone(TrendStretchExitSub)
+GoldenCrossATRAlgo = _make_standalone(GoldenCrossATRSub)

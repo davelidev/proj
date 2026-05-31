@@ -314,7 +314,7 @@ def generate_markdown(strategies, backtest_results, output_path, show_all=False,
                 "> ```", "",
             ]
 
-        lines += ["", "---", ""]
+        lines += ["---"]
 
     with open(output_path, "w") as f:
         f.write("\n".join(lines))

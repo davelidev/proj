@@ -145,35 +145,45 @@ def _make_standalone(sub_cls):
     return Algo
 
 
-# --- Content from /tmp/003_v2.py ---
+# --- Content from cc/cc_algos/ensemble/012.py ---
 
 
 
-class TQQQDynamicSub(BaseSubAlgo):
+
+class GoldenCrossTrailSub(BaseSubAlgo):
+    """EMA(50) > EMA(200) entry; 10% trailing stop from peak TQQQ price."""
+
+    TRAIL_PCT = 0.06
+
     def initialize(self):
-        self.sym    = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.rsi2   = self.algo.RSI(self.sym, 2,   MovingAverageType.Wilders, Resolution.Daily)
-        self.rsi10  = self.algo.RSI(self.sym, 10, MovingAverageType.Wilders, Resolution.Daily)
-        self.sma200 = self.algo.SMA(self.sym, 200, Resolution.Daily)
+        self.qqq     = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq    = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self._ema50  = self.algo.EMA(self.qqq, 50,  Resolution.Daily)
+        self._ema200 = self.algo.EMA(self.qqq, 200, Resolution.Daily)
+        self._peak   = 0.0
+
+    def on_data(self, data):
+        return self.update_targets()
 
     def update_targets(self):
-        if not (self.rsi2.IsReady and self.sma200.IsReady): return False
-        price = self.algo.Securities[self.sym].Price
+        if not (self._ema50.IsReady and self._ema200.IsReady):
+            return False
+        tprice = self.algo.Securities[self.tqqq].Price
+        bull   = self._ema50.Current.Value > self._ema200.Current.Value
+        prev   = dict(self.targets)
 
-        prev = dict(self.targets)
-
-        if price > self.sma200.Current.Value:
-            if self.rsi10.Current.Value > 80:
-                self.targets[self.sym] = 0.2
-            elif self.rsi2.Current.Value < 30:
-                self.targets[self.sym] = 1.0
-            else:
-                self.targets = {}
+        if not self.targets:
+            if bull:
+                self.targets = {self.tqqq: 1.0}
+                self._peak   = tprice
         else:
-            self.targets = {}
-
+            if tprice > self._peak: self._peak = tprice
+            stop = self._peak * (1.0 - self.TRAIL_PCT)
+            if tprice < stop or not bull:
+                self.targets = {}
+                self._peak   = 0.0
         return self.targets != prev
 
 
-TQQQDynamicAlgo = _make_standalone(TQQQDynamicSub)
+GoldenCrossTrailAlgo = _make_standalone(GoldenCrossTrailSub)
 

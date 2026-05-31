@@ -2,23 +2,33 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class TQQQSMA150Sub(BaseSubAlgo):
-    """#006 — TQQQ trend on QQQ 150d SMA."""
+class TQQQDynamicSub(BaseSubAlgo):
+    """Three-tier TQQQ sizing gated by SMA(200). Above SMA: 100% on RSI(2) < 30 dip, 50% default, 20% on RSI(14) > 70 overbought. Below SMA: flat."""
 
     def initialize(self):
-        self.sym  = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.sma  = self.algo.SMA(self.qqq, 150, Resolution.Daily)
+        self.sym    = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.rsi2   = self.algo.RSI(self.sym,  2, MovingAverageType.Wilders, Resolution.Daily)
+        self.rsi14  = self.algo.RSI(self.sym, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.sma200 = self.algo.SMA(self.sym, 200, Resolution.Daily)
 
     def update_targets(self):
-        if not self.sma.IsReady: return False
+        if not (self.rsi14.IsReady and self.sma200.IsReady): return False
+        price = self.algo.Securities[self.sym].Price
+
         prev = dict(self.targets)
-        in_trend = self.algo.Securities[self.qqq].Price > self.sma.Current.Value
-        if in_trend:
-            self.targets[self.sym] = 1.0
+        current_w = self.targets.get(self.sym, 0)
+
+        if price > self.sma200.Current.Value:
+            if self.rsi14.Current.Value > 70:
+                self.targets[self.sym] = 0.2
+            elif self.rsi2.Current.Value < 30:
+                self.targets[self.sym] = 1.0
+            elif current_w == 0:
+                self.targets[self.sym] = 0.5
         else:
-            self.targets.pop(self.sym, None)
+            self.targets = {}
+
         return self.targets != prev
 
 
-TQQQSMA150Algo = _make_standalone(TQQQSMA150Sub)
+TQQQDynamicAlgo = _make_standalone(TQQQDynamicSub)

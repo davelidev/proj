@@ -2,9 +2,7 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class ThreeVoteSub(BaseSubAlgo):
-    """TQQQ weight = n/3 where n = bullish count among ROC(20)>0, UpDay(20)>10, TII(20)>10."""
-
+class UpDay20Sub(BaseSubAlgo):
     def initialize(self):
         self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
         self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
@@ -13,25 +11,10 @@ class ThreeVoteSub(BaseSubAlgo):
         h = self.algo.History(self.qqq, 21, Resolution.Daily)
         if h.empty or len(h) < 21: return False
         c = [float(x) for x in h["close"].values]
-
-        sig_roc = c[-1] > c[0]
-
         up_days = sum(1 for i in range(1, len(c)) if c[i] > c[i-1])
-        sig_upday = up_days > 10
-
-        c20 = c[-20:]
-        sma = sum(c20) / 20
-        tii = sum(1 for x in c20 if x > sma)
-        sig_tii = tii > 10
-
-        n = sig_roc + sig_upday + sig_tii
-        weight = n / 3.0
         prev = dict(self.targets)
-        if weight > 0:
-            self.targets[self.tqqq] = weight
-        else:
-            self.targets.pop(self.tqqq, None)
+        self.targets = {self.tqqq: 1.0} if up_days > 10 else {}
         return self.targets != prev
 
 
-ThreeVoteAlgo = _make_standalone(ThreeVoteSub)
+UpDay20Algo = _make_standalone(UpDay20Sub)

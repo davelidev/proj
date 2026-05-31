@@ -2,42 +2,23 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class IBSATRStopSub(BaseSubAlgo):
-    """#031 — IBS extreme + ATR-based stop loss.
-
-    Uses update_targets (scheduled at +DAILY_OPEN_MIN after market open) rather
-    than on_data: the standalone factory's on_data path delivered systematically
-    worse fills (30% vs 46% CAGR over 2014–2026). With Resolution.Daily,
-    Securities[self.sym] at +45 min after open already reflects the previous
-    trading day's complete bar, so IBS/ATR can be computed cleanly here.
-    """
+class TQQQSMA150Sub(BaseSubAlgo):
+    """#006 — TQQQ trend on QQQ 150d SMA."""
 
     def initialize(self):
-        self.sym = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.atr = self.algo.ATR(self.sym, 14, MovingAverageType.Wilders, Resolution.Daily)
-        self.entry_price = None
+        self.sym  = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.sma  = self.algo.SMA(self.qqq, 150, Resolution.Daily)
 
     def update_targets(self):
-        if not self.atr.IsReady: return False
-        bar = self.algo.Securities[self.sym]
-        h, l, c = bar.High, bar.Low, bar.Close
-        if h <= l: return False
-        ibs = (c - l) / (h - l)
-        invested = self.sym in self.targets
-        atr_val = self.atr.Current.Value
-
+        if not self.sma.IsReady: return False
         prev = dict(self.targets)
-
-        if not invested and ibs < 0.1:
+        in_trend = self.algo.Securities[self.qqq].Price > self.sma.Current.Value
+        if in_trend:
             self.targets[self.sym] = 1.0
-            self.entry_price = c
-        elif invested:
-            stop = self.entry_price - 3.0 * atr_val if self.entry_price else 0
-            if ibs > 0.9 or c < stop:
-                self.targets.pop(self.sym, None)
-                self.entry_price = None
-
+        else:
+            self.targets.pop(self.sym, None)
         return self.targets != prev
 
 
-IBSATRStopAlgo = _make_standalone(IBSATRStopSub)
+TQQQSMA150Algo = _make_standalone(TQQQSMA150Sub)

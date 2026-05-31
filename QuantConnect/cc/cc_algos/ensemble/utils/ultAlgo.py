@@ -1,22 +1,19 @@
 from AlgorithmImports import *
 from base import START_DATE, END_DATE, INITIAL_CASH, WARMUP_DAYS, SCHEDULE_TICKER, DAILY_OPEN_MIN, BaseSubAlgo
 from leveraged_rebalance import LeveragedRebalanceSub
-from rsi_champion import RSIDipChampionSub
 from tqqq_dynamic import TQQQDynamicSub
 from expanding_breakout import ExpandingBreakoutSub
 from tqqq_sma150 import TQQQSMA150Sub
 from ibs_atr_stop import IBSATRStopSub
-from roc20 import ROC20Sub
-from upday20 import UpDay20Sub
-from tii20 import TII20Sub
-from price126d import Price126DSub
+from three_vote import ThreeVoteSub
+from rsi_three_vote import RSIThreeVoteSub
 from trend_stretch_exit import TrendStretchExitSub
-from anti_martingale import AntiMartingaleSub
-from donchian200_midline import Donchian200MidlineSub
-from roc_d200_trail import ROCD200TrailSub
-from tqqq_pyramid import TQQQPyramidSub
+from golden_cross_atr import GoldenCrossATRSub
 from range_expanded import RangeExpandedSub
 from mfi14_hyst import MFI14HystSub
+from anti_martingale import AntiMartingaleSub
+from sma_five_vote import SMAFiveVoteSub
+from donchian_four_vote import DonchianFourVoteSub
 
 # ---------------------------------------------------------------------------
 # Combined Ensemble Algo
@@ -37,23 +34,20 @@ class UltimateAlgo(QCAlgorithm):
         self.last_prices = {}
 
         self.sub_algos = [
-            LeveragedRebalanceSub(self,   "LevRebal"),
-            RSIDipChampionSub(self,       "RSIDip"),
-            TQQQDynamicSub(self,           "TQQQDyn"),
-            ExpandingBreakoutSub(self,     "ExpandBreak"),
-            TQQQSMA150Sub(self,            "TQQQSMA150"),
-            IBSATRStopSub(self,            "IBSATRStop"),
-            ROC20Sub(self,                 "ROC20"),
-            UpDay20Sub(self,               "UpDay20"),
-            TII20Sub(self,                 "TII20"),
-            Price126DSub(self,             "Price126D"),
-            TrendStretchExitSub(self,      "StretchExit"),
-            AntiMartingaleSub(self,        "AntiMartin"),
-            Donchian200MidlineSub(self,    "D200Mid"),
-            ROCD200TrailSub(self,          "ROCD200Trail"),
-            TQQQPyramidSub(self,           "TQQQPyramid"),
-            RangeExpandedSub(self,         "RangeExp"),
-            MFI14HystSub(self,             "MFI14Hyst"),
+            LeveragedRebalanceSub(self,    "LevRebal"),       #  1
+            IBSATRStopSub(self,            "IBSATRStop"),     #  2
+            RSIThreeVoteSub(self,          "RSI3Vote"),       #  3
+            ExpandingBreakoutSub(self,     "ExpandBreak"),    #  4
+            TQQQDynamicSub(self,           "TQQQDyn"),        #  5
+            TQQQSMA150Sub(self,            "TQQQSMA150"),     #  6
+            AntiMartingaleSub(self,        "AntiMartin"),     #  7
+            SMAFiveVoteSub(self,           "SMAFiveVote"),    #  8
+            DonchianFourVoteSub(self,      "D4Vote"),         #  9
+            ThreeVoteSub(self,             "3Vote"),          # 10
+            TrendStretchExitSub(self,      "StretchExit"),    # 11
+            GoldenCrossATRSub(self,        "GoldXATR"),       # 12
+            RangeExpandedSub(self,         "RangeExp"),       # 13
+            MFI14HystSub(self,             "MFI14Hyst"),      # 14
         ]
 
         start_equity = INITIAL_CASH / len(self.sub_algos)

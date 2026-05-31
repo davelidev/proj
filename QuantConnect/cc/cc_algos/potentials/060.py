@@ -2,11 +2,7 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class RSIThreeVoteSub(BaseSubAlgo):
-    """Equal-weight TQQQ/SOXL/TECL basket sized by n/3 dip-depth vote: RSI(2) < 20, <25, <30."""
-
-    THRESHOLDS = [20, 25, 30]
-
+class RSIDipChampionSub(BaseSubAlgo):
     def initialize(self):
         self.algo.AddEquity("QQQ", Resolution.Daily)
         self.rsi2 = self.algo.RSI("QQQ", 2, MovingAverageType.Wilders, Resolution.Daily)
@@ -14,17 +10,14 @@ class RSIThreeVoteSub(BaseSubAlgo):
 
     def update_targets(self):
         if not self.rsi2.IsReady: return False
-        rsi = self.rsi2.Current.Value
-        n = sum(1 for t in self.THRESHOLDS if rsi < t)
-        total_weight = n / float(len(self.THRESHOLDS))
+
         prev = dict(self.targets)
-        if total_weight > 0:
-            per_sym = total_weight / len(self.syms)
-            self.targets = {s: per_sym for s in self.syms}
-            self.force_rebalance = True
+        if self.rsi2.Current.Value < 20:
+            self.targets = {s: 1 / len(self.syms) for s in self.syms}
+            self.force_rebalance = True  # rebalance daily to maintain equal weight
         else:
             self.targets = {}
         return self.targets != prev
 
 
-RSIThreeVoteAlgo = _make_standalone(RSIThreeVoteSub)
+RSIDipChampionAlgo = _make_standalone(RSIDipChampionSub)

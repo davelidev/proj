@@ -75,21 +75,43 @@ class LeveragedRebalanceSub(BaseSubAlgo):
 
 
 
-class RSIDipChampionSub(BaseSubAlgo):
+class IBSATRStopSub(BaseSubAlgo):
+    """IBS extreme + ATR-based stop loss on equal-weight TQQQ/SOXL/TECL basket.
+
+    Uses update_targets (scheduled at +DAILY_OPEN_MIN after market open) rather
+    than on_data: the standalone factory's on_data path delivered systematically
+    worse fills. With Resolution.Daily, Securities[syms[0]] at +45 min after open
+    already reflects the previous trading day's complete bar, so IBS/ATR can be
+    computed cleanly here. Signal and ATR derived from TQQQ; position spread equally
+    across TQQQ, SOXL, TECL.
+    """
+
     def initialize(self):
-        self.algo.AddEquity("QQQ", Resolution.Daily)
-        self.rsi2 = self.algo.RSI("QQQ", 2, MovingAverageType.Wilders, Resolution.Daily)
         self.syms = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
+        self.atr  = self.algo.ATR(self.syms[0], 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.entry_price = None
 
     def update_targets(self):
-        if not self.rsi2.IsReady: return False
+        if not self.atr.IsReady: return False
+        bar = self.algo.Securities[self.syms[0]]
+        h, l, c = bar.High, bar.Low, bar.Close
+        if h <= l: return False
+        ibs = (c - l) / (h - l)
+        invested = self.syms[0] in self.targets
+        atr_val = self.atr.Current.Value
 
         prev = dict(self.targets)
-        if self.rsi2.Current.Value < 20:
-            self.targets = {s: 1 / len(self.syms) for s in self.syms}
-            self.force_rebalance = True  # rebalance daily to maintain equal weight
-        else:
-            self.targets = {}
+        w = 1.0 / len(self.syms)
+
+        if not invested and ibs < 0.1:
+            self.targets = {s: w for s in self.syms}
+            self.entry_price = c
+        elif invested:
+            stop = self.entry_price - 3.0 * atr_val if self.entry_price else 0
+            if ibs > 0.9 or c < stop:
+                self.targets = {}
+                self.entry_price = None
+
         return self.targets != prev
 
 
@@ -100,30 +122,28 @@ class RSIDipChampionSub(BaseSubAlgo):
 
 
 
-class TQQQDynamicSub(BaseSubAlgo):
+class RSIThreeVoteSub(BaseSubAlgo):
+    """Equal-weight TQQQ/SOXL/TECL basket sized by n/3 dip-depth vote: RSI(2) < 20, <25, <30."""
+
+    THRESHOLDS = [20, 25, 30]
+
     def initialize(self):
-        self.sym    = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.rsi2   = self.algo.RSI(self.sym, 2,   MovingAverageType.Wilders, Resolution.Daily)
-        self.rsi10  = self.algo.RSI(self.sym, 10, MovingAverageType.Wilders, Resolution.Daily)
-        self.sma200 = self.algo.SMA(self.sym, 200, Resolution.Daily)
+        self.algo.AddEquity("QQQ", Resolution.Daily)
+        self.rsi2 = self.algo.RSI("QQQ", 2, MovingAverageType.Wilders, Resolution.Daily)
+        self.syms = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
 
     def update_targets(self):
-        if not (self.rsi2.IsReady and self.sma200.IsReady): return False
-        price = self.algo.Securities[self.sym].Price
-
+        if not self.rsi2.IsReady: return False
+        rsi = self.rsi2.Current.Value
+        n = sum(1 for t in self.THRESHOLDS if rsi < t)
+        total_weight = n / float(len(self.THRESHOLDS))
         prev = dict(self.targets)
-        current_w = self.targets.get(self.sym, 0)
-
-        if price > self.sma200.Current.Value:
-            if self.rsi10.Current.Value > 80:
-                self.targets[self.sym] = 0.2
-            elif self.rsi2.Current.Value < 30:
-                self.targets[self.sym] = 1.0
-            elif current_w == 0:
-                self.targets[self.sym] = 0.5
+        if total_weight > 0:
+            per_sym = total_weight / len(self.syms)
+            self.targets = {s: per_sym for s in self.syms}
+            self.force_rebalance = True
         else:
             self.targets = {}
-
         return self.targets != prev
 
 
@@ -182,6 +202,42 @@ class ExpandingBreakoutSub(BaseSubAlgo):
 
 
 
+class TQQQDynamicSub(BaseSubAlgo):
+    """Three-tier TQQQ sizing gated by SMA(200). Above SMA: 100% on RSI(2) < 30 dip, 50% default, 20% on RSI(14) > 70 overbought. Below SMA: flat."""
+
+    def initialize(self):
+        self.sym    = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.rsi2   = self.algo.RSI(self.sym,  2, MovingAverageType.Wilders, Resolution.Daily)
+        self.rsi14  = self.algo.RSI(self.sym, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.sma200 = self.algo.SMA(self.sym, 200, Resolution.Daily)
+
+    def update_targets(self):
+        if not (self.rsi14.IsReady and self.sma200.IsReady): return False
+        price = self.algo.Securities[self.sym].Price
+
+        prev = dict(self.targets)
+        current_w = self.targets.get(self.sym, 0)
+
+        if price > self.sma200.Current.Value:
+            if self.rsi14.Current.Value > 70:
+                self.targets[self.sym] = 0.2
+            elif self.rsi2.Current.Value < 30:
+                self.targets[self.sym] = 1.0
+            elif current_w == 0:
+                self.targets[self.sym] = 0.5
+        else:
+            self.targets = {}
+
+        return self.targets != prev
+
+
+
+
+# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/006.py ---
+
+
+
+
 class TQQQSMA150Sub(BaseSubAlgo):
     """#006 — TQQQ trend on QQQ 150d SMA."""
 
@@ -203,201 +259,7 @@ class TQQQSMA150Sub(BaseSubAlgo):
 
 
 
-# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/006.py ---
-
-
-
-
-class IBSATRStopSub(BaseSubAlgo):
-    """#031 — IBS extreme + ATR-based stop loss.
-
-    Uses update_targets (scheduled at +DAILY_OPEN_MIN after market open) rather
-    than on_data: the standalone factory's on_data path delivered systematically
-    worse fills (30% vs 46% CAGR over 2014–2026). With Resolution.Daily,
-    Securities[self.sym] at +45 min after open already reflects the previous
-    trading day's complete bar, so IBS/ATR can be computed cleanly here.
-    """
-
-    def initialize(self):
-        self.sym = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.atr = self.algo.ATR(self.sym, 14, MovingAverageType.Wilders, Resolution.Daily)
-        self.entry_price = None
-
-    def update_targets(self):
-        if not self.atr.IsReady: return False
-        bar = self.algo.Securities[self.sym]
-        h, l, c = bar.High, bar.Low, bar.Close
-        if h <= l: return False
-        ibs = (c - l) / (h - l)
-        invested = self.sym in self.targets
-        atr_val = self.atr.Current.Value
-
-        prev = dict(self.targets)
-
-        if not invested and ibs < 0.1:
-            self.targets[self.sym] = 1.0
-            self.entry_price = c
-        elif invested:
-            stop = self.entry_price - 3.0 * atr_val if self.entry_price else 0
-            if ibs > 0.9 or c < stop:
-                self.targets.pop(self.sym, None)
-                self.entry_price = None
-
-        return self.targets != prev
-
-
-
-
 # --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/007.py ---
-
-
-
-
-class CMO20Sub(BaseSubAlgo):
-    def initialize(self):
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-
-    def update_targets(self):
-        h = self.algo.History(self.qqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return False
-        c = [float(x) for x in h["close"].values]
-        changes = [c[i] - c[i-1] for i in range(1, len(c))]
-        up  = sum(x for x in changes if x > 0)
-        dn  = sum(-x for x in changes if x < 0)
-        tot = up + dn
-        cmo = 0 if tot == 0 else 100 * (up - dn) / tot
-        prev = dict(self.targets)
-        self.targets = {self.tqqq: 1.0} if cmo > 0 else {}
-        return self.targets != prev
-
-
-
-
-# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/008.py ---
-
-
-
-
-class ROC20Sub(BaseSubAlgo):
-    def initialize(self):
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._roc = self.algo.ROC("QQQ", 20, Resolution.Daily)
-
-    def update_targets(self):
-        if not self._roc.IsReady: return False
-        prev = dict(self.targets)
-        self.targets = {self.tqqq: 1.0} if self._roc.Current.Value > 0 else {}
-        return self.targets != prev
-
-
-
-
-# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/009.py ---
-
-
-
-
-class UpDay20Sub(BaseSubAlgo):
-    def initialize(self):
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-
-    def update_targets(self):
-        h = self.algo.History(self.qqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return False
-        c = [float(x) for x in h["close"].values]
-        up_days = sum(1 for i in range(1, len(c)) if c[i] > c[i-1])
-        prev = dict(self.targets)
-        self.targets = {self.tqqq: 1.0} if up_days > 10 else {}
-        return self.targets != prev
-
-
-
-
-# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/010.py ---
-
-
-
-
-class TII20Sub(BaseSubAlgo):
-    def initialize(self):
-        self.qqq   = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq  = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._sma  = self.algo.SMA("QQQ", 20, Resolution.Daily)
-        self._wins = RollingWindow[float](20)
-
-    def update_targets(self):
-        if not self._sma.IsReady or not self._wins.IsReady: return False
-        sma = self._sma.Current.Value
-        tii = sum(1 for i in range(20) if self._wins[i] > sma)
-        prev = dict(self.targets)
-        self.targets = {self.tqqq: 1.0} if tii > 10 else {}
-        return self.targets != prev
-
-    def on_data(self, data):
-        if data.Bars.ContainsKey(self.qqq):
-            self._wins.Add(data.Bars[self.qqq].Close)
-
-
-
-
-# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/011.py ---
-
-
-
-
-class Price126DSub(BaseSubAlgo):
-    def initialize(self):
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-
-    def update_targets(self):
-        h = self.algo.History(self.qqq, 126, Resolution.Daily)
-        if h.empty or len(h) < 126: return False
-        closes = [float(x) for x in h["close"].values]
-        lo, hi = min(closes), max(closes)
-        if hi == lo: return False
-        pct = (closes[-1] - lo) / (hi - lo)
-        prev = dict(self.targets)
-        self.targets = {self.tqqq: 1.0} if pct > 0.5 else {}
-        return self.targets != prev
-
-
-
-
-# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/012.py ---
-
-
-
-
-class TrendStretchExitSub(BaseSubAlgo):
-    """QQQ > SMA(200) AND stretch < 5% entry; exit on SMA breach or stretch > 20%."""
-    def initialize(self):
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._sma = self.algo.SMA("QQQ", 200, Resolution.Daily)
-
-    def update_targets(self):
-        if not self._sma.IsReady: return False
-        price   = self.algo.Securities[self.qqq].Price
-        sma_val = self._sma.Current.Value
-        stretch = (price - sma_val) / sma_val if sma_val > 0 else 0
-        prev     = dict(self.targets)
-        invested = bool(self.targets)
-        if not invested:
-            if price > sma_val and stretch < 0.05:
-                self.targets = {self.tqqq: 1.0}
-        else:
-            if price < sma_val or stretch > 0.20:
-                self.targets = {}
-        return self.targets != prev
-
-
-
-
-# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/013.py ---
 
 
 
@@ -435,91 +297,184 @@ class AntiMartingaleSub(BaseSubAlgo):
 
 
 
-# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/014.py ---
+# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/008.py ---
 
 
 
 
-class Donchian200MidlineSub(BaseSubAlgo):
-    """QQQ > midpoint of 200-day Donchian channel → 100% TQQQ; else cash."""
+class SMAFiveVoteSub(BaseSubAlgo):
+    """TQQQ position = n/5 where n = # of (SMA20, SMA50, SMA100, SMA150, SMA200) that QQQ price is above."""
+
+    PERIODS = [20, 50, 100, 150, 200]
+
     def initialize(self):
-        self.qqq    = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._hi200 = self.algo.MAX("QQQ", 200, Resolution.Daily)
-        self._lo200 = self.algo.MIN("QQQ", 200, Resolution.Daily)
+        self.sym  = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.smas = [self.algo.SMA(self.qqq, n, Resolution.Daily) for n in self.PERIODS]
 
     def update_targets(self):
-        if not (self._hi200.IsReady and self._lo200.IsReady): return False
-        price   = self.algo.Securities[self.qqq].Price
-        midline = (self._hi200.Current.Value + self._lo200.Current.Value) / 2.0
-        prev    = dict(self.targets)
-        self.targets = {self.tqqq: 1.0} if price > midline else {}
-        return self.targets != prev
-
-
-
-
-# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/015.py ---
-
-
-
-
-class ROCD200TrailSub(BaseSubAlgo):
-    """ROC(20)>0 AND QQQ > D200 midline AND within 7% of 20d high → 100% TQQQ."""
-    def initialize(self):
-        self.qqq    = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._roc   = self.algo.ROC("QQQ", 20,  Resolution.Daily)
-        self._hi200 = self.algo.MAX("QQQ", 200, Resolution.Daily)
-        self._lo200 = self.algo.MIN("QQQ", 200, Resolution.Daily)
-        self._hi20  = self.algo.MAX("QQQ", 20,  Resolution.Daily)
-
-    def update_targets(self):
-        if not (self._roc.IsReady and self._hi200.IsReady
-                and self._lo200.IsReady and self._hi20.IsReady):
-            return False
-        price = self.algo.Securities[self.qqq].Price
-        mid   = (self._hi200.Current.Value + self._lo200.Current.Value) / 2.0
-        dd_20 = price / self._hi20.Current.Value - 1.0
-        bull  = self._roc.Current.Value > 0 and price > mid
+        if not self.smas[-1].IsReady: return False
         prev  = dict(self.targets)
-        self.targets = {self.tqqq: 1.0} if (bull and dd_20 > -0.07) else {}
+        price = self.algo.Securities[self.qqq].Price
+        n     = sum(price > sma.Current.Value for sma in self.smas)
+        weight = n / float(len(self.PERIODS))
+        if weight > 0:
+            self.targets[self.sym] = weight
+        else:
+            self.targets.pop(self.sym, None)
         return self.targets != prev
 
 
 
 
-# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/016.py ---
+# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/009.py ---
 
 
 
 
-class TQQQPyramidSub(BaseSubAlgo):
-    """Bull: +10% TQQQ per day up to 100%; bear signal → 0% immediately."""
+class DonchianFourVoteSub(BaseSubAlgo):
+    """TQQQ position = n/4 where n = # of Donchian midlines (50,100,150,200) that QQQ price is above."""
+
+    PERIODS = [50, 100, 150, 200]
+
     def initialize(self):
-        self.qqq      = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq     = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._roc     = self.algo.ROC("QQQ", 20,  Resolution.Daily)
-        self._hi200   = self.algo.MAX("QQQ", 200, Resolution.Daily)
-        self._lo200   = self.algo.MIN("QQQ", 200, Resolution.Daily)
-        self._exposure = 0.0
+        self.sym = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.hi  = [self.algo.MAX(self.qqq, n, Resolution.Daily) for n in self.PERIODS]
+        self.lo  = [self.algo.MIN(self.qqq, n, Resolution.Daily) for n in self.PERIODS]
 
     def update_targets(self):
-        if not (self._roc.IsReady and self._hi200.IsReady and self._lo200.IsReady):
-            return False
-        mid     = (self._hi200.Current.Value + self._lo200.Current.Value) / 2.0
-        bull    = self._roc.Current.Value > 0 and self.algo.Securities[self.qqq].Price > mid
-        new_exp = min(1.0, self._exposure + 0.1) if bull else 0.0
-        prev    = dict(self.targets)
-        if abs(new_exp - self._exposure) > 0.005:
-            self._exposure = new_exp
-            self.targets   = {self.tqqq: new_exp} if new_exp > 0 else {}
+        if not self.hi[-1].IsReady: return False
+        prev  = dict(self.targets)
+        price = self.algo.Securities[self.qqq].Price
+        n = sum(
+            price > (self.hi[i].Current.Value + self.lo[i].Current.Value) / 2.0
+            for i in range(len(self.PERIODS))
+            if self.hi[i].IsReady
+        )
+        weight = n / float(len(self.PERIODS))
+        if weight > 0:
+            self.targets[self.sym] = weight
+        else:
+            self.targets.pop(self.sym, None)
         return self.targets != prev
 
 
 
 
-# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/017.py ---
+# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/010.py ---
+
+
+
+
+class ThreeVoteSub(BaseSubAlgo):
+    """TQQQ weight = n/3 where n = bullish count among ROC(20)>0, UpDay(20)>10, TII(20)>10."""
+
+    def initialize(self):
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+
+    def update_targets(self):
+        h = self.algo.History(self.qqq, 21, Resolution.Daily)
+        if h.empty or len(h) < 21: return False
+        c = [float(x) for x in h["close"].values]
+
+        sig_roc = c[-1] > c[0]
+
+        up_days = sum(1 for i in range(1, len(c)) if c[i] > c[i-1])
+        sig_upday = up_days > 10
+
+        c20 = c[-20:]
+        sma = sum(c20) / 20
+        tii = sum(1 for x in c20 if x > sma)
+        sig_tii = tii > 10
+
+        n = sig_roc + sig_upday + sig_tii
+        weight = n / 3.0
+        prev = dict(self.targets)
+        if weight > 0:
+            self.targets[self.tqqq] = weight
+        else:
+            self.targets.pop(self.tqqq, None)
+        return self.targets != prev
+
+
+
+
+# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/011.py ---
+
+
+
+
+class TrendStretchExitSub(BaseSubAlgo):
+    """QQQ > SMA(200) AND stretch < 5% entry; exit on SMA breach or stretch > 20%."""
+    def initialize(self):
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self._sma = self.algo.SMA("QQQ", 200, Resolution.Daily)
+
+    def update_targets(self):
+        if not self._sma.IsReady: return False
+        price   = self.algo.Securities[self.qqq].Price
+        sma_val = self._sma.Current.Value
+        stretch = (price - sma_val) / sma_val if sma_val > 0 else 0
+        prev     = dict(self.targets)
+        invested = bool(self.targets)
+        if not invested:
+            if price > sma_val and stretch < 0.05:
+                self.targets = {self.tqqq: 1.0}
+        else:
+            if price < sma_val or stretch > 0.20:
+                self.targets = {}
+        return self.targets != prev
+
+
+
+
+# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/012.py ---
+
+
+
+
+class GoldenCrossATRSub(BaseSubAlgo):
+    """EMA(50) > EMA(200) entry; ratcheting 3×ATR(14) trailing stop on TQQQ."""
+
+    ATR_MULT = 3.0
+
+    def initialize(self):
+        self.qqq     = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq    = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self._ema50  = self.algo.EMA(self.qqq, 50,  Resolution.Daily)
+        self._ema200 = self.algo.EMA(self.qqq, 200, Resolution.Daily)
+        self._atr    = self.algo.ATR(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self._trail  = 0.0
+
+    def on_data(self, data):
+        return self.update_targets()
+
+    def update_targets(self):
+        if not (self._ema50.IsReady and self._ema200.IsReady and self._atr.IsReady):
+            return False
+        tprice = self.algo.Securities[self.tqqq].Price
+        bull   = self._ema50.Current.Value > self._ema200.Current.Value
+        prev   = dict(self.targets)
+
+        if not self.targets:
+            if bull:
+                self.targets = {self.tqqq: 1.0}
+                self._trail  = tprice - self.ATR_MULT * self._atr.Current.Value
+        else:
+            new_trail = tprice - self.ATR_MULT * self._atr.Current.Value
+            if new_trail > self._trail: self._trail = new_trail
+            if tprice < self._trail or not bull:
+                self.targets = {}
+                self._trail  = 0.0
+        return self.targets != prev
+
+
+
+
+# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/013.py ---
 
 
 
@@ -552,7 +507,7 @@ class RangeExpandedSub(BaseSubAlgo):
 
 
 
-# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/018.py ---
+# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/014.py ---
 
 
 
@@ -595,10 +550,6 @@ class MFI14HystSub(BaseSubAlgo):
 
 
 
-
-
-
-
 # ---------------------------------------------------------------------------
 # Combined Ensemble Algo
 # ---------------------------------------------------------------------------
@@ -618,23 +569,20 @@ class UltimateAlgo(QCAlgorithm):
         self.last_prices = {}
 
         self.sub_algos = [
-            LeveragedRebalanceSub(self,   "LevRebal"),
-            RSIDipChampionSub(self,       "RSIDip"),
-            TQQQDynamicSub(self,           "TQQQDyn"),
-            ExpandingBreakoutSub(self,     "ExpandBreak"),
-            TQQQSMA150Sub(self,            "TQQQSMA150"),
-            IBSATRStopSub(self,            "IBSATRStop"),
-            ROC20Sub(self,                 "ROC20"),
-            UpDay20Sub(self,               "UpDay20"),
-            TII20Sub(self,                 "TII20"),
-            Price126DSub(self,             "Price126D"),
-            TrendStretchExitSub(self,      "StretchExit"),
-            AntiMartingaleSub(self,        "AntiMartin"),
-            Donchian200MidlineSub(self,    "D200Mid"),
-            ROCD200TrailSub(self,          "ROCD200Trail"),
-            TQQQPyramidSub(self,           "TQQQPyramid"),
-            RangeExpandedSub(self,         "RangeExp"),
-            MFI14HystSub(self,             "MFI14Hyst"),
+            LeveragedRebalanceSub(self,    "LevRebal"),       #  1
+            IBSATRStopSub(self,            "IBSATRStop"),     #  2
+            RSIThreeVoteSub(self,          "RSI3Vote"),       #  3
+            ExpandingBreakoutSub(self,     "ExpandBreak"),    #  4
+            TQQQDynamicSub(self,           "TQQQDyn"),        #  5
+            TQQQSMA150Sub(self,            "TQQQSMA150"),     #  6
+            AntiMartingaleSub(self,        "AntiMartin"),     #  7
+            SMAFiveVoteSub(self,           "SMAFiveVote"),    #  8
+            DonchianFourVoteSub(self,      "D4Vote"),         #  9
+            ThreeVoteSub(self,             "3Vote"),          # 10
+            TrendStretchExitSub(self,      "StretchExit"),    # 11
+            GoldenCrossATRSub(self,        "GoldXATR"),       # 12
+            RangeExpandedSub(self,         "RangeExp"),       # 13
+            MFI14HystSub(self,             "MFI14Hyst"),      # 14
         ]
 
         start_equity = INITIAL_CASH / len(self.sub_algos)
@@ -723,7 +671,6 @@ class UltimateAlgo(QCAlgorithm):
         self.UpdateVirtualAccounting()
 
         if not hasattr(self, "_last_year") or self.Time.year != self._last_year:
-            # Report previous-year trade activity before resetting the counters.
             if hasattr(self, "_last_year"):
                 prev_yr = self._last_year
                 rows    = [f"  {sub.id}: {sub.trade_count_year} trades"
@@ -739,11 +686,6 @@ class UltimateAlgo(QCAlgorithm):
                 sub.trade_count_year = 0
             self.Log(f"YEARLY REBALANCE: All sub-algos reset to ${reset_val:,.0f}")
 
-        # Each sub's update_targets returns True iff self.targets changed.
-        # Subs that need a rebalance even without a target change set
-        # self.force_rebalance themselves. ExecuteAggregation always runs and
-        # uses its own drift gate to skip cheap days; the drift-detection is
-        # an alpha source (vol harvesting across cash-heavy vs risk-heavy subs).
         update_signaled = {}
         for sub in self.sub_algos:
             signaled = sub.update_targets()
@@ -751,11 +693,6 @@ class UltimateAlgo(QCAlgorithm):
             if signaled:
                 sub.force_rebalance = True
 
-        # Trade-activity tally — a "trade-day" is recorded if EITHER:
-        #   (a) update_targets() returned True (catches no-weight-change re-asserts
-        #       like LevRebal's annual rebalance flag), OR
-        #   (b) targets dict differs from yesterday's snapshot (catches subs that
-        #       mutate self.targets from on_data, e.g. IBSATRStop).
         for sub in self.sub_algos:
             cur          = {s: round(w, 6) for s, w in sub.targets.items() if w != 0}
             dict_changed = cur != sub._prev_targets_snap
@@ -765,7 +702,7 @@ class UltimateAlgo(QCAlgorithm):
                 if sub.last_trade_date is None:
                     self.Log(f"FIRST TRADE: {sub.id} on {self.Time.strftime('%Y-%m-%d')}")
                 sub.last_trade_date    = self.Time
-            sub._prev_targets_snap = cur  # always refresh so the next diff is current
+            sub._prev_targets_snap = cur
 
         self.ExecuteAggregation()
 
@@ -780,7 +717,6 @@ class UltimateAlgo(QCAlgorithm):
         total_virtual = sum(sub.equity for sub in self.sub_algos)
         if total_virtual <= 0: return
 
-        # Check if any sub-algo is forcing a rebalance
         force = any(sub.force_rebalance for sub in self.sub_algos)
 
         agg_weights = {}
@@ -797,9 +733,7 @@ class UltimateAlgo(QCAlgorithm):
         if total_w > 1.0:
             for s in agg_weights: agg_weights[s] /= total_w
 
-        # [Change Detection] Compare with previous aggregate weights
         if not force and hasattr(self, "_prev_agg_weights"):
-            # Check if all keys match and weights are within tolerance
             if set(agg_weights.keys()) == set(self._prev_agg_weights.keys()):
                 significant_change = False
                 for sym, weight in agg_weights.items():
@@ -808,7 +742,7 @@ class UltimateAlgo(QCAlgorithm):
                         significant_change = True
                         break
                 if not significant_change:
-                    return # Skip execution
+                    return
 
         self._prev_agg_weights = agg_weights.copy()
 
@@ -821,7 +755,6 @@ class UltimateAlgo(QCAlgorithm):
             if x.Invested and x.Symbol not in agg_weights:
                 self.Liquidate(x.Symbol)
 
-        # Reset force flags
         for sub in self.sub_algos:
             sub.force_rebalance = False
 

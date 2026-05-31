@@ -36,6 +36,13 @@
 | [42](#strategy-42)   | ❌    | Dip Buy         | 28%  | -40%  | 0.856  | 32    | 26    | 1.23     | 3.20         | 2/10   |
 | [43](#strategy-43)   | ❌    | Momentum        | 27%  | -26%  | 0.981  | 3552  | 888   | 4.00     | 0.59         | 2/10   |
 | [49](#strategy-49)   | ✅    | Momentum        | 33%  | -40%  | 0.837  | 194   | 247   | 0.79     | 3.46         | 2/10   |
+| [54](#strategy-54)   | ✅    | Trend           | 37%  | -57%  | 0.796  | 34    | 51    | 0.67     | 9.51         | 2/10   |
+| [56](#strategy-56)   | ✅    | Price Position  | 34%  | -55%  | 0.78   | 22    | 55    | 0.40     | 10.02        | 1/10   |
+| [57](#strategy-57)   | ✅    | Momentum        | 35%  | -50%  | 0.834  | 112   | 131   | 0.85     | 3.02         | 3/10   |
+| [58](#strategy-58)   | ✅    | Momentum        | 32%  | -53%  | 0.792  | 98    | 129   | 0.76     | 3.31         | 3/10   |
+| [59](#strategy-59)   | ✅    | Trend           | 29%  | -45%  | 0.695  | —     | —     | —        | 1.09         | 3/10   |
+| [60](#strategy-60)   | ✅    | Mean Reversion  | 40%  | -32%  | 0.953  | 1281  | 928   | 1.38     | 1.47         | 4/10   |
+| [61](#strategy-61)   | ✅    | Trend           | 29%  | -43%  | 0.814  | 741   | 711   | 1.04     | 3.24         | 4/10   |
 
 
 ---
@@ -66,9 +73,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/001.py"
 > ```
 
-
 ---
-
 ## Strategy-2
 ### Giant Sniper Mean-Reversion (002.py)
 
@@ -96,9 +101,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/002.py"
 > ```
 
-
 ---
-
 ## Strategy-3
 ### Defensive Rotation (003.py)
 
@@ -126,9 +129,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/003.py"
 > ```
 
-
 ---
-
 ## Strategy-4
 ### IBS regime-adaptive (004.py)
 
@@ -156,9 +157,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/004.py"
 > ```
 
-
 ---
-
 ## Strategy-7
 ### Mega-Cap Value Averaging (007.py)
 
@@ -185,9 +184,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/007.py"
 > ```
 
-
 ---
-
 ## Strategy-8
 ### 5x 3x-Leveraged ETF Basket + QQQ Vol Gate (008.py)
 
@@ -215,9 +212,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/008.py"
 > ```
 
-
 ---
-
 ## Strategy-10
 ### TQQQ hybrid + ATR (010.py)
 
@@ -247,9 +242,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/010.py"
 > ```
 
-
 ---
-
 ## Strategy-11
 ### 5 most mkt cap + IBS regime mix (011.py)
 
@@ -278,9 +271,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/011.py"
 > ```
 
-
 ---
-
 ## Strategy-12
 ### Nasdaq-100 Breadth Rotation (012.py)
 
@@ -308,9 +299,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/012.py"
 > ```
 
-
 ---
-
 ## Strategy-14
 ### 3-State ROC(20) + Donchian-200 (014.py)
 
@@ -319,9 +308,9 @@
 *Overfit 3/10 — ROC(20)>0 is a canonical momentum threshold. Donchian-200 midline is standard. Two-indicator, textbook-level design.*
 
 - **Trend gate:** ROC(20)>0 on QQQ; QQQ price > Donchian-200 midline
-- **Entry:** Both bull → 100% TQQQ; one bull → 50% TQQQ/50% BIL; both bear → 100% BIL
+- **Entry:** Both bull → 100% TQQQ; one bull → 50% TQQQ/50% cash; both bear → 100% cash
 - **Exit:** Rebalance on state change
-- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Symbols:** Signal: QQQ. Execution: TQQQ
 - **Rebalance:** Daily, 30 min after market open
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -337,9 +326,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/014.py"
 > ```
 
-
 ---
-
 ## Strategy-17
 ### 3-State Dual-ROC + D200 (017.py)
 
@@ -348,9 +335,9 @@
 *Overfit 3/10 — ROC(20)>0 AND ROC(60)>0 as a consensus gate are both standard zero-crossing tests. Donchian-200 midline is standard. Two standard components with a straightforward AND logic.*
 
 - **Trend gate:** ROC(20)>0 AND ROC(60)>0 on QQQ (dual-timeframe consensus); QQQ > Donchian-200 midline
-- **Entry:** Both filters bull → 100% TQQQ; one bull → 50% TQQQ/50% BIL; both bear → 100% BIL
+- **Entry:** Both filters bull → 100% TQQQ; one bull → 50% TQQQ/50% cash; both bear → 100% cash
 - **Exit:** Rebalance on state change
-- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Symbols:** Signal: QQQ. Execution: TQQQ
 - **Rebalance:** Daily, 30 min after market open
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -366,9 +353,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/017.py"
 > ```
 
-
 ---
-
 ## Strategy-18
 ### ROC+D200 + 5% Trail Exit (018.py)
 
@@ -378,9 +363,9 @@
 
 - **Trend gate:** ROC(20)>0 on QQQ AND QQQ > Donchian-200 midline
 - **Entry:** Both conditions true AND QQQ within 5% of 20-day high → 100% TQQQ
-- **Exit:** Trend signal off OR QQQ drops >5% below 20-day high → 100% BIL
+- **Exit:** Trend signal off OR QQQ drops >5% below 20-day high → 100% cash
 - **Stop-loss:** Trailing: exit if QQQ falls >5% from its 20-day high
-- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Symbols:** Signal: QQQ. Execution: TQQQ
 - **Rebalance:** Daily, 30 min after market open
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -396,9 +381,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/018.py"
 > ```
 
-
 ---
-
 ## Strategy-19
 ### TQQQ Pyramid 30%/day (019.py)
 
@@ -407,9 +390,9 @@
 *Overfit 3/10 — The 30% daily step rate (approximately 4 days to full exposure) is non-canonical. Entry conditions (ROC(20)>0 and Donchian-200) are standard. One non-canonical tuned parameter on top of standard signals.*
 
 - **Trend gate:** ROC(20)>0 on QQQ AND QQQ > Donchian-200 midline
-- **Entry:** Bull: +30% TQQQ per day (up to 100%); remainder in BIL
-- **Exit:** Bear signal → TQQQ to 0%, 100% BIL immediately
-- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Entry:** Bull: +30% TQQQ per day (up to 100%); remainder in cash
+- **Exit:** Bear signal → TQQQ to 0%, 100% cash immediately
+- **Symbols:** Signal: QQQ. Execution: TQQQ
 - **Rebalance:** Daily, 30 min after market open
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -425,9 +408,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/019.py"
 > ```
 
-
 ---
-
 ## Strategy-20
 ### Mega-Cap Dispersion Regime (020.py)
 
@@ -438,8 +419,8 @@
 - **Trend gate:** QQQ price > midpoint of 200-day high/low range
 - **Strength filter:** Std dev of 20-day returns across top-5 mega-caps < 5%
 - **Entry:** In trend AND dispersion < 5% → 100% TQQQ
-- **Exit:** Trend breaks OR dispersion ≥ 5% → 100% BIL
-- **Symbols:** Signal: QQQ + top-5 mega-cap dispersion. Execution: TQQQ / BIL
+- **Exit:** Trend breaks OR dispersion ≥ 5% → 100% cash
+- **Symbols:** Signal: QQQ + top-5 mega-cap dispersion. Execution: TQQQ
 - **Rebalance:** Daily, 30 min after market open
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -455,9 +436,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/020.py"
 > ```
 
-
 ---
-
 ## Strategy-21
 ### ROC+D200 + 7% Trail Binary (021.py)
 
@@ -467,8 +446,8 @@
 
 - **Trend gate:** Price > midpoint of 200-day high/low channel
 - **Entry:** ROC(20) > 0 AND price > D200 midpoint AND drawdown from 20-day high > -7% → 100% TQQQ
-- **Exit:** Any condition fails → 100% BIL
-- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Exit:** Any condition fails → 100% cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ
 - **Rebalance:** Daily, 30 min after market open
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -484,19 +463,17 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/021.py"
 > ```
 
-
 ---
-
 ## Strategy-22
 ### CMO(20) Momentum (022.py)
 
-**Description:** A momentum trend follower that uses the Chande Momentum Oscillator computed over 20 days on QQQ. A positive CMO value indicates that upward daily moves have dominated downward moves over the period, triggering a full allocation to TQQQ. When CMO turns negative the strategy exits to BIL.
+**Description:** A momentum trend follower that uses the Chande Momentum Oscillator computed over 20 days on QQQ. A positive CMO value indicates that upward daily moves have dominated downward moves over the period, triggering a full allocation to TQQQ. When CMO turns negative the strategy exits to cash.
 
 *Overfit 3/10 — 2/10. Single CMO indicator with a canonical zero-crossover threshold. The only free parameter is the 20-day lookback window.*
 
 - **Entry:** CMO(20) > 0 → 100% TQQQ
-- **Exit:** CMO(20) ≤ 0 → 100% BIL
-- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Exit:** CMO(20) ≤ 0 → 100% cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ
 - **Rebalance:** Daily, 30 min after market open
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -512,21 +489,19 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/022.py"
 > ```
 
-
 ---
-
 ## Strategy-23
 ### 3-State CMO+Median200 (023.py)
 
-**Description:** A three-state trend follower that combines CMO(20) momentum with a 200-day median price filter on QQQ. When both signals are bullish the portfolio goes fully into TQQQ; when one is bullish the portfolio splits 50/50; when both are bearish it exits to BIL. Trading only occurs on state changes.
+**Description:** A three-state trend follower that combines CMO(20) momentum with a 200-day median price filter on QQQ. When both signals are bullish the portfolio goes fully into TQQQ; when one is bullish the portfolio splits 50/50; when both are bearish it exits to cash. Trading only occurs on state changes.
 
 *Overfit 4/10 — 4/10. Two standard components (CMO20, 200-day median) with a canonical 50/50 mixed-state split. The 200-day median window and the three-state structure add moderate complexity.*
 
 - **Trend gate:** Price > 200-day median close
 - **Entry (trend):** CMO(20) > 0 AND price > 200-day median → 100% TQQQ
-- **Entry (MR):** Either signal bullish → 50% TQQQ / 50% BIL
-- **Exit:** Both signals bearish → 100% BIL
-- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Entry (MR):** Either signal bullish → 50% TQQQ / 50% cash
+- **Exit:** Both signals bearish → 100% cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ
 - **Rebalance:** Daily, 30 min after market open; trades only on state change
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -542,21 +517,19 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/023.py"
 > ```
 
-
 ---
-
 ## Strategy-24
 ### 3-State CMO+52w-High Gate (024.py)
 
-**Description:** A three-state trend follower that combines CMO(20) momentum with a 52-week high drawdown gate. When CMO is positive and QQQ is within 15% of its 52-week high both signals agree and the portfolio goes fully into TQQQ. One bullish signal yields a 50/50 split; neither exits to BIL.
+**Description:** A three-state trend follower that combines CMO(20) momentum with a 52-week high drawdown gate. When CMO is positive and QQQ is within 15% of its 52-week high both signals agree and the portfolio goes fully into TQQQ. One bullish signal yields a 50/50 split; neither exits to cash.
 
 *Overfit 3/10 — 3/10. Two standard components (CMO20, 52-week proximity) with a moderately tuned 15% drawdown threshold and a canonical 50/50 mixed allocation.*
 
 - **Trend gate:** Price drawdown from 52-week high > -15%
 - **Entry (trend):** CMO(20) > 0 AND within 15% of 52-week high → 100% TQQQ
-- **Entry (MR):** Either signal bullish → 50% TQQQ / 50% BIL
-- **Exit:** Both signals bearish → 100% BIL
-- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Entry (MR):** Either signal bullish → 50% TQQQ / 50% cash
+- **Exit:** Both signals bearish → 100% cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ
 - **Rebalance:** Daily, 30 min after market open; trades only on state change
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -572,9 +545,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/024.py"
 > ```
 
-
 ---
-
 ## Strategy-26
 ### UpDnVol+52w+Top3 (026.py)
 
@@ -584,8 +555,8 @@
 
 - **Trend gate:** QQQ price > median of last 200 closes
 - **Strength filter:** 20-day up-day volume > 20-day down-day volume; price > 93% of 252-day rolling high
-- **Entry:** Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL
-- **Symbols:** Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL
+- **Entry:** Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ / large-cap Top 3
 - **Universe:** Top 100 by dollar volume → Top 3 by market cap
 - **Rebalance:** Daily, 30 min after market open
 
@@ -602,9 +573,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/026.py"
 > ```
 
-
 ---
-
 ## Strategy-27
 ### Mom20+52w+Top3 (027.py)
 
@@ -614,8 +583,8 @@
 
 - **Trend gate:** QQQ price > median of last 200 closes
 - **Strength filter:** 20-day price momentum positive; price > 93% of 252-day rolling high
-- **Entry:** Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% BIL
-- **Symbols:** Signal: QQQ. Execution: TQQQ / large-cap Top 3 / BIL
+- **Entry:** Score 3 → 100% TQQQ; score 2 → 50% TQQQ + 50% Top 3; score 1 → 100% Top 3; score 0 → 50% Top 3 + 50% cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ / large-cap Top 3
 - **Universe:** Top 100 by dollar volume → Top 3 by market cap
 - **Rebalance:** Daily, 30 min after market open
 
@@ -632,13 +601,11 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/027.py"
 > ```
 
-
 ---
-
 ## Strategy-28
 ### M252_NEAR60_VOLCONT+Top3 (028.py)
 
-**Description:** A trend-following rotator combining a full-year momentum check with near-60-day-high strength confirmation and a volatility contraction condition. The yearly lookback selects for macro uptrends, while the shorter-term filters ensure the current price action is both strong and calm before adding risk. Allocations are spread across TQQQ, the top three large-cap stocks, and BIL on the standard five-level ladder.
+**Description:** A trend-following rotator combining a full-year momentum check with near-60-day-high strength confirmation and a volatility contraction condition. The yearly lookback selects for macro uptrends, while the shorter-term filters ensure the current price action is both strong and calm before adding risk. Allocations are spread across TQQQ, the top three large-cap stocks, and cash on the standard five-level ladder.
 
 *Overfit 4/10 — Momentum compares close[-1] vs close[0] over 252 bars; near-60 threshold is 95%; volatility contraction compares 10-bar and 60-bar stddev windows; median trend gate uses the 101st value of 200 closes. The combination of a long-term momentum lookback with short-term vol filters is a specific structural choice.*
 
@@ -646,8 +613,8 @@
 - **Entry (trend):** f1: QQQ close[-1] > close[0] (~252-day momentum, current vs. year-ago)
 - **Entry (trend):** f2: QQQ price ≥ 95% of 60-day high
 - **Entry (trend):** f3: 10-bar realized vol < 60-bar realized vol (volatility contraction)
-- **Allocation:** n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% BIL; n=0 → 100% BIL
-- **Symbols:** Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap / BIL
+- **Allocation:** n=4 → 100% TQQQ; n=3 → 70% TQQQ + 30% Top-3; n=2 → 30% TQQQ + 70% Top-3; n=1 → 50% Top-3 + 50% cash; n=0 → 100% cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ / top-3 large-cap stocks by market cap
 - **Universe:** Top 100 by dollar volume → top 3 by market cap (fine selection), refreshed daily
 - **Rebalance:** Daily, 30 min after market open; only trades when score n changes
 
@@ -664,9 +631,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/028.py"
 > ```
 
-
 ---
-
 ## Strategy-29
 ### ROC20_Zero (029.py)
 
@@ -675,8 +640,8 @@
 *Overfit 2/10 — Single textbook momentum indicator at a common period (20) with a zero-line threshold — minimal tuning*
 
 - **Entry:** ROC(20) > 0: 100% TQQQ
-- **Exit:** ROC(20) ≤ 0: 100% BIL
-- **Symbols:** Signal & Execution: QQQ / TQQQ / BIL
+- **Exit:** ROC(20) ≤ 0: 100% cash
+- **Symbols:** Signal & Execution: QQQ / TQQQ
 - **Rebalance:** Daily, 30 min after market open (only on regime change)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -692,9 +657,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/029.py"
 > ```
 
-
 ---
-
 ## Strategy-30
 ### OBV20_CCI20 (030.py)
 
@@ -704,8 +667,8 @@
 
 - **Entry (trend):** OBV(20)-up AND CCI(20) > 0: 100% TQQQ
 - **Entry (neutral):** Mixed: equal-weight top-5 large-caps
-- **Exit:** OBV(20)-down OR CCI < -100: 100% BIL
-- **Symbols:** Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL
+- **Exit:** OBV(20)-down OR CCI < -100: 100% cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps
 - **Universe:** Top 100 by dollar volume, then top 5 by market cap
 - **Rebalance:** Daily, 30 min after market open (only on regime change)
 
@@ -722,9 +685,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/030.py"
 > ```
 
-
 ---
-
 ## Strategy-31
 ### OBV20_ADX14 (031.py)
 
@@ -735,8 +696,8 @@
 - **Strength filter:** Bearish trigger requires ADX(14) > 25 AND -DI > +DI
 - **Entry (trend):** OBV(20)-up AND +DI > -DI: 100% TQQQ
 - **Entry (neutral):** Mixed: equal-weight top-5 large-caps
-- **Exit:** OBV(20)-down OR (ADX > 25 AND -DI > +DI): 100% BIL
-- **Symbols:** Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps / BIL
+- **Exit:** OBV(20)-down OR (ADX > 25 AND -DI > +DI): 100% cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ / top-5 fundamental large-caps
 - **Universe:** Top 100 by dollar volume, then top 5 by market cap
 - **Rebalance:** Daily, 30 min after market open (only on regime change)
 
@@ -753,9 +714,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/031.py"
 > ```
 
-
 ---
-
 ## Strategy-33
 ### CCI20+ROC20+ATR (033.py)
 
@@ -764,8 +723,8 @@
 *Overfit 4/10 — Three combined filters (CCI(20), ROC(20), ATR(14)/ATR(63) < 1.3) with a non-standard multiplier threshold — moderate tuning*
 
 - **Entry:** CCI(20) > 0 AND ROC(20) > 0 AND ATR(14) < 1.3×ATR(63): 100% TQQQ
-- **Exit:** Any condition breaks: 100% BIL
-- **Symbols:** Signal & Execution: QQQ / TQQQ / BIL
+- **Exit:** Any condition breaks: 100% cash
+- **Symbols:** Signal & Execution: QQQ / TQQQ
 - **Rebalance:** Daily, 30 min after market open (only on regime change)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -781,9 +740,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/033.py"
 > ```
 
-
 ---
-
 ## Strategy-35
 ### Price52W_Percentile (035.py)
 
@@ -792,8 +749,8 @@
 *Overfit 1/10 — Single price-position metric at a textbook lookback (252 days = 1 year) with a natural midpoint threshold — very minimal tuning*
 
 - **Entry:** QQQ price percentile in 252-day range > 50%: 100% TQQQ
-- **Exit:** Percentile ≤ 50%: 100% BIL
-- **Symbols:** Signal & Execution: QQQ / TQQQ / BIL
+- **Exit:** Percentile ≤ 50%: 100% cash
+- **Symbols:** Signal & Execution: QQQ / TQQQ
 - **Rebalance:** Daily, 30 min after market open (only on regime change)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -809,9 +766,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/035.py"
 > ```
 
-
 ---
-
 ## Strategy-36
 ### UpDay_Count20 (036.py)
 
@@ -820,8 +775,8 @@
 *Overfit 2/10 — Single breadth metric at a common lookback (20 days) with a natural majority threshold (>10 out of 20) — minimal tuning*
 
 - **Entry:** Up-day count in last 20 sessions > 10: 100% TQQQ
-- **Exit:** Up-day count ≤ 10: 100% BIL
-- **Symbols:** Signal & Execution: QQQ / TQQQ / BIL
+- **Exit:** Up-day count ≤ 10: 100% cash
+- **Symbols:** Signal & Execution: QQQ / TQQQ
 - **Rebalance:** Daily, 30 min after market open (only on regime change)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -837,9 +792,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/036.py"
 > ```
 
-
 ---
-
 ## Strategy-37
 ### Price126D_Percentile (037.py)
 
@@ -848,8 +801,8 @@
 *Overfit 2/10 — Single price-position metric at a sensible shorter lookback (126 days ≈ 6 months) with a natural midpoint threshold — minimal tuning*
 
 - **Entry:** QQQ price percentile in 126-day range > 50%: 100% TQQQ
-- **Exit:** Percentile ≤ 50%: 100% BIL
-- **Symbols:** Signal & Execution: QQQ / TQQQ / BIL
+- **Exit:** Percentile ≤ 50%: 100% cash
+- **Symbols:** Signal & Execution: QQQ / TQQQ
 - **Rebalance:** Daily, 30 min after market open (only on regime change)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -865,9 +818,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/037.py"
 > ```
 
-
 ---
-
 ## Strategy-38
 ### UpDay_Count55pct (038.py)
 
@@ -876,8 +827,8 @@
 *Overfit 2/10 — Same breadth metric as 705 with a marginally stricter threshold (≥11 vs >10); effectively the same trigger — minimal tuning*
 
 - **Entry:** Up-day count in last 20 sessions ≥ 11 (≥55%): 100% TQQQ
-- **Exit:** Up-day count < 11: 100% BIL
-- **Symbols:** Signal & Execution: QQQ / TQQQ / BIL
+- **Exit:** Up-day count < 11: 100% cash
+- **Symbols:** Signal & Execution: QQQ / TQQQ
 - **Rebalance:** Daily, 30 min after market open (only on regime change)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -893,9 +844,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/038.py"
 > ```
 
-
 ---
-
 ## Strategy-39
 ### TII(20) >50.0 Bull (039.py)
 
@@ -904,8 +853,8 @@
 *Overfit 2/10 — Single indicator (TII, n=20) with canonical 50% threshold — minimal tuning*
 
 - **Entry:** TII(20) > 50% (majority of last 20 closes above SMA(20)): 100% TQQQ
-- **Exit:** TII(20) ≤ 50%: 100% BIL
-- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Exit:** TII(20) ≤ 50%: 100% cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ
 - **Rebalance:** Daily, 30 min after market open (only on regime change)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -921,9 +870,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/039.py"
 > ```
 
-
 ---
-
 ## Strategy-41
 ### TQQQ Intrabar Vol Breakout (041.py)
 
@@ -949,9 +896,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/041.py"
 > ```
 
-
 ---
-
 ## Strategy-42
 ### Tech Dip Buy (042.py)
 
@@ -978,9 +923,7 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/042.py"
 > ```
 
-
 ---
-
 ## Strategy-43
 ### Top-5 MarketCap IBS Regime (043.py)
 
@@ -1007,19 +950,17 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/043.py"
 > ```
 
-
 ---
-
 ## Strategy-49
 ### 2-State CMO+52w-High Gate (049.py)
 
-**Description:** Two-state simplification of the 3-State CMO+52w-High Gate: requires BOTH CMO(20) positive AND QQQ within 15% of its 52-week high to hold TQQQ; exits entirely to BIL if either condition fails. Removes the mixed 50/50 state, making it a clean binary in-or-out signal.
+**Description:** Two-state simplification of the 3-State CMO+52w-High Gate: requires BOTH CMO(20) positive AND QQQ within 15% of its 52-week high to hold TQQQ; exits entirely to cash if either condition fails. Removes the mixed 50/50 state, making it a clean binary in-or-out signal.
 
 *Overfit 2/10 — Same two parameters as the 3-state parent (CMO20 zero-cross, 15% drawdown from 52w high) — no additional tuning introduced by collapsing the mixed state.*
 
 - **Entry:** CMO(20) > 0 AND drawdown from 52-week high > -15% → 100% TQQQ
-- **Exit:** Either condition fails → 100% BIL
-- **Symbols:** Signal: QQQ. Execution: TQQQ / BIL
+- **Exit:** Either condition fails → 100% cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ
 - **Rebalance:** Daily, 30 min after market open (only on state change)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -1035,5 +976,186 @@
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/049.py"
 > ```
 
+---
+## Strategy-54
+### Donchian-200 Midline (054.py)
+
+**Description:** A trend follower using the midpoint of the 200-day Donchian channel (average of the 200-day high and 200-day low) as a dynamic trend filter. When QQQ price is above this midline it holds TQQQ; below it holds cash.
+
+*Overfit 2/10 — Single Donchian midline at 200 days — a textbook period applied to the midpoint instead of the breakout levels. Very low overfit.*
+
+- **Trend gate:** QQQ price > (200d high + 200d low) / 2
+- **Entry:** QQQ > Donchian-200 midline → 100% TQQQ
+- **Exit:** QQQ ≤ Donchian-200 midline → 100% cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ
+- **Rebalance:** Daily, 30 min after market open
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 37% | -57% | 0.796 | 34 | 51 | 0.67 | 9.51 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 56% | 🟢 22% | 🔴 -5% | 🟢 118% | 🔴 -19% | 🟢 80% | 🟢 97% | 🟢 88% | 🔴 -47% | 🟢 93% | 🟢 62% | 🟢 20% |
+
+> [!code]- Click to view: 054.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/054.py"
+> ```
+
+---
+## Strategy-56
+### Price 126D Percentile (056.py)
+
+**Description:** Holds TQQQ when QQQ's current price is in the upper half of its 126-day (6-month) high-low range and switches to cash otherwise. Only trades on regime change.
+
+*Overfit 1/10 — Single price-position metric at a sensible lookback (126 days) with a natural midpoint threshold — minimal tuning.*
+
+- **Entry:** Price percentile in 126-day range > 50%: 100% TQQQ
+- **Exit:** Percentile ≤ 50%: 100% cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ
+- **Rebalance:** Daily, 30 min after market open (only on regime change)
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 34% | -55% | 0.78 | 22 | 55 | 0.40 | 10.02 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 46% | 🟢 25% | 🔴 -5% | 🟢 118% | 🔴 -25% | 🟢 59% | 🟢 119% | 🟢 68% | 🔴 -41% | 🟢 86% | 🟢 26% | 🟢 52% |
+
+> [!code]- Click to view: 056.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/056.py"
+> ```
+
+---
+## Strategy-57
+### ROC(20) Zero Cross (057.py)
+
+**Description:** Binary TQQQ / cash based on whether QQQ rate-of-change over 20 days is positive. Holds 100% TQQQ when ROC(20) > 0, otherwise cash.
+
+*Overfit 3/10 — Parameter sensitivity at n=20 is severe: Sharpe drops from 0.83 at n=20 to ~0.50 at n=15, n=25, n=30. Likely overfit to 2014-2025 window.*
+
+- **Entry:** ROC(QQQ, 20) > 0: 100% TQQQ
+- **Exit:** ROC(QQQ, 20) ≤ 0: cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ
+- **Rebalance:** Daily, only on regime change
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 35% | -50% | 0.834 | 112 | 131 | 0.85 | 3.02 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 26% | 🔴 -10% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 85% | 🟢 169% | 🟢 40% | 🔴 -18% | 🟢 85% | 🟢 27% | 🟢 40% |
+
+> [!code]- Click to view: 057.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/057.py"
+> ```
+
+---
+## Strategy-58
+### Up-Day Count(20) (058.py)
+
+**Description:** Binary TQQQ / cash based on count of positive day-to-day closes over a 20-day window. Holds TQQQ when more than half (>10 of 20) of recent days closed up.
+
+*Overfit 3/10 — Parameter sensitivity at n=20 is sharp but degrades more gracefully than ROC/TII variants. n=25 and n=30 retain meaningful CAGR (25-28%) but Sharpe drops significantly.*
+
+- **Entry:** Count of (close > prev close) over last 20 days > 10: 100% TQQQ
+- **Exit:** ≤ 10 up days: cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ
+- **Rebalance:** Daily, only on regime change
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 32% | -53% | 0.792 | 98 | 129 | 0.76 | 3.31 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 80% | 🟢 147% | 🟢 41% | 🟢 27% | 🟢 92% | 🟢 8% | 🔴 -3% |
+
+> [!code]- Click to view: 058.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/058.py"
+> ```
+
+---
+## Strategy-59
+### TII(20) Trend Intensity (059.py)
+
+**Description:** Binary TQQQ / cash based on Trend Intensity Index — count of recent closes above SMA(20). Holds TQQQ when >10 of the last 20 closes are above their own SMA(20).
+
+*Overfit 3/10 — Single indicator (TII, n=20) with canonical 50% threshold. Sharp parameter cliff at n=20: drops to Sharpe 0.41 at n=15 and 0.46 at n=30. n=20 is theoretically anchored (matches SMA period definitionally) but the cliff suggests fit-to-data.*
+
+- **Entry:** Count of (last 20 closes > SMA(20)) > 10: 100% TQQQ
+- **Exit:** ≤ 10: cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ
+- **Rebalance:** Daily, only on regime change
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 29% | -45% | 0.695 | — | — | — | 1.09 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 21% | 🔴 -6% | 🟢 30% | 🟢 55% | 🟢 48% | 🟢 39% | 🟢 84% | 🟢 2% | 🟢 14% | 🔴 -2% | 🟢 34% | 🟢 59% |
+
+> [!code]- Click to view: 059.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/059.py"
+> ```
+
+---
+## Strategy-60
+### QQQ RSI(2) Dip → Equal-Weight TQQQ/SOXL/TECL (060.py)
+
+**Description:** Buys an equal-weight basket of TQQQ/SOXL/TECL when QQQ RSI(2, Wilder) < 20, liquidates on RSI(2) ≥ 20. Single-threshold version; superseded in the ensemble by the 3-Vote variant (RSI<20, <25, <30) which scales position by dip depth.
+
+*Overfit 4/10 — Single threshold (RSI(2) < 20) is intuitive but tested smoothly across 15/20/25/30/35 — peaks at 25. Moved to potentials in favor of the 3-vote dip-depth version.*
+
+- **Entry:** QQQ RSI(2, Wilder) < 20: 33% TQQQ + 33% SOXL + 33% TECL
+- **Exit:** QQQ RSI(2) ≥ 20: liquidate all three
+- **Symbols:** Signal: QQQ. Execution: TQQQ / SOXL / TECL
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 40% | -32% | 0.953 | 1281 | 928 | 1.38 | 1.47 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 38% | 🟢 1% | 🔴 -18% | 🟢 46% | 🟢 12% | 🟢 34% | 🟢 81% | 🟢 110% | 🟢 32% | 🟢 60% | 🟢 72% | 🟢 62% |
+
+> [!code]- Click to view: 060.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/060.py"
+> ```
+
+---
+## Strategy-61
+### TQQQ Pyramid (10%/day) (061.py)
+
+**Description:** Scales TQQQ exposure +10% per day (up to 100%) while ROC(20) > 0 AND QQQ > Donchian-200 midline. Exits to 100% cash immediately on bear signal.
+
+*Overfit 4/10 — Key tuned parameter: the 10% daily increment rate. Inactive in ensemble; standalone candidate.*
+
+- **Trend gate:** ROC(20)>0 on QQQ AND QQQ > Donchian-200 midline
+- **Entry:** Bull: +10% TQQQ per day (up to 100%); remainder in cash
+- **Exit:** Bear signal → TQQQ to 0%, 100% cash immediately
+- **Symbols:** Signal: QQQ. Execution: TQQQ
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 29% | -43% | 0.814 | 741 | 711 | 1.04 | 3.24 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 22% | 🔴 -9% | 🟢 4% | 🟢 51% | 🔴 -7% | 🟢 64% | 🟢 118% | 🟢 27% | 🔴 -9% | 🟢 45% | 🟢 52% | 🟢 46% |
+
+> [!code]- Click to view: 061.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/061.py"
+> ```
 
 ---
