@@ -3,24 +3,29 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class TrendStretchExitSub(BaseSubAlgo):
-    """QQQ > SMA(200) AND stretch < 5% entry; exit on SMA breach or stretch > 20%."""
+    """Enter on QQQ > SMA(200) with stretch < 5%; exit when below SMA or stretch > 20%."""
+
     def initialize(self):
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._sma = self.algo.SMA("QQQ", 200, Resolution.Daily)
+        self.qqq    = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.sma200 = self.algo.SMA("QQQ", 200, Resolution.Daily)
 
     def update_targets(self):
-        if not self._sma.IsReady: return False
+        if not self.sma200.IsReady:
+            return False
         price   = self.algo.Securities[self.qqq].Price
-        sma_val = self._sma.Current.Value
-        stretch = (price - sma_val) / sma_val if sma_val > 0 else 0
+        sma     = self.sma200.Current.Value
+        stretch = (price - sma) / sma if sma > 0 else 0
+
         prev     = dict(self.targets)
         invested = bool(self.targets)
         if not invested:
-            if price > sma_val and stretch < 0.05:
+            # Enter only at a low-stretch entry above the trend
+            if price > sma and stretch < 0.05:
                 self.targets = {self.tqqq: 1.0}
         else:
-            if price < sma_val or stretch > 0.20:
+            # Exit on trend break or extreme overbought stretch
+            if price < sma or stretch > 0.20:
                 self.targets = {}
         return self.targets != prev
 

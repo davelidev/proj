@@ -1,19 +1,19 @@
 from AlgorithmImports import *
 from base import START_DATE, END_DATE, INITIAL_CASH, WARMUP_DAYS, SCHEDULE_TICKER, DAILY_OPEN_MIN, BaseSubAlgo
-from leveraged_rebalance import LeveragedRebalanceSub
-from tqqq_dynamic import TQQQDynamicSub
-from expanding_breakout import ExpandingBreakoutSub
-from tqqq_sma150 import TQQQSMA150Sub
-from ibs_atr_stop import IBSATRStopSub
-from three_vote import ThreeVoteSub
-from rsi_three_vote import RSIThreeVoteSub
-from trend_stretch_exit import TrendStretchExitSub
-from golden_cross_atr import GoldenCrossATRSub
-from range_expanded import RangeExpandedSub
-from mfi14_hyst import MFI14HystSub
-from anti_martingale import AntiMartingaleSub
+from static_tqqq60 import StaticTQQQ60Sub
+from ibs_basket import IBSATRStopSub
+from rsi2_dip_vote import RSIThreeVoteSub
+from range_breakout import RangeBreakoutSub
+from sma200_rsi_tiers import SMA200RSITiersSub
+from sma150_trend import SMA150TrendSub
+from sma200_pyramid import SMA200PyramidSub
 from sma_five_vote import SMAFiveVoteSub
 from donchian_four_vote import DonchianFourVoteSub
+from momentum_vote import MomentumVoteSub
+from trend_stretch_exit import TrendStretchExitSub
+from golden_cross_atr import GoldenCrossATRSub
+from range_compressed import RangeCompressedSub
+from mfi14_hyst import MFI14HystSub
 
 # ---------------------------------------------------------------------------
 # Combined Ensemble Algo
@@ -34,19 +34,19 @@ class UltimateAlgo(QCAlgorithm):
         self.last_prices = {}
 
         self.sub_algos = [
-            LeveragedRebalanceSub(self,    "LevRebal"),       #  1
-            IBSATRStopSub(self,            "IBSATRStop"),     #  2
-            RSIThreeVoteSub(self,          "RSI3Vote"),       #  3
-            ExpandingBreakoutSub(self,     "ExpandBreak"),    #  4
-            TQQQDynamicSub(self,           "TQQQDyn"),        #  5
-            TQQQSMA150Sub(self,            "TQQQSMA150"),     #  6
-            AntiMartingaleSub(self,        "AntiMartin"),     #  7
-            SMAFiveVoteSub(self,           "SMAFiveVote"),    #  8
+            StaticTQQQ60Sub(self,          "TQQQ60"),         #  1
+            IBSATRStopSub(self,            "IBSBasket"),      #  2
+            RSIThreeVoteSub(self,          "RSI2DipVote"),    #  3
+            RangeBreakoutSub(self,         "RangeBreak"),     #  4
+            SMA200RSITiersSub(self,        "SMA200Tiers"),    #  5
+            SMA150TrendSub(self,           "SMA150"),         #  6
+            SMA200PyramidSub(self,         "SMA200Pyramid"),  #  7
+            SMAFiveVoteSub(self,           "SMA5Vote"),       #  8
             DonchianFourVoteSub(self,      "D4Vote"),         #  9
-            ThreeVoteSub(self,             "3Vote"),          # 10
+            MomentumVoteSub(self,          "MomVote"),        # 10
             TrendStretchExitSub(self,      "StretchExit"),    # 11
             GoldenCrossATRSub(self,        "GoldXATR"),       # 12
-            RangeExpandedSub(self,         "RangeExp"),       # 13
+            RangeCompressedSub(self,       "RangeCompr"),     # 13
             MFI14HystSub(self,             "MFI14Hyst"),      # 14
         ]
 

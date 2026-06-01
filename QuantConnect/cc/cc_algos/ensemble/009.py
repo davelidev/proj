@@ -3,30 +3,33 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class DonchianFourVoteSub(BaseSubAlgo):
-    """TQQQ position = n/4 where n = # of Donchian midlines (50,100,150,200) that QQQ price is above."""
+    """TQQQ weight = n/4 where n = # of Donchian midlines (50,100,150,200) that QQQ price exceeds."""
 
     PERIODS = [50, 100, 150, 200]
 
     def initialize(self):
-        self.sym = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.qqq = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.hi  = [self.algo.MAX(self.qqq, n, Resolution.Daily) for n in self.PERIODS]
-        self.lo  = [self.algo.MIN(self.qqq, n, Resolution.Daily) for n in self.PERIODS]
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.highs = [self.algo.MAX(self.qqq, p, Resolution.Daily) for p in self.PERIODS]
+        self.lows  = [self.algo.MIN(self.qqq, p, Resolution.Daily) for p in self.PERIODS]
 
     def update_targets(self):
-        if not self.hi[-1].IsReady: return False
-        prev  = dict(self.targets)
+        if not self.highs[-1].IsReady:
+            return False
         price = self.algo.Securities[self.qqq].Price
-        n = sum(
-            price > (self.hi[i].Current.Value + self.lo[i].Current.Value) / 2.0
-            for i in range(len(self.PERIODS))
-            if self.hi[i].IsReady
+        # Midline of each Donchian channel = (period high + period low) / 2
+        n_bullish = sum(
+            1 for i in range(len(self.PERIODS))
+            if self.highs[i].IsReady
+            and price > (self.highs[i].Current.Value + self.lows[i].Current.Value) / 2.0
         )
-        weight = n / float(len(self.PERIODS))
+        weight = n_bullish / float(len(self.PERIODS))
+
+        prev = dict(self.targets)
         if weight > 0:
-            self.targets[self.sym] = weight
+            self.targets[self.tqqq] = weight
         else:
-            self.targets.pop(self.sym, None)
+            self.targets.pop(self.tqqq, None)
         return self.targets != prev
 
 

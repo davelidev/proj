@@ -3,42 +3,36 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class IBSATRStopSub(BaseSubAlgo):
-    """IBS extreme + ATR-based stop loss on equal-weight TQQQ/SOXL/TECL basket.
-
-    Uses update_targets (scheduled at +DAILY_OPEN_MIN after market open) rather
-    than on_data: the standalone factory's on_data path delivered systematically
-    worse fills. With Resolution.Daily, Securities[syms[0]] at +45 min after open
-    already reflects the previous trading day's complete bar, so IBS/ATR can be
-    computed cleanly here. Signal and ATR derived from TQQQ; position spread equally
-    across TQQQ, SOXL, TECL.
-    """
+    """TQQQ/SOXL/TECL basket. Enter on TQQQ IBS<0.1, exit on IBS>0.9 or 3×ATR(14) stop."""
 
     def initialize(self):
-        self.syms = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
-        self.atr  = self.algo.ATR(self.syms[0], 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.basket      = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
+        self.atr         = self.algo.ATR(self.basket[0], 14, MovingAverageType.Wilders, Resolution.Daily)
         self.entry_price = None
 
     def update_targets(self):
-        if not self.atr.IsReady: return False
-        bar = self.algo.Securities[self.syms[0]]
-        h, l, c = bar.High, bar.Low, bar.Close
-        if h <= l: return False
-        ibs = (c - l) / (h - l)
-        invested = self.syms[0] in self.targets
-        atr_val = self.atr.Current.Value
+        if not self.atr.IsReady:
+            return False
 
-        prev = dict(self.targets)
-        w = 1.0 / len(self.syms)
+        # IBS computed on TQQQ's previous-day bar (Daily resolution).
+        bar = self.algo.Securities[self.basket[0]]
+        if bar.High <= bar.Low:
+            return False
+        ibs   = (bar.Close - bar.Low) / (bar.High - bar.Low)
+        close = bar.Close
+
+        prev     = dict(self.targets)
+        invested = self.basket[0] in self.targets
+        weight   = 1.0 / len(self.basket)
 
         if not invested and ibs < 0.1:
-            self.targets = {s: w for s in self.syms}
-            self.entry_price = c
+            self.targets = {sym: weight for sym in self.basket}
+            self.entry_price = close
         elif invested:
-            stop = self.entry_price - 3.0 * atr_val if self.entry_price else 0
-            if ibs > 0.9 or c < stop:
+            stop_price = (self.entry_price - 3.0 * self.atr.Current.Value) if self.entry_price else 0
+            if ibs > 0.9 or close < stop_price:
                 self.targets = {}
                 self.entry_price = None
-
         return self.targets != prev
 
 

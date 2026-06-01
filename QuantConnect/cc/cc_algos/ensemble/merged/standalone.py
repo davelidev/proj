@@ -145,51 +145,31 @@ def _make_standalone(sub_cls):
     return Algo
 
 
-# --- Content from /tmp/rsi_test.py ---
+# --- Content from cc/cc_algos/ensemble/014.py ---
 
 
 
 
-class RSIThreeVoteATRSub(BaseSubAlgo):
-    """RSI(2) 3-Vote dip basket + 3×ATR(14) stop from TQQQ entry price."""
-
-    THRESHOLDS = [20, 25, 30]
-    ATR_MULT   = 3.0
+class MFI14HystSub(BaseSubAlgo):
+    """MFI(14) hysteresis: enter at >60, exit at <40; between 40-60 hold current position."""
 
     def initialize(self):
-        self.algo.AddEquity("QQQ", Resolution.Daily)
-        self.rsi2 = self.algo.RSI("QQQ", 2, MovingAverageType.Wilders, Resolution.Daily)
-        self.syms = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
-        self.atr  = self.algo.ATR(self.syms[0], 14, MovingAverageType.Wilders, Resolution.Daily)
-        self.entry_price = None
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.mfi  = self.algo.MFI("QQQ", 14, Resolution.Daily)
 
     def update_targets(self):
-        if not (self.rsi2.IsReady and self.atr.IsReady): return False
-        rsi    = self.rsi2.Current.Value
-        tprice = self.algo.Securities[self.syms[0]].Price
-        n      = sum(1 for t in self.THRESHOLDS if rsi < t)
-        total_weight = n / float(len(self.THRESHOLDS))
-        invested = bool(self.targets)
+        if not self.mfi.IsReady:
+            return False
+        mfi_value = self.mfi.Current.Value
         prev = dict(self.targets)
-
-        if invested and self.entry_price is not None:
-            stop = self.entry_price - self.ATR_MULT * self.atr.Current.Value
-            if tprice < stop:
-                self.targets = {}
-                self.entry_price = None
-                return self.targets != prev
-
-        if total_weight > 0:
-            per_sym = total_weight / len(self.syms)
-            self.targets = {s: per_sym for s in self.syms}
-            self.force_rebalance = True
-            if not invested:
-                self.entry_price = tprice
-        else:
+        if mfi_value > 60:
+            self.targets = {self.tqqq: 1.0}
+        elif mfi_value < 40:
             self.targets = {}
-            self.entry_price = None
+        # else: 40 ≤ MFI ≤ 60 → hold current position
         return self.targets != prev
 
 
-RSIThreeVoteATRAlgo = _make_standalone(RSIThreeVoteATRSub)
+MFI14HystAlgo = _make_standalone(MFI14HystSub)
 

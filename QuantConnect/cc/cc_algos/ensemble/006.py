@@ -2,23 +2,25 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class TQQQSMA150Sub(BaseSubAlgo):
-    """#006 — TQQQ trend on QQQ 150d SMA."""
+class SMA150TrendSub(BaseSubAlgo):
+    """100% TQQQ when QQQ > SMA(150); cash otherwise."""
 
     def initialize(self):
-        self.sym  = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.sma  = self.algo.SMA(self.qqq, 150, Resolution.Daily)
+        self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq    = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.sma150 = self.algo.SMA(self.qqq, 150, Resolution.Daily)
 
     def update_targets(self):
-        if not self.sma.IsReady: return False
+        if not self.sma150.IsReady:
+            return False
+        in_uptrend = self.algo.Securities[self.qqq].Price > self.sma150.Current.Value
+
         prev = dict(self.targets)
-        in_trend = self.algo.Securities[self.qqq].Price > self.sma.Current.Value
-        if in_trend:
-            self.targets[self.sym] = 1.0
+        if in_uptrend:
+            self.targets[self.tqqq] = 1.0
         else:
-            self.targets.pop(self.sym, None)
+            self.targets.pop(self.tqqq, None)
         return self.targets != prev
 
 
-TQQQSMA150Algo = _make_standalone(TQQQSMA150Sub)
+SMA150TrendAlgo = _make_standalone(SMA150TrendSub)

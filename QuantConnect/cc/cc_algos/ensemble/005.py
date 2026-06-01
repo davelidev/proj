@@ -2,33 +2,34 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class TQQQDynamicSub(BaseSubAlgo):
-    """Three-tier TQQQ sizing gated by SMA(200). Above SMA: 100% on RSI(2) < 30 dip, 50% default, 20% on RSI(14) > 70 overbought. Below SMA: flat."""
+class SMA200RSITiersSub(BaseSubAlgo):
+    """SMA(200) regime + RSI tiers. Above SMA: 100% on RSI(2)<30 dip, 20% on RSI(14)>70 overbought, else 50%. Below SMA: cash."""
 
     def initialize(self):
-        self.sym    = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.rsi2   = self.algo.RSI(self.sym,  2, MovingAverageType.Wilders, Resolution.Daily)
-        self.rsi14  = self.algo.RSI(self.sym, 14, MovingAverageType.Wilders, Resolution.Daily)
-        self.sma200 = self.algo.SMA(self.sym, 200, Resolution.Daily)
+        self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.rsi2   = self.algo.RSI(self.tqqq,  2, MovingAverageType.Wilders, Resolution.Daily)
+        self.rsi14  = self.algo.RSI(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.sma200 = self.algo.SMA(self.tqqq, 200, Resolution.Daily)
 
     def update_targets(self):
-        if not (self.rsi14.IsReady and self.sma200.IsReady): return False
-        price = self.algo.Securities[self.sym].Price
+        if not (self.rsi14.IsReady and self.sma200.IsReady):
+            return False
+        price       = self.algo.Securities[self.tqqq].Price
+        in_uptrend  = price > self.sma200.Current.Value
+        current_w   = self.targets.get(self.tqqq, 0)
 
         prev = dict(self.targets)
-        current_w = self.targets.get(self.sym, 0)
-
-        if price > self.sma200.Current.Value:
+        if in_uptrend:
             if self.rsi14.Current.Value > 70:
-                self.targets[self.sym] = 0.2
+                self.targets[self.tqqq] = 0.2  # overbought trim
             elif self.rsi2.Current.Value < 30:
-                self.targets[self.sym] = 1.0
+                self.targets[self.tqqq] = 1.0  # dip buy
             elif current_w == 0:
-                self.targets[self.sym] = 0.5
+                self.targets[self.tqqq] = 0.5  # default entry
+            # else: hold current weight
         else:
             self.targets = {}
-
         return self.targets != prev
 
 
-TQQQDynamicAlgo = _make_standalone(TQQQDynamicSub)
+SMA200RSITiersAlgo = _make_standalone(SMA200RSITiersSub)

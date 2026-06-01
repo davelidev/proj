@@ -53,18 +53,18 @@ class BaseSubAlgo:
 
 
 
-class LeveragedRebalanceSub(BaseSubAlgo):
+class StaticTQQQ60Sub(BaseSubAlgo):
+    """Static 60% TQQQ. Rebalances once per year to correct positional drift."""
+
     def initialize(self):
-        syms = ["TQQQ"]
-        self.syms       = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in syms]
-        self._last_year = None
+        self.tqqq      = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.last_year = None
 
     def update_targets(self):
-        # Annual rebalance: always returns True on year-change so the ensemble
-        # rebalances to correct positional drift, even though weights are static.
-        if self.algo.Time.year == self._last_year: return False
-        self._last_year = self.algo.Time.year
-        self.targets = {s: 1 / len(self.syms) * .6 for s in self.syms}
+        if self.algo.Time.year == self.last_year:
+            return False
+        self.last_year = self.algo.Time.year
+        self.targets = {self.tqqq: 0.6}
         return True
 
 
@@ -76,42 +76,36 @@ class LeveragedRebalanceSub(BaseSubAlgo):
 
 
 class IBSATRStopSub(BaseSubAlgo):
-    """IBS extreme + ATR-based stop loss on equal-weight TQQQ/SOXL/TECL basket.
-
-    Uses update_targets (scheduled at +DAILY_OPEN_MIN after market open) rather
-    than on_data: the standalone factory's on_data path delivered systematically
-    worse fills. With Resolution.Daily, Securities[syms[0]] at +45 min after open
-    already reflects the previous trading day's complete bar, so IBS/ATR can be
-    computed cleanly here. Signal and ATR derived from TQQQ; position spread equally
-    across TQQQ, SOXL, TECL.
-    """
+    """TQQQ/SOXL/TECL basket. Enter on TQQQ IBS<0.1, exit on IBS>0.9 or 3×ATR(14) stop."""
 
     def initialize(self):
-        self.syms = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
-        self.atr  = self.algo.ATR(self.syms[0], 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.basket      = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
+        self.atr         = self.algo.ATR(self.basket[0], 14, MovingAverageType.Wilders, Resolution.Daily)
         self.entry_price = None
 
     def update_targets(self):
-        if not self.atr.IsReady: return False
-        bar = self.algo.Securities[self.syms[0]]
-        h, l, c = bar.High, bar.Low, bar.Close
-        if h <= l: return False
-        ibs = (c - l) / (h - l)
-        invested = self.syms[0] in self.targets
-        atr_val = self.atr.Current.Value
+        if not self.atr.IsReady:
+            return False
 
-        prev = dict(self.targets)
-        w = 1.0 / len(self.syms)
+        # IBS computed on TQQQ's previous-day bar (Daily resolution).
+        bar = self.algo.Securities[self.basket[0]]
+        if bar.High <= bar.Low:
+            return False
+        ibs   = (bar.Close - bar.Low) / (bar.High - bar.Low)
+        close = bar.Close
+
+        prev     = dict(self.targets)
+        invested = self.basket[0] in self.targets
+        weight   = 1.0 / len(self.basket)
 
         if not invested and ibs < 0.1:
-            self.targets = {s: w for s in self.syms}
-            self.entry_price = c
+            self.targets = {sym: weight for sym in self.basket}
+            self.entry_price = close
         elif invested:
-            stop = self.entry_price - 3.0 * atr_val if self.entry_price else 0
-            if ibs > 0.9 or c < stop:
+            stop_price = (self.entry_price - 3.0 * self.atr.Current.Value) if self.entry_price else 0
+            if ibs > 0.9 or close < stop_price:
                 self.targets = {}
                 self.entry_price = None
-
         return self.targets != prev
 
 
@@ -123,24 +117,26 @@ class IBSATRStopSub(BaseSubAlgo):
 
 
 class RSIThreeVoteSub(BaseSubAlgo):
-    """Equal-weight TQQQ/SOXL/TECL basket sized by n/3 dip-depth vote: RSI(2) < 20, <25, <30."""
+    """Equal-weight TQQQ/SOXL/TECL basket; position = n/3 where n = # of RSI(2) thresholds breached (<20, <25, <30)."""
 
     THRESHOLDS = [20, 25, 30]
 
     def initialize(self):
         self.algo.AddEquity("QQQ", Resolution.Daily)
-        self.rsi2 = self.algo.RSI("QQQ", 2, MovingAverageType.Wilders, Resolution.Daily)
-        self.syms = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
+        self.rsi    = self.algo.RSI("QQQ", 2, MovingAverageType.Wilders, Resolution.Daily)
+        self.basket = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
 
     def update_targets(self):
-        if not self.rsi2.IsReady: return False
-        rsi = self.rsi2.Current.Value
-        n = sum(1 for t in self.THRESHOLDS if rsi < t)
-        total_weight = n / float(len(self.THRESHOLDS))
+        if not self.rsi.IsReady:
+            return False
+        rsi_value = self.rsi.Current.Value
+        n_bullish = sum(1 for thr in self.THRESHOLDS if rsi_value < thr)
+        total_w   = n_bullish / float(len(self.THRESHOLDS))
+
         prev = dict(self.targets)
-        if total_weight > 0:
-            per_sym = total_weight / len(self.syms)
-            self.targets = {s: per_sym for s in self.syms}
+        if total_w > 0:
+            per_sym = total_w / len(self.basket)
+            self.targets = {sym: per_sym for sym in self.basket}
             self.force_rebalance = True
         else:
             self.targets = {}
@@ -154,44 +150,53 @@ class RSIThreeVoteSub(BaseSubAlgo):
 
 
 
-class ExpandingBreakoutSub(BaseSubAlgo):
+class RangeBreakoutSub(BaseSubAlgo):
+    """QQQ > SMA(200) + range expanding + ADX(10) > 25 → 100% TQQQ. Exits: 3×ATR trail, 20d high, or trend break."""
+
     def initialize(self):
-        self.sym       = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.qqq       = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.adx       = self.algo.ADX(self.qqq, 10, Resolution.Daily)
-        self.sma200    = self.algo.SMA(self.qqq, 200, Resolution.Daily)
-        self.atr       = self.algo.ATR(self.sym, 14, MovingAverageType.Wilders, Resolution.Daily)
-        self.max_exit      = self.algo.MAX(self.sym, 20, Resolution.Daily)
-        self.trailing_stop = 0
+        self.tqqq    = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq     = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.adx     = self.algo.ADX(self.qqq, 10, Resolution.Daily)
+        self.sma200  = self.algo.SMA(self.qqq, 200, Resolution.Daily)
+        self.atr     = self.algo.ATR(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.hi20    = self.algo.MAX(self.tqqq, 20, Resolution.Daily)
+        self.trail   = 0.0
 
     def on_data(self, data):
         return self.update_targets()
 
     def update_targets(self):
-        if not self.adx.IsReady or not self.sma200.IsReady or not self.max_exit.IsReady:
+        if not (self.adx.IsReady and self.sma200.IsReady and self.hi20.IsReady):
             return False
-        price     = self.algo.Securities[self.sym].Price
-        qqq_price = self.algo.Securities[self.qqq].Price
-        s200      = self.sma200.Current.Value
-        adx_val   = self.adx.Current.Value
-        max_val   = self.max_exit.Current.Value
-        # USE QQQ FOR RANGE SIGNAL
+        tqqq_price = self.algo.Securities[self.tqqq].Price
+        qqq_price  = self.algo.Securities[self.qqq].Price
+        sma200     = self.sma200.Current.Value
+        adx        = self.adx.Current.Value
+        hi20       = self.hi20.Current.Value
+
+        # Range expansion: yesterday's QQQ range > the day before's. Skip today's
+        # just-closed bar (iloc[-1]) — acts on settled prior bars only.
         hist = self.algo.History(self.qqq, 3, Resolution.Daily)
-        if len(hist) < 3: return False
-        rang = lambda x: x.high - x.low
-        r2, r1 = rang(hist.iloc[-3]), rang(hist.iloc[-2])
+        if len(hist) < 3:
+            return False
+        range_of = lambda bar: bar.high - bar.low
+        range_expanding = range_of(hist.iloc[-2]) > range_of(hist.iloc[-3])
 
         prev = dict(self.targets)
         if not self.targets:
-            if qqq_price > s200 and r1 > r2 and adx_val > 25:
-                self.targets       = {self.sym: 1.0}
-                self.trailing_stop = price - 3.0 * self.atr.Current.Value
+            # Entry
+            if qqq_price > sma200 and range_expanding and adx > 25:
+                self.targets = {self.tqqq: 1.0}
+                self.trail   = tqqq_price - 3.0 * self.atr.Current.Value
         else:
-            new_stop = price - 3.0 * self.atr.Current.Value
-            if new_stop > self.trailing_stop: self.trailing_stop = new_stop
-            if price >= max_val or price < self.trailing_stop or qqq_price < s200:
-                self.targets       = {}
-                self.trailing_stop = 0
+            # Trail ratchets up only
+            new_trail = tqqq_price - 3.0 * self.atr.Current.Value
+            if new_trail > self.trail:
+                self.trail = new_trail
+            # Exit on take-profit, stop, or trend break
+            if tqqq_price >= hi20 or tqqq_price < self.trail or qqq_price < sma200:
+                self.targets = {}
+                self.trail   = 0.0
         return self.targets != prev
 
 
@@ -202,32 +207,33 @@ class ExpandingBreakoutSub(BaseSubAlgo):
 
 
 
-class TQQQDynamicSub(BaseSubAlgo):
-    """Three-tier TQQQ sizing gated by SMA(200). Above SMA: 100% on RSI(2) < 30 dip, 50% default, 20% on RSI(14) > 70 overbought. Below SMA: flat."""
+class SMA200RSITiersSub(BaseSubAlgo):
+    """SMA(200) regime + RSI tiers. Above SMA: 100% on RSI(2)<30 dip, 20% on RSI(14)>70 overbought, else 50%. Below SMA: cash."""
 
     def initialize(self):
-        self.sym    = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.rsi2   = self.algo.RSI(self.sym,  2, MovingAverageType.Wilders, Resolution.Daily)
-        self.rsi14  = self.algo.RSI(self.sym, 14, MovingAverageType.Wilders, Resolution.Daily)
-        self.sma200 = self.algo.SMA(self.sym, 200, Resolution.Daily)
+        self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.rsi2   = self.algo.RSI(self.tqqq,  2, MovingAverageType.Wilders, Resolution.Daily)
+        self.rsi14  = self.algo.RSI(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.sma200 = self.algo.SMA(self.tqqq, 200, Resolution.Daily)
 
     def update_targets(self):
-        if not (self.rsi14.IsReady and self.sma200.IsReady): return False
-        price = self.algo.Securities[self.sym].Price
+        if not (self.rsi14.IsReady and self.sma200.IsReady):
+            return False
+        price       = self.algo.Securities[self.tqqq].Price
+        in_uptrend  = price > self.sma200.Current.Value
+        current_w   = self.targets.get(self.tqqq, 0)
 
         prev = dict(self.targets)
-        current_w = self.targets.get(self.sym, 0)
-
-        if price > self.sma200.Current.Value:
+        if in_uptrend:
             if self.rsi14.Current.Value > 70:
-                self.targets[self.sym] = 0.2
+                self.targets[self.tqqq] = 0.2  # overbought trim
             elif self.rsi2.Current.Value < 30:
-                self.targets[self.sym] = 1.0
+                self.targets[self.tqqq] = 1.0  # dip buy
             elif current_w == 0:
-                self.targets[self.sym] = 0.5
+                self.targets[self.tqqq] = 0.5  # default entry
+            # else: hold current weight
         else:
             self.targets = {}
-
         return self.targets != prev
 
 
@@ -238,22 +244,24 @@ class TQQQDynamicSub(BaseSubAlgo):
 
 
 
-class TQQQSMA150Sub(BaseSubAlgo):
-    """#006 — TQQQ trend on QQQ 150d SMA."""
+class SMA150TrendSub(BaseSubAlgo):
+    """100% TQQQ when QQQ > SMA(150); cash otherwise."""
 
     def initialize(self):
-        self.sym  = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.sma  = self.algo.SMA(self.qqq, 150, Resolution.Daily)
+        self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq    = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.sma150 = self.algo.SMA(self.qqq, 150, Resolution.Daily)
 
     def update_targets(self):
-        if not self.sma.IsReady: return False
+        if not self.sma150.IsReady:
+            return False
+        in_uptrend = self.algo.Securities[self.qqq].Price > self.sma150.Current.Value
+
         prev = dict(self.targets)
-        in_trend = self.algo.Securities[self.qqq].Price > self.sma.Current.Value
-        if in_trend:
-            self.targets[self.sym] = 1.0
+        if in_uptrend:
+            self.targets[self.tqqq] = 1.0
         else:
-            self.targets.pop(self.sym, None)
+            self.targets.pop(self.tqqq, None)
         return self.targets != prev
 
 
@@ -264,34 +272,39 @@ class TQQQSMA150Sub(BaseSubAlgo):
 
 
 
-class AntiMartingaleSub(BaseSubAlgo):
-    """QQQ > SMA(200) → 50% TQQQ; pyramid +15% per 5% gain above entry, cap 100%."""
+class SMA200PyramidSub(BaseSubAlgo):
+    """QQQ > SMA(200): start at 50% TQQQ, add +15% per 5% gain above entry (cap 100%). Below SMA: cash."""
+
     def initialize(self):
-        self.qqq       = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq      = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._sma      = self.algo.SMA("QQQ", 200, Resolution.Daily)
-        self._entry_px = None
-        self._cur_w    = 0.0
+        self.qqq         = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq        = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.sma200      = self.algo.SMA("QQQ", 200, Resolution.Daily)
+        self.entry_price = None
+        self.current_w   = 0.0
 
     def update_targets(self):
-        if not self._sma.IsReady: return False
-        price = self.algo.Securities[self.qqq].Price
-        bull  = price > self._sma.Current.Value
-        prev  = dict(self.targets)
-        if not bull:
-            self.targets   = {}
-            self._entry_px = None
-            self._cur_w    = 0.0
+        if not self.sma200.IsReady:
+            return False
+        price      = self.algo.Securities[self.qqq].Price
+        in_uptrend = price > self.sma200.Current.Value
+        prev       = dict(self.targets)
+
+        if not in_uptrend:
+            self.targets     = {}
+            self.entry_price = None
+            self.current_w   = 0.0
         elif not self.targets:
-            self.targets   = {self.tqqq: 0.5}
-            self._entry_px = price
-            self._cur_w    = 0.5
+            # Initial entry at 50%
+            self.targets     = {self.tqqq: 0.5}
+            self.entry_price = price
+            self.current_w   = 0.5
         else:
-            steps  = (price / self._entry_px - 1) / 0.05 if self._entry_px else 0
-            target = min(1.0, 0.5 + max(0, int(steps)) * 0.15)
-            if abs(target - self._cur_w) > 0.05:
-                self.targets = {self.tqqq: target}
-                self._cur_w  = target
+            # Pyramid: +15% size per 5% price gain above entry
+            steps    = int((price / self.entry_price - 1) / 0.05) if self.entry_price else 0
+            target_w = min(1.0, 0.5 + max(0, steps) * 0.15)
+            if abs(target_w - self.current_w) > 0.05:
+                self.targets = {self.tqqq: target_w}
+                self.current_w = target_w
         return self.targets != prev
 
 
@@ -303,25 +316,27 @@ class AntiMartingaleSub(BaseSubAlgo):
 
 
 class SMAFiveVoteSub(BaseSubAlgo):
-    """TQQQ position = n/5 where n = # of (SMA20, SMA50, SMA100, SMA150, SMA200) that QQQ price is above."""
+    """TQQQ weight = n/5 where n = # of SMA periods (20,50,100,150,200) that QQQ price exceeds."""
 
     PERIODS = [20, 50, 100, 150, 200]
 
     def initialize(self):
-        self.sym  = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
         self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.smas = [self.algo.SMA(self.qqq, n, Resolution.Daily) for n in self.PERIODS]
+        self.smas = [self.algo.SMA(self.qqq, p, Resolution.Daily) for p in self.PERIODS]
 
     def update_targets(self):
-        if not self.smas[-1].IsReady: return False
-        prev  = dict(self.targets)
-        price = self.algo.Securities[self.qqq].Price
-        n     = sum(price > sma.Current.Value for sma in self.smas)
-        weight = n / float(len(self.PERIODS))
+        if not self.smas[-1].IsReady:
+            return False
+        price     = self.algo.Securities[self.qqq].Price
+        n_bullish = sum(1 for sma in self.smas if price > sma.Current.Value)
+        weight    = n_bullish / float(len(self.PERIODS))
+
+        prev = dict(self.targets)
         if weight > 0:
-            self.targets[self.sym] = weight
+            self.targets[self.tqqq] = weight
         else:
-            self.targets.pop(self.sym, None)
+            self.targets.pop(self.tqqq, None)
         return self.targets != prev
 
 
@@ -333,30 +348,33 @@ class SMAFiveVoteSub(BaseSubAlgo):
 
 
 class DonchianFourVoteSub(BaseSubAlgo):
-    """TQQQ position = n/4 where n = # of Donchian midlines (50,100,150,200) that QQQ price is above."""
+    """TQQQ weight = n/4 where n = # of Donchian midlines (50,100,150,200) that QQQ price exceeds."""
 
     PERIODS = [50, 100, 150, 200]
 
     def initialize(self):
-        self.sym = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.qqq = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.hi  = [self.algo.MAX(self.qqq, n, Resolution.Daily) for n in self.PERIODS]
-        self.lo  = [self.algo.MIN(self.qqq, n, Resolution.Daily) for n in self.PERIODS]
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.highs = [self.algo.MAX(self.qqq, p, Resolution.Daily) for p in self.PERIODS]
+        self.lows  = [self.algo.MIN(self.qqq, p, Resolution.Daily) for p in self.PERIODS]
 
     def update_targets(self):
-        if not self.hi[-1].IsReady: return False
-        prev  = dict(self.targets)
+        if not self.highs[-1].IsReady:
+            return False
         price = self.algo.Securities[self.qqq].Price
-        n = sum(
-            price > (self.hi[i].Current.Value + self.lo[i].Current.Value) / 2.0
-            for i in range(len(self.PERIODS))
-            if self.hi[i].IsReady
+        # Midline of each Donchian channel = (period high + period low) / 2
+        n_bullish = sum(
+            1 for i in range(len(self.PERIODS))
+            if self.highs[i].IsReady
+            and price > (self.highs[i].Current.Value + self.lows[i].Current.Value) / 2.0
         )
-        weight = n / float(len(self.PERIODS))
+        weight = n_bullish / float(len(self.PERIODS))
+
+        prev = dict(self.targets)
         if weight > 0:
-            self.targets[self.sym] = weight
+            self.targets[self.tqqq] = weight
         else:
-            self.targets.pop(self.sym, None)
+            self.targets.pop(self.tqqq, None)
         return self.targets != prev
 
 
@@ -367,7 +385,7 @@ class DonchianFourVoteSub(BaseSubAlgo):
 
 
 
-class ThreeVoteSub(BaseSubAlgo):
+class MomentumVoteSub(BaseSubAlgo):
     """TQQQ weight = n/3 where n = bullish count among ROC(20)>0, UpDay(20)>10, TII(20)>10."""
 
     def initialize(self):
@@ -375,22 +393,27 @@ class ThreeVoteSub(BaseSubAlgo):
         self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
 
     def update_targets(self):
-        h = self.algo.History(self.qqq, 21, Resolution.Daily)
-        if h.empty or len(h) < 21: return False
-        c = [float(x) for x in h["close"].values]
+        hist = self.algo.History(self.qqq, 21, Resolution.Daily)
+        if hist.empty or len(hist) < 21:
+            return False
+        closes = [float(x) for x in hist["close"].values]
 
-        sig_roc = c[-1] > c[0]
+        # ROC(20): is today's close higher than 20 days ago?
+        sig_roc = closes[-1] > closes[0]
 
-        up_days = sum(1 for i in range(1, len(c)) if c[i] > c[i-1])
+        # UpDay(20): more than half of last 20 day-to-day changes positive
+        up_days = sum(1 for i in range(1, len(closes)) if closes[i] > closes[i-1])
         sig_upday = up_days > 10
 
-        c20 = c[-20:]
-        sma = sum(c20) / 20
-        tii = sum(1 for x in c20 if x > sma)
-        sig_tii = tii > 10
+        # TII(20): more than half of last 20 closes above their SMA(20)
+        last_20 = closes[-20:]
+        sma_20  = sum(last_20) / 20
+        n_above = sum(1 for c in last_20 if c > sma_20)
+        sig_tii = n_above > 10
 
-        n = sig_roc + sig_upday + sig_tii
-        weight = n / 3.0
+        n_bullish = sig_roc + sig_upday + sig_tii
+        weight = n_bullish / 3.0
+
         prev = dict(self.targets)
         if weight > 0:
             self.targets[self.tqqq] = weight
@@ -407,24 +430,29 @@ class ThreeVoteSub(BaseSubAlgo):
 
 
 class TrendStretchExitSub(BaseSubAlgo):
-    """QQQ > SMA(200) AND stretch < 5% entry; exit on SMA breach or stretch > 20%."""
+    """Enter on QQQ > SMA(200) with stretch < 5%; exit when below SMA or stretch > 20%."""
+
     def initialize(self):
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._sma = self.algo.SMA("QQQ", 200, Resolution.Daily)
+        self.qqq    = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.sma200 = self.algo.SMA("QQQ", 200, Resolution.Daily)
 
     def update_targets(self):
-        if not self._sma.IsReady: return False
+        if not self.sma200.IsReady:
+            return False
         price   = self.algo.Securities[self.qqq].Price
-        sma_val = self._sma.Current.Value
-        stretch = (price - sma_val) / sma_val if sma_val > 0 else 0
+        sma     = self.sma200.Current.Value
+        stretch = (price - sma) / sma if sma > 0 else 0
+
         prev     = dict(self.targets)
         invested = bool(self.targets)
         if not invested:
-            if price > sma_val and stretch < 0.05:
+            # Enter only at a low-stretch entry above the trend
+            if price > sma and stretch < 0.05:
                 self.targets = {self.tqqq: 1.0}
         else:
-            if price < sma_val or stretch > 0.20:
+            # Exit on trend break or extreme overbought stretch
+            if price < sma or stretch > 0.20:
                 self.targets = {}
         return self.targets != prev
 
@@ -437,38 +465,40 @@ class TrendStretchExitSub(BaseSubAlgo):
 
 
 class GoldenCrossATRSub(BaseSubAlgo):
-    """EMA(50) > EMA(200) entry; ratcheting 3×ATR(14) trailing stop on TQQQ."""
+    """Enter on EMA(50) > EMA(200) of QQQ. Exit on crossback or 3×ATR(14) trailing stop on TQQQ."""
 
     ATR_MULT = 3.0
 
     def initialize(self):
-        self.qqq     = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq    = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._ema50  = self.algo.EMA(self.qqq, 50,  Resolution.Daily)
-        self._ema200 = self.algo.EMA(self.qqq, 200, Resolution.Daily)
-        self._atr    = self.algo.ATR(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
-        self._trail  = 0.0
+        self.qqq    = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.ema50  = self.algo.EMA(self.qqq, 50,  Resolution.Daily)
+        self.ema200 = self.algo.EMA(self.qqq, 200, Resolution.Daily)
+        self.atr    = self.algo.ATR(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.trail  = 0.0
 
     def on_data(self, data):
         return self.update_targets()
 
     def update_targets(self):
-        if not (self._ema50.IsReady and self._ema200.IsReady and self._atr.IsReady):
+        if not (self.ema50.IsReady and self.ema200.IsReady and self.atr.IsReady):
             return False
-        tprice = self.algo.Securities[self.tqqq].Price
-        bull   = self._ema50.Current.Value > self._ema200.Current.Value
-        prev   = dict(self.targets)
+        price    = self.algo.Securities[self.tqqq].Price
+        in_trend = self.ema50.Current.Value > self.ema200.Current.Value
 
+        prev = dict(self.targets)
         if not self.targets:
-            if bull:
+            if in_trend:
                 self.targets = {self.tqqq: 1.0}
-                self._trail  = tprice - self.ATR_MULT * self._atr.Current.Value
+                self.trail   = price - self.ATR_MULT * self.atr.Current.Value
         else:
-            new_trail = tprice - self.ATR_MULT * self._atr.Current.Value
-            if new_trail > self._trail: self._trail = new_trail
-            if tprice < self._trail or not bull:
+            # Trail ratchets up only
+            new_trail = price - self.ATR_MULT * self.atr.Current.Value
+            if new_trail > self.trail:
+                self.trail = new_trail
+            if price < self.trail or not in_trend:
                 self.targets = {}
-                self._trail  = 0.0
+                self.trail   = 0.0
         return self.targets != prev
 
 
@@ -479,29 +509,37 @@ class GoldenCrossATRSub(BaseSubAlgo):
 
 
 
-class RangeExpandedSub(BaseSubAlgo):
-    """Trend (price > 200d median) + range compressed (<110% avg) → 100%; mixed → 50%; else cash."""
+class RangeCompressedSub(BaseSubAlgo):
+    """Trend (price > 200d median) AND compressed range (25d avg < 110% of 200d avg) → 100%; only one true → 50%; else cash."""
+
     def initialize(self):
         self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
         self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
 
     def update_targets(self):
-        h = self.algo.History(self.qqq, 200, Resolution.Daily)
-        if h.empty or len(h) < 200: return False
-        closes    = [float(x) for x in h["close"].values]
-        med       = sorted(closes)[100]
-        in_trend  = self.algo.Securities[self.qqq].Price > med
-        recent_r  = [float(h["high"].iloc[i]) - float(h["low"].iloc[i]) for i in range(-25, 0)]
-        all_r     = [float(h["high"].iloc[i]) - float(h["low"].iloc[i]) for i in range(-200, 0)]
-        compressed = (sum(recent_r) / 25) < (sum(all_r) / 200) * 1.1
+        hist = self.algo.History(self.qqq, 200, Resolution.Daily)
+        if hist.empty or len(hist) < 200:
+            return False
+        closes      = [float(x) for x in hist["close"].values]
+        median_200d = sorted(closes)[100]
+        in_trend    = self.algo.Securities[self.qqq].Price > median_200d
+
+        # Range = high-low for each daily bar
+        ranges_25d  = [float(hist["high"].iloc[i]) - float(hist["low"].iloc[i]) for i in range(-25, 0)]
+        ranges_200d = [float(hist["high"].iloc[i]) - float(hist["low"].iloc[i]) for i in range(-200, 0)]
+        avg_25      = sum(ranges_25d)  / 25
+        avg_200     = sum(ranges_200d) / 200
+        compressed  = avg_25 < avg_200 * 1.1
+
         if in_trend and compressed:
-            wt = 1.0
+            weight = 1.0
         elif in_trend or compressed:
-            wt = 0.5
+            weight = 0.5
         else:
-            wt = 0.0
-        prev         = dict(self.targets)
-        self.targets = {self.tqqq: wt} if wt > 0 else {}
+            weight = 0.0
+
+        prev = dict(self.targets)
+        self.targets = {self.tqqq: weight} if weight > 0 else {}
         return self.targets != prev
 
 
@@ -513,20 +551,23 @@ class RangeExpandedSub(BaseSubAlgo):
 
 
 class MFI14HystSub(BaseSubAlgo):
-    """MFI(14) > 60 → 100% TQQQ; MFI < 40 → cash; 40–60 hold (hysteresis)."""
+    """MFI(14) hysteresis: enter at >60, exit at <40; between 40-60 hold current position."""
+
     def initialize(self):
         self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
         self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._mfi = self.algo.MFI("QQQ", 14, Resolution.Daily)
+        self.mfi  = self.algo.MFI("QQQ", 14, Resolution.Daily)
 
     def update_targets(self):
-        if not self._mfi.IsReady: return False
-        v    = self._mfi.Current.Value
+        if not self.mfi.IsReady:
+            return False
+        mfi_value = self.mfi.Current.Value
         prev = dict(self.targets)
-        if v > 60:
+        if mfi_value > 60:
             self.targets = {self.tqqq: 1.0}
-        elif v < 40:
+        elif mfi_value < 40:
             self.targets = {}
+        # else: 40 ≤ MFI ≤ 60 → hold current position
         return self.targets != prev
 
 
@@ -569,19 +610,19 @@ class UltimateAlgo(QCAlgorithm):
         self.last_prices = {}
 
         self.sub_algos = [
-            LeveragedRebalanceSub(self,    "LevRebal"),       #  1
-            IBSATRStopSub(self,            "IBSATRStop"),     #  2
-            RSIThreeVoteSub(self,          "RSI3Vote"),       #  3
-            ExpandingBreakoutSub(self,     "ExpandBreak"),    #  4
-            TQQQDynamicSub(self,           "TQQQDyn"),        #  5
-            TQQQSMA150Sub(self,            "TQQQSMA150"),     #  6
-            AntiMartingaleSub(self,        "AntiMartin"),     #  7
-            SMAFiveVoteSub(self,           "SMAFiveVote"),    #  8
+            StaticTQQQ60Sub(self,          "TQQQ60"),         #  1
+            IBSATRStopSub(self,            "IBSBasket"),      #  2
+            RSIThreeVoteSub(self,          "RSI2DipVote"),    #  3
+            RangeBreakoutSub(self,         "RangeBreak"),     #  4
+            SMA200RSITiersSub(self,        "SMA200Tiers"),    #  5
+            SMA150TrendSub(self,           "SMA150"),         #  6
+            SMA200PyramidSub(self,         "SMA200Pyramid"),  #  7
+            SMAFiveVoteSub(self,           "SMA5Vote"),       #  8
             DonchianFourVoteSub(self,      "D4Vote"),         #  9
-            ThreeVoteSub(self,             "3Vote"),          # 10
+            MomentumVoteSub(self,          "MomVote"),        # 10
             TrendStretchExitSub(self,      "StretchExit"),    # 11
             GoldenCrossATRSub(self,        "GoldXATR"),       # 12
-            RangeExpandedSub(self,         "RangeExp"),       # 13
+            RangeCompressedSub(self,       "RangeCompr"),     # 13
             MFI14HystSub(self,             "MFI14Hyst"),      # 14
         ]
 
