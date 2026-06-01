@@ -242,7 +242,34 @@ def generate_markdown(strategies, backtest_results, output_path, show_all=False,
             f"{stats['profit_ratio']:<12} | {meta.get('overfit','—'):<6} |"
         )
 
-    lines += ["", "", "---"]
+    lines += [""]
+
+    # Yearly returns summary table
+    lines.append("| #                    | " + " | ".join(year_labels) + " |")
+    lines.append("| :------------------- | " + " | ".join([":---"] * len(year_labels)) + " |")
+    for row_num, (sid, meta) in enumerate(visible, 1):
+        r      = backtest_results.get(sid, {})
+        yearly = r.get("yearly", {})
+        try:
+            file_num = int(meta.get("file", "").replace(".py", ""))
+        except (ValueError, AttributeError):
+            file_num = row_num
+        link = f"[{file_num}](#strategy-{file_num})"
+        cells = []
+        for y in years:
+            val = yearly.get(str(y))
+            if val is not None:
+                try:
+                    v = int(val)
+                    color = "🟢" if v > 0 else ("🔴" if v < 0 else "⚪")
+                except (ValueError, TypeError):
+                    color = "⚪"
+                cells.append(f"{color} {val}%")
+            else:
+                cells.append("—")
+        lines.append(f"| {link:<20} | " + " | ".join(cells) + " |")
+
+    lines += ["", "---"]
 
     # Detail sections — anchors match file number
     for row_num, (sid, meta) in enumerate(visible, 1):

@@ -145,45 +145,51 @@ def _make_standalone(sub_cls):
     return Algo
 
 
-# --- Content from cc/cc_algos/ensemble/012.py ---
+# --- Content from /tmp/rsi_test.py ---
 
 
 
 
-class GoldenCrossTrailSub(BaseSubAlgo):
-    """EMA(50) > EMA(200) entry; 10% trailing stop from peak TQQQ price."""
+class RSIThreeVoteATRSub(BaseSubAlgo):
+    """RSI(2) 3-Vote dip basket + 3×ATR(14) stop from TQQQ entry price."""
 
-    TRAIL_PCT = 0.06
+    THRESHOLDS = [20, 25, 30]
+    ATR_MULT   = 3.0
 
     def initialize(self):
-        self.qqq     = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq    = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self._ema50  = self.algo.EMA(self.qqq, 50,  Resolution.Daily)
-        self._ema200 = self.algo.EMA(self.qqq, 200, Resolution.Daily)
-        self._peak   = 0.0
-
-    def on_data(self, data):
-        return self.update_targets()
+        self.algo.AddEquity("QQQ", Resolution.Daily)
+        self.rsi2 = self.algo.RSI("QQQ", 2, MovingAverageType.Wilders, Resolution.Daily)
+        self.syms = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
+        self.atr  = self.algo.ATR(self.syms[0], 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.entry_price = None
 
     def update_targets(self):
-        if not (self._ema50.IsReady and self._ema200.IsReady):
-            return False
-        tprice = self.algo.Securities[self.tqqq].Price
-        bull   = self._ema50.Current.Value > self._ema200.Current.Value
-        prev   = dict(self.targets)
+        if not (self.rsi2.IsReady and self.atr.IsReady): return False
+        rsi    = self.rsi2.Current.Value
+        tprice = self.algo.Securities[self.syms[0]].Price
+        n      = sum(1 for t in self.THRESHOLDS if rsi < t)
+        total_weight = n / float(len(self.THRESHOLDS))
+        invested = bool(self.targets)
+        prev = dict(self.targets)
 
-        if not self.targets:
-            if bull:
-                self.targets = {self.tqqq: 1.0}
-                self._peak   = tprice
-        else:
-            if tprice > self._peak: self._peak = tprice
-            stop = self._peak * (1.0 - self.TRAIL_PCT)
-            if tprice < stop or not bull:
+        if invested and self.entry_price is not None:
+            stop = self.entry_price - self.ATR_MULT * self.atr.Current.Value
+            if tprice < stop:
                 self.targets = {}
-                self._peak   = 0.0
+                self.entry_price = None
+                return self.targets != prev
+
+        if total_weight > 0:
+            per_sym = total_weight / len(self.syms)
+            self.targets = {s: per_sym for s in self.syms}
+            self.force_rebalance = True
+            if not invested:
+                self.entry_price = tprice
+        else:
+            self.targets = {}
+            self.entry_price = None
         return self.targets != prev
 
 
-GoldenCrossTrailAlgo = _make_standalone(GoldenCrossTrailSub)
+RSIThreeVoteATRAlgo = _make_standalone(RSIThreeVoteATRSub)
 

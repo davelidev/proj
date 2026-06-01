@@ -27,11 +27,13 @@ class ExpandingBreakoutSub(BaseSubAlgo):
         hist = self.algo.History(self.qqq, 3, Resolution.Daily)
         if len(hist) < 3: return False
         rang = lambda x: x.high - x.low
-        r2, r1 = rang(hist.iloc[-3]), rang(hist.iloc[-2])
+        # hist.iloc[-1] = today's just-closed bar (16:00); -2 = yesterday; -3 = day before.
+        # Compare yesterday vs day-before to act on settled bars, ignoring today's potentially-noisy close.
+        price_expand = rang(hist.iloc[-2]) > rang(hist.iloc[-3])
 
         prev = dict(self.targets)
         if not self.targets:
-            if qqq_price > s200 and r1 > r2 and adx_val > 25:
+            if qqq_price > s200 and price_expand and adx_val > 25:
                 self.targets       = {self.sym: 1.0}
                 self.trailing_stop = price - 3.0 * self.atr.Current.Value
         else:
