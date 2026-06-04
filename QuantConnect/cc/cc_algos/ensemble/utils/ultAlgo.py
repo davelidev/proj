@@ -1,6 +1,6 @@
 from AlgorithmImports import *
 from base import START_DATE, END_DATE, INITIAL_CASH, WARMUP_DAYS, SCHEDULE_TICKER, DAILY_OPEN_MIN, BaseSubAlgo
-from static_tqqq60 import StaticTQQQ60Sub
+from leveraged_rebalance import LeveragedRebalanceSub
 from ibs_basket import IBSATRStopSub
 from rsi2_dip_vote import RSIThreeVoteSub
 from range_breakout import RangeBreakoutSub
@@ -14,6 +14,22 @@ from trend_stretch_exit import TrendStretchExitSub
 from golden_cross_atr import GoldenCrossATRSub
 from range_compressed import RangeCompressedSub
 from mfi14_hyst import MFI14HystSub
+
+# ---------------------------------------------------------------------------
+# Cash Reserve Sub-Algo — holds 100% BIL, gets weight-based share like any
+# other sub-algo. Rebalanced yearly alongside the rest.
+# ---------------------------------------------------------------------------
+
+class CashReserveSub(BaseSubAlgo):
+    """Always 100% BIL. Use weight to set the cash reserve fraction."""
+
+    def initialize(self):
+        self.bil = self.algo.AddEquity("BIL", Resolution.Daily).Symbol
+        self.targets = {self.bil: 1.0}
+
+    def update_targets(self):
+        return False
+
 
 # ---------------------------------------------------------------------------
 # Combined Ensemble Algo
@@ -33,26 +49,29 @@ class UltimateAlgo(QCAlgorithm):
         self.bil         = self.AddEquity(self.CASH_TICKER, Resolution.Daily).Symbol
         self.last_prices = {}
 
-        self.sub_algos = [
-            StaticTQQQ60Sub(self,          "TQQQ60"),         #  1
-            IBSATRStopSub(self,            "IBSBasket"),      #  2
-            RSIThreeVoteSub(self,          "RSI2DipVote"),    #  3
-            RangeBreakoutSub(self,         "RangeBreak"),     #  4
-            SMA200RSITiersSub(self,        "SMA200Tiers"),    #  5
-            SMA150TrendSub(self,           "SMA150"),         #  6
-            SMA200PyramidSub(self,         "SMA200Pyramid"),  #  7
-            SMAFiveVoteSub(self,           "SMA5Vote"),       #  8
-            DonchianFourVoteSub(self,      "D4Vote"),         #  9
-            MomentumVoteSub(self,          "MomVote"),        # 10
-            TrendStretchExitSub(self,      "StretchExit"),    # 11
-            GoldenCrossATRSub(self,        "GoldXATR"),       # 12
-            RangeCompressedSub(self,       "RangeCompr"),     # 13
-            MFI14HystSub(self,             "MFI14Hyst"),      # 14
+        # (Sub, name, weight) — weight controls capital share & annual rebalance proportion
+        sub_specs = [
+            (LeveragedRebalanceSub,  "LevRebal",       10),  #  1
+            (IBSATRStopSub,          "IBSBasket",      20),  #  2
+            (RSIThreeVoteSub,        "RSI2DipVote",    20),  #  3
+            (RangeBreakoutSub,       "RangeBreak",     10),  #  4
+            (SMA200RSITiersSub,      "SMA200Tiers",    10),  #  5
+            (SMA150TrendSub,         "SMA150",         10),  #  6
+            (SMA200PyramidSub,       "SMA200Pyramid",  10),  #  7
+            (SMAFiveVoteSub,         "SMA5Vote",       15),  #  8
+            (DonchianFourVoteSub,    "D4Vote",         15),  #  9
+            (MomentumVoteSub,        "MomVote",        10),  # 10
+            (TrendStretchExitSub,    "StretchExit",    10),  # 11
+            (GoldenCrossATRSub,      "GoldXATR",       10),  # 12
+            (RangeCompressedSub,     "RangeCompr",     10),  # 13
+            (MFI14HystSub,           "MFI14Hyst",      10),  # 14
+            (CashReserveSub,         "CashReserve",    20),  # 15
         ]
-
-        start_equity = INITIAL_CASH / len(self.sub_algos)
-        for sub in self.sub_algos:
-            sub.equity              = start_equity
+        self.sub_algos = [cls(self, name) for cls, name, _ in sub_specs]
+        total_weight   = sum(w for _, _, w in sub_specs)
+        for sub, (_, _, w) in zip(self.sub_algos, sub_specs):
+            sub.weight              = w
+            sub.equity              = INITIAL_CASH * w / total_weight
             sub.trade_count         = 0      # cumulative days where targets changed
             sub.trade_count_year    = 0      # reset on each yearly equity reset
             sub.last_trade_date     = None
@@ -144,12 +163,12 @@ class UltimateAlgo(QCAlgorithm):
                 self.Log(f"YEARLY TRADE REPORT ({prev_yr}):\n" + "\n".join(rows))
 
             self._last_year = self.Time.year
-            total_v   = sum(sub.equity for sub in self.sub_algos)
-            reset_val = total_v / len(self.sub_algos)
+            total_v    = sum(sub.equity for sub in self.sub_algos)
+            total_w    = sum(sub.weight for sub in self.sub_algos)
             for sub in self.sub_algos:
-                sub.equity           = reset_val
+                sub.equity           = total_v * sub.weight / total_w
                 sub.trade_count_year = 0
-            self.Log(f"YEARLY REBALANCE: All sub-algos reset to ${reset_val:,.0f}")
+            self.Log(f"YEARLY REBALANCE: total=${total_v:,.0f}, reset by weight (sum={total_w})")
 
         update_signaled = {}
         for sub in self.sub_algos:

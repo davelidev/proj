@@ -2,7 +2,7 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class StaticTQQQ60Sub(BaseSubAlgo):
+class LeveragedRebalanceSub(BaseSubAlgo):
     """Static 60% allocation split equally across SYMBOLS. Rebalances once per year."""
 
     SYMBOLS = ["TQQQ"]
@@ -20,4 +20,4 @@ class StaticTQQQ60Sub(BaseSubAlgo):
         return True
 
 
-StaticTQQQ60Algo = _make_standalone(StaticTQQQ60Sub)
+LeveragedRebalanceAlgo = _make_standalone(LeveragedRebalanceSub)

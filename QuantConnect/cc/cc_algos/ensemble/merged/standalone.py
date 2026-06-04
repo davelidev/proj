@@ -145,31 +145,46 @@ def _make_standalone(sub_cls):
     return Algo
 
 
-# --- Content from cc/cc_algos/ensemble/014.py ---
+# --- Content from /tmp/sweep.py ---
 
 
 
 
-class MFI14HystSub(BaseSubAlgo):
-    """MFI(14) hysteresis: enter at >60, exit at <40; between 40-60 hold current position."""
+class SMA200PyramidSub(BaseSubAlgo):
+    """QQQ > SMA(200): start at 50% TQQQ, add +15% per 5% gain above entry (cap 100%). Below SMA: cash."""
 
     def initialize(self):
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.mfi  = self.algo.MFI("QQQ", 14, Resolution.Daily)
+        self.qqq         = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq        = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.sma200      = self.algo.SMA("QQQ", 200, Resolution.Daily)
+        self.entry_price = None
+        self.current_w   = 0.0
 
     def update_targets(self):
-        if not self.mfi.IsReady:
+        if not self.sma200.IsReady:
             return False
-        mfi_value = self.mfi.Current.Value
-        prev = dict(self.targets)
-        if mfi_value > 60:
-            self.targets = {self.tqqq: 1.0}
-        elif mfi_value < 40:
-            self.targets = {}
-        # else: 40 ≤ MFI ≤ 60 → hold current position
+        price      = self.algo.Securities[self.qqq].Price
+        in_uptrend = price > self.sma200.Current.Value
+        prev       = dict(self.targets)
+
+        if not in_uptrend:
+            self.targets     = {}
+            self.entry_price = None
+            self.current_w   = 0.0
+        elif not self.targets:
+            # Initial entry at 50%
+            self.targets     = {self.tqqq: 0.5}
+            self.entry_price = price
+            self.current_w   = 0.5
+        else:
+            # Pyramid: +15% size per 5% price gain above entry
+            steps    = int((price / self.entry_price - 1) / 0.05) if self.entry_price else 0
+            target_w = min(1.0, 0.5 + max(0, steps) * 0.20)
+            if abs(target_w - self.current_w) > 0.05:
+                self.targets = {self.tqqq: target_w}
+                self.current_w = target_w
         return self.targets != prev
 
 
-MFI14HystAlgo = _make_standalone(MFI14HystSub)
+SMA200PyramidAlgo = _make_standalone(SMA200PyramidSub)
 
