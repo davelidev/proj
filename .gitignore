@@ -15,4 +15,4 @@ strategies_results_fresh.json
 .gstack/
 .gstack
 .playwright-mcp
-ensemble/merged
+cc/cc_algos/ensemble/merged/

@@ -65,7 +65,7 @@ class UltimateAlgo(QCAlgorithm):
             (GoldenCrossATRSub,      "GoldXATR",       10),  # 12
             (RangeCompressedSub,     "RangeCompr",     10),  # 13
             (MFI14HystSub,           "MFI14Hyst",      10),  # 14
-            (CashReserveSub,         "CashReserve",    20),  # 15
+            (CashReserveSub,         "CashReserve",    5),   # 15
         ]
         self.sub_algos = [cls(self, name) for cls, name, _ in sub_specs]
         total_weight   = sum(w for _, _, w in sub_specs)
@@ -206,15 +206,19 @@ class UltimateAlgo(QCAlgorithm):
         agg_weights = {}
         for sub in self.sub_algos:
             relative_share = sub.equity / total_virtual
+            # Scale sub's targets down to 1.0 if they over-allocate (safety net).
+            sub_target_sum = sum(sub.targets.values())
+            sub_scale      = 1.0 / sub_target_sum if sub_target_sum > 1.0 else 1.0
             for sym, weight in sub.targets.items():
-                agg_weights[sym] = agg_weights.get(sym, 0) + (weight * relative_share)
+                agg_weights[sym] = agg_weights.get(sym, 0) + (weight * sub_scale * relative_share)
 
         remaining = max(0, 1.0 - sum(agg_weights.values()))
         if remaining > self.BIL_MIN_REMAINING:
-            agg_weights[self.bil] = remaining
+            agg_weights[self.bil] = agg_weights.get(self.bil, 0) + remaining
 
         total_w = sum(agg_weights.values())
         if total_w > 1.0:
+            self.Log(f"OVER-ALLOCATION: agg_weights sum = {total_w:.4f}, normalizing down")
             for s in agg_weights: agg_weights[s] /= total_w
 
         if not force and hasattr(self, "_prev_agg_weights"):
