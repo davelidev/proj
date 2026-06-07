@@ -26,10 +26,9 @@ class BaseSubAlgo:
         self.targets = {}
         self.universe_groups = {} # Automatically populated { 'GroupName': set(Symbols) }
         self.on_change = None
-        self.force_rebalance = False
 
     def initialize(self): pass
-    def update_targets(self): pass  # subs return True iff self.targets changed
+    def update_targets(self): pass
     def on_data(self, data): pass
     def on_securities_changed(self, changes): pass
 
@@ -85,10 +84,11 @@ def _make_standalone(sub_cls):
 
         def _rebalance(self):
             if self.IsWarmingUp: return
-            changed = self._sub.update_targets()
-            if changed or self._sub.force_rebalance:
+            prev = dict(self._sub.targets)
+            rv = self._sub.update_targets()
+            # Execute on dict change OR if sub explicitly returns True (e.g. LevRebal yearly)
+            if self._sub.targets != prev or rv is True:
                 self._execute()
-                self._sub.force_rebalance = False
 
         def OnData(self, data):
             if self.IsWarmingUp: return
@@ -104,10 +104,10 @@ def _make_standalone(sub_cls):
             self._prev_total_value = curr_value
 
             if uses_on_data:
-                changed = self._sub.on_data(data)
-                if changed or self._sub.force_rebalance:
+                prev = dict(self._sub.targets)
+                rv = self._sub.on_data(data)
+                if self._sub.targets != prev or rv is True:
                     self._execute()
-                    self._sub.force_rebalance = False
 
         def OnSecuritiesChanged(self, changes):
             self._sub.on_securities_changed(changes)

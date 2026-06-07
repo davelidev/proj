@@ -43,6 +43,7 @@
 | [59](#strategy-59)   | ✅    | Trend           | 29%  | -45%  | 0.695  | —     | —     | —        | 1.09         | 3/10   |
 | [60](#strategy-60)   | ✅    | Mean Reversion  | 40%  | -32%  | 0.953  | 1281  | 928   | 1.38     | 1.47         | 4/10   |
 | [61](#strategy-61)   | ✅    | Trend           | 29%  | -43%  | 0.814  | 741   | 711   | 1.04     | 3.24         | 4/10   |
+| [62](#strategy-62)   | ✅    | Trend Following | 40%  | -55%  | 0.871  | 21    | 36    | 0.58     | 14.75        | 5/10   |
 
 | #                    | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :------------------- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -87,6 +88,7 @@
 | [59](#strategy-59)   | 🟢 21% | 🔴 -6% | 🟢 30% | 🟢 55% | 🟢 48% | 🟢 39% | 🟢 84% | 🟢 2% | 🟢 14% | 🔴 -2% | 🟢 34% | 🟢 59% |
 | [60](#strategy-60)   | 🟢 38% | 🟢 1% | 🔴 -18% | 🟢 46% | 🟢 12% | 🟢 34% | 🟢 81% | 🟢 110% | 🟢 32% | 🟢 60% | 🟢 72% | 🟢 62% |
 | [61](#strategy-61)   | 🟢 22% | 🔴 -9% | 🟢 4% | 🟢 51% | 🔴 -7% | 🟢 64% | 🟢 118% | 🟢 27% | 🔴 -9% | 🟢 45% | 🟢 52% | 🟢 46% |
+| [62](#strategy-62)   | 🟢 47% | 🟢 18% | 🔴 -1% | 🟢 118% | 🟢 1% | 🟢 53% | 🟢 96% | 🟢 86% | 🔴 -33% | 🟢 125% | 🟢 45% | 🟢 30% |
 
 ---
 ## Strategy-1
@@ -1199,6 +1201,31 @@
 > [!code]- Click to view: 061.py
 > ```embed-python
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/061.py"
+> ```
+
+---
+## Strategy-62
+### SMA150 Trend (062.py)
+
+**Description:** Single SMA(150) trend filter — moved to potentials in favor of SMA Five Vote with SMA(150) weighted 5×.
+
+*Overfit 5/10 — Single SMA period (150). Tested alongside SMA(20,50,100,150,200): SMA(150) was the standout (40%/0.87) vs neighbors. The 150 was tuned away from canonical 200.*
+
+- **Entry:** QQQ > SMA(150): 100% TQQQ
+- **Exit:** QQQ ≤ SMA(150): cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 40% | -55% | 0.871 | 21 | 36 | 0.58 | 14.75 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 47% | 🟢 18% | 🔴 -1% | 🟢 118% | 🟢 1% | 🟢 53% | 🟢 96% | 🟢 86% | 🔴 -33% | 🟢 125% | 🟢 45% | 🟢 30% |
+
+> [!code]- Click to view: 062.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/062.py"
 > ```
 
 ---

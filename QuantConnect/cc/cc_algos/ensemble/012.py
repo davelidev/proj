@@ -2,42 +2,38 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class GoldenCrossATRSub(BaseSubAlgo):
-    """Enter on EMA(50) > EMA(200) of QQQ. Exit on crossback or 3×ATR(14) trailing stop on TQQQ."""
-
-    ATR_MULT = 3.0
+class RangeCompressedSub(BaseSubAlgo):
+    """Trend (price > 200d median) AND compressed range (25d avg < 110% of 200d avg) → 100%; only one true → 50%; else cash."""
 
     def initialize(self):
-        self.qqq    = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.ema50  = self.algo.EMA(self.qqq, 50,  Resolution.Daily)
-        self.ema200 = self.algo.EMA(self.qqq, 200, Resolution.Daily)
-        self.atr    = self.algo.ATR(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
-        self.trail  = 0.0
-
-    def on_data(self, data):
-        return self.update_targets()
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
 
     def update_targets(self):
-        if not (self.ema50.IsReady and self.ema200.IsReady and self.atr.IsReady):
+        hist = self.algo.History(self.qqq, 200, Resolution.Daily)
+        if hist.empty or len(hist) < 200:
             return False
-        price    = self.algo.Securities[self.tqqq].Price
-        in_trend = self.ema50.Current.Value > self.ema200.Current.Value
+        closes      = [float(x) for x in hist["close"].values]
+        median_200d = sorted(closes)[100]
+        in_trend    = self.algo.Securities[self.qqq].Price > median_200d
+
+        # Range = high-low for each daily bar
+        ranges_25d  = [float(hist["high"].iloc[i]) - float(hist["low"].iloc[i]) for i in range(-25, 0)]
+        ranges_200d = [float(hist["high"].iloc[i]) - float(hist["low"].iloc[i]) for i in range(-200, 0)]
+        avg_25      = sum(ranges_25d)  / 25
+        avg_200     = sum(ranges_200d) / 200
+        compressed  = avg_25 < avg_200 * 1.1
+
+        if in_trend and compressed:
+            weight = 1.0
+        elif in_trend or compressed:
+            weight = 0.5
+        else:
+            weight = 0.0
 
         prev = dict(self.targets)
-        if not self.targets:
-            if in_trend:
-                self.targets = {self.tqqq: 1.0}
-                self.trail   = price - self.ATR_MULT * self.atr.Current.Value
-        else:
-            # Trail ratchets up only
-            new_trail = price - self.ATR_MULT * self.atr.Current.Value
-            if new_trail > self.trail:
-                self.trail = new_trail
-            if price < self.trail or not in_trend:
-                self.targets = {}
-                self.trail   = 0.0
+        self.targets = {self.tqqq: weight} if weight > 0 else {}
         return self.targets != prev
 
 
-GoldenCrossATRAlgo = _make_standalone(GoldenCrossATRSub)
+RangeCompressedAlgo = _make_standalone(RangeCompressedSub)

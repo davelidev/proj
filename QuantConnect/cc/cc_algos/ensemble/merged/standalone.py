@@ -30,10 +30,9 @@ class BaseSubAlgo:
         self.targets = {}
         self.universe_groups = {} # Automatically populated { 'GroupName': set(Symbols) }
         self.on_change = None
-        self.force_rebalance = False
 
     def initialize(self): pass
-    def update_targets(self): pass  # subs return True iff self.targets changed
+    def update_targets(self): pass
     def on_data(self, data): pass
     def on_securities_changed(self, changes): pass
 
@@ -89,10 +88,11 @@ def _make_standalone(sub_cls):
 
         def _rebalance(self):
             if self.IsWarmingUp: return
-            changed = self._sub.update_targets()
-            if changed or self._sub.force_rebalance:
+            prev = dict(self._sub.targets)
+            rv = self._sub.update_targets()
+            # Execute on dict change OR if sub explicitly returns True (e.g. LevRebal yearly)
+            if self._sub.targets != prev or rv is True:
                 self._execute()
-                self._sub.force_rebalance = False
 
         def OnData(self, data):
             if self.IsWarmingUp: return
@@ -108,10 +108,10 @@ def _make_standalone(sub_cls):
             self._prev_total_value = curr_value
 
             if uses_on_data:
-                changed = self._sub.on_data(data)
-                if changed or self._sub.force_rebalance:
+                prev = dict(self._sub.targets)
+                rv = self._sub.on_data(data)
+                if self._sub.targets != prev or rv is True:
                     self._execute()
-                    self._sub.force_rebalance = False
 
         def OnSecuritiesChanged(self, changes):
             self._sub.on_securities_changed(changes)
@@ -145,46 +145,46 @@ def _make_standalone(sub_cls):
     return Algo
 
 
-# --- Content from /tmp/sweep.py ---
+# --- Content from cc/cc_algos/ensemble/014.py ---
 
 
 
 
-class SMA200PyramidSub(BaseSubAlgo):
-    """QQQ > SMA(200): start at 50% TQQQ, add +15% per 5% gain above entry (cap 100%). Below SMA: cash."""
+
+class VolRegime20Sub(BaseSubAlgo):
+    """20-day realized vol regime (20%/30% thresholds): vol<20% → 100% TQQQ, 20-30% → 50%, vol>30% → cash."""
+
+    LOW_VOL  = 0.20
+    HIGH_VOL = 0.30
 
     def initialize(self):
-        self.qqq         = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq        = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.sma200      = self.algo.SMA("QQQ", 200, Resolution.Daily)
-        self.entry_price = None
-        self.current_w   = 0.0
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
 
     def update_targets(self):
-        if not self.sma200.IsReady:
+        hist = self.algo.History(self.qqq, 21, Resolution.Daily)
+        if hist.empty or len(hist) < 21:
             return False
-        price      = self.algo.Securities[self.qqq].Price
-        in_uptrend = price > self.sma200.Current.Value
-        prev       = dict(self.targets)
+        closes = [float(x) for x in hist["close"].values]
+        rets   = [(closes[i] / closes[i-1]) - 1 for i in range(1, len(closes))]
+        mean   = sum(rets) / len(rets)
+        var    = sum((r - mean)**2 for r in rets) / (len(rets) - 1)
+        ann_vol = math.sqrt(var) * math.sqrt(252)
 
-        if not in_uptrend:
-            self.targets     = {}
-            self.entry_price = None
-            self.current_w   = 0.0
-        elif not self.targets:
-            # Initial entry at 50%
-            self.targets     = {self.tqqq: 0.5}
-            self.entry_price = price
-            self.current_w   = 0.5
+        if ann_vol < self.LOW_VOL:
+            weight = 1.0
+        elif ann_vol < self.HIGH_VOL:
+            weight = 0.5
         else:
-            # Pyramid: +15% size per 5% price gain above entry
-            steps    = int((price / self.entry_price - 1) / 0.05) if self.entry_price else 0
-            target_w = min(1.0, 0.5 + max(0, steps) * 0.20)
-            if abs(target_w - self.current_w) > 0.05:
-                self.targets = {self.tqqq: target_w}
-                self.current_w = target_w
+            weight = 0.0
+
+        prev = dict(self.targets)
+        if weight > 0:
+            self.targets = {self.tqqq: weight}
+        else:
+            self.targets = {}
         return self.targets != prev
 
 
-SMA200PyramidAlgo = _make_standalone(SMA200PyramidSub)
+VolRegime20Algo = _make_standalone(VolRegime20Sub)
 

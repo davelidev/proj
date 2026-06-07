@@ -2,40 +2,30 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class SMA200PyramidSub(BaseSubAlgo):
-    """QQQ > SMA(200): start at 50% TQQQ, add +15% per 5% gain above entry (cap 100%). Below SMA: cash."""
+class SMAFiveVoteSub(BaseSubAlgo):
+    """TQQQ weight = n/8 over SMA periods (20, 50, 100, 150×4, 200) — proportional to # of SMAs exceeded. SMA(150) quadrupled since it tested best individually."""
+
+    PERIODS = [20, 50, 100, 150, 150, 150, 150, 200]
 
     def initialize(self):
-        self.qqq         = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq        = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.sma200      = self.algo.SMA("QQQ", 200, Resolution.Daily)
-        self.entry_price = None
-        self.current_w   = 0.0
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.smas = [self.algo.SMA(self.qqq, p, Resolution.Daily) for p in self.PERIODS]
 
     def update_targets(self):
-        if not self.sma200.IsReady:
+        if not self.smas[-1].IsReady:
             return False
-        price      = self.algo.Securities[self.qqq].Price
-        in_uptrend = price > self.sma200.Current.Value
-        prev       = dict(self.targets)
+        price     = self.algo.Securities[self.qqq].Price
+        n_bullish = sum(1 for sma in self.smas if price > sma.Current.Value)
+        # Weighted: pure proportional n/N
+        weight    = n_bullish / float(len(self.PERIODS))
 
-        if not in_uptrend:
-            self.targets     = {}
-            self.entry_price = None
-            self.current_w   = 0.0
-        elif not self.targets:
-            # Initial entry at 50%
-            self.targets     = {self.tqqq: 0.5}
-            self.entry_price = price
-            self.current_w   = 0.5
+        prev = dict(self.targets)
+        if weight > 0:
+            self.targets[self.tqqq] = weight
         else:
-            # Pyramid: +15% size per 5% price gain above entry
-            steps    = int((price / self.entry_price - 1) / 0.05) if self.entry_price else 0
-            target_w = min(1.0, 0.5 + max(0, steps) * 0.15)
-            if abs(target_w - self.current_w) > 0.05:
-                self.targets = {self.tqqq: target_w}
-                self.current_w = target_w
+            self.targets.pop(self.tqqq, None)
         return self.targets != prev
 
 
-SMA200PyramidAlgo = _make_standalone(SMA200PyramidSub)
+SMAFiveVoteAlgo = _make_standalone(SMAFiveVoteSub)

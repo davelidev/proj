@@ -4,37 +4,37 @@
 | :------------------- | :--- | :-------------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
 | [1](#strategy-1)     | ✅    | Buy & Hold      | 28%  | -51%  | 0.727  | 12    | 0     | —        | —            | 3/10   |
 | [2](#strategy-2)     | ✅    | Mean Reversion  | 56%  | -50%  | 1.152  | 803   | 328   | 2.45     | 0.91         | 4/10   |
-| [3](#strategy-3)     | ✅    | Mean Reversion  | 45%  | -35%  | 1.019  | 1968  | 970   | 2.03     | 0.96         | 3/10   |
+| [3](#strategy-3)     | ✅    | Mean Reversion  | 45%  | -35%  | 1.020  | 1905  | 816   | 2.33     | 0.83         | 3/10   |
 | [4](#strategy-4)     | ✅    | Breakout        | 38%  | -49%  | 0.886  | 94    | 76    | 1.24     | 2.19         | 4/10   |
 | [5](#strategy-5)     | ✅    | Trend Following | 29%  | -45%  | 0.705  | 107   | 63    | 1.70     | 1.45         | 4/10   |
-| [6](#strategy-6)     | ✅    | Trend Following | 40%  | -55%  | 0.871  | 21    | 36    | 0.58     | 14.75        | 5/10   |
-| [7](#strategy-7)     | ✅    | Trend           | 30%  | -51%  | 0.715  | 120   | 70    | 1.71     | 4.25         | 4/10   |
-| [8](#strategy-8)     | ✅    | Trend Following | 29%  | -45%  | 0.709  | 368   | 255   | 1.44     | 1.66         | 4/10   |
-| [9](#strategy-9)     | ✅    | Trend           | 32%  | -52%  | 0.738  | 166   | 126   | 1.32     | 2.20         | 4/10   |
-| [10](#strategy-10)   | ✅    | Trend           | 35%  | -36%  | 0.927  | 518   | 331   | 1.56     | 1.34         | 8/10   |
-| [11](#strategy-11)   | ✅    | Mean Reversion  | 39%  | -56%  | 0.914  | 16    | 49    | 0.33     | 15.46        | 4/10   |
-| [12](#strategy-12)   | ✅    | Trend           | 43%  | -56%  | 0.891  | 90    | 83    | 1.08     | 2.34         | 3/10   |
-| [13](#strategy-13)   | ✅    | Range           | 34%  | -41%  | 0.816  | 67    | 47    | 1.43     | 3.38         | 2/10   |
-| [14](#strategy-14)   | ✅    | Volume          | 30%  | -44%  | 0.769  | 52    | 40    | 1.30     | 2.85         | 3/10   |
-| [15](#strategy-15)   | ✅    | Ensemble        | 38%  | -39%  | 0.973  | 4044  | 1992  | 2.03     | 1.57         |        |
+| [6](#strategy-6)     | ✅    | Trend           | 30%  | -51%  | 0.715  | 120   | 70    | 1.71     | 4.25         | 4/10   |
+| [7](#strategy-7)     | ✅    | Trend Following | 33%  | -49%  | 0.783  | 442   | 181   | 2.44     | 1.26         | 5/10   |
+| [8](#strategy-8)     | ✅    | Trend           | 32%  | -53%  | 0.742  | 184   | 128   | 1.44     | 2.06         | 4/10   |
+| [9](#strategy-9)     | ✅    | Trend           | 35%  | -36%  | 0.927  | 518   | 331   | 1.56     | 1.34         | 8/10   |
+| [10](#strategy-10)   | ✅    | Mean Reversion  | 39%  | -56%  | 0.914  | 16    | 49    | 0.33     | 15.46        | 4/10   |
+| [11](#strategy-11)   | ✅    | Trend           | 43%  | -56%  | 0.891  | 90    | 83    | 1.08     | 2.34         | 3/10   |
+| [12](#strategy-12)   | ✅    | Range           | 34%  | -41%  | 0.816  | 67    | 47    | 1.43     | 3.38         | 2/10   |
+| [13](#strategy-13)   | ✅    | Volume          | 30%  | -44%  | 0.769  | 52    | 40    | 1.30     | 2.85         | 3/10   |
+| [14](#strategy-14)   | ✅    | Volatility      | 34%  | -42%  | 0.818  | 93    | 34    | 2.74     | 1.62         | 3/10   |
+| [15](#strategy-15)   | ✅    | Ensemble        | 39%  | -34%  | 1.036  | 4083  | 2104  | 1.94     | 1.54         |        |
 
 | #                    | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :------------------- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [1](#strategy-1)     | 🟢 34% | 🟢 13% | 🟢 7% | 🟢 71% | 🔴 -13% | 🟢 79% | 🟢 65% | 🟢 52% | 🔴 -47% | 🟢 118% | 🟢 37% | 🟢 21% |
-| [2](#strategy-2)     | 🟢 4% | 🟢 1% | 🟢 64% | 🟢 79% | 🔴 -19% | 🟢 51% | 🟢 402% | 🟢 111% | 🟢 3% | 🟢 109% | 🟢 16% | 🟢 117% |
-| [3](#strategy-3)     | 🟢 32% | 🟢 2% | 🔴 -18% | 🟢 51% | 🟢 8% | 🟢 52% | 🟢 137% | 🟢 131% | 🟢 27% | 🟢 66% | 🟢 74% | 🟢 58% |
-| [4](#strategy-4)     | 🟢 137% | 🔴 -3% | 🔴 -2% | 🟢 76% | 🟢 54% | 🟢 14% | 🟢 83% | 🟢 47% | 🔴 -14% | 🟢 72% | 🟢 39% | 🟢 32% |
-| [5](#strategy-5)     | 🟢 31% | 🟢 2% | 🔴 -13% | 🟢 111% | 🟢 5% | 🟢 21% | 🟢 55% | 🟢 85% | 🔴 -20% | 🟢 64% | 🟢 38% | 🟢 36% |
-| [6](#strategy-6)     | 🟢 47% | 🟢 18% | 🔴 -1% | 🟢 118% | 🟢 1% | 🟢 53% | 🟢 96% | 🟢 86% | 🔴 -33% | 🟢 125% | 🟢 45% | 🟢 30% |
-| [7](#strategy-7)     | 🟢 33% | 🔴 -6% | 🔴 -4% | 🟢 111% | 🔴 -5% | 🟢 35% | 🟢 82% | 🟢 86% | 🔴 -35% | 🟢 90% | 🟢 62% | 🟢 10% |
-| [8](#strategy-8)     | 🟢 23% | 🔴 -6% | 🔴 -4% | 🟢 95% | 🔴 -7% | 🟢 44% | 🟢 99% | 🟢 47% | 🔴 -38% | 🟢 122% | 🟢 35% | 🟢 38% |
-| [9](#strategy-9)     | 🟢 23% | 🟢 16% | 🔴 -7% | 🟢 114% | 🔴 -27% | 🟢 63% | 🟢 115% | 🟢 58% | 🔴 -44% | 🟢 112% | 🟢 45% | 🟢 48% |
-| [10](#strategy-10)   | 🟢 32% | 🔴 -2% | 🟢 12% | 🟢 67% | 🟢 3% | 🟢 67% | 🟢 138% | 🟢 28% | 🟢 13% | 🟢 55% | 🟢 24% | 🟢 33% |
-| [11](#strategy-11)   | 🟢 70% | 🟢 2% | 🔴 -9% | 🟢 118% | 🔴 -23% | 🟢 50% | 🟢 94% | 🟢 92% | 🔴 -43% | 🟢 137% | 🟢 135% | 🟢 26% |
-| [12](#strategy-12)   | 🟢 44% | 🟢 28% | 🟢 5% | 🟢 96% | 🟢 9% | 🟢 68% | 🟢 202% | 🟢 61% | 🔴 -23% | 🟢 97% | 🟢 61% | 🔴 -4% |
-| [13](#strategy-13)   | 🟢 23% | 🟢 6% | 🔴 -6% | 🟢 98% | 🟢 1% | 🟢 63% | 🟢 108% | 🟢 61% | 🔴 -34% | 🟢 135% | 🟢 54% | 🟢 9% |
-| [14](#strategy-14)   | 🔴 -11% | 🟢 3% | 🟢 11% | 🟢 71% | 🟢 8% | 🟢 119% | 🟢 119% | 🟢 29% | 🔴 -20% | 🟢 39% | 🟢 35% | 🟢 42% |
-| [15](#strategy-15)   | 🟢 38% | 🟢 5% | 🟢 2% | 🟢 93% | 🔴 -3% | 🟢 56% | 🟢 118% | 🟢 72% | 🔴 -24% | 🟢 99% | 🟢 52% | 🟢 37% |
+| [1](#strategy-1)     | 🟢 34% | 🟢 13% | 🟢 4% | 🟢 71% | 🔴 -13% | 🟢 81% | 🟢 66% | 🟢 53% | 🔴 -48% | 🟢 118% | 🟢 37% | 🟢 18% |
+| [2](#strategy-2)     | 🟢 4% | 🟢 1% | 🟢 57% | 🟢 79% | 🔴 -19% | 🟢 51% | 🟢 402% | 🟢 113% | 🟢 3% | 🟢 109% | 🟢 16% | 🟢 117% |
+| [3](#strategy-3)     | 🟢 33% | 🟢 2% | 🔴 -18% | 🟢 51% | 🟢 8% | 🟢 52% | 🟢 138% | 🟢 131% | 🟢 27% | 🟢 66% | 🟢 73% | 🟢 54% |
+| [4](#strategy-4)     | 🟢 137% | 🔴 -3% | 🔴 -6% | 🟢 76% | 🟢 54% | 🟢 14% | 🟢 84% | 🟢 49% | 🔴 -14% | 🟢 72% | 🟢 39% | 🟢 28% |
+| [5](#strategy-5)     | 🟢 31% | 🟢 2% | 🔴 -15% | 🟢 111% | 🟢 5% | 🟢 21% | 🟢 55% | 🟢 87% | 🔴 -21% | 🟢 64% | 🟢 38% | 🟢 33% |
+| [6](#strategy-6)     | 🟢 33% | 🔴 -6% | 🔴 -6% | 🟢 111% | 🔴 -5% | 🟢 35% | 🟢 83% | 🟢 88% | 🔴 -36% | 🟢 90% | 🟢 62% | 🟢 7% |
+| [7](#strategy-7)     | 🟢 32% | 🟢 3% | 🔴 -6% | 🟢 103% | 🔴 -4% | 🟢 48% | 🟢 100% | 🟢 62% | 🔴 -37% | 🟢 123% | 🟢 39% | 🟢 32% |
+| [8](#strategy-8)     | 🟢 29% | 🟢 15% | 🔴 -8% | 🟢 114% | 🔴 -24% | 🟢 66% | 🟢 113% | 🟢 65% | 🔴 -47% | 🟢 108% | 🟢 49% | 🟢 35% |
+| [9](#strategy-9)     | 🟢 32% | 🔴 -2% | 🟢 12% | 🟢 67% | 🟢 3% | 🟢 69% | 🟢 139% | 🟢 29% | 🟢 12% | 🟢 55% | 🟢 24% | 🟢 32% |
+| [10](#strategy-10)   | 🟢 70% | 🟢 2% | 🔴 -12% | 🟢 118% | 🔴 -23% | 🟢 50% | 🟢 96% | 🟢 92% | 🔴 -44% | 🟢 137% | 🟢 135% | 🟢 23% |
+| [11](#strategy-11)   | 🟢 44% | 🟢 28% | 🟢 1% | 🟢 96% | 🟢 9% | 🟢 68% | 🟢 204% | 🟢 62% | 🔴 -25% | 🟢 97% | 🟢 61% | 🔴 -7% |
+| [12](#strategy-12)   | 🟢 23% | 🟢 6% | 🔴 -10% | 🟢 98% | 🟢 1% | 🟢 63% | 🟢 109% | 🟢 62% | 🔴 -34% | 🟢 135% | 🟢 54% | 🟢 7% |
+| [13](#strategy-13)   | 🔴 -11% | 🟢 3% | 🟢 11% | 🟢 71% | 🟢 8% | 🟢 119% | 🟢 120% | 🟢 30% | 🔴 -20% | 🟢 39% | 🟢 35% | 🟢 38% |
+| [14](#strategy-14)   | 🟢 34% | 🟢 18% | 🟢 1% | 🟢 118% | 🔴 -1% | 🟢 70% | 🟢 71% | 🟢 65% | 🔴 -38% | 🟢 118% | 🟢 51% | 🟢 3% |
+| [15](#strategy-15)   | 🟢 35% | 🟢 6% | 🟢 2% | 🟢 87% | 🔴 -1% | 🟢 57% | 🟢 127% | 🟢 72% | 🔴 -20% | 🟢 96% | 🟢 50% | 🟢 37% |
 
 ---
 ## Strategy-1
@@ -52,7 +52,7 @@
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 34% | 🟢 13% | 🟢 7% | 🟢 71% | 🔴 -13% | 🟢 79% | 🟢 65% | 🟢 52% | 🔴 -47% | 🟢 118% | 🟢 37% | 🟢 21% |
+| 🟢 34% | 🟢 13% | 🟢 4% | 🟢 71% | 🔴 -13% | 🟢 81% | 🟢 66% | 🟢 53% | 🔴 -48% | 🟢 118% | 🟢 37% | 🟢 18% |
 
 > [!code]- Click to view: 001.py
 > ```embed-python
@@ -75,7 +75,7 @@
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 4% | 🟢 1% | 🟢 64% | 🟢 79% | 🔴 -19% | 🟢 51% | 🟢 402% | 🟢 111% | 🟢 3% | 🟢 109% | 🟢 16% | 🟢 117% |
+| 🟢 4% | 🟢 1% | 🟢 57% | 🟢 79% | 🔴 -19% | 🟢 51% | 🟢 402% | 🟢 113% | 🟢 3% | 🟢 109% | 🟢 16% | 🟢 117% |
 
 > [!code]- Click to view: 002.py
 > ```embed-python
@@ -88,17 +88,17 @@
 
 *Overfit 3/10 — Graduated entry at 3 RSI thresholds [20,25,30] — each is canonical oversold level. Tested individually: smooth gradient across 15-35 (no spike). Vote structure naturally robust to single-threshold misfits.*
 
-- **Entry:** For each QQQ RSI(2, Wilder) threshold (20, 25, 30): count if RSI < threshold. Basket weight = n / 3
+- **Entry:** Count n = # of RSI(2, Wilder) thresholds breached: <20, <25, <30. Basket weight = n/3 (weighted)
 - **Exit:** RSI(2) ≥ 30: liquidate basket
 - **Symbols:** Signal: QQQ. Execution: TQQQ / SOXL / TECL (equal-weight)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 45% | -35% | 1.019 | 1968 | 970 | 2.03 | 0.96 |
+| 45% | -35% | 1.020 | 1905 | 816 | 2.33 | 0.83 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 32% | 🟢 2% | 🔴 -18% | 🟢 51% | 🟢 8% | 🟢 52% | 🟢 137% | 🟢 131% | 🟢 27% | 🟢 66% | 🟢 74% | 🟢 58% |
+| 🟢 33% | 🟢 2% | 🔴 -18% | 🟢 51% | 🟢 8% | 🟢 52% | 🟢 138% | 🟢 131% | 🟢 27% | 🟢 66% | 🟢 73% | 🟢 54% |
 
 > [!code]- Click to view: 003.py
 > ```embed-python
@@ -121,7 +121,7 @@
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 137% | 🔴 -3% | 🔴 -2% | 🟢 76% | 🟢 54% | 🟢 14% | 🟢 83% | 🟢 47% | 🔴 -14% | 🟢 72% | 🟢 39% | 🟢 32% |
+| 🟢 137% | 🔴 -3% | 🔴 -6% | 🟢 76% | 🟢 54% | 🟢 14% | 🟢 84% | 🟢 49% | 🔴 -14% | 🟢 72% | 🟢 39% | 🟢 28% |
 
 > [!code]- Click to view: 004.py
 > ```embed-python
@@ -144,7 +144,7 @@
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 31% | 🟢 2% | 🔴 -13% | 🟢 111% | 🟢 5% | 🟢 21% | 🟢 55% | 🟢 85% | 🔴 -20% | 🟢 64% | 🟢 38% | 🟢 36% |
+| 🟢 31% | 🟢 2% | 🔴 -15% | 🟢 111% | 🟢 5% | 🟢 21% | 🟢 55% | 🟢 87% | 🔴 -21% | 🟢 64% | 🟢 38% | 🟢 33% |
 
 > [!code]- Click to view: 005.py
 > ```embed-python
@@ -153,30 +153,7 @@
 
 ---
 ## Strategy-6
-### SMA150 Trend (006.py)
-
-*Overfit 5/10 — Single SMA period (150). Tested alongside SMA(20,50,100,150,200): SMA(150) is the standout (40%/0.87) vs neighbors (SMA100=17%/0.47, SMA200=33%/0.75). The 150 was tuned away from canonical 200 because it tested better — clear evidence of in-sample optimization.*
-
-- **Entry:** QQQ > SMA(150): 100% TQQQ
-- **Exit:** QQQ ≤ SMA(150): cash
-- **Symbols:** Signal: QQQ. Execution: TQQQ
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 40% | -55% | 0.871 | 21 | 36 | 0.58 | 14.75 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 47% | 🟢 18% | 🔴 -1% | 🟢 118% | 🟢 1% | 🟢 53% | 🟢 96% | 🟢 86% | 🔴 -33% | 🟢 125% | 🟢 45% | 🟢 30% |
-
-> [!code]- Click to view: 006.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/006.py"
-> ```
-
----
-## Strategy-7
-### SMA200 Pyramid (007.py)
+### SMA200 Pyramid (006.py)
 
 *Overfit 4/10 — Pyramid increment swept 10%/15%/20%: all ~30%/-50%/0.72-0.74 CAGR (plateau). SMA200 trend filter is canonical. The 5% gain step and 15% size add tuned but robust to nearby values.*
 
@@ -190,7 +167,30 @@
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 33% | 🔴 -6% | 🔴 -4% | 🟢 111% | 🔴 -5% | 🟢 35% | 🟢 82% | 🟢 86% | 🔴 -35% | 🟢 90% | 🟢 62% | 🟢 10% |
+| 🟢 33% | 🔴 -6% | 🔴 -6% | 🟢 111% | 🔴 -5% | 🟢 35% | 🟢 83% | 🟢 88% | 🔴 -36% | 🟢 90% | 🟢 62% | 🟢 7% |
+
+> [!code]- Click to view: 006.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/006.py"
+> ```
+
+---
+## Strategy-7
+### SMA Five Vote (150 weighted) (007.py)
+
+*Overfit 5/10 — SMA-vote with SMA(150) weighted 5× (since it tested best as a standalone). Other periods (20/50/100/200) still contribute 1× each. Bias toward SMA(150) is explicit — overfit risk inherited from the standalone SMA150 (which was moved to potentials). The other periods provide diversification.*
+
+- **Entry:** Count n = # of SMA periods exceeded by QQQ across [20, 50, 100, 150×4, 200] (8 entries, SMA(150) appears 4×). TQQQ weight = n/8 (weighted)
+- **Exit:** Position scales down each time an SMA is lost
+- **Symbols:** Signal: QQQ. Execution: TQQQ
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 33% | -49% | 0.783 | 442 | 181 | 2.44 | 1.26 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 32% | 🟢 3% | 🔴 -6% | 🟢 103% | 🔴 -4% | 🟢 48% | 🟢 100% | 🟢 62% | 🔴 -37% | 🟢 123% | 🟢 39% | 🟢 32% |
 
 > [!code]- Click to view: 007.py
 > ```embed-python
@@ -199,21 +199,21 @@
 
 ---
 ## Strategy-8
-### SMA Five Vote (008.py)
+### Donchian Five Vote (008.py)
 
-*Overfit 4/10 — 5-SMA vote across canonical periods (20/50/100/150/200). Individual SMAs vary widely (17-40% CAGR), with SMA(150) clearly best — vote dilutes that best signal to 29%. Vote structure inherently averages overfit risk.*
+*Overfit 4/10 — 4-Donchian midline vote across [50,100,150,200]. Individual results: D50 (38%), D100 (31%), D150 (18%/-65% — bad outlier), D200 (37%). Vote (32%) hides D150 weakness via diversification. The 4 canonical periods are reasonable but D150 inclusion is questionable.*
 
-- **Entry:** Count n = # of SMA periods (20, 50, 100, 150, 200) that QQQ price exceeds. TQQQ weight = n / 5
-- **Exit:** Position scales down each time an SMA is lost
+- **Entry:** Count n = # of Donchian midlines (50, 100, 150, 200, 250) exceeded by QQQ. TQQQ weight = n/5 (weighted). Midline = (period high + period low) / 2
+- **Exit:** Position scales down each time a midline is lost
 - **Symbols:** Signal: QQQ. Execution: TQQQ
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 29% | -45% | 0.709 | 368 | 255 | 1.44 | 1.66 |
+| 32% | -53% | 0.742 | 184 | 128 | 1.44 | 2.06 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 23% | 🔴 -6% | 🔴 -4% | 🟢 95% | 🔴 -7% | 🟢 44% | 🟢 99% | 🟢 47% | 🔴 -38% | 🟢 122% | 🟢 35% | 🟢 38% |
+| 🟢 29% | 🟢 15% | 🔴 -8% | 🟢 114% | 🔴 -24% | 🟢 66% | 🟢 113% | 🟢 65% | 🔴 -47% | 🟢 108% | 🟢 49% | 🟢 35% |
 
 > [!code]- Click to view: 008.py
 > ```embed-python
@@ -222,34 +222,11 @@
 
 ---
 ## Strategy-9
-### Donchian Four Vote (009.py)
-
-*Overfit 4/10 — 4-Donchian midline vote across [50,100,150,200]. Individual results: D50 (38%), D100 (31%), D150 (18%/-65% — bad outlier), D200 (37%). Vote (32%) hides D150 weakness via diversification. The 4 canonical periods are reasonable but D150 inclusion is questionable.*
-
-- **Entry:** Count n = # of Donchian midlines (50, 100, 150, 200) that QQQ exceeds. TQQQ weight = n / 4. Midline = (period high + period low) / 2
-- **Exit:** Position scales down each time a midline is lost
-- **Symbols:** Signal: QQQ. Execution: TQQQ
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 32% | -52% | 0.738 | 166 | 126 | 1.32 | 2.20 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 23% | 🟢 16% | 🔴 -7% | 🟢 114% | 🔴 -27% | 🟢 63% | 🟢 115% | 🟢 58% | 🔴 -44% | 🟢 112% | 🟢 45% | 🟢 48% |
-
-> [!code]- Click to view: 009.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/009.py"
-> ```
-
----
-## Strategy-10
-### Momentum Vote (010.py)
+### Momentum Vote (009.py)
 
 *Overfit 8/10 — HIGHEST overfit risk in ensemble. Three signals (ROC, UpDay, TII) ALL use n=20 lookback, and ALL three peak sharply at exactly n=20: ROC Sharpe 0.83 (n=20) vs 0.50 (n=15/25); UpDay 0.79 vs 0.39/0.61; TII 0.71 vs 0.42/0.53. Three correlated signals overfit to same window. Vote helps but doesn't escape n=20 dependency. Out-of-sample edge probably much smaller.*
 
-- **Entry:** Count n = # of signals bullish: ROC(20) > 0, UpDay(20) > 10, TII(20) > 10. TQQQ weight = n / 3
+- **Entry:** Count n = # of bullish signals: ROC(20)>0, UpDay(20)>10, TII(20)>10. TQQQ weight = n/3 (weighted)
 - **Exit:** Position scales down each time a signal flips bearish
 - **Symbols:** Signal: QQQ. Execution: TQQQ
 
@@ -259,16 +236,16 @@
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 32% | 🔴 -2% | 🟢 12% | 🟢 67% | 🟢 3% | 🟢 67% | 🟢 138% | 🟢 28% | 🟢 13% | 🟢 55% | 🟢 24% | 🟢 33% |
+| 🟢 32% | 🔴 -2% | 🟢 12% | 🟢 67% | 🟢 3% | 🟢 69% | 🟢 139% | 🟢 29% | 🟢 12% | 🟢 55% | 🟢 24% | 🟢 32% |
 
-> [!code]- Click to view: 010.py
+> [!code]- Click to view: 009.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/010.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/009.py"
 > ```
 
 ---
-## Strategy-11
-### Trend Stretch Exit (011.py)
+## Strategy-10
+### Trend Stretch Exit (010.py)
 
 *Overfit 4/10 — Stretch exit at 20% tested across 15/20/25/30/35/40 (binary): plateau around 15-25% (CAGR 33-37%, Sharpe 0.77-0.91). Graduated variants all underperform binary. Entry at <5% stretch and SMA200 are reasonable. The 20% exit is in a stable region.*
 
@@ -282,16 +259,16 @@
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 70% | 🟢 2% | 🔴 -9% | 🟢 118% | 🔴 -23% | 🟢 50% | 🟢 94% | 🟢 92% | 🔴 -43% | 🟢 137% | 🟢 135% | 🟢 26% |
+| 🟢 70% | 🟢 2% | 🔴 -12% | 🟢 118% | 🔴 -23% | 🟢 50% | 🟢 96% | 🟢 92% | 🔴 -44% | 🟢 137% | 🟢 135% | 🟢 23% |
 
-> [!code]- Click to view: 011.py
+> [!code]- Click to view: 010.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/011.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/010.py"
 > ```
 
 ---
-## Strategy-12
-### Golden Cross ATR (012.py)
+## Strategy-11
+### Golden Cross ATR (011.py)
 
 *Overfit 3/10 — EMA(50)>EMA(200) is the classic golden cross — canonical. ATR multiplier swept 1x-5x: 3x is local peak with broad shoulder (4x/5x within 7%). Fixed % stops dramatically worse — ATR is the right tool. Few tunables, mostly on stable regions.*
 
@@ -305,16 +282,16 @@
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 44% | 🟢 28% | 🟢 5% | 🟢 96% | 🟢 9% | 🟢 68% | 🟢 202% | 🟢 61% | 🔴 -23% | 🟢 97% | 🟢 61% | 🔴 -4% |
+| 🟢 44% | 🟢 28% | 🟢 1% | 🟢 96% | 🟢 9% | 🟢 68% | 🟢 204% | 🟢 62% | 🔴 -25% | 🟢 97% | 🟢 61% | 🔴 -7% |
 
-> [!code]- Click to view: 012.py
+> [!code]- Click to view: 011.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/012.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/011.py"
 > ```
 
 ---
-## Strategy-13
-### Range Compressed (013.py)
+## Strategy-12
+### Range Compressed (012.py)
 
 *Overfit 2/10 — Compression multiplier 1.1 swept 0.9-1.3: gradient is SMOOTH (no spike). Plateau at 1.05-1.20 (Sharpe 0.78-0.82). 200d median + 25/200d ranges are reasonable lookbacks. The least overfit strategy in the ensemble — classic robust signal shape.*
 
@@ -328,16 +305,16 @@
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 23% | 🟢 6% | 🔴 -6% | 🟢 98% | 🟢 1% | 🟢 63% | 🟢 108% | 🟢 61% | 🔴 -34% | 🟢 135% | 🟢 54% | 🟢 9% |
+| 🟢 23% | 🟢 6% | 🔴 -10% | 🟢 98% | 🟢 1% | 🟢 63% | 🟢 109% | 🟢 62% | 🔴 -34% | 🟢 135% | 🟢 54% | 🟢 7% |
 
-> [!code]- Click to view: 013.py
+> [!code]- Click to view: 012.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/013.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/012.py"
 > ```
 
 ---
-## Strategy-14
-### MFI14 Hyst (014.py)
+## Strategy-13
+### MFI14 Hyst (013.py)
 
 *Overfit 3/10 — MFI(14) at 40/60 hysteresis. Entry swept 40-80: peak at >55 (Sharpe 0.81), neighbors smooth (>50: 0.66, >60: 0.77, >65: 0.73). Exit swept 20-40 with entry at 55: peak >55/<35 (0.85). 40/60 sits in stable region; >55/<35 might be even better. MFI itself is volume-weighted RSI — canonical indicator.*
 
@@ -352,7 +329,30 @@
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🔴 -11% | 🟢 3% | 🟢 11% | 🟢 71% | 🟢 8% | 🟢 119% | 🟢 119% | 🟢 29% | 🔴 -20% | 🟢 39% | 🟢 35% | 🟢 42% |
+| 🔴 -11% | 🟢 3% | 🟢 11% | 🟢 71% | 🟢 8% | 🟢 119% | 🟢 120% | 🟢 30% | 🔴 -20% | 🟢 39% | 🟢 35% | 🟢 38% |
+
+> [!code]- Click to view: 013.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/013.py"
+> ```
+
+---
+## Strategy-14
+### Vol Regime 20 (014.py)
+
+*Overfit 3/10 — Realized vol thresholds (20%/30%) on QQQ. Sensitivity sweep across (LOW, HIGH) pairs from 12/20 to 20/32 showed smooth Sharpe progression (0.53 → 0.82, no cliffs). Neighbors within ±5% Sharpe. Concept (vol-targeting) is mainstream. The 0.5 middle-tier weight is a tuned parameter. The 20/30 selection was discovered via iterative testing — caveat that more search increases overfit risk.*
+
+- **Compute:** 20-day annualized realized vol of QQQ returns
+- **Allocation:** vol < 20%: 100% TQQQ; 20% ≤ vol < 30%: 50% TQQQ; vol ≥ 30%: cash
+- **Symbols:** Signal: QQQ. Execution: TQQQ
+
+| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 34% | -42% | 0.818 | 93 | 34 | 2.74 | 1.62 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 34% | 🟢 18% | 🟢 1% | 🟢 118% | 🔴 -1% | 🟢 70% | 🟢 71% | 🟢 65% | 🔴 -38% | 🟢 118% | 🟢 51% | 🟢 3% |
 
 > [!code]- Click to view: 014.py
 > ```embed-python
@@ -363,16 +363,16 @@
 ## Strategy-15
 ### Full Ensemble (ultAlgo) (ultAlgo.py)
 
-- **Components:** StaticTQQQ60, IBSATRStop, RSIThreeVote, RangeBreakout, SMA200RSITiers, SMA150Trend, SMA200Pyramid, SMAFiveVote, DonchianFourVote, MomentumVote, TrendStretchExit, GoldenCrossATR, RangeCompressed, MFI14Hyst (14 sub-algos)
-- **Weighting:** Equal virtual equity split at start; aggregated proportionally each day, reset annually
+- **Components:** LeveragedRebalance, IBSATRStop, RSIThreeVote, RangeBreakout, SMA200RSITiers, SMA200Pyramid, SMAFiveVote (150×4), DonchianFiveVote, MomentumVote, TrendStretchExit, GoldenCrossATR, RangeCompressed, MFI14Hyst, VolRegime20 (14 sub-algos) + CashReserve (~3% sleeve). All 4 vote-based sub-algos (RSI3, SMA5, D5, Mom) use pure weighted rule: position = n/N.
+- **Weighting:** Each sub-algo gets a weight; equity reset to weight-proportional shares annually.
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 38% | -39% | 0.973 | 4044 | 1992 | 2.03 | 1.57 |
+| 39% | -34% | 1.036 | 4083 | 2104 | 1.94 | 1.54 |
 
 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 38% | 🟢 5% | 🟢 2% | 🟢 93% | 🔴 -3% | 🟢 56% | 🟢 118% | 🟢 72% | 🔴 -24% | 🟢 99% | 🟢 52% | 🟢 37% |
+| 🟢 35% | 🟢 6% | 🟢 2% | 🟢 87% | 🔴 -1% | 🟢 57% | 🟢 127% | 🟢 72% | 🔴 -20% | 🟢 96% | 🟢 50% | 🟢 37% |
 
 > [!code]- Click to view: ultAlgo.py
 > ```embed-python
