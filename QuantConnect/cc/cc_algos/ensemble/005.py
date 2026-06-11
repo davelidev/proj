@@ -3,7 +3,7 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class SMA200RSITiersSub(BaseSubAlgo):
-    """SMA(200) regime + RSI tiers. Above SMA: 100% on RSI(2)<30 dip, 20% on RSI(14)>70 overbought, else 50%. Below SMA: cash."""
+    """SMA(200) regime + RSI tiers on TQQQ. Above SMA: 100% on RSI(2)<30 dip, 20% on RSI(14)>70 overbought, 50% on first entry from cash, else hold current weight (sticky). Below SMA: cash."""
 
     def initialize(self):
         self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol

@@ -217,11 +217,10 @@ def generate_markdown(strategies, backtest_results, output_path, show_all=False,
         lines += ["*Strategies removed from active tracking if: CAGR < 28%, MaxDD > 58%, or Overfit ≥ 8/10.*", ""]
 
     # Summary table — # uses row position, not id
-    lines.append("| #                    | Pass | Category        | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |")
-    lines.append("| :------------------- | :--- | :-------------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |")
+    lines.append("| #                    | Pass | Title                                 | Category        | CAGR | MaxDD | Overfit |")
+    lines.append("| :------------------- | :--- | :------------------------------------ | :-------------- | :--- | :---- | :------ |")
     for row_num, (sid, meta) in enumerate(visible, 1):
         r      = backtest_results.get(sid, {})
-        stats  = _derive_trade_stats(r)
         cagr   = r.get("cagr_val", 0) or 0
         maxdd  = r.get("maxdd_val", 0) or 0
         if not r or "error" in r:
@@ -235,11 +234,10 @@ def generate_markdown(strategies, backtest_results, output_path, show_all=False,
         except (ValueError, AttributeError):
             file_num = row_num
         link = f"[{file_num}](#strategy-{file_num})"
+        title = meta.get("name", "—")
         lines.append(
-            f"| {link:<20} | {pass_cell:<4} | {meta.get('category','—'):<15} | "
-            f"{r.get('cagr','—'):<4} | {r.get('maxdd','—'):<5} | {r.get('sharpe','—'):<6} | "
-            f"{stats['win_count']:<5} | {stats['loss_count']:<5} | {stats['wl_ratio']:<8} | "
-            f"{stats['profit_ratio']:<12} | {meta.get('overfit','—'):<6} |"
+            f"| {link:<20} | {pass_cell:<4} | {title:<37} | {meta.get('category','—'):<15} | "
+            f"{r.get('cagr','—'):<4} | {r.get('maxdd','—'):<5} | {meta.get('overfit','—'):<6} |"
         )
 
     lines += [""]

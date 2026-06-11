@@ -53,7 +53,7 @@ class BaseSubAlgo:
 
 
 class LeveragedRebalanceSub(BaseSubAlgo):
-    """Static 60% allocation split equally across SYMBOLS. Rebalances once per year."""
+    """Static 60% allocation to TQQQ. Rebalances back to 60% once per year (per-year drift harvest)."""
 
     SYMBOLS = ["TQQQ"]
 
@@ -208,7 +208,7 @@ class RangeBreakoutSub(BaseSubAlgo):
 
 
 class SMA200RSITiersSub(BaseSubAlgo):
-    """SMA(200) regime + RSI tiers. Above SMA: 100% on RSI(2)<30 dip, 20% on RSI(14)>70 overbought, else 50%. Below SMA: cash."""
+    """SMA(200) regime + RSI tiers on TQQQ. Above SMA: 100% on RSI(2)<30 dip, 20% on RSI(14)>70 overbought, 50% on first entry from cash, else hold current weight (sticky). Below SMA: cash."""
 
     def initialize(self):
         self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
@@ -591,7 +591,7 @@ class VolRegime20Sub(BaseSubAlgo):
 
 
 
-# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/utils/ultAlgo.py ---
+# --- Content from /Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/utils/ultAlgoNQ.py ---
 
 
 
@@ -617,15 +617,50 @@ class CashReserveSub(BaseSubAlgo):
         self.targets = {self.bil: 1.0}
 
 
-class UltimateAlgo(QCAlgorithm):
-    REBAL_DRIFT       = 0.005  # skip SetHoldings if per-symbol drift < this
+# ---------------------------------------------------------------------------
+# UltimateAlgoNQ — same sub-algos and aggregation as UltimateAlgo, but trades
+# Nasdaq-100 e-mini futures (MNQ) instead of the TQQQ/SOXL/TECL ETF basket.
+#
+# Translation:
+#   Each sub still computes targets in {TQQQ, SOXL, TECL, BIL} weights.
+#   Aggregator sums all "leveraged-equity" weights into a single NQ exposure:
+#       nq_weight = (agg[TQQQ] + agg[SOXL] + agg[TECL]) × LEV_FACTOR
+#   where LEV_FACTOR = 3.0 to mimic TQQQ's 3x leverage with unlevered NQ futures.
+#   Cash sleeve still holds BIL.
+# ---------------------------------------------------------------------------
+
+class UltimateAlgoNQ(QCAlgorithm):
+    REBAL_DRIFT       = 0.005  # skip if drift < this
     BIL_MIN_REMAINING = 0.01   # route idle capital to BIL above this fraction
+    # Target NQ notional = portfolio_value × lev_eq_weight × LEV_FACTOR
+    # LEV_FACTOR=3.0 matches TQQQ's 3x leverage on a 1x NQ contract
+    LEV_FACTOR        = 3.0
+    MAX_NQ_NOTIONAL   = 3.0    # cap notional at 3x portfolio for safety
+
+    # Symbols that represent leveraged-equity exposure (replace with NQ futures at execution)
+    LEV_EQ_TICKERS    = ["TQQQ", "SOXL", "TECL"]
 
     def Initialize(self):
         self.SetStartDate(*START_DATE)
         self.SetEndDate(*END_DATE)
-        self.SetCash(INITIAL_CASH)
-        self.bil         = self.AddEquity("BIL", Resolution.Daily).Symbol
+        # NQ contract value reaches ~$440k by 2025; bump capital so contracts
+        # don't round to zero. Use 10x base capital ($1M).
+        self.SetCash(INITIAL_CASH * 10)
+
+        # BIL: cash sleeve (held directly)
+        self.bil = self.AddEquity("BIL", Resolution.Daily).Symbol
+
+        # Nasdaq-100 E-mini futures (continuous, back-adjusted prices).
+        # Using NQ (full history back to 1999) instead of MNQ (launched May 2019).
+        # NQ multiplier = $20/point; needs larger account for granular sizing.
+        self.nq_future = self.AddFuture(
+            Futures.Indices.MicroNASDAQ100EMini,
+            Resolution.Daily,
+            dataNormalizationMode=DataNormalizationMode.BackwardsRatio,
+            dataMappingMode=DataMappingMode.OpenInterest,
+            contractDepthOffset=0,
+        )
+
         self.last_prices = {}
         self._last_year  = None
 
@@ -652,11 +687,18 @@ class UltimateAlgo(QCAlgorithm):
             sub = cls(self, name)
             sub.weight             = w
             sub.equity             = INITIAL_CASH * w / total_w
-            sub.active             = True   # set False permanently if equity hits 0
+            sub.active             = True
             sub.trade_count        = 0
             sub._prev_targets_snap = {}
-            sub.initialize()
+            sub.initialize()  # subs add TQQQ/SOXL/TECL for indicators (price-only, not held)
             self.sub_algos.append(sub)
+
+        # Cache leveraged-equity symbols (after sub-algos have registered them)
+        self.lev_eq_syms = set()
+        for ticker in self.LEV_EQ_TICKERS:
+            sym = next((s for s in self.Securities.Keys if s.Value == ticker), None)
+            if sym is not None:
+                self.lev_eq_syms.add(sym)
 
         self.SetWarmUp(WARMUP_DAYS, Resolution.Daily)
         self.Schedule.On(
@@ -690,6 +732,7 @@ class UltimateAlgo(QCAlgorithm):
         for sub in self._alive():
             profit = 0
             for sym, weight in sub.targets.items():
+                if sym not in self.Securities: continue
                 price = self.Securities[sym].Price
                 last  = self.last_prices.get(sym, price)
                 if last > 0:
@@ -700,7 +743,7 @@ class UltimateAlgo(QCAlgorithm):
             if sub.equity <= 0:
                 sub.active = False
                 sub.targets = {}
-                self.Log(f"SUB DISABLED: {sub.id} virtual equity hit zero — locked out permanently")
+                self.Log(f"SUB DISABLED: {sub.id} virtual equity hit zero")
 
         for x in self.Securities.Values:
             if x.Price > 0: self.last_prices[x.Symbol] = x.Price
@@ -730,28 +773,57 @@ class UltimateAlgo(QCAlgorithm):
         total_v = sum(s.equity for s in alive)
         if total_v <= 0: return
 
-        # Aggregate: each active sub's targets contribute proportional to its virtual share
+        # Aggregate sub.targets weighted by virtual share
         agg = {}
         for sub in alive:
             share = sub.equity / total_v
             for sym, w in sub.targets.items():
                 agg[sym] = agg.get(sym, 0) + w * share
 
-        # Route remaining uninvested capital to BIL
-        remaining = max(0, 1.0 - sum(agg.values()))
-        if remaining > self.BIL_MIN_REMAINING:
-            agg[self.bil] = agg.get(self.bil, 0) + remaining
+        # Sum all leveraged-equity exposure → target NQ notional
+        lev_eq_weight = sum(agg.get(s, 0) for s in self.lev_eq_syms)
+        target_notional_pct = min(self.MAX_NQ_NOTIONAL, lev_eq_weight * self.LEV_FACTOR)
 
-        # Execute: SetHoldings for symbols whose actual position drifted from target
-        for sym, w in agg.items():
-            cur = self.Portfolio[sym].HoldingsValue / total_real
-            if abs(w - cur) > self.REBAL_DRIFT:
-                self.SetHoldings(sym, w)
+        # Cash sleeve: remaining capital → BIL
+        bil_weight = agg.get(self.bil, 0)
+        # Add any uninvested residual from leveraged-equity bucket
+        residual = max(0, 1.0 - lev_eq_weight - bil_weight)
+        if residual > self.BIL_MIN_REMAINING:
+            bil_weight += residual
 
-        # Liquidate any held symbol no longer in aggregated targets
-        for x in self.Portfolio.Values:
-            if x.Invested and x.Symbol not in agg:
-                self.Liquidate(x.Symbol)
+        # Execute: NQ futures — compute target contracts explicitly to control notional
+        mapped = self.nq_future.Mapped
+        if mapped is not None and mapped in self.Securities and self.Securities[mapped].Price > 0:
+            contract_price = self.Securities[mapped].Price
+            contract_multiplier = self.Securities[mapped].SymbolProperties.ContractMultiplier
+            contract_value = contract_price * contract_multiplier  # $ per contract
+            target_notional = total_real * target_notional_pct
+            target_qty = int(target_notional / contract_value)
+            # Current contract quantity across all NQ contracts (handles roll-overs)
+            current_qty = sum(
+                self.Portfolio[s].Quantity
+                for s in self.Portfolio.Keys
+                if s.SecurityType == SecurityType.Future and s.Canonical == self.nq_future.Symbol
+            )
+            diff = target_qty - int(current_qty)
+            if diff != 0:
+                self.MarketOrder(mapped, diff)
+
+        # Execute: BIL cash sleeve
+        bil_cur = self.Portfolio[self.bil].HoldingsValue / total_real
+        if abs(bil_weight - bil_cur) > self.REBAL_DRIFT:
+            self.SetHoldings(self.bil, bil_weight)
+
+        # Liquidate any TQQQ/SOXL/TECL positions if accidentally invested (shouldn't be)
+        for sym in self.lev_eq_syms:
+            if self.Portfolio[sym].Invested:
+                self.Liquidate(sym)
+
+    # NOTE: deliberately no OnSymbolChangedEvents roll handler.
+    # Testing showed explicit early-roll pays ~0.7% calendar spread × 4 rolls/year ≈ 3% drag.
+    # Implicit behavior (hold expiring contract → QC cash-settles at expiration → next
+    # _execute_aggregation buys the new mapped contract) captures basis convergence.
+    # Backtest comparison: implicit = 40%/-34%/1.058 vs explicit = 35%/-34%/0.948.
 
     def OnEndOfAlgorithm(self):
         for sub in self.sub_algos:

@@ -1,49 +1,49 @@
 # potentials
 
-| #                    | Pass | Category        | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
-| :------------------- | :--- | :-------------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
-| [1](#strategy-1)     | ✅    | Dip Buy         | 32%  | -50%  | 0.772  | 57    | 24    | 2.38     | 1.45         | 3/10   |
-| [2](#strategy-2)     | ❌    | Mean Reversion  | 27%  | -44%  | 0.835  | 452   | 254   | 1.78     | 1.22         | 2/10   |
-| [3](#strategy-3)     | ✅    | Rotation        | 38%  | -54%  | 0.818  | 220   | 228   | 0.96     | 1.98         | 6/10   |
-| [4](#strategy-4)     | ✅    | Mean Reversion  | 39%  | -55%  | 0.917  | 237   | 92    | 2.58     | 0.98         | 4/10   |
-| [7](#strategy-7)     | ✅    | Dip Buy         | 30%  | -39%  | 0.864  | 54    | 10    | 5.40     | 5.11         | 4/10   |
-| [8](#strategy-8)     | ❌    | Rotation        | 27%  | -43%  | 0.709  | 219   | 166   | 1.32     | 2.50         | 4/10   |
-| [10](#strategy-10)   | ✅    | Trend/MR Hybrid | 49%  | -48%  | 0.991  | 71    | 58    | 1.22     | 4.32         | 5/10   |
-| [11](#strategy-11)   | ✅    | Trend/MR Hybrid | 30%  | -23%  | 1.073  | 827   | 650   | 1.27     | 2.06         | 3/10   |
-| [12](#strategy-12)   | ✅    | Rotation        | 29%  | -48%  | 0.7    | 69    | 66    | 1.05     | 3.15         | 5/10   |
-| [14](#strategy-14)   | ✅    | Trend           | 38%  | -49%  | 0.885  | 309   | 252   | 1.23     | 2.65         | 3/10   |
-| [17](#strategy-17)   | ✅    | Trend           | 33%  | -44%  | 0.81   | 294   | 231   | 1.27     | 2.47         | 3/10   |
-| [18](#strategy-18)   | ✅    | Trend           | 31%  | -40%  | 0.806  | 204   | 249   | 0.82     | 3.01         | 3/10   |
-| [19](#strategy-19)   | ✅    | Trend           | 32%  | -43%  | 0.846  | 386   | 492   | 0.78     | 3.88         | 3/10   |
-| [20](#strategy-20)   | ✅    | Regime          | 39%  | -46%  | 0.892  | 290   | 247   | 1.17     | 2.06         | 4/10   |
-| [21](#strategy-21)   | ✅    | Trend           | 31%  | -43%  | 0.794  | 193   | 256   | 0.75     | 3.27         | 3/10   |
-| [22](#strategy-22)   | ✅    | Momentum        | 35%  | -50%  | 0.843  | 218   | 267   | 0.82     | 3.13         | 3/10   |
-| [23](#strategy-23)   | ✅    | Momentum        | 37%  | -49%  | 0.87   | 312   | 255   | 1.22     | 2.56         | 4/10   |
-| [24](#strategy-24)   | ✅    | Momentum        | 38%  | -50%  | 0.886  | 292   | 239   | 1.22     | 2.67         | 3/10   |
-| [26](#strategy-26)   | ✅    | Hybrid          | 31%  | -44%  | 0.754  | 914   | 661   | 1.38     | 1.48         | 4/10   |
-| [27](#strategy-27)   | ✅    | Hybrid          | 33%  | -45%  | 0.802  | 850   | 615   | 1.38     | 1.57         | 4/10   |
-| [28](#strategy-28)   | ✅    | Hybrid          | 31%  | -50%  | 0.752  | 1055  | 733   | 1.44     | 1.39         | 4/10   |
-| [29](#strategy-29)   | ✅    | Momentum        | 35%  | -50%  | 0.843  | 218   | 267   | 0.82     | 3.13         | 2/10   |
-| [30](#strategy-30)   | ✅    | Hybrid          | 31%  | -29%  | 0.831  | 744   | 745   | 1.00     | 2.10         | 4/10   |
-| [31](#strategy-31)   | ✅    | Hybrid          | 31%  | -33%  | 0.864  | 817   | 642   | 1.27     | 1.73         | 4/10   |
-| [33](#strategy-33)   | ✅    | Hybrid          | 29%  | -42%  | 0.772  | 238   | 303   | 0.79     | 3.03         | 4/10   |
-| [35](#strategy-35)   | ✅    | Price Position  | 30%  | -55%  | 0.697  | 40    | 65    | 0.62     | 8.15         | 1/10   |
-| [36](#strategy-36)   | ✅    | Breadth         | 33%  | -53%  | 0.803  | 209   | 246   | 0.85     | 2.96         | 2/10   |
-| [37](#strategy-37)   | ✅    | Price Position  | 35%  | -54%  | 0.785  | 70    | 83    | 0.84     | 4.80         | 2/10   |
-| [38](#strategy-38)   | ✅    | Breadth         | 33%  | -53%  | 0.803  | 209   | 246   | 0.85     | 2.96         | 2/10   |
-| [39](#strategy-39)   | ✅    | TII             | 30%  | -44%  | 0.711  | 545   | 446   | 1.22     | 1.44         | 2/10   |
-| [41](#strategy-41)   | ✅    | Breakout        | 43%  | -37%  | 0.986  | 192   | 341   | 0.56     | 3.45         | 3/10   |
-| [42](#strategy-42)   | ❌    | Dip Buy         | 28%  | -40%  | 0.856  | 32    | 26    | 1.23     | 3.20         | 2/10   |
-| [43](#strategy-43)   | ❌    | Momentum        | 27%  | -26%  | 0.981  | 3552  | 888   | 4.00     | 0.59         | 2/10   |
-| [49](#strategy-49)   | ✅    | Momentum        | 33%  | -40%  | 0.837  | 194   | 247   | 0.79     | 3.46         | 2/10   |
-| [54](#strategy-54)   | ✅    | Trend           | 37%  | -57%  | 0.796  | 34    | 51    | 0.67     | 9.51         | 2/10   |
-| [56](#strategy-56)   | ✅    | Price Position  | 34%  | -55%  | 0.78   | 22    | 55    | 0.40     | 10.02        | 1/10   |
-| [57](#strategy-57)   | ✅    | Momentum        | 35%  | -50%  | 0.834  | 112   | 131   | 0.85     | 3.02         | 3/10   |
-| [58](#strategy-58)   | ✅    | Momentum        | 32%  | -53%  | 0.792  | 98    | 129   | 0.76     | 3.31         | 3/10   |
-| [59](#strategy-59)   | ✅    | Trend           | 29%  | -45%  | 0.695  | —     | —     | —        | 1.09         | 3/10   |
-| [60](#strategy-60)   | ✅    | Mean Reversion  | 40%  | -32%  | 0.953  | 1281  | 928   | 1.38     | 1.47         | 4/10   |
-| [61](#strategy-61)   | ✅    | Trend           | 29%  | -43%  | 0.814  | 741   | 711   | 1.04     | 3.24         | 4/10   |
-| [62](#strategy-62)   | ✅    | Trend Following | 40%  | -55%  | 0.871  | 21    | 36    | 0.58     | 14.75        | 5/10   |
+| #                    | Pass | Title                                 | Category        | CAGR | MaxDD | Overfit |
+| :------------------- | :--- | :------------------------------------ | :-------------- | :--- | :---- | :------ |
+| [1](#strategy-1)     | ✅    | Research S11 - Cheat Code Rotator TQQQ | Dip Buy         | 32%  | -50%  | 3/10   |
+| [2](#strategy-2)     | ❌    | Giant Sniper Mean-Reversion           | Mean Reversion  | 27%  | -44%  | 2/10   |
+| [3](#strategy-3)     | ✅    | Defensive Rotation                    | Rotation        | 38%  | -54%  | 6/10   |
+| [4](#strategy-4)     | ✅    | IBS regime-adaptive                   | Mean Reversion  | 39%  | -55%  | 4/10   |
+| [7](#strategy-7)     | ✅    | Mega-Cap Value Averaging              | Dip Buy         | 30%  | -39%  | 4/10   |
+| [8](#strategy-8)     | ❌    | 5x 3x-Leveraged ETF Basket + QQQ Vol Gate | Rotation        | 27%  | -43%  | 4/10   |
+| [10](#strategy-10)   | ✅    | TQQQ hybrid + ATR                     | Trend/MR Hybrid | 49%  | -48%  | 5/10   |
+| [11](#strategy-11)   | ✅    | 5 most mkt cap + IBS regime mix       | Trend/MR Hybrid | 30%  | -23%  | 3/10   |
+| [12](#strategy-12)   | ✅    | Nasdaq-100 Breadth Rotation           | Rotation        | 29%  | -48%  | 5/10   |
+| [14](#strategy-14)   | ✅    | 3-State ROC(20) + Donchian-200        | Trend           | 38%  | -49%  | 3/10   |
+| [17](#strategy-17)   | ✅    | 3-State Dual-ROC + D200               | Trend           | 33%  | -44%  | 3/10   |
+| [18](#strategy-18)   | ✅    | ROC+D200 + 5% Trail Exit              | Trend           | 31%  | -40%  | 3/10   |
+| [19](#strategy-19)   | ✅    | TQQQ Pyramid 30%/day                  | Trend           | 32%  | -43%  | 3/10   |
+| [20](#strategy-20)   | ✅    | Mega-Cap Dispersion Regime            | Regime          | 39%  | -46%  | 4/10   |
+| [21](#strategy-21)   | ✅    | ROC+D200 + 7% Trail Binary            | Trend           | 31%  | -43%  | 3/10   |
+| [22](#strategy-22)   | ✅    | CMO(20) Momentum                      | Momentum        | 35%  | -50%  | 3/10   |
+| [23](#strategy-23)   | ✅    | 3-State CMO+Median200                 | Momentum        | 37%  | -49%  | 4/10   |
+| [24](#strategy-24)   | ✅    | 3-State CMO+52w-High Gate             | Momentum        | 38%  | -50%  | 3/10   |
+| [26](#strategy-26)   | ✅    | UpDnVol+52w+Top3                      | Hybrid          | 31%  | -44%  | 4/10   |
+| [27](#strategy-27)   | ✅    | Mom20+52w+Top3                        | Hybrid          | 33%  | -45%  | 4/10   |
+| [28](#strategy-28)   | ✅    | M252_NEAR60_VOLCONT+Top3              | Hybrid          | 31%  | -50%  | 4/10   |
+| [29](#strategy-29)   | ✅    | ROC20_Zero                            | Momentum        | 35%  | -50%  | 2/10   |
+| [30](#strategy-30)   | ✅    | OBV20_CCI20                           | Hybrid          | 31%  | -29%  | 4/10   |
+| [31](#strategy-31)   | ✅    | OBV20_ADX14                           | Hybrid          | 31%  | -33%  | 4/10   |
+| [33](#strategy-33)   | ✅    | CCI20+ROC20+ATR                       | Hybrid          | 29%  | -42%  | 4/10   |
+| [35](#strategy-35)   | ✅    | Price52W_Percentile                   | Price Position  | 30%  | -55%  | 1/10   |
+| [36](#strategy-36)   | ✅    | UpDay_Count20                         | Breadth         | 33%  | -53%  | 2/10   |
+| [37](#strategy-37)   | ✅    | Price126D_Percentile                  | Price Position  | 35%  | -54%  | 2/10   |
+| [38](#strategy-38)   | ✅    | UpDay_Count55pct                      | Breadth         | 33%  | -53%  | 2/10   |
+| [39](#strategy-39)   | ✅    | TII(20) >50.0 Bull                    | TII             | 30%  | -44%  | 2/10   |
+| [41](#strategy-41)   | ✅    | TQQQ Intrabar Vol Breakout            | Breakout        | 43%  | -37%  | 3/10   |
+| [42](#strategy-42)   | ❌    | Tech Dip Buy                          | Dip Buy         | 28%  | -40%  | 2/10   |
+| [43](#strategy-43)   | ❌    | Top-5 MarketCap IBS Regime            | Momentum        | 27%  | -26%  | 2/10   |
+| [49](#strategy-49)   | ✅    | 2-State CMO+52w-High Gate             | Momentum        | 33%  | -40%  | 2/10   |
+| [54](#strategy-54)   | ✅    | Donchian-200 Midline                  | Trend           | 37%  | -57%  | 2/10   |
+| [56](#strategy-56)   | ✅    | Price 126D Percentile                 | Price Position  | 34%  | -55%  | 1/10   |
+| [57](#strategy-57)   | ✅    | ROC(20) Zero Cross                    | Momentum        | 35%  | -50%  | 3/10   |
+| [58](#strategy-58)   | ✅    | Up-Day Count(20)                      | Momentum        | 32%  | -53%  | 3/10   |
+| [59](#strategy-59)   | ✅    | TII(20) Trend Intensity               | Trend           | 29%  | -45%  | 3/10   |
+| [60](#strategy-60)   | ✅    | QQQ RSI(2) Dip → Equal-Weight TQQQ/SOXL/TECL | Mean Reversion  | 40%  | -32%  | 4/10   |
+| [61](#strategy-61)   | ✅    | TQQQ Pyramid (10%/day)                | Trend           | 29%  | -43%  | 4/10   |
+| [62](#strategy-62)   | ✅    | SMA150 Trend                          | Trend Following | 40%  | -55%  | 5/10   |
 
 | #                    | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :------------------- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |

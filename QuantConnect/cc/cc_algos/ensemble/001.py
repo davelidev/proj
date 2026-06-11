@@ -3,7 +3,7 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class LeveragedRebalanceSub(BaseSubAlgo):
-    """Static 60% allocation split equally across SYMBOLS. Rebalances once per year."""
+    """Static 60% allocation to TQQQ. Rebalances back to 60% once per year (per-year drift harvest)."""
 
     SYMBOLS = ["TQQQ"]
 

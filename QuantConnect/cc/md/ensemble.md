@@ -1,22 +1,22 @@
 # ensemble
 
-| #                    | Pass | Category        | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio | Overfit |
-| :------------------- | :--- | :-------------- | :--- | :---- | :----- | :---- | :----- | :-------- | :----------- | :------ |
-| [1](#strategy-1)     | ✅    | Buy & Hold      | 28%  | -51%  | 0.727  | 12    | 0     | —        | —            | 3/10   |
-| [2](#strategy-2)     | ✅    | Mean Reversion  | 56%  | -50%  | 1.152  | 803   | 328   | 2.45     | 0.91         | 4/10   |
-| [3](#strategy-3)     | ✅    | Mean Reversion  | 45%  | -35%  | 1.020  | 1905  | 816   | 2.33     | 0.83         | 3/10   |
-| [4](#strategy-4)     | ✅    | Breakout        | 38%  | -49%  | 0.886  | 94    | 76    | 1.24     | 2.19         | 4/10   |
-| [5](#strategy-5)     | ✅    | Trend Following | 29%  | -45%  | 0.705  | 107   | 63    | 1.70     | 1.45         | 4/10   |
-| [6](#strategy-6)     | ✅    | Trend           | 30%  | -51%  | 0.715  | 120   | 70    | 1.71     | 4.25         | 4/10   |
-| [7](#strategy-7)     | ✅    | Trend Following | 33%  | -49%  | 0.783  | 442   | 181   | 2.44     | 1.26         | 5/10   |
-| [8](#strategy-8)     | ✅    | Trend           | 32%  | -53%  | 0.742  | 184   | 128   | 1.44     | 2.06         | 4/10   |
-| [9](#strategy-9)     | ✅    | Trend           | 35%  | -36%  | 0.927  | 518   | 331   | 1.56     | 1.34         | 8/10   |
-| [10](#strategy-10)   | ✅    | Mean Reversion  | 39%  | -56%  | 0.914  | 16    | 49    | 0.33     | 15.46        | 4/10   |
-| [11](#strategy-11)   | ✅    | Trend           | 43%  | -56%  | 0.891  | 90    | 83    | 1.08     | 2.34         | 3/10   |
-| [12](#strategy-12)   | ✅    | Range           | 34%  | -41%  | 0.816  | 67    | 47    | 1.43     | 3.38         | 2/10   |
-| [13](#strategy-13)   | ✅    | Volume          | 30%  | -44%  | 0.769  | 52    | 40    | 1.30     | 2.85         | 3/10   |
-| [14](#strategy-14)   | ✅    | Volatility      | 34%  | -42%  | 0.818  | 93    | 34    | 2.74     | 1.62         | 3/10   |
-| [15](#strategy-15)   | ✅    | Ensemble        | 39%  | -34%  | 1.036  | 4083  | 2104  | 1.94     | 1.54         |        |
+| #                    | Pass | Title                                 | Category        | CAGR | MaxDD | Overfit |
+| :------------------- | :--- | :------------------------------------ | :-------------- | :--- | :---- | :------ |
+| [1](#strategy-1)     | ✅    | Leveraged Rebalance                   | Buy & Hold      | 28%  | -51%  | 3/10   |
+| [2](#strategy-2)     | ✅    | IBS ATR Stop                          | Mean Reversion  | 56%  | -50%  | 4/10   |
+| [3](#strategy-3)     | ✅    | RSI Three Vote                        | Mean Reversion  | 45%  | -35%  | 3/10   |
+| [4](#strategy-4)     | ✅    | Range Breakout                        | Breakout        | 38%  | -49%  | 4/10   |
+| [5](#strategy-5)     | ✅    | SMA200 RSI Tiers                      | Trend Following | 29%  | -45%  | 4/10   |
+| [6](#strategy-6)     | ✅    | SMA200 Pyramid                        | Trend           | 30%  | -51%  | 4/10   |
+| [7](#strategy-7)     | ✅    | SMA Five Vote (150 weighted)          | Trend Following | 33%  | -49%  | 5/10   |
+| [8](#strategy-8)     | ✅    | Donchian Five Vote                    | Trend           | 32%  | -53%  | 4/10   |
+| [9](#strategy-9)     | ✅    | Momentum Vote                         | Trend           | 35%  | -36%  | 8/10   |
+| [10](#strategy-10)   | ✅    | Trend Stretch Exit                    | Mean Reversion  | 39%  | -56%  | 4/10   |
+| [11](#strategy-11)   | ✅    | Golden Cross ATR                      | Trend           | 43%  | -56%  | 3/10   |
+| [12](#strategy-12)   | ✅    | Range Compressed                      | Range           | 34%  | -41%  | 2/10   |
+| [13](#strategy-13)   | ✅    | MFI14 Hyst                            | Volume          | 30%  | -44%  | 3/10   |
+| [14](#strategy-14)   | ✅    | Vol Regime 20                         | Volatility      | 34%  | -42%  | 3/10   |
+| [15](#strategy-15)   | ✅    | Full Ensemble (ultAlgo)               | Ensemble        | 39%  | -34%  |        |
 
 | #                    | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :------------------- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -42,8 +42,8 @@
 
 *Overfit 3/10 — Single tuned allocation (60%) with no signal sensitivity — annual rebalance is mechanical. 60% is a deliberate choice (vs 50%, 70%, or 100%) but the strategy has no other parameters to tune.*
 
-- **Entry:** 60% TQQQ at all times (rebalanced once per year)
-- **Exit:** No exit; static allocation
+- **Entry:** 60% TQQQ at all times
+- **Exit:** No exit; annual rebalance back to 60%
 - **Symbols:** Execution: TQQQ
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -134,7 +134,7 @@
 
 *Overfit 4/10 — RSI overbought threshold sweep: >60 (24%/0.63), >70 (29%/0.70), >80 (31%/0.74) — mild gradient, not a sharp peak. RSI<30 dip and SMA200 are canonical. Multiple thresholds tuned but within reasonable ranges.*
 
-- **Entry:** TQQQ > SMA(200): 50% on first entry, 100% on RSI(2, Wilder) < 30 dip, 20% on RSI(14, Wilder) > 70 overbought
+- **Entry:** TQQQ > SMA(200): 50% on first entry from cash, 100% on RSI(2, Wilder) < 30 dip, 20% on RSI(14, Wilder) > 70 overbought, else hold current weight (sticky)
 - **Exit:** TQQQ ≤ SMA(200): cash
 - **Symbols:** Signal & Execution: TQQQ
 
