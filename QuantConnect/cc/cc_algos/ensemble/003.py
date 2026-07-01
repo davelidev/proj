@@ -21,14 +21,12 @@ class RSIThreeVoteSub(BaseSubAlgo):
             self.rsi.Update(index[1], row.close)
 
     def update_targets(self):
+        # Feed the manual RSI every day (incl. warmup) so its window stays contiguous
+        close = self.algo.Securities[self.qqq].Price
+        self.rsi.Update(self.algo.Time, close)
+
         if self.algo.IsWarmingUp:
             return False
-
-        # Get today's current close at 3:50 PM ET
-        close = self.algo.Securities[self.qqq].Price
-
-        # Update the manual RSI with today's 3:50 PM close proxy
-        self.rsi.Update(self.algo.Time, close)
 
         if not self.rsi.IsReady:
             return False

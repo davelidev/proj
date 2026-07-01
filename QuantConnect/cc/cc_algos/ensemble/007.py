@@ -22,15 +22,13 @@ class SMAFiveVoteSub(BaseSubAlgo):
                 sma.Update(index[1], row.close)
 
     def update_targets(self):
-        if self.algo.IsWarmingUp:
-            return False
-
-        # Get today's close at 3:50 PM ET
+        # Feed manual SMAs every day (incl. warmup) for a contiguous window
         close = self.algo.Securities[self.qqq].Price
-
-        # Update the manual SMAs with today's price
         for sma in self.sma_map.values():
             sma.Update(self.algo.Time, close)
+
+        if self.algo.IsWarmingUp:
+            return False
 
         if not all(sma.IsReady for sma in self.sma_map.values()):
             return False

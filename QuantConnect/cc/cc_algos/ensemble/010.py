@@ -16,11 +16,12 @@ class TrendStretchExitSub(BaseSubAlgo):
             self.sma200.Update(index[1], row.close)
 
     def update_targets(self):
-        if self.algo.IsWarmingUp:
-            return False
-
+        # Feed manual SMA every day (incl. warmup) for a contiguous window
         price = self.algo.Securities[self.qqq].Price
         self.sma200.Update(self.algo.Time, price)
+
+        if self.algo.IsWarmingUp:
+            return False
 
         if not self.sma200.IsReady:
             return False

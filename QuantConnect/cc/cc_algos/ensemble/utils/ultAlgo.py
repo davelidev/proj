@@ -39,7 +39,7 @@ class UltimateAlgo(QCAlgorithm):
 
         sub_specs = [
             (LeveragedRebalanceSub,  "LevRebal",       10),
-            # (IBSATRStopSub,          "IBSBasket",      10),
+            (IBSATRStopSub,          "IBSBasket",      10),
             (RSIThreeVoteSub,        "RSI2DipVote",    10),
             (RangeBreakoutSub,       "RangeBreak",     10),
             (SMA200RSITiersSub,      "SMA200Tiers",    10),
@@ -48,7 +48,7 @@ class UltimateAlgo(QCAlgorithm):
             (DonchianFiveVoteSub,    "D5Vote",         10),
             (MomentumVoteSub,        "MomVote",        10),
             (TrendStretchExitSub,    "StretchExit",    10),
-            # (GoldenCrossATRSub,      "GoldXATR",       10),
+            (GoldenCrossATRSub,      "GoldXATR",       10),
             (RangeCompressedSub,     "RangeCompr",     10),
             (MFI14HystSub,           "MFI14Hyst",      10),
             (VolRegime20Sub,         "VolReg20",       10),
@@ -67,7 +67,7 @@ class UltimateAlgo(QCAlgorithm):
             sub.initialize()
             self.sub_algos.append(sub)
 
-        self.SetWarmUp(WARMUP_DAYS, Resolution.Daily)
+        self.SetWarmUp(timedelta(days=WARMUP_DAYS), Resolution.Minute)
         self.Schedule.On(
             self.DateRules.EveryDay(SCHEDULE_TICKER),
             self.TimeRules.BeforeMarketClose(SCHEDULE_TICKER, 10),

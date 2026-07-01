@@ -89,7 +89,7 @@ def _make_standalone(sub_cls):
                 for name, func in universes.items():
                     self.AddUniverse(self._wrap_selection(name, func))
                     
-            self.SetWarmUp(WARMUP_DAYS)
+            self.SetWarmUp(timedelta(days=WARMUP_DAYS), Resolution.Minute)
             if not uses_on_data:
                 self.Schedule.On(
                     self.DateRules.EveryDay("SPY"),
@@ -105,9 +105,12 @@ def _make_standalone(sub_cls):
             return wrapped
 
         def _rebalance(self):
-            if self.IsWarmingUp: return
+            # Call update_targets even during warmup so subs can feed their manual
+            # indicators with a contiguous window; only skip live execution.
             prev = dict(self._sub.targets)
             rv = self._sub.update_targets()
+            if self.IsWarmingUp:
+                return
             # Execute on dict change OR if sub explicitly returns True (e.g. LevRebal yearly)
             if self._sub.targets != prev or rv is True:
                 self._execute()

@@ -22,16 +22,14 @@ class SMA200RSITiersSub(BaseSubAlgo):
             self.sma200.Update(index[1], row.close)
 
     def update_targets(self):
-        if self.algo.IsWarmingUp:
-            return False
-
-        # Get today's current close at 3:50 PM ET
+        # Feed manual indicators every day (incl. warmup) for a contiguous window
         price = self.algo.Securities[self.tqqq].Price
-
-        # Update manual indicators with today's 3:50 PM close proxy
         self.rsi2.Update(self.algo.Time, price)
         self.rsi14.Update(self.algo.Time, price)
         self.sma200.Update(self.algo.Time, price)
+
+        if self.algo.IsWarmingUp:
+            return False
 
         if not (self.rsi14.IsReady and self.sma200.IsReady):
             return False
