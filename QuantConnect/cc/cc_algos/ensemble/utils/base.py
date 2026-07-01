@@ -40,6 +40,28 @@ class BaseSubAlgo:
             return { self.id: self.universe_selection }
         return {}
 
+    def get_daily_bar(self, symbol):
+        """Aggregated TradeBar for the current day (09:30 → now, ~3:50 PM).
+
+        Returns None when no minute bars are available yet (e.g. during warmup),
+        so callers can skip rather than feed a degenerate flat bar into indicators.
+        """
+        start_time = self.algo.Time.replace(hour=9, minute=30, second=0, microsecond=0)
+        history = self.algo.History[TradeBar](symbol, start_time, self.algo.Time, Resolution.Minute)
+
+        bars = list(history)
+        if not bars:
+            return None
+
+        return TradeBar(
+            self.algo.Time, symbol,
+            bars[0].Open,
+            max(bar.High for bar in bars),
+            min(bar.Low for bar in bars),
+            bars[-1].Close,
+            sum(bar.Volume for bar in bars),
+        )
+
 
 # ---------------------------------------------------------------------------
 # Standalone mixin factory
@@ -71,7 +93,7 @@ def _make_standalone(sub_cls):
             if not uses_on_data:
                 self.Schedule.On(
                     self.DateRules.EveryDay("SPY"),
-                    self.TimeRules.AfterMarketOpen("SPY", DAILY_OPEN_MIN),
+                    self.TimeRules.BeforeMarketClose("SPY", 10),
                     self._rebalance,
                 )
 
@@ -138,4 +160,8 @@ def _make_standalone(sub_cls):
 
     Algo.__name__     = sub_cls.__name__.replace("Sub", "Algo")
     Algo.__qualname__ = Algo.__name__
+    # base.py is now a separate module, so the class created here defaults to
+    # __module__ == 'base'. QC's loader only recognizes a QCAlgorithm subclass
+    # living in main, so re-stamp it with the caller's (main) module.
+    Algo.__module__   = sub_cls.__module__
     return Algo

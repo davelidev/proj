@@ -119,7 +119,10 @@ def main():
 
     if len(sys.argv) > 2:
         nums = parse_nums(sys.argv[2:])
-        catalog = [e for e in catalog if int(e['file'].replace('.py', '')) in nums]
+        catalog = [
+            e for e in catalog 
+            if e['file'].replace('.py', '').split('/')[-1].isdigit() and int(e['file'].replace('.py', '').split('/')[-1]) in nums
+        ]
 
     batch_cfg = load_config(batch)
     algos_dir = os.path.join(SCRIPT_DIR, 'cc_algos', batch_cfg.get('_folder', batch))
@@ -129,7 +132,13 @@ def main():
     for entry in catalog:
         sid   = entry['id']
         fname = entry['file']
-        n     = int(fname.replace('.py', ''))
+        
+        base_name = fname.replace('.py', '').split('/')[-1]
+        try:
+            n = int(base_name)
+            name = f'{label}_{n:03d}'
+        except ValueError:
+            name = f'{label}_{base_name}'
 
         if sid in results and 'error' not in results[sid] and results[sid].get('status') == 'completed':
             r  = results[sid]
@@ -141,10 +150,29 @@ def main():
 
         filepath = os.path.join(algos_dir, fname)
         if not os.path.exists(filepath):
+            filepath_utils = os.path.join(algos_dir, "utils", fname)
+            if os.path.exists(filepath_utils):
+                filepath = filepath_utils
+
+        if not os.path.exists(filepath):
             print(f'{fname}: not found, skipping')
             continue
 
-        name = f'{label}_{n:03d}'
+        # Bundle standalone sub-algo or full ensemble if bundler exists
+        folder = batch_cfg.get('_folder', batch)
+        bundle_script = os.path.join(SCRIPT_DIR, 'cc_algos', folder, 'utils', 'bundle.py')
+        if os.path.exists(bundle_script):
+            import subprocess
+            try:
+                if "ultAlgo" in fname:
+                    subprocess.run(["python3", bundle_script], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    filepath = os.path.join(SCRIPT_DIR, 'cc_algos', folder, 'merged', 'ensemble.py')
+                else:
+                    subprocess.run(["python3", bundle_script, filepath], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    filepath = os.path.join(SCRIPT_DIR, 'cc_algos', folder, 'merged', 'standalone.py')
+            except Exception as e:
+                print(f"  [bundle error] Failed to bundle {fname}: {e}")
+
         print(f"\n{'='*60}\nRunning {fname}\n{'='*60}")
         sys.stdout.flush()
 
@@ -157,7 +185,10 @@ def main():
             print(f'\n  {pf} {fname}: CAGR={result["cagr"]}, MaxDD={result["maxdd"]}, Sharpe={result["sharpe"]}')
 
         save_results(results, outpath)
-        time.sleep(1)
+        if 'error' in result:
+            time.sleep(5)
+        else:
+            time.sleep(2)
 
     print('\n\n## Summary')
     print('| File | CAGR | MaxDD | Sharpe | Pass |')

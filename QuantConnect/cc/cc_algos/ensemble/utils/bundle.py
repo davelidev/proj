@@ -25,7 +25,25 @@ def detect_ensemble_files():
         with open(fpath) as f:
             if re.search(r"class \w+\(BaseSubAlgo\)", f.read()):
                 algo_files.append(fpath)
-    return [BASE_FILE] + algo_files + [ORCHESTRATOR_FILE]
+    # base.py is uploaded as its OWN project file (not inlined), so the bundle
+    # only contains the subs + the orchestrator, which import from base.
+    return algo_files + [ORCHESTRATOR_FILE]
+
+
+def strip_imports(content):
+    """Remove import lines so inlined files don't pull externals, BUT keep
+    `from base import ...` — the bundle imports those from the separately
+    uploaded base.py project file (base.py itself is no longer inlined)."""
+    out = []
+    for line in content.split("\n"):
+        s = line.lstrip()
+        if s.startswith("from base import"):
+            out.append(line)
+        elif re.match(r"from\s+\S+\s+import\s+", s) or re.match(r"import\s+\S+", s):
+            out.append("")  # strip, preserve line count
+        else:
+            out.append(line)
+    return "\n".join(out)
 
 def bundle(files, output_path, ensemble=False):
     # Ensure directory exists
@@ -45,15 +63,11 @@ def bundle(files, output_path, ensemble=False):
         seen_files.add(fpath)
         with open(fpath, "r") as f:
             content = f.read()
-            content = re.sub(r"^from\s+.*?import\s+.*$", "", content, flags=re.MULTILINE)
-            content = re.sub(r"^import\s+.*$", "", content, flags=re.MULTILINE)
+            content = strip_imports(content)
 
             if ensemble:
-                # Strip _make_standalone and standalone assignments — they create extra
-                # QCAlgorithm subclasses that cause QC to run the wrong class.
-                content = re.sub(
-                    r"\n# -{10,}\n# Standalone mixin factory\n# -{10,}\n\ndef _make_standalone\b.*?\n    return Algo\n",
-                    "\n", content, flags=re.DOTALL)
+                # Strip standalone assignments — they create extra QCAlgorithm
+                # subclasses that cause QC to run the wrong class.
                 content = re.sub(r"^\w+Algo\s*=\s*_make_standalone\(\w+\)\s*$", "", content, flags=re.MULTILINE)
 
             bundled_content += f"\n# --- Content from {fpath} ---\n"
@@ -72,7 +86,7 @@ def main():
         # Mini-Bundle (Standalone) mode
         target_file = sys.argv[1]
         output_name = os.path.join(OUTPUT_DIR, "standalone.py")
-        bundle([BASE_FILE, target_file], output_name)
+        bundle([target_file], output_name)
     else:
         # Full Ensemble mode
         ensemble_files = detect_ensemble_files()

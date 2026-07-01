@@ -4,12 +4,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Running Backtests
 
-**Run a batch of backtests (recommended):**
-```bash
-python3 cc/run_cc_batch.py 0                          # run/resume all CC000 backtests sequentially
-python3 cc/run_cc_batch.py 0 8 11 13                  # run specific algorithm file numbers in batch
-```
-
 **Run the full ensemble (primary workflow):**
 ```bash
 ult                          # alias for: python3 api/ult_run.py
@@ -24,6 +18,7 @@ ult strategies/algos/tech_dip.py
 ```bash
 python3 strategies/bundle.py                          # regenerate ensemble.py
 python3 api/run_qc_backtest.py <file> "<name>"        # upload + compile + start backtest; prints BACKTEST_ID=...
+python3 api/poll_backtest.py <backtest_id>            # poll until complete, prints summary stats
 python3 api/get_yearly_stats.py <backtest_id>         # fetch yearly returns breakdown
 ```
 

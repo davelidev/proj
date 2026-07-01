@@ -109,7 +109,7 @@ class UltimateAlgoNQ(QCAlgorithm):
         self.SetWarmUp(WARMUP_DAYS, Resolution.Daily)
         self.Schedule.On(
             self.DateRules.EveryDay(SCHEDULE_TICKER),
-            self.TimeRules.AfterMarketOpen(SCHEDULE_TICKER, DAILY_OPEN_MIN),
+            self.TimeRules.BeforeMarketClose(SCHEDULE_TICKER, 10),
             self.PerformDailyUpdate,
         )
 
@@ -117,11 +117,18 @@ class UltimateAlgoNQ(QCAlgorithm):
         return [s for s in self.sub_algos if s.active]
 
     def PerformDailyUpdate(self):
-        if self.IsWarmingUp: return
-        self._update_virtual_accounting()
-        self._maybe_yearly_reset()
+        # Account for P&L of the positions held since the last update BEFORE
+        # advancing targets — otherwise the prior day's price move is
+        # misattributed to whatever each sub decides today, corrupting virtual
+        # equity (and thus the equity-weighted aggregation, incl. the BIL reserve).
+        if not self.IsWarmingUp:
+            self._update_virtual_accounting()
+            self._maybe_yearly_reset()
+
         for sub in self._alive():
             sub.update_targets()
+
+        if self.IsWarmingUp: return
         self._track_trade_counts()
         self._execute_aggregation()
 

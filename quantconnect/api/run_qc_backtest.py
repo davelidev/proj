@@ -19,11 +19,26 @@ API_TOKEN = os.environ.get("QC_API_TOKEN")
 PROJECT_ID = os.environ.get("QC_PROJECT_ID")
 BASE_URL = os.environ.get("QC_BASE_URL", "https://www.quantconnect.com/api/v2")
 
+# base.py is uploaded as its own project file (not inlined) so main.py can
+# `from base import ...`. Keep it in sync on every run.
+BASE_PY_PATH = "/Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/utils/base.py"
+
 def get_auth_headers():
     timestamp = str(int(time.time()))
     token_hash = hashlib.sha256(f"{API_TOKEN}:{timestamp}".encode()).hexdigest()
     auth_64 = base64.b64encode(f"{USER_ID}:{token_hash}".encode()).decode()
     return {"Authorization": f"Basic {auth_64}", "Timestamp": timestamp}
+
+def upload_file(name, content, headers):
+    """Update a project file, creating it first if it doesn't exist yet."""
+    resp = requests.post(f"{BASE_URL}/files/update", headers=headers,
+                         json={"projectId": PROJECT_ID, "name": name, "content": content})
+    if resp.json().get("success"):
+        return True
+    # File may not exist yet — create it.
+    resp = requests.post(f"{BASE_URL}/files/create", headers=headers,
+                         json={"projectId": PROJECT_ID, "name": name, "content": content})
+    return resp.json().get("success", False)
 
 def main():
     if len(sys.argv) < 3:
@@ -37,13 +52,16 @@ def main():
         content = f.read()
 
     headers = get_auth_headers()
-    
-    # 1. Update project file (main.py)
-    print(f"Uploading {filepath} to main.py...", file=sys.stderr)
-    resp = requests.post(f"{BASE_URL}/files/update", headers=headers,
-                         json={"projectId": PROJECT_ID, "name": "main.py", "content": content})
-    if not resp.json().get("success"):
-        print(f"Failed to upload: {resp.json()}", file=sys.stderr)
+
+    # 1. Upload base.py (shared library) + the target as main.py.
+    print(f"Uploading base.py + {filepath} to main.py...", file=sys.stderr)
+    with open(BASE_PY_PATH, "r") as f:
+        base_content = f.read()
+    if not upload_file("base.py", base_content, headers):
+        print("Failed to upload base.py", file=sys.stderr)
+        sys.exit(1)
+    if not upload_file("main.py", content, headers):
+        print("Failed to upload main.py", file=sys.stderr)
         sys.exit(1)
 
     # 2. Compile
@@ -84,13 +102,29 @@ def main():
             
         time.sleep(2)
 
-    # 4. Create Backtest
+    # 4. Create Backtest — retry with backoff when QC throttles ("Too many
+    # backtest requests; please slow down"), which happens during batch runs.
     print(f"Starting backtest '{name}'...", file=sys.stderr)
-    resp = requests.post(f"{BASE_URL}/backtests/create", headers=headers,
-                         json={"projectId": PROJECT_ID, "compileId": compile_id, "backtestName": name})
-    br = resp.json()
-    if not br.get("success"):
+    br = None
+    for attempt in range(8):
+        # Fresh headers each attempt: the auth timestamp must stay current across backoffs.
+        resp = requests.post(f"{BASE_URL}/backtests/create", headers=get_auth_headers(),
+                             json={"projectId": PROJECT_ID, "compileId": compile_id, "backtestName": name})
+        br = resp.json()
+        if br.get("success"):
+            break
+        errs = str(br.get("errors", ""))
+        if "Too many" in errs or "slow down" in errs or "rate" in errs.lower():
+            wait = min(120, 15 * (attempt + 1))
+            print(f"  Rate limited; retrying in {wait}s (attempt {attempt + 1}/8)...", file=sys.stderr)
+            time.sleep(wait)
+            continue
+        # Non-throttle error: fail fast.
         print(f"Backtest trigger failed: {br}", file=sys.stderr)
+        sys.exit(1)
+
+    if not br or not br.get("success"):
+        print(f"Backtest trigger failed after retries: {br}", file=sys.stderr)
         sys.exit(1)
 
     bid = br["backtest"]["backtestId"]

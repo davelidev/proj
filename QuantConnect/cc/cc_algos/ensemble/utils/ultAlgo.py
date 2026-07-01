@@ -17,40 +17,43 @@ from vol_regime_20 import VolRegime20Sub
 
 
 class CashReserveSub(BaseSubAlgo):
-    """Holds 100% BIL. Weight controls the cash reserve fraction."""
+    """Reserves its weight fraction as uninvested cash (holds no position)."""
     def initialize(self):
-        self.bil = self.algo.AddEquity("BIL", Resolution.Daily).Symbol
-        self.targets = {self.bil: 1.0}
+        self.targets = {}
 
 
 class UltimateAlgo(QCAlgorithm):
     REBAL_DRIFT       = 0.005  # skip SetHoldings if per-symbol drift < this
-    BIL_MIN_REMAINING = 0.01   # route idle capital to BIL above this fraction
+    CASH_BUFFER       = 0.05   # always hold this fraction as real cash; rest of idle capital -> BIL
 
     def Initialize(self):
         self.SetStartDate(*START_DATE)
         self.SetEndDate(*END_DATE)
         self.SetCash(INITIAL_CASH)
-        self.bil         = self.AddEquity("BIL", Resolution.Daily).Symbol
+        # Minute resolution so BIL orders fill at 3:50 PM with the rest of the
+        # rebalance. With Daily, BIL fills one session late, stacking the new
+        # leveraged-ETF leg on top of the not-yet-sold BIL → ~30% margin.
+        self.bil         = self.AddEquity("BIL", Resolution.Minute).Symbol
         self.last_prices = {}
         self._last_year  = None
 
         sub_specs = [
             (LeveragedRebalanceSub,  "LevRebal",       10),
-            (IBSATRStopSub,          "IBSBasket",      20),
-            (RSIThreeVoteSub,        "RSI2DipVote",    20),
+            # (IBSATRStopSub,          "IBSBasket",      10),
+            (RSIThreeVoteSub,        "RSI2DipVote",    10),
             (RangeBreakoutSub,       "RangeBreak",     10),
             (SMA200RSITiersSub,      "SMA200Tiers",    10),
             (SMA200PyramidSub,       "SMA200Pyramid",  10),
-            (SMAFiveVoteSub,         "SMA5Vote",       15),
-            (DonchianFiveVoteSub,    "D5Vote",         15),
+            (SMAFiveVoteSub,         "SMA5Vote",       10),
+            (DonchianFiveVoteSub,    "D5Vote",         10),
             (MomentumVoteSub,        "MomVote",        10),
             (TrendStretchExitSub,    "StretchExit",    10),
-            (GoldenCrossATRSub,      "GoldXATR",       10),
+            # (GoldenCrossATRSub,      "GoldXATR",       10),
             (RangeCompressedSub,     "RangeCompr",     10),
             (MFI14HystSub,           "MFI14Hyst",      10),
             (VolRegime20Sub,         "VolReg20",       10),
-            (CashReserveSub,         "CashReserve",     5),
+            # CashReserve removed: cash/BIL split is now handled globally in
+            # _execute_aggregation (CASH_BUFFER cash, remainder -> BIL).
         ]
         total_w = sum(w for _, _, w in sub_specs)
         self.sub_algos = []
@@ -67,7 +70,7 @@ class UltimateAlgo(QCAlgorithm):
         self.SetWarmUp(WARMUP_DAYS, Resolution.Daily)
         self.Schedule.On(
             self.DateRules.EveryDay(SCHEDULE_TICKER),
-            self.TimeRules.AfterMarketOpen(SCHEDULE_TICKER, DAILY_OPEN_MIN),
+            self.TimeRules.BeforeMarketClose(SCHEDULE_TICKER, 10),
             self.PerformDailyUpdate,
         )
 
@@ -75,11 +78,18 @@ class UltimateAlgo(QCAlgorithm):
         return [s for s in self.sub_algos if s.active]
 
     def PerformDailyUpdate(self):
-        if self.IsWarmingUp: return
-        self._update_virtual_accounting()
-        self._maybe_yearly_reset()
+        # Account for P&L of the positions held since the last update BEFORE
+        # advancing targets — otherwise the prior day's price move is
+        # misattributed to whatever each sub decides today, corrupting virtual
+        # equity (and thus the equity-weighted aggregation, incl. the BIL reserve).
+        if not self.IsWarmingUp:
+            self._update_virtual_accounting()
+            self._maybe_yearly_reset()
+
         for sub in self._alive():
             sub.update_targets()
+
+        if self.IsWarmingUp: return
         self._track_trade_counts()
         self._execute_aggregation()
 
@@ -143,10 +153,18 @@ class UltimateAlgo(QCAlgorithm):
             for sym, w in sub.targets.items():
                 agg[sym] = agg.get(sym, 0) + w * share
 
-        # Route remaining uninvested capital to BIL
-        remaining = max(0, 1.0 - sum(agg.values()))
-        if remaining > self.BIL_MIN_REMAINING:
-            agg[self.bil] = agg.get(self.bil, 0) + remaining
+        # Always keep CASH_BUFFER as real uninvested cash; park the rest of the
+        # idle capital in BIL. Deploy cap = 1 - CASH_BUFFER. If strategy targets
+        # alone exceed the cap, scale them down so the cash buffer is preserved.
+        cap = 1.0 - self.CASH_BUFFER
+        invested = sum(agg.values())
+        if invested > cap:
+            scale = cap / invested
+            agg = {sym: w * scale for sym, w in agg.items()}
+            invested = cap
+        bil_w = cap - invested
+        if bil_w > 0:
+            agg[self.bil] = agg.get(self.bil, 0) + bil_w
 
         # Execute: SetHoldings for symbols whose actual position drifted from target
         for sym, w in agg.items():

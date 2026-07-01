@@ -3,17 +3,26 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class MomentumVoteSub(BaseSubAlgo):
-    """TQQQ weight = n/3 where n = bullish count among ROC(20)>0, UpDay(20)>10, TII(20)>10."""
+    """TQQQ weight = n/3 where n = bullish count among ROC(20)>0, UpDay(20)>10, TII(20)>10. Rebalanced daily 10 mins before close."""
 
     def initialize(self):
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Minute).Symbol
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
 
     def update_targets(self):
-        hist = self.algo.History(self.qqq, 21, Resolution.Daily)
-        if hist.empty or len(hist) < 21:
+        if self.algo.IsWarmingUp:
             return False
-        closes = [float(x) for x in hist["close"].values]
+
+        # Get today's close up to 3:50 PM
+        today_close = self.algo.Securities[self.qqq].Price
+
+        # Fetch last 20 daily bars
+        hist = self.algo.History(self.qqq, 20, Resolution.Daily)
+        if hist.empty or len(hist) < 20:
+            return False
+        
+        # Append today's 3:50 PM close proxy
+        closes = [float(x) for x in hist["close"].values] + [today_close]
 
         # ROC(20): is today's close higher than 20 days ago?
         sig_roc = closes[-1] > closes[0]

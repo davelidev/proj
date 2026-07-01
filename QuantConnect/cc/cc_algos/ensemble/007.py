@@ -3,20 +3,40 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class SMAFiveVoteSub(BaseSubAlgo):
-    """TQQQ weight = n/8 over SMA periods (20, 50, 100, 150×4, 200) — proportional to # of SMAs exceeded. SMA(150) quadrupled since it tested best individually."""
+    """TQQQ weight = n/8 over SMA periods (20, 50, 100, 150×4, 200) — proportional to # of SMAs exceeded. SMA(150) quadrupled since it tested best individually. Rebalanced daily 10 mins before close."""
 
     PERIODS = [20, 50, 100, 150, 150, 150, 150, 200]
 
     def initialize(self):
-        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.smas = [self.algo.SMA(self.qqq, p, Resolution.Daily) for p in self.PERIODS]
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Minute).Symbol
+        
+        # Create manual SMAs
+        unique_periods = sorted(list(set(self.PERIODS)))
+        self.sma_map = {p: SimpleMovingAverage(p) for p in unique_periods}
+
+        # Warm up the manual indicators
+        history = self.algo.History(self.qqq, 250, Resolution.Daily)
+        for index, row in history.iterrows():
+            for p, sma in self.sma_map.items():
+                sma.Update(index[1], row.close)
 
     def update_targets(self):
-        if not self.smas[-1].IsReady:
+        if self.algo.IsWarmingUp:
             return False
-        price     = self.algo.Securities[self.qqq].Price
-        n_bullish = sum(1 for sma in self.smas if price > sma.Current.Value)
+
+        # Get today's close at 3:50 PM ET
+        close = self.algo.Securities[self.qqq].Price
+
+        # Update the manual SMAs with today's price
+        for sma in self.sma_map.values():
+            sma.Update(self.algo.Time, close)
+
+        if not all(sma.IsReady for sma in self.sma_map.values()):
+            return False
+
+        price     = close
+        n_bullish = sum(1 for p in self.PERIODS if price > self.sma_map[p].Current.Value)
         # Weighted: pure proportional n/N
         weight    = n_bullish / float(len(self.PERIODS))
 

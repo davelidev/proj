@@ -8,7 +8,7 @@ class LeveragedRebalanceSub(BaseSubAlgo):
     SYMBOLS = ["TQQQ"]
 
     def initialize(self):
-        self.basket    = [self.algo.AddEquity(t, Resolution.Daily).Symbol for t in self.SYMBOLS]
+        self.basket    = [self.algo.AddEquity(t, Resolution.Minute).Symbol for t in self.SYMBOLS]
         self.last_year = None
 
     def update_targets(self):

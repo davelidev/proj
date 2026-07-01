@@ -3,7 +3,7 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class RangeBreakoutSub(BaseSubAlgo):
-    """QQQ > SMA(200) + range expanding + ADX(10) > 25 → 100% TQQQ. Exits: 3×ATR trail, 20d high, or trend break."""
+    """QQQ > SMA(200) + range expanding + ADX(10) > 25 → 100% TQQQ. Exits: 3×ATR trail, 20d high, or trend break. Rebalanced daily 10 mins before close."""
 
     def initialize(self):
         self.tqqq    = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
@@ -13,9 +13,6 @@ class RangeBreakoutSub(BaseSubAlgo):
         self.atr     = self.algo.ATR(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
         self.hi20    = self.algo.MAX(self.tqqq, 20, Resolution.Daily)
         self.trail   = 0.0
-
-    def on_data(self, data):
-        return self.update_targets()
 
     def update_targets(self):
         if not (self.adx.IsReady and self.sma200.IsReady and self.hi20.IsReady):

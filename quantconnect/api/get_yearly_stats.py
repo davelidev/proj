@@ -26,28 +26,28 @@ def get_auth_headers():
     return {"Authorization": f"Basic {auth_64}", "Timestamp": timestamp}
 
 def extract_yearly(res):
+    # QC's rollingWindow contains trailing-window slices keyed
+    # "M{months}_YYYYMMDD" (e.g. M12_20151231 = trailing 12 months ending
+    # 2015-12-31, i.e. exactly calendar year 2015). Use each M12 window
+    # ending Dec 31 directly — its own start->end IS the calendar-year return.
+    #
+    # Do NOT chain December endEquity across windows: consecutive trailing
+    # windows are sampled at slightly different year-boundary equities
+    # (e.g. 2014 window ends 141543 but 2015 window starts 138541), so the
+    # ~2% mismatch swamps near-flat years and distorts them toward 0%.
     rolling = res.get("backtest", {}).get("rollingWindow", {})
     if not rolling: return {}
-    sorted_keys = sorted(rolling.keys())
-    yearly_equity = {}
-    for key in sorted_keys:
-        # Expected format: "RollingWindow_YYYY_MM_DD"
-        if "_" not in key: continue
-        parts = key.split("_")
-        if len(parts) < 2: continue
-        year = parts[1][:4]
-        equity = float(rolling[key].get("portfolioStatistics", {}).get("endEquity", 100000))
-        yearly_equity[year] = equity
-    
+
     final = {}
-    # Find the starting equity from the first window
-    first_key = sorted_keys[0]
-    prev = float(rolling[first_key].get("portfolioStatistics", {}).get("startEquity", 100000))
-    
-    for y in sorted(yearly_equity.keys()):
-        val = (yearly_equity[y] / prev) - 1
-        final[y] = round(val * 100)
-        prev = yearly_equity[y]
+    for key, val in rolling.items():
+        if not key.startswith("M12_") or not key.endswith("1231"):
+            continue
+        year = key.split("_")[1][:4]
+        ps = val.get("portfolioStatistics", {})
+        start_eq = float(ps.get("startEquity", 0) or 0)
+        end_eq = float(ps.get("endEquity", 0) or 0)
+        if start_eq > 0:
+            final[year] = round((end_eq / start_eq - 1) * 100)
     return final
 
 def main():

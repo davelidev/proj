@@ -17,18 +17,19 @@ def annual_returns(bid):
     resp = requests.get(f"{BASE_URL}/backtests/read", headers=get_headers(),
                         params={"projectId": PROJECT_ID, "backtestId": bid})
     rw = resp.json().get("backtest", {}).get("rollingWindow", {})
-    by_year = {}
-    for key, val in rw.items():
-        if not key.startswith("M1_"): continue
-        try: year = int(key[3:7])
-        except ValueError: continue
-        by_year.setdefault(year, []).append((key, val))
+    # Use the trailing-12-month window ending Dec 31 (M12_YYYY1231): it spans
+    # exactly that calendar year, so its own start->end is the calendar-year
+    # return. Avoids stitching together monthly (M1_) window boundaries, whose
+    # year-edge equity samples don't align and distort near-flat years to ~0%.
     result = {}
-    for year in range(2014, 2026):
-        entries = sorted(by_year.get(year, []), key=lambda x: x[0])
-        if not entries: continue
-        start_eq = float(entries[0][1]["portfolioStatistics"]["startEquity"])
-        end_eq = float(entries[-1][1]["portfolioStatistics"]["endEquity"])
+    for key, val in rw.items():
+        if not key.startswith("M12_") or not key.endswith("1231"):
+            continue
+        try: year = int(key.split("_")[1][:4])
+        except (ValueError, IndexError): continue
+        ps = val.get("portfolioStatistics", {})
+        start_eq = float(ps.get("startEquity", 0) or 0)
+        end_eq = float(ps.get("endEquity", 0) or 0)
         if start_eq > 0:
             result[year] = round((end_eq / start_eq - 1) * 100)
     return result

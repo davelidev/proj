@@ -3,20 +3,41 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class SMA200RSITiersSub(BaseSubAlgo):
-    """SMA(200) regime + RSI tiers on TQQQ. Above SMA: 100% on RSI(2)<30 dip, 20% on RSI(14)>70 overbought, 50% on first entry from cash, else hold current weight (sticky). Below SMA: cash."""
+    """SMA(200) regime + RSI tiers on TQQQ. Rebalance 10 mins before close using intraday minute data."""
 
     def initialize(self):
-        self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.rsi2   = self.algo.RSI(self.tqqq,  2, MovingAverageType.Wilders, Resolution.Daily)
-        self.rsi14  = self.algo.RSI(self.tqqq, 14, MovingAverageType.Wilders, Resolution.Daily)
-        self.sma200 = self.algo.SMA(self.tqqq, 200, Resolution.Daily)
+        # Subscribe to Minute resolution for intraday tracking
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
+        
+        # Create manual indicators
+        self.rsi2 = RelativeStrengthIndex(2, MovingAverageType.Wilders)
+        self.rsi14 = RelativeStrengthIndex(14, MovingAverageType.Wilders)
+        self.sma200 = SimpleMovingAverage(200)
+        
+        # Warm up indicators with historical daily data (needs 250 bars for SMA200)
+        history = self.algo.History(self.tqqq, 250, Resolution.Daily)
+        for index, row in history.iterrows():
+            self.rsi2.Update(index[1], row.close)
+            self.rsi14.Update(index[1], row.close)
+            self.sma200.Update(index[1], row.close)
 
     def update_targets(self):
+        if self.algo.IsWarmingUp:
+            return False
+
+        # Get today's current close at 3:50 PM ET
+        price = self.algo.Securities[self.tqqq].Price
+
+        # Update manual indicators with today's 3:50 PM close proxy
+        self.rsi2.Update(self.algo.Time, price)
+        self.rsi14.Update(self.algo.Time, price)
+        self.sma200.Update(self.algo.Time, price)
+
         if not (self.rsi14.IsReady and self.sma200.IsReady):
             return False
-        price       = self.algo.Securities[self.tqqq].Price
-        in_uptrend  = price > self.sma200.Current.Value
-        current_w   = self.targets.get(self.tqqq, 0)
+
+        in_uptrend = price > self.sma200.Current.Value
+        current_w = self.targets.get(self.tqqq, 0)
 
         prev = dict(self.targets)
         if in_uptrend:
