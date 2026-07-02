@@ -38,12 +38,10 @@ class VolRegime20Sub(BaseSubAlgo):
         else:
             weight = 0.0
 
-        prev = dict(self.targets)
         if weight > 0:
             self.targets = {self.tqqq: weight}
         else:
             self.targets = {}
-        return self.targets != prev
 
 
 VolRegime20Algo = _make_standalone(VolRegime20Sub)

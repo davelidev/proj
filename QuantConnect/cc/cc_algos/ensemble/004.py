@@ -31,7 +31,6 @@ class RangeBreakoutSub(BaseSubAlgo):
         range_of = lambda bar: bar.high - bar.low
         range_expanding = range_of(hist.iloc[-2]) > range_of(hist.iloc[-3])
 
-        prev = dict(self.targets)
         if not self.targets:
             # Entry
             if qqq_price > sma200 and range_expanding and adx > 25:
@@ -46,7 +45,6 @@ class RangeBreakoutSub(BaseSubAlgo):
             if tqqq_price >= hi20 or tqqq_price < self.trail or qqq_price < sma200:
                 self.targets = {}
                 self.trail   = 0.0
-        return self.targets != prev
 
 
 RangeBreakoutAlgo = _make_standalone(RangeBreakoutSub)

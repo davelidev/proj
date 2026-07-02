@@ -10,54 +10,33 @@ class DonchianFiveVoteSub(BaseSubAlgo):
     def initialize(self):
         self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
         self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Minute).Symbol
-        
-        # Create manual highs/lows
-        unique_periods = sorted(list(set(self.PERIODS)))
-        self.high_map = {p: Maximum(p) for p in unique_periods}
-        self.low_map = {p: Minimum(p) for p in unique_periods}
-
-        # Warm up the indicators
-        history = self.algo.History(self.qqq, 260, Resolution.Daily)
-        for index, row in history.iterrows():
-            for p in unique_periods:
-                self.high_map[p].Update(index[1], row.high)
-                self.low_map[p].Update(index[1], row.low)
 
     def update_targets(self):
-        # Get today's high/low up to 3:50 PM
-        bar = self.get_daily_bar(self.qqq)
-        if bar is None:
-            return False
-        today_high = bar.High
-        today_low = bar.Low
-        today_close = bar.Close
-
-        # Update the indicators
-        for p in self.high_map:
-            self.high_map[p].Update(self.algo.Time, today_high)
-            self.low_map[p].Update(self.algo.Time, today_low)
-
         if self.algo.IsWarmingUp:
             return False
 
-        if not all(self.high_map[p].IsReady and self.low_map[p].IsReady for p in self.high_map):
+        # p-1 complete daily bars + today's partial bar = p-bar Donchian, not persisted
+        hist = self.algo.History(self.qqq, max(self.PERIODS), Resolution.Daily)
+        if len(hist) < max(self.PERIODS) - 1:
+            return False
+        today_bar = self.get_daily_bar(self.qqq)
+        if today_bar is None:
             return False
 
-        price = today_close
-        # Midline of each Donchian channel = (period high + period low) / 2
-        n_bullish = sum(
-            1 for p in self.PERIODS
-            if price > (self.high_map[p].Current.Value + self.low_map[p].Current.Value) / 2.0
-        )
-        # Weighted: pure proportional n/N
+        price = today_bar.Close
+        n_bullish = 0
+        for p in self.PERIODS:
+            rows = hist.tail(p - 1)
+            h = max(rows['high'].max(), today_bar.High)
+            l = min(rows['low'].min(),  today_bar.Low)
+            if price > (h + l) / 2.0:
+                n_bullish += 1
         weight = n_bullish / float(len(self.PERIODS))
 
-        prev = dict(self.targets)
         if weight > 0:
             self.targets[self.tqqq] = weight
         else:
             self.targets.pop(self.tqqq, None)
-        return self.targets != prev
 
 
 DonchianFiveVoteAlgo = _make_standalone(DonchianFiveVoteSub)

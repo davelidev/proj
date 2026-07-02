@@ -27,7 +27,8 @@ class RangeCompressedSub(BaseSubAlgo):
         highs = [float(x) for x in hist["high"].values] + [today.High]
         lows = [float(x) for x in hist["low"].values] + [today.Low]
 
-        median_200d = sorted(closes)[100]
+        sc = sorted(closes)
+        median_200d = (sc[99] + sc[100]) / 2
         in_trend    = today.Close > median_200d
 
         # Range = high-low for each daily bar
@@ -44,9 +45,7 @@ class RangeCompressedSub(BaseSubAlgo):
         else:
             weight = 0.0
 
-        prev = dict(self.targets)
         self.targets = {self.tqqq: weight} if weight > 0 else {}
-        return self.targets != prev
 
 
 RangeCompressedAlgo = _make_standalone(RangeCompressedSub)

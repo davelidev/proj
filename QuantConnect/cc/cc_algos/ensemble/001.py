@@ -15,7 +15,7 @@ class LeveragedRebalanceSub(BaseSubAlgo):
         if self.algo.Time.year == self.last_year:
             return False
         self.last_year = self.algo.Time.year
-        weight_per_sym = 0.6 / len(self.basket)
+        weight_per_sym = 0.65 / len(self.basket)
         self.targets = {sym: weight_per_sym for sym in self.basket}
         return True
 

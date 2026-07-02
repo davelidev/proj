@@ -18,23 +18,18 @@ class IBSATRStopSub(BaseSubAlgo):
         if self.algo.IsWarmingUp:
             return False
 
-        # 1. Aggregate today's minute bars up to 3:50 PM
+        # 1. Warmup
         today = self.get_daily_bar(self.basket[0])
-        if today is None:
+        hist_qqq = self.algo.History(self.qqq, 200, Resolution.Daily)
+        if today is None or len(hist_qqq) < 200:
             return False
 
-        # 2. Trend filter: QQQ > SMA(200) from contiguous daily history
-        hist_qqq = self.algo.History(self.qqq, 200, Resolution.Daily)
-        if len(hist_qqq) < 200:
-            return False
         sma200 = sum(hist_qqq['close']) / len(hist_qqq['close'])
         in_uptrend = self.algo.Securities[self.qqq].Price > sma200
 
         # 3. IBS + ATR(14) on TQQQ over the last 14 daily bars + today's 3:50 PM bar
         history_daily = self.algo.History(self.basket[0], 14, Resolution.Daily)
-        if len(history_daily) < 14:
-            return False
-        if today.High <= today.Low:
+        if len(history_daily) < 14 or today.High <= today.Low:
             return False
         ibs = (today.Close - today.Low) / (today.High - today.Low)
 
@@ -45,7 +40,6 @@ class IBSATRStopSub(BaseSubAlgo):
         atr_val = sum(tr) / len(tr)
 
         # 4. Trading logic
-        prev = dict(self.targets)
         invested = self.basket[0] in self.targets
         weight = 1.0 / len(self.basket)
 
@@ -61,7 +55,6 @@ class IBSATRStopSub(BaseSubAlgo):
                 self.targets = {}
                 self.trail = 0.0
 
-        return self.targets != prev
 
 
 IBSATRStopAlgo = _make_standalone(IBSATRStopSub)

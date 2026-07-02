@@ -3,6 +3,34 @@ import sys
 import os
 import re
 import time
+import hashlib
+import base64
+import requests
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
+_USER_ID   = os.environ.get("QC_USER_ID")
+_API_TOKEN = os.environ.get("QC_API_TOKEN")
+_PROJECT   = os.environ.get("QC_PROJECT_ID")
+_BASE_URL  = os.environ.get("QC_BASE_URL", "https://www.quantconnect.com/api/v2")
+
+def _auth():
+    ts = str(int(time.time()))
+    h  = hashlib.sha256(f"{_API_TOKEN}:{ts}".encode()).hexdigest()
+    return {"Authorization": f"Basic {base64.b64encode(f'{_USER_ID}:{h}'.encode()).decode()}",
+            "Timestamp": ts}
+
+def _fetch_cagr_maxdd(bid):
+    r = requests.get(f"{_BASE_URL}/backtests/read", headers=_auth(),
+                     params={"projectId": _PROJECT, "backtestId": bid})
+    stats = r.json().get("backtest", {}).get("statistics", {})
+    cagr  = stats.get("Compounding Annual Return", "")
+    maxdd = stats.get("Drawdown", "")
+    if cagr:
+        cagr = f"{round(float(cagr.strip('%')))  }%"
+    if maxdd:
+        maxdd = f"-{round(float(maxdd.strip('%')))}%"
+    return cagr or None, maxdd or None
 
 # ---------------------------------------------------------------------------
 # Path Configurations (Absolute)
@@ -29,20 +57,24 @@ def bundle_ensemble():
 
 
 def run_one(target_file, test_name):
-    """Upload target_file as main.py, run, poll to completion, print yearly stats."""
+    """Upload target_file as main.py, run, poll to completion, print yearly stats.
+    Returns (bid, cagr_str, maxdd_str) or (None, None, None) on failure."""
     print(f"\nTriggering Backtest ({test_name})...")
     res = subprocess.run(["python3", RUN_SCRIPT, target_file, test_name],
                          stdout=subprocess.PIPE, stderr=sys.stderr, text=True)
     match = re.search(r"BACKTEST_ID=([\w\d]+)", res.stdout)
     if not match:
         print(f"Error: Could not find Backtest ID in output:\n{res.stdout}")
-        return None
+        return None, None, None
     bid = match.group(1)
     print(f"Captured Backtest ID: {bid}")
 
-    subprocess.run(["python3", POLL_SCRIPT, bid], check=True)
-    subprocess.run(["python3", STATS_SCRIPT, bid], check=True)
-    return bid
+    # Let poll write directly to terminal so \r status updates work
+    subprocess.run(["python3", POLL_SCRIPT, bid], check=False)
+    subprocess.run(["python3", STATS_SCRIPT, bid], check=False)
+
+    cagr, maxdd = _fetch_cagr_maxdd(bid)
+    return bid, cagr, maxdd
 
 
 def discover_subs():
@@ -79,8 +111,12 @@ def main():
 
     if len(subs) > 1:
         print(f"\n{'=' * 40}\n## Batch Summary\n{'=' * 40}")
-        for name, bid in results.items():
-            print(f"  {name:<12} {bid or 'FAILED'}")
+        for name, (bid, cagr, maxdd) in results.items():
+            if bid is None:
+                print(f"  {name:<12} FAILED")
+            else:
+                stats = f"{cagr or '?':>6}  {maxdd or '?':>6}"
+                print(f"  {name:<12} {stats}  {bid}")
 
 
 if __name__ == "__main__":

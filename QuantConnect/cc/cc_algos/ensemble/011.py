@@ -18,15 +18,6 @@ class GoldenCrossATRSub(BaseSubAlgo):
         self.atr    = AverageTrueRange(14, MovingAverageType.Wilders)
         self.trail  = 0.0
 
-        # Warm up indicators
-        history_qqq = self.algo.History[TradeBar](self.qqq, 220, Resolution.Daily)
-        for bar in history_qqq:
-            self.ema50.Update(bar.EndTime, bar.Close)
-            self.ema200.Update(bar.EndTime, bar.Close)
-
-        history_tqqq = self.algo.History[TradeBar](self.tqqq, 220, Resolution.Daily)
-        for bar in history_tqqq:
-            self.atr.Update(bar)
 
     def update_targets(self):
         # Get today's TQQQ TradeBar proxy first; skip the day entirely if no
@@ -60,7 +51,6 @@ class GoldenCrossATRSub(BaseSubAlgo):
         price    = bar_tqqq.Close
         in_trend = self.ema50.Current.Value > self.ema200.Current.Value
 
-        prev = dict(self.targets)
         if not self.targets:
             if in_trend and low_vol:
                 self.targets = {self.tqqq: 1.0}
@@ -73,7 +63,6 @@ class GoldenCrossATRSub(BaseSubAlgo):
             if price < self.trail or not in_trend or not low_vol:
                 self.targets = {}
                 self.trail   = 0.0
-        return self.targets != prev
 
 
 GoldenCrossATRAlgo = _make_standalone(GoldenCrossATRSub)

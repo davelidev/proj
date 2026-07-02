@@ -10,10 +10,6 @@ class TrendStretchExitSub(BaseSubAlgo):
         self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
         self.sma200 = SimpleMovingAverage(200)
 
-        # Warm up manual SMA
-        history = self.algo.History(self.qqq, 220, Resolution.Daily)
-        for index, row in history.iterrows():
-            self.sma200.Update(index[1], row.close)
 
     def update_targets(self):
         # Feed manual SMA every day (incl. warmup) for a contiguous window
@@ -29,7 +25,6 @@ class TrendStretchExitSub(BaseSubAlgo):
         sma     = self.sma200.Current.Value
         stretch = (price - sma) / sma if sma > 0 else 0
 
-        prev     = dict(self.targets)
         invested = bool(self.targets)
         if not invested:
             # Enter only at a low-stretch entry above the trend
@@ -39,7 +34,6 @@ class TrendStretchExitSub(BaseSubAlgo):
             # Exit on trend break or extreme overbought stretch
             if price < sma or stretch > 0.20:
                 self.targets = {}
-        return self.targets != prev
 
 
 TrendStretchExitAlgo = _make_standalone(TrendStretchExitSub)

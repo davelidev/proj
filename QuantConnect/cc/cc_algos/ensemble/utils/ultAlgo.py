@@ -33,7 +33,11 @@ class UltimateAlgo(QCAlgorithm):
         # Minute resolution so BIL orders fill at 3:50 PM with the rest of the
         # rebalance. With Daily, BIL fills one session late, stacking the new
         # leveraged-ETF leg on top of the not-yet-sold BIL → ~30% margin.
-        self.bil         = self.AddEquity("BIL", Resolution.Minute).Symbol
+        self.bil         = self.AddEquity("BIL",  Resolution.Minute).Symbol
+        # Pin shared tickers at Minute before sub initialize() runs — any sub that
+        # re-adds at Daily would otherwise prevent Minute history requests (get_daily_bar).
+        for ticker in ("QQQ", "TQQQ", "SOXL", "TECL"):
+            self.AddEquity(ticker, Resolution.Minute)
         self.last_prices = {}
         self._last_year  = None
 
@@ -41,7 +45,7 @@ class UltimateAlgo(QCAlgorithm):
             (LeveragedRebalanceSub,  "LevRebal",       10),
             (IBSATRStopSub,          "IBSBasket",      10),
             (RSIThreeVoteSub,        "RSI2DipVote",    10),
-            (RangeBreakoutSub,       "RangeBreak",     10),
+            # (RangeBreakoutSub,       "RangeBreak",     10),  ## overfitting
             (SMA200RSITiersSub,      "SMA200Tiers",    10),
             (SMA200PyramidSub,       "SMA200Pyramid",  10),
             (SMAFiveVoteSub,         "SMA5Vote",       10),
@@ -166,16 +170,17 @@ class UltimateAlgo(QCAlgorithm):
         if bil_w > 0:
             agg[self.bil] = agg.get(self.bil, 0) + bil_w
 
-        # Execute: SetHoldings for symbols whose actual position drifted from target
-        for sym, w in agg.items():
-            cur = self.Portfolio[sym].HoldingsValue / total_real
-            if abs(w - cur) > self.REBAL_DRIFT:
-                self.SetHoldings(sym, w)
-
-        # Liquidate any held symbol no longer in aggregated targets
+        # Sells first (free up cash), then buys — prevents transient margin on rotations
+        cur = {sym: self.Portfolio[sym].HoldingsValue / total_real for sym in agg}
         for x in self.Portfolio.Values:
             if x.Invested and x.Symbol not in agg:
                 self.Liquidate(x.Symbol)
+        for sym, w in agg.items():
+            if cur[sym] > w and abs(w - cur[sym]) > self.REBAL_DRIFT:
+                self.SetHoldings(sym, w)
+        for sym, w in agg.items():
+            if cur[sym] <= w and abs(w - cur[sym]) > self.REBAL_DRIFT:
+                self.SetHoldings(sym, w)
 
     def OnEndOfAlgorithm(self):
         for sub in self.sub_algos:

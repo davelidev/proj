@@ -41,12 +41,10 @@ class MomentumVoteSub(BaseSubAlgo):
         # Weighted: pure n/3
         weight = n_bullish / 3.0
 
-        prev = dict(self.targets)
         if weight > 0:
             self.targets[self.tqqq] = weight
         else:
             self.targets.pop(self.tqqq, None)
-        return self.targets != prev
 
 
 MomentumVoteAlgo = _make_standalone(MomentumVoteSub)

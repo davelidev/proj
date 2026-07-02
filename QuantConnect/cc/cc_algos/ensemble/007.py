@@ -15,35 +15,23 @@ class SMAFiveVoteSub(BaseSubAlgo):
         unique_periods = sorted(list(set(self.PERIODS)))
         self.sma_map = {p: SimpleMovingAverage(p) for p in unique_periods}
 
-        # Warm up the manual indicators
-        history = self.algo.History(self.qqq, 250, Resolution.Daily)
-        for index, row in history.iterrows():
-            for p, sma in self.sma_map.items():
-                sma.Update(index[1], row.close)
 
     def update_targets(self):
         # Feed manual SMAs every day (incl. warmup) for a contiguous window
-        close = self.algo.Securities[self.qqq].Price
+        price = self.algo.Securities[self.qqq].Price
         for sma in self.sma_map.values():
-            sma.Update(self.algo.Time, close)
+            sma.Update(self.algo.Time, price)
 
-        if self.algo.IsWarmingUp:
+        if self.algo.IsWarmingUp or not all(sma.IsReady for sma in self.sma_map.values()):
             return False
 
-        if not all(sma.IsReady for sma in self.sma_map.values()):
-            return False
-
-        price     = close
         n_bullish = sum(1 for p in self.PERIODS if price > self.sma_map[p].Current.Value)
-        # Weighted: pure proportional n/N
         weight    = n_bullish / float(len(self.PERIODS))
 
-        prev = dict(self.targets)
         if weight > 0:
             self.targets[self.tqqq] = weight
         else:
             self.targets.pop(self.tqqq, None)
-        return self.targets != prev
 
 
 SMAFiveVoteAlgo = _make_standalone(SMAFiveVoteSub)

@@ -14,12 +14,6 @@ class SMA200RSITiersSub(BaseSubAlgo):
         self.rsi14 = RelativeStrengthIndex(14, MovingAverageType.Wilders)
         self.sma200 = SimpleMovingAverage(200)
         
-        # Warm up indicators with historical daily data (needs 250 bars for SMA200)
-        history = self.algo.History(self.tqqq, 250, Resolution.Daily)
-        for index, row in history.iterrows():
-            self.rsi2.Update(index[1], row.close)
-            self.rsi14.Update(index[1], row.close)
-            self.sma200.Update(index[1], row.close)
 
     def update_targets(self):
         # Feed manual indicators every day (incl. warmup) for a contiguous window
@@ -28,16 +22,12 @@ class SMA200RSITiersSub(BaseSubAlgo):
         self.rsi14.Update(self.algo.Time, price)
         self.sma200.Update(self.algo.Time, price)
 
-        if self.algo.IsWarmingUp:
-            return False
-
-        if not (self.rsi14.IsReady and self.sma200.IsReady):
+        if self.algo.IsWarmingUp or not (self.rsi14.IsReady and self.rsi2.IsReady and self.sma200.IsReady):
             return False
 
         in_uptrend = price > self.sma200.Current.Value
         current_w = self.targets.get(self.tqqq, 0)
 
-        prev = dict(self.targets)
         if in_uptrend:
             if self.rsi14.Current.Value > 70:
                 self.targets[self.tqqq] = 0.2  # overbought trim
@@ -48,7 +38,6 @@ class SMA200RSITiersSub(BaseSubAlgo):
             # else: hold current weight
         else:
             self.targets = {}
-        return self.targets != prev
 
 
 SMA200RSITiersAlgo = _make_standalone(SMA200RSITiersSub)
