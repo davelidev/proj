@@ -46,7 +46,7 @@ class BaseSubAlgo:
         Returns None when no minute bars are available yet (e.g. during warmup),
         so callers can skip rather than feed a degenerate flat bar into indicators.
         """
-        start_time = self.algo.Time.replace(hour=9, minute=30, second=0, microsecond=0)
+        start_time = self.algo.Time.replace(hour=4, minute=0, second=0, microsecond=0)
         history = self.algo.History[TradeBar](symbol, start_time, self.algo.Time, Resolution.Minute)
 
         bars = list(history)

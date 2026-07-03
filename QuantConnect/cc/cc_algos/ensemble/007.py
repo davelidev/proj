@@ -2,31 +2,39 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class SMAFiveVoteSub(BaseSubAlgo):
-    """TQQQ weight = n/8 over SMA periods (20, 50, 100, 150×4, 200) — proportional to # of SMAs exceeded. SMA(150) quadrupled since it tested best individually. Rebalanced daily 10 mins before close."""
+class DonchianFiveVoteSub(BaseSubAlgo):
+    """
+    Entry: TQQQ weight = n/5 Donchian midlines QQQ is above (50/100/150/200/250d).
+    Exit: weight falls to 0 as price drops below midlines.
+    """
 
-    PERIODS = [20, 50, 100, 150, 150, 150, 150, 200]
+    PERIODS = [50, 100, 150, 200, 250]
 
     def initialize(self):
         self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
         self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Minute).Symbol
-        
-        # Create manual SMAs
-        unique_periods = sorted(list(set(self.PERIODS)))
-        self.sma_map = {p: SimpleMovingAverage(p) for p in unique_periods}
-
 
     def update_targets(self):
-        # Feed manual SMAs every day (incl. warmup) for a contiguous window
-        price = self.algo.Securities[self.qqq].Price
-        for sma in self.sma_map.values():
-            sma.Update(self.algo.Time, price)
-
-        if self.algo.IsWarmingUp or not all(sma.IsReady for sma in self.sma_map.values()):
+        if self.algo.IsWarmingUp:
             return False
 
-        n_bullish = sum(1 for p in self.PERIODS if price > self.sma_map[p].Current.Value)
-        weight    = n_bullish / float(len(self.PERIODS))
+        # p-1 complete daily bars + today's partial bar = p-bar Donchian, not persisted
+        hist = self.algo.History(self.qqq, max(self.PERIODS), Resolution.Daily)
+        if len(hist) < max(self.PERIODS) - 1:
+            return False
+        today_bar = self.get_daily_bar(self.qqq)
+        if today_bar is None:
+            return False
+
+        price = today_bar.Close
+        n_bullish = 0
+        for p in self.PERIODS:
+            rows = hist.tail(p - 1)
+            h = max(rows['high'].max(), today_bar.High)
+            l = min(rows['low'].min(),  today_bar.Low)
+            if price > (h + l) / 2.0:
+                n_bullish += 1
+        weight = n_bullish / float(len(self.PERIODS))
 
         if weight > 0:
             self.targets[self.tqqq] = weight
@@ -34,4 +42,4 @@ class SMAFiveVoteSub(BaseSubAlgo):
             self.targets.pop(self.tqqq, None)
 
 
-SMAFiveVoteAlgo = _make_standalone(SMAFiveVoteSub)
+DonchianFiveVoteAlgo = _make_standalone(DonchianFiveVoteSub)

@@ -2,38 +2,68 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class TrendStretchExitSub(BaseSubAlgo):
-    """Enter on QQQ > SMA(200) with stretch < 5%; exit when below SMA or stretch > 20%. Rebalanced daily 10 mins before close."""
+class GoldenCrossATRSub(BaseSubAlgo):
+    """
+    Entry: QQQ EMA(50)>EMA(200) and 20d vol<30% → 100% TQQQ.
+    Exit: death cross, vol>30%, or 3×ATR(14) trailing stop.
+    """
+
+    ATR_MULT = 3.0
+    VOL_MAX  = 0.30
 
     def initialize(self):
         self.qqq    = self.algo.AddEquity("QQQ",  Resolution.Minute).Symbol
         self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
-        self.sma200 = SimpleMovingAverage(200)
+        self.ema50  = ExponentialMovingAverage(50)
+        self.ema200 = ExponentialMovingAverage(200)
+        self.atr    = AverageTrueRange(14, MovingAverageType.Wilders)
+        self.trail  = 0.0
 
 
     def update_targets(self):
-        # Feed manual SMA every day (incl. warmup) for a contiguous window
-        price = self.algo.Securities[self.qqq].Price
-        self.sma200.Update(self.algo.Time, price)
+        # Get today's TQQQ TradeBar proxy first; skip the day entirely if no
+        # minute data, so the QQQ EMAs and the TQQQ ATR stay in lock-step.
+        bar_tqqq = self.get_daily_bar(self.tqqq)
+        if bar_tqqq is None:
+            return False
+
+        # Update QQQ EMAs with today's close at 3:50 PM
+        today_close_qqq = self.algo.Securities[self.qqq].Price
+        self.ema50.Update(self.algo.Time, today_close_qqq)
+        self.ema200.Update(self.algo.Time, today_close_qqq)
+        self.atr.Update(bar_tqqq)
 
         if self.algo.IsWarmingUp:
             return False
-
-        if not self.sma200.IsReady:
+        if not (self.ema50.IsReady and self.ema200.IsReady and self.atr.IsReady):
             return False
 
-        sma     = self.sma200.Current.Value
-        stretch = (price - sma) / sma if sma > 0 else 0
+        # Vol gate: annualized 20-day realized vol of QQQ
+        hist_qqq = self.algo.History(self.qqq, 21, Resolution.Daily)
+        if len(hist_qqq) < 21:
+            return False
+        qc = list(hist_qqq['close'])
+        rets = [qc[i] / qc[i - 1] - 1 for i in range(1, len(qc))]
+        mean = sum(rets) / len(rets)
+        var = sum((r - mean) ** 2 for r in rets) / (len(rets) - 1)
+        vol = (var ** 0.5) * (252 ** 0.5)
+        low_vol = vol < self.VOL_MAX
 
-        invested = bool(self.targets)
-        if not invested:
-            # Enter only at a low-stretch entry above the trend
-            if price > sma and stretch < 0.05:
+        price    = bar_tqqq.Close
+        in_trend = self.ema50.Current.Value > self.ema200.Current.Value
+
+        if not self.targets:
+            if in_trend and low_vol:
                 self.targets = {self.tqqq: 1.0}
+                self.trail   = price - self.ATR_MULT * self.atr.Current.Value
         else:
-            # Exit on trend break or extreme overbought stretch
-            if price < sma or stretch > 0.20:
+            # Trail ratchets up only; exit on stop, crossback, or vol spike
+            new_trail = price - self.ATR_MULT * self.atr.Current.Value
+            if new_trail > self.trail:
+                self.trail = new_trail
+            if price < self.trail or not in_trend or not low_vol:
                 self.targets = {}
+                self.trail   = 0.0
 
 
-TrendStretchExitAlgo = _make_standalone(TrendStretchExitSub)
+GoldenCrossATRAlgo = _make_standalone(GoldenCrossATRSub)

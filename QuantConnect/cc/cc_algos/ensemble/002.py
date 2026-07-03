@@ -3,8 +3,10 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class IBSATRStopSub(BaseSubAlgo):
-    """TQQQ/SOXL/TECL basket. Enter on TQQQ IBS<0.1 while QQQ>SMA(200); exit on
-    IBS>0.9 or a trailing 2xATR(14) stop. Rebalance 10 mins before close."""
+    """
+    Entry: TQQQ IBS<0.1 while QQQ>SMA(200) → 33% each TQQQ/SOXL/TECL.
+    Exit: IBS>0.9 or 2×ATR(14) trailing stop.
+    """
 
     ATR_MULT = 2.0
 

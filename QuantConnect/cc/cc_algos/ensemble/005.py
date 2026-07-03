@@ -2,42 +2,45 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class SMA200RSITiersSub(BaseSubAlgo):
-    """SMA(200) regime + RSI tiers on TQQQ. Rebalance 10 mins before close using intraday minute data."""
+class SMA200PyramidSub(BaseSubAlgo):
+    """
+    Entry: QQQ>SMA(200) → 50% TQQQ; +15% per 5% gain above entry, cap 100%; de-pyramids on pullback.
+    Exit: QQQ<SMA(200).
+    """
 
     def initialize(self):
-        # Subscribe to Minute resolution for intraday tracking
-        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
-        
-        # Create manual indicators
-        self.rsi2 = RelativeStrengthIndex(2, MovingAverageType.Wilders)
-        self.rsi14 = RelativeStrengthIndex(14, MovingAverageType.Wilders)
-        self.sma200 = SimpleMovingAverage(200)
-        
+        self.qqq         = self.algo.AddEquity("QQQ",  Resolution.Minute).Symbol
+        self.tqqq        = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
+        self.sma200      = SimpleMovingAverage(200)
+        self.entry_price = None
+        self.current_w   = 0.0
+
 
     def update_targets(self):
-        # Feed manual indicators every day (incl. warmup) for a contiguous window
-        price = self.algo.Securities[self.tqqq].Price
-        self.rsi2.Update(self.algo.Time, price)
-        self.rsi14.Update(self.algo.Time, price)
+        # Feed manual SMA every day (incl. warmup) for a contiguous window
+        price = self.algo.Securities[self.qqq].Price
         self.sma200.Update(self.algo.Time, price)
 
-        if self.algo.IsWarmingUp or not (self.rsi14.IsReady and self.rsi2.IsReady and self.sma200.IsReady):
+        if self.algo.IsWarmingUp or not self.sma200.IsReady:
             return False
 
         in_uptrend = price > self.sma200.Current.Value
-        current_w = self.targets.get(self.tqqq, 0)
-
-        if in_uptrend:
-            if self.rsi14.Current.Value > 70:
-                self.targets[self.tqqq] = 0.2  # overbought trim
-            elif self.rsi2.Current.Value < 30:
-                self.targets[self.tqqq] = 1.0  # dip buy
-            elif current_w == 0:
-                self.targets[self.tqqq] = 0.5  # default entry
-            # else: hold current weight
+        if not in_uptrend:
+            self.targets     = {}
+            self.entry_price = None
+            self.current_w   = 0.0
+        elif not self.targets:
+            # Initial entry at 50%
+            self.targets     = {self.tqqq: 0.5}
+            self.entry_price = price
+            self.current_w   = 0.5
         else:
-            self.targets = {}
+            # Pyramid: +15% size per 5% price gain above entry
+            steps    = int((price / self.entry_price - 1) / 0.05) if self.entry_price else 0
+            target_w = min(1.0, 0.5 + max(0, steps) * 0.15)
+            if abs(target_w - self.current_w) > 0.05:
+                self.targets = {self.tqqq: target_w}
+                self.current_w = target_w
 
 
-SMA200RSITiersAlgo = _make_standalone(SMA200RSITiersSub)
+SMA200PyramidAlgo = _make_standalone(SMA200PyramidSub)

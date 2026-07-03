@@ -44,6 +44,7 @@
 | [60](#strategy-60)   | ✅    | QQQ RSI(2) Dip → Equal-Weight TQQQ/SOXL/TECL | Mean Reversion  | 40%  | -32%  | 4/10   |
 | [61](#strategy-61)   | ✅    | TQQQ Pyramid (10%/day)                | Trend           | 29%  | -43%  | 4/10   |
 | [62](#strategy-62)   | ✅    | SMA150 Trend                          | Trend Following | 40%  | -55%  | 5/10   |
+| [63](#strategy-63)   | ✅    | Range Breakout ADX+SMA200+ATR         | Breakout        | 36%  | -53%  | 6/10   |
 
 | #                    | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :------------------- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -89,6 +90,7 @@
 | [60](#strategy-60)   | 🟢 38% | 🟢 1% | 🔴 -18% | 🟢 46% | 🟢 12% | 🟢 34% | 🟢 81% | 🟢 110% | 🟢 32% | 🟢 60% | 🟢 72% | 🟢 62% |
 | [61](#strategy-61)   | 🟢 22% | 🔴 -9% | 🟢 4% | 🟢 51% | 🔴 -7% | 🟢 64% | 🟢 118% | 🟢 27% | 🔴 -9% | 🟢 45% | 🟢 52% | 🟢 46% |
 | [62](#strategy-62)   | 🟢 47% | 🟢 18% | 🔴 -1% | 🟢 118% | 🟢 1% | 🟢 53% | 🟢 96% | 🟢 86% | 🔴 -33% | 🟢 125% | 🟢 45% | 🟢 30% |
+| [63](#strategy-63)   | 🟢 53% | 🔴 -1% | 🟢 27% | 🟢 50% | 🔴 -36% | 🟢 72% | 🟢 102% | 🟢 93% | 🔴 -20% | 🟢 113% | 🟢 35% | 🟢 40% |
 
 ---
 ## Strategy-1
@@ -1226,6 +1228,35 @@
 > [!code]- Click to view: 062.py
 > ```embed-python
 > PATH: "vault://QuantConnect/cc/cc_algos/potentials/062.py"
+> ```
+
+---
+
+---
+## Strategy-63
+### Range Breakout — ADX + SMA200 + ATR Trail (ensemble/004.py)
+
+**Description:** QQQ uptrend (SMA200) + daily range expansion (yesterday's H-L > prior day's) + ADX(10) > 25 triggers 100% TQQQ. Exits on 3×ATR(14) trailing stop, TQQQ 20-day high take-profit, or trend break. Removed from ensemble — off-by-one in range comparison (T-2 vs T-3 settled bars) was load-bearing; correcting it dropped CAGR from 41% to 21%.
+
+*Overfit 6/10 — Five tuned parameters: SMA(200) gate, range-expansion bar offset, ADX threshold of 25, 3× ATR stop multiplier, 20d high take-profit. The bar offset is an implicit fit to the data; fixing it materially degraded performance.*
+
+- **Trend gate:** QQQ > SMA(200)
+- **Entry trigger:** Yesterday's QQQ H-L range > prior day's range AND ADX(10) > 25 → 100% TQQQ; trail = price − 3×ATR(14)
+- **Exit:** TQQQ ≥ 20-day high OR price < trail OR QQQ < SMA(200)
+- **Symbols:** Signal: QQQ. Execution: TQQQ
+- **Rebalance:** Daily, 10 mins before close
+
+| CAGR | MaxDD | Sharpe | Win % | Loss % | P/L Ratio |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| 36% | -53% | 0.831 | 59% | 41% | 2.29 |
+
+| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| 🟢 53% | 🔴 -1% | 🟢 27% | 🟢 50% | 🔴 -36% | 🟢 72% | 🟢 102% | 🟢 93% | 🔴 -20% | 🟢 113% | 🟢 35% | 🟢 40% |
+
+> [!code]- Click to view: 063.py
+> ```embed-python
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/063.py"
 > ```
 
 ---

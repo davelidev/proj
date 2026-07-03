@@ -2,67 +2,53 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class GoldenCrossATRSub(BaseSubAlgo):
-    """Enter TQQQ on EMA(50)>EMA(200) of QQQ while QQQ 20d realized vol is low
-    (annualized < VOL_MAX). Exit on crossback, vol spike, or 3xATR(14) trailing
-    stop on TQQQ. Rebalanced daily 10 mins before close."""
-
-    ATR_MULT = 3.0
-    VOL_MAX  = 0.30
+class RangeCompressedSub(BaseSubAlgo):
+    """
+    Entry: QQQ>200d median AND 25d range avg<110% of 200d range avg → 100% TQQQ; one condition → 50%.
+    Exit: both false.
+    """
 
     def initialize(self):
-        self.qqq    = self.algo.AddEquity("QQQ",  Resolution.Minute).Symbol
-        self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
-        self.ema50  = ExponentialMovingAverage(50)
-        self.ema200 = ExponentialMovingAverage(200)
-        self.atr    = AverageTrueRange(14, MovingAverageType.Wilders)
-        self.trail  = 0.0
-
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Minute).Symbol
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
 
     def update_targets(self):
-        # Get today's TQQQ TradeBar proxy first; skip the day entirely if no
-        # minute data, so the QQQ EMAs and the TQQQ ATR stay in lock-step.
-        bar_tqqq = self.get_daily_bar(self.tqqq)
-        if bar_tqqq is None:
-            return False
-
-        # Update QQQ EMAs with today's close at 3:50 PM
-        today_close_qqq = self.algo.Securities[self.qqq].Price
-        self.ema50.Update(self.algo.Time, today_close_qqq)
-        self.ema200.Update(self.algo.Time, today_close_qqq)
-        self.atr.Update(bar_tqqq)
-
         if self.algo.IsWarmingUp:
             return False
-        if not (self.ema50.IsReady and self.ema200.IsReady and self.atr.IsReady):
+
+        # Get today's aggregated bar up to 3:50 PM
+        today = self.get_daily_bar(self.qqq)
+        if today is None:
             return False
 
-        # Vol gate: annualized 20-day realized vol of QQQ
-        hist_qqq = self.algo.History(self.qqq, 21, Resolution.Daily)
-        if len(hist_qqq) < 21:
+        # Fetch last 199 daily bars
+        hist = self.algo.History(self.qqq, 199, Resolution.Daily)
+        if hist.empty or len(hist) < 199:
             return False
-        qc = list(hist_qqq['close'])
-        rets = [qc[i] / qc[i - 1] - 1 for i in range(1, len(qc))]
-        mean = sum(rets) / len(rets)
-        var = sum((r - mean) ** 2 for r in rets) / (len(rets) - 1)
-        vol = (var ** 0.5) * (252 ** 0.5)
-        low_vol = vol < self.VOL_MAX
 
-        price    = bar_tqqq.Close
-        in_trend = self.ema50.Current.Value > self.ema200.Current.Value
+        closes = [float(x) for x in hist["close"].values] + [today.Close]
+        highs = [float(x) for x in hist["high"].values] + [today.High]
+        lows = [float(x) for x in hist["low"].values] + [today.Low]
 
-        if not self.targets:
-            if in_trend and low_vol:
-                self.targets = {self.tqqq: 1.0}
-                self.trail   = price - self.ATR_MULT * self.atr.Current.Value
+        sc = sorted(closes)
+        median_200d = (sc[99] + sc[100]) / 2
+        in_trend    = today.Close > median_200d
+
+        # Range = high-low for each daily bar
+        ranges_200d = [highs[i] - lows[i] for i in range(200)]
+        ranges_25d  = ranges_200d[-25:]
+        avg_25      = sum(ranges_25d)  / 25
+        avg_200     = sum(ranges_200d) / 200
+        compressed  = avg_25 < avg_200 * 1.1
+
+        if in_trend and compressed:
+            weight = 1.0
+        elif in_trend or compressed:
+            weight = 0.5
         else:
-            # Trail ratchets up only; exit on stop, crossback, or vol spike
-            new_trail = price - self.ATR_MULT * self.atr.Current.Value
-            if new_trail > self.trail:
-                self.trail = new_trail
-            if price < self.trail or not in_trend or not low_vol:
-                self.targets = {}
-                self.trail   = 0.0
+            weight = 0.0
+
+        self.targets = {self.tqqq: weight} if weight > 0 else {}
 
 
-GoldenCrossATRAlgo = _make_standalone(GoldenCrossATRSub)
+RangeCompressedAlgo = _make_standalone(RangeCompressedSub)

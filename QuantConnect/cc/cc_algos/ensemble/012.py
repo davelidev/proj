@@ -2,50 +2,37 @@ from AlgorithmImports import *
 from base import BaseSubAlgo, _make_standalone
 
 
-class RangeCompressedSub(BaseSubAlgo):
-    """Trend (price > 200d median) AND compressed range (25d avg < 110% of 200d avg) → 100%; only one true → 50%; else cash. Rebalanced daily 10 mins before close."""
+class MFI14HystSub(BaseSubAlgo):
+    """
+    Entry: QQQ MFI(14)>60 → 100% TQQQ. Hold when MFI between 40–60.
+    Exit: MFI<40.
+    """
 
     def initialize(self):
         self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Minute).Symbol
         self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
+        self.mfi  = MoneyFlowIndex(14)
+
 
     def update_targets(self):
+        # Get today's QQQ TradeBar proxy
+        bar = self.get_daily_bar(self.qqq)
+        if bar is None:
+            return False
+        self.mfi.Update(bar)
+
         if self.algo.IsWarmingUp:
             return False
 
-        # Get today's aggregated bar up to 3:50 PM
-        today = self.get_daily_bar(self.qqq)
-        if today is None:
+        if not self.mfi.IsReady:
             return False
 
-        # Fetch last 199 daily bars
-        hist = self.algo.History(self.qqq, 199, Resolution.Daily)
-        if hist.empty or len(hist) < 199:
-            return False
-
-        closes = [float(x) for x in hist["close"].values] + [today.Close]
-        highs = [float(x) for x in hist["high"].values] + [today.High]
-        lows = [float(x) for x in hist["low"].values] + [today.Low]
-
-        sc = sorted(closes)
-        median_200d = (sc[99] + sc[100]) / 2
-        in_trend    = today.Close > median_200d
-
-        # Range = high-low for each daily bar
-        ranges_200d = [highs[i] - lows[i] for i in range(200)]
-        ranges_25d  = ranges_200d[-25:]
-        avg_25      = sum(ranges_25d)  / 25
-        avg_200     = sum(ranges_200d) / 200
-        compressed  = avg_25 < avg_200 * 1.1
-
-        if in_trend and compressed:
-            weight = 1.0
-        elif in_trend or compressed:
-            weight = 0.5
-        else:
-            weight = 0.0
-
-        self.targets = {self.tqqq: weight} if weight > 0 else {}
+        mfi_value = self.mfi.Current.Value
+        if mfi_value > 60:
+            self.targets = {self.tqqq: 1.0}
+        elif mfi_value < 40:
+            self.targets = {}
+        # else: 40 ≤ MFI ≤ 60 → hold current position
 
 
-RangeCompressedAlgo = _make_standalone(RangeCompressedSub)
+MFI14HystAlgo = _make_standalone(MFI14HystSub)

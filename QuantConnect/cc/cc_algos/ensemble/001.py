@@ -3,7 +3,10 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class LeveragedRebalanceSub(BaseSubAlgo):
-    """Static 60% allocation to TQQQ. Rebalances back to 60% once per year (per-year drift harvest)."""
+    """
+    Entry: 100% TQQQ on first trading day of each year.
+    Exit: hold all year, no intra-year exit.
+    """
 
     SYMBOLS = ["TQQQ"]
 
@@ -15,7 +18,7 @@ class LeveragedRebalanceSub(BaseSubAlgo):
         if self.algo.Time.year == self.last_year:
             return False
         self.last_year = self.algo.Time.year
-        weight_per_sym = 0.65 / len(self.basket)
+        weight_per_sym = 1 / len(self.basket)
         self.targets = {sym: weight_per_sym for sym in self.basket}
         return True
 

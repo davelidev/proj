@@ -3,7 +3,10 @@ from base import BaseSubAlgo, _make_standalone
 
 
 class RSIThreeVoteSub(BaseSubAlgo):
-    """Equal-weight TQQQ/SOXL/TECL basket; basket weight = n/3 (weighted) where n = # of RSI(2) thresholds breached (<20, <25, <30). Rebalance 10 mins before close using intraday minute data."""
+    """
+    Entry: QQQ RSI(2) < 30/25/20 → 33%/67%/100% split across TQQQ/SOXL/TECL (n/3 votes).
+    Exit: RSI recovers above all thresholds.
+    """
 
     THRESHOLDS = [20, 25, 30]
 
