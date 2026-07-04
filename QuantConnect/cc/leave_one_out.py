@@ -20,32 +20,28 @@ MD_OUT = os.path.join(ROOT, "cc/md/ensemble_leave_one_out.md")
 
 # Map: (catalog_id, class_name, module_name, short_id, display_name)
 SUB_ALGOS = [
-    ( 1, "LeveragedRebalanceSub",  "leveraged_rebalance", "LevRebal",    "TQQQ 60% Annual Rebalance"),
-    ( 2, "RSIDipChampionSub",      "rsi_champion",        "RSIDip",       "QQQ RSI(2) Dip"),
-    ( 3, "TQQQDynamicSub",         "tqqq_dynamic",        "TQQQDyn",      "TQQQ Dynamic Sizing"),
-    ( 4, "ExpandingBreakoutSub",   "expanding_breakout",  "ExpandBreak",  "TQQQ Expanding Range Breakout"),
-    ( 5, "TQQQSMA150Sub",          "tqqq_sma150",         "TQQQSMA150",   "QQQ SMA(150) Trend"),
-    ( 6, "IBSATRStopSub",          "ibs_atr_stop",        "IBSATRStop",   "TQQQ IBS Extreme + ATR Stop"),
-    ( 8, "ROC20Sub",               "roc20",               "ROC20",        "ROC(20) Zero Cross"),
-    ( 9, "UpDay20Sub",             "upday20",             "UpDay20",      "Up-Day Count(20)"),
-    (10, "TII20Sub",               "tii20",               "TII20",        "TII(20) Trend Intensity"),
-    (11, "Price126DSub",           "price126d",           "Price126D",    "Price 126D Percentile"),
-    (12, "TrendStretchExitSub",    "trend_stretch_exit",  "StretchExit",  "Trend Stretch Exit"),
-    (13, "AntiMartingaleSub",      "anti_martingale",     "AntiMartin",   "TQQQ Anti-Martingale Pyramid"),
-    (14, "Donchian200MidlineSub",  "donchian200_midline", "D200Mid",      "Donchian-200 Midline"),
-    (15, "ROCD200TrailSub",        "roc_d200_trail",      "ROCD200Trail", "ROC+D200 + 7% Trail Exit"),
-    (16, "TQQQPyramidSub",        "tqqq_pyramid",        "TQQQPyramid",  "TQQQ Pyramid (10%/day)"),
-    (17, "RangeExpandedSub",      "range_expanded",      "RangeExp",     "Range Expanded 110%"),
-    (18, "MFI14HystSub",          "mfi14_hyst",          "MFI14Hyst",    "MFI14_Hyst"),
+    ( 1, "LeveragedRebalanceSub",  "leveraged_rebalance", "LevRebal",    "TQQQ 100% Annual Rebalance"),
+    ( 2, "IBSATRStopSub",          "ibs_basket",          "IBSBasket",   "TQQQ IBS Basket + ATR Stop"),
+    ( 3, "RSIThreeVoteSub",        "rsi2_dip_vote",       "RSI2DipVote", "QQQ RSI(2) Three Vote"),
+    ( 5, "SMA200RSITiersSub",      "sma200_rsi_tiers",    "SMA200Tiers", "SMA200 RSI Tiers"),
+    ( 6, "SMA200PyramidSub",       "sma200_pyramid",      "SMA200Pyramid","SMA200 Pyramid"),
+    ( 7, "SMAFiveVoteSub",         "sma_five_vote",       "SMA5Vote",    "SMA Five Vote"),
+    ( 8, "DonchianFiveVoteSub",    "donchian_four_vote",  "D5Vote",      "Donchian Five Vote"),
+    ( 9, "MomentumVoteSub",        "momentum_vote",       "MomVote",     "Momentum Vote"),
+    (10, "TrendStretchExitSub",    "trend_stretch_exit",  "StretchExit", "Trend Stretch Exit"),
+    (11, "GoldenCrossATRSub",      "golden_cross_atr",    "GoldXATR",    "Golden Cross ATR"),
+    (12, "RangeCompressedSub",     "range_compressed",    "RangeCompr",  "Range Compressed"),
+    (13, "MFI14HystSub",           "mfi14_hyst",          "MFI14Hyst",   "MFI14 Hysteresis"),
+    (14, "VolRegime20Sub",         "vol_regime_20",       "VolReg20",    "Volatility Regime 20"),
 ]
 
 # Known baseline from ensemble.md
 BASELINE = {
     "key": "baseline",
-    "name": "Full Ensemble (17 algos)",
-    "cagr": 37, "maxdd": 34, "sharpe": 0.978,
-    "yearly": {"2014":38,"2015":4,"2016":1,"2017":87,"2018":-3,"2019":59,
-               "2020":119,"2021":61,"2022":-19,"2023":85,"2024":47,"2025":36},
+    "name": "Full Ensemble (13 algos)",
+    "cagr": 36, "maxdd": 37, "sharpe": 0.939,
+    "yearly": {"2014":43,"2015":0,"2016":1,"2017":85,"2018":-3,"2019":65,
+               "2020":115,"2021":58,"2022":-30,"2023":102,"2024":54,"2025":31},
 }
 
 
@@ -199,8 +195,8 @@ def make_patched_ultAlgo(orig_src, exclude_class, exclude_module):
     src = re.sub(rf"^from {re.escape(exclude_module)} import {re.escape(exclude_class)}\n",
                  "", src, flags=re.MULTILINE)
 
-    # Remove sub_algo instantiation line (handles optional trailing comma and spaces)
-    src = re.sub(rf"^\s+{re.escape(exclude_class)}\(self,\s*['\"].*?['\"],?\s*\),?\n",
+    # Remove sub_algo from sub_specs list
+    src = re.sub(rf"^\s*\({re.escape(exclude_class)},\s*['\"].*?['\"],\s*\d+\),?\n",
                  "", src, flags=re.MULTILINE)
 
     return src

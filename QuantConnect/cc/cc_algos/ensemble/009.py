@@ -19,10 +19,7 @@ class TrendStretchExitSub(BaseSubAlgo):
         price = self.algo.Securities[self.qqq].Price
         self.sma200.Update(self.algo.Time, price)
 
-        if self.algo.IsWarmingUp:
-            return False
-
-        if not self.sma200.IsReady:
+        if self.algo.IsWarmingUp or not self.sma200.IsReady:
             return False
 
         sma     = self.sma200.Current.Value
