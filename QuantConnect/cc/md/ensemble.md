@@ -5,7 +5,6 @@
 | [1](#strategy-1)     | ✅    | Leveraged Rebalance                   | Buy & Hold      | 29%  | -51%  | 3/10   |
 | [2](#strategy-2)     | ❌    | IBS ATR Stop                          | Mean Reversion  | 43%  | -66%  | 4/10   |
 | [3](#strategy-3)     | ✅    | RSI Three Vote                        | Mean Reversion  | 37%  | -42%  | 3/10   |
-| [4](#strategy-4)     | ✅    | Range Breakout                        | Breakout        | 41%  | -53%  | 4/10   |
 | [5](#strategy-5)     | ✅    | SMA200 RSI Tiers                      | Trend Following | 33%  | -50%  | 4/10   |
 | [6](#strategy-6)     | ✅    | SMA200 Pyramid                        | Trend           | 32%  | -49%  | 4/10   |
 | [7](#strategy-7)     | ✅    | SMA Five Vote (150 weighted)          | Trend Following | 35%  | -43%  | 5/10   |
@@ -16,14 +15,13 @@
 | [12](#strategy-12)   | ✅    | Range Compressed                      | Range           | 33%  | -43%  | 2/10   |
 | [13](#strategy-13)   | ✅    | MFI14 Hyst                            | Volume          | 38%  | -46%  | 3/10   |
 | [14](#strategy-14)   | ✅    | Vol Regime 20                         | Volatility      | 34%  | -46%  | 3/10   |
-| [15](#strategy-15)   | ✅    | Full Ensemble (ultAlgo)               | Ensemble        | 36%  | -37%  |        |
+| [14](#strategy-14)   | ✅    | Full Ensemble (ultAlgo)               | Ensemble        | 36%  | -37%  |        |
 
 | #                    | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :------------------- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | [1](#strategy-1)     | 🟢 38% | 🟢 11% | 🟢 4% | 🟢 70% | 🔴 -11% | 🟢 78% | 🟢 66% | 🟢 52% | 🔴 -47% | 🟢 121% | 🟢 36% | 🟢 19% |
 | [2](#strategy-2)     | 🟢 24% | 🔴 -19% | 🟢 44% | 🟢 75% | 🔴 -27% | 🟢 126% | 🟢 282% | 🟢 16% | 🔴 -14% | 🟢 88% | 🟢 72% | 🟢 38% |
 | [3](#strategy-3)     | 🟢 30% | 🔴 -11% | 🔴 -23% | 🟢 50% | 🔴 -6% | 🟢 52% | 🟢 90% | 🟢 114% | 🟢 26% | 🟢 81% | 🟢 41% | 🟢 70% |
-| [4](#strategy-4)     | 🟢 131% | 🔴 -1% | 🟢 27% | 🟢 50% | 🔴 -36% | 🟢 76% | 🟢 103% | 🟢 95% | 🔴 -20% | 🟢 113% | 🟢 35% | 🟢 40% |
 | [5](#strategy-5)     | 🟢 29% | 🟢 15% | 🔴 -9% | 🟢 113% | 🟢 10% | 🟢 23% | 🟢 59% | 🟢 105% | 🔴 -21% | 🟢 65% | 🟢 30% | 🟢 40% |
 | [6](#strategy-6)     | 🟢 36% | 🔴 -7% | 🔴 -4% | 🟢 111% | 🟢 2% | 🟢 33% | 🟢 101% | 🟢 87% | 🔴 -36% | 🟢 88% | 🟢 61% | 🟢 9% |
 | [7](#strategy-7)     | 🟢 40% | 🟢 3% | 🔴 -5% | 🟢 103% | 🔴 -2% | 🟢 42% | 🟢 128% | 🟢 62% | 🔴 -37% | 🟢 119% | 🟢 42% | 🟢 35% |
@@ -34,7 +32,7 @@
 | [12](#strategy-12)   | 🟢 33% | 🔴 -5% | 🔴 -2% | 🟢 96% | ⚪ 0% | 🟢 62% | 🟢 99% | 🟢 67% | 🔴 -34% | 🟢 132% | 🟢 40% | 🟢 10% |
 | [13](#strategy-13)   | 🟢 25% | 🔴 -15% | 🟢 28% | 🟢 90% | 🔴 -2% | 🟢 107% | 🟢 136% | 🟢 21% | 🔴 -14% | 🟢 64% | 🟢 53% | 🟢 47% |
 | [14](#strategy-14)   | 🟢 41% | 🟢 9% | 🟢 4% | 🟢 118% | 🟢 2% | 🟢 62% | 🟢 65% | 🟢 66% | 🔴 -36% | 🟢 107% | 🟢 52% | 🟢 5% |
-| [15](#strategy-15)   | 🟢 43% | ⚪ 0% | 🟢 1% | 🟢 85% | 🔴 -3% | 🟢 65% | 🟢 115% | 🟢 58% | 🔴 -30% | 🟢 102% | 🟢 54% | 🟢 31% |
+| [14](#strategy-14)   | 🟢 43% | ⚪ 0% | 🟢 1% | 🟢 85% | 🔴 -3% | 🟢 65% | 🟢 115% | 🟢 58% | 🔴 -30% | 🟢 102% | 🟢 54% | 🟢 31% |
 
 ---
 ## Strategy-1
@@ -63,10 +61,10 @@
 ## Strategy-2
 ### IBS ATR Stop (002.py)
 
-*Overfit 4/10 — IBS thresholds 0.1/0.9 are extreme (top/bottom 10% of daily range) — canonical. ATR 3x is widely-used. Tested: IBS exits 0.7 (45%/-51%), 0.8 (49%/-50%), 0.9 (46%/-43%) all viable; entry 0.1 vs 0.2 differ ~5pp CAGR. Mild sensitivity, no sharp peaks.*
+*Overfit 4/10 — IBS thresholds 0.1/0.9 are extreme (top/bottom 10% of daily range) — canonical. ATR 2x chosen; 3x also tested and viable. Tested: IBS exits 0.7 (45%/-51%), 0.8 (49%/-50%), 0.9 (46%/-43%) all viable; entry 0.1 vs 0.2 differ ~5pp CAGR. Mild sensitivity, no sharp peaks.*
 
 - **Entry:** TQQQ IBS = (close − low)/(high − low) < 0.1 → equal-weight 1/3 TQQQ + 1/3 SOXL + 1/3 TECL
-- **Exit:** TQQQ IBS > 0.9 OR TQQQ close < entry − 3 × ATR(14, Wilder)
+- **Exit:** TQQQ IBS > 0.9 OR TQQQ close < entry − 2 × ATR(14, Wilder)
 - **Symbols:** Signal & ATR: TQQQ. Execution: TQQQ / SOXL / TECL
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -103,29 +101,6 @@
 > [!code]- Click to view: 003.py
 > ```embed-python
 > PATH: "vault://QuantConnect/cc/cc_algos/ensemble/003.py"
-> ```
-
----
-## Strategy-4
-### Range Breakout (004.py)
-
-*Overfit 4/10 — ATR multiplier swept 1x-5x: 3x is local peak but 4x/5x within ~6% Sharpe (plateau). Fixed % stops (5-15%) all dramatically worse than ATR. ADX 25 / SMA 200 are canonical. Multiple tunables but each sits on stable region.*
-
-- **Entry:** All three must hold: QQQ > SMA(200), yesterday's QQQ range > the day-before's, ADX(10) > 25 → 100% TQQQ
-- **Exit:** TQQQ ≥ 20-day high OR TQQQ < (price − 3 × ATR(14, Wilder), ratcheting up) OR QQQ < SMA(200)
-- **Symbols:** Signal: QQQ. Execution: TQQQ
-
-| CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 41% | -53% | 0.916 | 86 | 58 | 1.48 | 2.36 |
-
-| 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 🟢 131% | 🔴 -1% | 🟢 27% | 🟢 50% | 🔴 -36% | 🟢 76% | 🟢 103% | 🟢 95% | 🔴 -20% | 🟢 113% | 🟢 35% | 🟢 40% |
-
-> [!code]- Click to view: 004.py
-> ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/ensemble/004.py"
 > ```
 
 ---
@@ -360,7 +335,7 @@
 > ```
 
 ---
-## Strategy-15
+## Strategy-14
 ### Full Ensemble (ultAlgo) (ultAlgo.py)
 
 - **Components:** LeveragedRebalance, IBSATRStop, RSIThreeVote, RangeBreakout, SMA200RSITiers, SMA200Pyramid, SMAFiveVote (150×4), DonchianFiveVote, MomentumVote, TrendStretchExit, GoldenCrossATR, RangeCompressed, MFI14Hyst, VolRegime20 (14 sub-algos) + CashReserve (~3% sleeve). All 4 vote-based sub-algos (RSI3, SMA5, D5, Mom) use pure weighted rule: position = n/N.

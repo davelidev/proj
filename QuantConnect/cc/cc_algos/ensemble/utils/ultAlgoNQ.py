@@ -3,7 +3,6 @@ from base import START_DATE, END_DATE, INITIAL_CASH, WARMUP_DAYS, SCHEDULE_TICKE
 from leveraged_rebalance import LeveragedRebalanceSub
 from ibs_basket import IBSATRStopSub
 from rsi2_dip_vote import RSIThreeVoteSub
-from range_breakout import RangeBreakoutSub
 from sma200_rsi_tiers import SMA200RSITiersSub
 from sma200_pyramid import SMA200PyramidSub
 from sma_five_vote import SMAFiveVoteSub
@@ -74,7 +73,6 @@ class UltimateAlgoNQ(QCAlgorithm):
             (LeveragedRebalanceSub,  "LevRebal",       10),
             (IBSATRStopSub,          "IBSBasket",      20),
             (RSIThreeVoteSub,        "RSI2DipVote",    20),
-            (RangeBreakoutSub,       "RangeBreak",     10),
             (SMA200RSITiersSub,      "SMA200Tiers",    10),
             (SMA200PyramidSub,       "SMA200Pyramid",  10),
             (SMAFiveVoteSub,         "SMA5Vote",       15),
