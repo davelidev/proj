@@ -40,7 +40,7 @@ filter_conditions = {
     # 'ATH Years': '>=8',
     # 'Green Years': '>=8',
     # 'Return': '>600',
-    'Dollar Volume': '>=1000000000',
+    'Dollar Volume': '>=1_000_000_000',
     # 'Max Drawdown': '>-60',
     'SEPA': '==1',
     # 'EPS_Growth_Raw': '>=0.25',
