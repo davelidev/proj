@@ -32,5 +32,9 @@
   "potentials": {
     "prune": false,
     "catalog": "strategies"
+  },
+  "potentials_top_mktcap": {
+    "prune": false,
+    "catalog": "potentials_top_mktcap"
   }
 }
