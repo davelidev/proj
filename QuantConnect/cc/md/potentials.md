@@ -132,7 +132,7 @@
 - **Trend shield:** QQQ > SMA(200) required to hold anything
 - **Entry:** Bull regime + per-name RSI(2) < 20 → buy at equal weight
 - **Exit:** Per-name RSI(2) > 70; OR QQQ < SMA(200) → liquidate all
-- **Rebalance:** Daily, 30 min after market open
+- **Rebalance:** Daily, 45 min after market open
 - **Symbols:** Dynamic — typically AAPL/MSFT/NVDA/GOOG/AMZN etc.
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
@@ -955,7 +955,7 @@
 - **Entry:** RSI(2) < 30 AND price > SMA(50): up to 20% per name
 - **Stop loss:** Price ≤ avg cost × 0.85: liquidate
 - **Take profit:** Price ≥ 252-day high: liquidate
-- **Rebalance:** Weekly (Mondays), 30 min after market open
+- **Rebalance:** Weekly (Mondays), 45 min after market open
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -1035,7 +1035,7 @@
 - **Entry:** QQQ > Donchian-200 midline → 100% TQQQ
 - **Exit:** QQQ ≤ Donchian-200 midline → 100% cash
 - **Symbols:** Signal: QQQ. Execution: TQQQ
-- **Rebalance:** Daily, 30 min after market open
+- **Rebalance:** Daily, 10 min before market close
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -1061,7 +1061,7 @@
 - **Entry:** Price percentile in 126-day range > 50%: 100% TQQQ
 - **Exit:** Percentile ≤ 50%: 100% cash
 - **Symbols:** Signal: QQQ. Execution: TQQQ
-- **Rebalance:** Daily, 30 min after market open (only on regime change)
+- **Rebalance:** Daily, 10 min before market close (only on regime change)
 
 | CAGR | MaxDD | Sharpe | Win # | Loss # | W/L Ratio | Profit Ratio |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |

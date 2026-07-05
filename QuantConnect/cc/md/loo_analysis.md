@@ -2,8 +2,8 @@
 
 ## Setup
 
-- **Date:** 2026-06-07
-- **Method:** Set all sub-algo weights to 10 (uniform allocation, 1/15 each). Run baseline + 15 leave-one-out variants.
+- **Date:** 2026-07-04
+- **Method:** All sub-algo weights at 10 (uniform, 1/13 each). Run baseline + 13 leave-one-out variants.
 - **Period:** 2014-01-01 → 2025-12-31 (12 years)
 - **Metric:** ΔSharpe vs baseline (negative = removing this sub HURTS the ensemble; positive = removing this sub HELPS)
 
@@ -11,7 +11,7 @@
 
 | CAGR | MaxDD | Sharpe |
 |---|---|---|
-| 35.9% | -34.8% | **0.963** |
+| 38% | -34% | **0.977** |
 
 ## Full results
 
@@ -19,113 +19,96 @@ Sorted by ΔSharpe (most critical sub at top). ΔCAGR positive = CAGR improved w
 
 | Removed | CAGR | MaxDD | Sharpe | ΔCAGR | ΔDD | ΔSharpe | Verdict |
 |---|---|---|---|---|---|---|---|
-| IBSBasket | 33.4% | -37.0% | 0.894 | **-2.5pp** | **-2.2pp** | **-0.069** | **KEEP** — critical |
-| RSI2DipVote | 34.7% | -36.1% | 0.918 | -1.2pp | -1.3pp | **-0.045** | **KEEP** — critical |
-| MomVote | 35.6% | -35.2% | 0.951 | -0.3pp | -0.4pp | -0.012 | Keep — net positive |
-| StretchExit | 35.3% | -35.2% | 0.952 | -0.6pp | -0.4pp | -0.011 | Keep — net positive |
-| MFI14Hyst | 36.0% | -35.5% | 0.959 | +0.1pp | -0.7pp | -0.004 | Keep — marginal |
-| _baseline (none)_ | 35.9% | -34.8% | 0.963 | 0.0 | 0.0 | 0.000 | reference |
-| RangeBreak | 35.9% | -33.5% | 0.967 | 0.0pp | **+1.3pp** | +0.004 | Neutral |
-| VolReg20 | 35.8% | -35.8% | 0.968 | -0.1pp | -1.0pp | +0.005 | Neutral |
-| RangeCompr | 35.9% | -34.7% | 0.970 | 0.0pp | +0.1pp | +0.007 | Neutral |
-| LevRebal | 36.3% | -34.3% | 0.974 | +0.4pp | +0.5pp | +0.011 | **Drop** — small drag |
-| SMA200Tiers | 36.2% | -34.2% | 0.976 | +0.3pp | +0.6pp | +0.013 | **Drop** — small drag |
-| SMA5Vote | 36.0% | -33.9% | 0.976 | +0.1pp | +0.9pp | +0.013 | **Drop** — small drag |
-| CashReserve | 38.0% | -36.8% | 0.977 | **+2.1pp** | **-2.0pp** | +0.014 | Keep — DD stabilizer |
-| D5Vote | 35.9% | -33.9% | 0.979 | 0.0pp | +0.9pp | +0.016 | **Drop** — small drag |
-| SMA200Pyramid | 36.2% | -33.5% | 0.981 | +0.3pp | **+1.3pp** | +0.018 | **Drop** — DD wins |
-| GoldXATR | 36.1% | -32.6% | **0.985** | +0.2pp | **+2.2pp** | **+0.022** | **Drop** — biggest DD improvement |
+| RSI2DipVote | 38% | -38% | 0.940 | 0pp | -4pp | **-0.037** | **KEEP** — most critical |
+| IBSBasket | 38% | -38% | 0.955 | 0pp | -4pp | **-0.022** | **KEEP** — critical |
+| StretchExit | 38% | -36% | 0.961 | 0pp | -2pp | -0.016 | **KEEP** — critical |
+| MomVote | 38% | -36% | 0.962 | 0pp | -2pp | -0.015 | **KEEP** — critical |
+| MFI14Hyst | 38% | -35% | 0.965 | 0pp | -1pp | -0.012 | Keep — net positive |
+| _baseline (none)_ | 38% | -34% | 0.977 | 0.0 | 0.0 | 0.000 | reference |
+| GoldXATR | 38% | -34% | 0.980 | 0pp | 0pp | +0.003 | Neutral |
+| SMA200Tiers | 39% | -35% | 0.982 | +1pp | -1pp | +0.005 | Neutral |
+| VolReg20 | 39% | -36% | 0.985 | +1pp | -2pp | +0.008 | Neutral |
+| SMA5Vote | 39% | -34% | 0.986 | +1pp | 0pp | +0.009 | Neutral |
+| LevRebal | 38% | -32% | 0.987 | 0pp | **+2pp** | +0.010 | Neutral |
+| RangeCompr | 39% | -34% | 0.988 | +1pp | 0pp | +0.011 | **Drop** — small drag |
+| D5Vote | 39% | -34% | 0.991 | +1pp | 0pp | +0.014 | **Drop** — small drag |
+| SMA200Pyramid | 39% | -34% | 0.993 | +1pp | 0pp | **+0.016** | **Drop** — biggest drag |
 
 ## Categories
 
-### Critical (drop → big Sharpe loss)
+### Critical (drop → Sharpe loss ≥ 0.012)
 
-- **IBSBasket** (ΔSharpe -0.069): mean-reversion via Internal Bar Strength + ATR stop on TQQQ/SOXL/TECL basket. Provides uncorrelated dip-buy signal.
-- **RSI2DipVote** (ΔSharpe -0.045): RSI(2) oversold basket. Pure mean-reversion edge.
+- **RSI2DipVote** (ΔSharpe -0.037): RSI(2) oversold basket on TQQQ/SOXL/TECL. Pure mean-reversion edge, also worsens DD when removed (-4pp).
+- **IBSBasket** (ΔSharpe -0.022): IBS dip-buy with ATR stop. Uncorrelated mean-reversion signal, also worsens DD when removed (-4pp).
+- **StretchExit** (ΔSharpe -0.016): Trend entry gated by stretch < 5%, exits when overstretched. Acts as a timing filter that prevents top-chasing.
+- **MomVote** (ΔSharpe -0.015): ROC/UpDay/TII momentum votes. Adds a non-SMA momentum dimension that complements the reversion subs.
+- **MFI14Hyst** (ΔSharpe -0.012): MFI(14) with hysteresis. Volume/money-flow signal uncorrelated with price-based subs.
 
-### Net positive (small but real)
+### Neutral (within ±0.011)
 
-- MomVote (-0.012)
-- TrendStretchExit (-0.011)
-- MFI14Hyst (-0.004)
-
-### Neutral (within ±0.01)
-
-- RangeBreakout (+0.004)
-- VolRegime20 (+0.005)
-- RangeCompressed (+0.007)
+- GoldXATR (+0.003) — death cross + ATR stop; nearly irrelevant now that StretchExit and MomVote cover similar ground
+- SMA200Tiers (+0.005)
+- VolReg20 (+0.008)
+- SMA5Vote (+0.009)
+- LevRebal (+0.010) — static long bias; adds 2pp drawdown protection (LevRebal gets stopped out hard in bad years, dragging the ensemble down)
 
 ### Net negative (overlapping trend signals)
 
-- LevRebal (+0.011)
-- SMA200Tiers (+0.013)
-- SMAFiveVote (+0.013)
-- DonchianFiveVote (+0.016)
-- SMA200Pyramid (+0.018)
-- **GoldenCrossATR (+0.022)** — largest individual drag
-
-### Stability anchor
-
-- CashReserve (+0.014 Sharpe, but +2.0pp DD without it). Keep for tail-risk smoothing.
+- RangeCompr (+0.011)
+- **D5Vote (+0.014)**
+- **SMA200Pyramid (+0.016)** — largest individual drag
 
 ## Key observations
 
-### Trend overlap
+### Changed vs previous LOO (2026-06-07)
 
-All 6 net-negative subs are **trend-following on QQQ via SMA/EMA/Donchian**:
-- LevRebal (static long bias)
-- SMA200Tiers
-- SMA200Pyramid
-- SMAFiveVote (SMA20/50/100/150×4/200)
-- DonchianFiveVote (Donchian 50/100/150/200/250)
-- GoldenCrossATR (EMA50/EMA200)
+Previous analysis included CashReserve and RangeBreakout (since removed). Notable shifts:
 
-They produce correlated signals — each adds little new information, but each adds drawdown via leveraged TQQQ exposure when trends fail (2018, 2022).
+- **GoldXATR**: was the biggest drag (+0.022) → now nearly neutral (+0.003). StretchExit now absorbs its role as a timing/exit filter.
+- **StretchExit**: was marginal (-0.011) → now clearly critical (-0.016). Its stretch-gated entry is uniquely valuable.
+- **MomVote**: was marginal (-0.012) → now clearly critical (-0.015). Momentum dimension is non-redundant.
+- **IBSBasket**: was most critical (-0.069) → now second (-0.022). Sharpe is higher overall, compressing absolute deltas.
+- **SMA200Pyramid**: remains biggest positive-ΔSharpe drag (+0.018 → +0.016). Consistent finding.
 
-### Mean-reversion is rare and valuable
+### Mean-reversion dominates
 
-Only 2 subs are mean-reversion based (IBSBasket, RSI2DipVote). Both are critical contributors. Suggests the ensemble would benefit from MORE mean-reversion signals (e.g., RSI(3) on different periods, MFI dip-buy variants).
+The two most critical subs (RSI2DipVote, IBSBasket) are both pure mean-reversion. Together they account for most of the ensemble's alpha over the trend-following baseline. Both also protect drawdown: removing either adds 4pp to MaxDD.
+
+### Trend subs are largely redundant
+
+5 of 13 subs produce ΔSharpe > 0 (removing helps): RangeCompr, D5Vote, SMA200Pyramid, SMA5Vote, SMA200Tiers. All are SMA/Donchian trend-following on QQQ — correlated signals that pile up leveraged TQQQ exposure without adding new information.
 
 ### What's actually doing the work
 
-5 of 15 subs (33%) carry ≥80% of the Sharpe contribution:
+4 subs carry most of the Sharpe edge:
+1. RSI2DipVote (-0.037)
+2. IBSBasket (-0.022)
+3. StretchExit (-0.016)
+4. MomVote (-0.015)
 
-1. IBSBasket
-2. RSI2DipVote
-3. MomVote
-4. TrendStretchExit
-5. MFI14Hyst (marginal)
-
-The other 10 are either neutral or negative.
+The rest are either neutral diversifiers or slight drags.
 
 ## Recommended next experiments
 
 ### A. Trimmed 9-sub ensemble
 
-Drop the 6 net-negatives (LevRebal, SMA200Tiers, SMA5Vote, D5Vote, SMA200Pyramid, GoldXATR). Keep all others.
+Drop the 3 clearest drags (D5Vote, SMA200Pyramid, RangeCompr). Keep all others.
 
-**Hypothesis:** Sharpe rises from 0.963 → ~1.02-1.05; DD falls from -34.8% to -32%.
+**Hypothesis:** Sharpe rises from 0.977 → ~1.00+; DD unchanged or improves.
 
-### B. Pure mean-reversion focused
+### B. Double down on mean-reversion
 
-Drop ALL trend-followers. Keep only: IBSBasket, RSI2DipVote, MomVote, StretchExit, MFI14Hyst, RangeBreak, VolReg20, CashReserve (8 subs).
+Since RSI2DipVote and IBSBasket dominate, test adding:
+- RSI(3) oversold variant with different thresholds
+- Bollinger Band Z-score dip-buy
+- MFI dip-buy (complement to the existing hysteresis filter)
 
-**Hypothesis:** Sharpe could rise further but DD risk if trend-following safety net is fully removed.
+### C. Pairwise LOO on trend subs
 
-### C. Add more mean-reversion
-
-Since only 2 subs carry the bulk of returns and both are mean-reversion, test adding:
-- RSI(3) variant with different thresholds
-- Bollinger Band Z-score dip
-- Volume-weighted price reversion
-
-### D. Test pairwise interactions
-
-LOO is first-order. Run pairwise LOO for the 6 trend-followers to find which combinations are truly redundant vs which are individually fine.
+LOO is first-order. The 5 neutral/drag trend subs may have pairwise interactions — some combos might be complementary even if individually redundant. Run pairwise drops for SMA200Tiers, SMA5Vote, D5Vote, RangeCompr, SMA200Pyramid.
 
 ## Notes
 
-- Uniform weight=10 baseline differs from production weights (which give IBSBasket=20, RSI2DipVote=20, SMA5Vote=15, D5Vote=15). Production Sharpe is 1.036.
-- The LOO analysis with uniform weights is structurally cleaner for ranking but understates the contribution of the 2 high-weight subs.
-- With production weights, IBSBasket and RSI2DipVote already get 20/175 = 11.4% allocation each (vs 6.7% in this test) — so their dominance is partially priced in.
-- Backtest IDs: see `/tmp/loo_results.json`
+- All weights uniform (10 each, 13 subs). This is also the current production configuration.
+- Baseline 38%/-34%/0.977 matches current production ensemble exactly (same weights).
+- Backtest IDs: see `/tmp/loo_results_new.json`
