@@ -1,7 +1,9 @@
 from AlgorithmImports import *
 
-class TQQQPyramid30(QCAlgorithm):
-    """Pyramid: +30% TQQQ each day in trend (full in ~4 days), full exit on bear flip."""
+class TQQQPyramid(QCAlgorithm):
+    """Pyramid: each consecutive day with QQQ > D200 midline AND ROC(20)>0 adds 10% TQQQ exposure, up to 100%.
+    On bear signal, immediate 0%.
+    """
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
@@ -16,14 +18,19 @@ class TQQQPyramid30(QCAlgorithm):
                          self.TimeRules.AfterMarketOpen(self.qqq, 30),
                          self.Rebalance)
         self.SetWarmUp(220, Resolution.Daily)
-        self.exposure = 0.0
+        self.exposure = 0.0  # current TQQQ exposure (0..1)
 
     def Rebalance(self):
         if self.IsWarmingUp or not (self.roc.IsReady and self.hi200.IsReady and self.lo200.IsReady):
             return
         mid = (self.hi200.Current.Value + self.lo200.Current.Value) / 2.0
         bull = self.roc.Current.Value > 0 and self.Securities[self.qqq].Price > mid
-        new_exp = min(1.0, self.exposure + 0.3) if bull else 0.0
+
+        if bull:
+            new_exp = min(1.0, self.exposure + 0.1)
+        else:
+            new_exp = 0.0
+
         if abs(new_exp - self.exposure) > 0.01:
             self.SetHoldings(self.tqqq, new_exp)
             self.SetHoldings(self.bil, 1.0 - new_exp)

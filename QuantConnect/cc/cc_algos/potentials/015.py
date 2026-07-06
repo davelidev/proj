@@ -1,38 +1,28 @@
 from AlgorithmImports import *
 
-class ROCD200_TrailExit(QCAlgorithm):
-    """ROC+D200 entry, with 7% drawdown-from-20d-high trailing exit while invested."""
+class FS_R20_D200_Trail7(QCAlgorithm):
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1)
-        self.SetEndDate(2025, 12, 31)
-        self.SetCash(100000)
-        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
-        self.roc   = self.ROC(self.qqq, 20, Resolution.Daily)
-        self.hi200 = self.MAX(self.qqq, 200, Resolution.Daily)
-        self.lo200 = self.MIN(self.qqq, 200, Resolution.Daily)
-        self.hi20  = self.MAX(self.qqq, 20,  Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
-                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
-                         self.Rebalance)
+        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol; self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self.roc=self.ROC(self.qqq,20,Resolution.Daily)
+        self.h1=self.MAX(self.qqq,200,Resolution.Daily); self.l1=self.MIN(self.qqq,200,Resolution.Daily)
+        self.h2=self.MAX(self.qqq,200,Resolution.Daily); self.l2=self.MIN(self.qqq,200,Resolution.Daily)
+        self.hi20=self.MAX(self.qqq,20,Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
         self.SetWarmUp(220, Resolution.Daily)
 
     def Rebalance(self):
-        if self.IsWarmingUp or not (self.roc.IsReady and self.hi200.IsReady and self.lo200.IsReady and self.hi20.IsReady):
-            return
-        mid = (self.hi200.Current.Value + self.lo200.Current.Value) / 2.0
-        price = self.Securities[self.qqq].Price
-        dd_20 = price / self.hi20.Current.Value - 1.0
-        bull = self.roc.Current.Value > 0 and price > mid
-
-        if bull and dd_20 > -0.07:
+        if self.IsWarmingUp or not(self.roc.IsReady and self.h1.IsReady and self.l1.IsReady and self.h2.IsReady and self.l2.IsReady and self.hi20.IsReady): return
+        m1=(self.h1.Current.Value+self.l1.Current.Value)/2.0
+        m2=(self.h2.Current.Value+self.l2.Current.Value)/2.0
+        price=self.Securities[self.qqq].Price; dd_20=price/self.hi20.Current.Value-1.0
+        bull=self.roc.Current.Value>0 and price>m1 and price>m2 and dd_20 > -0.0700
+        if bull:
             if not self.Portfolio[self.tqqq].Invested:
-                self.Liquidate(self.bil)
-                self.SetHoldings(self.tqqq, 1.0)
+                self.Liquidate(self.bil); self.SetHoldings(self.tqqq,1.0)
         else:
             if not self.Portfolio[self.bil].Invested:
-                self.Liquidate(self.tqqq)
-                self.SetHoldings(self.bil, 1.0)
+                self.Liquidate(self.tqqq); self.SetHoldings(self.bil,1.0)
 
     def OnData(self, data): pass

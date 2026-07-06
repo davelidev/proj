@@ -1,31 +1,30 @@
 from AlgorithmImports import *
-class CC16_688(QCAlgorithm):
+
+class TwoState_CMO_52wHigh(QCAlgorithm):
     def Initialize(self):
-        self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
+        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
         self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
         self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
         self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self._cci=self.CCI(self.qqq,20,MovingAverageType.Simple,Resolution.Daily)
-        self._st=None; self.SetWarmUp(70,Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
-    def _atr(self,h,n):
-        trs=[]
-        for i in range(1,len(h)):
-            hi=float(h['high'].iloc[i]); lo=float(h['low'].iloc[i]); pc=float(h['close'].iloc[i-1])
-            trs.append(max(hi-lo,abs(hi-pc),abs(lo-pc)))
-        return sum(trs[-n:])/n if len(trs)>=n else None
+        self.hi252=self.MAX(self.qqq,252,Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
+        self.SetWarmUp(270, Resolution.Daily); self.state=None
+
     def Rebalance(self):
-        if self.IsWarmingUp or not self._cci.IsReady: return
-        h=self.History(self.qqq,70,Resolution.Daily)
-        if h.empty or len(h)<65: return
-        cl=float(h['close'].iloc[-1]); roc20=cl/float(h['close'].iloc[-21])-1
-        atr14=self._atr(h,14); atr63=self._atr(h,63)
-        if atr14 is None or atr63 is None: return
-        low_vol=atr14<atr63*1.3
-        cci=self._cci.Current.Value
-        st=1 if cci>0 and roc20>0 and low_vol else 0
-        if st==self._st: return
-        self._st=st
-        if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)
-        else: self.SetHoldings(self.tqqq,0); self.SetHoldings(self.bil,1.0)
-    def OnData(self,data): pass
+        if self.IsWarmingUp or not self.hi252.IsReady: return
+        h=self.History(self.qqq, 21, Resolution.Daily)
+        if h.empty or len(h)<21: return
+        c=[float(x) for x in h["close"].values]
+        ch=[c[i]-c[i-1] for i in range(1,len(c))]
+        up=sum(x for x in ch if x>0); dn=sum(-x for x in ch if x<0); tot=up+dn
+        if tot<=0: return
+        cmo = 100.0*(up-dn)/tot
+        dd = self.Securities[self.qqq].Price/self.hi252.Current.Value-1.0
+        bull = cmo > 0 and dd > -0.15
+        ns = "BULL" if bull else "BEAR"
+        if ns != self.state:
+            self.SetHoldings(self.tqqq, 1.0 if bull else 0.0)
+            self.SetHoldings(self.bil,  0.0 if bull else 1.0)
+            self.state = ns
+
+    def OnData(self, data): pass

@@ -1,29 +1,24 @@
 from AlgorithmImports import *
-
-class ThreeState_CMO20_Median(QCAlgorithm):
+class CC16_698(QCAlgorithm):
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
+        self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
         self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
         self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
         self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
-        self.SetWarmUp(220, Resolution.Daily); self.state=None
-
+        self._st=None; self.SetWarmUp(260,Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
     def Rebalance(self):
         if self.IsWarmingUp: return
-        h=self.History(self.qqq, 200, Resolution.Daily)
-        if h.empty or len(h)<200: return
-        c=[float(x) for x in h["close"].values]
-        ch=[c[i]-c[i-1] for i in range(-20,0)]
-        up=sum(x for x in ch if x>0); dn=sum(-x for x in ch if x<0); tot=up+dn
-        if tot<=0: return
-        cmo = 100.0*(up-dn)/tot
-        med=sorted(c)[len(c)//2]
-        m = cmo > 0; med_bull = self.Securities[self.qqq].Price > med
-        if m and med_bull: ns,wt,wb="BULL",1.0,0.0
-        elif m or med_bull: ns,wt,wb="MIXED",0.5,0.5
-        else: ns,wt,wb="BEAR",0.0,1.0
-        if ns!=self.state:
-            self.SetHoldings(self.tqqq,wt); self.SetHoldings(self.bil,wb); self.state=ns
-
-    def OnData(self, data): pass
+        h=self.History(self.qqq,252,Resolution.Daily)
+        if h.empty or len(h)<252: return
+        closes=[float(h['close'].iloc[i]) for i in range(len(h))]
+        lo=min(closes); hi=max(closes)
+        if hi==lo: return
+        # price above median of 52-week range = bullish
+        pct=(closes[-1]-lo)/(hi-lo)
+        st=1 if pct>0.5 else 0
+        if st==self._st: return
+        self._st=st
+        if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)
+        else: self.SetHoldings(self.tqqq,0); self.SetHoldings(self.bil,1.0)
+    def OnData(self,data): pass

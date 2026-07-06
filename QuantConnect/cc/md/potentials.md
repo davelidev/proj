@@ -3,31 +3,31 @@
 | #                    | Pass | Title                                 | Category        | CAGR | MaxDD | Overfit |
 | :------------------- | :--- | :------------------------------------ | :-------------- | :--- | :---- | :------ |
 | [1](#strategy-1)     | ✅    | Research S11 - Cheat Code Rotator TQQQ | Dip Buy         | 32%  | -50%  | 3/10   |
-| [3](#strategy-3)     | ✅    | Defensive Rotation                    | Rotation        | 38%  | -54%  | 6/10   |
-| [4](#strategy-4)     | ✅    | IBS regime-adaptive                   | Mean Reversion  | 39%  | -55%  | 4/10   |
-| [8](#strategy-8)     | ❌    | 5x 3x-Leveraged ETF Basket + QQQ Vol Gate | Rotation        | 27%  | -43%  | 4/10   |
-| [10](#strategy-10)   | ✅    | TQQQ hybrid + ATR                     | Trend/MR Hybrid | 49%  | -48%  | 5/10   |
-| [14](#strategy-14)   | ✅    | 3-State ROC(20) + Donchian-200        | Trend           | 38%  | -49%  | 3/10   |
-| [17](#strategy-17)   | ✅    | 3-State Dual-ROC + D200               | Trend           | 33%  | -44%  | 3/10   |
-| [18](#strategy-18)   | ✅    | ROC+D200 + 5% Trail Exit              | Trend           | 31%  | -40%  | 3/10   |
-| [19](#strategy-19)   | ✅    | TQQQ Pyramid 30%/day                  | Trend           | 32%  | -43%  | 3/10   |
-| [21](#strategy-21)   | ✅    | ROC+D200 + 7% Trail Binary            | Trend           | 31%  | -43%  | 3/10   |
-| [22](#strategy-22)   | ✅    | CMO(20) Momentum                      | Momentum        | 35%  | -50%  | 3/10   |
-| [23](#strategy-23)   | ✅    | 3-State CMO+Median200                 | Momentum        | 37%  | -49%  | 4/10   |
-| [24](#strategy-24)   | ✅    | 3-State CMO+52w-High Gate             | Momentum        | 38%  | -50%  | 3/10   |
-| [29](#strategy-29)   | ✅    | ROC20_Zero                            | Momentum        | 35%  | -50%  | 2/10   |
-| [33](#strategy-33)   | ✅    | CCI20+ROC20+ATR                       | Hybrid          | 29%  | -42%  | 4/10   |
-| [35](#strategy-35)   | ✅    | Price52W_Percentile                   | Price Position  | 30%  | -55%  | 1/10   |
-| [36](#strategy-36)   | ✅    | UpDay_Count20                         | Breadth         | 33%  | -53%  | 2/10   |
-| [37](#strategy-37)   | ✅    | Price126D_Percentile                  | Price Position  | 35%  | -54%  | 2/10   |
-| [38](#strategy-38)   | ✅    | UpDay_Count55pct                      | Breadth         | 33%  | -53%  | 2/10   |
-| [39](#strategy-39)   | ✅    | TII(20) >50.0 Bull                    | TII             | 30%  | -44%  | 2/10   |
-| [41](#strategy-41)   | ✅    | TQQQ Intrabar Vol Breakout            | Breakout        | 43%  | -37%  | 3/10   |
-| [49](#strategy-49)   | ✅    | 2-State CMO+52w-High Gate             | Momentum        | 33%  | -40%  | 2/10   |
-| [54](#strategy-54)   | ✅    | Donchian-200 Midline                  | Trend           | 37%  | -57%  | 2/10   |
-| [56](#strategy-56)   | ✅    | Price 126D Percentile                 | Price Position  | 34%  | -55%  | 1/10   |
+| [2](#strategy-2)     | ✅    | Defensive Rotation                    | Rotation        | 38%  | -54%  | 6/10   |
+| [3](#strategy-3)     | ✅    | IBS regime-adaptive                   | Mean Reversion  | 39%  | -55%  | 4/10   |
+| [6](#strategy-6)     | ❌    | 5x 3x-Leveraged ETF Basket + QQQ Vol Gate | Rotation        | 27%  | -43%  | 4/10   |
+| [7](#strategy-7)     | ✅    | TQQQ hybrid + ATR                     | Trend/MR Hybrid | 49%  | -48%  | 5/10   |
+| [9](#strategy-9)     | ✅    | 3-State ROC(20) + Donchian-200        | Trend           | 38%  | -49%  | 3/10   |
+| [12](#strategy-12)   | ✅    | 3-State Dual-ROC + D200               | Trend           | 33%  | -44%  | 3/10   |
+| [13](#strategy-13)   | ✅    | ROC+D200 + 5% Trail Exit              | Trend           | 31%  | -40%  | 3/10   |
+| [14](#strategy-14)   | ✅    | TQQQ Pyramid 30%/day                  | Trend           | 32%  | -43%  | 3/10   |
+| [15](#strategy-15)   | ✅    | ROC+D200 + 7% Trail Binary            | Trend           | 31%  | -43%  | 3/10   |
+| [16](#strategy-16)   | ✅    | CMO(20) Momentum                      | Momentum        | 35%  | -50%  | 3/10   |
+| [17](#strategy-17)   | ✅    | 3-State CMO+Median200                 | Momentum        | 37%  | -49%  | 4/10   |
+| [18](#strategy-18)   | ✅    | 3-State CMO+52w-High Gate             | Momentum        | 38%  | -50%  | 3/10   |
+| [20](#strategy-20)   | ✅    | ROC20_Zero                            | Momentum        | 35%  | -50%  | 2/10   |
+| [22](#strategy-22)   | ✅    | CCI20+ROC20+ATR                       | Hybrid          | 29%  | -42%  | 4/10   |
+| [23](#strategy-23)   | ✅    | Price52W_Percentile                   | Price Position  | 30%  | -55%  | 1/10   |
+| [24](#strategy-24)   | ✅    | UpDay_Count20                         | Breadth         | 33%  | -53%  | 2/10   |
+| [25](#strategy-25)   | ✅    | Price126D_Percentile                  | Price Position  | 35%  | -54%  | 2/10   |
+| [26](#strategy-26)   | ✅    | UpDay_Count55pct                      | Breadth         | 33%  | -53%  | 2/10   |
+| [27](#strategy-27)   | ✅    | TII(20) >50.0 Bull                    | TII             | 30%  | -44%  | 2/10   |
+| [28](#strategy-28)   | ✅    | TQQQ Intrabar Vol Breakout            | Breakout        | 43%  | -37%  | 3/10   |
+| [29](#strategy-29)   | ✅    | 2-State CMO+52w-High Gate             | Momentum        | 33%  | -40%  | 2/10   |
+| [31](#strategy-31)   | ✅    | Donchian-200 Midline                  | Trend           | 37%  | -57%  | 2/10   |
+| [32](#strategy-32)   | ✅    | Price 126D Percentile                 | Price Position  | 34%  | -55%  | 1/10   |
 | [57](#strategy-57)   | ✅    | ROC(20) Zero Cross                    | Momentum        | 35%  | -50%  | 3/10   |
-| [58](#strategy-58)   | ✅    | Up-Day Count(20)                      | Momentum        | 32%  | -53%  | 3/10   |
+| [33](#strategy-33)   | ✅    | Up-Day Count(20)                      | Momentum        | 32%  | -53%  | 3/10   |
 | [59](#strategy-59)   | ✅    | TII(20) Trend Intensity               | Trend           | 29%  | -45%  | 3/10   |
 | [60](#strategy-60)   | ✅    | QQQ RSI(2) Dip → Equal-Weight TQQQ/SOXL/TECL | Mean Reversion  | 40%  | -32%  | 4/10   |
 | [61](#strategy-61)   | ✅    | TQQQ Pyramid (10%/day)                | Trend           | 29%  | -43%  | 4/10   |
@@ -36,31 +36,31 @@
 | #                    | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :------------------- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | [1](#strategy-1)     | 🟢 68% | 🟢 8% | 🔴 -25% | 🟢 137% | 🔴 -16% | 🟢 20% | 🟢 69% | 🟢 61% | 🔴 -27% | 🟢 104% | 🟢 64% | 🟢 32% |
-| [3](#strategy-3)     | 🟢 25% | 🔴 -25% | 🔴 -28% | 🟢 99% | 🟢 5% | 🟢 11% | 🟢 225% | 🟢 82% | 🟢 119% | 🟢 30% | 🟢 41% | 🟢 25% |
-| [4](#strategy-4)     | 🟢 12% | 🟢 1% | 🟢 26% | 🟢 71% | 🔴 -31% | 🟢 35% | 🟢 303% | 🟢 75% | 🔴 -23% | 🟢 84% | 🟢 17% | 🟢 92% |
-| [8](#strategy-8)     | 🟢 28% | 🔴 -1% | 🟢 21% | 🟢 106% | 🔴 -7% | 🟢 59% | 🟢 7% | 🟢 49% | 🟢 5% | 🟢 62% | 🟢 44% | ⚪ 0% |
-| [10](#strategy-10)   | 🟢 52% | 🟢 9% | 🔴 -2% | 🟢 118% | 🔴 -1% | 🟢 36% | 🟢 259% | 🟢 88% | 🔴 -11% | 🟢 75% | 🟢 59% | 🟢 48% |
-| [14](#strategy-14)   | 🟢 41% | 🟢 6% | ⚪ 0% | 🟢 101% | 🔴 -12% | 🟢 84% | 🟢 138% | 🟢 62% | 🔴 -32% | 🟢 92% | 🟢 44% | 🟢 33% |
-| [17](#strategy-17)   | 🟢 32% | 🟢 1% | 🔴 -3% | 🟢 101% | 🔴 -8% | 🟢 82% | 🟢 96% | 🟢 62% | 🔴 -33% | 🟢 99% | 🟢 38% | 🟢 17% |
-| [18](#strategy-18)   | 🟢 26% | 🔴 -14% | 🔴 -2% | 🟢 85% | 🔴 -15% | 🟢 66% | 🟢 188% | 🟢 39% | 🔴 -19% | 🟢 64% | 🟢 23% | 🟢 42% |
-| [19](#strategy-19)   | 🟢 28% | 🔴 -7% | 🟢 2% | 🟢 70% | 🔴 -4% | 🟢 70% | 🟢 128% | 🟢 41% | 🔴 -16% | 🟢 50% | 🟢 44% | 🟢 43% |
-| [21](#strategy-21)   | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -15% | 🟢 66% | 🟢 185% | 🟢 39% | 🔴 -19% | 🟢 56% | 🟢 23% | 🟢 42% |
-| [22](#strategy-22)   | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 170% | 🟢 39% | 🔴 -18% | 🟢 88% | 🟢 28% | 🟢 42% |
-| [23](#strategy-23)   | 🟢 41% | 🟢 6% | 🔴 -4% | 🟢 101% | 🔴 -11% | 🟢 75% | 🟢 139% | 🟢 62% | 🔴 -32% | 🟢 101% | 🟢 40% | 🟢 27% |
-| [24](#strategy-24)   | 🟢 41% | 🟢 6% | ⚪ 0% | 🟢 101% | 🔴 -13% | 🟢 99% | 🟢 138% | 🟢 62% | 🔴 -33% | 🟢 90% | 🟢 44% | 🟢 30% |
-| [29](#strategy-29)   | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 170% | 🟢 39% | 🔴 -18% | 🟢 88% | 🟢 28% | 🟢 42% |
-| [33](#strategy-33)   | 🔴 -8% | 🔴 -16% | 🔴 -10% | 🟢 45% | 🔴 -3% | 🟢 97% | 🟢 227% | 🟢 58% | 🔴 -19% | 🟢 140% | 🔴 -1% | 🟢 12% |
-| [35](#strategy-35)   | 🟢 56% | 🔴 -9% | 🔴 -5% | 🟢 118% | 🔴 -15% | 🟢 73% | 🟢 97% | 🟢 88% | 🔴 -51% | 🟢 92% | 🟢 62% | 🔴 -2% |
-| [36](#strategy-36)   | 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 81% | 🟢 147% | 🟢 41% | 🟢 28% | 🟢 94% | 🟢 8% | 🔴 -1% |
-| [37](#strategy-37)   | 🟢 46% | 🟢 25% | 🔴 -5% | 🟢 118% | 🔴 -25% | 🟢 59% | 🟢 119% | 🟢 68% | 🔴 -40% | 🟢 87% | 🟢 26% | 🟢 53% |
-| [38](#strategy-38)   | 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 81% | 🟢 147% | 🟢 41% | 🟢 28% | 🟢 94% | 🟢 8% | 🔴 -1% |
-| [39](#strategy-39)   | 🟢 21% | 🔴 -6% | 🟢 29% | 🟢 55% | 🟢 49% | 🟢 40% | 🟢 84% | 🟢 2% | 🟢 15% | ⚪ 0% | 🟢 37% | 🟢 63% |
-| [41](#strategy-41)   | 🟢 43% | 🟢 5% | 🟢 22% | 🟢 101% | 🟢 23% | 🟢 105% | 🟢 151% | 🟢 24% | 🔴 -33% | 🟢 107% | 🟢 52% | 🟢 18% |
-| [49](#strategy-49)   | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 161% | 🟢 39% | 🔴 -19% | 🟢 63% | 🟢 28% | 🟢 42% |
-| [54](#strategy-54)   | 🟢 56% | 🟢 22% | 🔴 -5% | 🟢 118% | 🔴 -19% | 🟢 80% | 🟢 97% | 🟢 88% | 🔴 -47% | 🟢 93% | 🟢 62% | 🟢 20% |
-| [56](#strategy-56)   | 🟢 46% | 🟢 25% | 🔴 -5% | 🟢 118% | 🔴 -25% | 🟢 59% | 🟢 119% | 🟢 68% | 🔴 -41% | 🟢 86% | 🟢 26% | 🟢 52% |
+| [2](#strategy-2)     | 🟢 25% | 🔴 -25% | 🔴 -28% | 🟢 99% | 🟢 5% | 🟢 11% | 🟢 225% | 🟢 82% | 🟢 119% | 🟢 30% | 🟢 41% | 🟢 25% |
+| [3](#strategy-3)     | 🟢 12% | 🟢 1% | 🟢 26% | 🟢 71% | 🔴 -31% | 🟢 35% | 🟢 303% | 🟢 75% | 🔴 -23% | 🟢 84% | 🟢 17% | 🟢 92% |
+| [6](#strategy-6)     | 🟢 28% | 🔴 -1% | 🟢 21% | 🟢 106% | 🔴 -7% | 🟢 59% | 🟢 7% | 🟢 49% | 🟢 5% | 🟢 62% | 🟢 44% | ⚪ 0% |
+| [7](#strategy-7)     | 🟢 52% | 🟢 9% | 🔴 -2% | 🟢 118% | 🔴 -1% | 🟢 36% | 🟢 259% | 🟢 88% | 🔴 -11% | 🟢 75% | 🟢 59% | 🟢 48% |
+| [9](#strategy-9)     | 🟢 41% | 🟢 6% | ⚪ 0% | 🟢 101% | 🔴 -12% | 🟢 84% | 🟢 138% | 🟢 62% | 🔴 -32% | 🟢 92% | 🟢 44% | 🟢 33% |
+| [12](#strategy-12)   | 🟢 32% | 🟢 1% | 🔴 -3% | 🟢 101% | 🔴 -8% | 🟢 82% | 🟢 96% | 🟢 62% | 🔴 -33% | 🟢 99% | 🟢 38% | 🟢 17% |
+| [13](#strategy-13)   | 🟢 26% | 🔴 -14% | 🔴 -2% | 🟢 85% | 🔴 -15% | 🟢 66% | 🟢 188% | 🟢 39% | 🔴 -19% | 🟢 64% | 🟢 23% | 🟢 42% |
+| [14](#strategy-14)   | 🟢 28% | 🔴 -7% | 🟢 2% | 🟢 70% | 🔴 -4% | 🟢 70% | 🟢 128% | 🟢 41% | 🔴 -16% | 🟢 50% | 🟢 44% | 🟢 43% |
+| [15](#strategy-15)   | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -15% | 🟢 66% | 🟢 185% | 🟢 39% | 🔴 -19% | 🟢 56% | 🟢 23% | 🟢 42% |
+| [16](#strategy-16)   | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 170% | 🟢 39% | 🔴 -18% | 🟢 88% | 🟢 28% | 🟢 42% |
+| [17](#strategy-17)   | 🟢 41% | 🟢 6% | 🔴 -4% | 🟢 101% | 🔴 -11% | 🟢 75% | 🟢 139% | 🟢 62% | 🔴 -32% | 🟢 101% | 🟢 40% | 🟢 27% |
+| [18](#strategy-18)   | 🟢 41% | 🟢 6% | ⚪ 0% | 🟢 101% | 🔴 -13% | 🟢 99% | 🟢 138% | 🟢 62% | 🔴 -33% | 🟢 90% | 🟢 44% | 🟢 30% |
+| [20](#strategy-20)   | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 170% | 🟢 39% | 🔴 -18% | 🟢 88% | 🟢 28% | 🟢 42% |
+| [22](#strategy-22)   | 🔴 -8% | 🔴 -16% | 🔴 -10% | 🟢 45% | 🔴 -3% | 🟢 97% | 🟢 227% | 🟢 58% | 🔴 -19% | 🟢 140% | 🔴 -1% | 🟢 12% |
+| [23](#strategy-23)   | 🟢 56% | 🔴 -9% | 🔴 -5% | 🟢 118% | 🔴 -15% | 🟢 73% | 🟢 97% | 🟢 88% | 🔴 -51% | 🟢 92% | 🟢 62% | 🔴 -2% |
+| [24](#strategy-24)   | 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 81% | 🟢 147% | 🟢 41% | 🟢 28% | 🟢 94% | 🟢 8% | 🔴 -1% |
+| [25](#strategy-25)   | 🟢 46% | 🟢 25% | 🔴 -5% | 🟢 118% | 🔴 -25% | 🟢 59% | 🟢 119% | 🟢 68% | 🔴 -40% | 🟢 87% | 🟢 26% | 🟢 53% |
+| [26](#strategy-26)   | 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 81% | 🟢 147% | 🟢 41% | 🟢 28% | 🟢 94% | 🟢 8% | 🔴 -1% |
+| [27](#strategy-27)   | 🟢 21% | 🔴 -6% | 🟢 29% | 🟢 55% | 🟢 49% | 🟢 40% | 🟢 84% | 🟢 2% | 🟢 15% | ⚪ 0% | 🟢 37% | 🟢 63% |
+| [28](#strategy-28)   | 🟢 43% | 🟢 5% | 🟢 22% | 🟢 101% | 🟢 23% | 🟢 105% | 🟢 151% | 🟢 24% | 🔴 -33% | 🟢 107% | 🟢 52% | 🟢 18% |
+| [29](#strategy-29)   | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 161% | 🟢 39% | 🔴 -19% | 🟢 63% | 🟢 28% | 🟢 42% |
+| [31](#strategy-31)   | 🟢 56% | 🟢 22% | 🔴 -5% | 🟢 118% | 🔴 -19% | 🟢 80% | 🟢 97% | 🟢 88% | 🔴 -47% | 🟢 93% | 🟢 62% | 🟢 20% |
+| [32](#strategy-32)   | 🟢 46% | 🟢 25% | 🔴 -5% | 🟢 118% | 🔴 -25% | 🟢 59% | 🟢 119% | 🟢 68% | 🔴 -41% | 🟢 86% | 🟢 26% | 🟢 52% |
 | [57](#strategy-57)   | 🟢 26% | 🔴 -10% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 85% | 🟢 169% | 🟢 40% | 🔴 -18% | 🟢 85% | 🟢 27% | 🟢 40% |
-| [58](#strategy-58)   | 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 80% | 🟢 147% | 🟢 41% | 🟢 27% | 🟢 92% | 🟢 8% | 🔴 -3% |
+| [33](#strategy-33)   | 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 80% | 🟢 147% | 🟢 41% | 🟢 27% | 🟢 92% | 🟢 8% | 🔴 -3% |
 | [59](#strategy-59)   | 🟢 21% | 🔴 -6% | 🟢 30% | 🟢 55% | 🟢 48% | 🟢 39% | 🟢 84% | 🟢 2% | 🟢 14% | 🔴 -2% | 🟢 34% | 🟢 59% |
 | [60](#strategy-60)   | 🟢 38% | 🟢 1% | 🔴 -18% | 🟢 46% | 🟢 12% | 🟢 34% | 🟢 81% | 🟢 110% | 🟢 32% | 🟢 60% | 🟢 72% | 🟢 62% |
 | [61](#strategy-61)   | 🟢 22% | 🔴 -9% | 🟢 4% | 🟢 51% | 🔴 -7% | 🟢 64% | 🟢 118% | 🟢 27% | 🔴 -9% | 🟢 45% | 🟢 52% | 🟢 46% |
@@ -95,8 +95,8 @@
 > ```
 
 ---
-## Strategy-3
-### Defensive Rotation (003.py)
+## Strategy-2
+### Defensive Rotation (002.py)
 
 **Description:** A four-state regime rotation. The state machine: (1) any RSI(10) crash signal → all cash; (2) bull market (TQQQ > SMA200) + uptrend or short-term dip → TQQQ; (3) bear market (TQQQ ≤ SMA200) + downtrend or overbought bounce → SQQQ; (4) anything else → all cash. The crash gate at the top sidesteps the dangerous mid-crash zones where mean-reversion entries blow up.
 
@@ -117,14 +117,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 25% | 🔴 -25% | 🔴 -28% | 🟢 99% | 🟢 5% | 🟢 11% | 🟢 225% | 🟢 82% | 🟢 119% | 🟢 30% | 🟢 41% | 🟢 25% |
 
-> [!code]- Click to view: 003.py
+> [!code]- Click to view: 002.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/003.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/002.py"
 > ```
 
 ---
-## Strategy-4
-### IBS regime-adaptive (004.py)
+## Strategy-3
+### IBS regime-adaptive (003.py)
 
 **Description:** Regime-adaptive IBS strategy. Standard IBS < 0.1 entry in uptrends (QQQ > 200d SMA), but tightens to IBS < 0.03 in downtrends — only buying extreme panic closes when the broader market is bearish. Exit is unchanged at IBS > 0.9 regardless of regime.
 
@@ -145,14 +145,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 12% | 🟢 1% | 🟢 26% | 🟢 71% | 🔴 -31% | 🟢 35% | 🟢 303% | 🟢 75% | 🔴 -23% | 🟢 84% | 🟢 17% | 🟢 92% |
 
-> [!code]- Click to view: 004.py
+> [!code]- Click to view: 003.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/004.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/003.py"
 > ```
 
 ---
-## Strategy-8
-### 5x 3x-Leveraged ETF Basket + QQQ Vol Gate (008.py)
+## Strategy-6
+### 5x 3x-Leveraged ETF Basket + QQQ Vol Gate (006.py)
 
 **Description:** Equal-weight basket of 5 3x-leveraged ETFs (TQQQ, TECL, SOXL, UPRO, FAS), held only when QQQ's 20-day annualized log-return volatility is below 20%. Tight vol gate — flips entirely in or entirely out based on a single threshold check daily. Re-enters as soon as vol returns under threshold.
 
@@ -173,14 +173,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 28% | 🔴 -1% | 🟢 21% | 🟢 106% | 🔴 -7% | 🟢 59% | 🟢 7% | 🟢 49% | 🟢 5% | 🟢 62% | 🟢 44% | ⚪ 0% |
 
-> [!code]- Click to view: 008.py
+> [!code]- Click to view: 006.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/008.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/006.py"
 > ```
 
 ---
-## Strategy-10
-### TQQQ hybrid + ATR (010.py)
+## Strategy-7
+### TQQQ hybrid + ATR (007.py)
 
 **Description:** TQQQ self-SMA(200) trend + IBS<0.05 dip-buy hybrid with an added 3× ATR stop-loss on the MR sleeve. Same shape as Strategy 47 but with risk management on the bear-market dips — if the dip extends another 3× ATR below the entry, the trade is cut.
 
@@ -203,14 +203,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 52% | 🟢 9% | 🔴 -2% | 🟢 118% | 🔴 -1% | 🟢 36% | 🟢 259% | 🟢 88% | 🔴 -11% | 🟢 75% | 🟢 59% | 🟢 48% |
 
-> [!code]- Click to view: 010.py
+> [!code]- Click to view: 007.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/010.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/007.py"
 > ```
 
 ---
-## Strategy-14
-### 3-State ROC(20) + Donchian-200 (014.py)
+## Strategy-9
+### 3-State ROC(20) + Donchian-200 (009.py)
 
 **Description:** A three-state trend follower that replaces the Aroon oscillator with a 20-day rate-of-change indicator on QQQ alongside the standard Donchian-200 midline. When both momentum and the channel position are bullish it holds TQQQ fully; partial confirmation yields a 50/50 blend; both bearish yields full cash.
 
@@ -230,14 +230,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 41% | 🟢 6% | ⚪ 0% | 🟢 101% | 🔴 -12% | 🟢 84% | 🟢 138% | 🟢 62% | 🔴 -32% | 🟢 92% | 🟢 44% | 🟢 33% |
 
-> [!code]- Click to view: 014.py
+> [!code]- Click to view: 009.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/014.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/009.py"
 > ```
 
 ---
-## Strategy-17
-### 3-State Dual-ROC + D200 (017.py)
+## Strategy-12
+### 3-State Dual-ROC + D200 (012.py)
 
 **Description:** A three-state trend follower that requires consensus from both short-term ROC(20) and medium-term ROC(60) for the momentum leg, paired with a Donchian-200 midline. The dual-ROC requirement means both timeframes must agree for the strategy to treat momentum as bullish, reducing false positives.
 
@@ -257,14 +257,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 32% | 🟢 1% | 🔴 -3% | 🟢 101% | 🔴 -8% | 🟢 82% | 🟢 96% | 🟢 62% | 🔴 -33% | 🟢 99% | 🟢 38% | 🟢 17% |
 
-> [!code]- Click to view: 017.py
+> [!code]- Click to view: 012.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/017.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/012.py"
 > ```
 
 ---
-## Strategy-18
-### ROC+D200 + 5% Trail Exit (018.py)
+## Strategy-13
+### ROC+D200 + 5% Trail Exit (013.py)
 
 **Description:** A trend follower identical in structure to the 7%-trail variant but using a tighter 5% trailing drawdown from the 20-day high as the exit trigger. The tighter stop provides faster downside protection at the cost of more frequent exits during normal pullbacks.
 
@@ -285,14 +285,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🔴 -14% | 🔴 -2% | 🟢 85% | 🔴 -15% | 🟢 66% | 🟢 188% | 🟢 39% | 🔴 -19% | 🟢 64% | 🟢 23% | 🟢 42% |
 
-> [!code]- Click to view: 018.py
+> [!code]- Click to view: 013.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/018.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/013.py"
 > ```
 
 ---
-## Strategy-19
-### TQQQ Pyramid 30%/day (019.py)
+## Strategy-14
+### TQQQ Pyramid 30%/day (014.py)
 
 **Description:** The fastest pyramiding variant, adding 30% TQQQ exposure per day while trend conditions hold, reaching full exposure in roughly four consecutive bull days. A single bear day triggers a complete exit to cash. The same ROC(20) and Donchian-200 trend conditions govern entry and exit.
 
@@ -312,14 +312,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 28% | 🔴 -7% | 🟢 2% | 🟢 70% | 🔴 -4% | 🟢 70% | 🟢 128% | 🟢 41% | 🔴 -16% | 🟢 50% | 🟢 44% | 🟢 43% |
 
-> [!code]- Click to view: 019.py
+> [!code]- Click to view: 014.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/019.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/014.py"
 > ```
 
 ---
-## Strategy-21
-### ROC+D200 + 7% Trail Binary (021.py)
+## Strategy-15
+### ROC+D200 + 7% Trail Binary (015.py)
 
 **Description:** A trend follower on QQQ that requires a positive 20-day rate-of-change, price above the 200-day high/low channel midpoint, and that the current price is no more than 7% below its 20-day high before buying TQQQ. The 7% trailing drawdown acts as an exit trigger as well, keeping the strategy out when a meaningful pullback from a recent peak occurs.
 
@@ -339,14 +339,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -15% | 🟢 66% | 🟢 185% | 🟢 39% | 🔴 -19% | 🟢 56% | 🟢 23% | 🟢 42% |
 
-> [!code]- Click to view: 021.py
+> [!code]- Click to view: 015.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/021.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/015.py"
 > ```
 
 ---
-## Strategy-22
-### CMO(20) Momentum (022.py)
+## Strategy-16
+### CMO(20) Momentum (016.py)
 
 **Description:** A momentum trend follower that uses the Chande Momentum Oscillator computed over 20 days on QQQ. A positive CMO value indicates that upward daily moves have dominated downward moves over the period, triggering a full allocation to TQQQ. When CMO turns negative the strategy exits to cash.
 
@@ -365,14 +365,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 170% | 🟢 39% | 🔴 -18% | 🟢 88% | 🟢 28% | 🟢 42% |
 
-> [!code]- Click to view: 022.py
+> [!code]- Click to view: 016.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/022.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/016.py"
 > ```
 
 ---
-## Strategy-23
-### 3-State CMO+Median200 (023.py)
+## Strategy-17
+### 3-State CMO+Median200 (017.py)
 
 **Description:** A three-state trend follower that combines CMO(20) momentum with a 200-day median price filter on QQQ. When both signals are bullish the portfolio goes fully into TQQQ; when one is bullish the portfolio splits 50/50; when both are bearish it exits to cash. Trading only occurs on state changes.
 
@@ -393,14 +393,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 41% | 🟢 6% | 🔴 -4% | 🟢 101% | 🔴 -11% | 🟢 75% | 🟢 139% | 🟢 62% | 🔴 -32% | 🟢 101% | 🟢 40% | 🟢 27% |
 
-> [!code]- Click to view: 023.py
+> [!code]- Click to view: 017.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/023.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/017.py"
 > ```
 
 ---
-## Strategy-24
-### 3-State CMO+52w-High Gate (024.py)
+## Strategy-18
+### 3-State CMO+52w-High Gate (018.py)
 
 **Description:** A three-state trend follower that combines CMO(20) momentum with a 52-week high drawdown gate. When CMO is positive and QQQ is within 15% of its 52-week high both signals agree and the portfolio goes fully into TQQQ. One bullish signal yields a 50/50 split; neither exits to cash.
 
@@ -421,14 +421,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 41% | 🟢 6% | ⚪ 0% | 🟢 101% | 🔴 -13% | 🟢 99% | 🟢 138% | 🟢 62% | 🔴 -33% | 🟢 90% | 🟢 44% | 🟢 30% |
 
-> [!code]- Click to view: 024.py
+> [!code]- Click to view: 018.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/024.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/018.py"
 > ```
 
 ---
-## Strategy-29
-### ROC20_Zero (029.py)
+## Strategy-20
+### ROC20_Zero (020.py)
 
 **Description:** Applies a 20-day rate-of-change momentum signal on QQQ with a zero-line crossover. Holds leveraged Nasdaq while trailing momentum is positive and shifts entirely to T-bills when rate of change turns negative.
 
@@ -447,14 +447,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 170% | 🟢 39% | 🔴 -18% | 🟢 88% | 🟢 28% | 🟢 42% |
 
-> [!code]- Click to view: 029.py
+> [!code]- Click to view: 020.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/029.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/020.py"
 > ```
 
 ---
-## Strategy-33
-### CCI20+ROC20+ATR (033.py)
+## Strategy-22
+### CCI20+ROC20+ATR (022.py)
 
 **Description:** Extends the CCI+ROC momentum stack with an ATR-based volatility gate on QQQ. Holds leveraged Nasdaq only when both momentum indicators are positive and short-term volatility is contained below 1.3× the 63-day average range; exits to T-bills if any condition breaks.
 
@@ -473,14 +473,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🔴 -8% | 🔴 -16% | 🔴 -10% | 🟢 45% | 🔴 -3% | 🟢 97% | 🟢 227% | 🟢 58% | 🔴 -19% | 🟢 140% | 🔴 -1% | 🟢 12% |
 
-> [!code]- Click to view: 033.py
+> [!code]- Click to view: 022.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/033.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/022.py"
 > ```
 
 ---
-## Strategy-35
-### Price52W_Percentile (035.py)
+## Strategy-23
+### Price52W_Percentile (023.py)
 
 **Description:** Measures QQQ's current price as a percentile within its 52-week (252-day) high-low range. Holds leveraged Nasdaq when price sits in the upper half of the annual range and exits to T-bills when it falls into the lower half.
 
@@ -499,14 +499,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 56% | 🔴 -9% | 🔴 -5% | 🟢 118% | 🔴 -15% | 🟢 73% | 🟢 97% | 🟢 88% | 🔴 -51% | 🟢 92% | 🟢 62% | 🔴 -2% |
 
-> [!code]- Click to view: 035.py
+> [!code]- Click to view: 023.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/035.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/023.py"
 > ```
 
 ---
-## Strategy-36
-### UpDay_Count20 (036.py)
+## Strategy-24
+### UpDay_Count20 (024.py)
 
 **Description:** Counts the number of positive-close days in the trailing 20 trading sessions on QQQ as a simple market breadth proxy. Holds leveraged Nasdaq when more than half the recent sessions are up-days and exits to T-bills when down-days dominate.
 
@@ -525,14 +525,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 81% | 🟢 147% | 🟢 41% | 🟢 28% | 🟢 94% | 🟢 8% | 🔴 -1% |
 
-> [!code]- Click to view: 036.py
+> [!code]- Click to view: 024.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/036.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/024.py"
 > ```
 
 ---
-## Strategy-37
-### Price126D_Percentile (037.py)
+## Strategy-25
+### Price126D_Percentile (025.py)
 
 **Description:** Applies the same range-percentile logic as the 52-week variant (698) but over a 6-month (126-day) lookback. Holds leveraged Nasdaq when QQQ is in the upper half of its recent 6-month range and exits to T-bills when it falls below the midpoint.
 
@@ -551,14 +551,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 46% | 🟢 25% | 🔴 -5% | 🟢 118% | 🔴 -25% | 🟢 59% | 🟢 119% | 🟢 68% | 🔴 -40% | 🟢 87% | 🟢 26% | 🟢 53% |
 
-> [!code]- Click to view: 037.py
+> [!code]- Click to view: 025.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/037.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/025.py"
 > ```
 
 ---
-## Strategy-38
-### UpDay_Count55pct (038.py)
+## Strategy-26
+### UpDay_Count55pct (026.py)
 
 **Description:** Near-identical to UpDay_Count20 (705) but raises the threshold to a strict 55% majority. Holds leveraged Nasdaq when at least 11 of the last 20 sessions close up and switches to T-bills when down-days match or outnumber up-days.
 
@@ -577,14 +577,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 81% | 🟢 147% | 🟢 41% | 🟢 28% | 🟢 94% | 🟢 8% | 🔴 -1% |
 
-> [!code]- Click to view: 038.py
+> [!code]- Click to view: 026.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/038.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/026.py"
 > ```
 
 ---
-## Strategy-39
-### TII(20) >50.0 Bull (039.py)
+## Strategy-27
+### TII(20) >50.0 Bull (027.py)
 
 **Description:** Uses the Trend Intensity Index to gauge whether QQQ closes above its 20-day SMA on a majority of recent sessions. Holds leveraged Nasdaq when more than half of the past 20 bars close above the SMA, switching to T-bills otherwise.
 
@@ -603,14 +603,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 21% | 🔴 -6% | 🟢 29% | 🟢 55% | 🟢 49% | 🟢 40% | 🟢 84% | 🟢 2% | 🟢 15% | ⚪ 0% | 🟢 37% | 🟢 63% |
 
-> [!code]- Click to view: 039.py
+> [!code]- Click to view: 027.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/039.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/027.py"
 > ```
 
 ---
-## Strategy-41
-### TQQQ Intrabar Vol Breakout (041.py)
+## Strategy-28
+### TQQQ Intrabar Vol Breakout (028.py)
 
 **Description:** Uses a 240-bar average intrabar volatility (|open−close|/open) on TQQQ minute bars to identify low-vol regimes, entering 100% when vol < 0.1 and price is within 2% of the 240-minute high. Exits on vol spike > 0.15 or a 3% hard stop from entry.
 
@@ -629,14 +629,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 43% | 🟢 5% | 🟢 22% | 🟢 101% | 🟢 23% | 🟢 105% | 🟢 151% | 🟢 24% | 🔴 -33% | 🟢 107% | 🟢 52% | 🟢 18% |
 
-> [!code]- Click to view: 041.py
+> [!code]- Click to view: 028.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/041.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/028.py"
 > ```
 
 ---
-## Strategy-49
-### 2-State CMO+52w-High Gate (049.py)
+## Strategy-29
+### 2-State CMO+52w-High Gate (029.py)
 
 **Description:** Two-state simplification of the 3-State CMO+52w-High Gate: requires BOTH CMO(20) positive AND QQQ within 15% of its 52-week high to hold TQQQ; exits entirely to cash if either condition fails. Removes the mixed 50/50 state, making it a clean binary in-or-out signal.
 
@@ -655,14 +655,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 26% | 🔴 -11% | 🔴 -2% | 🟢 85% | 🔴 -8% | 🟢 86% | 🟢 161% | 🟢 39% | 🔴 -19% | 🟢 63% | 🟢 28% | 🟢 42% |
 
-> [!code]- Click to view: 049.py
+> [!code]- Click to view: 029.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/049.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/029.py"
 > ```
 
 ---
-## Strategy-54
-### Donchian-200 Midline (054.py)
+## Strategy-31
+### Donchian-200 Midline (031.py)
 
 **Description:** A trend follower using the midpoint of the 200-day Donchian channel (average of the 200-day high and 200-day low) as a dynamic trend filter. When QQQ price is above this midline it holds TQQQ; below it holds cash.
 
@@ -682,14 +682,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 56% | 🟢 22% | 🔴 -5% | 🟢 118% | 🔴 -19% | 🟢 80% | 🟢 97% | 🟢 88% | 🔴 -47% | 🟢 93% | 🟢 62% | 🟢 20% |
 
-> [!code]- Click to view: 054.py
+> [!code]- Click to view: 031.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/054.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/031.py"
 > ```
 
 ---
-## Strategy-56
-### Price 126D Percentile (056.py)
+## Strategy-32
+### Price 126D Percentile (032.py)
 
 **Description:** Holds TQQQ when QQQ's current price is in the upper half of its 126-day (6-month) high-low range and switches to cash otherwise. Only trades on regime change.
 
@@ -708,9 +708,9 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 46% | 🟢 25% | 🔴 -5% | 🟢 118% | 🔴 -25% | 🟢 59% | 🟢 119% | 🟢 68% | 🔴 -41% | 🟢 86% | 🟢 26% | 🟢 52% |
 
-> [!code]- Click to view: 056.py
+> [!code]- Click to view: 032.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/056.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/032.py"
 > ```
 
 ---
@@ -740,8 +740,8 @@
 > ```
 
 ---
-## Strategy-58
-### Up-Day Count(20) (058.py)
+## Strategy-33
+### Up-Day Count(20) (033.py)
 
 **Description:** Binary TQQQ / cash based on count of positive day-to-day closes over a 20-day window. Holds TQQQ when more than half (>10 of 20) of recent days closed up.
 
@@ -760,9 +760,9 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 43% | 🟢 6% | 🟢 3% | 🟢 58% | 🔴 -26% | 🟢 80% | 🟢 147% | 🟢 41% | 🟢 27% | 🟢 92% | 🟢 8% | 🔴 -3% |
 
-> [!code]- Click to view: 058.py
+> [!code]- Click to view: 033.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials/058.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials/033.py"
 > ```
 
 ---

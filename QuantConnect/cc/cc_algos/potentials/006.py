@@ -1,43 +1,53 @@
-# AntiMartingale — Anti-Martingale pyramid on TQQQ
 from AlgorithmImports import *
+import numpy as np
 
 
-class AntiMartingale(QCAlgorithm):
+class Algo048(QCAlgorithm):
+    """5x 3x-leveraged ETF basket EW + QQQ 20d annualized vol < 20% gate (tight)."""
+
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
-        self.SetCash(100000)
-        self.sym = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.SetCash(100_000)
+
+        self.tickers = ["TQQQ", "TECL", "SOXL", "UPRO", "FAS"]
+        self.symbols = [self.AddEquity(t, Resolution.Daily).Symbol for t in self.tickers]
         self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
-        self.sma = self.SMA(self.qqq, 200, Resolution.Daily)
-        self.entry_price = None
-        self.cur_weight = 0.0
-        self.SetWarmUp(210, Resolution.Daily)
+
+        self.vol_threshold = 0.20
+        self.in_market = False
+
         self.Schedule.On(
             self.DateRules.EveryDay(self.qqq),
-            self.TimeRules.AfterMarketOpen(self.qqq, 35),
-            self.Rebalance,
+            self.TimeRules.AfterMarketOpen(self.qqq, 30),
+            self.R,
         )
 
-    def Rebalance(self):
-        if self.IsWarmingUp or not self.sma.IsReady:
+
+    def _Sel(self, fundamental):
+        elig = [f for f in fundamental
+                if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
+        elig.sort(key=lambda f: f.MarketCap, reverse=True)
+        self._universe = [f.Symbol for f in elig[:5]]
+        return self._universe
+
+    def R(self):
+        hist = self.History(self.qqq, 21, Resolution.Daily)
+        if hist.empty or len(hist) < 21:
             return
-        price = self.Securities[self.qqq].Price
-        bull = price > self.sma.Current.Value
-        if not bull:
-            if self.Portfolio.Invested:
-                self.Liquidate(self.sym)
-                self.entry_price = None
-                self.cur_weight = 0.0
+        closes = hist['close'].values
+        log_rets = np.diff(np.log(closes))
+        vol = float(np.std(log_rets) * np.sqrt(252))
+
+        target_in = vol < self.vol_threshold
+        if target_in == self.in_market:
             return
-        if not self.Portfolio.Invested:
-            self.SetHoldings(self.sym, 0.5)
-            self.entry_price = price
-            self.cur_weight = 0.5
-            return
-        # Pyramid: each 5.0% above entry, add another step until max_weight.
-        steps = (price / self.entry_price - 1) / (5.0 / 100.0)
-        target = min(1.0, 0.5 + max(0, int(steps)) * 0.15)
-        if abs(target - self.cur_weight) > 0.05:
-            self.SetHoldings(self.sym, target)
-            self.cur_weight = target
+
+        if target_in:
+            w = 1.0 / len(self.symbols)  # 0.20 each, sum=1.0
+            for s in self.symbols:
+                self.SetHoldings(s, w)
+        else:
+            self.Liquidate()
+
+        self.in_market = target_in

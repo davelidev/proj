@@ -1,24 +1,18 @@
 from AlgorithmImports import *
-class CC16_715(QCAlgorithm):
-    def Initialize(self):
-        self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
-        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
-        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
-        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self._st=None; self.SetWarmUp(135,Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
-    def Rebalance(self):
-        if self.IsWarmingUp: return
-        h=self.History(self.qqq,126,Resolution.Daily)
-        if h.empty or len(h)<126: return
-        closes=[float(h['close'].iloc[i]) for i in range(len(h))]
-        lo=min(closes); hi=max(closes)
-        if hi==lo: return
-        # price above median of 6-month range = bullish
-        pct=(closes[-1]-lo)/(hi-lo)
-        st=1 if pct>0.5 else 0
-        if st==self._st: return
-        self._st=st
-        if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)
-        else: self.SetHoldings(self.tqqq,0); self.SetHoldings(self.bil,1.0)
-    def OnData(self,data): pass
+from base import BaseSubAlgo, _make_standalone
+
+
+class ROC20Sub(BaseSubAlgo):
+    def initialize(self):
+        self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self._roc = self.algo.ROC("QQQ", 20, Resolution.Daily)
+
+    def update_targets(self):
+        if not self._roc.IsReady: return False
+        prev = dict(self.targets)
+        self.targets = {self.tqqq: 1.0} if self._roc.Current.Value > 0 else {}
+        return self.targets != prev
+
+
+ROC20Algo = _make_standalone(ROC20Sub)

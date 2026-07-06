@@ -1,34 +1,45 @@
 from AlgorithmImports import *
 
-class MegaCapDipBuy(QCAlgorithm):
-    def initialize(self):
-        self.set_start_date(2014, 1, 1)
-        self.set_end_date(2025, 12, 31)
-        self.set_cash(100000)
-        self.universe_settings.resolution = Resolution.DAILY
-        self.add_universe(self.coarse_selection, self.fine_selection)
-        self.symbols = []
+class D_Mom20_52w_T3_4(QCAlgorithm):
+    def Initialize(self):
+        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
+        self.UniverseSettings.Resolution=Resolution.Daily
+        self.AddUniverse(self.CoarseSelection, self.FineSelection)
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
+        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
         
-    def coarse_selection(self, coarse):
-        return [x.symbol for x in sorted(coarse, key=lambda x: x.dollar_volume, reverse=True)[:100]]
-
-    def fine_selection(self, fine):
-        self.symbols = [x.symbol for x in sorted(fine, key=lambda x: x.market_cap, reverse=True)[:5]]
+        self.SetWarmUp(280, Resolution.Daily); self.symbols=[]; self.state=None
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
+    def CoarseSelection(self, coarse):
+        return [x.Symbol for x in sorted(coarse, key=lambda x: x.DollarVolume, reverse=True)[:100]]
+    def FineSelection(self, fine):
+        self.symbols=[x.Symbol for x in sorted(fine, key=lambda x: x.MarketCap, reverse=True)[:3]]
         return self.symbols
+    def Rebalance(self):
+        if self.IsWarmingUp or not self.symbols: return
+        h=self.History(self.qqq, 252, Resolution.Daily)
+        if h.empty or len(h)<252: return
+        c=[float(x) for x in h["close"].values]
+        v=[float(x) for x in h["volume"].values]
+        med=sorted(c[-200:])[100]
+        in_trend=self.Securities[self.qqq].Price>med
+        try:
+            f1 = c[-1] > c[-21]
+            f2 = self.Securities[self.qqq].Price/max(c[-252:]) > 0.93
+        except Exception: return
+        n = int(in_trend)+int(f1)+int(f2)
+        if n==3: plan=(1.0,0.0,0.0)
+        elif n==2: plan=(0.5,0.5,0.0)
+        elif n==1: plan=(0.0,1.0,0.0)
+        else: plan=(0.0,0.5,0.5)
+        wt,wm,wc=plan
+        if n!=self.state:
+            for sym in list(self.Securities.Keys):
+                if sym in (self.qqq, self.tqqq, self.bil) or sym in self.symbols: continue
+                if self.Portfolio[sym].Invested: self.Liquidate(sym)
+            self.SetHoldings(self.tqqq,wt); per=wm/len(self.symbols) if wm>0 else 0
+            for s in self.symbols: self.SetHoldings(s, per)
+            self.SetHoldings(self.bil,wc); self.state=n
 
-    def on_data(self, data):
-        for symbol in self.symbols:
-            if not data.contains_key(symbol) or data[symbol] is None: continue
-            
-            hist = self.history(symbol, 20, Resolution.DAILY)
-            if len(hist) < 20: continue
-            
-            high_20 = hist['high'].max()
-            price = data[symbol].price
-            
-            if not self.portfolio[symbol].invested:
-                if price < high_20 * 0.95:
-                    self.set_holdings(symbol, 0.2)
-            else:
-                if price >= high_20:
-                    self.liquidate(symbol)
+    def OnData(self, data): pass

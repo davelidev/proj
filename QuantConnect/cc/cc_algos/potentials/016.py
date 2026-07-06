@@ -1,39 +1,30 @@
 from AlgorithmImports import *
 
-class TQQQPyramid(QCAlgorithm):
-    """Pyramid: each consecutive day with QQQ > D200 midline AND ROC(20)>0 adds 10% TQQQ exposure, up to 100%.
-    On bear signal, immediate 0%.
-    """
+class CMO20(QCAlgorithm):
     def Initialize(self):
-        self.SetStartDate(2014, 1, 1)
-        self.SetEndDate(2025, 12, 31)
-        self.SetCash(100000)
-        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
-        self.roc   = self.ROC(self.qqq, 20, Resolution.Daily)
-        self.hi200 = self.MAX(self.qqq, 200, Resolution.Daily)
-        self.lo200 = self.MIN(self.qqq, 200, Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
-                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
-                         self.Rebalance)
-        self.SetWarmUp(220, Resolution.Daily)
-        self.exposure = 0.0  # current TQQQ exposure (0..1)
+        self.SetStartDate(2014, 1, 1); self.SetEndDate(2025, 12, 31); self.SetCash(100000)
+        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
+        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
+        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq), self.TimeRules.AfterMarketOpen(self.qqq,30), self.Rebalance)
+        self.SetWarmUp(40, Resolution.Daily)
 
     def Rebalance(self):
-        if self.IsWarmingUp or not (self.roc.IsReady and self.hi200.IsReady and self.lo200.IsReady):
-            return
-        mid = (self.hi200.Current.Value + self.lo200.Current.Value) / 2.0
-        bull = self.roc.Current.Value > 0 and self.Securities[self.qqq].Price > mid
-
-        if bull:
-            new_exp = min(1.0, self.exposure + 0.1)
+        if self.IsWarmingUp: return
+        h=self.History(self.qqq, 21, Resolution.Daily)
+        if h.empty or len(h)<21: return
+        c=[float(x) for x in h["close"].values]
+        changes=[c[i]-c[i-1] for i in range(1,len(c))]
+        sum_up=sum(x for x in changes if x>0)
+        sum_dn=sum(-x for x in changes if x<0)
+        total = sum_up + sum_dn
+        if total<=0: return
+        cmo = 100.0 * (sum_up - sum_dn) / total
+        if cmo > 0:
+            if not self.Portfolio[self.tqqq].Invested:
+                self.Liquidate(self.bil); self.SetHoldings(self.tqqq,1.0)
         else:
-            new_exp = 0.0
-
-        if abs(new_exp - self.exposure) > 0.01:
-            self.SetHoldings(self.tqqq, new_exp)
-            self.SetHoldings(self.bil, 1.0 - new_exp)
-            self.exposure = new_exp
+            if not self.Portfolio[self.bil].Invested:
+                self.Liquidate(self.tqqq); self.SetHoldings(self.bil,1.0)
 
     def OnData(self, data): pass

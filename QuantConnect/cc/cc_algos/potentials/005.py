@@ -1,42 +1,43 @@
+# AntiMartingale — Anti-Martingale pyramid on TQQQ
 from AlgorithmImports import *
 
-class TrendStretchExit(QCAlgorithm):
+
+class AntiMartingale(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
         self.SetCash(100000)
-        
+        self.sym = self.AddEquity("TQQQ", Resolution.Daily).Symbol
         self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
-        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.bil = self.AddEquity("BIL", Resolution.Daily).Symbol
-        
         self.sma = self.SMA(self.qqq, 200, Resolution.Daily)
-        
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq), 
-                         self.TimeRules.AfterMarketOpen(self.qqq, 30), 
-                         self.Rebalance)
-                         
-        self.SetWarmUp(200)
+        self.entry_price = None
+        self.cur_weight = 0.0
+        self.SetWarmUp(210, Resolution.Daily)
+        self.Schedule.On(
+            self.DateRules.EveryDay(self.qqq),
+            self.TimeRules.AfterMarketOpen(self.qqq, 35),
+            self.Rebalance,
+        )
 
     def Rebalance(self):
-        if not self.sma.IsReady: return
-        
+        if self.IsWarmingUp or not self.sma.IsReady:
+            return
         price = self.Securities[self.qqq].Price
-        sma_val = self.sma.Current.Value
-        stretch = (price - sma_val) / sma_val if sma_val > 0 else 0
-        
-        if not self.Portfolio[self.tqqq].Invested:
-            # Entry: Bullish Trend AND NOT Overextended
-            if price > sma_val and stretch < 0.05:
-                self.Log(f"[{self.Time}] TREND UP. Stretch {stretch:.1%}. Entering TQQQ.")
-                self.SetHoldings(self.tqqq, 1.0)
-                self.Liquidate(self.bil)
-        else:
-            # Exit: Bearish Trend OR Overextended (Blow-off Top)
-            if price < sma_val or stretch > 0.20:
-                self.Log(f"[{self.Time}] EXIT. Stretch {stretch:.1%} | Trend: {'UP' if price > sma_val else 'DOWN'}")
-                self.Liquidate(self.tqqq)
-                self.SetHoldings(self.bil, 1.0)
-
-    def OnData(self, data):
-        pass
+        bull = price > self.sma.Current.Value
+        if not bull:
+            if self.Portfolio.Invested:
+                self.Liquidate(self.sym)
+                self.entry_price = None
+                self.cur_weight = 0.0
+            return
+        if not self.Portfolio.Invested:
+            self.SetHoldings(self.sym, 0.5)
+            self.entry_price = price
+            self.cur_weight = 0.5
+            return
+        # Pyramid: each 5.0% above entry, add another step until max_weight.
+        steps = (price / self.entry_price - 1) / (5.0 / 100.0)
+        target = min(1.0, 0.5 + max(0, int(steps)) * 0.15)
+        if abs(target - self.cur_weight) > 0.05:
+            self.SetHoldings(self.sym, target)
+            self.cur_weight = target

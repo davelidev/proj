@@ -1,24 +1,33 @@
 from AlgorithmImports import *
-class CC16_698(QCAlgorithm):
-    def Initialize(self):
-        self.SetStartDate(2014,1,1); self.SetEndDate(2025,12,31); self.SetCash(100000)
-        self.qqq=self.AddEquity("QQQ",Resolution.Daily).Symbol
-        self.tqqq=self.AddEquity("TQQQ",Resolution.Daily).Symbol
-        self.bil=self.AddEquity("BIL",Resolution.Daily).Symbol
-        self._st=None; self.SetWarmUp(260,Resolution.Daily)
-        self.Schedule.On(self.DateRules.EveryDay(self.qqq),self.TimeRules.AfterMarketOpen(self.qqq,30),self.Rebalance)
-    def Rebalance(self):
-        if self.IsWarmingUp: return
-        h=self.History(self.qqq,252,Resolution.Daily)
-        if h.empty or len(h)<252: return
-        closes=[float(h['close'].iloc[i]) for i in range(len(h))]
-        lo=min(closes); hi=max(closes)
-        if hi==lo: return
-        # price above median of 52-week range = bullish
-        pct=(closes[-1]-lo)/(hi-lo)
-        st=1 if pct>0.5 else 0
-        if st==self._st: return
-        self._st=st
-        if st==1: self.SetHoldings(self.bil,0); self.SetHoldings(self.tqqq,1.0)
-        else: self.SetHoldings(self.tqqq,0); self.SetHoldings(self.bil,1.0)
-    def OnData(self,data): pass
+from base import BaseSubAlgo, _make_standalone
+
+
+class DonchianFourVoteSub(BaseSubAlgo):
+    """TQQQ position = n/4 where n = # of Donchian midlines (50,100,150,200) that QQQ price is above."""
+
+    PERIODS = [50, 100, 150, 200]
+
+    def initialize(self):
+        self.sym = self.algo.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.qqq = self.algo.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.hi  = [self.algo.MAX(self.qqq, n, Resolution.Daily) for n in self.PERIODS]
+        self.lo  = [self.algo.MIN(self.qqq, n, Resolution.Daily) for n in self.PERIODS]
+
+    def update_targets(self):
+        if not self.hi[-1].IsReady: return False
+        prev  = dict(self.targets)
+        price = self.algo.Securities[self.qqq].Price
+        n = sum(
+            price > (self.hi[i].Current.Value + self.lo[i].Current.Value) / 2.0
+            for i in range(len(self.PERIODS))
+            if self.hi[i].IsReady
+        )
+        weight = n / float(len(self.PERIODS))
+        if weight > 0:
+            self.targets[self.sym] = weight
+        else:
+            self.targets.pop(self.sym, None)
+        return self.targets != prev
+
+
+DonchianFourVoteAlgo = _make_standalone(DonchianFourVoteSub)

@@ -1,42 +1,38 @@
 from AlgorithmImports import *
 
-
-class Algo066(QCAlgorithm):
-    """#66 — TQQQ + SMA200 + IBS<0.05 hybrid + 3xATR stop on MR pos."""
-
+class ROCD200_TrailExit(QCAlgorithm):
+    """ROC+D200 entry, with 7% drawdown-from-20d-high trailing exit while invested."""
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
-        self.SetCash(100_000)
-        self.s = self.AddEquity("TQQQ", Resolution.Daily).Symbol
-        self.sma = self.SMA(self.s, 200, Resolution.Daily)
-        self.atr = self.ATR(self.s, 14, MovingAverageType.Wilders, Resolution.Daily)
+        self.SetCash(100000)
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
+        self.roc   = self.ROC(self.qqq, 20, Resolution.Daily)
+        self.hi200 = self.MAX(self.qqq, 200, Resolution.Daily)
+        self.lo200 = self.MIN(self.qqq, 200, Resolution.Daily)
+        self.hi20  = self.MAX(self.qqq, 20,  Resolution.Daily)
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
+                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
+                         self.Rebalance)
         self.SetWarmUp(220, Resolution.Daily)
-        self.in_trend_pos = False
-        self.in_mr_pos = False
-        self.entry_price = None
-        self.Schedule.On(self.DateRules.EveryDay(self.s),
-                         self.TimeRules.AfterMarketOpen(self.s, 30), self.R)
 
-    def R(self):
-        if self.IsWarmingUp or not self.sma.IsReady or not self.atr.IsReady: return
-        bar = self.Securities[self.s]
-        h, l, c = bar.High, bar.Low, bar.Close
-        if h <= l: return
-        ibs = (c - l) / (h - l)
-        in_trend = c > self.sma.Current.Value
-        invested = self.Portfolio[self.s].Invested
-        atr_v = self.atr.Current.Value
+    def Rebalance(self):
+        if self.IsWarmingUp or not (self.roc.IsReady and self.hi200.IsReady and self.lo200.IsReady and self.hi20.IsReady):
+            return
+        mid = (self.hi200.Current.Value + self.lo200.Current.Value) / 2.0
+        price = self.Securities[self.qqq].Price
+        dd_20 = price / self.hi20.Current.Value - 1.0
+        bull = self.roc.Current.Value > 0 and price > mid
 
-        if in_trend:
-            if not invested:
-                self.SetHoldings(self.s, 1.0); self.in_trend_pos = True; self.in_mr_pos = False
+        if bull and dd_20 > -0.07:
+            if not self.Portfolio[self.tqqq].Invested:
+                self.Liquidate(self.bil)
+                self.SetHoldings(self.tqqq, 1.0)
         else:
-            if self.in_trend_pos and invested:
-                self.Liquidate(self.s); self.in_trend_pos = False
-            if not invested and ibs < 0.05:
-                self.SetHoldings(self.s, 1.0); self.in_mr_pos = True; self.entry_price = c
-            elif invested and self.in_mr_pos:
-                stop = self.entry_price - 3.0 * atr_v if self.entry_price else 0
-                if ibs > 0.7 or c < stop:
-                    self.Liquidate(self.s); self.in_mr_pos = False; self.entry_price = None
+            if not self.Portfolio[self.bil].Invested:
+                self.Liquidate(self.tqqq)
+                self.SetHoldings(self.bil, 1.0)
+
+    def OnData(self, data): pass

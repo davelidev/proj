@@ -2,37 +2,37 @@
 
 | #                    | Pass | Title                                 | Category        | CAGR | MaxDD | Overfit |
 | :------------------- | :--- | :------------------------------------ | :-------------- | :--- | :---- | :------ |
-| [2](#strategy-2)     | ❌    | Giant Sniper Mean-Reversion           | Mean Reversion  | 27%  | -44%  | 2/10   |
-| [7](#strategy-7)     | ✅    | Mega-Cap Value Averaging              | Dip Buy         | 30%  | -39%  | 4/10   |
-| [11](#strategy-11)   | ✅    | 5 most mkt cap + IBS regime mix       | Trend/MR Hybrid | 30%  | -23%  | 3/10   |
-| [12](#strategy-12)   | ✅    | Nasdaq-100 Breadth Rotation           | Rotation        | 29%  | -48%  | 5/10   |
-| [20](#strategy-20)   | ✅    | Mega-Cap Dispersion Regime            | Regime          | 39%  | -46%  | 4/10   |
-| [26](#strategy-26)   | ✅    | UpDnVol+52w+Top3                      | Hybrid          | 31%  | -44%  | 4/10   |
-| [27](#strategy-27)   | ✅    | Mom20+52w+Top3                        | Hybrid          | 33%  | -45%  | 4/10   |
-| [28](#strategy-28)   | ✅    | M252_NEAR60_VOLCONT+Top3              | Hybrid          | 31%  | -50%  | 4/10   |
-| [30](#strategy-30)   | ✅    | OBV20_CCI20                           | Hybrid          | 31%  | -29%  | 4/10   |
-| [31](#strategy-31)   | ✅    | OBV20_ADX14                           | Hybrid          | 31%  | -33%  | 4/10   |
-| [42](#strategy-42)   | ❌    | Tech Dip Buy                          | Dip Buy         | 28%  | -40%  | 2/10   |
-| [43](#strategy-43)   | ❌    | Top-5 MarketCap IBS Regime            | Momentum        | 27%  | -26%  | 2/10   |
+| [1](#strategy-1)     | ❌    | Giant Sniper Mean-Reversion           | Mean Reversion  | 27%  | -44%  | 2/10   |
+| [2](#strategy-2)     | ✅    | Mega-Cap Value Averaging              | Dip Buy         | 30%  | -39%  | 4/10   |
+| [3](#strategy-3)     | ✅    | 5 most mkt cap + IBS regime mix       | Trend/MR Hybrid | 30%  | -23%  | 3/10   |
+| [4](#strategy-4)     | ✅    | Nasdaq-100 Breadth Rotation           | Rotation        | 29%  | -48%  | 5/10   |
+| [5](#strategy-5)     | ✅    | Mega-Cap Dispersion Regime            | Regime          | 39%  | -46%  | 4/10   |
+| [6](#strategy-6)     | ✅    | UpDnVol+52w+Top3                      | Hybrid          | 31%  | -44%  | 4/10   |
+| [7](#strategy-7)     | ✅    | Mom20+52w+Top3                        | Hybrid          | 33%  | -45%  | 4/10   |
+| [8](#strategy-8)     | ✅    | M252_NEAR60_VOLCONT+Top3              | Hybrid          | 31%  | -50%  | 4/10   |
+| [9](#strategy-9)     | ✅    | OBV20_CCI20                           | Hybrid          | 31%  | -29%  | 4/10   |
+| [10](#strategy-10)   | ✅    | OBV20_ADX14                           | Hybrid          | 31%  | -33%  | 4/10   |
+| [11](#strategy-11)   | ❌    | Tech Dip Buy                          | Dip Buy         | 28%  | -40%  | 2/10   |
+| [12](#strategy-12)   | ❌    | Top-5 MarketCap IBS Regime            | Momentum        | 27%  | -26%  | 2/10   |
 
 | #                    | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :------------------- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| [2](#strategy-2)     | 🟢 15% | 🟢 49% | 🔴 -13% | 🟢 48% | 🔴 -16% | 🟢 7% | 🟢 34% | 🟢 80% | 🔴 -10% | 🟢 43% | 🟢 40% | 🟢 94% |
-| [7](#strategy-7)     | 🟢 22% | 🟢 16% | 🟢 14% | 🟢 49% | 🔴 -4% | 🟢 61% | 🟢 57% | 🟢 50% | 🔴 -34% | 🟢 76% | 🟢 75% | 🟢 28% |
-| [11](#strategy-11)   | 🟢 11% | 🟢 5% | 🟢 4% | 🟢 38% | 🟢 15% | 🟢 47% | 🟢 95% | 🟢 46% | 🔴 -11% | 🟢 51% | 🟢 38% | 🟢 50% |
-| [12](#strategy-12)   | 🟢 11% | 🟢 2% | 🔴 -7% | 🟢 118% | 🔴 -29% | 🟢 33% | 🟢 108% | 🟢 53% | 🔴 -34% | 🟢 73% | 🟢 46% | 🟢 95% |
-| [20](#strategy-20)   | 🟢 37% | 🟢 38% | 🔴 -6% | 🟢 118% | 🔴 -6% | 🟢 110% | 🟢 15% | 🟢 158% | 🔴 -40% | 🟢 106% | 🟢 60% | 🟢 18% |
-| [26](#strategy-26)   | 🟢 33% | 🟢 10% | 🔴 -8% | 🟢 93% | 🔴 -22% | 🟢 72% | 🟢 96% | 🟢 50% | 🔴 -26% | 🟢 117% | 🟢 37% | 🟢 10% |
-| [27](#strategy-27)   | 🟢 39% | 🟢 7% | 🔴 -7% | 🟢 106% | 🔴 -22% | 🟢 72% | 🟢 133% | 🟢 60% | 🔴 -36% | 🟢 103% | 🟢 47% | 🟢 17% |
-| [28](#strategy-28)   | 🟢 38% | 🟢 11% | 🔴 -15% | 🟢 102% | 🔴 -4% | 🟢 49% | 🟢 151% | 🟢 60% | 🔴 -46% | 🟢 105% | 🟢 41% | 🟢 11% |
-| [30](#strategy-30)   | 🟢 2% | 🔴 -4% | 🔴 -2% | 🟢 37% | 🔴 -4% | 🟢 95% | 🟢 156% | 🟢 25% | 🟢 14% | 🟢 116% | 🟢 7% | 🟢 23% |
-| [31](#strategy-31)   | 🟢 11% | 🔴 -15% | 🔴 -7% | 🟢 43% | 🟢 5% | 🟢 78% | 🟢 209% | 🟢 22% | 🟢 12% | 🟢 98% | 🟢 5% | 🟢 31% |
-| [42](#strategy-42)   | 🟢 19% | ⚪ 0% | 🟢 7% | 🟢 37% | 🟢 6% | 🟢 40% | 🟢 39% | 🟢 52% | 🔴 -34% | 🟢 98% | 🟢 100% | 🟢 32% |
-| [43](#strategy-43)   | 🟢 10% | 🟢 6% | ⚪ 0% | 🟢 37% | 🟢 10% | 🟢 44% | 🟢 89% | 🟢 44% | 🔴 -14% | 🟢 52% | 🟢 39% | 🟢 41% |
+| [1](#strategy-1)     | 🟢 15% | 🟢 49% | 🔴 -13% | 🟢 48% | 🔴 -16% | 🟢 7% | 🟢 34% | 🟢 80% | 🔴 -10% | 🟢 43% | 🟢 40% | 🟢 94% |
+| [2](#strategy-2)     | 🟢 22% | 🟢 16% | 🟢 14% | 🟢 49% | 🔴 -4% | 🟢 61% | 🟢 57% | 🟢 50% | 🔴 -34% | 🟢 76% | 🟢 75% | 🟢 28% |
+| [3](#strategy-3)     | 🟢 11% | 🟢 5% | 🟢 4% | 🟢 38% | 🟢 15% | 🟢 47% | 🟢 95% | 🟢 46% | 🔴 -11% | 🟢 51% | 🟢 38% | 🟢 50% |
+| [4](#strategy-4)     | 🟢 11% | 🟢 2% | 🔴 -7% | 🟢 118% | 🔴 -29% | 🟢 33% | 🟢 108% | 🟢 53% | 🔴 -34% | 🟢 73% | 🟢 46% | 🟢 95% |
+| [5](#strategy-5)     | 🟢 37% | 🟢 38% | 🔴 -6% | 🟢 118% | 🔴 -6% | 🟢 110% | 🟢 15% | 🟢 158% | 🔴 -40% | 🟢 106% | 🟢 60% | 🟢 18% |
+| [6](#strategy-6)     | 🟢 33% | 🟢 10% | 🔴 -8% | 🟢 93% | 🔴 -22% | 🟢 72% | 🟢 96% | 🟢 50% | 🔴 -26% | 🟢 117% | 🟢 37% | 🟢 10% |
+| [7](#strategy-7)     | 🟢 39% | 🟢 7% | 🔴 -7% | 🟢 106% | 🔴 -22% | 🟢 72% | 🟢 133% | 🟢 60% | 🔴 -36% | 🟢 103% | 🟢 47% | 🟢 17% |
+| [8](#strategy-8)     | 🟢 38% | 🟢 11% | 🔴 -15% | 🟢 102% | 🔴 -4% | 🟢 49% | 🟢 151% | 🟢 60% | 🔴 -46% | 🟢 105% | 🟢 41% | 🟢 11% |
+| [9](#strategy-9)     | 🟢 2% | 🔴 -4% | 🔴 -2% | 🟢 37% | 🔴 -4% | 🟢 95% | 🟢 156% | 🟢 25% | 🟢 14% | 🟢 116% | 🟢 7% | 🟢 23% |
+| [10](#strategy-10)   | 🟢 11% | 🔴 -15% | 🔴 -7% | 🟢 43% | 🟢 5% | 🟢 78% | 🟢 209% | 🟢 22% | 🟢 12% | 🟢 98% | 🟢 5% | 🟢 31% |
+| [11](#strategy-11)   | 🟢 19% | ⚪ 0% | 🟢 7% | 🟢 37% | 🟢 6% | 🟢 40% | 🟢 39% | 🟢 52% | 🔴 -34% | 🟢 98% | 🟢 100% | 🟢 32% |
+| [12](#strategy-12)   | 🟢 10% | 🟢 6% | ⚪ 0% | 🟢 37% | 🟢 10% | 🟢 44% | 🟢 89% | 🟢 44% | 🔴 -14% | 🟢 52% | 🟢 39% | 🟢 41% |
 
 ---
-## Strategy-2
-### Giant Sniper Mean-Reversion (002.py)
+## Strategy-1
+### Giant Sniper Mean-Reversion (001.py)
 
 **Description:** Same shape as Strategy 11 — top-5 mega-caps + RSI(2) dip entry — but with two structural differences. (1) Universe is the top 5 by market cap *across all sectors*, not tech-only, so the basket can include non-tech leaders. (2) Has an explicit bear-market shield: when QQQ falls below its 200-day SMA, the strategy liquidates everything regardless of individual-name signals. Exits are per-name on RSI(2) > 70 instead of price highs.
 
@@ -53,14 +53,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 15% | 🟢 49% | 🔴 -13% | 🟢 48% | 🔴 -16% | 🟢 7% | 🟢 34% | 🟢 80% | 🔴 -10% | 🟢 43% | 🟢 40% | 🟢 94% |
 
-> [!code]- Click to view: 002.py
+> [!code]- Click to view: 001.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/002.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/001.py"
 > ```
 
 ---
-## Strategy-7
-### Mega-Cap Value Averaging (007.py)
+## Strategy-2
+### Mega-Cap Value Averaging (002.py)
 
 **Description:** Universe-driven dip-buy on the five largest-cap U.S. stocks (selected from the top 100 by dollar volume, then ranked by market cap each universe refresh). Whenever a name pulls back more than 5% from its 20-day high it gets a 20% portfolio allocation, and the position is liquidated the moment price prints a new 20-day high. The construction sidesteps single-stock bets by spreading 100% nominal exposure across five mega-caps, and only sells into strength — never on weakness — so a position can sit in drawdown indefinitely until a fresh high releases it.
 
@@ -80,14 +80,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 22% | 🟢 16% | 🟢 14% | 🟢 49% | 🔴 -4% | 🟢 61% | 🟢 57% | 🟢 50% | 🔴 -34% | 🟢 76% | 🟢 75% | 🟢 28% |
 
-> [!code]- Click to view: 007.py
+> [!code]- Click to view: 002.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/007.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/002.py"
 > ```
 
 ---
-## Strategy-11
-### 5 most mkt cap + IBS regime mix (011.py)
+## Strategy-3
+### 5 most mkt cap + IBS regime mix (003.py)
 
 **Description:** Two-regime rotation on the top 5 US stocks by market cap. **Uptrend** (QQQ > 200d SMA): hold all 5 mega-caps equal-weight (20% each). **Downtrend** (QQQ ≤ 200d SMA): rotate into only those names whose IBS < 0.2 (close near day's low — buying weakness in mega-caps only when the broader market is bearish). Position weights adjust daily based on how many names meet the bear-mode filter.
 
@@ -109,14 +109,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 11% | 🟢 5% | 🟢 4% | 🟢 38% | 🟢 15% | 🟢 47% | 🟢 95% | 🟢 46% | 🔴 -11% | 🟢 51% | 🟢 38% | 🟢 50% |
 
-> [!code]- Click to view: 011.py
+> [!code]- Click to view: 003.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/011.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/003.py"
 > ```
 
 ---
-## Strategy-12
-### Nasdaq-100 Breadth Rotation (012.py)
+## Strategy-4
+### Nasdaq-100 Breadth Rotation (004.py)
 
 **Description:** Uses participation across the 10 largest-cap U.S. stocks (drawn from the top 100 by dollar volume) as a breadth regime gate for TQQQ. Each constituent runs a 50-day EMA, and the strategy measures the fraction trading above its EMA: above 60% it goes 100% long TQQQ, below 40% it liquidates, and in the 40–60% no-man's-land it holds whatever it had. The mega-cap basket acts as a proxy for Nasdaq leadership health — when participation is broad the engine ramps full 3× exposure, and when it deteriorates it steps fully aside.
 
@@ -137,14 +137,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 11% | 🟢 2% | 🔴 -7% | 🟢 118% | 🔴 -29% | 🟢 33% | 🟢 108% | 🟢 53% | 🔴 -34% | 🟢 73% | 🟢 46% | 🟢 95% |
 
-> [!code]- Click to view: 012.py
+> [!code]- Click to view: 004.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/012.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/004.py"
 > ```
 
 ---
-## Strategy-20
-### Mega-Cap Dispersion Regime (020.py)
+## Strategy-5
+### Mega-Cap Dispersion Regime (005.py)
 
 **Description:** A breadth-based trend follower that adds a cohesion filter to the standard D200 regime: it only holds TQQQ when both QQQ is in an uptrend and the five largest US stocks are moving together, as measured by the standard deviation of their 20-day returns being below a threshold. High dispersion among mega-caps signals stress and triggers a shift to cash.
 
@@ -165,14 +165,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 37% | 🟢 38% | 🔴 -6% | 🟢 118% | 🔴 -6% | 🟢 110% | 🟢 15% | 🟢 158% | 🔴 -40% | 🟢 106% | 🟢 60% | 🟢 18% |
 
-> [!code]- Click to view: 020.py
+> [!code]- Click to view: 005.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/020.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/005.py"
 > ```
 
 ---
-## Strategy-26
-### UpDnVol+52w+Top3 (026.py)
+## Strategy-6
+### UpDnVol+52w+Top3 (006.py)
 
 **Description:** A volume-breadth rotator that measures whether buying pressure (up-day volume) exceeds selling pressure (down-day volume) over 20 days, combined with a 52-week proximity filter (price within 7% of the one-year high). Both signals assess market health from different angles — participation from the volume side and strength from the drawdown side — alongside the 200-bar median regime gate.
 
@@ -193,14 +193,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 33% | 🟢 10% | 🔴 -8% | 🟢 93% | 🔴 -22% | 🟢 72% | 🟢 96% | 🟢 50% | 🔴 -26% | 🟢 117% | 🟢 37% | 🟢 10% |
 
-> [!code]- Click to view: 026.py
+> [!code]- Click to view: 006.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/026.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/006.py"
 > ```
 
 ---
-## Strategy-27
-### Mom20+52w+Top3 (027.py)
+## Strategy-7
+### Mom20+52w+Top3 (007.py)
 
 **Description:** Combines a 20-day momentum signal with a 52-week high proximity filter and a 200-bar median regime gate. Being near the 52-week high is a well-known indicator of trend strength. The short-term momentum adds a recency confirmation. Together they construct a three-signal score that governs allocation between the leveraged ETF, large-cap stocks, and cash.
 
@@ -221,14 +221,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 39% | 🟢 7% | 🔴 -7% | 🟢 106% | 🔴 -22% | 🟢 72% | 🟢 133% | 🟢 60% | 🔴 -36% | 🟢 103% | 🟢 47% | 🟢 17% |
 
-> [!code]- Click to view: 027.py
+> [!code]- Click to view: 007.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/027.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/007.py"
 > ```
 
 ---
-## Strategy-28
-### M252_NEAR60_VOLCONT+Top3 (028.py)
+## Strategy-8
+### M252_NEAR60_VOLCONT+Top3 (008.py)
 
 **Description:** A trend-following rotator combining a full-year momentum check with near-60-day-high strength confirmation and a volatility contraction condition. The yearly lookback selects for macro uptrends, while the shorter-term filters ensure the current price action is both strong and calm before adding risk. Allocations are spread across TQQQ, the top three large-cap stocks, and cash on the standard five-level ladder.
 
@@ -251,14 +251,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 38% | 🟢 11% | 🔴 -15% | 🟢 102% | 🔴 -4% | 🟢 49% | 🟢 151% | 🟢 60% | 🔴 -46% | 🟢 105% | 🟢 41% | 🟢 11% |
 
-> [!code]- Click to view: 028.py
+> [!code]- Click to view: 008.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/028.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/008.py"
 > ```
 
 ---
-## Strategy-30
-### OBV20_CCI20 (030.py)
+## Strategy-9
+### OBV20_CCI20 (009.py)
 
 **Description:** Pairs monthly OBV momentum with CCI on QQQ. Requires OBV rising over 20 days plus CCI > 0 for leveraged Nasdaq, and rotates to T-bills on either OBV weakness or deeply oversold CCI.
 
@@ -279,14 +279,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 2% | 🔴 -4% | 🔴 -2% | 🟢 37% | 🔴 -4% | 🟢 95% | 🟢 156% | 🟢 25% | 🟢 14% | 🟢 116% | 🟢 7% | 🟢 23% |
 
-> [!code]- Click to view: 030.py
+> [!code]- Click to view: 009.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/030.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/009.py"
 > ```
 
 ---
-## Strategy-31
-### OBV20_ADX14 (031.py)
+## Strategy-10
+### OBV20_ADX14 (010.py)
 
 **Description:** Combines monthly OBV momentum with ADX directional bias on QQQ. Requires OBV rising plus +DI > -DI for leveraged Nasdaq, and exits to T-bills on either OBV weakness or a confirmed bearish ADX regime.
 
@@ -308,14 +308,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 11% | 🔴 -15% | 🔴 -7% | 🟢 43% | 🟢 5% | 🟢 78% | 🟢 209% | 🟢 22% | 🟢 12% | 🟢 98% | 🟢 5% | 🟢 31% |
 
-> [!code]- Click to view: 031.py
+> [!code]- Click to view: 010.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/031.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/010.py"
 > ```
 
 ---
-## Strategy-42
-### Tech Dip Buy (042.py)
+## Strategy-11
+### Tech Dip Buy (011.py)
 
 **Description:** Buys the top 5 US technology stocks by market cap when they pull back hard during an uptrend, then holds until they recover to new highs or the loss gets too large. Universe rotates automatically as market caps shift. Equal-weight across held positions up to 20% per slot.
 
@@ -335,14 +335,14 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 19% | ⚪ 0% | 🟢 7% | 🟢 37% | 🟢 6% | 🟢 40% | 🟢 39% | 🟢 52% | 🔴 -34% | 🟢 98% | 🟢 100% | 🟢 32% |
 
-> [!code]- Click to view: 042.py
+> [!code]- Click to view: 011.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/042.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/011.py"
 > ```
 
 ---
-## Strategy-43
-### Top-5 MarketCap IBS Regime (043.py)
+## Strategy-12
+### Top-5 MarketCap IBS Regime (012.py)
 
 **Description:** Dynamically selects the top 5 US equities by market capitalization as the universe. In a bull regime (QQQ above its 200-day SMA), holds an equal-weight basket of all 5. In a bear regime, applies an IBS < 0.2 filter and holds only the stocks closing near their day's low (capitulation dips); exits the rest.
 
@@ -362,9 +362,9 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | 🟢 10% | 🟢 6% | ⚪ 0% | 🟢 37% | 🟢 10% | 🟢 44% | 🟢 89% | 🟢 44% | 🔴 -14% | 🟢 52% | 🟢 39% | 🟢 41% |
 
-> [!code]- Click to view: 043.py
+> [!code]- Click to view: 012.py
 > ```embed-python
-> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/043.py"
+> PATH: "vault://QuantConnect/cc/cc_algos/potentials_top_mktcap/012.py"
 > ```
 
 ---

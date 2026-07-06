@@ -1,53 +1,36 @@
 from AlgorithmImports import *
-import numpy as np
 
-
-class Algo048(QCAlgorithm):
-    """5x 3x-leveraged ETF basket EW + QQQ 20d annualized vol < 20% gate (tight)."""
-
+class Donchian200Midline(QCAlgorithm):
     def Initialize(self):
         self.SetStartDate(2014, 1, 1)
         self.SetEndDate(2025, 12, 31)
-        self.SetCash(100_000)
+        self.SetCash(100000)
 
-        self.tickers = ["TQQQ", "TECL", "SOXL", "UPRO", "FAS"]
-        self.symbols = [self.AddEquity(t, Resolution.Daily).Symbol for t in self.tickers]
-        self.qqq = self.AddEquity("QQQ", Resolution.Daily).Symbol
+        self.qqq  = self.AddEquity("QQQ",  Resolution.Daily).Symbol
+        self.tqqq = self.AddEquity("TQQQ", Resolution.Daily).Symbol
+        self.bil  = self.AddEquity("BIL",  Resolution.Daily).Symbol
 
-        self.vol_threshold = 0.20
-        self.in_market = False
+        self.high200 = self.MAX(self.qqq, 200, Resolution.Daily)
+        self.low200  = self.MIN(self.qqq, 200, Resolution.Daily)
 
-        self.Schedule.On(
-            self.DateRules.EveryDay(self.qqq),
-            self.TimeRules.AfterMarketOpen(self.qqq, 30),
-            self.R,
-        )
+        self.Schedule.On(self.DateRules.EveryDay(self.qqq),
+                         self.TimeRules.AfterMarketOpen(self.qqq, 30),
+                         self.Rebalance)
+        self.SetWarmUp(220, Resolution.Daily)
 
-
-    def _Sel(self, fundamental):
-        elig = [f for f in fundamental
-                if f.HasFundamentalData and f.MarketCap > 0 and f.Price > 5]
-        elig.sort(key=lambda f: f.MarketCap, reverse=True)
-        self._universe = [f.Symbol for f in elig[:5]]
-        return self._universe
-
-    def R(self):
-        hist = self.History(self.qqq, 21, Resolution.Daily)
-        if hist.empty or len(hist) < 21:
+    def Rebalance(self):
+        if self.IsWarmingUp or not (self.high200.IsReady and self.low200.IsReady):
             return
-        closes = hist['close'].values
-        log_rets = np.diff(np.log(closes))
-        vol = float(np.std(log_rets) * np.sqrt(252))
-
-        target_in = vol < self.vol_threshold
-        if target_in == self.in_market:
-            return
-
-        if target_in:
-            w = 1.0 / len(self.symbols)  # 0.20 each, sum=1.0
-            for s in self.symbols:
-                self.SetHoldings(s, w)
+        price = self.Securities[self.qqq].Price
+        midline = (self.high200.Current.Value + self.low200.Current.Value) / 2.0
+        if price > midline:
+            if not self.Portfolio[self.tqqq].Invested:
+                self.Liquidate(self.bil)
+                self.SetHoldings(self.tqqq, 1.0)
         else:
-            self.Liquidate()
+            if not self.Portfolio[self.bil].Invested:
+                self.Liquidate(self.tqqq)
+                self.SetHoldings(self.bil, 1.0)
 
-        self.in_market = target_in
+    def OnData(self, data):
+        pass
