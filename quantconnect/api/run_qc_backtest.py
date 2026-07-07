@@ -4,6 +4,7 @@ import warnings
 os.environ["PYTHONWARNINGS"] = "ignore"
 warnings.filterwarnings("ignore", message="urllib3 v2 only supports OpenSSL")
 
+import re
 import sys
 import time
 import json
@@ -19,8 +20,6 @@ API_TOKEN = os.environ.get("QC_API_TOKEN")
 PROJECT_ID = os.environ.get("QC_PROJECT_ID")
 BASE_URL = os.environ.get("QC_BASE_URL", "https://www.quantconnect.com/api/v2")
 
-# base.py is uploaded as its own project file (not inlined) so main.py can
-# `from base import ...`. Keep it in sync on every run.
 BASE_PY_PATH = "/Users/daveli/Desktop/proj/QuantConnect/cc/cc_algos/ensemble/utils/base.py"
 
 def get_auth_headers():
@@ -40,6 +39,21 @@ def upload_file(name, content, headers):
                          json={"projectId": PROJECT_ID, "name": name, "content": content})
     return resp.json().get("success", False)
 
+def consolidate_with_base(content, base_content):
+    """Inline base.py into content if it contains 'from base import' lines."""
+    if "from base import" not in content:
+        return content
+    # Strip AlgorithmImports from base (content already has it at the top)
+    base_stripped = re.sub(r"^from AlgorithmImports import \*[ \t]*\n", "", base_content, flags=re.MULTILINE)
+    # Remove all 'from base import ...' lines from target
+    content = re.sub(r"^from base import [^\n]*\n", "", content, flags=re.MULTILINE)
+    # Insert base body right after 'from AlgorithmImports import *'
+    def _insert(m):
+        return m.group(0) + "\n" + base_stripped.rstrip() + "\n\n"
+    content = re.sub(r"from AlgorithmImports import \*[ \t]*\n", _insert, content, count=1)
+    return content
+
+
 def main():
     if len(sys.argv) < 3:
         print("Usage: python3 api/run_qc_backtest.py <file_path> <backtest_name>")
@@ -51,15 +65,15 @@ def main():
     with open(filepath, "r") as f:
         content = f.read()
 
-    headers = get_auth_headers()
-
-    # 1. Upload base.py (shared library) + the target as main.py.
-    print(f"Uploading base.py + {filepath} to main.py...", file=sys.stderr)
     with open(BASE_PY_PATH, "r") as f:
         base_content = f.read()
-    if not upload_file("base.py", base_content, headers):
-        print("Failed to upload base.py", file=sys.stderr)
-        sys.exit(1)
+
+    content = consolidate_with_base(content, base_content)
+
+    headers = get_auth_headers()
+
+    # 1. Upload consolidated content as main.py (base.py inlined if needed).
+    print(f"Uploading {filepath} to main.py...", file=sys.stderr)
     if not upload_file("main.py", content, headers):
         print("Failed to upload main.py", file=sys.stderr)
         sys.exit(1)

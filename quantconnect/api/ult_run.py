@@ -45,8 +45,7 @@ MERGED_DIR = os.path.join(ENSEMBLE_DIR, "merged")
 
 
 def standalone_target(sub_path):
-    """No bundling needed: base.py is a separate project file and the sub file
-    already imports from it. Upload the sub directly as main.py."""
+    """Return absolute path; run_qc_backtest.py inlines base.py if needed."""
     return os.path.abspath(sub_path)
 
 
