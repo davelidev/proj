@@ -2,9 +2,9 @@
 
 ## 1. Giant Sniper Mean-Reversion
 **Type:** Reversion
-**Backtest:** 27% / -44% / 0.835
+**Backtest:** 28% / -34% / 0.879
 **Description:** Dip-buy each top-5 mega-cap on RSI(2) oversold, exit on RSI recovery or trend break
-**Entry:** QQQ > SMA(200) AND per-name RSI(2) < 20 → equal-weight entry (all sectors top-5)
+**Entry:** QQQ > SMA(200) AND per-name RSI(2) < 20 → buy at 1/N triggered weight (no rebalance of existing)
 **Exit:** Per-name RSI(2) > 70 OR QQQ < SMA(200) → liquidate all
 
 ---
@@ -112,7 +112,7 @@
 
 | # | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 | 25 |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | 🟢 15% | 🟢 49% | 🔴 -13% | 🟢 48% | 🔴 -16% | 🟢 7% | 🟢 34% | 🟢 80% | 🔴 -10% | 🟢 43% | 🟢 40% | 🟢 94% |
+| 1 | 🟢 13% | 🟢 41% | 🔴 -13% | 🟢 49% | 🟢 3% | 🟢 9% | 🟢 39% | 🟢 83% | 🔴 -22% | 🟢 40% | 🟢 44% | 🟢 111% |
 | 2 | 🟢 22% | 🟢 16% | 🟢 14% | 🟢 49% | 🔴 -4% | 🟢 61% | 🟢 57% | 🟢 50% | 🔴 -34% | 🟢 76% | 🟢 75% | 🟢 28% |
 | 3 | 🟢 11% | 🟢 5% | 🟢 4% | 🟢 38% | 🟢 15% | 🟢 47% | 🟢 95% | 🟢 46% | 🔴 -11% | 🟢 51% | 🟢 38% | 🟢 50% |
 | 4 | 🟢 11% | 🟢 2% | 🔴 -7% | 🟢 118% | 🔴 -29% | 🟢 33% | 🟢 108% | 🟢 53% | 🔴 -34% | 🟢 73% | 🟢 46% | 🟢 95% |
