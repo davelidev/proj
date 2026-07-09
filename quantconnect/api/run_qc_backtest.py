@@ -8,6 +8,7 @@ import re
 import sys
 import time
 import json
+import random
 import requests
 import hashlib
 import base64
@@ -69,6 +70,14 @@ def main():
         base_content = f.read()
 
     content = consolidate_with_base(content, base_content)
+
+    code_id = random.randint(1000, 9999)
+    content = re.sub(
+        r"(from AlgorithmImports import \*[ \t]*\n)",
+        rf"\1CODE_ID = {code_id}\n",
+        content, count=1,
+    )
+    print(f"CODE_ID={code_id}", file=sys.stderr)
 
     headers = get_auth_headers()
 

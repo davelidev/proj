@@ -62,6 +62,19 @@ class BaseSubAlgo:
             sum(bar.Volume for bar in bars),
         )
 
+    def history_daily(self, symbol, bars):
+        """History(symbol, bars, Daily) with lookahead guard.
+
+        Asserts the last bar's date is before today so callers never
+        accidentally consume an in-progress or future bar.
+        """
+        h = self.algo.History(symbol, bars, Resolution.Daily)
+        if not h.empty:
+            t = h.index.get_level_values('time')[-1] if 'time' in h.index.names else h.index[-1]
+            today = self.algo.Time.date()
+            assert t.date() < today, f"history_daily lookahead: last bar {t.date()} >= today {today}"
+        return h
+
 
 # ---------------------------------------------------------------------------
 # Standalone mixin factory

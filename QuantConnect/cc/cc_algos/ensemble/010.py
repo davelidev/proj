@@ -39,7 +39,7 @@ class GoldenCrossATRSub(BaseSubAlgo):
             return False
 
         # Vol gate: annualized 20-day realized vol of QQQ
-        hist_qqq = self.algo.History(self.qqq, 21, Resolution.Daily)
+        hist_qqq = self.history_daily(self.qqq, 21)
         if len(hist_qqq) < 21:
             return False
         qc = list(hist_qqq['close'])

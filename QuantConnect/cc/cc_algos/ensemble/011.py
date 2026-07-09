@@ -22,7 +22,7 @@ class RangeCompressedSub(BaseSubAlgo):
             return False
 
         # Fetch last 199 daily bars
-        hist = self.algo.History(self.qqq, 199, Resolution.Daily)
+        hist = self.history_daily(self.qqq, 199)
         if hist.empty or len(hist) < 199:
             return False
 

@@ -19,7 +19,7 @@ class DonchianFiveVoteSub(BaseSubAlgo):
             return False
 
         # p-1 complete daily bars + today's partial bar = p-bar Donchian, not persisted
-        hist = self.algo.History(self.qqq, max(self.PERIODS), Resolution.Daily)
+        hist = self.history_daily(self.qqq, max(self.PERIODS))
         if len(hist) < max(self.PERIODS) - 1:
             return False
         today_bar = self.get_daily_bar(self.qqq)

@@ -22,7 +22,7 @@ class IBSATRStopSub(BaseSubAlgo):
 
         # 1. Warmup
         today = self.get_daily_bar(self.basket[0])
-        hist_qqq = self.algo.History(self.qqq, 200, Resolution.Daily)
+        hist_qqq = self.history_daily(self.qqq, 200)
         if today is None or len(hist_qqq) < 200:
             return False
 
@@ -30,7 +30,7 @@ class IBSATRStopSub(BaseSubAlgo):
         in_uptrend = self.algo.Securities[self.qqq].Price > sma200
 
         # 3. IBS + ATR(14) on TQQQ over the last 14 daily bars + today's 3:50 PM bar
-        history_daily = self.algo.History(self.basket[0], 14, Resolution.Daily)
+        history_daily = self.history_daily(self.basket[0], 14)
         if len(history_daily) < 14 or today.High <= today.Low:
             return False
         ibs = (today.Close - today.Low) / (today.High - today.Low)

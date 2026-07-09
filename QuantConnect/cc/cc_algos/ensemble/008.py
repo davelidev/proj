@@ -20,7 +20,7 @@ class MomentumVoteSub(BaseSubAlgo):
         today_close = self.algo.Securities[self.qqq].Price
 
         # Fetch last 20 daily bars
-        hist = self.algo.History(self.qqq, 20, Resolution.Daily)
+        hist = self.history_daily(self.qqq, 20)
         if hist.empty or len(hist) < 20:
             return False
         
