@@ -17,6 +17,13 @@ class GoldenCrossATRSub(BaseSubAlgo):
         self.ema50  = ExponentialMovingAverage(50)
         self.ema200 = ExponentialMovingAverage(200)
         self.atr    = AverageTrueRange(14, MovingAverageType.Wilders)
+        self.algo.IndicatorHistory(self.ema50,  self.qqq,  100, Resolution.Daily)
+        self.algo.IndicatorHistory(self.ema200, self.qqq,  300, Resolution.Daily)
+        self.algo.IndicatorHistory(self.atr,    self.tqqq, 30,  Resolution.Daily)
+        assert self.ema50.IsReady and self.ema200.IsReady and self.atr.IsReady, \
+            "IndicatorHistory failed: ema50/ema200/atr not ready"
+        assert self.ema200.Current.Time.date() < self.algo.Time.date(), \
+            f"IndicatorHistory lookahead: ema200 last bar {self.ema200.Current.Time.date()} >= today {self.algo.Time.date()}"
         self.trail  = 0.0
 
 

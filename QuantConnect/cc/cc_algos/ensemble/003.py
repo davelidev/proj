@@ -15,9 +15,12 @@ class RSIThreeVoteSub(BaseSubAlgo):
         self.qqq = self.algo.AddEquity("QQQ", Resolution.Minute).Symbol
         self.basket = [self.algo.AddEquity(t, Resolution.Minute).Symbol for t in ["TQQQ", "SOXL", "TECL"]]
         
-        # Create manual RSI(2)
         self.rsi = RelativeStrengthIndex(2, MovingAverageType.Wilders)
-        
+        self.algo.IndicatorHistory(self.rsi, self.qqq, 20, Resolution.Daily)
+        assert self.rsi.IsReady, "IndicatorHistory failed: rsi not ready"
+        assert self.rsi.Current.Time.date() < self.algo.Time.date(), \
+            f"IndicatorHistory lookahead: rsi last bar {self.rsi.Current.Time.date()} >= today {self.algo.Time.date()}"
+
 
     def update_targets(self):
         # Feed the manual RSI every day (incl. warmup) so its window stays contiguous

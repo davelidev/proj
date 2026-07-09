@@ -7,7 +7,7 @@ from AlgorithmImports import *
 START_DATE      = (2014, 1, 1)
 END_DATE        = (2025, 12, 31)
 INITIAL_CASH    = 100_000
-WARMUP_DAYS     = 252
+WARMUP_DAYS     = 5
 SCHEDULE_TICKER = "SPY"
 DAILY_OPEN_MIN  = 45
 

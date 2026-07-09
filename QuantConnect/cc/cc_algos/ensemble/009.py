@@ -12,6 +12,10 @@ class TrendStretchExitSub(BaseSubAlgo):
         self.qqq    = self.algo.AddEquity("QQQ",  Resolution.Minute).Symbol
         self.tqqq   = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
         self.sma200 = SimpleMovingAverage(200)
+        self.algo.IndicatorHistory(self.sma200, self.qqq, 250, Resolution.Daily)
+        assert self.sma200.IsReady, "IndicatorHistory failed: sma200 not ready"
+        assert self.sma200.Current.Time.date() < self.algo.Time.date(), \
+            f"IndicatorHistory lookahead: sma200 last bar {self.sma200.Current.Time.date()} >= today {self.algo.Time.date()}"
 
 
     def update_targets(self):

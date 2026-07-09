@@ -12,11 +12,17 @@ class SMA200RSITiersSub(BaseSubAlgo):
         # Subscribe to Minute resolution for intraday tracking
         self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
         
-        # Create manual indicators
-        self.rsi2 = RelativeStrengthIndex(2, MovingAverageType.Wilders)
-        self.rsi14 = RelativeStrengthIndex(14, MovingAverageType.Wilders)
+        self.rsi2   = RelativeStrengthIndex(2,  MovingAverageType.Wilders)
+        self.rsi14  = RelativeStrengthIndex(14, MovingAverageType.Wilders)
         self.sma200 = SimpleMovingAverage(200)
-        
+        self.algo.IndicatorHistory(self.rsi2,   self.tqqq, 20,  Resolution.Daily)
+        self.algo.IndicatorHistory(self.rsi14,  self.tqqq, 60,  Resolution.Daily)
+        self.algo.IndicatorHistory(self.sma200, self.tqqq, 250, Resolution.Daily)
+        assert self.rsi2.IsReady and self.rsi14.IsReady and self.sma200.IsReady, \
+            "IndicatorHistory failed: rsi2/rsi14/sma200 not ready"
+        assert self.sma200.Current.Time.date() < self.algo.Time.date(), \
+            f"IndicatorHistory lookahead: sma200 last bar {self.sma200.Current.Time.date()} >= today {self.algo.Time.date()}"
+
 
     def update_targets(self):
         # Feed manual indicators every day (incl. warmup) for a contiguous window

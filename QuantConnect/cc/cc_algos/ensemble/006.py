@@ -17,6 +17,12 @@ class SMAFiveVoteSub(BaseSubAlgo):
         # Create manual SMAs
         unique_periods = sorted(list(set(self.PERIODS)))
         self.sma_map = {p: SimpleMovingAverage(p) for p in unique_periods}
+        for p, sma in self.sma_map.items():
+            self.algo.IndicatorHistory(sma, self.qqq, p + 50, Resolution.Daily)
+        assert all(sma.IsReady for sma in self.sma_map.values()), \
+            "IndicatorHistory failed: one or more SMAs not ready"
+        assert self.sma_map[max(self.sma_map)].Current.Time.date() < self.algo.Time.date(), \
+            f"IndicatorHistory lookahead: sma last bar {self.sma_map[max(self.sma_map)].Current.Time.date()} >= today {self.algo.Time.date()}"
 
 
     def update_targets(self):

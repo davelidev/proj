@@ -12,6 +12,10 @@ class MFI14HystSub(BaseSubAlgo):
         self.qqq  = self.algo.AddEquity("QQQ",  Resolution.Minute).Symbol
         self.tqqq = self.algo.AddEquity("TQQQ", Resolution.Minute).Symbol
         self.mfi  = MoneyFlowIndex(14)
+        self.algo.IndicatorHistory(self.mfi, self.qqq, 30, Resolution.Daily)
+        assert self.mfi.IsReady, "IndicatorHistory failed: mfi not ready"
+        assert self.mfi.Current.Time.date() < self.algo.Time.date(), \
+            f"IndicatorHistory lookahead: mfi last bar {self.mfi.Current.Time.date()} >= today {self.algo.Time.date()}"
 
 
     def update_targets(self):
